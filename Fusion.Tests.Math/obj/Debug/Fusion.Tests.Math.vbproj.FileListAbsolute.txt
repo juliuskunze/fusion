@@ -36,13 +36,3 @@ B:\Fusion Repository\Fusion.Tests.Math\bin\Debug\nunit.framework.dll
 B:\Fusion Repository\Fusion.Tests.Math\bin\Debug\Fusion.Math.pdb
 B:\Fusion Repository\Fusion.Tests.Math\bin\Debug\Fusion.Math.xml
 B:\Fusion Repository\Fusion.Tests.Math\bin\Debug\nunit.framework.xml
-B:\Fusion Repository\BuildOutput\Tests\bin\debug\Fusion.Tests.Math.dll
-B:\Fusion Repository\BuildOutput\Tests\bin\debug\Fusion.Tests.Math.pdb
-B:\Fusion Repository\BuildOutput\Tests\bin\debug\Fusion.Tests.Math.xml
-B:\Fusion Repository\Fusion.Tests.Math\obj\Debug\ResolveAssemblyReference.cache
-B:\Fusion Repository\Fusion.Tests.Math\obj\Debug\Fusion.Tests.Math.Resources.resources
-B:\Fusion Repository\Fusion.Tests.Math\obj\Debug\GenerateResource.read.1.tlog
-B:\Fusion Repository\Fusion.Tests.Math\obj\Debug\GenerateResource.write.1.tlog
-B:\Fusion Repository\Fusion.Tests.Math\obj\Debug\Fusion.Tests.Math.dll
-B:\Fusion Repository\Fusion.Tests.Math\obj\Debug\Fusion.Tests.Math.xml
-B:\Fusion Repository\Fusion.Tests.Math\obj\Debug\Fusion.Tests.Math.pdb

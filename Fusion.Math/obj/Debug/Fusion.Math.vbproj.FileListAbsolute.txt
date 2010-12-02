@@ -71,13 +71,3 @@ B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion
 B:\Fusion Repository\Fusion.Math\bin\Debug\Fusion.Math.dll
 B:\Fusion Repository\Fusion.Math\bin\Debug\Fusion.Math.pdb
 B:\Fusion Repository\Fusion.Math\bin\Debug\Fusion.Math.xml
-B:\Fusion Repository\BuildOutput\bin\debug\Fusion.Math.dll
-B:\Fusion Repository\BuildOutput\bin\debug\Fusion.Math.pdb
-B:\Fusion Repository\BuildOutput\bin\debug\Fusion.Math.xml
-B:\Fusion Repository\Fusion.Math\obj\Debug\ResolveAssemblyReference.cache
-B:\Fusion Repository\Fusion.Math\obj\Debug\Fusion.Math.Resources.resources
-B:\Fusion Repository\Fusion.Math\obj\Debug\GenerateResource.read.1.tlog
-B:\Fusion Repository\Fusion.Math\obj\Debug\GenerateResource.write.1.tlog
-B:\Fusion Repository\Fusion.Math\obj\Debug\Fusion.Math.dll
-B:\Fusion Repository\Fusion.Math\obj\Debug\Fusion.Math.xml
-B:\Fusion Repository\Fusion.Math\obj\Debug\Fusion.Math.pdb

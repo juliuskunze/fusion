@@ -50,14 +50,3 @@ B:\Fusion Repository\Fusion.Ry.Forms\bin\Debug\Fusion.Ry.pdb
 B:\Fusion Repository\Fusion.Ry.Forms\bin\Debug\Fusion.Ry.xml
 B:\Fusion Repository\Fusion.Ry.Forms\bin\Debug\Fusion.Visualization.pdb
 B:\Fusion Repository\Fusion.Ry.Forms\bin\Debug\Fusion.Visualization.xml
-B:\Fusion Repository\BuildOutput\bin\debug\Fusion.Ry.Forms.exe
-B:\Fusion Repository\BuildOutput\bin\debug\Fusion.Ry.Forms.pdb
-B:\Fusion Repository\BuildOutput\bin\debug\Fusion.Ry.Forms.xml
-B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Debug\ResolveAssemblyReference.cache
-B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Debug\Fusion.Ry.Forms.RyForm.resources
-B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Debug\Fusion.Ry.Forms.Resources.resources
-B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Debug\GenerateResource.read.1.tlog
-B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Debug\GenerateResource.write.1.tlog
-B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Debug\Fusion.Ry.Forms.exe
-B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Debug\Fusion.Ry.Forms.xml
-B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Debug\Fusion.Ry.Forms.pdb

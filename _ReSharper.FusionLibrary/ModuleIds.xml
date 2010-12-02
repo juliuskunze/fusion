@@ -1,4 +1,6 @@
 <Modules>
   <Module PersistentId="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB" ModuleId="Fusion.Tests.Math" />
   <Module PersistentId="F6034AE4-65A7-49CB-9756-C13EDFA258E6" ModuleId="Fusion.Math" />
+  <Module PersistentId="DEEF32D9-F26B-47CD-95C2-AEB774221DBF" ModuleId="Fusion.Physics.Visualization" />
+  <Module PersistentId="74A8E394-FD08-418B-BBBE-B9FD54589B2E" ModuleId="Fusion.Physics" />
 </Modules>

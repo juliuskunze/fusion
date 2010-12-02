@@ -38,9 +38,6 @@ B:\Fusion-Repository\(Fusion)\Fusion.Ry.Forms\obj\x86\Release\Fusion.Ry.Forms.Ry
 B:\Fusion-Repository\(Fusion)\Fusion.Ry.Forms\obj\x86\Release\Fusion.Ry.Forms.Resources.resources
 B:\Fusion-Repository\(Fusion)\Fusion.Ry.Forms\obj\x86\Release\GenerateResource.read.1.tlog
 B:\Fusion-Repository\(Fusion)\Fusion.Ry.Forms\obj\x86\Release\GenerateResource.write.1.tlog
-B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Release\Fusion.Ry.Forms.exe
-B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Release\Fusion.Ry.Forms.xml
-B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Release\Fusion.Ry.Forms.pdb
 B:\Fusion Repository\Fusion.Ry.Forms\bin\Release\Fusion.Ry.Forms.exe
 B:\Fusion Repository\Fusion.Ry.Forms\bin\Release\Fusion.Ry.Forms.pdb
 B:\Fusion Repository\Fusion.Ry.Forms\bin\Release\Fusion.Ry.Forms.xml
@@ -58,3 +55,6 @@ B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Release\Fusion.Ry.Forms.RyForm.reso
 B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Release\Fusion.Ry.Forms.Resources.resources
 B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Release\GenerateResource.read.1.tlog
 B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Release\GenerateResource.write.1.tlog
+B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Release\Fusion.Ry.Forms.exe
+B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Release\Fusion.Ry.Forms.xml
+B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Release\Fusion.Ry.Forms.pdb

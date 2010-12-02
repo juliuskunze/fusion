@@ -114,15 +114,3 @@ B:\Fusion Repository\Fusion.Flow\bin\Debug\Fusion.Math.pdb
 B:\Fusion Repository\Fusion.Flow\bin\Debug\Fusion.Math.xml
 B:\Fusion Repository\Fusion.Flow\bin\Debug\Fusion.Visualization.pdb
 B:\Fusion Repository\Fusion.Flow\bin\Debug\Fusion.Visualization.xml
-B:\Fusion Repository\BuildOutput\bin\debug\Fusion.Flow.exe
-B:\Fusion Repository\BuildOutput\bin\debug\Fusion.Flow.pdb
-B:\Fusion Repository\BuildOutput\bin\debug\Fusion.Flow.xml
-B:\Fusion Repository\Fusion.Flow\obj\x86\Debug\ResolveAssemblyReference.cache
-B:\Fusion Repository\Fusion.Flow\obj\x86\Debug\Fusion.Flow.FlowForm.resources
-B:\Fusion Repository\Fusion.Flow\obj\x86\Debug\Fusion.Flow.Resources.resources
-B:\Fusion Repository\Fusion.Flow\obj\x86\Debug\Fusion.Flow.PointSet2DPlotterForm.resources
-B:\Fusion Repository\Fusion.Flow\obj\x86\Debug\GenerateResource.read.1.tlog
-B:\Fusion Repository\Fusion.Flow\obj\x86\Debug\GenerateResource.write.1.tlog
-B:\Fusion Repository\Fusion.Flow\obj\x86\Debug\Fusion.Flow.exe
-B:\Fusion Repository\Fusion.Flow\obj\x86\Debug\Fusion.Flow.xml
-B:\Fusion Repository\Fusion.Flow\obj\x86\Debug\Fusion.Flow.pdb
