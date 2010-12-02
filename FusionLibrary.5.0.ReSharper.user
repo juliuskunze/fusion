@@ -1,7 +1,6 @@
 <Configuration>
   <RecentFiles>
     <RecentFiles>
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector2D.vb" caret="145" fromTop="5" />
       <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:RayTraceDrawer.vb" caret="1740" fromTop="17" />
       <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:RayChanger.vb" caret="1219" fromTop="22" />
       <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:NormalizedMidpointCoordinateSystem.vb" caret="872" fromTop="14" />
@@ -14,7 +13,6 @@
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surface/f:Triangle.vb" caret="1154" fromTop="20" />
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:SurfaceTests/f:SurfaceTests.vb" caret="0" fromTop="0" />
       <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:LensVideo.vb" caret="293" fromTop="10" />
-      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:ExactColor.vb" caret="3888" fromTop="3" />
       <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:MaterialSurface/f:MaterialSurfaces.vb" caret="1199" fromTop="17" />
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:SurfaceTests/f:RectangleTests.vb" caret="557" fromTop="10" />
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surface/f:Rectangle.vb" caret="617" fromTop="11" />
@@ -30,7 +28,9 @@
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:EnumerableExtensionsTests/f:LingExtensionsTests.vb" caret="1444" fromTop="3" />
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:EnumerableExtensionsTests/f:ConcatenatedSortedEnumeratorTests.vb" caret="2119" fromTop="22" />
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:EnumerableExtensions/f:LinqExtensions.vb" caret="330" fromTop="7" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:EnumerableExtensions/f:ConcatenatedSortedEnumerator.vb" caret="2483" fromTop="14" />
+      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:ExactColor.vb" caret="0" fromTop="0" />
+      <File id="1D984EE3-7691-43F0-B674-B911B0533283/f:View3DTests.vb" caret="560" fromTop="11" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:EnumerableExtensions/f:ConcatenatedSortedEnumerator.vb" caret="2900" fromTop="14" />
     </RecentFiles>
     <RecentEdits>
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:EnumerableExtensionsTests/f:LingExtensionsTests.vb" caret="1440" fromTop="3" />
@@ -42,9 +42,9 @@
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:EnumerableExtensionsTests/f:ConcatenatedSortedEnumeratorTests.vb" caret="1050" fromTop="10" />
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:EnumerableExtensionsTests/f:ConcatenatedSortedEnumeratorTests.vb" caret="1363" fromTop="13" />
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:EnumerableExtensions/f:ConcatenatedSortedEnumerator.vb" caret="2018" fromTop="5" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:EnumerableExtensions/f:ConcatenatedSortedEnumerator.vb" caret="3529" fromTop="11" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:EnumerableExtensions/f:ConcatenatedSortedEnumerator.vb" caret="3526" fromTop="11" />
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:EnumerableExtensions/f:ConcatenatedSortedEnumerator.vb" caret="301" fromTop="2" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:EnumerableExtensions/f:ConcatenatedSortedEnumerator.vb" caret="3577" fromTop="18" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:EnumerableExtensions/f:ConcatenatedSortedEnumerator.vb" caret="3574" fromTop="18" />
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:EnumerableExtensions/f:ConcatenatedSortedEnumerator.vb" caret="2153" fromTop="12" />
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:EnumerableExtensions/f:ConcatenatedSortedEnumerator.vb" caret="1649" fromTop="20" />
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:EnumerableExtensions/f:ConcatenatedSortedEnumerator.vb" caret="1649" fromTop="21" />
@@ -56,13 +56,13 @@
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:EnumerableExtensionsTests/f:ConcatenatedSortedEnumeratorTests.vb" caret="1781" fromTop="12" />
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:EnumerableExtensionsTests/f:ConcatenatedSortedEnumeratorTests.vb" caret="2334" fromTop="10" />
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:EnumerableExtensions/f:ConcatenatedSortedEnumerator.vb" caret="1842" fromTop="16" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:EnumerableExtensions/f:ConcatenatedSortedEnumerator.vb" caret="2878" fromTop="20" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:EnumerableExtensions/f:ConcatenatedSortedEnumerator.vb" caret="2878" fromTop="18" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:EnumerableExtensions/f:ConcatenatedSortedEnumerator.vb" caret="2875" fromTop="20" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:EnumerableExtensions/f:ConcatenatedSortedEnumerator.vb" caret="2875" fromTop="18" />
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:EnumerableExtensions/f:ConcatenatedSortedEnumerator.vb" caret="1728" fromTop="5" />
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:EnumerableExtensionsTests/f:ConcatenatedSortedEnumeratorTests.vb" caret="2905" fromTop="20" />
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:EnumerableExtensionsTests/f:ConcatenatedSortedEnumeratorTests.vb" caret="3069" fromTop="13" />
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:EnumerableExtensionsTests/f:ConcatenatedSortedEnumeratorTests.vb" caret="2626" fromTop="14" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:EnumerableExtensions/f:ConcatenatedSortedEnumerator.vb" caret="2545" fromTop="15" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:EnumerableExtensions/f:ConcatenatedSortedEnumerator.vb" caret="2542" fromTop="11" />
     </RecentEdits>
   </RecentFiles>
   <NAntValidationSettings>

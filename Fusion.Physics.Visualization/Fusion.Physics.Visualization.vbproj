@@ -20,7 +20,7 @@
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\BuildOutput\bin\debug\</OutputPath>
     <DocumentationFile>Fusion.Physics.Visualization.xml</DocumentationFile>
     <NoWarn>
     </NoWarn>

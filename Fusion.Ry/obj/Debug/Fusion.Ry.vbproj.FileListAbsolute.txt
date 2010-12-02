@@ -39,10 +39,3 @@ B:\Fusion Repository\Fusion.Ry\bin\Debug\Fusion.Math.pdb
 B:\Fusion Repository\Fusion.Ry\bin\Debug\Fusion.Math.xml
 B:\Fusion Repository\Fusion.Ry\bin\Debug\Fusion.Visualization.pdb
 B:\Fusion Repository\Fusion.Ry\bin\Debug\Fusion.Visualization.xml
-B:\Fusion Repository\Fusion.Ry\obj\Debug\ResolveAssemblyReference.cache
-B:\Fusion Repository\Fusion.Ry\obj\Debug\Fusion.Ry.Resources.resources
-B:\Fusion Repository\Fusion.Ry\obj\Debug\GenerateResource.read.1.tlog
-B:\Fusion Repository\Fusion.Ry\obj\Debug\GenerateResource.write.1.tlog
-B:\Fusion Repository\Fusion.Ry\obj\Debug\Fusion.Ry.dll
-B:\Fusion Repository\Fusion.Ry\obj\Debug\Fusion.Ry.xml
-B:\Fusion Repository\Fusion.Ry\obj\Debug\Fusion.Ry.pdb

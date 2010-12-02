@@ -119,10 +119,3 @@ B:\Fusion Repository\Fusion.Evolution\bin\Debug\Fusion.Math.pdb
 B:\Fusion Repository\Fusion.Evolution\bin\Debug\Fusion.Math.xml
 B:\Fusion Repository\Fusion.Evolution\bin\Debug\Fusion.Physics.pdb
 B:\Fusion Repository\Fusion.Evolution\bin\Debug\Fusion.Physics.xml
-B:\Fusion Repository\Fusion.Evolution\obj\Debug\ResolveAssemblyReference.cache
-B:\Fusion Repository\Fusion.Evolution\obj\Debug\Fusion.Evolution.Resources.resources
-B:\Fusion Repository\Fusion.Evolution\obj\Debug\GenerateResource.read.1.tlog
-B:\Fusion Repository\Fusion.Evolution\obj\Debug\GenerateResource.write.1.tlog
-B:\Fusion Repository\Fusion.Evolution\obj\Debug\Fusion.Evolution.dll
-B:\Fusion Repository\Fusion.Evolution\obj\Debug\Fusion.Evolution.xml
-B:\Fusion Repository\Fusion.Evolution\obj\Debug\Fusion.Evolution.pdb

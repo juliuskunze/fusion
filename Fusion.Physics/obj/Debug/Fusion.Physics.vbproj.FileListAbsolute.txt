@@ -95,10 +95,3 @@ B:\Fusion Repository\Fusion.Physics\bin\Debug\Fusion.Physics.xml
 B:\Fusion Repository\Fusion.Physics\bin\Debug\Fusion.Math.dll
 B:\Fusion Repository\Fusion.Physics\bin\Debug\Fusion.Math.pdb
 B:\Fusion Repository\Fusion.Physics\bin\Debug\Fusion.Math.xml
-B:\Fusion Repository\Fusion.Physics\obj\Debug\ResolveAssemblyReference.cache
-B:\Fusion Repository\Fusion.Physics\obj\Debug\Fusion.Physics.Resources.resources
-B:\Fusion Repository\Fusion.Physics\obj\Debug\GenerateResource.read.1.tlog
-B:\Fusion Repository\Fusion.Physics\obj\Debug\GenerateResource.write.1.tlog
-B:\Fusion Repository\Fusion.Physics\obj\Debug\Fusion.Physics.dll
-B:\Fusion Repository\Fusion.Physics\obj\Debug\Fusion.Physics.xml
-B:\Fusion Repository\Fusion.Physics\obj\Debug\Fusion.Physics.pdb

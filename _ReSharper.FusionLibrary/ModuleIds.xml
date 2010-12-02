@@ -1,3 +1,4 @@
 <Modules>
   <Module PersistentId="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB" ModuleId="Fusion.Tests.Math" />
+  <Module PersistentId="F6034AE4-65A7-49CB-9756-C13EDFA258E6" ModuleId="Fusion.Math" />
 </Modules>

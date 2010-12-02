@@ -20,7 +20,7 @@
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\BuildOutput\Tests\bin\debug\</OutputPath>
     <DocumentationFile>Fusion.Tests.RayTracer.xml</DocumentationFile>
     <NoWarn>
     </NoWarn>
