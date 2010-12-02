@@ -1,0 +1,80 @@
+C:\Dokumente und Einstellungen\Julius\Desktop\Julius\Visual Studio-Projekte\(Fusion) (3D Test)\FusionLibrary\Fusion.Math\bin\Debug\Fusion.Math.dll
+C:\Dokumente und Einstellungen\Julius\Desktop\Julius\Visual Studio-Projekte\(Fusion) (3D Test)\FusionLibrary\Fusion.Math\bin\Debug\Fusion.Math.pdb
+C:\Dokumente und Einstellungen\Julius\Desktop\Julius\Visual Studio-Projekte\(Fusion) (3D Test)\FusionLibrary\Fusion.Math\bin\Debug\Fusion.Math.xml
+C:\Dokumente und Einstellungen\Julius\Desktop\Julius\Visual Studio-Projekte\(Fusion) (3D Test)\FusionLibrary\Fusion.Math\obj\Debug\ResolveAssemblyReference.cache
+C:\Dokumente und Einstellungen\Julius\Desktop\Julius\Visual Studio-Projekte\(Fusion) (3D Test)\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.Resources.resources
+C:\Dokumente und Einstellungen\Julius\Desktop\Julius\Visual Studio-Projekte\(Fusion) (3D Test)\FusionLibrary\Fusion.Math\obj\Debug\GenerateResource-ResGen.read.1.tlog
+C:\Dokumente und Einstellungen\Julius\Desktop\Julius\Visual Studio-Projekte\(Fusion) (3D Test)\FusionLibrary\Fusion.Math\obj\Debug\GenerateResource.read.1.tlog
+C:\Dokumente und Einstellungen\Julius\Desktop\Julius\Visual Studio-Projekte\(Fusion) (3D Test)\FusionLibrary\Fusion.Math\obj\Debug\GenerateResource-ResGen.write.1.tlog
+C:\Dokumente und Einstellungen\Julius\Desktop\Julius\Visual Studio-Projekte\(Fusion) (3D Test)\FusionLibrary\Fusion.Math\obj\Debug\GenerateResource.write.1.tlog
+C:\Dokumente und Einstellungen\Julius\Desktop\Julius\Visual Studio-Projekte\(Fusion) (3D Test)\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.dll
+C:\Dokumente und Einstellungen\Julius\Desktop\Julius\Visual Studio-Projekte\(Fusion) (3D Test)\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.xml
+C:\Dokumente und Einstellungen\Julius\Desktop\Julius\Visual Studio-Projekte\(Fusion) (3D Test)\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.pdb
+C:\Dokumente und Einstellungen\Julius\Desktop\Julius\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\bin\Debug\Fusion.Math.dll
+C:\Dokumente und Einstellungen\Julius\Desktop\Julius\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\bin\Debug\Fusion.Math.pdb
+C:\Dokumente und Einstellungen\Julius\Desktop\Julius\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\bin\Debug\Fusion.Math.xml
+C:\Dokumente und Einstellungen\Julius\Desktop\Julius\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\obj\Debug\ResolveAssemblyReference.cache
+C:\Dokumente und Einstellungen\Julius\Desktop\Julius\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.Resources.resources
+C:\Dokumente und Einstellungen\Julius\Desktop\Julius\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\obj\Debug\GenerateResource-ResGen.read.1.tlog
+C:\Dokumente und Einstellungen\Julius\Desktop\Julius\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\obj\Debug\GenerateResource-ResGen.write.1.tlog
+C:\Dokumente und Einstellungen\Julius\Desktop\Julius\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.dll
+C:\Dokumente und Einstellungen\Julius\Desktop\Julius\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.xml
+C:\Dokumente und Einstellungen\Julius\Desktop\Julius\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.pdb
+C:\Users\Sonja\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\bin\Debug\Fusion.Math.dll
+C:\Users\Sonja\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\bin\Debug\Fusion.Math.pdb
+C:\Users\Sonja\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\bin\Debug\Fusion.Math.xml
+C:\Users\Sonja\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Sonja\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.Resources.resources
+C:\Users\Sonja\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\obj\Debug\GenerateResource-ResGen.read.1.tlog
+C:\Users\Sonja\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\obj\Debug\GenerateResource-ResGen.write.1.tlog
+C:\Users\Sonja\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.dll
+C:\Users\Sonja\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.xml
+C:\Users\Sonja\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.pdb
+C:\Users\jgw\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\bin\Debug\Fusion.Math.dll
+C:\Users\jgw\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\bin\Debug\Fusion.Math.pdb
+C:\Users\jgw\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\bin\Debug\Fusion.Math.xml
+C:\Users\jgw\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\jgw\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.Resources.resources
+C:\Users\jgw\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.dll
+C:\Users\jgw\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.xml
+C:\Users\jgw\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.pdb
+C:\Users\jgw\Desktop\SchA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\bin\Debug\Fusion.Math.dll
+C:\Users\jgw\Desktop\SchA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\bin\Debug\Fusion.Math.pdb
+C:\Users\jgw\Desktop\SchA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\bin\Debug\Fusion.Math.xml
+C:\Users\jgw\Desktop\SchA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\jgw\Desktop\SchA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.Resources.resources
+C:\Users\jgw\Desktop\SchA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\obj\Debug\ResGen.read.1.tlog
+C:\Users\jgw\Desktop\SchA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\obj\Debug\ResGen.write.1.tlog
+C:\Users\jgw\Desktop\SchA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.dll
+C:\Users\jgw\Desktop\SchA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.xml
+C:\Users\jgw\Desktop\SchA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.pdb
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\bin\Debug\Fusion.Math.dll
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\bin\Debug\Fusion.Math.pdb
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\bin\Debug\Fusion.Math.xml
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\obj\Debug\ResolveAssemblyReference.cache
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.Resources.resources
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\obj\Debug\GenerateResource.read.1.tlog
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\obj\Debug\GenerateResource.write.1.tlog
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.dll
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.xml
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.pdb
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Math\bin\Debug\Fusion.Math.dll
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Math\bin\Debug\Fusion.Math.pdb
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Math\bin\Debug\Fusion.Math.xml
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Math\obj\Debug\ResolveAssemblyReference.cache
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.Resources.resources
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Math\obj\Debug\GenerateResource.read.1.tlog
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Math\obj\Debug\GenerateResource.write.1.tlog
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.dll
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.xml
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Math\obj\Debug\Fusion.Math.pdb
+B:\Fusion Repository\Fusion.Math\bin\Debug\Fusion.Math.dll
+B:\Fusion Repository\Fusion.Math\bin\Debug\Fusion.Math.pdb
+B:\Fusion Repository\Fusion.Math\bin\Debug\Fusion.Math.xml
+B:\Fusion Repository\Fusion.Math\obj\Debug\ResolveAssemblyReference.cache
+B:\Fusion Repository\Fusion.Math\obj\Debug\Fusion.Math.Resources.resources
+B:\Fusion Repository\Fusion.Math\obj\Debug\GenerateResource.read.1.tlog
+B:\Fusion Repository\Fusion.Math\obj\Debug\GenerateResource.write.1.tlog
+B:\Fusion Repository\Fusion.Math\obj\Debug\Fusion.Math.dll
+B:\Fusion Repository\Fusion.Math\obj\Debug\Fusion.Math.xml
+B:\Fusion Repository\Fusion.Math\obj\Debug\Fusion.Math.pdb

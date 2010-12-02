@@ -1,0 +1,31 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Fusion.Ry
+</name>
+</assembly>
+<members>
+<member name="P:Fusion.Ry.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:Fusion.Ry.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:Fusion.Ry.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member><member name="M:Fusion.Ry.RayChanger.AddSafetyDistance(Fusion.Math.Ray)">
+	<summary>
+ Adds a safety distance vector to the ray start location to avoid a double intersection with the same surface.
+ </summary>
+	<param name="ray"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member>
+</members>
+</doc>

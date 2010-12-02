@@ -1,0 +1,54 @@
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Tests.Visualization\bin\Debug\Fusion.Tests.Visualization.dll
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Tests.Visualization\bin\Debug\Fusion.Tests.Visualization.pdb
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Tests.Visualization\bin\Debug\Fusion.Tests.Visualization.xml
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Tests.Visualization\bin\Debug\Fusion.Visualization.dll
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Tests.Visualization\bin\Debug\nunit.framework.dll
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Tests.Visualization\bin\Debug\Fusion.Math.dll
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Tests.Visualization\bin\Debug\Fusion.Visualization.pdb
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Tests.Visualization\bin\Debug\Fusion.Visualization.xml
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Tests.Visualization\bin\Debug\nunit.framework.xml
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Tests.Visualization\bin\Debug\Fusion.Math.pdb
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Tests.Visualization\bin\Debug\Fusion.Math.xml
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Tests.Visualization\obj\Debug\ResolveAssemblyReference.cache
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Tests.Visualization\obj\Debug\Fusion.Tests.Visualization.Resources.resources
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Tests.Visualization\obj\Debug\GenerateResource.read.1.tlog
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Tests.Visualization\obj\Debug\GenerateResource.write.1.tlog
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Tests.Visualization\obj\Debug\Fusion.Tests.Visualization.dll
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Tests.Visualization\obj\Debug\Fusion.Tests.Visualization.xml
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Kopien)\10-09-16 (Fusion)\FusionLibrary\Fusion.Tests.Visualization\obj\Debug\Fusion.Tests.Visualization.pdb
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.Visualization\bin\Debug\Fusion.Tests.Visualization.dll
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.Visualization\bin\Debug\Fusion.Tests.Visualization.pdb
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.Visualization\bin\Debug\Fusion.Tests.Visualization.xml
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.Visualization\bin\Debug\Fusion.Visualization.dll
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.Visualization\bin\Debug\nunit.framework.dll
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.Visualization\bin\Debug\Fusion.Math.dll
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.Visualization\bin\Debug\Fusion.Visualization.pdb
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.Visualization\bin\Debug\Fusion.Visualization.xml
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.Visualization\bin\Debug\nunit.framework.xml
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.Visualization\bin\Debug\Fusion.Math.pdb
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.Visualization\bin\Debug\Fusion.Math.xml
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.Visualization\obj\Debug\ResolveAssemblyReference.cache
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.Visualization\obj\Debug\Fusion.Tests.Visualization.Resources.resources
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.Visualization\obj\Debug\GenerateResource.read.1.tlog
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.Visualization\obj\Debug\GenerateResource.write.1.tlog
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.Visualization\obj\Debug\Fusion.Tests.Visualization.dll
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.Visualization\obj\Debug\Fusion.Tests.Visualization.xml
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.Visualization\obj\Debug\Fusion.Tests.Visualization.pdb
+B:\Fusion Repository\Fusion.Tests.Visualization\bin\Debug\Fusion.Tests.Visualization.dll
+B:\Fusion Repository\Fusion.Tests.Visualization\bin\Debug\Fusion.Tests.Visualization.pdb
+B:\Fusion Repository\Fusion.Tests.Visualization\bin\Debug\Fusion.Tests.Visualization.xml
+B:\Fusion Repository\Fusion.Tests.Visualization\bin\Debug\Fusion.Math.dll
+B:\Fusion Repository\Fusion.Tests.Visualization\bin\Debug\Fusion.Visualization.dll
+B:\Fusion Repository\Fusion.Tests.Visualization\bin\Debug\nunit.framework.dll
+B:\Fusion Repository\Fusion.Tests.Visualization\bin\Debug\Fusion.Math.pdb
+B:\Fusion Repository\Fusion.Tests.Visualization\bin\Debug\Fusion.Math.xml
+B:\Fusion Repository\Fusion.Tests.Visualization\bin\Debug\Fusion.Visualization.pdb
+B:\Fusion Repository\Fusion.Tests.Visualization\bin\Debug\Fusion.Visualization.xml
+B:\Fusion Repository\Fusion.Tests.Visualization\bin\Debug\nunit.framework.xml
+B:\Fusion Repository\Fusion.Tests.Visualization\obj\Debug\ResolveAssemblyReference.cache
+B:\Fusion Repository\Fusion.Tests.Visualization\obj\Debug\Fusion.Tests.Visualization.Resources.resources
+B:\Fusion Repository\Fusion.Tests.Visualization\obj\Debug\GenerateResource.read.1.tlog
+B:\Fusion Repository\Fusion.Tests.Visualization\obj\Debug\GenerateResource.write.1.tlog
+B:\Fusion Repository\Fusion.Tests.Visualization\obj\Debug\Fusion.Tests.Visualization.dll
+B:\Fusion Repository\Fusion.Tests.Visualization\obj\Debug\Fusion.Tests.Visualization.xml
+B:\Fusion Repository\Fusion.Tests.Visualization\obj\Debug\Fusion.Tests.Visualization.pdb

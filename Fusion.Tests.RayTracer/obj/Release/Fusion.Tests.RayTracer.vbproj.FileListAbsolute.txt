@@ -1,0 +1,63 @@
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.RayTracer\bin\Release\Fusion.Tests.RayTracer.dll
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.RayTracer\bin\Release\Fusion.Tests.RayTracer.pdb
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.RayTracer\bin\Release\Fusion.Tests.RayTracer.xml
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.RayTracer\bin\Release\Fusion.Math.dll
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.RayTracer\bin\Release\Fusion.Ry.dll
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.RayTracer\bin\Release\Fusion.Visualization.dll
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.RayTracer\bin\Release\nunit.framework.dll
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.RayTracer\bin\Release\Fusion.Math.pdb
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.RayTracer\bin\Release\Fusion.Math.xml
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.RayTracer\bin\Release\Fusion.Ry.pdb
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.RayTracer\bin\Release\Fusion.Ry.xml
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.RayTracer\bin\Release\Fusion.Visualization.pdb
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.RayTracer\bin\Release\Fusion.Visualization.xml
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.RayTracer\bin\Release\nunit.framework.xml
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.RayTracer\obj\Release\ResolveAssemblyReference.cache
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.RayTracer\obj\Release\Fusion.Tests.RayTracer.Resources.resources
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.RayTracer\obj\Release\GenerateResource.read.1.tlog
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.RayTracer\obj\Release\GenerateResource.write.1.tlog
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.RayTracer\obj\Release\Fusion.Tests.RayTracer.dll
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.RayTracer\obj\Release\Fusion.Tests.RayTracer.xml
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Tests.RayTracer\obj\Release\Fusion.Tests.RayTracer.pdb
+B:\Fusion-Repository\(Fusion)\Fusion.Tests.RayTracer\bin\Release\Fusion.Tests.RayTracer.dll
+B:\Fusion-Repository\(Fusion)\Fusion.Tests.RayTracer\bin\Release\Fusion.Tests.RayTracer.pdb
+B:\Fusion-Repository\(Fusion)\Fusion.Tests.RayTracer\bin\Release\Fusion.Tests.RayTracer.xml
+B:\Fusion-Repository\(Fusion)\Fusion.Tests.RayTracer\bin\Release\Fusion.Math.dll
+B:\Fusion-Repository\(Fusion)\Fusion.Tests.RayTracer\bin\Release\Fusion.Ry.dll
+B:\Fusion-Repository\(Fusion)\Fusion.Tests.RayTracer\bin\Release\Fusion.Visualization.dll
+B:\Fusion-Repository\(Fusion)\Fusion.Tests.RayTracer\bin\Release\nunit.framework.dll
+B:\Fusion-Repository\(Fusion)\Fusion.Tests.RayTracer\bin\Release\Fusion.Math.pdb
+B:\Fusion-Repository\(Fusion)\Fusion.Tests.RayTracer\bin\Release\Fusion.Math.xml
+B:\Fusion-Repository\(Fusion)\Fusion.Tests.RayTracer\bin\Release\Fusion.Ry.pdb
+B:\Fusion-Repository\(Fusion)\Fusion.Tests.RayTracer\bin\Release\Fusion.Ry.xml
+B:\Fusion-Repository\(Fusion)\Fusion.Tests.RayTracer\bin\Release\Fusion.Visualization.pdb
+B:\Fusion-Repository\(Fusion)\Fusion.Tests.RayTracer\bin\Release\Fusion.Visualization.xml
+B:\Fusion-Repository\(Fusion)\Fusion.Tests.RayTracer\bin\Release\nunit.framework.xml
+B:\Fusion-Repository\(Fusion)\Fusion.Tests.RayTracer\obj\Release\ResolveAssemblyReference.cache
+B:\Fusion-Repository\(Fusion)\Fusion.Tests.RayTracer\obj\Release\Fusion.Tests.RayTracer.Resources.resources
+B:\Fusion-Repository\(Fusion)\Fusion.Tests.RayTracer\obj\Release\GenerateResource.read.1.tlog
+B:\Fusion-Repository\(Fusion)\Fusion.Tests.RayTracer\obj\Release\GenerateResource.write.1.tlog
+B:\Fusion-Repository\(Fusion)\Fusion.Tests.RayTracer\obj\Release\Fusion.Tests.RayTracer.dll
+B:\Fusion-Repository\(Fusion)\Fusion.Tests.RayTracer\obj\Release\Fusion.Tests.RayTracer.xml
+B:\Fusion-Repository\(Fusion)\Fusion.Tests.RayTracer\obj\Release\Fusion.Tests.RayTracer.pdb
+B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.Tests.RayTracer.dll
+B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.Tests.RayTracer.pdb
+B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.Tests.RayTracer.xml
+B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.Math.dll
+B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.Ry.dll
+B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.Visualization.dll
+B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\nunit.framework.dll
+B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.Math.pdb
+B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.Math.xml
+B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.Ry.pdb
+B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.Ry.xml
+B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.Visualization.pdb
+B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.Visualization.xml
+B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\nunit.framework.xml
+B:\Fusion Repository\Fusion.Tests.RayTracer\obj\Release\ResolveAssemblyReference.cache
+B:\Fusion Repository\Fusion.Tests.RayTracer\obj\Release\Fusion.Tests.RayTracer.Resources.resources
+B:\Fusion Repository\Fusion.Tests.RayTracer\obj\Release\GenerateResource.read.1.tlog
+B:\Fusion Repository\Fusion.Tests.RayTracer\obj\Release\GenerateResource.write.1.tlog
+B:\Fusion Repository\Fusion.Tests.RayTracer\obj\Release\Fusion.Tests.RayTracer.dll
+B:\Fusion Repository\Fusion.Tests.RayTracer\obj\Release\Fusion.Tests.RayTracer.xml
+B:\Fusion Repository\Fusion.Tests.RayTracer\obj\Release\Fusion.Tests.RayTracer.pdb

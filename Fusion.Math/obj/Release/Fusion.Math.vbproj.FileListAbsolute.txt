@@ -1,0 +1,38 @@
+C:\Users\jgw\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\bin\Release\Fusion.Math.dll
+C:\Users\jgw\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\bin\Release\Fusion.Math.pdb
+C:\Users\jgw\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\bin\Release\Fusion.Math.xml
+C:\Users\jgw\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\obj\Release\ResolveAssemblyReference.cache
+C:\Users\jgw\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\obj\Release\Fusion.Math.Resources.resources
+C:\Users\jgw\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\obj\Release\Fusion.Math.dll
+C:\Users\jgw\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\obj\Release\Fusion.Math.xml
+C:\Users\jgw\Desktop\SchüA Visual Studio Projekte\Fusion Library erweitert\FusionLibrary\Fusion.Math\obj\Release\Fusion.Math.pdb
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\bin\Release\Fusion.Math.dll
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\bin\Release\Fusion.Math.pdb
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\bin\Release\Fusion.Math.xml
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\obj\Release\ResolveAssemblyReference.cache
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\obj\Release\Fusion.Math.Resources.resources
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\obj\Release\GenerateResource.read.1.tlog
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\obj\Release\GenerateResource.write.1.tlog
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\obj\Release\Fusion.Math.dll
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\obj\Release\Fusion.Math.xml
+B:\Julius-Ordner\Programmierung\Visual Studio-Projekte\(Fusion)\FusionLibrary\Fusion.Math\obj\Release\Fusion.Math.pdb
+B:\Fusion-Repository\(Fusion)\Fusion.Math\bin\Release\Fusion.Math.dll
+B:\Fusion-Repository\(Fusion)\Fusion.Math\bin\Release\Fusion.Math.pdb
+B:\Fusion-Repository\(Fusion)\Fusion.Math\bin\Release\Fusion.Math.xml
+B:\Fusion-Repository\(Fusion)\Fusion.Math\obj\Release\ResolveAssemblyReference.cache
+B:\Fusion-Repository\(Fusion)\Fusion.Math\obj\Release\Fusion.Math.Resources.resources
+B:\Fusion-Repository\(Fusion)\Fusion.Math\obj\Release\GenerateResource.read.1.tlog
+B:\Fusion-Repository\(Fusion)\Fusion.Math\obj\Release\GenerateResource.write.1.tlog
+B:\Fusion-Repository\(Fusion)\Fusion.Math\obj\Release\Fusion.Math.dll
+B:\Fusion-Repository\(Fusion)\Fusion.Math\obj\Release\Fusion.Math.xml
+B:\Fusion-Repository\(Fusion)\Fusion.Math\obj\Release\Fusion.Math.pdb
+B:\Fusion Repository\Fusion.Math\bin\Release\Fusion.Math.dll
+B:\Fusion Repository\Fusion.Math\bin\Release\Fusion.Math.pdb
+B:\Fusion Repository\Fusion.Math\bin\Release\Fusion.Math.xml
+B:\Fusion Repository\Fusion.Math\obj\Release\ResolveAssemblyReference.cache
+B:\Fusion Repository\Fusion.Math\obj\Release\Fusion.Math.Resources.resources
+B:\Fusion Repository\Fusion.Math\obj\Release\GenerateResource.read.1.tlog
+B:\Fusion Repository\Fusion.Math\obj\Release\GenerateResource.write.1.tlog
+B:\Fusion Repository\Fusion.Math\obj\Release\Fusion.Math.dll
+B:\Fusion Repository\Fusion.Math\obj\Release\Fusion.Math.xml
+B:\Fusion Repository\Fusion.Math\obj\Release\Fusion.Math.pdb
