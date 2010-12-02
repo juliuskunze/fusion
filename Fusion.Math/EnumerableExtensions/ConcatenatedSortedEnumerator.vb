@@ -70,7 +70,7 @@ Public Class ConcatenatedSortedEnumerator(Of T)
     End Sub
 
     Private Function MoveNextNotFirst() As Boolean
-        '!!!!!!!!!!!!!!!!!!!!!!!!!!! CURRENT NICHT DEFINIERT
+        '!!!!!!!!!!!!!!!!!!!!!!!!!!! CURRENT not defined!
         Dim minActivatableEnumerator = (From activatableEnumerator In _sourceEnumerators Where activatableEnumerator.Activated).
             MinItem(Function(activatableEnumerator) _compareValueFunction.Invoke(activatableEnumerator.Enumerator.Current))
 
