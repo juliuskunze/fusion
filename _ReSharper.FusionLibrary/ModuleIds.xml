@@ -3,4 +3,7 @@
   <Module PersistentId="F6034AE4-65A7-49CB-9756-C13EDFA258E6" ModuleId="Fusion.Math" />
   <Module PersistentId="DEEF32D9-F26B-47CD-95C2-AEB774221DBF" ModuleId="Fusion.Physics.Visualization" />
   <Module PersistentId="74A8E394-FD08-418B-BBBE-B9FD54589B2E" ModuleId="Fusion.Physics" />
+  <Module PersistentId="25D84F4D-5A27-47AA-9A26-72457EFF6F82" ModuleId="Fusion.Tests.RayTracer" />
+  <Module PersistentId="1D984EE3-7691-43F0-B674-B911B0533283" ModuleId="Fusion.Tests.Visualization" />
+  <Module PersistentId="873338A0-8CEF-44DB-AE3A-56188FC81E40" ModuleId="Fusion.Ry.Forms" />
 </Modules>

@@ -9,11 +9,29 @@ Public Class ConcatenatedSortedEnumerator(Of T)
     Private Class ActivatableEnumerator
         Public Sub New(ByVal enumerator As IEnumerator(Of T))
             Me.Enumerator = enumerator
-            Me.Activated = True
+            _activated = True
         End Sub
 
         Public Property Enumerator As IEnumerator(Of T)
-        Public Property Activated As Boolean
+
+        Private _activated As Boolean
+        Public ReadOnly Property Activated As Boolean
+            Get
+                Return _activated
+            End Get
+        End Property
+
+        Public Function MoveNext() As Boolean
+            Dim movedNext = Me.Enumerator.MoveNext()
+            _activated =  movedNext 
+            Return movedNext
+        End Function
+
+        Public Sub Reset()
+            Me.Enumerator.Reset()
+            _activated = True
+        End Sub
+
     End Class
 
     Private _sourceEnumerators As IEnumerable(Of ActivatableEnumerator)
@@ -21,7 +39,9 @@ Public Class ConcatenatedSortedEnumerator(Of T)
     Private _compareValueFunction As Func(Of T, Double)
 
     Public Sub New(ByVal sourceEnumerators As IEnumerable(Of IEnumerator(Of T)), ByVal compareValueFunction As Func(Of T, Double))
-        _sourceEnumerators = From enumerator In sourceEnumerators Select New ActivatableEnumerator(enumerator)
+        'WHY THAT?
+        _sourceEnumerators = sourceEnumerators.Select(Function(enumerator) New ActivatableEnumerator(enumerator)).ToList
+        _compareValueFunction = compareValueFunction
     End Sub
 
     Private _current As T
@@ -40,50 +60,67 @@ Public Class ConcatenatedSortedEnumerator(Of T)
     Private _alreadyMovedNext As Boolean = False
     Public Function MoveNext() As Boolean Implements System.Collections.IEnumerator.MoveNext
         If Not _alreadyMovedNext Then
-            Me.FirstMoveNextInitialize()
+            Me.FirstMoveNextAll()
 
-            _alreadyMovedNext = True
+            Me.SetMinEnumeratorByAllActivatedCurrent()
+
+            Me.SetCurrentByMinEnumerator()
+
+            Return Me.MoveAnyMinEnumeratorNext()
         End If
 
-        Do While Not Me.MoveNextNotFirst
-            If _sourceEnumerators.All(Function(sourceEnumerator) Not sourceEnumerator.Activated) Then Return False
+        Me.SetCurrentByMinEnumerator()
+
+        Return Me.MoveAnyMinEnumeratorNext()
+    End Function
+
+    Private Function MoveAnyMinEnumeratorNext() As Boolean
+        Do Until Me.MoveMinEnumeratorNext()
+            Me.SetMinEnumeratorByAllActivatedCurrent()
+
+            If Me.EndPassed Then Return False
         Loop
 
         Return True
+    End Function
+
+    Private Sub SetMinEnumeratorByAllActivatedCurrent()
+        _minEnumerator = (From activatableEnumerator In _sourceEnumerators Where activatableEnumerator.Activated).
+            MinItem(Function(activatableEnumerator) _compareValueFunction.Invoke(activatableEnumerator.Enumerator.Current))
+    End Sub
+
+    Private Sub SetCurrentByMinEnumerator()
+        _current = _minEnumerator.Enumerator.Current
+    End Sub
+
+
+    Private ReadOnly Property EndPassed As Boolean
+        Get
+            Return _sourceEnumerators.All(Function(sourceEnumerator) Not sourceEnumerator.Activated)
+        End Get
+    End Property
+
+    Private Sub FirstMoveNextAll()
+        For Each activatableEnumerator In _sourceEnumerators
+            activatableEnumerator.MoveNext()
+        Next
+
+        _alreadyMovedNext = True
+    End Sub
+
+    Private _minEnumerator As ActivatableEnumerator
+
+    Private Function MoveMinEnumeratorNext() As Boolean
+        Return _minEnumerator.MoveNext()
     End Function
 
     Public Sub Reset() Implements System.Collections.IEnumerator.Reset
         _alreadyMovedNext = False
 
         For Each sourceEnumerator In _sourceEnumerators
-            sourceEnumerator.Activated = True
-            sourceEnumerator.Enumerator.Reset()
+            sourceEnumerator.Reset()
         Next
     End Sub
-
-    Private Sub FirstMoveNextInitialize()
-        For Each activatableEnumerator In _sourceEnumerators
-            If Not activatableEnumerator.Enumerator.MoveNext Then
-                activatableEnumerator.Activated = False
-            End If
-        Next
-    End Sub
-
-    Private Function MoveNextNotFirst() As Boolean
-        '!!!!!!!!!!!!!!!!!!!!!!!!!!! CURRENT not defined!
-        Dim minActivatableEnumerator = (From activatableEnumerator In _sourceEnumerators Where activatableEnumerator.Activated).
-            MinItem(Function(activatableEnumerator) _compareValueFunction.Invoke(activatableEnumerator.Enumerator.Current))
-
-        Dim movedNext = minActivatableEnumerator.Enumerator.MoveNext()
-
-        If movedNext Then
-            _current = minActivatableEnumerator.Enumerator.Current
-        Else
-            minActivatableEnumerator.Activated = False
-        End If
-
-        Return movedNext
-    End Function
 
     Private disposedValue As Boolean
     Protected Overridable Sub Dispose(ByVal disposing As Boolean)
