@@ -39,7 +39,7 @@ Public Class ConcatenatedSortedEnumerator(Of T)
     Private _compareValueFunction As Func(Of T, Double)
 
     Public Sub New(ByVal sourceEnumerators As IEnumerable(Of IEnumerator(Of T)), ByVal compareValueFunction As Func(Of T, Double))
-        'WHY THAT?
+        'Deleting ".ToList" will cause failing tests.
         _sourceEnumerators = sourceEnumerators.Select(Function(enumerator) New ActivatableEnumerator(enumerator)).ToList
         _compareValueFunction = compareValueFunction
     End Sub
@@ -59,27 +59,16 @@ Public Class ConcatenatedSortedEnumerator(Of T)
 
     Private _alreadyMovedNext As Boolean = False
     Public Function MoveNext() As Boolean Implements System.Collections.IEnumerator.MoveNext
-        If Not _alreadyMovedNext Then
+        If _alreadyMovedNext Then
+            Me.MoveMinEnumeratorNext()
+        Else
             Me.FirstMoveNextAll()
-
-            Me.SetMinEnumeratorByAllActivatedCurrent()
-
-            Me.SetCurrentByMinEnumerator()
-
-            Return Me.MoveAnyMinEnumeratorNext()
         End If
 
+        If Me.EndPassed Then Return False
+
+        Me.SetMinEnumeratorByAllActivatedCurrent()
         Me.SetCurrentByMinEnumerator()
-
-        Return Me.MoveAnyMinEnumeratorNext()
-    End Function
-
-    Private Function MoveAnyMinEnumeratorNext() As Boolean
-        Do Until Me.MoveMinEnumeratorNext()
-            Me.SetMinEnumeratorByAllActivatedCurrent()
-
-            If Me.EndPassed Then Return False
-        Loop
 
         Return True
     End Function
