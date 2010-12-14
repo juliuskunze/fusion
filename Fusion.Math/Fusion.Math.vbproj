@@ -87,7 +87,7 @@
   <ItemGroup>
     <Compile Include="AffineMap.vb" />
     <Compile Include="EndNodes.vb" />
-    <Compile Include="EnumerableExtensions\ConcatenatedSortedEnumerable.vb" />
+    <Compile Include="EnumerableExtensions\ConcatenatedSortedEnumerables.vb" />
     <Compile Include="Functions.vb" />
     <Compile Include="Geometry.vb" />
     <Compile Include="Graph.vb" />

@@ -90,6 +90,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="PerformanceTests.vb" />
     <Compile Include="PointLightSourceTests.vb" />
     <Compile Include="RayChangerTests.vb" />
     <Compile Include="RayTracerTests.vb" />

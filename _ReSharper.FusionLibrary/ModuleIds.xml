@@ -6,4 +6,5 @@
   <Module PersistentId="25D84F4D-5A27-47AA-9A26-72457EFF6F82" ModuleId="Fusion.Tests.RayTracer" />
   <Module PersistentId="1D984EE3-7691-43F0-B674-B911B0533283" ModuleId="Fusion.Tests.Visualization" />
   <Module PersistentId="873338A0-8CEF-44DB-AE3A-56188FC81E40" ModuleId="Fusion.Ry.Forms" />
+  <Module PersistentId="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA" ModuleId="Fusion.Ry" />
 </Modules>
