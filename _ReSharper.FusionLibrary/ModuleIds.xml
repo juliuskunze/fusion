@@ -7,4 +7,5 @@
   <Module PersistentId="1D984EE3-7691-43F0-B674-B911B0533283" ModuleId="Fusion.Tests.Visualization" />
   <Module PersistentId="873338A0-8CEF-44DB-AE3A-56188FC81E40" ModuleId="Fusion.Ry.Forms" />
   <Module PersistentId="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA" ModuleId="Fusion.Ry" />
+  <Module PersistentId="999FDCC5-C7B2-4F1E-B559-919752F9BC03" ModuleId="Fusion.Visualization" />
 </Modules>

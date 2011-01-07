@@ -11,7 +11,7 @@
                               lookAt:=New Vector3D(5, 5, 0),
                               upVector:=New Vector3D(0, 1, 0),
                               xAngleFromMinus1To1:=PI / 3)
-        Dim lamp = New LinearPointLightSource(Location:=New Vector3D(5, 9.9000000000000004, 8), colorAtDistance1:=ExactColor.White * 5)
+        Dim lamp = New LinearPointLightSource(Location:=New Vector3D(5, 9.9, 8), colorAtDistance1:=ExactColor.White * 5)
 
         Dim grayMaterial = Materials2D.Scattering(New ExactColor(Color.Gray))
 
@@ -24,7 +24,7 @@
                                                  material:=Materials2D.Scattering(New ExactColor(Color.Orange)))
         Dim ceiling = New SingleMaterialSurface(Of Material2D)(New Plane(Location:=New Vector3D(0, 10, 0), normal:=New Vector3D(0, -1, 0)),
                                        material:=New Material2D(
-                                           scatteringRemission:=New ComponentScaledColorRemission(New ExactColor(0.20000000000000001, 0.20000000000000001, 0.20000000000000001)),
+                                           scatteringRemission:=New ComponentScaledColorRemission(New ExactColor(0.2, 0.2, 0.2)),
                                            reflectionRemission:=New BlackColorRemission,
                                            transparencyRemission:=New BlackColorRemission))
 
@@ -45,7 +45,7 @@
                                     transparencyRemission:=New BlackColorRemission))
 
         Dim glass = New Material2D(scatteringRemission:=New BlackColorRemission,
-                                                reflectionRemission:=New ScaledColorRemission(0.40000000000000002),
+                                                reflectionRemission:=New ScaledColorRemission(0.4),
                                                 transparencyRemission:=New FullColorRemission,
                                                 refractionIndexQuotient:=1 / glassRefractionIndex)
         Dim glassInside = glass.Clone
@@ -81,19 +81,19 @@
     End Function
 
     Public Function SquaredSurfaceDrawer() As RayTraceDrawer
-        Dim cameraLocation = New Vector3D(4, 0.29999999999999999, 0)
+        Dim cameraLocation = New Vector3D(4, 0.3, 0)
 
         Dim view = New View3D(cameraLocation:=cameraLocation,
-                              lookAt:=New Vector3D(0, 0.29999999999999999, 0),
+                              lookAt:=New Vector3D(0, 0.3, 0),
                               upVector:=New Vector3D(0, 1, 0),
                               xAngleFromMinus1To1:=PI / 2)
         Dim groundMaterial1 = New Material2D(lightSourceColor:=Color.Gray,
                                              scatteringRemission:=New BlackColorRemission,
-                                             reflectionRemission:=New ScaledColorRemission(0.20000000000000001),
+                                             reflectionRemission:=New ScaledColorRemission(0.2),
                                              transparencyRemission:=New BlackColorRemission)
         Dim groundMaterial2 = New Material2D(lightSourceColor:=Color.Blue,
                                              scatteringRemission:=New BlackColorRemission,
-                                             reflectionRemission:=New ScaledColorRemission(0.20000000000000001),
+                                             reflectionRemission:=New ScaledColorRemission(0.2),
                                              transparencyRemission:=New BlackColorRemission)
         Dim ground = New SquaredMaterialSurface(Of Material2D)(New Plane(Location:=New Vector3D(0, -1, 0),
                                                           normal:=New Vector3D(0, 1, 0)),
@@ -104,24 +104,24 @@
                                                 material2:=groundMaterial2)
 
         Dim refractingSphere = New SingleMaterialSurface(Of Material2D)(New Sphere(center:=New Vector3D(1.5, 0, 1), radius:=1),
-                                                         material:=New Material2D(scatteringRemission:=New ScaledColorRemission(0.20000000000000001),
+                                                         material:=New Material2D(scatteringRemission:=New ScaledColorRemission(0.2),
                                                                                   transparencyRemission:=New FullColorRemission,
-                                                                                  reflectionRemission:=New ScaledColorRemission(0.10000000000000001),
+                                                                                  reflectionRemission:=New ScaledColorRemission(0.1),
                                                                                   refractionIndexQuotient:=1 / 2))
         Dim refractingSphereInside = New SingleMaterialSurface(Of Material2D)(New AntiSphere(center:=New Vector3D(1.5, 0, 1), radius:=1),
-                                                               material:=New Material2D(New ScaledColorRemission(0.20000000000000001),
+                                                               material:=New Material2D(New ScaledColorRemission(0.2),
                                                                                   transparencyRemission:=New FullColorRemission,
-                                                                                  reflectionRemission:=New ScaledColorRemission(0.10000000000000001),
+                                                                                  reflectionRemission:=New ScaledColorRemission(0.1),
                                                                                   refractionIndexQuotient:=2))
 
-        Dim sphere2 = New SingleMaterialSurface(Of Material2D)(New Sphere(center:=New Vector3D(-0.59999999999999998, 0.80000000000000004, 0), radius:=1.3),
+        Dim sphere2 = New SingleMaterialSurface(Of Material2D)(New Sphere(center:=New Vector3D(-0.6, 0.8, 0), radius:=1.3),
                                                 material:=New Material2D(scatteringRemission:=New BlackColorRemission,
                                                            transparencyRemission:=New BlackColorRemission,
-                                                           reflectionRemission:=New ScaledColorRemission(0.20000000000000001),
+                                                           reflectionRemission:=New ScaledColorRemission(0.2),
                                                            refractionIndexQuotient:=1 / 2))
 
-        Dim reflectingSphere = New SingleMaterialSurface(Of Material2D)(New Sphere(center:=New Vector3D(-0.59999999999999998, 0.80000000000000004, -2.5), radius:=1),
-                                                         material:=New Material2D(scatteringRemission:=New ScaledColorRemission(0.20000000000000001),
+        Dim reflectingSphere = New SingleMaterialSurface(Of Material2D)(New Sphere(center:=New Vector3D(-0.6, 0.8, -2.5), radius:=1),
+                                                         material:=New Material2D(scatteringRemission:=New ScaledColorRemission(0.2),
                                                                                   reflectionRemission:=New FullColorRemission,
                                                                                   transparencyRemission:=New BlackColorRemission))
 
@@ -167,10 +167,10 @@
     End Function
 
     Public Function IluminationRoom() As RayTraceDrawer
-        Dim view = New View3D(cameraLocation:=New Vector3D(15, 6, 33),
+        Dim view = New View3D(cameraLocation:=New Vector3D(15, 6, 29),
                               lookAt:=New Vector3D(3, 3, 0),
                               upVector:=New Vector3D(0, 1, 0),
-                              xAngleFromMinus1To1:=PI / 4)
+                              xAngleFromMinus1To1:=PI * 0.26)
         Dim origin = Vector3D.Zero
         Dim frontLeftDown = New Vector3D(0, 0, 6)
         Dim backLeftDown = New Vector3D(0, 0, 16)
@@ -201,11 +201,11 @@
 
         Dim metal = Materials2D.Mirror
 
-        Dim groundMaterial1 = New Material2D(lightSourceColor:=Color.Black,
+        Dim blueGroundMaterial = New Material2D(lightSourceColor:=Color.Black,
                              scatteringRemission:=New ComponentScaledColorRemission(Color.Blue),
                              reflectionRemission:=New ScaledColorRemission(0.5),
                              transparencyRemission:=New BlackColorRemission)
-        Dim groundMaterial2 = New Material2D(lightSourceColor:=Color.Black,
+        Dim whiteGroundMaterial = New Material2D(lightSourceColor:=Color.Black,
                                              scatteringRemission:=New ComponentScaledColorRemission(Color.White),
                                              reflectionRemission:=New ScaledColorRemission(0.5),
                                              transparencyRemission:=New BlackColorRemission)
@@ -215,8 +215,8 @@
                                         squaresXVector:=New Vector3D(1, 0, 0),
                                         squaresYVector:=New Vector3D(0, 0, 1),
                                         squareLength:=1,
-                                        material1:=groundMaterial1,
-                                        material2:=groundMaterial2)
+                                        material1:=blueGroundMaterial,
+                                        material2:=whiteGroundMaterial)
 
         Dim lightRectangle = New Fusion.Math.Rectangle(vertex1:=New Vector3D(10, 9.5, 10), vertex2:=New Vector3D(5, 9.5, 10),
                                                        vertex3:=New Vector3D(5, 9.5, 5))
@@ -264,12 +264,25 @@
         Dim glassAntiSphereSurface = New AntiSphere(glassSphereSurface)
         Dim glassAntiSphere = New SingleMaterialSurface(Of Material2D)(glassAntiSphereSurface, innerGlass)
 
-        Dim surfaces = New MaterialSurfaces(Of Material2D) From {ground, redWall, frontWall, greenWall, backWall, ceiling, frontWall, light, scatteringSphere, glassSphere, glassAntiSphere, metalSphere}
+        Dim glassCylinder = New Cylinder(startCenter:=glassLocation, endCenter:=glassLocation + New Vector3D(0, glassCylinderHeight, 0), radius:=0.1)
+        Dim glassAntiCylinder = New AntiCylinder(glassCylinder)
+        Dim glassCylinderSurface = New SingleMaterialSurface(Of Material2D)(glassCylinder, glass)
+        Dim glassAntiCylinderSurface = New SingleMaterialSurface(Of Material2D)(glassAntiCylinder, innerGlass)
+
+        Dim frontCylinderHeight = 6
+        Dim frontCylinderRadius = 0.75
+        Dim frontCylinder = New InfiniteCylinder(New Vector3D(0, frontCylinderHeight + frontCylinderRadius, 0), New Vector3D(1, 0, 0), radius:=frontCylinderRadius)
+        Dim frontCylinderSurface = New SingleMaterialSurface(Of Material2D)(frontCylinder, material:=whiteMaterial)
+
+        Dim surfaces = New MaterialSurfaces(Of Material2D) From {ground, redWall, frontWall, greenWall, backWall, ceiling,
+                                                                 light, scatteringSphere,
+                                                                 glassSphere, glassAntiSphere,
+                                                                 metalSphere,
+                                                                 glassCylinderSurface, glassAntiCylinderSurface,
+                                                                 frontCylinderSurface}
         Dim rayTracer = New RecursiveRayTracer(surface:=surfaces, lightSource:=New LightSources, shadedPointLightSources:=shadedLightSources, maxIntersectionCount:=10)
+
         'Dim rayTracer = New ScatteringRayTracer(surface:=surfaces, rayCount:=1, maxIntersectionCount:=10)
-
-        Dim glassCylinderSurface = New Cylinder(startCenter:=glassLocation, endCenter:=glassLocation + New Vector3D(0, glassCylinderHeight, 0), radius:=0.1)
-
 
         Return New RayTraceDrawer(rayTracer:=rayTracer, Size:=PictureSize, view:=view)
     End Function

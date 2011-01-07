@@ -26,8 +26,13 @@ Public Class Triangle
         Dim edgeVector3To2 = -edgeVector2To3
         Dim truncatingPlane3 = New Plane(Me.Vertex3, Me.Vertex1, Me.Vertex3 + edgeVector3To1.CrossProduct(edgeVector3To2))
 
-        Dim truncatingPointSet = New InversePointSet3D(New LinkedPointSets3D(linkOperator:=Function(a, b) a AndAlso b) From
-                                   {truncatingPlane1, truncatingPlane2, truncatingPlane3})
+        Dim truncatingPointSet = New InversePointSet3D(New LinkedPointSets3D(
+                                                            New LinkedPointSets3D(pointSet1:=truncatingPlane1,
+                                                                                  pointSet2:=truncatingPlane2,
+                                                                                  linkOperator:=Function(a, b) a AndAlso b),
+                                                      pointSet2:=truncatingPlane3,
+                                                      linkOperator:=Function(a, b) a AndAlso b))
+
 
         _surface = New TruncatedSurface(baseSurface:=containingPlane, truncatingPointSet:=truncatingPointSet)
     End Sub

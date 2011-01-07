@@ -34,8 +34,8 @@
         Dim rayLength = allIntersectionRayLengths.Max
         Dim intersectionLocation = ray.PointOnRay(distanceFromOrigin:=rayLength)
 
-        Dim relativeRayOrigin = ray.Origin - Me.Origin
-        Dim normal = relativeRayOrigin - relativeRayOrigin.OrthogonalProjectionOn(Me.NormalizedDirection)
+        Dim relativeIntersection = intersectionLocation - Me.Origin
+        Dim normal = relativeIntersection.OrthogonalProjectionOn(Me.NormalizedDirection) - relativeIntersection
         Return New SurfacePoint(location:=intersectionLocation, normal:=normal)
     End Function
 

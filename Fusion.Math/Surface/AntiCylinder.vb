@@ -26,9 +26,13 @@
         End Get
     End Property
 
-    Private _startPlane As Plane
-    Private _endPlane As Plane
-    Private _surface As ISurface
+    Private ReadOnly _startPlane As Plane
+    Private ReadOnly _endPlane As Plane
+    Private ReadOnly _surface As ISurface
+
+    Public Sub New(ByVal cylinder As Cylinder)
+        Me.New(startCenter:= cylinder.StartCenter,endCenter:= cylinder.EndCenter,radius:= cylinder.Radius)
+    End Sub
 
     Public Sub New(ByVal startCenter As Vector3D, ByVal endCenter As Vector3D, ByVal radius As Double)
         _endCenter = endCenter
@@ -39,9 +43,9 @@
         _startPlane = New Plane(location:=startCenter, normal:=startToEndVector)
         _endPlane = New Plane(location:=endCenter, normal:=-startToEndVector)
 
-        Dim startCircle = New TruncatedSurface(_startPlane, _infiniteAntiCylinder)
-        Dim endCircle = New TruncatedSurface(_endPlane, _infiniteAntiCylinder)
-        Dim girthedArea = New TruncatedSurface(baseSurface:=_infiniteAntiCylinder, truncatingPointSet:=New LinkedPointSets3D(linkOperator:=Function(a, b) Not a AndAlso Not b) From {_startPlane, _endPlane})
+        Dim startCircle = New TruncatedSurface(_startPlane, truncatingPointSet:=_infiniteAntiCylinder)
+        Dim endCircle = New TruncatedSurface(_endPlane, truncatingPointSet:=_infiniteAntiCylinder)
+        Dim girthedArea = New TruncatedSurface(_infiniteAntiCylinder, truncatingPointSet:=New LinkedPointSets3D(_startPlane, _endPlane, linkOperator:=Function(a, b) a OrElse b))
 
         _surface = New Surfaces From {girthedArea, startCircle, endCircle}
     End Sub

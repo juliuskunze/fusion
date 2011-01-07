@@ -41,7 +41,7 @@
 
         Dim startCircle = New TruncatedSurface(_startPlane, New InversePointSet3D(_infiniteCylinder))
         Dim endCircle = New TruncatedSurface(_endPlane, New InversePointSet3D(_infiniteCylinder))
-        Dim girthedArea = New TruncatedSurface(baseSurface:=_infiniteCylinder, truncatingPointSet:=New LinkedPointSets3D(linkOperator:=Function(a, b) a AndAlso b) From {_startPlane, _endPlane})
+        Dim girthedArea = New TruncatedSurface(baseSurface:=_infiniteCylinder, truncatingPointSet:=New InversePointSet3D(New LinkedPointSets3D(_startPlane, _endPlane, linkOperator:=Function(a, b) a AndAlso b)))
 
         _surface = New Surfaces From {girthedArea, startCircle, endCircle}
     End Sub
