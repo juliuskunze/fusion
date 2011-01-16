@@ -7,25 +7,44 @@
 
     Private _customPictureSizeOk As Boolean = False
     Private _customPictureSize As Size
-    Private _pictureSize As Size
 
     Private Sub startButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles startButton.Click
-        If customSizeRadioButton.Checked Then
-            If _customPictureSizeOk Then
-                _pictureSize = _customPictureSize
-            Else
-                Return
-            End If
-        Else
-            _pictureSize = pictureBox.Size
-        End If
+        If Not Me.TrySetRayTracerDrawer Then Return
 
-        _rayTraceDrawer = New RayTracingExamples(_pictureSize).IluminationRoom
+        Dim stopWatch = New Stopwatch
+        stopWatch.Start()
+
         _picture = _rayTraceDrawer.Picture
+
+        stopWatch.Stop()
+        elapsedTimeLabel.Text = "Time: " & stopWatch.Elapsed.ToString
+        timePerPixelLabel.Text = "Time per pixel: " & (stopWatch.ElapsedMilliseconds / (_picture.Size.Width * _picture.Size.Height)).ToString & "ms"
+
         pictureBox.BackgroundImage = _picture
 
         Me.saveButton.Enabled = True
     End Sub
+
+    Private Function TrySetRayTracerDrawer() As Boolean
+        Dim pictureSize As Size
+        If Not Me.GetPictureSize(out_size:=pictureSize) Then Return False
+
+        _rayTraceDrawer = New RayTracingExamples(pictureSize).SquaredSurfaceDrawer
+        Return True
+    End Function
+
+    Private Function GetPictureSize(ByRef out_size As Size) As Boolean
+
+        If customSizeRadioButton.Checked Then
+            If Not _customPictureSizeOk Then Return False
+
+            out_size = _customPictureSize
+        Else
+            out_size = pictureBox.Size
+        End If
+
+        Return True
+    End Function
 
     Private Sub pictureBox_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles pictureBox.MouseDown
         Dim mouseLocation = e.Location
@@ -33,7 +52,6 @@
     End Sub
 
     Private Sub ColorColorPanel(ByVal mouseLocation As Point)
-        colorPanel.BackColor = _rayTraceDrawer.GetPixelColor(mouseLocation.X, mouseLocation.Y)
         colorPanel.BackColor = _rayTraceDrawer.GetPixelColor(mouseLocation.X, mouseLocation.Y)
     End Sub
 
@@ -75,7 +93,62 @@
 
     Private Sub VideoButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles VideoButton.Click
         Dim videoTracer As New LensVideo(New Size(500, 500))
-        videoTracer.CreateVideo("B:\tmp\vid", 0, 3, 0.050000000000000003)
+        videoTracer.CreateVideo("B:\tmp\vid", 0, 3, 0.05)
+    End Sub
+
+    Private Sub calculateTimeButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles calculateTimeButton.Click
+        If Not Me.TrySetRayTracerDrawer() Then Return
+        If Not _calculatedTimeOptionsForm.DialogResult = Windows.Forms.DialogResult.OK Then Return
+
+        Dim size = _rayTraceDrawer.PictureSize
+
+        Dim bitmap = New Bitmap(size.Width, size.Height)
+
+        Dim random = New Random
+
+        Dim drawTimeStopwatch = New Stopwatch
+        Dim testedPixelCount = 0
+
+        Dim stopwatch = New Stopwatch
+        stopwatch.Start()
+        Do While If(_calculatedTimeOptionsForm.Mode = CalculateTimeOptionsForm.FixMode.Time,
+                    stopwatch.ElapsedMilliseconds / 1000 < _calculatedTimeOptionsForm.FixTestTime,
+                    testedPixelCount < _calculatedTimeOptionsForm.FixTestPixelCount)
+            Dim randomX = random.Next(size.Width)
+            Dim randomY = random.Next(size.Height)
+
+            drawTimeStopwatch.Start()
+
+            bitmap.SetPixel(randomX, randomY, _rayTraceDrawer.GetPixelColor(randomX, randomY))
+
+            drawTimeStopwatch.Stop()
+
+            testedPixelCount += 1
+        Loop
+
+        stopwatch.Stop()
+
+        pictureBox.BackgroundImage = bitmap
+
+        'experiment --> 
+        Const factor = 3.4
+        Dim ticksPerPixel = drawTimeStopwatch.ElapsedTicks / testedPixelCount * factor
+
+        Dim timePerPixel = New TimeSpan(CLng(ticksPerPixel))
+        calculatedTimePerPixelLabel.Text = "Time per Pixel: " & timePerPixel.TotalMilliseconds.ToString & "ms"
+
+        Dim picturePixelCount = size.Width * size.Height
+
+        Dim overallTime = New TimeSpan(ticks:=CLng(ticksPerPixel * picturePixelCount))
+        calculatedOverallTimeLabel.Text = "Overall time: " & overallTime.ToString
+
+        testedPixelCountLabel.Text = "(Tested pixels: " & testedPixelCount.ToString & ")"
+    End Sub
+
+    Private _calculatedTimeOptionsForm As CalculateTimeOptionsForm = New CalculateTimeOptionsForm
+
+    Private Sub calculateTimeOptions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles calculateTimeOptions.Click
+        _calculatedTimeOptionsForm.ShowDialog()
     End Sub
 End Class
 

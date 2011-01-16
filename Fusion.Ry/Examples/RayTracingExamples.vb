@@ -6,7 +6,7 @@
         Me.PictureSize = pictureSize
     End Sub
 
-    Public Function RoomDrawer(ByVal glassRefractionIndex As Double) As RayTraceDrawer
+    Public Function RoomDrawer(Optional ByVal glassRefractionIndex As Double = 1.4) As RayTraceDrawer
         Dim view = New View3D(cameraLocation:=New Vector3D(5, 5, 25),
                               lookAt:=New Vector3D(5, 5, 0),
                               upVector:=New Vector3D(0, 1, 0),

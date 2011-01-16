@@ -79,6 +79,12 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CalculateTimeOptionsForm.Designer.vb">
+      <DependentUpon>CalculateTimeOptionsForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="CalculateTimeOptionsForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="RyForm.Designer.vb">
       <DependentUpon>RyForm.vb</DependentUpon>
     </Compile>
@@ -102,6 +108,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CalculateTimeOptionsForm.resx">
+      <DependentUpon>CalculateTimeOptionsForm.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RyForm.resx">
       <DependentUpon>RyForm.vb</DependentUpon>
     </EmbeddedResource>

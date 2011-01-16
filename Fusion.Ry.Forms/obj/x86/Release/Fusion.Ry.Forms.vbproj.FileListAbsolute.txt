@@ -58,3 +58,4 @@ B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Release\GenerateResource.write.1.tl
 B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Release\Fusion.Ry.Forms.exe
 B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Release\Fusion.Ry.Forms.xml
 B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Release\Fusion.Ry.Forms.pdb
+B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Release\Fusion.Ry.Forms.CalculateTimeOptionsForm.resources

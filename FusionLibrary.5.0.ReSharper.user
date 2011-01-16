@@ -1,25 +1,69 @@
 <Configuration>
   <RecentFiles>
     <RecentFiles>
-      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:NormalizedMidpointCoordinateSystem.vb" caret="872" fromTop="14" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:MaterialSurface/f:SingleMaterialSurface.vb" caret="830" fromTop="15" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:LensVideo.vb" caret="293" fromTop="10" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:MaterialSurface/f:MaterialSurfaces.vb" caret="1199" fromTop="17" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:RecursiveRayTracer.vb" caret="1624" fromTop="15" />
       <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:MaterialSurface/f:ColorfulSphere.vb" caret="816" fromTop="13" />
       <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:MaterialSurface/f:Material2D.vb" caret="3716" fromTop="11" />
       <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:MaterialSurface/f:Materials2D.vb" caret="1643" fromTop="15" />
       <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:MaterialSurface/f:MaterialSurfacePoint.vb" caret="37" fromTop="0" />
       <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:ScatteringRayTracer.vb" caret="898" fromTop="18" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:RayTracingExamples.vb" caret="18382" fromTop="3" />
       <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:ExactColor.vb" caret="0" fromTop="0" />
       <File id="1D984EE3-7691-43F0-B674-B911B0533283/f:View3DTests.vb" caret="560" fromTop="11" />
       <File id="DEEF32D9-F26B-47CD-95C2-AEB774221DBF/d:Visualizers/d:Field2DDrawers/f:Field2DFieldlineDrawer.vb" caret="2719" fromTop="10" />
-      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="869" fromTop="17" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surface/f:ISurface.vb" caret="327" fromTop="10" />
-      <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/f:PerformanceTests.vb" caret="380" fromTop="13" />
+      <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/f:PerformanceTests.vb" caret="190" fromTop="4" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surface/f:Plane.vb" caret="196" fromTop="5" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:PointSets3D/f:InversePointSet3D.vb" caret="196" fromTop="6" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:PointSets3D/f:LinkedPointSets3D.vb" caret="484" fromTop="11" />
+      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:SurfaceTests/f:InfiniteCylinderTests.vb" caret="38" fromTop="1" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surface/f:Cylinder.vb" caret="1503" fromTop="11" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:EnumerableExtensions/f:LinqExtensions.vb" caret="525" fromTop="15" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surface/f:Surfaces.vb" caret="516" fromTop="9" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector2D.vb" caret="35" fromTop="0" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surface/f:SurfacePoint.vb" caret="355" fromTop="7" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surface/f:ISurface.vb" caret="257" fromTop="7" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surface/f:TruncatedSurface.vb" caret="77" fromTop="2" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector3D.vb" caret="5406" fromTop="11" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surface/f:InfiniteAntiCylinder.vb" caret="1249" fromTop="7" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surface/f:InfiniteCylinder.vb" caret="2522" fromTop="14" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surface/f:AntiCylinder.vb" caret="1631" fromTop="11" />
+      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:SurfaceTests/f:AntiCylinderTests.vb" caret="1011" fromTop="7" />
+      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:SurfaceTests/f:CylinderTests.vb" caret="1110" fromTop="14" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:RayTracingExamples.vb" caret="12073" fromTop="5" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.Designer.vb" caret="0" fromTop="0" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:RayTraceDrawer.vb" caret="1855" fromTop="7" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="4459" fromTop="3" />
     </RecentFiles>
-    <RecentEdits />
+    <RecentEdits>
+      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:SurfaceTests/f:AntiCylinderTests.vb" caret="1261" fromTop="18" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surface/f:AntiCylinder.vb" caret="1908" fromTop="13" />
+      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:SurfaceTests/f:CylinderTests.vb" caret="1060" fromTop="13" />
+      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:SurfaceTests/f:CylinderTests.vb" caret="1072" fromTop="13" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:RayTracingExamples.vb" caret="18809" fromTop="7" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="874" fromTop="13" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="5155" fromTop="13" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="3971" fromTop="19" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="1522" fromTop="20" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="1511" fromTop="13" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="3600" fromTop="15" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="1511" fromTop="0" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="1366" fromTop="0" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="249" fromTop="0" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="147" fromTop="3" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="1163" fromTop="15" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="961" fromTop="15" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="874" fromTop="18" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="528" fromTop="14" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="915" fromTop="3" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="1109" fromTop="9" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="423" fromTop="10" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="4286" fromTop="6" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="4537" fromTop="15" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="5153" fromTop="19" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="5104" fromTop="19" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="1935" fromTop="18" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="663" fromTop="13" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="4938" fromTop="19" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="4459" fromTop="3" />
+    </RecentEdits>
   </RecentFiles>
   <NAntValidationSettings>
     <NAntPath value="" />
