@@ -6,7 +6,7 @@
         Me.PictureSize = pictureSize
     End Sub
 
-    Public Function RoomDrawer(Optional ByVal glassRefractionIndex As Double = 1.4) As RayTraceDrawer
+    Public Function FirstRoom(Optional ByVal glassRefractionIndex As Double = 1.4) As RayTraceDrawer
         Dim view = New View3D(cameraLocation:=New Vector3D(5, 5, 25),
                               lookAt:=New Vector3D(5, 5, 0),
                               upVector:=New Vector3D(0, 1, 0),
@@ -52,9 +52,9 @@
         glassInside.RefractionIndexRatio = glassRefractionIndex
         glassInside.ReflectionRemission = New BlackColorRemission
 
-        Dim cylinder = New InfiniteCylinder(New Vector3D(8, 0, 8), New Vector3D(0, 1, 0), 1)
-        Dim glassCylinder = New SingleMaterialSurface(Of Material2D)(cylinder, glass)
-        Dim antiGlassCylinder = New SingleMaterialSurface(Of Material2D)(New InfiniteAntiCylinder(cylinder), glassInside)
+        'Dim cylinder = New InfiniteCylinder(New Vector3D(8, 0, 8), New Vector3D(0, 1, 0), 1)
+        'Dim glassCylinder = New SingleMaterialSurface(Of Material2D)(cylinder, glass)
+        'Dim antiGlassCylinder = New SingleMaterialSurface(Of Material2D)(New InfiniteAntiCylinder(cylinder), glassInside)
 
         Dim refractingSphereRadius = 1.8
         Dim refractionSphereCenter = New Vector3D(8, refractingSphereRadius, 13)
@@ -71,11 +71,10 @@
 
 
         Dim allSurfaces = New MaterialSurfaces(Of Material2D) From {ground, ceiling, rightWall, leftWall, frontWall, backWall, lampSurface,
-                                                     reflectingSphere, refractingSphere, innerRefractingSphere, glassCylinder, antiGlassCylinder}
+                                                     reflectingSphere, refractingSphere, innerRefractingSphere} ', glassCylinder, antiGlassCylinder}
 
-        Dim rayTracer = New RecursiveRayTracer(surface:=allSurfaces,
-                            lightSource:=New LightSources,
-                            shadedPointLightSources:=New List(Of IPointLightSource) From {lamp})
+        'Dim rayTracer = New RecursiveRayTracer(surface:=allSurfaces, lightSource:=New LightSources, shadedPointLightSources:=New List(Of IPointLightSource) From {lamp})
+        Dim rayTracer = New ScatteringRayTracer(surface:=allSurfaces, rayCount:=1, maxIntersectionCount:=7)
 
         Return New RayTraceDrawer(rayTracer, Me.PictureSize, view)
     End Function
@@ -166,7 +165,7 @@
                                                                                           transparencyRemission:=New BlackColorRemission))
     End Function
 
-    Public Function IluminationRoom() As RayTraceDrawer
+    Public Function SecondRoom() As RayTraceDrawer
         Dim view = New View3D(cameraLocation:=New Vector3D(15, 6, 29),
                               lookAt:=New Vector3D(3, 3, 0),
                               upVector:=New Vector3D(0, 1, 0),
@@ -218,10 +217,6 @@
                                         material1:=blueGroundMaterial,
                                         material2:=whiteGroundMaterial)
 
-        Dim lightRectangle = New Fusion.Math.Rectangle(vertex1:=New Vector3D(10, 9.5, 10), vertex2:=New Vector3D(5, 9.5, 10),
-                                                       vertex3:=New Vector3D(5, 9.5, 5))
-        Dim light = New SingleMaterialSurface(Of Material2D)(lightRectangle, lightMaterial)
-
         Dim redWallPlane = New Fusion.Math.Rectangle(frontLeftDown, frontLeftUp, backLeftUp)
         Dim redWall = New SingleMaterialSurface(Of Material2D)(redWallPlane, redMaterial)
 
@@ -264,7 +259,7 @@
         Dim glassAntiSphereSurface = New AntiSphere(glassSphereSurface)
         Dim glassAntiSphere = New SingleMaterialSurface(Of Material2D)(glassAntiSphereSurface, innerGlass)
 
-        Dim glassCylinder = New Cylinder(startCenter:=glassLocation, endCenter:=glassLocation + New Vector3D(0, glassCylinderHeight, 0), radius:=0.1)
+        Dim glassCylinder = New Cylinder(startCenter:=glassLocation, endCenter:=glassLocation + New Vector3D(0, glassCylinderHeight, 0), radius:=0.15)
         Dim glassAntiCylinder = New AntiCylinder(glassCylinder)
         Dim glassCylinderSurface = New SingleMaterialSurface(Of Material2D)(glassCylinder, glass)
         Dim glassAntiCylinderSurface = New SingleMaterialSurface(Of Material2D)(glassAntiCylinder, innerGlass)
@@ -274,15 +269,40 @@
         Dim frontCylinder = New InfiniteCylinder(New Vector3D(0, frontCylinderHeight + frontCylinderRadius, 0), New Vector3D(1, 0, 0), radius:=frontCylinderRadius)
         Dim frontCylinderSurface = New SingleMaterialSurface(Of Material2D)(frontCylinder, material:=whiteMaterial)
 
+        Dim lampHeight = New Vector3D(0, 9.5, 0)
+        Dim lampWidth = New Vector3D(2.5, 0, 0)
+        Dim lampDepth = New Vector3D(0, 0, 2.5)
+        Dim lampThickness = heightVector - lampHeight
+
+        Dim lampFrontLeft = frontLeftDown + New Vector3D(4, 0, 4) + lampHeight
+        Dim lampBackRight = lampFrontLeft + lampWidth + lampDepth
+        Dim lampFrontRight = lampFrontLeft + lampWidth
+        Dim lampBackLeft = lampFrontLeft + lampDepth
+        Dim lampRectangle = New Fusion.Math.Rectangle(vertex1:=lampFrontLeft, vertex2:=lampFrontRight,
+                                                      vertex3:=lampBackRight)
+        Dim lampFront = New Fusion.Math.Rectangle(vertex1:=lampFrontRight, vertex2:=lampFrontLeft,
+                                                      vertex3:=lampFrontLeft + lampThickness)
+        Dim lampBack = New Fusion.Math.Rectangle(vertex1:=lampBackLeft, vertex2:=lampBackRight,
+                                                      vertex3:=lampBackRight + lampThickness)
+        Dim lampRight = New Fusion.Math.Rectangle(vertex1:=lampBackRight, vertex2:=lampFrontRight,
+                                                      vertex3:=lampFrontRight + lampThickness)
+        Dim lampLeft = New Fusion.Math.Rectangle(vertex1:=lampFrontLeft, vertex2:=lampBackLeft,
+                                              vertex3:=lampBackLeft + lampThickness)
+
+        Dim light = New SingleMaterialSurface(Of Material2D)(lampRectangle, lightMaterial)
+        Dim lampSide = New SingleMaterialSurface(Of Material2D)(New Surfaces From {lampFront, lampBack,
+                                                                                   lampRight, lampLeft},
+                                                                whiteMaterial)
         Dim surfaces = New MaterialSurfaces(Of Material2D) From {ground, redWall, frontWall, greenWall, backWall, ceiling,
                                                                  light, scatteringSphere,
                                                                  glassSphere, glassAntiSphere,
                                                                  metalSphere,
                                                                  glassCylinderSurface, glassAntiCylinderSurface,
-                                                                 frontCylinderSurface}
-        Dim rayTracer = New RecursiveRayTracer(surface:=surfaces, lightSource:=New LightSources, shadedPointLightSources:=shadedLightSources, maxIntersectionCount:=10)
+                                                                 frontCylinderSurface,
+                                                                 lampSide}
+        'Dim rayTracer = New RecursiveRayTracer(surface:=surfaces, lightSource:=New LightSources, shadedPointLightSources:=shadedLightSources, maxIntersectionCount:=10)
 
-        'Dim rayTracer = New ScatteringRayTracer(surface:=surfaces, rayCount:=1, maxIntersectionCount:=10)
+        Dim rayTracer = New ScatteringRayTracer(surface:=surfaces, rayCount:=200, maxIntersectionCount:=10)
 
         Return New RayTraceDrawer(rayTracer:=rayTracer, Size:=PictureSize, view:=view)
     End Function

@@ -8,6 +8,11 @@
     Private _customPictureSizeOk As Boolean = False
     Private _customPictureSize As Size
 
+    Public Sub New()
+        Me.InitializeComponent()
+        screenSizeRadioButton.Text = "Screen " & New Vector2D(My.Computer.Screen.Bounds.Size).ToString
+    End Sub
+
     Private Sub startButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles startButton.Click
         If Not Me.TrySetRayTracerDrawer Then Return
 
@@ -29,7 +34,7 @@
         Dim pictureSize As Size
         If Not Me.GetPictureSize(out_size:=pictureSize) Then Return False
 
-        _rayTraceDrawer = New RayTracingExamples(pictureSize).SquaredSurfaceDrawer
+        _rayTraceDrawer = New RayTracingExamples(pictureSize).SecondRoom
         Return True
     End Function
 
@@ -39,8 +44,10 @@
             If Not _customPictureSizeOk Then Return False
 
             out_size = _customPictureSize
-        Else
+        ElseIf windowSizeRadioButton.Checked Then
             out_size = pictureBox.Size
+        Else
+            out_size = My.Computer.Screen.Bounds.Size
         End If
 
         Return True
@@ -93,7 +100,7 @@
 
     Private Sub VideoButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles VideoButton.Click
         Dim videoTracer As New LensVideo(New Size(500, 500))
-        videoTracer.CreateVideo("B:\tmp\vid", 0, 3, 0.05)
+        videoTracer.CreateVideo("B:\tmp\vid", timeIntervalStart:=1.1, timeIntervalEnd:=1.4, timeStep:=0.01)
     End Sub
 
     Private Sub calculateTimeButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles calculateTimeButton.Click
@@ -149,6 +156,10 @@
 
     Private Sub calculateTimeOptions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles calculateTimeOptions.Click
         _calculatedTimeOptionsForm.ShowDialog()
+    End Sub
+
+    Private Sub pictureBox_Resize(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pictureBox.Resize
+        windowSizeRadioButton.Text = "Window " & New Vector2D(pictureBox.Size).ToString
     End Sub
 End Class
 

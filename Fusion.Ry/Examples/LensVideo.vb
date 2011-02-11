@@ -99,7 +99,7 @@
 
 
     Public Function GetRayTracerDrawer(ByVal pointOfTime As Double) As RayTraceDrawer Implements IRayTraceVideo.GetRayTracerDrawer
-        Return RoomDrawer(glassRefractionIndex:=pointOfTime)
+        Return New RayTracingExamples(Me.VideoSize).FirstRoom(glassRefractionIndex:=pointOfTime)
     End Function
 
     Public Sub CreateVideo(ByVal directoryPath As String, ByVal timeIntervalStart As Double, ByVal timeIntervalEnd As Double, ByVal timeStep As Double)

@@ -89,14 +89,14 @@
     <Compile Include="Light\ShadedLightSources.vb" />
     <Compile Include="Light\UndirectionalLightSource.vb" />
     <Compile Include="Light\FullColorRemission.vb" />
-    <Compile Include="MaterialSurface\Materials2D.vb" />
-    <Compile Include="MaterialSurface\SquaredMaterialSurface.vb" />
-    <Compile Include="MaterialSurface\ColorfulSphere.vb" />
-    <Compile Include="MaterialSurface\IMaterialSurface.vb" />
-    <Compile Include="MaterialSurface\Material2D.vb" />
-    <Compile Include="MaterialSurface\MaterialSurfacePoint.vb" />
-    <Compile Include="MaterialSurface\MaterialSurfaces.vb" />
-    <Compile Include="MaterialSurface\SingleMaterialSurface.vb" />
+    <Compile Include="MaterialSurfaces\Materials2D.vb" />
+    <Compile Include="MaterialSurfaces\SquaredMaterialSurface.vb" />
+    <Compile Include="MaterialSurfaces\ColorfulSphere.vb" />
+    <Compile Include="MaterialSurfaces\IMaterialSurface.vb" />
+    <Compile Include="MaterialSurfaces\Material2D.vb" />
+    <Compile Include="MaterialSurfaces\MaterialSurfacePoint.vb" />
+    <Compile Include="MaterialSurfaces\MaterialSurfaces.vb" />
+    <Compile Include="MaterialSurfaces\SingleMaterialSurface.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
