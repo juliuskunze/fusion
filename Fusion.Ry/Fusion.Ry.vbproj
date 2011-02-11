@@ -115,6 +115,8 @@
     <Compile Include="RayChanger.vb" />
     <Compile Include="RayTraceDrawer.vb" />
     <Compile Include="RayTraceVideo.vb" />
+    <Compile Include="Relativity\RelativisticRecursiveRayTracer.vb" />
+    <Compile Include="Relativity\RelativisticRayTransformation.vb" />
     <Compile Include="ScatteringRayTracer.vb" />
     <Compile Include="RecursiveRayTracer.vb" />
   </ItemGroup>

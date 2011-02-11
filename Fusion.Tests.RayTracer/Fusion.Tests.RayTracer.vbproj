@@ -95,6 +95,7 @@
     <Compile Include="RayChangerTests.vb" />
     <Compile Include="RayTracerTests.vb" />
     <Compile Include="NormalizedMidpointCoordinateSystemTests.vb" />
+    <Compile Include="RelativityTests\RelativisticRayTransformationTests.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

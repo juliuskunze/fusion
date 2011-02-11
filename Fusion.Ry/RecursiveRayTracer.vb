@@ -29,37 +29,37 @@
 
     Private _shadedLightSources As ShadedLightSources
 
-    Private Function TraceColor(ByVal ray As Ray, ByVal intersectionCount As Integer) As ExactColor
+    Protected Function TraceColor(ByVal ray As Ray, ByVal intersectionCount As Integer) As ExactColor
         Dim firstIntersection = Me.Surface.FirstMaterialIntersection(ray)
 
         If firstIntersection Is Nothing Then Return Me.BackColor
 
-        Dim materialColor = firstIntersection.Material.LightSourceColor
+        Dim hitMaterial = firstIntersection.Material
 
-        Dim finalColor = materialColor
-        If firstIntersection.Material.Scatters Then
+        Dim finalColor = hitMaterial.LightSourceColor
+        If hitMaterial.Scatters Then
             Dim lightColor = Me.LightSource.LightColor(firstIntersection) + _shadedLightSources.LightColor(firstIntersection)
-            finalColor += firstIntersection.Material.ScatteringRemission.Color(lightColor)
+            finalColor += hitMaterial.ScatteringRemission.Color(lightColor)
         End If
 
         If intersectionCount >= Me.MaxIntersectionCount Then
             Return finalColor
         Else
             Dim rayChanger = New RayChanger(ray)
-            If firstIntersection.Material.Reflects Then
+            If hitMaterial.Reflects Then
                 Dim reflectedRay = rayChanger.ReflectedRay(firstIntersection)
-                Dim reflectionColor = TraceColor(ray:=reflectedRay, intersectionCount:=intersectionCount + 1)
-                finalColor += firstIntersection.Material.ReflectionRemission.Color(reflectionColor)
+                Dim reflectionColor = Me.TraceColor(ray:=reflectedRay, intersectionCount:=intersectionCount + 1)
+                finalColor += hitMaterial.ReflectionRemission.Color(reflectionColor)
             End If
-            If firstIntersection.Material.IsTranslucent Then
+            If hitMaterial.IsTranslucent Then
                 Dim passedRay As Ray
-                If firstIntersection.Material.Refracts Then
+                If hitMaterial.Refracts Then
                     passedRay = rayChanger.RefractedRay(firstIntersection)
                 Else
                     passedRay = rayChanger.PassedRay(firstIntersection)
                 End If
-                Dim passedColor = TraceColor(ray:=passedRay, intersectionCount:=intersectionCount + 1)
-                finalColor += firstIntersection.Material.TransparencyRemission.Color(passedColor)
+                Dim passedColor = Me.TraceColor(ray:=passedRay, intersectionCount:=intersectionCount + 1)
+                finalColor += hitMaterial.TransparencyRemission.Color(passedColor)
             End If
             Return finalColor
         End If
@@ -68,7 +68,7 @@
     Public Property BackColor As ExactColor = ExactColor.Black
     Public Property MaxIntersectionCount As Integer
 
-    Public Function GetColor(ByVal startRay As Ray) As ExactColor Implements IRayTracer.GetColor
+    Public Overridable Function GetColor(ByVal startRay As Ray) As ExactColor Implements IRayTracer.GetColor
         Return Me.TraceColor(startRay, intersectionCount:=0)
     End Function
 

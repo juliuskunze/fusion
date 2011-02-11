@@ -6,7 +6,27 @@ Fusion.Ry
 </name>
 </assembly>
 <members>
-<member name="P:Fusion.Ry.My.Resources.Resources.ResourceManager">
+<member name="T:Fusion.Ry.RelativisticRecursiveRayTracer">
+	<summary>
+ A ray tracer that provides the geometry effects of a camera 
+ that moves with a velocity (in x-direction) very close to the light velocity.
+ </summary>
+	<remarks></remarks>
+</member><member name="M:Fusion.Ry.RelativisticRayTransformation.TransformedRay(Fusion.Math.Ray)">
+	<summary>
+ The ray in the moved reference frame.
+ </summary>
+	<param name="ray">The ray in the stationary refernece frame.</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="T:Fusion.Ry.RelativisticRayTransformation">
+	<summary>
+ Transforms a ray of a (stationary) reference frame into one which relativly moves
+ with a constant velocity in x-direction.
+ </summary>
+ The origins of the reference frames are equal, their times are equal.
+ <remarks></remarks>
+</member><member name="P:Fusion.Ry.My.Resources.Resources.ResourceManager">
 	<summary>
   Returns the cached ResourceManager instance used by this class.
 </summary>

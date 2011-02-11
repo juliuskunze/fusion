@@ -92,8 +92,6 @@
     <Compile Include="Graph.vb" />
     <Compile Include="IEdge.vb" />
     <Compile Include="IMap2D.vb" />
-    <Compile Include="RayTransformation\RelativisticRayTransformation.vb" />
-    <Compile Include="RayTransformation\IRayTransformation.vb" />
     <Compile Include="LinearMap.vb" />
     <Compile Include="EnumerableExtensions\ConcatenatedSortedEnumerator.vb" />
     <Compile Include="EnumerableExtensions\LinqExtensions.vb" />
