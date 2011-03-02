@@ -41,7 +41,7 @@
                         Dim screenLocation = Me.Visualizer.Map.Apply(simulationLocation)
 
                         Dim velocity = Me.FlowPanel.Array(columnIndex, rowIndex).Velocity
-                        Dim color = ColorFromHsv(hue:=velocity.Argument, saturation:=1, value:=Min(velocity.Length / Me.MaxVelocityLength, 1))
+                        Dim color = New HsvColor(hue:=velocity.Argument, saturation:=1, value:=Min(velocity.Length / Me.MaxVelocityLength, 1)).ToRgbColor
 
                         Select Case Me.VelocityDisplayMode
                             Case VelocityDisplayModes.Arrows
@@ -61,7 +61,7 @@
                     If Me.ShowDensity Then
                         Dim maxDensity = 1.5
                         Dim density = Me.FlowPanel.Array(columnIndex, rowIndex).Density
-                        Dim color = ColorFromHsv(hue:=0, saturation:=0, value:=Max(0, Min(1, density / maxDensity)))
+                        Dim color = New HsvColor(hue:=0, saturation:=0, value:=Max(0, Min(1, density / maxDensity))).ToRgbColor
                         Me.Visualizer.DrawingGraphics.FillRectangle(New SolidBrush(color), rectangle)
                     End If
                 End If

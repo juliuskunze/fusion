@@ -6,21 +6,7 @@ Fusion.Math
 </name>
 </assembly>
 <members>
-<member name="M:Fusion.Math.IRayTransformation.TransformedRay(Fusion.Math.Ray)">
-	<summary>
- The ray in the moved reference frame.
- </summary>
-	<param name="ray"></param>
-	<returns></returns>
-	<remarks></remarks>
-</member><member name="T:Fusion.Math.IRayTransformation">
-	<summary>
- Transforms a ray of one reference frame into one which relativly moves
- with a constant velocity in x-direction to the first.
- </summary>
- Whem the origins of the reference frames are equal, their times are equal.
- <remarks></remarks>
-</member><member name="T:Fusion.Math.ISurface">
+<member name="T:Fusion.Math.ISurface">
 	<summary>
  Implemented by surfaces, where all intersections are known for each ray. 
  </summary>

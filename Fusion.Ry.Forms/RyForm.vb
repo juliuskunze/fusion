@@ -34,7 +34,7 @@
         Dim pictureSize As Size
         If Not Me.GetPictureSize(out_size:=pictureSize) Then Return False
 
-        _rayTraceDrawer = New RayTracingExamples(pictureSize).SecondRoom
+        _rayTraceDrawer = New RayTracingExamples(pictureSize).SecondRoom(cameraZLocation:=29)
         Return True
     End Function
 
@@ -99,8 +99,14 @@
     End Sub
 
     Private Sub VideoButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles VideoButton.Click
-        Dim videoTracer As New LensVideo(New Size(500, 500))
-        videoTracer.CreateVideo("B:\tmp\vid", timeIntervalStart:=1.1, timeIntervalEnd:=1.4, timeStep:=0.01)
+        Dim viewCourse = New LinearViewCourse(velocity:=New Vector3D(0, 0, -1),
+                                             startLocation:=New Vector3D(7.5, 6, 30),
+                                             visibleXAngle:=PI * 0.26)
+
+        Dim videoTracer As New ViewCourseVideo(videoSize:=New Size(500, 500),
+                                               rayTracer:=New RayTracingExamples(Nothing).SecondRoomRayTracer,
+                                               cameraViewCourse:=viewCourse)
+        videoTracer.CreateVideo("B:\tmp\vid", timeIntervalStart:=0, timeIntervalEnd:=30, timeStep:=1)
     End Sub
 
     Private Sub calculateTimeButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles calculateTimeButton.Click

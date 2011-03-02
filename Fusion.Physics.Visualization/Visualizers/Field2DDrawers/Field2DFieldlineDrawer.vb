@@ -80,16 +80,14 @@
             End If
 
             If fieldLineCaught Then
-                Dim radiusVector = currentFieldlineLocation - nearestNegativeParticle.Location
-                radiusVector.Length = radiusOfNearestParticle
+                Dim radiusVector = (currentFieldlineLocation - nearestNegativeParticle.Location).ScaledToLength(radiusOfNearestParticle)
 
                 nextFieldlineLocation = nearestNegativeParticle.Location + radiusVector
             Else
                 Dim fieldStrength As Vector2D = Field.Field(currentFieldlineLocation)
                 fieldStrengthSum += fieldStrength.Length
 
-                Dim stepVector = fieldStrength
-                stepVector.Length = _FieldlineStepLength
+                Dim stepVector = fieldStrength.ScaledToLength(_FieldlineStepLength)
 
                 nextFieldlineLocation = currentFieldlineLocation + stepVector
             End If

@@ -111,7 +111,7 @@
     <Compile Include="TestMatrix.vb" />
     <Compile Include="TestSquareMatrix.vb" />
     <Compile Include="TestTermParser.vb" />
-    <Compile Include="TestVector2D.vb" />
+    <Compile Include="Vector2DTests.vb" />
     <Compile Include="Vector3DTests.vb" />
   </ItemGroup>
   <ItemGroup>

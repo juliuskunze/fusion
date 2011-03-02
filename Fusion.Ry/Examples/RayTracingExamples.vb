@@ -165,15 +165,22 @@
                                                                                           transparencyRemission:=New BlackColorRemission))
     End Function
 
-    Public Function SecondRoom() As RayTraceDrawer
+    Public Function SecondRoom(ByVal cameraZLocation As Double) As RayTraceDrawer
         'Dim view = New View3D(cameraLocation:=New Vector3D(15, 6, 29),
         '                      lookAt:=New Vector3D(3, 3, 0),
         '                      upVector:=New Vector3D(0, 1, 0),
         '                      xAngleFromMinus1To1:=PI * 0.26)
-        Dim view = New View3D(cameraLocation:=New Vector3D(7.5, 6, 29),
+        Dim view = New View3D(cameraLocation:=New Vector3D(7.5, 6, cameraZLocation),
                               lookAt:=New Vector3D(7.5, 3, 0),
                               upVector:=New Vector3D(0, 1, 0),
                               xAngleFromMinus1To1:=PI * 0.26)
+        Dim rayTracer As RelativisticRecursiveRayTracer = SecondRoomRayTracer()
+        'Dim rayTracer = New ScatteringRayTracer(surface:=surfaces, rayCount:=200, maxIntersectionCount:=10)
+
+        Return New RayTraceDrawer(rayTracer:=rayTracer, Size:=PictureSize, view:=view)
+    End Function
+
+    Public Function SecondRoomRayTracer() As RelativisticRecursiveRayTracer
         Dim origin = Vector3D.Zero
         Dim frontLeftDown = New Vector3D(0, 0, 6)
         Dim backLeftDown = New Vector3D(0, 0, 16)
@@ -237,7 +244,7 @@
         Dim backWallPlane = New Fusion.Math.Rectangle(backRightDown, backLeftDown, backLeftUp)
         Dim backWall = New SingleMaterialSurface(Of Material2D)(backWallPlane, whiteMaterial)
 
-        Dim pointLightSource = New LinearPointLightSource(Location:=New Vector3D(6, 9.5, 10), colorAtDistance1:=ExactColor.White * 5)
+        Dim pointLightSource = New LinearPointLightSource(location:=New Vector3D(6, 9.5, 10), colorAtDistance1:=ExactColor.White * 5)
         Dim shadedLightSources = New List(Of IPointLightSource) From {pointLightSource}
 
         Dim ceilingPlane = New Fusion.Math.Rectangle(backLeftUp, originUp, frontRightUp)
@@ -304,11 +311,6 @@
                                                                  glassCylinderSurface, glassAntiCylinderSurface,
                                                                  frontCylinderSurface,
                                                                  lampSide}
-        Dim rayTracer = New RelativisticRecursiveRayTracer(surface:=surfaces, xCameraVelocityInC:=-0.95, lightSource:=New LightSources, shadedPointLightSources:=shadedLightSources, maxIntersectionCount:=10)
-
-        'Dim rayTracer = New ScatteringRayTracer(surface:=surfaces, rayCount:=200, maxIntersectionCount:=10)
-
-        Return New RayTraceDrawer(rayTracer:=rayTracer, Size:=PictureSize, view:=view)
+        Return New RelativisticRecursiveRayTracer(surface:=surfaces, xCameraVelocityInC:=-0.95, lightSource:=New LightSources, shadedPointLightSources:=shadedLightSources, maxIntersectionCount:=10)
     End Function
-
 End Class

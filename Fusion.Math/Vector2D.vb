@@ -1,28 +1,31 @@
 ﻿<Serializable()>
 Public Structure Vector2D
 
-    Private _x, _y As Double
+    Private ReadOnly _x, _y As Double
 
     Public Sub New(ByVal x As Double, ByVal y As Double)
-        SetFromXY(x, y)
+        _x = x
+        _y = y
     End Sub
 
     Public Sub New(ByVal m As Matrix)
         If m.Width = 1 AndAlso m.Height = 2 Then
-            Me.SetFromXY(m(0, 0), m(1, 0))
+            _x = m(0, 0)
+            _y = m(1, 0)
         ElseIf m.Width = 2 AndAlso m.Height = 1 Then
-            Me.SetFromXY(m(0, 0), m(0, 1))
+            _x = m(0, 0)
+            _y = m(0, 1)
         Else
             Throw New ArgumentException("Matrix has to be a 2D-Vector.")
         End If
     End Sub
 
     Public Sub New(ByVal p As PointF)
-        SetFromXY(p.X, p.Y)
+        Me.New(p.X, p.Y)
     End Sub
 
     Public Sub New(ByVal s As SizeF)
-        SetFromXY(s.Width, s.Height)
+        Me.New(s.Width, s.Height)
     End Sub
 
     Public Sub New(ByVal vectorString As String)
@@ -34,7 +37,7 @@ Public Structure Vector2D
 
         Dim splitStrings = vectorString.Split(New Char() {";"c, "|"c})
 
-        If splitStrings.Length <> 2 Then
+        If splitStrings.Count <> 2 Then
             Throw New ArgumentException("String can't be converted into a vector.")
         End If
 
@@ -47,19 +50,9 @@ Public Structure Vector2D
 
     End Sub
 
-    Private Sub SetFromXY(ByVal x As Double, ByVal y As Double)
-        _x = x
-        _y = y
-    End Sub
-
-    Private Sub SetFromVector(ByVal v As Vector2D)
-        SetFromXY(v._x, v._y)
-    End Sub
-
     Public Shared Function FromLengthAndArgument(ByVal length As Double, ByVal argument As Double) As Vector2D
         Return New Vector2D(length * Cos(argument), length * Sin(argument))
     End Function
-
 
     Public Shared ReadOnly Property Zero() As Vector2D
         Get
@@ -68,56 +61,48 @@ Public Structure Vector2D
     End Property
 
 
-    Public Property X() As Double
+    Public ReadOnly Property X As Double
         Get
             Return _x
         End Get
-        Set(ByVal value As Double)
-            _x = value
-        End Set
     End Property
 
-    Public Property Y() As Double
+    Public ReadOnly Property Y As Double
         Get
             Return _y
         End Get
-        Set(ByVal value As Double)
-            _y = value
-        End Set
     End Property
 
-    Public Property Length() As Double
+    Public ReadOnly Property Length As Double
         Get
             Return Sqrt(Me.LengthSquared)
         End Get
-        Set(ByVal value As Double)
-            If Me.Length = 0 Then
-                Me.X = value
-            Else
-                Dim factor = value / Me.Length
-                SetFromVector(factor * Me)
-            End If
-        End Set
     End Property
 
-    Public Property LengthSquared() As Double
+    Public ReadOnly Property LengthSquared As Double
         Get
             Return X * X + Y * Y
         End Get
-        Set(ByVal value As Double)
-            Me.Length = Sqrt(value)
-        End Set
     End Property
 
-    Public Property Argument() As Double
+    Public Function ScaledToLength(ByVal newLength As Double) As Vector2D
+        If Me.Length = 0 Then
+            Return New Vector2D(newLength, 0)
+        Else
+            Dim factor = newLength / Me.Length
+            Return factor * Me
+        End If
+    End Function
+
+    Public ReadOnly Property Argument() As Double
         Get
             Return Atan2(Me.Y, Me.X)
         End Get
-        Set(ByVal value As Double)
-            SetFromVector(FromLengthAndArgument(Me.Length, value))
-        End Set
     End Property
 
+    Public Function RotateToArgument(ByVal newArgument As Double) As Vector2D
+        Return Vector2D.FromLengthAndArgument(Me.Length, newArgument)
+    End Function
 
     Public Shadows Function Equals(ByVal other As Vector2D) As Boolean
         Return Me.X = other.X AndAlso Me.Y = other.Y

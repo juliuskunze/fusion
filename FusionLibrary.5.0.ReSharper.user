@@ -1,68 +1,68 @@
 <Configuration>
   <RecentFiles>
     <RecentFiles>
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:PointSets3D/f:LinkedPointSets3D.vb" caret="484" fromTop="11" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:SurfaceTests/f:InfiniteCylinderTests.vb" caret="38" fromTop="1" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surfaces/f:Cylinder.vb" caret="1503" fromTop="11" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surfaces/f:Surfaces.vb" caret="516" fromTop="9" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surfaces/f:SurfacePoint.vb" caret="355" fromTop="7" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surfaces/f:ISurface.vb" caret="257" fromTop="7" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surfaces/f:TruncatedSurface.vb" caret="77" fromTop="2" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector3D.vb" caret="5406" fromTop="11" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surfaces/f:InfiniteAntiCylinder.vb" caret="1249" fromTop="7" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surfaces/f:InfiniteCylinder.vb" caret="2522" fromTop="14" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surfaces/f:AntiCylinder.vb" caret="1631" fromTop="11" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:SurfaceTests/f:AntiCylinderTests.vb" caret="1011" fromTop="7" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:SurfaceTests/f:CylinderTests.vb" caret="1110" fromTop="14" />
-      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.Designer.vb" caret="0" fromTop="0" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector2D.vb" caret="166" fromTop="6" />
-      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:CalculateTimeOptionsForm.Designer.vb" caret="5023" fromTop="17" />
-      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/d:My Project/f:Application.Designer.vb" caret="1511" fromTop="16" />
       <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:CalculateTimeOptionsForm.vb" caret="1598" fromTop="16" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:ScatteringRayTracer.vb" caret="2744" fromTop="14" />
       <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:RayTraceDrawer.vb" caret="46" fromTop="0" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:RecursiveRayTracer.vb" caret="3204" fromTop="68" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:LensVideo.vb" caret="7578" fromTop="6" />
-      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="1328" fromTop="11" />
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:EnumerableExtensions/f:ConcatenatedSortedEnumerator.vb" caret="258" fromTop="5" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:RayTracingExamples.vb" caret="21431" fromTop="0" />
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:EnumerableExtensions/f:LinqExtensions.vb" caret="0" fromTop="0" />
       <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/f:PerformanceTests.vb" caret="303" fromTop="11" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:RayTransformationTests/f:GalileanRayTransformationTests.vb" caret="495" fromTop="11" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:RayTransformation/f:IRayTransformation.vb" caret="595" fromTop="11" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:RayTransformation/f:GalileanRayTransformation.vb" caret="448" fromTop="12" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:ScatteringRayTracer.vb" caret="0" fromTop="0" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:AffineMap.vb" caret="0" fromTop="0" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:IRayTracer.vb" caret="0" fromTop="0" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:MaterialSurfaces/f:Material2D.vb" caret="3026" fromTop="7" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:RecursiveRayTracer.vb" caret="261" fromTop="6" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Relativity/f:RelativisticRecursiveRayTracer.vb" caret="484" fromTop="4" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Video/f:IRayTraceVideo.vb" caret="115" fromTop="2" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Video/f:IViewCourse.vb" caret="110" fromTop="4" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:LensVideo.vb" caret="1151" fromTop="12" />
+      <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/d:RelativityTests/f:RelativisticRayTransformationTests.vb" caret="486" fromTop="9" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Video/f:ViewCourseVideo.vb" caret="1463" fromTop="14" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:RayTracingExamples.vb" caret="12462" fromTop="8" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Video/f:LinearViewCourse.vb" caret="242" fromTop="6" />
+      <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/f:RayChangerTests.vb" caret="1837" fromTop="13" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:RayChanger.vb" caret="2915" fromTop="15" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Relativity/f:RelativisticRayTransformation.vb" caret="1525" fromTop="14" />
+      <File id="DEEF32D9-F26B-47CD-95C2-AEB774221DBF/d:Visualizers/d:Field2DDrawers/f:Field2DArrowGridDrawer.vb" caret="1743" fromTop="11" />
+      <File id="1EE4717E-64D6-4CAF-973F-1D45270BFA9A/f:FlowDrawer2D.vb" caret="3970" fromTop="13" />
+      <File id="DEEF32D9-F26B-47CD-95C2-AEB774221DBF/d:Visualizers/d:Field2DDrawers/f:Field2DColorAreaDrawer.vb" caret="1277" fromTop="16" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="195" fromTop="6" />
+      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsvColor.vb" caret="2361" fromTop="18" />
+      <File id="1D984EE3-7691-43F0-B674-B911B0533283/f:HsvColorTests.vb" caret="363" fromTop="11" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Light/f:ColorWavelengthConverter.vb" caret="244" fromTop="2" />
+      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestVector2D.vb" caret="2103" fromTop="14" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector2D.vb" caret="2451" fromTop="22" />
     </RecentFiles>
     <RecentEdits>
-      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="6066" fromTop="11" />
-      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="6792" fromTop="13" />
-      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="6764" fromTop="15" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:RayTracingExamples.vb" caret="15776" fromTop="14" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:LensVideo.vb" caret="7320" fromTop="13" />
-      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="4259" fromTop="14" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:RayTracingExamples.vb" caret="15024" fromTop="17" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:RayTracingExamples.vb" caret="18961" fromTop="20" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:RayTracingExamples.vb" caret="12132" fromTop="7" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:RayTracingExamples.vb" caret="5429" fromTop="18" />
-      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="1333" fromTop="11" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:RayTracingExamples.vb" caret="18917" fromTop="11" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:RayTracingExamples.vb" caret="18575" fromTop="10" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:RayTracingExamples.vb" caret="20045" fromTop="16" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:RayTracingExamples.vb" caret="18960" fromTop="8" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:RayTracingExamples.vb" caret="20054" fromTop="13" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:RayTracingExamples.vb" caret="20360" fromTop="12" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:RayTracingExamples.vb" caret="17925" fromTop="11" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:RayTracingExamples.vb" caret="21284" fromTop="8" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:RayTransformation/f:IRayTransformation.vb" caret="610" fromTop="9" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:RayTransformation/f:IRayTransformation.vb" caret="541" fromTop="7" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:RayTransformation/f:IRayTransformation.vb" caret="424" fromTop="8" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:RayTransformation/f:GalileanRayTransformation.vb" caret="425" fromTop="9" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:RayTransformation/f:GalileanRayTransformation.vb" caret="206" fromTop="6" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:RayTransformation/f:GalileanRayTransformation.vb" caret="241" fromTop="6" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:RayTransformation/f:GalileanRayTransformation.vb" caret="115" fromTop="2" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:RayTransformationTests/f:GalileanRayTransformationTests.vb" caret="110" fromTop="3" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:RayTransformationTests/f:GalileanRayTransformationTests.vb" caret="479" fromTop="9" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:RayTransformation/f:IRayTransformation.vb" caret="595" fromTop="11" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:RayTransformation/f:IRayTransformation.vb" caret="191" fromTop="3" />
+      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsvColor.vb" caret="3305" fromTop="6" />
+      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsvColor.vb" caret="3305" fromTop="11" />
+      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsvColor.vb" caret="3305" fromTop="22" />
+      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsvColor.vb" caret="3305" fromTop="13" />
+      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsvColor.vb" caret="3305" fromTop="6" />
+      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsvColor.vb" caret="3305" fromTop="11" />
+      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsvColor.vb" caret="3305" fromTop="3" />
+      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsvColor.vb" caret="0" fromTop="0" />
+      <File id="DEEF32D9-F26B-47CD-95C2-AEB774221DBF/d:Visualizers/d:Field2DDrawers/f:Field2DArrowGridDrawer.vb" caret="1799" fromTop="11" />
+      <File id="1EE4717E-64D6-4CAF-973F-1D45270BFA9A/f:FlowDrawer2D.vb" caret="2536" fromTop="11" />
+      <File id="1EE4717E-64D6-4CAF-973F-1D45270BFA9A/f:FlowDrawer2D.vb" caret="3842" fromTop="11" />
+      <File id="DEEF32D9-F26B-47CD-95C2-AEB774221DBF/d:Visualizers/d:Field2DDrawers/f:Field2DColorAreaDrawer.vb" caret="1125" fromTop="11" />
+      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsvColor.vb" caret="1017" fromTop="16" />
+      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsvColor.vb" caret="849" fromTop="9" />
+      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsvColor.vb" caret="2973" fromTop="11" />
+      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsvColor.vb" caret="2973" fromTop="17" />
+      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsvColor.vb" caret="2513" fromTop="8" />
+      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsvColor.vb" caret="2923" fromTop="19" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Light/f:ColorWavelengthConverter.vb" caret="414" fromTop="6" />
+      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsvColor.vb" caret="1233" fromTop="11" />
+      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsvColor.vb" caret="3159" fromTop="18" />
+      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsvColor.vb" caret="2349" fromTop="6" />
+      <File id="1D984EE3-7691-43F0-B674-B911B0533283/f:HsvColorTests.vb" caret="875" fromTop="19" />
+      <File id="1D984EE3-7691-43F0-B674-B911B0533283/f:HsvColorTests.vb" caret="347" fromTop="9" />
+      <File id="1D984EE3-7691-43F0-B674-B911B0533283/f:HsvColorTests.vb" caret="1103" fromTop="25" />
+      <File id="1D984EE3-7691-43F0-B674-B911B0533283/f:HsvColorTests.vb" caret="871" fromTop="22" />
+      <File id="1D984EE3-7691-43F0-B674-B911B0533283/f:HsvColorTests.vb" caret="672" fromTop="18" />
+      <File id="1D984EE3-7691-43F0-B674-B911B0533283/f:HsvColorTests.vb" caret="234" fromTop="7" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Light/f:ColorWavelengthConverter.vb" caret="382" fromTop="6" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Light/f:ColorWavelengthConverter.vb" caret="18" fromTop="0" />
     </RecentEdits>
   </RecentFiles>
   <NAntValidationSettings>

@@ -1,4 +1,4 @@
-﻿Public Class TestVector2D
+﻿Public Class Vector2DTests
 
     <Test()> Public Shared Sub NewFromXY()
         Dim v As New Vector2D(1.5, -2)
@@ -18,7 +18,6 @@
         Dim v As New Vector2D(New SizeF(1.5, -2))
         Assert.True(v.X = 1.5 AndAlso v.Y = -2)
     End Sub
-
 
     <Test()> Public Shared Sub OperatorEqual()
         Assert.True((New Vector2D(1, 2) = New Vector2D(1, 2)))
@@ -52,39 +51,20 @@
         Assert.True(v = New Vector2D(2, 0))
     End Sub
 
+    <Test()> Public Shared Sub ScaleToLength()
+        Dim scaled = New Vector2D(0, 2).ScaledToLength(newLength:=3)
 
-    <Test()> Public Shared Sub SetX()
-        Dim v As New Vector2D(0, 2)
-        v.X = 1
-        Assert.True(v = New Vector2D(1, 2))
-    End Sub
-
-    <Test()> Public Shared Sub SetY()
-        Dim v As New Vector2D(0, 2)
-        v.Y = 1
-        Assert.True(v = New Vector2D(0, 1))
-    End Sub
-
-    <Test()> Public Shared Sub SetLength()
-        Dim v As New Vector2D(0, 2)
-        v.Length = 3
-        Assert.True(v = New Vector2D(0, 3))
+        Assert.That(scaled = New Vector2D(0, 3))
     End Sub
 
     <Test()> Public Shared Sub Fit()
-        Dim eMinus5 = 0.00001
-        Dim eMinus6 = 0.000001
-        Dim eMinus7 = 0.0000001
-        Assert.True(Vector2D.Fit(New Vector2D(1, eMinus6), New Vector2D(1, 0), maxRelativeError:=eMinus5))
-        Assert.True(Not Vector2D.Fit(New Vector2D(1, eMinus6), New Vector2D(1, 0), maxRelativeError:=eMinus7))
+        Assert.True(Vector2D.Fit(New Vector2D(1, 10 ^ -6), New Vector2D(1, 0), maxRelativeError:=10 ^ -5))
+        Assert.True(Not Vector2D.Fit(New Vector2D(1, 10 ^ -6), New Vector2D(1, 0), maxRelativeError:=10 ^ -7))
     End Sub
 
     <Test()> Public Shared Sub SetArgument()
-        Dim v As New Vector2D(0, 2)
-        v.Argument = PI
-        Dim resultVector As New Vector2D(-2, 0)
-
-        Assert.True(Vector2D.Fit(v, resultVector))
+        Dim v = New Vector2D(0, 2).RotateToArgument(newArgument:=PI)
+        Assert.True(Vector2D.Fit(v, New Vector2D(-2, 0)))
     End Sub
 
     <Test()> Public Shared Sub ZeroVector()

@@ -20,23 +20,27 @@
 
     Private Sub drawOriginCross()
         Try
-            Dim v1 = Me.Visualizer.Map.Apply(New Vector2D(-1, 0)) - Me.Visualizer.Map.TranslationVector
-            v1.Length = _OriginCrossScreenRadiusInPixels
-            v1 += Me.Visualizer.Map.TranslationVector
+            Dim v1 = (Me.Visualizer.Map.Apply(New Vector2D(-1, 0)) -
+                      Me.Visualizer.Map.TranslationVector).
+                     ScaledToLength(_OriginCrossScreenRadiusInPixels) +
+                     Me.Visualizer.Map.TranslationVector
 
-            Dim v2 = Me.Visualizer.Map.Apply(New Vector2D(1, 0)) - Me.Visualizer.Map.TranslationVector
-            v2.Length = _OriginCrossScreenRadiusInPixels
-            v2 += Me.Visualizer.Map.TranslationVector
+            Dim v2 = (Me.Visualizer.Map.Apply(New Vector2D(1, 0)) -
+                      Me.Visualizer.Map.TranslationVector).
+                     ScaledToLength(_OriginCrossScreenRadiusInPixels) +
+                     Me.Visualizer.Map.TranslationVector
 
             Me.Visualizer.DrawingGraphics.DrawLine(Me.CoordinateSystemPen, v1.ToPointF, v2.ToPointF)
 
-            Dim w1 = Me.Visualizer.Map.Apply(New Vector2D(0, -1)) - Me.Visualizer.Map.TranslationVector
-            w1.Length = _OriginCrossScreenRadiusInPixels
-            w1 += Me.Visualizer.Map.TranslationVector
+            Dim w1 = (Me.Visualizer.Map.Apply(New Vector2D(0, -1)) -
+                      Me.Visualizer.Map.TranslationVector).
+                     ScaledToLength(_OriginCrossScreenRadiusInPixels) +
+                     Me.Visualizer.Map.TranslationVector
 
-            Dim w2 = Me.Visualizer.Map.Apply(New Vector2D(0, 1)) - Me.Visualizer.Map.TranslationVector
-            w2.Length = _OriginCrossScreenRadiusInPixels
-            w2 += Me.Visualizer.Map.TranslationVector
+            Dim w2 = (Me.Visualizer.Map.Apply(New Vector2D(0, 1)) -
+                      Me.Visualizer.Map.TranslationVector).
+                     ScaledToLength(_OriginCrossScreenRadiusInPixels) +
+                     Me.Visualizer.Map.TranslationVector
 
             Me.Visualizer.DrawingGraphics.DrawLine(Me.CoordinateSystemPen, w1.ToPointF, w2.ToPointF)
 

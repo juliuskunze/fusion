@@ -12,20 +12,11 @@ Fusion.Ry
  that moves with a velocity (in x-direction) very close to the light velocity.
  </summary>
 	<remarks></remarks>
-</member><member name="M:Fusion.Ry.RelativisticRayTransformation.TransformedRay(Fusion.Math.Ray)">
+</member><member name="T:Fusion.Ry.LinearViewCourse">
 	<summary>
- The ray in the moved reference frame.
+ A camera view course, where the camera moves on an even path with a constant velocity and looks forward.
  </summary>
-	<param name="ray">The ray in the stationary refernece frame.</param>
-	<returns></returns>
 	<remarks></remarks>
-</member><member name="T:Fusion.Ry.RelativisticRayTransformation">
-	<summary>
- Transforms a ray of a (stationary) reference frame into one which relativly moves
- with a constant velocity in x-direction.
- </summary>
- The origins of the reference frames are equal, their times are equal.
- <remarks></remarks>
 </member><member name="P:Fusion.Ry.My.Resources.Resources.ResourceManager">
 	<summary>
   Returns the cached ResourceManager instance used by this class.
@@ -46,6 +37,20 @@ Fusion.Ry
 	<param name="ray"></param>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="M:Fusion.Ry.RelativisticRayTransformation.TransformedRay(Fusion.Math.Ray)">
+	<summary>
+ The ray in the moved reference frame.
+ </summary>
+	<param name="ray">The ray in the stationary reference frame.</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="T:Fusion.Ry.RelativisticRayTransformation">
+	<summary>
+ Transforms a ray of a (stationary) reference frame into one which relativly moves
+ with a constant velocity in x-direction.
+ </summary>
+ The origins of the reference frames are equal, their times are equal.
+ <remarks></remarks>
 </member>
 </members>
 </doc>

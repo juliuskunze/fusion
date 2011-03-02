@@ -31,14 +31,14 @@ Public Class RelativisticRayTransformation
     ''' <summary>
     ''' The ray in the moved reference frame.
     ''' </summary>
-    ''' <param name="ray">The ray in the stationary refernece frame.</param>
+    ''' <param name="ray">The ray in the stationary reference frame.</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function TransformedRay(ByVal ray As Ray) As Ray
-        Dim stationaryDirection = Ray.NormalizedDirection
-        Dim movingDirection = New Vector3D(x:=stationaryDirection.X,
-                                           y:=stationaryDirection.Y,
-                                           z:=Me.Gamma * (stationaryDirection.Z - Me.Beta * stationaryDirection.Length))
-        Return New Ray(origin:=Ray.Origin, direction:=movingDirection)
+        Dim directionInStationaryFrame = ray.NormalizedDirection
+        Dim directionInMovedFrame = New Vector3D(x:=directionInStationaryFrame.X,
+                                           y:=directionInStationaryFrame.Y,
+                                           z:=Me.Gamma * (directionInStationaryFrame.Z - Me.Beta * directionInStationaryFrame.Length))
+        Return New Ray(origin:=Ray.Origin, direction:=directionInMovedFrame)
     End Function
 End Class

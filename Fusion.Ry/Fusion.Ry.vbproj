@@ -85,6 +85,7 @@
     <Compile Include="Light\LinearPointLightSource.vb" />
     <Compile Include="Light\PointLightSource.vb" />
     <Compile Include="Light\ComponentScaledColorRemission.vb" />
+    <Compile Include="Light\ColorWavelengthConverter.vb" />
     <Compile Include="Light\ScaledColorRemission.vb" />
     <Compile Include="Light\ShadedLightSources.vb" />
     <Compile Include="Light\UndirectionalLightSource.vb" />
@@ -114,11 +115,14 @@
     </Compile>
     <Compile Include="RayChanger.vb" />
     <Compile Include="RayTraceDrawer.vb" />
-    <Compile Include="RayTraceVideo.vb" />
+    <Compile Include="Video\IViewCourse.vb" />
+    <Compile Include="Video\IRayTraceVideo.vb" />
     <Compile Include="Relativity\RelativisticRecursiveRayTracer.vb" />
     <Compile Include="Relativity\RelativisticRayTransformation.vb" />
     <Compile Include="ScatteringRayTracer.vb" />
     <Compile Include="RecursiveRayTracer.vb" />
+    <Compile Include="Video\LinearViewCourse.vb" />
+    <Compile Include="Video\ViewCourseVideo.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
