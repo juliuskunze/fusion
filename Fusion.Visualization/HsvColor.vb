@@ -26,9 +26,9 @@
         _hue = hue
 
         If Not (0 <= Me.Saturation AndAlso Me.Saturation <= 1) Then Throw New ArgumentOutOfRangeException("Saturation has to be in [0; 1].")
-        If Not (0 <= Me.Value AndAlso Me.Value <= 1) Then Throw New ArgumentOutOfRangeException("Value has to be in [0; 1].")
-
         _saturation = saturation
+
+        If Not (0 <= Me.Value AndAlso Me.Value <= 1) Then Throw New ArgumentOutOfRangeException("Value has to be in [0; 1].")
         _value = value
     End Sub
 

@@ -4,9 +4,26 @@
 ''' <remarks></remarks>
 Public Structure ExactColor
 
-    Public Red As Double
-    Public Green As Double
-    Public Blue As Double
+    Private ReadOnly _red As Double
+    Public ReadOnly Property Red As Double
+        Get
+            Return _red
+        End Get
+    End Property
+
+    Private ReadOnly _green As Double
+    Public ReadOnly Property Green As Double
+        Get
+            Return _green
+        End Get
+    End Property
+
+    Private ReadOnly _blue As Double
+    Public ReadOnly Property Blue As Double
+        Get
+            Return _blue
+        End Get
+    End Property
 
     Public Sub New(ByVal color As Color)
         Me.New(Red:=GetExactComponent(color.R),
@@ -15,20 +32,20 @@ Public Structure ExactColor
     End Sub
 
     Public Sub New(ByVal red As Double, ByVal green As Double, ByVal blue As Double)
-        Me.Red = red
-        Me.Green = green
-        Me.Blue = blue
+        _red = red
+        _green = green
+        _blue = blue
     End Sub
 
     Public Function ToColor() As Color
-        Return Color.FromArgb(red:=GetByteComponent(Me.Red),
-                              green:=GetByteComponent(Me.Green),
+        Return Color.FromArgb(Red:=GetByteComponent(Me.Red),
+                              Green:=GetByteComponent(Me.Green),
                               blue:=GetByteComponent(Me.Blue))
     End Function
 
     Public Function ToColorByTruncate() As Color
-        Return Color.FromArgb(red:=GetByteComponentByTruncate(Me.Red),
-                              green:=GetByteComponentByTruncate(Me.Green),
+        Return Color.FromArgb(Red:=GetByteComponentByTruncate(Me.Red),
+                              Green:=GetByteComponentByTruncate(Me.Green),
                               blue:=GetByteComponentByTruncate(Me.Blue))
     End Function
 

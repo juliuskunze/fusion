@@ -1,7 +1,19 @@
 ﻿<Serializable()>
 Public Structure Vector2D
 
-    Private ReadOnly _x, _y As Double
+    Private ReadOnly _x As Double
+    Public ReadOnly Property X As Double
+        Get
+            Return _x
+        End Get
+    End Property
+
+    Private ReadOnly _y As Double
+    Public ReadOnly Property Y As Double
+        Get
+            Return _y
+        End Get
+    End Property
 
     Public Sub New(ByVal x As Double, ByVal y As Double)
         _x = x
@@ -60,18 +72,6 @@ Public Structure Vector2D
         End Get
     End Property
 
-
-    Public ReadOnly Property X As Double
-        Get
-            Return _x
-        End Get
-    End Property
-
-    Public ReadOnly Property Y As Double
-        Get
-            Return _y
-        End Get
-    End Property
 
     Public ReadOnly Property Length As Double
         Get

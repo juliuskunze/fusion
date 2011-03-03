@@ -1,35 +1,48 @@
 ﻿Public Structure Vector3D
 
-    Public Property X As Double
-    Public Property Y As Double
-    Public Property Z As Double
+    Private ReadOnly _x As Double
+    Public ReadOnly Property X As Double
+        Get
+            Return _x
+        End Get
+    End Property
+
+    Private ReadOnly _y As Double
+    Public ReadOnly Property Y As Double
+        Get
+            Return _y
+        End Get
+    End Property
+
+    Private ReadOnly _z As Double
+    Public ReadOnly Property Z As Double
+        Get
+            Return _z
+        End Get
+    End Property
 
     Public Sub New(ByVal x As Double, ByVal y As Double, ByVal z As Double)
-        SetFromXYZ(x, y, z)
-    End Sub
-
-    Public Sub New(ByVal v As Vector2D)
-        SetFromXYZ(v.X, v.Y, 0)
-    End Sub
-
-    Public Sub New(ByVal m As Matrix)
-        If m.Width = 1 AndAlso m.Height = 3 Then
-            SetFromXYZ(m(0, 0), m(1, 0), m(2, 0))
-        ElseIf m.Width = 3 AndAlso m.Height = 1 Then
-            SetFromXYZ(m(0, 0), m(0, 1), m(0, 2))
-        Else
-            Throw New ArgumentException("Matrix has to be a 3D-Vector.")
-        End If
-    End Sub
-
-    Private Sub SetFromXYZ(ByVal x As Double, ByVal y As Double, ByVal z As Double)
         _x = x
         _y = y
         _z = z
     End Sub
 
-    Private Sub SetFromVector(ByVal v As Vector3D)
-        SetFromXYZ(v._x, v._y, v._z)
+    Public Sub New(ByVal v As Vector2D)
+        Me.New(v.X, v.Y, 0)
+    End Sub
+
+    Public Sub New(ByVal m As Matrix)
+        If m.Width = 1 AndAlso m.Height = 3 Then
+            _x = m(0, 0)
+            _y = m(1, 0)
+            _z = m(2, 0)
+        ElseIf m.Width = 3 AndAlso m.Height = 1 Then
+            _x = m(0, 0)
+            _y = m(0, 1)
+            _z = m(0, 2)
+        Else
+            Throw New ArgumentException("Matrix has to be a 3D-Vector.")
+        End If
     End Sub
 
     Public Shared Function FromCylinderCoordinates(ByVal rho As Double, ByVal phi As Double, ByVal z As Double) As Vector3D
@@ -49,19 +62,20 @@
         End Get
     End Property
 
-    Public Property Length As Double
+    Public ReadOnly Property Length As Double
         Get
             Return Sqrt(Me.LengthSquared)
         End Get
-        Set(ByVal value As Double)
-            If Me.Length = 0 Then
-                Me.X = value
-            Else
-                Dim factor = value / Me.Length
-                SetFromVector(factor * Me)
-            End If
-        End Set
     End Property
+
+    Public Function ScaledToLength(ByVal newLength As Double) As Vector3D
+        If Me.Length = 0 Then
+            Return New Vector3D(newLength, 0, 0)
+        Else
+            Dim factor = newLength / Me.Length
+            Return factor * Me
+        End If
+    End Function
 
     Public ReadOnly Property LengthSquared As Double
         Get
@@ -69,24 +83,21 @@
         End Get
     End Property
 
-    Public Property R As Double
+    Public ReadOnly Property R As Double
         Get
-            Return Length
-        End Get
-        Set(ByVal value As Double)
-            Me.Length = value
-        End Set
-    End Property
-
-    Public ReadOnly Property Rho() As Double
-        Get
-            Return Sqrt(_x * _x + y * _y)
+            Return Me.Length
         End Get
     End Property
 
-    Public ReadOnly Property Phi() As Double
+    Public ReadOnly Property Rho As Double
         Get
-            Return Atan2(_y, x)
+            Return Sqrt(_x * _x + _y * _y)
+        End Get
+    End Property
+
+    Public ReadOnly Property Phi As Double
+        Get
+            Return Atan2(_y, _x)
         End Get
     End Property
 
