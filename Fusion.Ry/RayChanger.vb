@@ -7,7 +7,7 @@
 
     Public Function ReflectedRay(ByVal intersection As SurfacePoint) As Ray
         Dim normalizedNormal = intersection.NormalizedNormal
-        Return AddSafetyDistance(New Ray(origin:=intersection.Location,
+        Return WithSafetyDistance(New Ray(origin:=intersection.Location,
                                  direction:=Me.SourceRay.NormalizedDirection - 2 * Me.SourceRay.NormalizedDirection.OrthogonalProjectionOn(normalizedNormal)))
     End Function
 
@@ -21,11 +21,11 @@
         Dim finalCosinus = Sqrt(1 - finalSinus ^ 2)
         Dim finalDirection = finalCosinus * -normalizedNormal + finalSinus * startSinusVector.Normalized
 
-        Return AddSafetyDistance(New Ray(origin:=intersection.Location, direction:=finalDirection))
+        Return WithSafetyDistance(New Ray(origin:=intersection.Location, direction:=finalDirection))
     End Function
 
     Public Function PassedRay(ByVal intersection As SurfacePoint) As Ray
-        Return AddSafetyDistance(New Ray(origin:=intersection.Location, direction:=Me.SourceRay.NormalizedDirection))
+        Return WithSafetyDistance(New Ray(origin:=intersection.Location, direction:=Me.SourceRay.NormalizedDirection))
     End Function
 
     Private Shared _random As New Random
@@ -35,7 +35,7 @@
             scatteredRayDirection *= -1
         End If
 
-        Return AddSafetyDistance(New Ray(origin:=intersection.Location, direction:=scatteredRayDirection))
+        Return WithSafetyDistance(New Ray(origin:=intersection.Location, direction:=scatteredRayDirection))
 
         Throw New NotImplementedException
     End Function
@@ -57,9 +57,8 @@
     ''' <param name="ray"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Shared Function AddSafetyDistance(ByVal ray As Ray) As Ray
-        ray.Origin += ray.NormalizedDirection * SaftyDistance
-        Return ray
+    Private Shared Function WithSafetyDistance(ByVal ray As Ray) As Ray
+        Return New Ray(origin:=ray.Origin + ray.NormalizedDirection * SaftyDistance, direction:=ray.NormalizedDirection)
     End Function
 
     Public Const SaftyDistance As Double = 0.0000000001
