@@ -9,4 +9,8 @@
   <Module PersistentId="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA" ModuleId="Fusion.Ry" />
   <Module PersistentId="999FDCC5-C7B2-4F1E-B559-919752F9BC03" ModuleId="Fusion.Visualization" />
   <Module PersistentId="1EE4717E-64D6-4CAF-973F-1D45270BFA9A" ModuleId="Fusion.Flow" />
+  <Module PersistentId="9A318D74-127E-441B-BF66-38E7B0617A8B" ModuleId="Fusion.Calculator" />
+  <Module PersistentId="F039EFC8-7983-4714-9C73-EDD2730E2D0C" ModuleId="Fusion.Forms" />
+  <Module PersistentId="0824BE8F-818F-4834-A5C0-2C8B1C3FEAB7" ModuleId="Fusion.IO" />
+  <Module PersistentId="B322DEC2-F5D9-4BEF-8D5B-EC8DE173C56F" ModuleId="Fusion.Physics.Interaction" />
 </Modules>

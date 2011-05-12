@@ -31,6 +31,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Fusion.Ry.Forms", "Fusion.R
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Fusion.Tests.Visualization", "Fusion.Tests.Visualization\Fusion.Tests.Visualization.vbproj", "{1D984EE3-7691-43F0-B674-B911B0533283}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Fusion.Calculator", "Fusion.Calculator\Fusion.Calculator.vbproj", "{9A318D74-127E-441B-BF66-38E7B0617A8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -191,6 +193,16 @@ Global
 		{1D984EE3-7691-43F0-B674-B911B0533283}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{1D984EE3-7691-43F0-B674-B911B0533283}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{1D984EE3-7691-43F0-B674-B911B0533283}.Release|x86.ActiveCfg = Release|Any CPU
+		{9A318D74-127E-441B-BF66-38E7B0617A8B}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{9A318D74-127E-441B-BF66-38E7B0617A8B}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{9A318D74-127E-441B-BF66-38E7B0617A8B}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{9A318D74-127E-441B-BF66-38E7B0617A8B}.Debug|x86.ActiveCfg = Debug|x86
+		{9A318D74-127E-441B-BF66-38E7B0617A8B}.Debug|x86.Build.0 = Debug|x86
+		{9A318D74-127E-441B-BF66-38E7B0617A8B}.Release|Any CPU.ActiveCfg = Release|x86
+		{9A318D74-127E-441B-BF66-38E7B0617A8B}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{9A318D74-127E-441B-BF66-38E7B0617A8B}.Release|Mixed Platforms.Build.0 = Release|x86
+		{9A318D74-127E-441B-BF66-38E7B0617A8B}.Release|x86.ActiveCfg = Release|x86
+		{9A318D74-127E-441B-BF66-38E7B0617A8B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

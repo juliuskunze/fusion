@@ -46,8 +46,8 @@ Fusion.Ry
 	<remarks></remarks>
 </member><member name="T:Fusion.Ry.RelativisticRayTransformation">
 	<summary>
- Transforms a ray of a (stationary) reference frame into one which relativly moves
- with a constant velocity in x-direction.
+ Transforms a (light) ray of a (stationary) reference frame into one which relativly moves
+ with a constant velocity in z-direction.
  </summary>
  The origins of the reference frames are equal, their times are equal.
  <remarks></remarks>

@@ -1,68 +1,68 @@
 <Configuration>
   <RecentFiles>
     <RecentFiles>
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:MaterialSurfaces/f:Material2D.vb" caret="3026" fromTop="7" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:RecursiveRayTracer.vb" caret="261" fromTop="6" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Relativity/f:RelativisticRecursiveRayTracer.vb" caret="484" fromTop="4" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Video/f:IRayTraceVideo.vb" caret="115" fromTop="2" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Video/f:IViewCourse.vb" caret="110" fromTop="4" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:LensVideo.vb" caret="1151" fromTop="12" />
-      <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/d:RelativityTests/f:RelativisticRayTransformationTests.vb" caret="486" fromTop="9" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Video/f:ViewCourseVideo.vb" caret="1463" fromTop="14" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:RayTracingExamples.vb" caret="12462" fromTop="8" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Video/f:LinearViewCourse.vb" caret="242" fromTop="6" />
-      <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/f:RayChangerTests.vb" caret="1837" fromTop="13" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Relativity/f:RelativisticRayTransformation.vb" caret="1525" fromTop="14" />
-      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="195" fromTop="6" />
-      <File id="1D984EE3-7691-43F0-B674-B911B0533283/f:HsvColorTests.vb" caret="890" fromTop="23" />
-      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:CoordinateSystem2DDrawer.vb" caret="2290" fromTop="17" />
-      <File id="DEEF32D9-F26B-47CD-95C2-AEB774221DBF/d:Visualizers/d:Field2DDrawers/f:Field2DFieldlineDrawer.vb" caret="3571" fromTop="0" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:Vector2DTests.vb" caret="628" fromTop="20" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Light/f:ColorWavelengthConverter.vb" caret="1139" fromTop="25" />
-      <File id="1EE4717E-64D6-4CAF-973F-1D45270BFA9A/f:FlowDrawer2D.vb" caret="3752" fromTop="11" />
-      <File id="DEEF32D9-F26B-47CD-95C2-AEB774221DBF/d:Visualizers/d:Field2DDrawers/f:Field2DArrowGridDrawer.vb" caret="1617" fromTop="8" />
-      <File id="DEEF32D9-F26B-47CD-95C2-AEB774221DBF/d:Visualizers/d:Field2DDrawers/f:Field2DColorAreaDrawer.vb" caret="1083" fromTop="11" />
-      <File id="1D984EE3-7691-43F0-B674-B911B0533283/f:View3DTests.vb" caret="57" fromTop="2" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:Vector3DTests.vb" caret="672" fromTop="20" />
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector2D.vb" caret="2238" fromTop="0" />
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector3D.vb" caret="483" fromTop="10" />
-      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:ExactColor.vb" caret="4636" fromTop="10" />
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:EnumerableExtensionsTests/f:LingExtensionsTests.vb" caret="88" fromTop="2" />
       <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsvColor.vb" caret="3252" fromTop="45" />
       <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:RayChanger.vb" caret="2991" fromTop="15" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surfaces/f:Ray.vb" caret="788" fromTop="15" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Relativity/f:RelativisticRayTransformation.vb" caret="2430" fromTop="25" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surfaces/f:Ray.vb" caret="861" fromTop="20" />
+      <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/d:RelativityTests/f:RelativisticRayTransformationTests.vb" caret="80" fromTop="2" />
+      <File id="1EE4717E-64D6-4CAF-973F-1D45270BFA9A/f:FlowPanel2DParaviewWriter.vb" caret="240" fromTop="5" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:PointSets2D/f:ICoordinateSystemToArray.vb" caret="17" fromTop="0" />
+      <File id="1EE4717E-64D6-4CAF-973F-1D45270BFA9A/f:IFlowPanel2D.vb" caret="85" fromTop="0" />
+      <File id="1EE4717E-64D6-4CAF-973F-1D45270BFA9A/f:FlowPanel2DLE.vb" caret="0" fromTop="0" />
+      <File id="1EE4717E-64D6-4CAF-973F-1D45270BFA9A/f:FlowBox2DLE.vb" caret="841" fromTop="0" />
+      <File id="1EE4717E-64D6-4CAF-973F-1D45270BFA9A/f:FlowBox2D.vb" caret="51" fromTop="1" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Relativity/f:RelativisticRecursiveRayTracer.vb" caret="1498" fromTop="29" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:CalculateTimeOptionsForm.vb" caret="1909" fromTop="60" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="1331" fromTop="14" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Examples/f:RayTracingExamples.vb" caret="21802" fromTop="15" />
+      <File id="9A318D74-127E-441B-BF66-38E7B0617A8B/f:Application.xaml" caret="245" fromTop="4" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Functions.vb" caret="1787" fromTop="5" />
+      <File id="9A318D74-127E-441B-BF66-38E7B0617A8B/f:CalculatorWindow.xaml.vb" caret="3032" fromTop="15" />
+      <File id="9A318D74-127E-441B-BF66-38E7B0617A8B/f:CalculatorWindow.xaml" caret="1" fromTop="0" />
+      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestFunctions.vb" caret="1025" fromTop="16" />
+      <File id="F039EFC8-7983-4714-9C73-EDD2730E2D0C/f:ParticleSystem2DForm.vb" caret="13651" fromTop="12" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:TermParser.vb" caret="828" fromTop="17" />
+      <File id="B322DEC2-F5D9-4BEF-8D5B-EC8DE173C56F/f:ParticleGuide.vb" caret="303" fromTop="0" />
+      <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/f:PerformanceTests.vb" caret="118" fromTop="4" />
+      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:ExactColor.vb" caret="0" fromTop="0" />
+      <File id="74A8E394-FD08-418B-BBBE-B9FD54589B2E/f:Constants.vb" caret="505" fromTop="13" />
+      <File id="74A8E394-FD08-418B-BBBE-B9FD54589B2E/f:SunSystemConstants.vb" caret="0" fromTop="0" />
     </RecentFiles>
     <RecentEdits>
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector3D.vb" caret="1120" fromTop="10" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector3D.vb" caret="1796" fromTop="6" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector3D.vb" caret="2183" fromTop="19" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector3D.vb" caret="2165" fromTop="17" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector3D.vb" caret="2444" fromTop="10" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector3D.vb" caret="2487" fromTop="7" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector3D.vb" caret="2544" fromTop="9" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector3D.vb" caret="2682" fromTop="9" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector3D.vb" caret="586" fromTop="12" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:Vector3DTests.vb" caret="124" fromTop="3" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector2D.vb" caret="2240" fromTop="6" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector2D.vb" caret="343" fromTop="13" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector2D.vb" caret="218" fromTop="9" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector2D.vb" caret="70" fromTop="2" />
-      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:ExactColor.vb" caret="611" fromTop="17" />
-      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:ExactColor.vb" caret="635" fromTop="6" />
-      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:ExactColor.vb" caret="535" fromTop="10" />
-      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:ExactColor.vb" caret="373" fromTop="12" />
-      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:ExactColor.vb" caret="217" fromTop="5" />
-      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:ExactColor.vb" caret="996" fromTop="7" />
-      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsvColor.vb" caret="938" fromTop="11" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surfaces/f:Ray.vb" caret="568" fromTop="8" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surfaces/f:Ray.vb" caret="568" fromTop="12" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surfaces/f:Ray.vb" caret="568" fromTop="7" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:RayChanger.vb" caret="2779" fromTop="9" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surfaces/f:Ray.vb" caret="568" fromTop="5" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surfaces/f:Ray.vb" caret="568" fromTop="2" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surfaces/f:Ray.vb" caret="474" fromTop="7" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surfaces/f:Ray.vb" caret="16" fromTop="0" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surfaces/f:Ray.vb" caret="878" fromTop="13" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Functions.vb" caret="1787" fromTop="13" />
+      <File id="9A318D74-127E-441B-BF66-38E7B0617A8B/f:CalculatorWindow.xaml.vb" caret="3271" fromTop="30" />
+      <File id="9A318D74-127E-441B-BF66-38E7B0617A8B/f:CalculatorWindow.xaml.vb" caret="3243" fromTop="30" />
+      <File id="9A318D74-127E-441B-BF66-38E7B0617A8B/f:CalculatorWindow.xaml.vb" caret="2528" fromTop="6" />
+      <File id="9A318D74-127E-441B-BF66-38E7B0617A8B/f:CalculatorWindow.xaml.vb" caret="2599" fromTop="5" />
+      <File id="9A318D74-127E-441B-BF66-38E7B0617A8B/f:CalculatorWindow.xaml.vb" caret="3212" fromTop="19" />
+      <File id="9A318D74-127E-441B-BF66-38E7B0617A8B/f:CalculatorWindow.xaml" caret="4368" fromTop="4" />
+      <File id="9A318D74-127E-441B-BF66-38E7B0617A8B/f:CalculatorWindow.xaml" caret="4642" fromTop="4" />
+      <File id="9A318D74-127E-441B-BF66-38E7B0617A8B/f:CalculatorWindow.xaml" caret="4352" fromTop="3" />
+      <File id="9A318D74-127E-441B-BF66-38E7B0617A8B/f:CalculatorWindow.xaml" caret="3271" fromTop="2" />
+      <File id="9A318D74-127E-441B-BF66-38E7B0617A8B/f:CalculatorWindow.xaml" caret="4600" fromTop="5" />
+      <File id="9A318D74-127E-441B-BF66-38E7B0617A8B/f:CalculatorWindow.xaml" caret="4864" fromTop="4" />
+      <File id="9A318D74-127E-441B-BF66-38E7B0617A8B/f:CalculatorWindow.xaml" caret="477" fromTop="6" />
+      <File id="9A318D74-127E-441B-BF66-38E7B0617A8B/f:CalculatorWindow.xaml" caret="2779" fromTop="8" />
+      <File id="9A318D74-127E-441B-BF66-38E7B0617A8B/f:CalculatorWindow.xaml" caret="244" fromTop="2" />
+      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestFunctions.vb" caret="1125" fromTop="12" />
+      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestFunctions.vb" caret="1125" fromTop="19" />
+      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestFunctions.vb" caret="1125" fromTop="19" />
+      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestFunctions.vb" caret="666" fromTop="7" />
+      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestFunctions.vb" caret="1033" fromTop="16" />
+      <File id="F039EFC8-7983-4714-9C73-EDD2730E2D0C/f:ParticleSystem2DForm.vb" caret="13941" fromTop="16" />
+      <File id="F039EFC8-7983-4714-9C73-EDD2730E2D0C/f:ParticleSystem2DForm.vb" caret="13728" fromTop="12" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:TermParser.vb" caret="773" fromTop="14" />
+      <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/f:PerformanceTests.vb" caret="78" fromTop="2" />
+      <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/f:PerformanceTests.vb" caret="198" fromTop="7" />
+      <File id="74A8E394-FD08-418B-BBBE-B9FD54589B2E/f:Constants.vb" caret="25" fromTop="0" />
+      <File id="74A8E394-FD08-418B-BBBE-B9FD54589B2E/f:Constants.vb" caret="189" fromTop="3" />
+      <File id="74A8E394-FD08-418B-BBBE-B9FD54589B2E/f:Constants.vb" caret="253" fromTop="4" />
+      <File id="74A8E394-FD08-418B-BBBE-B9FD54589B2E/f:Constants.vb" caret="334" fromTop="6" />
+      <File id="74A8E394-FD08-418B-BBBE-B9FD54589B2E/f:Constants.vb" caret="396" fromTop="8" />
     </RecentEdits>
   </RecentFiles>
   <NAntValidationSettings>

@@ -69,8 +69,6 @@
     <Import Include="Fusion.Physics.Interaction" />
     <Import Include="Fusion.Physics.Visualization" />
     <Import Include="Fusion.Visualization" />
-    <Import Include="Microsoft" />
-    <Import Include="Microsoft.VisualBasic" />
     <Import Include="System" />
     <Import Include="System.Collections" />
     <Import Include="System.Collections.Generic" />

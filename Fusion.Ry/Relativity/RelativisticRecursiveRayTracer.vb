@@ -26,8 +26,10 @@ Public Class RelativisticRecursiveRayTracer
 
     Public Overrides Function GetColor(ByVal startRay As Ray) As ExactColor
         Dim transformedRay = _rayTransformation.TransformedRay(ray:=startRay)
-        
-        Return MyBase.GetColor(transformedRay)
+
+        Dim transformedIntensity = _rayTransformation.TransformedIntensity(ray:=startRay, intensity:=1)
+
+        Return transformedIntensity * MyBase.GetColor(transformedRay)
     End Function
 
 End Class

@@ -17,8 +17,9 @@
             Throw New ArgumentException(_invalidTermMessage)
         End If
 
-        If IsNumeric(term) AndAlso Not term.Contains("("c) Then
-            Return CDbl(term)
+        Dim parsedDouble As Double
+        If Double.TryParse(term, result:=parsedDouble) AndAlso Not term.Contains("("c) Then
+            Return parsedDouble
         End If
 
         Dim charIsInBrackets(term.Length - 1) As Boolean

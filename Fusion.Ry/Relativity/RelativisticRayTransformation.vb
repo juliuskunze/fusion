@@ -1,6 +1,6 @@
 ﻿''' <summary>
-''' Transforms a ray of a (stationary) reference frame into one which relativly moves
-''' with a constant velocity in x-direction.
+''' Transforms a (light) ray of a (stationary) reference frame into one which relativly moves
+''' with a constant velocity in z-direction.
 ''' </summary>
 ''' The origins of the reference frames are equal, their times are equal.
 ''' <remarks></remarks>
@@ -37,8 +37,22 @@ Public Class RelativisticRayTransformation
     Public Function TransformedRay(ByVal ray As Ray) As Ray
         Dim directionInStationaryFrame = ray.NormalizedDirection
         Dim directionInMovedFrame = New Vector3D(x:=directionInStationaryFrame.X,
-                                           y:=directionInStationaryFrame.Y,
-                                           z:=Me.Gamma * (directionInStationaryFrame.Z - Me.Beta * directionInStationaryFrame.Length))
+                                                 y:=directionInStationaryFrame.Y,
+                                                 z:=Me.Gamma * (directionInStationaryFrame.Z - Me.Beta * directionInStationaryFrame.Length))
         Return New Ray(origin:=Ray.Origin, direction:=directionInMovedFrame)
     End Function
+
+    Public Function TransformedWavelength(ByVal ray As Ray, ByVal waveLength As Double) As Double
+        Dim direction = ray.NormalizedDirection
+        Return waveLength * Sqrt((Me.Gamma * (direction.Z - Me.Beta * direction.Length)) ^ 2 +
+                                 direction.X ^ 2 +
+                                 direction.Y ^ 2) /
+                            direction.Length
+    End Function
+
+    Public Function TransformedIntensity(ByVal ray As Ray, ByVal intensity As Double) As Double
+        Dim direction = ray.NormalizedDirection
+        Return intensity * direction.LengthSquared / (Me.Gamma * (direction.Z - Me.Beta * direction.Length) ^ 2 + (direction.Y ^ 2 + direction.X ^ 2) / Me.Gamma)
+    End Function
+
 End Class

@@ -2,11 +2,11 @@
 
     <Test()>
     Public Sub ExamplePicture()
-        Dim startTime = Now
+        Dim startTime = DateTime.Now
 
         Dim picture = Me.IluminationRoom
 
-        Dim neededTime = Now - startTime
+        Dim neededTime = DateTime.Now - startTime
 
         Assert.Less(neededTime, TimeSpan.FromSeconds(0.8D), message:=neededTime.ToString)
     End Sub

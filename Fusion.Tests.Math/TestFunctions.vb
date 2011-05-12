@@ -27,4 +27,11 @@ Public Class TestFunctions
         Assert.True(Lcm(-4, -10) = 20)
         Assert.True(Lcm(0, 0) = 0)
     End Sub
+
+    <Test()>
+    Public Shared Sub TestChoosingPossibilityCount()
+        Assert.AreEqual(0, ChoosingPossibilityCount(total:=3, chosen:=5, respectOrder:=False, respectDuplication:=False))
+        Assert.AreEqual(12, ChoosingPossibilityCount(total:=12, chosen:=1, respectOrder:=False, respectDuplication:=False))
+    End Sub
+
 End Class

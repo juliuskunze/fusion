@@ -310,12 +310,12 @@
     End Sub
 
     Private Sub openMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles openMenuItem.Click
-        openFileDialog.FileName = FileIO.SpecialDirectories.Desktop
+        openFileDialog.FileName = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)
         If openFileDialog.ShowDialog = Windows.Forms.DialogResult.OK Then
             Try
                 loadParticleSystem(_serializer.Deserialize(openFileDialog.FileName))
             Catch ex As Exception
-                MsgBox("This file can't be opened.", Title:="Loading failed")
+                MessageBox.Show(text:="This file can't be opened.", caption:="Loading failed")
             End Try
         End If
     End Sub
