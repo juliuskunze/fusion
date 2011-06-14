@@ -32,13 +32,13 @@ Public Class SphereParticle3D
         Me.Radius = radius
     End Sub
 
-    Private _radius As Double
+    Private _Radius As Double
     Public Property Radius() As Double
         Get
-            Return _radius
+            Return _Radius
         End Get
         Set(ByVal value As Double)
-            _radius = value
+            _Radius = value
         End Set
     End Property
 

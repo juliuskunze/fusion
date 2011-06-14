@@ -6,24 +6,24 @@
     End Sub
 
     Public Sub New(ByVal linearMap As LinearMap2D, ByVal transformationVector As Vector2D)
-        _linearMap = linearMap
-        _translationVector = transformationVector
+        _LinearMap = linearMap
+        _TranslationVector = transformationVector
     End Sub
 
-    Private _linearMap As LinearMap2D
+    Private _LinearMap As LinearMap2D
     Public ReadOnly Property LinearMap() As LinearMap2D
         Get
-            Return _linearMap
+            Return _LinearMap
         End Get
     End Property
 
-    Private _translationVector As Vector2D
+    Private _TranslationVector As Vector2D
     Public Property TranslationVector() As Vector2D
         Get
-            Return _translationVector
+            Return _TranslationVector
         End Get
         Set(ByVal value As Vector2D)
-            _translationVector = value
+            _TranslationVector = value
         End Set
     End Property
 

@@ -12,21 +12,21 @@
 
     Public WriteOnly Property Direction As Vector3D
         Set(ByVal value As Vector3D)
-            _normalizedDirection = value.Normalized
+            _NormalizedDirection = value.Normalized
         End Set
     End Property
 
-    Private _normalizedDirection As Vector3D
+    Private _NormalizedDirection As Vector3D
     Public ReadOnly Property NormalizedDirection As Vector3D
         Get
-            Return _normalizedDirection
+            Return _NormalizedDirection
         End Get
     End Property
 
     Public Property Color As ExactColor
 
     Public Function LightColor(ByVal surfacePoint As SurfacePoint) As ExactColor Implements ILightSource.LightColor
-        Dim valueFactor = surfacePoint.NormalizedNormal * _normalizedDirection
+        Dim valueFactor = surfacePoint.NormalizedNormal * _NormalizedDirection
 
         If valueFactor < 0 Then
             Return ExactColor.Black

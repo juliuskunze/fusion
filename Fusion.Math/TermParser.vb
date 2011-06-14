@@ -1,6 +1,6 @@
 ﻿Public Module TermParser
 
-    Private Const _invalidTermMessage As String = "The term is invalid."
+    Private Const _InvalidTermMessage As String = "The term is invalid."
 
     Public Function TermToValue(ByVal term As String) As Double
         For i = term.Length - 1 To 0 Step -1
@@ -14,7 +14,7 @@
 
     Private Function TermWithoutBlanksToValue(ByVal term As String) As Double
         If term = "" Then
-            Throw New ArgumentException(_invalidTermMessage)
+            Throw New ArgumentException(_InvalidTermMessage)
         End If
 
         Dim parsedDouble As Double
@@ -32,7 +32,7 @@
             End If
 
             If bracketDepth < 0 Then
-                Throw New ArgumentException(_invalidTermMessage)
+                Throw New ArgumentException(_InvalidTermMessage)
             End If
             If bracketDepth > 0 Then
                 charIsInBrackets(i) = True
@@ -44,7 +44,7 @@
         Next
 
         If bracketDepth <> 0 Then
-            Throw New ArgumentException(_invalidTermMessage)
+            Throw New ArgumentException(_InvalidTermMessage)
         End If
 
         Dim termIsInBrackets As Boolean = True
@@ -139,7 +139,7 @@
             End If
         Next
 
-        Throw New ArgumentException(_invalidTermMessage)
+        Throw New ArgumentException(_InvalidTermMessage)
     End Function
 
     Private Function termBeforeIndex(ByVal term As String, ByVal index As Integer) As String

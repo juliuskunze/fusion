@@ -1,49 +1,49 @@
 ﻿Public Class Visualizer2D
 
-    Private Const _metersPerInch As Double = 0.0254
+    Private Const _MetersPerInch As Double = 0.0254
 
-    Private _screenMap As AffineMap2D
+    Private _ScreenMap As AffineMap2D
 
-    Private _projectionMap As AffineMap2D
+    Private _ProjectionMap As AffineMap2D
     Public Property ProjectionMap() As AffineMap2D
         Get
-            Return _projectionMap
+            Return _ProjectionMap
         End Get
         Set(ByVal value As AffineMap2D)
-            _projectionMap = value
-            _finalMap = generateFinalMap()
-            _inverseMap = generateInverseMap()
+            _ProjectionMap = value
+            _FinalMap = generateFinalMap()
+            _InverseMap = generateInverseMap()
             RaiseEvent MapChanged(Me, Nothing)
         End Set
     End Property
 
-    Private _finalMap As AffineMap2D
+    Private _FinalMap As AffineMap2D
     Public ReadOnly Property Map() As AffineMap2D
         Get
-            Return _finalMap
+            Return _FinalMap
         End Get
     End Property
 
     Private Function generateScreenMap() As AffineMap2D
         Dim screenMap = AffineMap2D.Identity
-        screenMap = screenMap.Before(LinearMap2D.Scaling(Graphics.DpiX / _metersPerInch, Graphics.DpiY / _metersPerInch))
+        screenMap = screenMap.Before(LinearMap2D.Scaling(Graphics.DpiX / _MetersPerInch, Graphics.DpiY / _MetersPerInch))
         screenMap = screenMap.Before(LinearMap2D.Reflection(axisAngle:=0))
         screenMap.TranslationVector = New Vector2D(Graphics.VisibleClipBounds.Size) / 2
         Return screenMap
     End Function
 
     Private Function generateFinalMap() As AffineMap2D
-        Return _screenMap.After(_projectionMap)
+        Return _ScreenMap.After(_ProjectionMap)
     End Function
 
     Private Function generateInverseMap() As AffineMap2D
         Return Me.Map.Inverse
     End Function
 
-    Private _inverseMap As AffineMap2D
+    Private _InverseMap As AffineMap2D
     Public ReadOnly Property InverseMap() As AffineMap2D
         Get
-            Return _inverseMap
+            Return _InverseMap
         End Get
     End Property
 
@@ -55,29 +55,29 @@
         Me.Traces = False
     End Sub
 
-    Private _graphics As Graphics
+    Private _Graphics As Graphics
     Public Property Graphics As Graphics
         Get
-            Return _graphics
+            Return _Graphics
         End Get
         Set(ByVal value As Graphics)
-            _graphics = value
+            _Graphics = value
 
-            _screenMap = generateScreenMap()
+            _ScreenMap = generateScreenMap()
 
             Dim bufferedGraphicsContext = New BufferedGraphicsContext
-            _buffer = bufferedGraphicsContext.Allocate(_graphics, Drawing.Rectangle.Round(_graphics.VisibleClipBounds))
-            _bufferedGraphics = _buffer.Graphics()
-            _bufferedGraphics.SmoothingMode = Drawing2D.SmoothingMode.HighQuality
+            _Buffer = bufferedGraphicsContext.Allocate(_Graphics, Drawing.Rectangle.Round(_Graphics.VisibleClipBounds))
+            _BufferedGraphics = _Buffer.Graphics()
+            _BufferedGraphics.SmoothingMode = Drawing2D.SmoothingMode.HighQuality
         End Set
     End Property
 
-    Private _buffer As BufferedGraphics
+    Private _Buffer As BufferedGraphics
 
-    Private _bufferedGraphics As Graphics
+    Private _BufferedGraphics As Graphics
     Public ReadOnly Property DrawingGraphics As Graphics
         Get
-            Return _bufferedGraphics
+            Return _BufferedGraphics
         End Get
     End Property
 
@@ -92,7 +92,7 @@
 
         DrawAction()
 
-        _buffer.Render()
+        _Buffer.Render()
     End Sub
 
     Public Function GenerateCircleRect(ByVal center As Vector2D, ByVal radius As Double) As RectangleF
@@ -100,8 +100,8 @@
     End Function
 
     Public Function GenerateScreenRadiusCircleRect(ByVal center As Vector2D, ByVal screenRadius As Double) As RectangleF
-        Dim xScreenRadiusInDots = screenRadius * Graphics.DpiX / _metersPerInch
-        Dim yScreenRadiusInDots = screenRadius * Graphics.DpiY / _metersPerInch
+        Dim xScreenRadiusInDots = screenRadius * Graphics.DpiX / _MetersPerInch
+        Dim yScreenRadiusInDots = screenRadius * Graphics.DpiY / _MetersPerInch
 
         Dim screenRadiusDiagonalVector = New Vector2D(xScreenRadiusInDots, yScreenRadiusInDots)
 

@@ -1,15 +1,15 @@
 ﻿Public Class Cylinder
     Implements ISurfacedPointSet3D
 
-    Private _infiniteCylinder As InfiniteCylinder
+    Private _InfiniteCylinder As InfiniteCylinder
     Public ReadOnly Property Radius As Double
         Get
-            Return _infiniteCylinder.Radius
+            Return _InfiniteCylinder.Radius
         End Get
     End Property
     Public ReadOnly Property StartCenter As Vector3D
         Get
-            Return _infiniteCylinder.Origin
+            Return _InfiniteCylinder.Origin
         End Get
     End Property
 
@@ -19,44 +19,44 @@
         End Get
     End Property
 
-    Private _endCenter As Vector3D
+    Private _EndCenter As Vector3D
     Public ReadOnly Property EndCenter As Vector3D
         Get
-            Return _endCenter
+            Return _EndCenter
         End Get
     End Property
 
-    Private _startPlane As Plane
-    Private _endPlane As Plane
-    Private _surface As ISurface
+    Private _StartPlane As Plane
+    Private _EndPlane As Plane
+    Private _Surface As ISurface
 
     Public Sub New(ByVal startCenter As Vector3D, ByVal endCenter As Vector3D, ByVal radius As Double)
-        _endCenter = endCenter
+        _EndCenter = endCenter
 
         Dim startToEndVector = endCenter - startCenter
 
-        _infiniteCylinder = New InfiniteCylinder(origin:=startCenter, direction:=startToEndVector, radius:=radius)
-        _startPlane = New Plane(location:=startCenter, normal:=-startToEndVector)
-        _endPlane = New Plane(location:=endCenter, normal:=startToEndVector)
+        _InfiniteCylinder = New InfiniteCylinder(origin:=startCenter, direction:=startToEndVector, radius:=radius)
+        _StartPlane = New Plane(location:=startCenter, normal:=-startToEndVector)
+        _EndPlane = New Plane(location:=endCenter, normal:=startToEndVector)
 
-        Dim startCircle = New TruncatedSurface(_startPlane, New InversePointSet3D(_infiniteCylinder))
-        Dim endCircle = New TruncatedSurface(_endPlane, New InversePointSet3D(_infiniteCylinder))
-        Dim girthedArea = New TruncatedSurface(baseSurface:=_infiniteCylinder, truncatingPointSet:=New InversePointSet3D(New LinkedPointSets3D(_startPlane, _endPlane, linkOperator:=Function(a, b) a AndAlso b)))
+        Dim startCircle = New TruncatedSurface(_StartPlane, New InversePointSet3D(_InfiniteCylinder))
+        Dim endCircle = New TruncatedSurface(_EndPlane, New InversePointSet3D(_InfiniteCylinder))
+        Dim girthedArea = New TruncatedSurface(baseSurface:=_InfiniteCylinder, truncatingPointSet:=New InversePointSet3D(New LinkedPointSets3D(_StartPlane, _EndPlane, linkOperator:=Function(a, b) a AndAlso b)))
 
-        _surface = New Surfaces From {girthedArea, startCircle, endCircle}
+        _Surface = New Surfaces From {girthedArea, startCircle, endCircle}
     End Sub
 
     Public Function Contains(ByVal point As Vector3D) As Boolean Implements IPointSet3D.Contains
-        Return _startPlane.CoveredHalfSpaceContains(point) AndAlso
-               _endPlane.CoveredHalfSpaceContains(point) AndAlso
-               _infiniteCylinder.Contains(point)
+        Return _StartPlane.CoveredHalfSpaceContains(point) AndAlso
+               _EndPlane.CoveredHalfSpaceContains(point) AndAlso
+               _InfiniteCylinder.Contains(point)
     End Function
 
     Public Function FirstIntersection(ByVal ray As Ray) As SurfacePoint Implements ISurface.FirstIntersection
-        Return _surface.FirstIntersection(ray)
+        Return _Surface.FirstIntersection(ray)
     End Function
 
     Public Function Intersections(ByVal ray As Ray) As System.Collections.Generic.IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
-        Return _surface.Intersections(ray)
+        Return _Surface.Intersections(ray)
     End Function
 End Class

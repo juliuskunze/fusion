@@ -1,19 +1,19 @@
 ﻿Public Class StringFitness
     Implements IFitness(Of String)
 
-    Private _targetString As String
+    Private _TargetString As String
     Public Property TargetString() As String
         Get
-            Return _targetString
+            Return _TargetString
         End Get
         Set(ByVal value As String)
-            _targetString = value
+            _TargetString = value
         End Set
     End Property
 
 
     Public Sub New(ByVal targetString As String)
-        _targetString = targetString
+        _TargetString = targetString
     End Sub
 
     Public Function Fitness(ByVal solution As String) As Double Implements IFitness(Of String).Fitness

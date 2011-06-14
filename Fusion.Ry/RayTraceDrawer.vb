@@ -6,13 +6,13 @@
         Me.RayTracer = rayTracer
     End Sub
 
-    Private _picturSize As Size
+    Private _PicturSize As Size
     Public Property PictureSize As Size
         Get
-            Return _picturSize
+            Return _PicturSize
         End Get
         Set(ByVal value As Size)
-            _picturSize = value
+            _PicturSize = value
             _coordinateSystem = New NormalizedMidpointCoordinateSystem(New Vector2D(value))
         End Set
     End Property
@@ -23,7 +23,7 @@
 
     Public Property RayTracer As IRayTracer
 
-    Private _origin As Vector2D
+    Private _Origin As Vector2D
 
     Public Function Picture() As Bitmap
         Dim bitmap = New Bitmap(Me.PictureSize.Width, Me.PictureSize.Height)

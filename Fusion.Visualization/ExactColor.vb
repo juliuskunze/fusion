@@ -4,21 +4,21 @@
 ''' <remarks></remarks>
 Public Structure ExactColor
 
-    Private ReadOnly _red As Double
+    Private ReadOnly _Red As Double
     Public ReadOnly Property Red As Double
         Get
-            Return _red
+            Return _Red
         End Get
     End Property
 
-    Private ReadOnly _green As Double
+    Private ReadOnly _Green As Double
     Public ReadOnly Property Green As Double
         Get
-            Return _green
+            Return _Green
         End Get
     End Property
 
-    Private ReadOnly _blue As Double
+    Private ReadOnly _Blue As Double
     Public ReadOnly Property Blue As Double
         Get
             Return _blue
@@ -32,8 +32,8 @@ Public Structure ExactColor
     End Sub
 
     Public Sub New(ByVal red As Double, ByVal green As Double, ByVal blue As Double)
-        _red = red
-        _green = green
+        _Red = red
+        _Green = green
         _blue = blue
     End Sub
 

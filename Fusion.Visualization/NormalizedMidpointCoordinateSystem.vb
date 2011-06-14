@@ -4,16 +4,16 @@
         Me.PictureSize = pictureSize
     End Sub
 
-    Private _origin As Vector2D
+    Private _Origin As Vector2D
 
-    Private _pictureSize As Vector2D
+    Private _PictureSize As Vector2D
     Public Property PictureSize As Vector2D
         Get
-            Return _pictureSize
+            Return _PictureSize
         End Get
         Set(ByVal value As Vector2D)
-            _pictureSize = value
-            _origin = _pictureSize / 2
+            _PictureSize = value
+            _Origin = _PictureSize / 2
         End Set
     End Property
 
@@ -23,7 +23,7 @@
     ''' </summary>
     ''' <remarks></remarks>
     Public Function VirtualLocation(ByVal pixelLocation As Vector2D) As Vector2D
-        Return (New Vector2D(pixelLocation.X, Me.PictureSize.Y - pixelLocation.Y) - _origin) / (Me.PictureSize.X / 2)
+        Return (New Vector2D(pixelLocation.X, Me.PictureSize.Y - pixelLocation.Y) - _Origin) / (Me.PictureSize.X / 2)
     End Function
 
 End Class

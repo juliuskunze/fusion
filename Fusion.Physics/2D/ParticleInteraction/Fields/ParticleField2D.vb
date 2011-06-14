@@ -9,16 +9,16 @@
 
     Public Property FieldType As IParticleFieldGenerator2D
 
-    Dim _particles As IEnumerable(Of Particle2D)
+    Dim _Particles As IEnumerable(Of Particle2D)
     Public ReadOnly Property Particles() As IEnumerable(Of Particle2D)
         Get
-            Return _particles
+            Return _Particles
         End Get
     End Property
 
     Public Sub New(ByVal forceType As IParticleFieldGenerator2D, ByVal particles As IEnumerable(Of Particle2D))
         Me.FieldType = forceType
-        _particles = particles
+        _Particles = particles
     End Sub
 
     Public Function Field(ByVal location As Math.Vector2D) As Vector2D Implements IField2D.Field

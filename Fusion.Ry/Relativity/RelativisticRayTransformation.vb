@@ -10,7 +10,7 @@ Public Class RelativisticRayTransformation
         If Abs(relativeXVelocityInC) > 1 Then Throw New ArgumentException("A velocity can not be greater than the light velocity.")
 
         Me.RelativeXVelocityInC = relativeXVelocityInC
-        _gamma = 1 / (1 - Me.Beta ^ 2)
+        _Gamma = 1 / (1 - Me.Beta ^ 2)
     End Sub
 
     Public Property RelativeXVelocityInC As Double
@@ -21,10 +21,10 @@ Public Class RelativisticRayTransformation
         End Get
     End Property
 
-    Private _gamma As Double
+    Private _Gamma As Double
     Private ReadOnly Property Gamma As Double
         Get
-            Return _gamma
+            Return _Gamma
         End Get
     End Property
 

@@ -8,20 +8,20 @@
         End Function
     End Structure
 
-    Private _list As New List(Of TestStructure) From {New TestStructure With {.Name = "Short"},
+    Private _List As New List(Of TestStructure) From {New TestStructure With {.Name = "Short"},
                                             New TestStructure With {.Name = "Very very long"},
                                             New TestStructure With {.Name = "Very long"}}
 
     <Test()>
     Public Sub MinElement()
-        Dim elementWithMinLength = _list.MinItem(Function(testObject) testObject.NameLength)
+        Dim elementWithMinLength = _List.MinItem(Function(testObject) testObject.NameLength)
 
         Assert.AreEqual("Short", elementWithMinLength.Name)
     End Sub
 
     <Test()>
     Public Sub MaxElement()
-        Dim elementWithMaxLength = _list.MaxItem(Function(testObject) testObject.NameLength)
+        Dim elementWithMaxLength = _List.MaxItem(Function(testObject) testObject.NameLength)
 
         Assert.AreEqual("Very very long", elementWithMaxLength.Name)
     End Sub

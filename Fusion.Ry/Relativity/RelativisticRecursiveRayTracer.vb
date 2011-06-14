@@ -9,7 +9,7 @@ Public Class RelativisticRecursiveRayTracer
     Public Sub New(ByVal surface As IMaterialSurface(Of Material2D), ByVal xCameraVelocityInC As Double)
         MyBase.New(surface:=surface)
 
-        _rayTransformation = New RelativisticRayTransformation(relativeXVelocityInC:=xCameraVelocityInC)
+        _RayTransformation = New RelativisticRayTransformation(relativeXVelocityInC:=xCameraVelocityInC)
     End Sub
 
     Public Sub New(ByVal surface As IMaterialSurface(Of Material2D),
@@ -19,15 +19,15 @@ Public Class RelativisticRecursiveRayTracer
                    Optional ByVal maxIntersectionCount As Integer = 10)
         MyBase.New(surface:=surface, lightSource:=lightSource, shadedPointLightSources:=shadedPointLightSources, maxIntersectionCount:=maxIntersectionCount)
 
-        _rayTransformation = New RelativisticRayTransformation(relativeXVelocityInC:=xCameraVelocityInC)
+        _RayTransformation = New RelativisticRayTransformation(relativeXVelocityInC:=xCameraVelocityInC)
     End Sub
 
-    Private _rayTransformation As RelativisticRayTransformation
+    Private _RayTransformation As RelativisticRayTransformation
 
     Public Overrides Function GetColor(ByVal startRay As Ray) As ExactColor
-        Dim transformedRay = _rayTransformation.TransformedRay(ray:=startRay)
+        Dim transformedRay = _RayTransformation.TransformedRay(ray:=startRay)
 
-        Dim transformedIntensity = _rayTransformation.TransformedIntensity(ray:=startRay, intensity:=1)
+        Dim transformedIntensity = _RayTransformation.TransformedIntensity(ray:=startRay, intensity:=1)
 
         Return transformedIntensity * MyBase.GetColor(transformedRay)
     End Function

@@ -2,8 +2,8 @@
     Implements IRayTraceVideo
 
     Public Sub New(ByVal videoSize As Size, ByVal rayTracer As IRayTracer, ByVal cameraViewCourse As IViewCourse)
-        _videoSize = videoSize
-        _rayTracer = rayTracer
+        _VideoSize = videoSize
+        _RayTracer = rayTracer
         _cameraViewCourse = cameraViewCourse
     End Sub
 
@@ -14,17 +14,17 @@
         End Get
     End Property
 
-    Private _rayTracer As IRayTracer
+    Private _RayTracer As IRayTracer
     Public ReadOnly Property RayTracer As IRayTracer
         Get
-            Return _rayTracer
+            Return _RayTracer
         End Get
     End Property
 
-    Private _videoSize As Size
+    Private _VideoSize As Size
     Public ReadOnly Property VideoSize As Size
         Get
-            Return _videoSize
+            Return _VideoSize
         End Get
     End Property
 

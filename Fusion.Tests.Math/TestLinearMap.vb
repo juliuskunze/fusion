@@ -109,16 +109,18 @@
         Assert.True(Vector2D.Fit(l.Apply(v), New Vector2D(-2, 3)))
     End Sub
 
-    '<Test()> Shared Sub HorizontalShearing()
-    '    Dim v = New Vector2D(0, 1)
-    '    Dim l = LinearMap2D.HorizontalScaling(0)
+    <Test()> <Ignore()>
+    Shared Sub HorizontalShearing()
+        Dim v = New Vector2D(0, 1)
+        Dim l = LinearMap2D.HorizontalScaling(0)
 
-    '    Assert.True(Vector2D.Fit(l.Apply(v), New Vector2D(0, 0)))
-    'End Sub
+        Assert.True(Vector2D.Fit(l.Apply(v), New Vector2D(0, 0)))
+    End Sub
 
+    <Test()> <Ignore()>
+    Shared Sub Inverse()
+        Dim l = New LinearMap2D(New Double(,) {{-1, 9}, {5, 7}})
+        Assert.True(l.Inverse.After(l) = LinearMap2D.Identity())
+    End Sub
 
-    '<Test()> Shared Sub Inverse()
-    '    Dim l = New LinearMap2D(New Double(,) {{-1, 9}, {5, 7}})
-    '    Assert.True(l.Inverse.After(l) = LinearMap2D.Identity())
-    'End Sub
 End Class

@@ -7,15 +7,15 @@ Public Class ParticleSystem3D
     End Sub
 
     Public Sub New(ByVal startTime As DateTime)
-        _startTime = startTime
+        _StartTime = startTime
     End Sub
 
-    Private _startTime As Date
-    Private _elapsedSeconds As Double
+    Private _StartTime As Date
+    Private _ElapsedSeconds As Double
 
     Public ReadOnly Property ElapsedTime() As Double
         Get
-            Return _elapsedSeconds
+            Return _ElapsedSeconds
         End Get
     End Property
 
@@ -27,13 +27,13 @@ Public Class ParticleSystem3D
 
     Public ReadOnly Property CurrentTime() As DateTime
         Get
-            Return _startTime.AddSeconds(ElapsedTime)
+            Return _StartTime.AddSeconds(ElapsedTime)
         End Get
     End Property
 
     Public ReadOnly Property Starttime As Date
         Get
-            Return _startTime
+            Return _StartTime
         End Get
     End Property
 
@@ -52,7 +52,7 @@ Public Class ParticleSystem3D
 
 
     Public Sub DoEulerStep(ByVal timeSpan As Double)
-        _elapsedSeconds += timeSpan
+        _ElapsedSeconds += timeSpan
 
         For Each force In Me.Edges
             force.AccelerateParticles(timeSpan)

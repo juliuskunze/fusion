@@ -1,30 +1,30 @@
 ﻿Public Structure Vector3D
 
-    Private ReadOnly _x As Double
+    Private ReadOnly _X As Double
     Public ReadOnly Property X As Double
         Get
-            Return _x
+            Return _X
         End Get
     End Property
 
-    Private ReadOnly _y As Double
+    Private ReadOnly _Y As Double
     Public ReadOnly Property Y As Double
         Get
-            Return _y
+            Return _Y
         End Get
     End Property
 
-    Private ReadOnly _z As Double
+    Private ReadOnly _Z As Double
     Public ReadOnly Property Z As Double
         Get
-            Return _z
+            Return _Z
         End Get
     End Property
 
     Public Sub New(ByVal x As Double, ByVal y As Double, ByVal z As Double)
-        _x = x
-        _y = y
-        _z = z
+        _X = x
+        _Y = y
+        _Z = z
     End Sub
 
     Public Sub New(ByVal v As Vector2D)
@@ -33,13 +33,13 @@
 
     Public Sub New(ByVal m As Matrix)
         If m.Width = 1 AndAlso m.Height = 3 Then
-            _x = m(0, 0)
-            _y = m(1, 0)
-            _z = m(2, 0)
+            _X = m(0, 0)
+            _Y = m(1, 0)
+            _Z = m(2, 0)
         ElseIf m.Width = 3 AndAlso m.Height = 1 Then
-            _x = m(0, 0)
-            _y = m(0, 1)
-            _z = m(0, 2)
+            _X = m(0, 0)
+            _Y = m(0, 1)
+            _Z = m(0, 2)
         Else
             Throw New ArgumentException("Matrix has to be a 3D-Vector.")
         End If
@@ -91,26 +91,26 @@
 
     Public ReadOnly Property Rho As Double
         Get
-            Return Sqrt(_x * _x + _y * _y)
+            Return Sqrt(_X * _X + _Y * _Y)
         End Get
     End Property
 
     Public ReadOnly Property Phi As Double
         Get
-            Return Atan2(_y, _x)
+            Return Atan2(_Y, _X)
         End Get
     End Property
 
     Public ReadOnly Property Theta() As Double
         Get
-            Return Acos(_z / R)
+            Return Acos(_Z / R)
         End Get
     End Property
 
     Public Shared Operator +(ByVal v1 As Vector3D, ByVal v2 As Vector3D) As Vector3D
-        Return New Vector3D(v1._x + v2._x,
-                            v1._y + v2._y,
-                            v1._z + v2._z)
+        Return New Vector3D(v1._X + v2._X,
+                            v1._Y + v2._Y,
+                            v1._Z + v2._Z)
     End Operator
 
     Public Shared Operator -(ByVal v1 As Vector3D, ByVal v2 As Vector3D) As Vector3D
@@ -120,7 +120,7 @@
     End Operator
 
     Public Shared Operator -(ByVal v As Vector3D) As Vector3D
-        Return New Vector3D(-v._x, -v._y, -v._z)
+        Return New Vector3D(-v._X, -v._Y, -v._Z)
     End Operator
 
     Public Shared Operator *(ByVal a As Double, ByVal v As Vector3D) As Vector3D
@@ -134,9 +134,9 @@
     End Operator
 
     Public Shared Operator /(ByVal v As Vector3D, ByVal a As Double) As Vector3D
-        Return New Vector3D(v._x / a,
-                            v._y / a,
-                            v._z / a)
+        Return New Vector3D(v._X / a,
+                            v._Y / a,
+                            v._Z / a)
     End Operator
 
     Public Shared Operator =(ByVal v1 As Vector3D, ByVal v2 As Vector3D) As Boolean
@@ -158,9 +158,9 @@
     End Operator
 
     Public Function CrossProduct(ByVal v As Vector3D) As Vector3D
-        Return New Vector3D(_y * v._z - _z * v._y,
-                            _z * v._x - _x * v._z,
-                            _x * v._y - _y * v._x)
+        Return New Vector3D(_Y * v._Z - _Z * v._Y,
+                            _Z * v._X - _X * v._Z,
+                            _X * v._Y - _Y * v._X)
     End Function
 
     Public Shared Function TripleProduct(ByVal v1 As Vector3D, ByVal v2 As Vector3D, ByVal v3 As Vector3D) As Double
@@ -169,12 +169,12 @@
 
 
     Public Function ToColumnMatrix() As Matrix
-        Dim matrixArray As Double(,) = {{_x}, {_y}, {_z}}
+        Dim matrixArray As Double(,) = {{_X}, {_Y}, {_Z}}
         Return New Matrix(matrixArray)
     End Function
 
     Public Function ToRowMatrix() As Matrix
-        Dim matrixArray As Double(,) = {{_x, y, z}}
+        Dim matrixArray As Double(,) = {{_X, y, z}}
         Return New Matrix(matrixArray)
     End Function
 

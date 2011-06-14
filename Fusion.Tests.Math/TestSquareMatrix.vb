@@ -1,5 +1,6 @@
 ﻿Public Class TestSquareMatrix
-    '<Test()>
+
+    <Test()> <Ignore()>
     Public Shared Sub NewByOrder()
 
         Dim sm As New SquareMatrix(2)

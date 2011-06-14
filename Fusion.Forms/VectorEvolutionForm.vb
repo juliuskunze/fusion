@@ -1,24 +1,24 @@
 ﻿Public Class VectorEvolutionForm
 
-    Private WithEvents _strategy As VectorEvolutionStrategy
+    Private WithEvents _Strategy As VectorEvolutionStrategy
 
-    Private _drawer As Vector2DEvolutionDrawer
-    Private _renderer As Renderer2D
-    Private _viewController As ViewController2D
+    Private _Drawer As Vector2DEvolutionDrawer
+    Private _Renderer As Renderer2D
+    Private _ViewController As ViewController2D
 
     Private Sub btnStart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnStart.Click
         RemoveHandler pbx.MouseMove, AddressOf pbx_MouseMove
         RemoveHandler pbx.MouseWheel, AddressOf pbx_MouseWheel
-        _strategy = New VectorEvolutionStrategy()
-        If _drawer Is Nothing Then
-            _drawer = New Vector2DEvolutionDrawer(pbx.CreateGraphics, _strategy)
+        _Strategy = New VectorEvolutionStrategy()
+        If _Drawer Is Nothing Then
+            _Drawer = New Vector2DEvolutionDrawer(pbx.CreateGraphics, _Strategy)
         End If
 
-        _renderer = New Renderer2D(_drawer)
-        _drawer.VectorEvolutionStrategy = _strategy
+        _Renderer = New Renderer2D(_Drawer)
+        _Drawer.VectorEvolutionStrategy = _Strategy
 
-        _viewController = New ViewController2D(_drawer.Visualizer)
-        _strategy.Start()
+        _ViewController = New ViewController2D(_Drawer.Visualizer)
+        _Strategy.Start()
 
         pbx.Focus()
 
@@ -26,18 +26,18 @@
         AddHandler pbx.MouseWheel, AddressOf pbx_MouseWheel
     End Sub
 
-    Private Sub _strategy_BestSolutionImproved(ByVal sender As Object, ByVal e As Evolution.SolutionEventArgs(Of Math.Vector2D)) Handles _strategy.BestSolutionImproved
-        _renderer.Render()
+    Private Sub _Strategy_BestSolutionImproved(ByVal sender As Object, ByVal e As Evolution.SolutionEventArgs(Of Math.Vector2D)) Handles _Strategy.BestSolutionImproved
+        _Renderer.Render()
     End Sub
 
     Private Sub pbx_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
-        _viewController.ScreenMouseLocation = New Vector2D(e.Location)
-        _renderer.Render()
+        _ViewController.ScreenMouseLocation = New Vector2D(e.Location)
+        _Renderer.Render()
     End Sub
 
-    Private Const _deltaPerMouseWheelStep As Double = 120
+    Private Const _DeltaPerMouseWheelStep As Double = 120
     Private Sub pbx_MouseWheel(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
-        _viewController.Zoom(zoomSteps:=e.Delta / _deltaPerMouseWheelStep)
-        _renderer.Render()
+        _ViewController.Zoom(zoomSteps:=e.Delta / _DeltaPerMouseWheelStep)
+        _Renderer.Render()
     End Sub
 End Class

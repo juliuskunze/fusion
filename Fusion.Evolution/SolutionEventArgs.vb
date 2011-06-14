@@ -2,13 +2,13 @@
     Inherits EventArgs
 
     Public Sub New(ByVal solution As SolutionType)
-        _solution = solution
+        _Solution = solution
     End Sub
 
-    Private _solution As SolutionType
+    Private _Solution As SolutionType
     Public ReadOnly Property Solution() As SolutionType
         Get
-            Return _solution
+            Return _Solution
         End Get
     End Property
 

@@ -1,32 +1,32 @@
 ﻿<Serializable()>
 Public Structure Vector2D
 
-    Private ReadOnly _x As Double
+    Private ReadOnly _X As Double
     Public ReadOnly Property X As Double
         Get
-            Return _x
+            Return _X
         End Get
     End Property
 
-    Private ReadOnly _y As Double
+    Private ReadOnly _Y As Double
     Public ReadOnly Property Y As Double
         Get
-            Return _y
+            Return _Y
         End Get
     End Property
 
     Public Sub New(ByVal x As Double, ByVal y As Double)
-        _x = x
-        _y = y
+        _X = x
+        _Y = y
     End Sub
 
     Public Sub New(ByVal m As Matrix)
         If m.Width = 1 AndAlso m.Height = 2 Then
-            _x = m(0, 0)
-            _y = m(1, 0)
+            _X = m(0, 0)
+            _Y = m(1, 0)
         ElseIf m.Width = 2 AndAlso m.Height = 1 Then
-            _x = m(0, 0)
-            _y = m(0, 1)
+            _X = m(0, 0)
+            _Y = m(0, 1)
         Else
             Throw New ArgumentException("Matrix has to be a 2D-Vector.")
         End If
@@ -54,8 +54,8 @@ Public Structure Vector2D
         End If
 
         Try
-            _x = CDbl(splitStrings(0))
-            _y = CDbl(splitStrings(1))
+            _X = CDbl(splitStrings(0))
+            _Y = CDbl(splitStrings(1))
         Catch ex As Exception
             Throw New ArgumentException("String can't be converted into a vector.")
         End Try
@@ -117,19 +117,19 @@ Public Structure Vector2D
     End Operator
 
     Public Shared Operator +(ByVal v1 As Vector2D, ByVal v2 As Vector2D) As Vector2D
-        Return New Vector2D(v1._x + v2._x, v1._y + v2._y)
+        Return New Vector2D(v1._X + v2._X, v1._Y + v2._Y)
     End Operator
 
     Public Shared Operator -(ByVal v1 As Vector2D, ByVal v2 As Vector2D) As Vector2D
-        Return New Vector2D(v1._x - v2._x, v1._y - v2._y)
+        Return New Vector2D(v1._X - v2._X, v1._Y - v2._Y)
     End Operator
 
     Public Shared Operator -(ByVal v As Vector2D) As Vector2D
-        Return New Vector2D(-v._x, -v._y)
+        Return New Vector2D(-v._X, -v._Y)
     End Operator
 
     Public Shared Operator *(ByVal a As Double, ByVal v As Vector2D) As Vector2D
-        Return New Vector2D(a * v._x, a * v._y)
+        Return New Vector2D(a * v._X, a * v._Y)
     End Operator
 
     Public Shared Operator *(ByVal v As Vector2D, ByVal a As Double) As Vector2D
@@ -137,16 +137,16 @@ Public Structure Vector2D
     End Operator
 
     Public Shared Operator /(ByVal v As Vector2D, ByVal a As Double) As Vector2D
-        Return New Vector2D(v._x / a, v._y / a)
+        Return New Vector2D(v._X / a, v._Y / a)
     End Operator
 
     Public Shared Function DotProduct(ByVal v1 As Vector2D, ByVal v2 As Vector2D) As Double
-        Return v1._x * v2._x + _
-               v1._y * v2._y
+        Return v1._X * v2._X + _
+               v1._Y * v2._Y
     End Function
 
     Public Shared Function CrossProduct(ByVal v1 As Vector2D, ByVal v2 As Vector2D) As Double
-        Return v1._x * v2._y - v1._y * v2._x
+        Return v1._X * v2._Y - v1._Y * v2._X
     End Function
 
 
@@ -159,12 +159,12 @@ Public Structure Vector2D
 
 
     Public Function ToColumnMatrix() As Matrix
-        Dim matrixArray As Double(,) = {{_x}, {_y}}
+        Dim matrixArray As Double(,) = {{_X}, {_Y}}
         Return New Matrix(matrixArray)
     End Function
 
     Public Function ToRowMatrix() As Matrix
-        Dim matrixArray As Double(,) = {{_x, _y}}
+        Dim matrixArray As Double(,) = {{_X, _Y}}
         Return New Matrix(matrixArray)
     End Function
 
@@ -181,7 +181,7 @@ Public Structure Vector2D
     End Function
 
     Public Overloads Function ToString(ByVal numberFormat As String) As String
-        Return "(" & _x.ToString(numberFormat) & "|" & _y.ToString(numberFormat) & ")"
+        Return "(" & _X.ToString(numberFormat) & "|" & _Y.ToString(numberFormat) & ")"
     End Function
 
 End Structure

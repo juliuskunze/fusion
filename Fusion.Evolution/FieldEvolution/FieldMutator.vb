@@ -6,19 +6,19 @@
     End Sub
 
     Public Sub New(ByVal moveStepLength As Double)
-        _random = New Random
-        _moveStepLength = moveStepLength
+        _Random = New Random
+        _MoveStepLength = moveStepLength
     End Sub
 
-    Private _random As Random
+    Private _Random As Random
 
-    Private _moveStepLength As Double
+    Private _MoveStepLength As Double
     Public Property MoveStepLength() As Double
         Get
-            Return _moveStepLength
+            Return _MoveStepLength
         End Get
         Set(ByVal value As Double)
-            _moveStepLength = value
+            _MoveStepLength = value
         End Set
     End Property
 
@@ -26,14 +26,14 @@
         Dim mutatedSolution = solution.Clone
 
 
-        Dim particleToChange = mutatedSolution.Particles(_random.Next(mutatedSolution.Particles.Count))
+        Dim particleToChange = mutatedSolution.Particles(_Random.Next(mutatedSolution.Particles.Count))
         moveParticle(particleToChange)
 
         Return mutatedSolution
     End Function
 
     Private Sub moveParticle(ByVal particle As Particle2D)
-        Dim directionAngle As Double = 2 * PI * _random.NextDouble
+        Dim directionAngle As Double = 2 * PI * _Random.NextDouble
         Dim stepVector As Vector2D = Vector2D.FromLengthAndArgument(length:=Me.MoveStepLength, argument:=directionAngle)
 
         particle.Location += stepVector

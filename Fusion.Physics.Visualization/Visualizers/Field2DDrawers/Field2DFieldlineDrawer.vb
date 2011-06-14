@@ -36,19 +36,19 @@
         Next
     End Sub
 
-    Private _fieldLinePen As Pen
+    Private _FieldLinePen As Pen
     Public Property FieldlinePen() As Pen
         Get
-            Return _fieldLinePen
+            Return _FieldLinePen
         End Get
         Set(ByVal value As Pen)
-            _fieldLinePen = value
-            _fieldlinePenWithArrow = CType(FieldlinePen.Clone, Pen)
-            _fieldlinePenWithArrow.EndCap = Drawing2D.LineCap.ArrowAnchor
+            _FieldLinePen = value
+            _FieldlinePenWithArrow = CType(FieldlinePen.Clone, Pen)
+            _FieldlinePenWithArrow.EndCap = Drawing2D.LineCap.ArrowAnchor
         End Set
     End Property
 
-    Private _fieldlinePenWithArrow As Pen
+    Private _FieldlinePenWithArrow As Pen
 
     Private Sub drawFieldline(ByVal origin As Vector2D)
         Dim currentFieldlineLocation = origin
@@ -98,7 +98,7 @@
             Dim finalFieldlinePen As Pen
 
             If arrowNeeded Then
-                finalFieldlinePen = _fieldlinePenWithArrow
+                finalFieldlinePen = _FieldlinePenWithArrow
 
                 distanceSum = 0
                 fieldStrengthSum = 0

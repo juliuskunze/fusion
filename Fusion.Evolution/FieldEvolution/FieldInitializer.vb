@@ -1,23 +1,23 @@
 ﻿Public Class FieldInitializer
     Implements IInitializer(Of ParticleField2D)
 
-    Private _startParticles As List(Of Particle2D)
+    Private _StartParticles As List(Of Particle2D)
     Public Property StartParticles() As List(Of Particle2D)
         Get
-            Return _startParticles
+            Return _StartParticles
         End Get
         Set(ByVal value As List(Of Particle2D))
-            _startParticles = value
+            _StartParticles = value
         End Set
     End Property
 
     Public Sub New(ByVal startParticle As Particle2D)
-        _startParticles = New List(Of Particle2D)
-        _startParticles.Add(startParticle)
+        _StartParticles = New List(Of Particle2D)
+        _StartParticles.Add(startParticle)
     End Sub
 
     Public Sub New(ByVal startParticles As List(Of Particle2D))
-        _startParticles = startParticles
+        _StartParticles = startParticles
     End Sub
 
     Public Function Initialize() As Physics.ParticleField2D Implements IInitializer(Of Physics.ParticleField2D).Initialize

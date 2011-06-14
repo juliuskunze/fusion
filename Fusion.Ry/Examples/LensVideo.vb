@@ -1,15 +1,15 @@
 ﻿Public Class LensVideo
     Implements IRayTraceVideo
 
-    Private _videoSize As Size
+    Private _VideoSize As Size
     Public ReadOnly Property VideoSize As Size
         Get
-            Return _videoSize
+            Return _VideoSize
         End Get
     End Property
 
     Public Sub New(ByVal videoSize As Size)
-        _videoSize = videoSize
+        _VideoSize = videoSize
     End Sub
 
     Public Function GetRayTracerDrawer(ByVal pointOfTime As Double) As RayTraceDrawer Implements IRayTraceVideo.GetRayTracerDrawer

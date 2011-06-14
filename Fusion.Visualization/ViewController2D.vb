@@ -45,10 +45,10 @@
             After(AffineMap2D.Scaling(Me.ZoomInFactorPerZoomStep ^ zoomSteps).At(zoomCenter))
     End Sub
 
-    Private _rotationCenterSimulationLocation As Vector2D
+    Private _RotationCenterSimulationLocation As Vector2D
 
     Public Sub StartRotate()
-        _rotationCenterSimulationLocation = Me.SimulationMouseLocation
+        _RotationCenterSimulationLocation = Me.SimulationMouseLocation
     End Sub
 
     Public Sub Rotate(ByVal oldScreenMouseLocation As Vector2D)
@@ -60,7 +60,7 @@
             Case CenterModes.AtMidpoint
                 zoomCenter = Me.Visualizer.InverseMap.Apply(New Vector2D(Me.Visualizer.Graphics.VisibleClipBounds.Size) / 2)
             Case CenterModes.AtMouseLocation
-                zoomCenter = _rotationCenterSimulationLocation
+                zoomCenter = _RotationCenterSimulationLocation
         End Select
 
         Me.Visualizer.ProjectionMap = Me.Visualizer.ProjectionMap.

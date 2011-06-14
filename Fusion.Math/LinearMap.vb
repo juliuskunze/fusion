@@ -8,7 +8,7 @@
             Throw New ArgumentException("Order of the matrix has to be " & Order.ToString & ".")
         End If
 
-        Me._mappingMatrix = mappingMatrix
+        _MappingMatrix = mappingMatrix
     End Sub
 
     Public Sub New(ByVal mappingMatrixArray As Double(,))
@@ -27,11 +27,11 @@
         Return Not l1 = l2
     End Operator
 
-    Private _mappingMatrix As SquareMatrix
+    Private _MappingMatrix As SquareMatrix
 
     Public ReadOnly Property MappingMatrix() As SquareMatrix
         Get
-            Return _mappingMatrix
+            Return _MappingMatrix
         End Get
     End Property
 
@@ -40,11 +40,11 @@
     End Function
 
     Public Function Apply(ByVal v As Vector2D) As Vector2D Implements IMap2D.Apply
-        Return New Vector2D(_mappingMatrix * v.ToColumnMatrix)
+        Return New Vector2D(_MappingMatrix * v.ToColumnMatrix)
     End Function
 
     Public Function After(ByVal map As LinearMap2D) As LinearMap2D
-        Return New LinearMap2D(_mappingMatrix * map._mappingMatrix)
+        Return New LinearMap2D(_MappingMatrix * map._MappingMatrix)
     End Function
 
     Public Function Before(ByVal map As LinearMap2D) As LinearMap2D

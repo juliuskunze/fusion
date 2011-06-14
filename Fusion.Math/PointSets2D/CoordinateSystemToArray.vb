@@ -1,35 +1,35 @@
 ﻿Public Class CoordinateSystemToArray(Of T)
     Implements ICoordinateSystemToArray(Of T)
 
-    Private _lowerVertex As Vector2D
+    Private _LowerVertex As Vector2D
     Public Property LowerVertex As Vector2D Implements ICoordinateSystemToArray(Of T).LowerVertex
         Get
-            Return _lowerVertex
+            Return _LowerVertex
         End Get
         Set(ByVal value As Vector2D)
-            _lowerVertex = value
+            _LowerVertex = value
             Me.RefreshGridSize()
         End Set
     End Property
 
-    Private _size As Vector2D
+    Private _Size As Vector2D
     Public Property Size As Vector2D Implements ICoordinateSystemToArray(Of T).Size
         Get
-            Return _size
+            Return _Size
         End Get
         Set(ByVal value As Vector2D)
-            _size = value
+            _Size = value
             Me.RefreshGridSize()
         End Set
     End Property
 
-    Private _gridLength As Double
+    Private _GridLength As Double
     Public Property GridLength As Double Implements ICoordinateSystemToArray(Of T).GridLength
         Get
-            Return _gridLength
+            Return _GridLength
         End Get
         Set(ByVal value As Double)
-            _gridLength = value
+            _GridLength = value
             Me.RefreshGridSize()
         End Set
     End Property
@@ -37,9 +37,9 @@
     Public Property Array As T(,) Implements ICoordinateSystemToArray(Of T).Array
 
     Public Sub New(ByVal lowerVertex As Vector2D, ByVal size As Vector2D, ByVal gridLength As Double)
-        _lowerVertex = lowerVertex
-        _size = size
-        _gridLength = gridLength
+        _LowerVertex = lowerVertex
+        _Size = size
+        _GridLength = gridLength
 
         Me.RefreshGridSize()
     End Sub

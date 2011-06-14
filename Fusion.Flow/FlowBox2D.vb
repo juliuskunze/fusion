@@ -49,8 +49,8 @@
         For columnIndex = 0 To 2
             For rowIndex = 0 To 2
                 If Not Me.IsWall Then
-                    Dim velocityPart = Vector2D.DotProduct(Me.Velocity, _neighborVectors(columnIndex, rowIndex))
-                    Me.FEq(columnIndex, rowIndex) = _velocityWeights(columnIndex, rowIndex) * _Density * (1 + 3 * velocityPart + 9 / 2 * velocityPart ^ 2 - 3 / 2 * Me.Velocity.LengthSquared)
+                    Dim velocityPart = Vector2D.DotProduct(Me.Velocity, _NeighborVectors(columnIndex, rowIndex))
+                    Me.FEq(columnIndex, rowIndex) = _VelocityWeights(columnIndex, rowIndex) * _Density * (1 + 3 * velocityPart + 9 / 2 * velocityPart ^ 2 - 3 / 2 * Me.Velocity.LengthSquared)
                 End If
             Next
         Next
@@ -64,7 +64,7 @@
             For xIndex = 0 To 2
                 For yIndex = 0 To 2
                     Me.Density += Me.FOld(xIndex, yIndex)
-                    Me.Velocity += _neighborVectors(xIndex, yIndex) * Me.FOld(xIndex, yIndex)
+                    Me.Velocity += _NeighborVectors(xIndex, yIndex) * Me.FOld(xIndex, yIndex)
                 Next
             Next
 
@@ -73,10 +73,10 @@
         End If
     End Sub
 
-    Private Shared ReadOnly _velocityWeights As Double(,) = New Double(2, 2) {{1 / 36, 1 / 9, 1 / 36},
+    Private Shared ReadOnly _VelocityWeights As Double(,) = New Double(2, 2) {{1 / 36, 1 / 9, 1 / 36},
                                                                               {1 / 9, 4 / 9, 1 / 9},
                                                                               {1 / 36, 1 / 9, 1 / 36}}
-    Private Shared ReadOnly _neighborVectors As Vector2D(,) = New Vector2D(2, 2) {{New Vector2D(-1, -1), New Vector2D(-1, 0), New Vector2D(-1, 1)},
+    Private Shared ReadOnly _NeighborVectors As Vector2D(,) = New Vector2D(2, 2) {{New Vector2D(-1, -1), New Vector2D(-1, 0), New Vector2D(-1, 1)},
                                                                                   {New Vector2D(0, -1), New Vector2D(0, 0), New Vector2D(0, 1)},
                                                                                   {New Vector2D(1, -1), New Vector2D(1, 0), New Vector2D(1, 1)}}
 

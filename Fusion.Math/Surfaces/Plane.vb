@@ -12,14 +12,14 @@
 
     Public WriteOnly Property Normal As Vector3D
         Set(ByVal value As Vector3D)
-            _normalizedNormal = value.Normalized
+            _NormalizedNormal = value.Normalized
         End Set
     End Property
 
-    Private _normalizedNormal As Vector3D
+    Private _NormalizedNormal As Vector3D
     Public ReadOnly Property NormalizedNormal As Vector3D
         Get
-            Return _normalizedNormal
+            Return _NormalizedNormal
         End Get
     End Property
 

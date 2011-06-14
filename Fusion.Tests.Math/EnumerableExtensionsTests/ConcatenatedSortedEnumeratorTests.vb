@@ -109,26 +109,26 @@
     Private Class TestEnumerator
         Implements IEnumerator
 
-        Private _object As Double = 0
+        Private _Object As Double = 0
 
         Public ReadOnly Property Current As Object Implements System.Collections.IEnumerator.Current
             Get
-                Return _object
+                Return _Object
             End Get
         End Property
 
-        Private _moveNextCount As Integer = 0
+        Private _MoveNextCount As Integer = 0
         Public ReadOnly Property MovenextCount As Integer
             Get
-                Return _moveNextCount
+                Return _MoveNextCount
             End Get
         End Property
 
         Public Function MoveNext() As Boolean Implements System.Collections.IEnumerator.MoveNext
-            _moveNextCount += 1
+            _MoveNextCount += 1
 
-            If _object = 0 Then
-                _object = 1
+            If _Object = 0 Then
+                _Object = 1
                 Return True
             Else
                 Return False
@@ -138,7 +138,7 @@
         Public DidReset As Boolean = False
 
         Public Sub Reset() Implements System.Collections.IEnumerator.Reset
-            _object = 0
+            _Object = 0
             Me.DidReset = True
         End Sub
 

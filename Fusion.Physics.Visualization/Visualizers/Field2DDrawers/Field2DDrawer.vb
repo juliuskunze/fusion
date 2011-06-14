@@ -1,17 +1,17 @@
 ﻿Public Class Field2DDrawer
     Implements IDrawer2D
 
-    Private _arrowGridDrawer As Field2DArrowGridDrawer
+    Private _ArrowGridDrawer As Field2DArrowGridDrawer
     Public ReadOnly Property ArrowGridDrawer As Field2DArrowGridDrawer
         Get
-            Return _arrowGridDrawer
+            Return _ArrowGridDrawer
         End Get
     End Property
 
-    Private _fieldlineDrawer As Field2DFieldlineDrawer
+    Private _FieldlineDrawer As Field2DFieldlineDrawer
     Public ReadOnly Property FieldlineDrawer As Field2DFieldlineDrawer
         Get
-            Return _fieldlineDrawer
+            Return _FieldlineDrawer
         End Get
     End Property
 
@@ -32,8 +32,8 @@
         Me.Visualizer = visualizer
         Me.Field = field
 
-        _arrowGridDrawer = New Field2DArrowGridDrawer(Me.Visualizer, field)
-        _fieldlineDrawer = New Field2DFieldlineDrawer(Me.Visualizer, field)
+        _ArrowGridDrawer = New Field2DArrowGridDrawer(Me.Visualizer, field)
+        _FieldlineDrawer = New Field2DFieldlineDrawer(Me.Visualizer, field)
         _colorDrawer = New Field2DColorAreaDrawer(Me.Visualizer, field)
 
         Me.VisualizationType = VisualizationTypes.Fieldlines

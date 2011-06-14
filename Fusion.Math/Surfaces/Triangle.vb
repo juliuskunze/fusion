@@ -5,12 +5,12 @@
 Public Class Triangle
     Implements ISurface
 
-    Private _surface As ISurface
+    Private _Surface As ISurface
     
     Public Sub New(ByVal vertex1 As Vector3D, ByVal vertex2 As Vector3D, ByVal vertex3 As Vector3D)
-        _vertex1 = vertex1
-        _vertex2 = vertex2
-        _vertex3 = vertex3
+        _Vertex1 = vertex1
+        _Vertex2 = vertex2
+        _Vertex3 = vertex3
 
         Dim containingPlane = New Plane(vertex1, vertex2, vertex3)
 
@@ -34,32 +34,32 @@ Public Class Triangle
                                                       linkOperator:=Function(a, b) a AndAlso b))
 
 
-        _surface = New TruncatedSurface(baseSurface:=containingPlane, truncatingPointSet:=truncatingPointSet)
+        _Surface = New TruncatedSurface(baseSurface:=containingPlane, truncatingPointSet:=truncatingPointSet)
     End Sub
 
-    Private ReadOnly _vertex1 As Vector3D
+    Private ReadOnly _Vertex1 As Vector3D
     Public ReadOnly Property Vertex1 As Vector3D
         Get
-            Return _vertex1
+            Return _Vertex1
         End Get
     End Property
 
-    Private ReadOnly _vertex2 As Vector3D
+    Private ReadOnly _Vertex2 As Vector3D
     Public ReadOnly Property Vertex2 As Vector3D
         Get
-            Return _vertex2
+            Return _Vertex2
         End Get
     End Property
 
-    Private ReadOnly _vertex3 As Vector3D
+    Private ReadOnly _Vertex3 As Vector3D
     Public ReadOnly Property Vertex3 As Vector3D
         Get
-            Return _vertex3
+            Return _Vertex3
         End Get
     End Property
 
     Public Function Intersection(ByVal ray As Ray) As SurfacePoint Implements ISurface.FirstIntersection
-        Return _surface.FirstIntersection(ray)
+        Return _Surface.FirstIntersection(ray)
     End Function
 
     Public Function Intersections(ByVal ray As Ray) As System.Collections.Generic.IEnumerable(Of SurfacePoint) Implements ISurface.Intersections

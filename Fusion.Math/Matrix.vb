@@ -1,39 +1,41 @@
 ﻿Public Class Matrix
 
-    Protected Friend _elements(,) As Double
+    Protected Friend _Elements(,) As Double
 
     Public Sub New(ByVal width As Integer, ByVal height As Integer)
-        ReDim Me._elements(height - 1, width - 1)
+        ReDim _Elements(height - 1, width - 1)
     End Sub
 
     Public Sub New(ByVal elements(,) As Double)
-        Me._elements = elements
+        _Elements = elements
     End Sub
 
     Public ReadOnly Property Width() As Integer
         Get
-            Return _elements.GetLength(1)
+            Return _Elements.GetLength(1)
         End Get
     End Property
 
     Public ReadOnly Property Height() As Integer
         Get
-            Return _elements.GetLength(0)
+            Return _Elements.GetLength(0)
         End Get
     End Property
 
     Default Public Property Element(ByVal rowIndex As Integer, ByVal columnIndex As Integer) As Double
         Get
-            Return _elements(rowIndex, columnIndex)
+            Return _Elements(rowIndex, columnIndex)
         End Get
         Set(ByVal value As Double)
-            _elements(rowIndex, columnIndex) = value
+            _Elements(rowIndex, columnIndex) = value
         End Set
     End Property
 
     Public Function ToArray() As Double(,)
         Dim array As Double(,) = {{0}}
-        System.Array.Copy(Me._elements, array, Me._elements.Length)
+        System.Array.Copy(sourceArray:=_Elements,
+                          destinationArray:=array,
+                          length:=_Elements.Length)
         Return array
     End Function
 
@@ -44,11 +46,11 @@
     End Function
 
     Public Function SwapRows(ByVal m As Integer, ByVal n As Integer) As SquareMatrix
-        Dim resultArray = DirectCast(_elements.Clone(), Double(,))
+        Dim resultArray = DirectCast(_Elements.Clone(), Double(,))
 
         For iColumn = 0 To Me.Width - 1
-            resultArray(m, iColumn) = _elements(n, iColumn)
-            resultArray(n, iColumn) = _elements(m, iColumn)
+            resultArray(m, iColumn) = _Elements(n, iColumn)
+            resultArray(n, iColumn) = _Elements(m, iColumn)
         Next
 
         Return New SquareMatrix(resultArray)
@@ -60,20 +62,20 @@
     End Function
 
     Public Function MultiplyRow(ByVal rowIndex As Integer, ByVal factor As Double) As SquareMatrix
-        Dim resultArray = DirectCast(_elements.Clone(), Double(,))
+        Dim resultArray = DirectCast(_Elements.Clone(), Double(,))
 
         For iColumn = 0 To Me.Width - 1
-            resultArray(rowIndex, iColumn) = factor * _elements(rowIndex, iColumn)
+            resultArray(rowIndex, iColumn) = factor * _Elements(rowIndex, iColumn)
         Next
 
         Return New SquareMatrix(resultArray)
     End Function
 
     Public Function MultiplyAddRow(ByVal sourceRowIndex As Integer, ByVal targetRowIndex As Integer, ByVal factor As Double) As SquareMatrix
-        Dim resultArray = DirectCast(_elements.Clone(), Double(,))
+        Dim resultArray = DirectCast(_Elements.Clone(), Double(,))
 
         For iColumn = 0 To Me.Width - 1
-            resultArray(targetRowIndex, iColumn) = factor * _elements(sourceRowIndex, iColumn)
+            resultArray(targetRowIndex, iColumn) = factor * _Elements(sourceRowIndex, iColumn)
         Next
 
         Return New SquareMatrix(resultArray)

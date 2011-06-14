@@ -42,7 +42,7 @@ Namespace My
         ''' <summary>
         ''' Returns the application log. The listeners can be configured by the application's configuration file.
         ''' </summary>
-        <Global.System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")>  _
+        <Global.System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")> _
         Friend ReadOnly Property Log() As Global.Microsoft.VisualBasic.Logging.Log
             Get
                 Return s_Log.GetInstance()

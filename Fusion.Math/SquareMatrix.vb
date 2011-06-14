@@ -11,7 +11,7 @@
     End Sub
 
     Public Sub New(ByVal matrix As Matrix)
-        MyBase.New(matrix._elements)
+        MyBase.New(matrix._Elements)
     End Sub
 
     Private Sub DemandSquareMatrix()
@@ -31,7 +31,7 @@
         Get
             Dim matrix = New SquareMatrix(order)
             For i = 0 To order - 1
-                matrix._elements(i, i) = 1
+                matrix._Elements(i, i) = 1
             Next
             Return matrix
         End Get

@@ -1,16 +1,16 @@
 ﻿Public Class ParticleSystem2DForm
 
-    Private _serializer As ParticleSystem2DSerializer
+    Private _Serializer As ParticleSystem2DSerializer
 
-    Private _sphereParticleDialog As SphereParticle2DDialog
+    Private _SphereParticleDialog As SphereParticle2DDialog
 
-    Private _particleSystemLoaded As Boolean
+    Private _ParticleSystemLoaded As Boolean
     Public Property ParticleSystemLoaded() As Boolean
         Get
-            Return _particleSystemLoaded
+            Return _ParticleSystemLoaded
         End Get
         Set(ByVal value As Boolean)
-            _particleSystemLoaded = value
+            _ParticleSystemLoaded = value
 
             closeMenuItem.Enabled = value
             saveMenuItem.Enabled = value
@@ -21,50 +21,50 @@
         End Set
     End Property
 
-    Private _particleSystem As ParticleSystem2D
-    Private _particleGuide As ParticleGuide
-    Private _viewController As ViewController2D
-    Private _drawer As AdvancedParticleSystem2DDrawer
-    Private _renderer As Renderer2D
-    Private _timer As FrameTimer
+    Private _ParticleSystem As ParticleSystem2D
+    Private _ParticleGuide As ParticleGuide
+    Private _ViewController As ViewController2D
+    Private _Drawer As AdvancedParticleSystem2DDrawer
+    Private _Renderer As Renderer2D
+    Private _Timer As FrameTimer
 
     Private Sub saveMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles saveMenuItem.Click
         If saveFileDialog.ShowDialog = Windows.Forms.DialogResult.OK Then
-            _serializer.Serialize(_particleSystem, saveFileDialog.FileName)
+            _Serializer.Serialize(_ParticleSystem, saveFileDialog.FileName)
         End If
     End Sub
 
 
     Private Sub loadParticleSystem(ByVal particleSystem As ParticleSystem2D)
-        If _particleSystemLoaded Then
+        If _ParticleSystemLoaded Then
             closeParticleSystem()
         End If
 
-        _particleSystem = particleSystem
-        _drawer = New AdvancedParticleSystem2DDrawer(Graphics:=pictureBox.CreateGraphics, particleSystem:=particleSystem)
-        _renderer = New Renderer2D(_drawer)
+        _ParticleSystem = particleSystem
+        _Drawer = New AdvancedParticleSystem2DDrawer(Graphics:=pictureBox.CreateGraphics, particleSystem:=particleSystem)
+        _Renderer = New Renderer2D(_Drawer)
 
-        _drawer.Visualizer.ProjectionMap = AffineMap2D.Scaling(1 / 10000000)
-        _drawer.ShowField = True
-        _drawer.FieldDrawer.Field.FieldType = New Electric2D()
-        _drawer.FieldDrawer.VisualizationType = Field2DDrawer.VisualizationTypes.Fieldlines
-        _drawer.FieldDrawer.FieldlineDrawer.FieldlinesPerCharge *= 4
-        _drawer.FieldDrawer.ArrowGridDrawer.ArrowsCentered = True
-        _drawer.FieldDrawer.ArrowGridDrawer.MultiColored = True
+        _Drawer.Visualizer.ProjectionMap = AffineMap2D.Scaling(1 / 10000000)
+        _Drawer.ShowField = True
+        _Drawer.FieldDrawer.Field.FieldType = New Electric2D()
+        _Drawer.FieldDrawer.VisualizationType = Field2DDrawer.VisualizationTypes.Fieldlines
+        _Drawer.FieldDrawer.FieldlineDrawer.FieldlinesPerCharge *= 4
+        _Drawer.FieldDrawer.ArrowGridDrawer.ArrowsCentered = True
+        _Drawer.FieldDrawer.ArrowGridDrawer.MultiColored = True
 
-        _drawer.ParticleSystemDrawer.ShowForces = False
+        _Drawer.ParticleSystemDrawer.ShowForces = False
 
-        _timer = New FrameTimer(framerate:=30, calcRate:=100, fastMotion:=2419200)
-        _viewController = New ViewController2D(_drawer.Visualizer)
-        _particleGuide = New ParticleGuide(_particleSystem)
+        _Timer = New FrameTimer(framerate:=30, calcRate:=100, fastMotion:=2419200)
+        _ViewController = New ViewController2D(_Drawer.Visualizer)
+        _ParticleGuide = New ParticleGuide(_ParticleSystem)
 
-        AddHandler _timer.FrameTick, AddressOf frameTick
+        AddHandler _Timer.FrameTick, AddressOf frameTick
         AddHandler pictureBox.MouseUp, AddressOf pictureBox_MouseUp
         AddHandler pictureBox.MouseMove, AddressOf pictureBox_MouseMove
         AddHandler pictureBox.MouseDown, AddressOf pictureBox_MouseDown
         AddHandler Me.MouseWheel, AddressOf form_MouseWheel
-        AddHandler _drawer.Visualizer.MapChanged, AddressOf dragFixedParticleAndUpdateSystemDisplayIfTimerDisabled
-        AddHandler _particleGuide.ParticleChanged, AddressOf updateSystemDisplayIfTimerDisabled
+        AddHandler _Drawer.Visualizer.MapChanged, AddressOf dragFixedParticleAndUpdateSystemDisplayIfTimerDisabled
+        AddHandler _ParticleGuide.ParticleChanged, AddressOf updateSystemDisplayIfTimerDisabled
 
         Me.ParticleSystemLoaded = True
         selectedParticle = Nothing
@@ -76,8 +76,8 @@
 
     Private Sub frameTick(ByVal sender As Object, ByVal e As FrameTickEventArgs)
         For i = 0 To e.CalcsPerFrame - 1
-            _particleSystem.DoEulerStep(timeSpan:=e.TimeStep)
-            _particleGuide.TryStopFixedParticle()
+            _ParticleSystem.DoEulerStep(timeSpan:=e.TimeStep)
+            _ParticleGuide.TryStopFixedParticle()
         Next
 
         dragFixedParticleAndUpdateSystemDisplay()
@@ -95,19 +95,19 @@
         Me.ParticleSystemLoaded = False
         selectedParticle = Nothing
 
-        RemoveHandler _timer.FrameTick, AddressOf frameTick
+        RemoveHandler _Timer.FrameTick, AddressOf frameTick
         RemoveHandler pictureBox.MouseUp, AddressOf pictureBox_MouseUp
         RemoveHandler pictureBox.MouseMove, AddressOf pictureBox_MouseMove
         RemoveHandler pictureBox.MouseDown, AddressOf pictureBox_MouseDown
         RemoveHandler Me.MouseWheel, AddressOf form_MouseWheel
-        RemoveHandler _drawer.Visualizer.MapChanged, AddressOf dragFixedParticleAndUpdateSystemDisplayIfTimerDisabled
-        RemoveHandler _particleGuide.ParticleChanged, AddressOf updateSystemDisplayIfTimerDisabled
+        RemoveHandler _Drawer.Visualizer.MapChanged, AddressOf dragFixedParticleAndUpdateSystemDisplayIfTimerDisabled
+        RemoveHandler _ParticleGuide.ParticleChanged, AddressOf updateSystemDisplayIfTimerDisabled
 
-        _timer.Stop()
-        _timer.Dispose()
-        _particleSystem = Nothing
-        _drawer = Nothing
-        _viewController = Nothing
+        _Timer.Stop()
+        _Timer.Dispose()
+        _ParticleSystem = Nothing
+        _Drawer = Nothing
+        _ViewController = Nothing
 
         timerEnabled = False
 
@@ -116,15 +116,15 @@
 
     Private Property timerEnabled() As Boolean
         Get
-            Return _timer.Enabled
+            Return _Timer.Enabled
         End Get
         Set(ByVal value As Boolean)
             If value Then
-                _timer.Start()
+                _Timer.Start()
                 startStopButton.Text = "Stop"
                 startStopMenuItem.Text = "Stop"
             Else
-                _timer.Stop()
+                _Timer.Stop()
                 startStopButton.Text = "Start"
                 startStopMenuItem.Text = "Start"
             End If
@@ -132,8 +132,8 @@
     End Property
 
     Private Sub dipoleMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles dipoleMenuItem.Click
-        _drawer.FieldDrawer.VisualizationType = Field2DDrawer.VisualizationTypes.Fieldlines
-        _drawer.ShowField = True
+        _Drawer.FieldDrawer.VisualizationType = Field2DDrawer.VisualizationTypes.Fieldlines
+        _Drawer.ShowField = True
 
         loadParticleSystem(ParticleSystems2D.Dipole(mass:=1, positiveCharge:=0.00000099999999999999995, negativeCharge:=-0.00000099999999999999995, distance:=1, radius:=0.050000000000000003))
     End Sub
@@ -150,61 +150,61 @@
         DragAndView
         SelectAndView
     End Enum
-    Private _activeChangeMode As changeModes
+    Private _ActiveChangeMode As changeModes
 
     Private Sub pictureBox_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
-        Select Case _activeChangeMode
+        Select Case _ActiveChangeMode
             Case changeModes.DragAndView
                 Select Case e.Button
                     Case MouseButtons.Left
-                        _particleGuide.FixNearestParticleTo(_viewController.SimulationMouseLocation)
+                        _ParticleGuide.FixNearestParticleTo(_ViewController.SimulationMouseLocation)
                     Case MouseButtons.Middle
-                        _viewController.StartRotate()
+                        _ViewController.StartRotate()
                 End Select
             Case changeModes.SelectAndView
                 Select Case e.Button
                     Case MouseButtons.Left
                         Const maxParticleSelectScreenRadius As Double = 0.02
-                        selectedParticle = _particleSystem.Particles.NearestParticleInRadius(_drawer.Visualizer.InverseMap.Apply(New Vector2D(e.Location)), maxParticleSelectRadius:=_drawer.Visualizer.ProjectionMap.LinearMap.ZoomIn * maxParticleSelectScreenRadius)
+                        selectedParticle = _ParticleSystem.Particles.NearestParticleInRadius(_Drawer.Visualizer.InverseMap.Apply(New Vector2D(e.Location)), maxParticleSelectRadius:=_Drawer.Visualizer.ProjectionMap.LinearMap.ZoomIn * maxParticleSelectScreenRadius)
                     Case MouseButtons.Middle
-                        _viewController.StartRotate()
+                        _ViewController.StartRotate()
                 End Select
         End Select
     End Sub
 
     Private Sub pictureBox_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
-        Dim oldSimulationMouseLocation = _viewController.SimulationMouseLocation
-        Dim oldScreenMouseLocation = _viewController.ScreenMouseLocation
-        _viewController.ScreenMouseLocation = New Vector2D(e.Location)
+        Dim oldSimulationMouseLocation = _ViewController.SimulationMouseLocation
+        Dim oldScreenMouseLocation = _ViewController.ScreenMouseLocation
+        _ViewController.ScreenMouseLocation = New Vector2D(e.Location)
 
-        Select Case _activeChangeMode
+        Select Case _ActiveChangeMode
             Case changeModes.DragAndView
                 Select Case e.Button
                     Case MouseButtons.Left
                         If Not timerEnabled Then
-                            _particleGuide.TryDragFixedParticleTo(_viewController.SimulationMouseLocation)
+                            _ParticleGuide.TryDragFixedParticleTo(_ViewController.SimulationMouseLocation)
                         End If
                     Case MouseButtons.Right
-                        _viewController.Relocate(oldSimulationMouseLocation:=oldSimulationMouseLocation)
+                        _ViewController.Relocate(oldSimulationMouseLocation:=oldSimulationMouseLocation)
                     Case MouseButtons.Middle
-                        _viewController.Rotate(oldScreenMouseLocation:=oldScreenMouseLocation)
+                        _ViewController.Rotate(oldScreenMouseLocation:=oldScreenMouseLocation)
                 End Select
             Case changeModes.SelectAndView
                 Select Case e.Button
                     Case MouseButtons.Right
-                        _viewController.Relocate(oldSimulationMouseLocation:=oldSimulationMouseLocation)
+                        _ViewController.Relocate(oldSimulationMouseLocation:=oldSimulationMouseLocation)
                     Case MouseButtons.Middle
-                        _viewController.Rotate(oldScreenMouseLocation:=oldScreenMouseLocation)
+                        _ViewController.Rotate(oldScreenMouseLocation:=oldScreenMouseLocation)
                 End Select
         End Select
     End Sub
 
     Private Sub pictureBox_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
-        Select Case _activeChangeMode
+        Select Case _ActiveChangeMode
             Case changeModes.DragAndView
                 Select Case e.Button
                     Case Windows.Forms.MouseButtons.Left
-                        _particleGuide.Unfix()
+                        _ParticleGuide.Unfix()
                     Case Windows.Forms.MouseButtons.Right
                 End Select
             Case changeModes.SelectAndView
@@ -216,18 +216,18 @@
 
 
 
-    Private Const _deltaPerMouseWheelStep As Double = 120
+    Private Const _DeltaPerMouseWheelStep As Double = 120
     Private Sub form_MouseWheel(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
-        Dim mouseWheelSteps = e.Delta / _deltaPerMouseWheelStep
-        _viewController.Zoom(zoomSteps:=mouseWheelSteps)
+        Dim mouseWheelSteps = e.Delta / _DeltaPerMouseWheelStep
+        _ViewController.Zoom(zoomSteps:=mouseWheelSteps)
     End Sub
 
     Private Property selectedParticle() As Particle2D
         Get
-            Return _drawer.ParticleSystemDrawer.SelectedParticle
+            Return _Drawer.ParticleSystemDrawer.SelectedParticle
         End Get
         Set(ByVal value As Particle2D)
-            _drawer.ParticleSystemDrawer.SelectedParticle = value
+            _Drawer.ParticleSystemDrawer.SelectedParticle = value
 
             changeButton.Enabled = (value IsNot Nothing)
         End Set
@@ -240,24 +240,24 @@
     End Sub
 
     Private Sub dragFixedParticleAndUpdateSystemDisplay()
-        _particleGuide.TryDragFixedParticleTo(_viewController.SimulationMouseLocation)
+        _ParticleGuide.TryDragFixedParticleTo(_ViewController.SimulationMouseLocation)
         updateSystemDisplay()
     End Sub
 
     Private Sub updateSystemDisplayIfTimerDisabled(ByVal sender As Object, ByVal e As EventArgs)
-        If Not _timer.Enabled Then
+        If Not _Timer.Enabled Then
             updateSystemDisplay()
         End If
     End Sub
 
     Private Sub updateSystemDisplay()
-        _renderer.Render()
+        _Renderer.Render()
         updateEnergyAndMomentumLabel()
     End Sub
 
     Private Sub updateEnergyAndMomentumLabel()
-        energyLabel.Text = _particleSystem.Energy.ToString("g4")
-        momentumLabel.Text = _particleSystem.Momentum.ToString("g4")
+        energyLabel.Text = _ParticleSystem.Energy.ToString("g4")
+        momentumLabel.Text = _ParticleSystem.Momentum.ToString("g4")
     End Sub
 
 
@@ -273,22 +273,22 @@
             selectedParticleRadius = 0
         End If
 
-        _sphereParticleDialog = New SphereParticle2DDialog(New SphereParticle2D(selectedParticle, selectedParticleRadius))
-        If _sphereParticleDialog.ShowDialog = Windows.Forms.DialogResult.OK Then
-            selectedParticle.Mass = _sphereParticleDialog.Particle.Mass
-            selectedParticle.Charge = _sphereParticleDialog.Particle.Charge
-            selectedParticle.Location = _sphereParticleDialog.Particle.Location
-            selectedParticle.Velocity = _sphereParticleDialog.Particle.Velocity
-            selectedParticle.Color = _sphereParticleDialog.Particle.Color
-            If TypeOf _sphereParticleDialog.Particle Is SphereParticle2D Then
-                DirectCast(selectedParticle, SphereParticle2D).Radius = _sphereParticleDialog.Particle.Radius
+        _SphereParticleDialog = New SphereParticle2DDialog(New SphereParticle2D(selectedParticle, selectedParticleRadius))
+        If _SphereParticleDialog.ShowDialog = Windows.Forms.DialogResult.OK Then
+            selectedParticle.Mass = _SphereParticleDialog.Particle.Mass
+            selectedParticle.Charge = _SphereParticleDialog.Particle.Charge
+            selectedParticle.Location = _SphereParticleDialog.Particle.Location
+            selectedParticle.Velocity = _SphereParticleDialog.Particle.Velocity
+            selectedParticle.Color = _SphereParticleDialog.Particle.Color
+            If TypeOf _SphereParticleDialog.Particle Is SphereParticle2D Then
+                DirectCast(selectedParticle, SphereParticle2D).Radius = _SphereParticleDialog.Particle.Radius
             End If
         End If
     End Sub
 
     Private Sub addParticleButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles addParticleButton.Click
         If selectedParticle Is Nothing Then
-            _sphereParticleDialog = New SphereParticle2DDialog
+            _SphereParticleDialog = New SphereParticle2DDialog
         Else
             Dim selectedParticleRadius As Double = 0
             If TypeOf selectedParticle Is SphereParticle2D Then
@@ -297,11 +297,11 @@
                 selectedParticleRadius = 0
             End If
 
-            _sphereParticleDialog = New SphereParticle2DDialog(New SphereParticle2D(selectedParticle, selectedParticleRadius))
+            _SphereParticleDialog = New SphereParticle2DDialog(New SphereParticle2D(selectedParticle, selectedParticleRadius))
         End If
-        If _sphereParticleDialog.ShowDialog = Windows.Forms.DialogResult.OK Then
-            _particleSystem.AddNode(_sphereParticleDialog.Particle)
-            selectedParticle = _particleSystem.Particles.Last
+        If _SphereParticleDialog.ShowDialog = Windows.Forms.DialogResult.OK Then
+            _ParticleSystem.AddNode(_SphereParticleDialog.Particle)
+            selectedParticle = _ParticleSystem.Particles.Last
         End If
     End Sub
 
@@ -313,7 +313,7 @@
         openFileDialog.FileName = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)
         If openFileDialog.ShowDialog = Windows.Forms.DialogResult.OK Then
             Try
-                loadParticleSystem(_serializer.Deserialize(openFileDialog.FileName))
+                loadParticleSystem(_Serializer.Deserialize(openFileDialog.FileName))
             Catch ex As Exception
                 MessageBox.Show(text:="This file can't be opened.", caption:="Loading failed")
             End Try
@@ -321,22 +321,22 @@
     End Sub
 
     Private Sub ParticleSystem2DForm_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
-        If e.KeyCode = Keys.Space AndAlso _drawer.ParticleSystemDrawer.SelectedParticle IsNot Nothing Then
-            _viewController.CenterSimulationLocation(_drawer.ParticleSystemDrawer.SelectedParticle.Location)
+        If e.KeyCode = Keys.Space AndAlso _Drawer.ParticleSystemDrawer.SelectedParticle IsNot Nothing Then
+            _ViewController.CenterSimulationLocation(_Drawer.ParticleSystemDrawer.SelectedParticle.Location)
             e.Handled = True
         End If
     End Sub
 
     Private Sub form_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        _serializer = New ParticleSystem2DSerializer
-        _sphereParticleDialog = New SphereParticle2DDialog
+        _Serializer = New ParticleSystem2DSerializer
+        _SphereParticleDialog = New SphereParticle2DDialog
 
         Dim particleSystem = New ParticleSystem2D
         For i = 1 To 9
-            particleSystem.AddNode(New SphereParticle2D(mass:=1, charge:=0.00000099999999999999995, Location:=New Vector2D(-0.10000000000000001, 0.040000000000000001 * i), velocity:=New Vector2D, Color:=Color.Yellow, radius:=0.01))
-            particleSystem.AddNode(New SphereParticle2D(mass:=1, charge:=-0.000000099999999999999995, Location:=New Vector2D(0.10000000000000001, 0.040000000000000001 * i), velocity:=New Vector2D, Color:=Color.LimeGreen, radius:=0.01))
+            particleSystem.AddNode(New SphereParticle2D(mass:=1, charge:=0.000001, Location:=New Vector2D(-0.1, 0.04 * i), velocity:=New Vector2D, Color:=Color.Yellow, radius:=0.01))
+            particleSystem.AddNode(New SphereParticle2D(mass:=1, charge:=-0.0000001, Location:=New Vector2D(0.1, 0.04 * i), velocity:=New Vector2D, Color:=Color.LimeGreen, radius:=0.01))
         Next
-        particleSystem.AddNode(New SphereParticle2D(mass:=1, charge:=-0.000000099999999999999995, Location:=New Vector2D, velocity:=New Vector2D, Color:=Color.LimeGreen, radius:=0.01))
+        particleSystem.AddNode(New SphereParticle2D(mass:=1, charge:=-0.0000001, Location:=New Vector2D, velocity:=New Vector2D, Color:=Color.LimeGreen, radius:=0.01))
 
         particleSystem.ConnectEachParticleWithEachByForces(New Spring2D(springConstant:=0.5, length:=1))
         particleSystem.ConnectEachParticleWithEachByForces(New ElasticCollision2D(collisionSpringConstant:=1000))
@@ -356,18 +356,18 @@
 
     Private Sub dragAndViewRadioButton_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles dragAndViewRadioButton.CheckedChanged
         If dragAndViewRadioButton.Checked Then
-            _activeChangeMode = changeModes.DragAndView
+            _ActiveChangeMode = changeModes.DragAndView
         End If
     End Sub
     Private Sub selectAndViewRadioButton_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles selectAndViewRadioButton.CheckedChanged
         If selectAndViewRadioButton.Checked Then
-            _activeChangeMode = changeModes.SelectAndView
+            _ActiveChangeMode = changeModes.SelectAndView
         End If
     End Sub
 
     Private Sub pictureBox_SizeChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles pictureBox.SizeChanged
-        If _drawer IsNot Nothing Then
-            _drawer.Visualizer.Graphics = pictureBox.CreateGraphics
+        If _Drawer IsNot Nothing Then
+            _Drawer.Visualizer.Graphics = pictureBox.CreateGraphics
         End If
     End Sub
 

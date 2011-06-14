@@ -28,13 +28,13 @@ Public Class Particle3D
         Me.Color = color
     End Sub
 
-    Private _mass As Double
+    Private _Mass As Double
     Public Property Mass() As Double
         Get
-            Return _mass
+            Return _Mass
         End Get
         Set(ByVal value As Double)
-            _mass = value
+            _Mass = value
         End Set
     End Property
 
@@ -48,23 +48,23 @@ Public Class Particle3D
         End Set
     End Property
 
-    Private _location As Vector3D
+    Private _Location As Vector3D
     Public Property Location() As Vector3D
         Get
-            Return _location
+            Return _Location
         End Get
         Set(ByVal value As Vector3D)
-            _location = value
+            _Location = value
         End Set
     End Property
 
-    Private _velocity As Vector3D
+    Private _Velocity As Vector3D
     Public Property Velocity() As Vector3D
         Get
-            Return _velocity
+            Return _Velocity
         End Get
         Set(ByVal value As Vector3D)
-            _velocity = value
+            _Velocity = value
         End Set
     End Property
 

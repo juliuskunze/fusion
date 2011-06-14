@@ -28,7 +28,7 @@
         Return WithSafetyDistance(New Ray(origin:=intersection.Location, direction:=Me.SourceRay.NormalizedDirection))
     End Function
 
-    Private Shared _random As New Random
+    Private Shared _Random As New Random
     Public Function ScatteredRay(ByVal intersection As SurfacePoint) As Ray
         Dim scatteredRayDirection = normalizedRandomDirection()
         If scatteredRayDirection * intersection.NormalizedNormal < 0 Then
@@ -42,8 +42,8 @@
 
     Private Shared Function normalizedRandomDirection() As Vector3D
         ' The z coordinate of random sphere surface points is uniform distributed in [-1; 1].
-        Dim z = _random.NextDouble * 2 - 1
-        Dim phi = _random.NextDouble * 2 * PI
+        Dim z = _Random.NextDouble * 2 - 1
+        Dim phi = _Random.NextDouble * 2 * PI
         Dim rho = Sqrt(1 - z ^ 2)
         Dim y = rho * Sin(phi)
         Dim x = rho * Cos(phi)

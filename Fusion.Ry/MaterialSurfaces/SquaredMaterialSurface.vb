@@ -19,27 +19,27 @@
 
     Public Property SquareLength As Double
 
-    Private _normalizedSquaresXVector As Vector3D
+    Private _NormalizedSquaresXVector As Vector3D
     Public ReadOnly Property NormalizedSquaresXVector As Vector3D
         Get
-            Return _normalizedSquaresXVector
+            Return _NormalizedSquaresXVector
         End Get
     End Property
     Public WriteOnly Property SquaresXVector As Vector3D
         Set(ByVal value As Vector3D)
-            _normalizedSquaresXVector = value.Normalized
+            _NormalizedSquaresXVector = value.Normalized
         End Set
     End Property
 
-    Private _normalizedSquaresYVector As Vector3D
+    Private _NormalizedSquaresYVector As Vector3D
     Private ReadOnly Property NormalizedSquaresYVector As Vector3D
         Get
-            Return _normalizedSquaresYVector
+            Return _NormalizedSquaresYVector
         End Get
     End Property
     Public WriteOnly Property SquaresYVector As Vector3D
         Set(ByVal value As Vector3D)
-            _normalizedSquaresYVector = value.Normalized
+            _NormalizedSquaresYVector = value.Normalized
         End Set
     End Property
 

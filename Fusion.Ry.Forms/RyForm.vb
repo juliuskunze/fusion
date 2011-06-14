@@ -1,9 +1,9 @@
 ﻿Public Class RyForm
 
-    Private WithEvents _rayTraceDrawer As RayTraceDrawer
-    Private _graphics As Graphics
-    Private _backColor As Color
-    Private _picture As Bitmap
+    Private WithEvents _RayTraceDrawer As RayTraceDrawer
+    Private _Graphics As Graphics
+    Private _BackColor As Color
+    Private _Picture As Bitmap
 
     Private _customPictureSizeOk As Boolean = False
     Private _customPictureSize As Size
@@ -19,35 +19,35 @@
         Dim stopWatch = New Stopwatch
         stopWatch.Start()
 
-        _picture = _rayTraceDrawer.Picture
+        _Picture = _RayTraceDrawer.Picture
 
         stopWatch.Stop()
         elapsedTimeLabel.Text = "Time: " & stopWatch.Elapsed.ToString
-        timePerPixelLabel.Text = "Time per pixel: " & (stopWatch.ElapsedMilliseconds / (_picture.Size.Width * _picture.Size.Height)).ToString & "ms"
+        timePerPixelLabel.Text = "Time per pixel: " & (stopWatch.ElapsedMilliseconds / (_Picture.Size.Width * _Picture.Size.Height)).ToString & "ms"
 
-        pictureBox.BackgroundImage = _picture
+        pictureBox.BackgroundImage = _Picture
 
         Me.saveButton.Enabled = True
     End Sub
 
     Private Function TrySetRayTracerDrawer() As Boolean
         Dim pictureSize As Size
-        If Not Me.GetPictureSize(out_size:=pictureSize) Then Return False
+        If Not Me.GetPictureSize(out_Size:=pictureSize) Then Return False
 
-        _rayTraceDrawer = New RayTracingExamples(pictureSize).SecondRoom(cameraZLocation:=29)
+        _RayTraceDrawer = New RayTracingExamples(pictureSize).SecondRoom(cameraZLocation:=29)
         Return True
     End Function
 
-    Private Function GetPictureSize(ByRef out_size As Size) As Boolean
+    Private Function GetPictureSize(ByRef out_Size As Size) As Boolean
 
         If customSizeRadioButton.Checked Then
             If Not _customPictureSizeOk Then Return False
 
-            out_size = _customPictureSize
+            out_Size = _customPictureSize
         ElseIf windowSizeRadioButton.Checked Then
-            out_size = pictureBox.Size
+            out_Size = pictureBox.Size
         Else
-            out_size = My.Computer.Screen.Bounds.Size
+            out_Size = My.Computer.Screen.Bounds.Size
         End If
 
         Return True
@@ -59,10 +59,10 @@
     End Sub
 
     Private Sub ColorColorPanel(ByVal mouseLocation As Point)
-        colorPanel.BackColor = _rayTraceDrawer.GetPixelColor(mouseLocation.X, mouseLocation.Y)
+        colorPanel.BackColor = _RayTraceDrawer.GetPixelColor(mouseLocation.X, mouseLocation.Y)
     End Sub
 
-    Private Sub rayTraceDrawer_ProgressIncreased(ByVal sender As Object, ByVal e As ProgressEventArgs) Handles _rayTraceDrawer.ProgressIncreased
+    Private Sub rayTraceDrawer_ProgressIncreased(ByVal sender As Object, ByVal e As ProgressEventArgs) Handles _RayTraceDrawer.ProgressIncreased
         Me.progressBar.Value = CInt(e.Progress * 100)
     End Sub
 
@@ -74,7 +74,7 @@
         Loop
         saveFileDialog.FileName &= pictureNumber
         If saveFileDialog.ShowDialog = Windows.Forms.DialogResult.OK Then
-            _picture.Save(saveFileDialog.FileName)
+            _Picture.Save(saveFileDialog.FileName)
         End If
     End Sub
 
@@ -113,7 +113,7 @@
         If Not Me.TrySetRayTracerDrawer() Then Return
         If Not _calculatedTimeOptionsForm.DialogResult = Windows.Forms.DialogResult.OK Then Return
 
-        Dim size = _rayTraceDrawer.PictureSize
+        Dim size = _RayTraceDrawer.PictureSize
 
         Dim bitmap = New Bitmap(size.Width, size.Height)
 
@@ -132,7 +132,7 @@
 
             drawTimeStopwatch.Start()
 
-            bitmap.SetPixel(randomX, randomY, _rayTraceDrawer.GetPixelColor(randomX, randomY))
+            bitmap.SetPixel(randomX, randomY, _RayTraceDrawer.GetPixelColor(randomX, randomY))
 
             drawTimeStopwatch.Stop()
 

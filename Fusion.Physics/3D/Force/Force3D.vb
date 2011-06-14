@@ -10,14 +10,14 @@ Public Class Force3D
 
     Public Sub New(ByVal field As IField3D, ByVal endNodes As EndNodes(Of Particle3D), ByVal color As Color)
         ParticlePairField = New ParticlePairField3D(field)
-        _endNodes = endNodes
+        _EndNodes = endNodes
         _color = color
     End Sub
 
-    Private _endNodes As EndNodes(Of Particle3D)
+    Private _EndNodes As EndNodes(Of Particle3D)
     Public ReadOnly Property EndNodes() As Math.EndNodes(Of Particle3D) Implements Math.IEdge(Of Particle3D).EndNodes
         Get
-            Return _endNodes
+            Return _EndNodes
         End Get
     End Property
 

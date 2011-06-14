@@ -7,13 +7,13 @@
         Me.AngleFromMinus1To1 = xAngleFromMinus1To1
     End Sub
 
-    Private _angleFromMinus1To1 As Double
+    Private _AngleFromMinus1To1 As Double
     Public Property AngleFromMinus1To1 As Double
         Get
-            Return _angleFromMinus1To1
+            Return _AngleFromMinus1To1
         End Get
         Set(ByVal value As Double)
-            _angleFromMinus1To1 = value
+            _AngleFromMinus1To1 = value
             Me.ViewPlaneToCameraDistance = 1 / Tan(value / 2)
         End Set
     End Property
@@ -29,13 +29,13 @@
         End Set
     End Property
 
-    Private _lookAt As Vector3D
+    Private _LookAt As Vector3D
     Public Property LookAt As Vector3D
         Get
-            Return _lookAt
+            Return _LookAt
         End Get
         Set(ByVal value As Vector3D)
-            _lookAt = value
+            _LookAt = value
             adaptDirection()
         End Set
     End Property
@@ -45,69 +45,69 @@
     End Sub
     Public WriteOnly Property Direction As Vector3D
         Set(ByVal value As Vector3D)
-            _normalizedDirection = value.Normalized
+            _NormalizedDirection = value.Normalized
             adaptViewPlaneDistanceVector()
             adaptNormalizedVectorsInViewPlane()
         End Set
     End Property
 
-    Private _normalizedDirection As Vector3D
+    Private _NormalizedDirection As Vector3D
     Public ReadOnly Property NormalizedDirection As Vector3D
         Get
-            Return _normalizedDirection
+            Return _NormalizedDirection
         End Get
     End Property
 
-    Private _upVector As Vector3D
+    Private _UpVector As Vector3D
     Public Property UpVector As Vector3D
         Get
-            Return _upVector
+            Return _UpVector
         End Get
         Set(ByVal value As Vector3D)
-            _upVector = value
-            _normalizedUpVector = Me.UpVector.Normalized
+            _UpVector = value
+            _NormalizedUpVector = Me.UpVector.Normalized
             adaptNormalizedVectorsInViewPlane()
         End Set
     End Property
 
-    Private _normalizedUpVector As Vector3D
+    Private _NormalizedUpVector As Vector3D
     Public ReadOnly Property NormalizedUpVector As Vector3D
         Get
-            Return _normalizedUpVector
+            Return _NormalizedUpVector
         End Get
     End Property
 
     Private Sub adaptViewPlaneDistanceVector()
-        _viewPlaneDistanceVector = Me.NormalizedDirection * Me.ViewPlaneToCameraDistance
+        _ViewPlaneDistanceVector = Me.NormalizedDirection * Me.ViewPlaneToCameraDistance
     End Sub
-    Private _viewPlaneDistanceVector As Vector3D
+    Private _ViewPlaneDistanceVector As Vector3D
 
-    Private _viewPlaneToCameraDistance As Double
+    Private _ViewPlaneToCameraDistance As Double
     Private Property ViewPlaneToCameraDistance As Double
         Get
-            Return _viewPlaneToCameraDistance
+            Return _ViewPlaneToCameraDistance
         End Get
         Set(ByVal value As Double)
-            _viewPlaneToCameraDistance = value
+            _ViewPlaneToCameraDistance = value
             Me.adaptViewPlaneDistanceVector()
         End Set
     End Property
 
-    Private _normalizedRightVectorInViewPlane As Vector3D
-    Private _normalizedUpVectorInViewPlane As Vector3D
+    Private _NormalizedRightVectorInViewPlane As Vector3D
+    Private _NormalizedUpVectorInViewPlane As Vector3D
 
     Private Sub adaptNormalizedVectorsInViewPlane()
-        _normalizedRightVectorInViewPlane = Me.NormalizedDirection.CrossProduct(Me.NormalizedUpVector)
+        _NormalizedRightVectorInViewPlane = Me.NormalizedDirection.CrossProduct(Me.NormalizedUpVector)
         adaptNormalizedUpVectorInViewPlane()
     End Sub
 
     Private Sub adaptNormalizedUpVectorInViewPlane()
-        _normalizedUpVectorInViewPlane = _normalizedRightVectorInViewPlane.CrossProduct(Me.NormalizedDirection)
+        _NormalizedUpVectorInViewPlane = _NormalizedRightVectorInViewPlane.CrossProduct(Me.NormalizedDirection)
     End Sub
 
     Public Function SightRay(ByVal viewPlaneLocation As Vector2D) As Ray
-        Dim sightVectorInViewPlane = _normalizedRightVectorInViewPlane * viewPlaneLocation.X + _normalizedUpVectorInViewPlane * viewPlaneLocation.Y
-        Return New Ray(origin:=Me.CameraLocation, Direction:=_viewPlaneDistanceVector + sightVectorInViewPlane)
+        Dim sightVectorInViewPlane = _NormalizedRightVectorInViewPlane * viewPlaneLocation.X + _NormalizedUpVectorInViewPlane * viewPlaneLocation.Y
+        Return New Ray(origin:=Me.CameraLocation, Direction:=_ViewPlaneDistanceVector + sightVectorInViewPlane)
     End Function
 
 End Class

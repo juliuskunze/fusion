@@ -1,22 +1,22 @@
 ﻿Public Structure Ray
 
-    Private ReadOnly _normalizedDirection As Vector3D
+    Private ReadOnly _NormalizedDirection As Vector3D
     Public ReadOnly Property NormalizedDirection As Vector3D
         Get
-            Return _normalizedDirection
+            Return _NormalizedDirection
         End Get
     End Property
 
-    Private ReadOnly _origin As Vector3D
+    Private ReadOnly _Origin As Vector3D
     Public ReadOnly Property Origin As Vector3D
         Get
-            Return _origin
+            Return _Origin
         End Get
     End Property
 
     Public Sub New(ByVal origin As Vector3D, ByVal direction As Vector3D)
-        _origin = origin
-        _normalizedDirection = direction.Normalized
+        _Origin = origin
+        _NormalizedDirection = direction.Normalized
     End Sub
 
     Public Function PointOnRay(ByVal distanceFromOrigin As Double) As Vector3D

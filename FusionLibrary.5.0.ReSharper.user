@@ -1,16 +1,12 @@
 <Configuration>
   <RecentFiles>
     <RecentFiles>
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector2D.vb" caret="2238" fromTop="0" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector3D.vb" caret="483" fromTop="10" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:EnumerableExtensionsTests/f:LingExtensionsTests.vb" caret="88" fromTop="2" />
       <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsvColor.vb" caret="3252" fromTop="45" />
       <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:RayChanger.vb" caret="2991" fromTop="15" />
       <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Relativity/f:RelativisticRayTransformation.vb" caret="2430" fromTop="25" />
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surfaces/f:Ray.vb" caret="861" fromTop="20" />
       <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/d:RelativityTests/f:RelativisticRayTransformationTests.vb" caret="80" fromTop="2" />
       <File id="1EE4717E-64D6-4CAF-973F-1D45270BFA9A/f:FlowPanel2DParaviewWriter.vb" caret="240" fromTop="5" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:PointSets2D/f:ICoordinateSystemToArray.vb" caret="17" fromTop="0" />
       <File id="1EE4717E-64D6-4CAF-973F-1D45270BFA9A/f:IFlowPanel2D.vb" caret="85" fromTop="0" />
       <File id="1EE4717E-64D6-4CAF-973F-1D45270BFA9A/f:FlowPanel2DLE.vb" caret="0" fromTop="0" />
       <File id="1EE4717E-64D6-4CAF-973F-1D45270BFA9A/f:FlowBox2DLE.vb" caret="841" fromTop="0" />
@@ -29,11 +25,14 @@
       <File id="B322DEC2-F5D9-4BEF-8D5B-EC8DE173C56F/f:ParticleGuide.vb" caret="303" fromTop="0" />
       <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/f:PerformanceTests.vb" caret="118" fromTop="4" />
       <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:ExactColor.vb" caret="0" fromTop="0" />
-      <File id="74A8E394-FD08-418B-BBBE-B9FD54589B2E/f:Constants.vb" caret="505" fromTop="13" />
       <File id="74A8E394-FD08-418B-BBBE-B9FD54589B2E/f:SunSystemConstants.vb" caret="0" fromTop="0" />
+      <File id="74A8E394-FD08-418B-BBBE-B9FD54589B2E/f:Constants.vb" caret="0" fromTop="0" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:PointSets2D/f:ICoordinateSystemToArray.vb" caret="0" fromTop="0" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:PointSets2D/f:HalfCircle.vb" caret="0" fromTop="0" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:PointSets2D/f:Circle2D.vb" caret="0" fromTop="0" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:PointSets2D/f:CoordinateSystemToArray.vb" caret="1308" fromTop="12" />
     </RecentFiles>
     <RecentEdits>
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Functions.vb" caret="1787" fromTop="13" />
       <File id="9A318D74-127E-441B-BF66-38E7B0617A8B/f:CalculatorWindow.xaml.vb" caret="3271" fromTop="30" />
       <File id="9A318D74-127E-441B-BF66-38E7B0617A8B/f:CalculatorWindow.xaml.vb" caret="3243" fromTop="30" />
       <File id="9A318D74-127E-441B-BF66-38E7B0617A8B/f:CalculatorWindow.xaml.vb" caret="2528" fromTop="6" />
@@ -63,6 +62,7 @@
       <File id="74A8E394-FD08-418B-BBBE-B9FD54589B2E/f:Constants.vb" caret="253" fromTop="4" />
       <File id="74A8E394-FD08-418B-BBBE-B9FD54589B2E/f:Constants.vb" caret="334" fromTop="6" />
       <File id="74A8E394-FD08-418B-BBBE-B9FD54589B2E/f:Constants.vb" caret="396" fromTop="8" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:PointSets2D/f:CoordinateSystemToArray.vb" caret="1330" fromTop="13" />
     </RecentEdits>
   </RecentFiles>
   <NAntValidationSettings>

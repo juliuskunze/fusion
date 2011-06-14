@@ -28,7 +28,7 @@
         Assert.True(a <> b)
     End Sub
 
-    '<Test()>
+    <Test()> <Ignore()>
     Public Shared Sub ToArray()
         Dim array = New Double(,) { _
         {1, 2}, _
@@ -48,7 +48,7 @@
 
     End Sub
 
-    '<Test()>
+    <Test()> <Ignore()>
     Public Shared Sub SwapRows()
         Dim m = New Matrix(New Double(,) { _
         {1, 2}, _
@@ -60,7 +60,7 @@
         Assert.True(m(1, 1) = 2)
     End Sub
 
-    '<Test()>
+    <Test()> <Ignore()>
     Public Shared Sub MultiplyRow()
         Dim m = New Matrix(New Double(,) { _
         {1, 2}, _
@@ -72,7 +72,7 @@
         Assert.True(m(0, 1) = 11)
     End Sub
 
-    '<Test()>
+    <Test()> <Ignore()>
     Public Shared Sub MultiplyAddRow()
         Dim m = New Matrix(New Double(,) { _
         {1, 2}, _
@@ -84,7 +84,7 @@
         Assert.True(m(0, 1) = 8)
     End Sub
 
-    '<Test()>
+     <Test()> <Ignore()>
     Public Shared Sub OperatorMultiply()
         Dim v = New Vector2D(1, 2).ToColumnMatrix
         Dim m = New Matrix(New Double(,) {{1, 2}, {3, 0}})

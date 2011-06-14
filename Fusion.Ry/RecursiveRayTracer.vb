@@ -20,14 +20,14 @@
 
     Public Property ShadedPointLightSources As List(Of IPointLightSource)
         Get
-            Return _shadedLightSources
+            Return _ShadedLightSources
         End Get
         Set(ByVal value As List(Of IPointLightSource))
-            _shadedLightSources = New ShadedLightSources(pointLightSources:=value, shadowingSurface:=Me.Surface)
+            _ShadedLightSources = New ShadedLightSources(pointLightSources:=value, shadowingSurface:=Me.Surface)
         End Set
     End Property
 
-    Private _shadedLightSources As ShadedLightSources
+    Private _ShadedLightSources As ShadedLightSources
 
     Protected Function TraceColor(ByVal ray As Ray, ByVal intersectionCount As Integer) As ExactColor
         Dim firstIntersection = Me.Surface.FirstMaterialIntersection(ray)
@@ -38,7 +38,7 @@
 
         Dim finalColor = hitMaterial.LightSourceColor
         If hitMaterial.Scatters Then
-            Dim lightColor = Me.LightSource.LightColor(firstIntersection) + _shadedLightSources.LightColor(firstIntersection)
+            Dim lightColor = Me.LightSource.LightColor(firstIntersection) + _ShadedLightSources.LightColor(firstIntersection)
             finalColor += hitMaterial.ScatteringRemission.Color(lightColor)
         End If
 

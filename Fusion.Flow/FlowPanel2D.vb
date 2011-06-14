@@ -134,21 +134,21 @@
         End If
     End Sub
 
-    Private _viscosity As Double
+    Private _Viscosity As Double
     Public Property Viscosity As Double
         Get
-            Return _viscosity
+            Return _Viscosity
         End Get
         Set(ByVal value As Double)
-            _viscosity = value
-            _lambda = 1 / (0.5 + 3 * value)
+            _Viscosity = value
+            _Lambda = 1 / (0.5 + 3 * value)
         End Set
     End Property
 
-    Private _lambda As Double
+    Private _Lambda As Double
     Public ReadOnly Property Lambda As Double
         Get
-            Return _lambda
+            Return _Lambda
         End Get
     End Property
 

@@ -1,26 +1,26 @@
 ﻿Public Class IntersectedSurfacedPointSet3D
     Implements ISurfacedPointSet3D
 
-    Private _surfacedPointSet1 As ISurfacedPointSet3D
+    Private _SurfacedPointSet1 As ISurfacedPointSet3D
     Public ReadOnly Property SurfacedPointSet1 As ISurfacedPointSet3D
         Get
-            Return _surfacedPointSet1
+            Return _SurfacedPointSet1
         End Get
     End Property
 
-    Private _surfacedPointSet2 As ISurfacedPointSet3D
+    Private _SurfacedPointSet2 As ISurfacedPointSet3D
     Public ReadOnly Property SurfacedPointSet2 As ISurfacedPointSet3D
         Get
-            Return _surfacedPointSet2
+            Return _SurfacedPointSet2
         End Get
     End Property
 
-    Private _surface As Surfaces
+    Private _Surface As Surfaces
 
     Public Sub New(ByVal surfacedPointSet1 As ISurfacedPointSet3D, ByVal surfacedPointSet2 As ISurfacedPointSet3D)
-        _surfacedPointSet1 = surfacedPointSet1
-        _surfacedPointSet2 = surfacedPointSet2
-        _surface = New Surfaces() From {New TruncatedSurface(baseSurface:=Me.SurfacedPointSet1, truncatingPointSet:=New InversePointSet3D(Me.SurfacedPointSet2)),
+        _SurfacedPointSet1 = surfacedPointSet1
+        _SurfacedPointSet2 = surfacedPointSet2
+        _Surface = New Surfaces() From {New TruncatedSurface(baseSurface:=Me.SurfacedPointSet1, truncatingPointSet:=New InversePointSet3D(Me.SurfacedPointSet2)),
                                         New TruncatedSurface(baseSurface:=Me.SurfacedPointSet2, truncatingPointSet:=New InversePointSet3D(Me.SurfacedPointSet1))}
     End Sub
 
@@ -29,10 +29,10 @@
     End Function
 
     Public Function FirstIntersection(ByVal ray As Ray) As SurfacePoint Implements ISurface.FirstIntersection
-        Return _surface.FirstIntersection(ray)
+        Return _Surface.FirstIntersection(ray)
     End Function
 
     Public Function Intersections(ByVal ray As Ray) As IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
-        Return _surface.Intersections(ray)
+        Return _Surface.Intersections(ray)
     End Function
 End Class

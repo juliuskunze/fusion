@@ -1,37 +1,37 @@
 ﻿Public Class InfiniteCylinder
     Implements ISurfacedPointSet3D
 
-    Private ReadOnly _origin As Vector3D
+    Private ReadOnly _Origin As Vector3D
     Public ReadOnly Property Origin As Vector3D
         Get
-            Return _origin
+            Return _Origin
         End Get
     End Property
 
-    Private ReadOnly _normalizedDirection As Vector3D
+    Private ReadOnly _NormalizedDirection As Vector3D
     Public ReadOnly Property NormalizedDirection As Vector3D
         Get
-            Return _normalizedDirection
+            Return _NormalizedDirection
         End Get
     End Property
 
-    Private ReadOnly _radius As Double
-    Private ReadOnly _radiusSquared As Double
+    Private ReadOnly _Radius As Double
+    Private ReadOnly _RadiusSquared As Double
     Public ReadOnly Property Radius As Double
         Get
-            Return _radius
+            Return _Radius
         End Get
     End Property
 
     Public Sub New(ByVal origin As Vector3D, ByVal direction As Vector3D, ByVal radius As Double)
-        _origin = origin
-        _normalizedDirection = direction.Normalized
-        _radius = radius
-        _radiusSquared = radius ^ 2
+        _Origin = origin
+        _NormalizedDirection = direction.Normalized
+        _Radius = radius
+        _RadiusSquared = radius ^ 2
     End Sub
 
     Public Function Contains(ByVal point As Vector3D) As Boolean Implements IPointSet3D.Contains
-        Return (point - Me.Origin).CrossProduct(Me.NormalizedDirection).LengthSquared <= _radiusSquared
+        Return (point - Me.Origin).CrossProduct(Me.NormalizedDirection).LengthSquared <= _RadiusSquared
     End Function
 
     Friend Function SurfaceIntersectionRayLengths(ByVal ray As Ray) As IEnumerable(Of Double)
@@ -41,7 +41,7 @@
         Dim temp2 = Me.NormalizedDirection.CrossProduct(relativeRayOrigin)
         Dim rayLengthQuadraticEquation = New QuadraticEquation(quadraticCoefficient:=temp1 * temp1,
                                                       linearCoefficient:=2 * temp1 * temp2,
-                                                      absoluteCoefficient:=temp2 * temp2 - _radiusSquared)
+                                                      absoluteCoefficient:=temp2 * temp2 - _RadiusSquared)
         Return rayLengthQuadraticEquation.Solve.Where(Function(rayLength) rayLength >= 0)
     End Function
 

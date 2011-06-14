@@ -1,71 +1,71 @@
 ﻿Public Class FrameTimer
     Implements IDisposable
 
-    Private _timer As Windows.Forms.Timer
+    Private _Timer As Windows.Forms.Timer
 
     Public Sub New(ByVal framerate As Double, ByVal calcRate As Double, Optional ByVal fastMotion As Double = 1)
-        _timer = New Windows.Forms.Timer
+        _Timer = New Windows.Forms.Timer
 
-        _framerate = framerate
+        _Framerate = framerate
         Me.CalcRate = calcRate
         Me.Framerate = framerate
 
-        _fastMotion = fastMotion
+        _FastMotion = fastMotion
 
-        AddHandler _timer.Tick, AddressOf TickHandler
+        AddHandler _Timer.Tick, AddressOf TickHandler
     End Sub
 
 
     Public Property Enabled() As Boolean
         Get
-            Return _timer.Enabled
+            Return _Timer.Enabled
         End Get
         Set(ByVal value As Boolean)
-            _timer.Enabled = value
+            _Timer.Enabled = value
         End Set
     End Property
 
     Public Sub Start()
-        _timer.Start()
+        _Timer.Start()
     End Sub
 
     Public Sub [Stop]()
-        _timer.Stop()
+        _Timer.Stop()
     End Sub
 
 
-    Private _framerate As Double
+    Private _Framerate As Double
     Public Property Framerate() As Double
         Get
-            Return _framerate
+            Return _Framerate
         End Get
         Set(ByVal value As Double)
-            _framerate = value
+            _Framerate = value
 
-            Dim interval = CInt(1000 / _framerate)
-            _timer.Interval = interval
-            _framerate = 1000 / interval
+            Dim interval = CInt(1000 / _Framerate)
+            _Timer.Interval = interval
+            _Framerate = 1000 / interval
 
             _calcsPerFrame = CInt(Me.CalcRate / Me.Framerate)
         End Set
     End Property
 
-    Private _fastMotion As Double
+    Private _FastMotion As Double
     Public Property FastMotion() As Double
         Get
-            Return _fastMotion
+            Return _FastMotion
         End Get
         Set(ByVal value As Double)
-            _fastMotion = value
+            _FastMotion = value
         End Set
     End Property
 
     Public Property SlowMotion() As Double
         Get
-            Return 1 / _fastMotion
+            Return 1 / _FastMotion
         End Get
         Set(ByVal value As Double)
-            _fastMotion = 1 / value
+            _FastMotion = 1 / value
         End Set
     End Property
 
@@ -84,7 +84,7 @@
             Return Me.Framerate * Me.CalcsPerFrame
         End Get
         Set(ByVal value As Double)
-            Me.CalcsPerFrame = CInt(value / _framerate)
+            Me.CalcsPerFrame = CInt(value / _Framerate)
             Me.Framerate = value / Me.CalcsPerFrame
         End Set
     End Property
@@ -106,16 +106,16 @@
     Public Event FrameTick(ByVal sender As Object, ByVal e As FrameTickEventArgs)
 
 
-    Private _disposed As Boolean
+    Private _Disposed As Boolean
     Protected Overridable Sub Dispose(ByVal disposing As Boolean)
-        If Not _disposed Then
+        If Not _Disposed Then
             If disposing Then
             End If
 
-            _timer.Dispose()
+            _Timer.Dispose()
 
         End If
-        _disposed = True
+        _Disposed = True
     End Sub
 
     Public Sub Dispose() Implements IDisposable.Dispose

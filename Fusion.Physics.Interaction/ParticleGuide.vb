@@ -1,13 +1,13 @@
 ﻿Public Class ParticleGuide
 
     Public Sub New(ByVal particleSystem As ParticleSystem2D)
-        _particleSystem = particleSystem
+        _ParticleSystem = particleSystem
     End Sub
 
-    Private _particleSystem As ParticleSystem2D
+    Private _ParticleSystem As ParticleSystem2D
     Public ReadOnly Property ParticleSystem As ParticleSystem2D
         Get
-            Return _particleSystem
+            Return _ParticleSystem
         End Get
     End Property
 
@@ -28,24 +28,24 @@
         RaiseEvent ParticleChanged(Me, Nothing)
     End Sub
 
-    Private _lastDragStateLocation As Vector2D
-    Private _lastDragStateElapsedTime As Double
+    Private _LastDragStateLocation As Vector2D
+    Private _LastDragStateElapsedTime As Double
 
     Public Sub TryDragFixedParticleTo(ByVal location As Vector2D)
         If Me.FixedParticle IsNot Nothing Then
             Me.FixedParticle.Location = location
 
-            Dim timeDifference As Double = _particleSystem.Time - _lastDragStateElapsedTime
+            Dim timeDifference As Double = _ParticleSystem.Time - _LastDragStateElapsedTime
             If timeDifference = 0 Then
                 Me.FixedParticle.Velocity = Vector2D.Zero
             Else
-                Me.FixedParticle.Velocity = (location - _lastDragStateLocation) / timeDifference
+                Me.FixedParticle.Velocity = (location - _LastDragStateLocation) / timeDifference
             End If
 
             RaiseEvent ParticleChanged(Me, Nothing)
         End If
-        _lastDragStateLocation = location
-        _lastDragStateElapsedTime = _particleSystem.Time
+        _LastDragStateLocation = location
+        _LastDragStateElapsedTime = _ParticleSystem.Time
     End Sub
 
     Public Sub Unfix()

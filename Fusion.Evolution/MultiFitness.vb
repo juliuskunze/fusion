@@ -2,16 +2,16 @@
     Implements IFitness(Of SolutionType)
 
     Public Sub New()
-        _fitnessFunctions = New List(Of IFitness(Of SolutionType))
+        _FitnessFunctions = New List(Of IFitness(Of SolutionType))
     End Sub
 
-    Private _fitnessFunctions As List(Of IFitness(Of SolutionType))
+    Private _FitnessFunctions As List(Of IFitness(Of SolutionType))
     Public Property FitnessFunctions() As List(Of IFitness(Of SolutionType))
         Get
-            Return _fitnessFunctions
+            Return _FitnessFunctions
         End Get
         Set(ByVal value As List(Of IFitness(Of SolutionType)))
-            _fitnessFunctions = value
+            _FitnessFunctions = value
         End Set
     End Property
 

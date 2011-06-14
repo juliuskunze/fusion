@@ -45,13 +45,13 @@ Public Class Force2D
     End Sub
 
     <NonSerialized()>
-    Private _pen As Pen
+    Private _Pen As Pen
     Public Property Pen() As Pen
         Get
-            Return _pen
+            Return _Pen
         End Get
         Set(ByVal value As Pen)
-            _pen = value
+            _Pen = value
         End Set
     End Property
 

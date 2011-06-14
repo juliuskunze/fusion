@@ -15,17 +15,17 @@ Public Class ParticleSystem2D
     End Sub
 
     Public Sub New(ByVal particles As List(Of Particle2D), ByVal startTime As DateTime)
-        _startTime = startTime
+        _StartTime = startTime
         Me.AddNodes(particles)
         Me.SingleForces = New List(Of ISingleForce2D)
     End Sub
 
-    Private _startTime As Date
-    Private _elapsedSeconds As Double
+    Private _StartTime As Date
+    Private _ElapsedSeconds As Double
 
     Public ReadOnly Property Time() As Double
         Get
-            Return _elapsedSeconds
+            Return _ElapsedSeconds
         End Get
     End Property
 
@@ -37,13 +37,13 @@ Public Class ParticleSystem2D
 
     Public ReadOnly Property CurrentTime() As DateTime
         Get
-            Return _startTime.AddSeconds(Time)
+            Return _StartTime.AddSeconds(Time)
         End Get
     End Property
 
     Public ReadOnly Property StartTime As Date
         Get
-            Return _startTime
+            Return _StartTime
         End Get
     End Property
 
@@ -63,7 +63,7 @@ Public Class ParticleSystem2D
     Public Property SingleForces As List(Of ISingleForce2D)
 
     Public Sub DoEulerStep(ByVal timeSpan As Double)
-        _elapsedSeconds += timeSpan
+        _ElapsedSeconds += timeSpan
 
         For Each force In Me.Edges
             force.ChangeSystem(timeSpan)

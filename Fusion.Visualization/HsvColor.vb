@@ -1,35 +1,35 @@
 ﻿Public Structure HsvColor
 
-    Private ReadOnly _hue As Double
+    Private ReadOnly _Hue As Double
     Public ReadOnly Property Hue As Double
         Get
-            Return _hue
+            Return _Hue
         End Get
     End Property
 
-    Private ReadOnly _saturation As Double
+    Private ReadOnly _Saturation As Double
     Public ReadOnly Property Saturation As Double
         Get
-            Return _saturation
+            Return _Saturation
         End Get
     End Property
 
-    Private ReadOnly _value As Double
+    Private ReadOnly _Value As Double
     Public ReadOnly Property Value As Double
         Get
-            Return _value
+            Return _Value
         End Get
     End Property
 
     Public Sub New(ByVal hue As Double, ByVal saturation As Double, ByVal value As Double)
         If Not (0 <= hue AndAlso hue <= 2 * PI) Then Throw New ArgumentException("Hue has to be an angle in [0, 2 * Pi).")
-        _hue = hue
+        _Hue = hue
 
         If Not (0 <= Me.Saturation AndAlso Me.Saturation <= 1) Then Throw New ArgumentOutOfRangeException("Saturation has to be in [0; 1].")
-        _saturation = saturation
+        _Saturation = saturation
 
         If Not (0 <= Me.Value AndAlso Me.Value <= 1) Then Throw New ArgumentOutOfRangeException("Value has to be in [0; 1].")
-        _value = value
+        _Value = value
     End Sub
 
     Public Function ToRgbColor() As Color
