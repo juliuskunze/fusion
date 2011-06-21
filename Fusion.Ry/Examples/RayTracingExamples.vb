@@ -7,7 +7,7 @@ Public Class RayTracingExamples
     End Sub
 
     Public Function FirstRoom(Optional ByVal glassRefractionIndex As Double = 1.4) As RayTraceDrawer(Of RgbLight)
-        Dim view = New View3D(cameraLocation:=New Vector3D(5, 5, 25),
+        Dim view = New View3D(observerLocation:=New Vector3D(5, 5, 25),
                               lookAt:=New Vector3D(5, 5, 0),
                               upVector:=New Vector3D(0, 1, 0),
                               xAngleFromMinus1To1:=PI / 3)
@@ -75,7 +75,7 @@ Public Class RayTracingExamples
     Public Function SquaredSurfaceDrawer() As RayTraceDrawer(Of RgbLight)
         Dim cameraLocation = New Vector3D(4, 0.3, 0)
 
-        Dim view = New View3D(cameraLocation:=cameraLocation,
+        Dim view = New View3D(observerLocation:=cameraLocation,
                               lookAt:=New Vector3D(0, 0.3, 0),
                               upVector:=New Vector3D(0, 1, 0),
                               xAngleFromMinus1To1:=PI / 2)
@@ -158,7 +158,7 @@ Public Class RayTracingExamples
         '                      lookAt:=New Vector3D(3, 3, 0),
         '                      upVector:=New Vector3D(0, 1, 0),
         '                      xAngleFromMinus1To1:=PI * 0.26)
-        Dim view = New View3D(cameraLocation:=New Vector3D(7.5, 6, 15),
+        Dim view = New View3D(observerLocation:=New Vector3D(7.5, 6, 15),
                               lookAt:=New Vector3D(7.5, 3, 0),
                               upVector:=New Vector3D(0, 1, 0),
                               xAngleFromMinus1To1:=PI * 0.26)

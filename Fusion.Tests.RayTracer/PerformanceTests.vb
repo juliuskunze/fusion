@@ -1,4 +1,4 @@
-﻿Public Class PerformanceTests
+Public Class PerformanceTests
 
     <Test()>
     Public Sub ExamplePicture()
@@ -12,7 +12,7 @@
     End Sub
 
     Public Function IluminationRoom() As RayTraceDrawer(Of RgbLight)
-        Dim view = New View3D(cameraLocation:=New Vector3D(15, 6, 33),
+        Dim view = New View3D(observerLocation:=New Vector3D(15, 6, 33),
                               lookAt:=New Vector3D(3, 3, 0),
                               upVector:=New Vector3D(0, 1, 0),
                               xAngleFromMinus1To1:=PI / 4)

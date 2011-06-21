@@ -1,7 +1,7 @@
-﻿Public Class View3D
+Public Class View3D
 
-    Public Sub New(ByVal cameraLocation As Vector3D, ByVal lookAt As Vector3D, ByVal upVector As Vector3D, ByVal xAngleFromMinus1To1 As Double)
-        Me.CameraLocation = cameraLocation
+    Public Sub New(ByVal observerLocation As Vector3D, ByVal lookAt As Vector3D, ByVal upVector As Vector3D, ByVal xAngleFromMinus1To1 As Double)
+        Me.CameraLocation = observerLocation
         Me.LookAt = lookAt
         Me.UpVector = upVector
         Me.AngleFromMinus1To1 = xAngleFromMinus1To1
