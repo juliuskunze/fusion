@@ -1,6 +1,6 @@
 ﻿''' <summary>
 ''' Transforms a (light) ray of a (stationary) reference frame into one which relativly moves
-''' with a constant velocity in z-direction.
+''' with a constant velocity in x-direction.
 ''' </summary>
 ''' The origins of the reference frames are equal, their times are equal.
 ''' <remarks></remarks>

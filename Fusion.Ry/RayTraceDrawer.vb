@@ -13,11 +13,11 @@
         End Get
         Set(ByVal value As Size)
             _PicturSize = value
-            _coordinateSystem = New NormalizedMidpointCoordinateSystem(New Vector2D(value))
+            _CoordinateSystem = New NormalizedMidpointCoordinateSystem(New Vector2D(value))
         End Set
     End Property
 
-    Private _coordinateSystem As NormalizedMidpointCoordinateSystem
+    Private _CoordinateSystem As NormalizedMidpointCoordinateSystem
 
     Public Property View As View3D
 
@@ -43,7 +43,7 @@
     End Sub
 
     Public Function GetPixelColor(ByVal bitmapX As Integer, ByVal bitmapY As Integer) As Color
-        Dim projectedLocation = _coordinateSystem.VirtualLocation(pixelLocation:=New Vector2D(bitmapX, bitmapY))
+        Dim projectedLocation = _CoordinateSystem.VirtualLocation(pixelLocation:=New Vector2D(bitmapX, bitmapY))
         Dim sightRay = Me.View.SightRay(viewPlaneLocation:=projectedLocation)
 
         Return Me.RayTracer.GetColor(startRay:=sightRay).ToColor

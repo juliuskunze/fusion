@@ -18,13 +18,13 @@
         End Set
     End Property
 
-    Private _cameraLocation As Vector3D
+    Private _CameraLocation As Vector3D
     Public Property CameraLocation As Vector3D
         Get
-            Return _cameraLocation
+            Return _CameraLocation
         End Get
         Set(ByVal value As Vector3D)
-            _cameraLocation = value
+            _CameraLocation = value
             adaptDirection()
         End Set
     End Property

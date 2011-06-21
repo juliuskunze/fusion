@@ -9,7 +9,7 @@ Public Class ConcatenatedSortedEnumerator(Of T)
     Private Class ActivatableEnumerator
         Public Sub New(ByVal enumerator As IEnumerator(Of T))
             Me.Enumerator = enumerator
-            _activated = True
+            _Activated = True
         End Sub
 
         Public Property Enumerator As IEnumerator(Of T)
@@ -17,37 +17,37 @@ Public Class ConcatenatedSortedEnumerator(Of T)
         Private _Activated As Boolean
         Public ReadOnly Property Activated As Boolean
             Get
-                Return _activated
+                Return _Activated
             End Get
         End Property
 
         Public Function MoveNext() As Boolean
             Dim movedNext = Me.Enumerator.MoveNext()
-            _activated = movedNext
+            _Activated = movedNext
             Return movedNext
         End Function
 
         Public Sub Reset()
             Me.Enumerator.Reset()
-            _activated = True
+            _Activated = True
         End Sub
 
     End Class
 
     Private _SourceEnumerators As IEnumerable(Of ActivatableEnumerator)
 
-    Private _compareValueFunction As Func(Of T, Double)
+    Private _CompareValueFunction As Func(Of T, Double)
 
     Public Sub New(ByVal sourceEnumerators As IEnumerable(Of IEnumerator(Of T)), ByVal compareValueFunction As Func(Of T, Double))
         'Deleting ".ToList" will cause failing tests.
         _SourceEnumerators = sourceEnumerators.Select(Function(enumerator) New ActivatableEnumerator(enumerator)).ToList
-        _compareValueFunction = compareValueFunction
+        _CompareValueFunction = compareValueFunction
     End Sub
 
-    Private _current As T
+    Private _Current As T
     Public ReadOnly Property Current As T Implements System.Collections.Generic.IEnumerator(Of T).Current
         Get
-            Return _current
+            Return _Current
         End Get
     End Property
 
@@ -59,7 +59,7 @@ Public Class ConcatenatedSortedEnumerator(Of T)
 
     Private _AlreadyMovedNext As Boolean = False
     Public Function MoveNext() As Boolean Implements System.Collections.IEnumerator.MoveNext
-        If _alreadyMovedNext Then
+        If _AlreadyMovedNext Then
             Me.MoveMinEnumeratorNext()
         Else
             Me.FirstMoveNextAll()
@@ -75,11 +75,11 @@ Public Class ConcatenatedSortedEnumerator(Of T)
 
     Private Sub SetMinEnumeratorByAllActivatedCurrent()
         _MinEnumerator = (From activatableEnumerator In _SourceEnumerators Where activatableEnumerator.Activated).
-            MinItem(Function(activatableEnumerator) _compareValueFunction.Invoke(activatableEnumerator.Enumerator.Current))
+            MinItem(Function(activatableEnumerator) _CompareValueFunction.Invoke(activatableEnumerator.Enumerator.Current))
     End Sub
 
     Private Sub SetCurrentByMinEnumerator()
-        _current = _MinEnumerator.Enumerator.Current
+        _Current = _MinEnumerator.Enumerator.Current
     End Sub
 
 
@@ -94,7 +94,7 @@ Public Class ConcatenatedSortedEnumerator(Of T)
             activatableEnumerator.MoveNext()
         Next
 
-        _alreadyMovedNext = True
+        _AlreadyMovedNext = True
     End Sub
 
     Private _MinEnumerator As ActivatableEnumerator
@@ -104,7 +104,7 @@ Public Class ConcatenatedSortedEnumerator(Of T)
     End Function
 
     Public Sub Reset() Implements System.Collections.IEnumerator.Reset
-        _alreadyMovedNext = False
+        _AlreadyMovedNext = False
 
         For Each sourceEnumerator In _SourceEnumerators
             sourceEnumerator.Reset()

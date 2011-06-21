@@ -9,10 +9,10 @@
 
     Public Property Center As Vector3D
         Get
-            Return _containingPlane.Location
+            Return _ContainingPlane.Location
         End Get
         Set(ByVal value As Vector3D)
-            _containingPlane.Location = value
+            _ContainingPlane.Location = value
         End Set
     End Property
 
@@ -20,23 +20,23 @@
 
     Public WriteOnly Property Normal As Vector3D
         Set(ByVal value As Vector3D)
-            _containingPlane.Normal = value.Normalized
+            _ContainingPlane.Normal = value.Normalized
         End Set
     End Property
 
     Public ReadOnly Property NormalizedNormal As Vector3D
         Get
-            Return _containingPlane.NormalizedNormal
+            Return _ContainingPlane.NormalizedNormal
         End Get
     End Property
 
     Private Sub adaptContainingPlane(ByVal center As Vector3D, ByVal normal As Vector3D)
-        _containingPlane = New Plane(location:=center, normal:=normal)
+        _ContainingPlane = New Plane(location:=center, normal:=normal)
     End Sub
-    Private _containingPlane As Plane
+    Private _ContainingPlane As Plane
 
     Public Function Intersection(ByVal ray As Ray) As SurfacePoint Implements ISurface.FirstIntersection
-        Dim planeIntersection = _containingPlane.Intersection(ray)
+        Dim planeIntersection = _ContainingPlane.Intersection(ray)
 
         If planeIntersection Is Nothing Then Return Nothing
 

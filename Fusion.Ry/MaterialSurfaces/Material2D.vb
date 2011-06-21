@@ -9,13 +9,13 @@
         Me.ScatteringRemission = scatteringRemission
         Me.ReflectionRemission = reflectionRemission
         Me.TransparencyRemission = transparencyRemission
-        Me.RefractionIndexRatio = refractionIndexQuotient
+        Me.RefractionIndexQuotient = refractionIndexQuotient
     End Sub
 
-    Public Property RefractionIndexRatio As Double
+    Public Property RefractionIndexQuotient As Double
     Public ReadOnly Property Refracts As Boolean
         Get
-            Return Me.IsTranslucent AndAlso Me.RefractionIndexRatio <> 1
+            Return Me.IsTranslucent AndAlso Me.RefractionIndexQuotient <> 1
         End Get
     End Property
 
@@ -47,7 +47,7 @@
                                          ScatteringRemission:=Me.ScatteringRemission,
                                          ReflectionRemission:=Me.ReflectionRemission,
                                          TransparencyRemission:=Me.TransparencyRemission,
-                                         refractionIndexQuotient:=Me.RefractionIndexRatio)
+                                         refractionIndexQuotient:=Me.RefractionIndexQuotient)
     End Function
 
 End Class

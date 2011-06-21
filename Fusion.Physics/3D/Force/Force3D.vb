@@ -11,7 +11,7 @@ Public Class Force3D
     Public Sub New(ByVal field As IField3D, ByVal endNodes As EndNodes(Of Particle3D), ByVal color As Color)
         ParticlePairField = New ParticlePairField3D(field)
         _EndNodes = endNodes
-        _color = color
+        _Color = color
     End Sub
 
     Private _EndNodes As EndNodes(Of Particle3D)
@@ -59,13 +59,13 @@ Public Class Force3D
         End Get
     End Property
 
-    Private _color As Color
+    Private _Color As Color
     Public Property Color() As Color
         Get
-            Return _color
+            Return _Color
         End Get
         Set(ByVal value As Color)
-            _color = value
+            _Color = value
         End Set
     End Property
 

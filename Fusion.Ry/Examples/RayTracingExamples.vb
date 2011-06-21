@@ -42,7 +42,7 @@ Public Class RayTracingExamples
                                             reflectionRemission:=New ScaledRemission(Of RgbLight)(0.4),
                                             refractionIndexQuotient:=1 / glassRefractionIndex)
         Dim glassInside = glass.Clone
-        glassInside.RefractionIndexRatio = glassRefractionIndex
+        glassInside.RefractionIndexQuotient = glassRefractionIndex
         glassInside.ReflectionRemission = New BlackRemission(Of RgbLight)
 
         'Dim cylinder = New InfiniteCylinder(New Vector3D(8, 0, 8), New Vector3D(0, 1, 0), 1)
@@ -299,7 +299,7 @@ Public Class RayTracingExamples
                                                                  glassCylinderSurface, glassAntiCylinderSurface,
                                                                  frontCylinderSurface,
                                                                  lampSide}
-        Return New RelativisticGeometryRayTracer(Of RgbLight)(surface:=surfaces, xCameraVelocityInC:=-0.999,
+        Return New RelativisticGeometryRayTracer(Of RgbLight)(surface:=surfaces, xCameraVelocityInC:=-0.5,
                                                               unshadedLightSource:=New LightSources(Of RgbLight),
                                                               shadedPointLightSources:=shadedLightSources,
                                                               maxIntersectionCount:=10)

@@ -14,14 +14,14 @@ Public Class Force2D
 
     Public Sub New(ByVal forceGenerator As IForceGenerator2D, ByVal particlesToConnect As EndNodes(Of Particle2D), ByVal pen As Pen)
         Me.ForceGenerator = forceGenerator
-        _connectedParticles = particlesToConnect
+        _ConnectedParticles = particlesToConnect
         Me.Pen = pen
     End Sub
 
-    Private _connectedParticles As EndNodes(Of Particle2D)
+    Private _ConnectedParticles As EndNodes(Of Particle2D)
     Public ReadOnly Property ConnectedParticles() As Math.EndNodes(Of Particle2D) Implements Math.IEdge(Of Particle2D).EndNodes, IForce2D.ConnectedParticles
         Get
-            Return _connectedParticles
+            Return _ConnectedParticles
         End Get
     End Property
 

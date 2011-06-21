@@ -91,10 +91,10 @@
 
         _FlowPanel = New FlowPanel2D(lowerVertex:=-arraySize / 2, Size:=arraySize, gridLength:=0.01, viscosity:=0.03, startVelocity:=New Vector2D(0.1, 0))
 
-        Dim pointSet1 = New PointSet2DTransformer(New Math.Rectangle2D(New Vector2D(0.14999999999999999, 0.14999999999999999)), New AffineMap2D(New LinearMap2D(), New Vector2D(-0.29999999999999999, -0.20000000000000001)))
-        Dim pointSet2 = New PointSet2DTransformer(New Circle2D(0.080000000000000002), New AffineMap2D(New LinearMap2D(), New Vector2D(-0.14999999999999999, 0)))
+        Dim pointSet1 = New PointSet2DTransformer(New Math.Rectangle2D(New Vector2D(0.15, 0.15)), New AffineMap2D(New LinearMap2D(), New Vector2D(-0.3, -0.2)))
+        Dim pointSet2 = New PointSet2DTransformer(New Circle2D(0.08), New AffineMap2D(New LinearMap2D(), New Vector2D(-0.15, 0)))
         Dim pointSet3 = New LinkedPointSet2D(pointSet1, pointSet2, Function(b1 As Boolean, b2 As Boolean) b1 OrElse b2)
-        Dim pointSet4 = New PointSet2DTransformer(New Circle2D(0.080000000000000002), New AffineMap2D(New LinearMap2D(), New Vector2D(0.29999999999999999, -0.10000000000000001)))
+        Dim pointSet4 = New PointSet2DTransformer(New Circle2D(0.08), New AffineMap2D(New LinearMap2D(), New Vector2D(0.3, -0.1)))
         Dim pointSet = New LinkedPointSet2D(pointSet3, pointSet4, Function(b1 As Boolean, b2 As Boolean) b1 OrElse b2)
 
         'Dim pointSet = New PointSet2DTransformer(New Airfoil2D(chordLength:=0.6, relativeThickness:=0.2, maxCamber:=0.05, relativeMaxCamberLocation:=0.7), map:=New AffineMap2D(LinearMap2D.Rotation(-PI / 12), New Vector2D(-0.4, 0.1)))

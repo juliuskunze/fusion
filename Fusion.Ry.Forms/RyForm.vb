@@ -5,15 +5,15 @@
     Private _BackColor As Color
     Private _Picture As Bitmap
 
-    Private _customPictureSizeOk As Boolean = False
-    Private _customPictureSize As Size
+    Private _CustomPictureSizeOk As Boolean = False
+    Private _CustomPictureSize As Size
 
     Public Sub New()
         Me.InitializeComponent()
         screenSizeRadioButton.Text = "Screen " & New Vector2D(My.Computer.Screen.Bounds.Size).ToString
     End Sub
 
-    Private Sub startButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles startButton.Click
+    Private Sub StartButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _StartButton.Click
         If Not Me.TrySetRayTracerDrawer Then Return
 
         Dim stopWatch = New Stopwatch
@@ -25,35 +25,35 @@
         elapsedTimeLabel.Text = "Time: " & stopWatch.Elapsed.ToString
         timePerPixelLabel.Text = "Time per pixel: " & (stopWatch.ElapsedMilliseconds / (_Picture.Size.Width * _Picture.Size.Height)).ToString & "ms"
 
-        pictureBox.BackgroundImage = _Picture
+        _PictureBox.BackgroundImage = _Picture
 
         Me.saveButton.Enabled = True
     End Sub
 
     Private Function TrySetRayTracerDrawer() As Boolean
         Dim pictureSize As Size
-        If Not Me.GetPictureSize(out_Size:=pictureSize) Then Return False
+        If Not Me.TryGetPictureSize(out_size:=pictureSize) Then Return False
 
         _RayTraceDrawer = New RayTracingExamples(pictureSize).SecondRoom(cameraZLocation:=29)
         Return True
     End Function
 
-    Private Function GetPictureSize(ByRef out_Size As Size) As Boolean
+    Private Function TryGetPictureSize(ByRef out_size As Size) As Boolean
 
-        If customSizeRadioButton.Checked Then
-            If Not _customPictureSizeOk Then Return False
+        If _CustomSizeRadioButton.Checked Then
+            If Not _CustomPictureSizeOk Then Return False
 
-            out_Size = _customPictureSize
+            out_size = _CustomPictureSize
         ElseIf windowSizeRadioButton.Checked Then
-            out_Size = pictureBox.Size
+            out_size = _PictureBox.Size
         Else
-            out_Size = My.Computer.Screen.Bounds.Size
+            out_size = My.Computer.Screen.Bounds.Size
         End If
 
         Return True
     End Function
 
-    Private Sub pictureBox_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles pictureBox.MouseDown
+    Private Sub pictureBox_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles _PictureBox.MouseDown
         Dim mouseLocation = e.Location
         ColorColorPanel(mouseLocation)
     End Sub
@@ -79,26 +79,26 @@
     End Sub
 
     Private Sub form_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        Me.customSizeTextBox.Text = New Vector2D(pictureBox.Size).ToString
+        Me._CustomSizeTextBox.Text = New Vector2D(_PictureBox.Size).ToString
     End Sub
 
-    Private Sub customSizeRadioButton_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles customSizeRadioButton.CheckedChanged
-        Me.customSizeTextBox.Enabled = customSizeRadioButton.Checked
+    Private Sub customSizeRadioButton_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles _CustomSizeRadioButton.CheckedChanged
+        Me._CustomSizeTextBox.Enabled = _CustomSizeRadioButton.Checked
     End Sub
 
-    Private Sub customSizeTextBox_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles customSizeTextBox.TextChanged
+    Private Sub customSizeTextBox_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles _CustomSizeTextBox.TextChanged
         Try
-            Dim sizeVector = New Vector2D(Me.customSizeTextBox.Text)
-            _customPictureSize = New Size(CInt(sizeVector.X), CInt(sizeVector.Y))
-            customSizeTextBox.BackColor = Color.White
-            _customPictureSizeOk = True
+            Dim sizeVector = New Vector2D(Me._CustomSizeTextBox.Text)
+            _CustomPictureSize = New Size(CInt(sizeVector.X), CInt(sizeVector.Y))
+            _CustomSizeTextBox.BackColor = Color.White
+            _CustomPictureSizeOk = True
         Catch
-            customSizeTextBox.BackColor = Color.Tomato
-            _customPictureSizeOk = False
+            _CustomSizeTextBox.BackColor = Color.Tomato
+            _CustomPictureSizeOk = False
         End Try
     End Sub
 
-    Private Sub VideoButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles VideoButton.Click
+    Private Sub VideoButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _VideoButton.Click
         Dim viewCourse = New LinearViewCourse(velocity:=New Vector3D(0, 0, -1),
                                              startLocation:=New Vector3D(7.5, 6, 30),
                                              visibleXAngle:=PI * 0.26)
@@ -109,9 +109,9 @@
         videoTracer.CreateVideo("B:\tmp\vid", timeIntervalStart:=0, timeIntervalEnd:=30, timeStep:=1)
     End Sub
 
-    Private Sub calculateTimeButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles calculateTimeButton.Click
+    Private Sub calculateTimeButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _CalculateTimeButton.Click
         If Not Me.TrySetRayTracerDrawer() Then Return
-        If Not _calculatedTimeOptionsForm.DialogResult = Windows.Forms.DialogResult.OK Then Return
+        If Not _CalculatedTimeOptionsForm.DialogResult = Windows.Forms.DialogResult.OK Then Return
 
         Dim size = _RayTraceDrawer.PictureSize
 
@@ -124,9 +124,9 @@
 
         Dim stopwatch = New Stopwatch
         stopwatch.Start()
-        Do While If(_calculatedTimeOptionsForm.Mode = CalculateTimeOptionsForm.FixMode.Time,
-                    stopwatch.ElapsedMilliseconds / 1000 < _calculatedTimeOptionsForm.FixTestTime,
-                    testedPixelCount < _calculatedTimeOptionsForm.FixTestPixelCount)
+        Do While If(_CalculatedTimeOptionsForm.Mode = CalculateTimeOptionsForm.FixMode.Time,
+                    stopwatch.ElapsedMilliseconds / 1000 < _CalculatedTimeOptionsForm.FixTestTime,
+                    testedPixelCount < _CalculatedTimeOptionsForm.FixTestPixelCount)
             Dim randomX = random.Next(size.Width)
             Dim randomY = random.Next(size.Height)
 
@@ -141,7 +141,7 @@
 
         stopwatch.Stop()
 
-        pictureBox.BackgroundImage = bitmap
+        _PictureBox.BackgroundImage = bitmap
 
         'experiment --> 
         Const factor = 3.4
@@ -158,14 +158,14 @@
         testedPixelCountLabel.Text = "(Tested pixels: " & testedPixelCount.ToString & ")"
     End Sub
 
-    Private _calculatedTimeOptionsForm As CalculateTimeOptionsForm = New CalculateTimeOptionsForm
+    Private _CalculatedTimeOptionsForm As CalculateTimeOptionsForm = New CalculateTimeOptionsForm
 
-    Private Sub calculateTimeOptions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles calculateTimeOptions.Click
-        _calculatedTimeOptionsForm.ShowDialog()
+    Private Sub calculateTimeOptions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _CalculateTimeOptions.Click
+        _CalculatedTimeOptionsForm.ShowDialog()
     End Sub
 
-    Private Sub pictureBox_Resize(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pictureBox.Resize
-        windowSizeRadioButton.Text = "Window " & New Vector2D(pictureBox.Size).ToString
+    Private Sub pictureBox_Resize(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _PictureBox.Resize
+        windowSizeRadioButton.Text = "Window " & New Vector2D(_PictureBox.Size).ToString
     End Sub
 End Class
 

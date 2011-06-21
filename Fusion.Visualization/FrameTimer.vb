@@ -46,7 +46,7 @@
             _Timer.Interval = interval
             _Framerate = 1000 / interval
 
-            _calcsPerFrame = CInt(Me.CalcRate / Me.Framerate)
+            _CalcsPerFrame = CInt(Me.CalcRate / Me.Framerate)
         End Set
     End Property
 
@@ -69,13 +69,13 @@
         End Set
     End Property
 
-    Private _calcsPerFrame As Integer
+    Private _CalcsPerFrame As Integer
     Public Property CalcsPerFrame() As Integer
         Get
-            Return _calcsPerFrame
+            Return _CalcsPerFrame
         End Get
         Set(ByVal value As Integer)
-            _calcsPerFrame = value
+            _CalcsPerFrame = value
         End Set
     End Property
 

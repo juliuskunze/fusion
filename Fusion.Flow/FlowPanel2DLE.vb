@@ -2,10 +2,10 @@
     Inherits CoordinateSystemToArray(Of FlowBox2DLE)
     Implements IFlowPanel2D(Of FlowBox2DLE)
 
-    Private _calculationCount As Integer = 0
+    Private _CalculationCount As Integer = 0
     Public ReadOnly Property CalculationCount As Integer Implements IFlowPanel2D(Of FlowBox2DLE).CalculationCount
         Get
-            Return _calculationCount
+            Return _CalculationCount
         End Get
     End Property
 
@@ -70,7 +70,7 @@
 
         setFNewFromFOldAndFEq()
 
-        _calculationCount += 1
+        _CalculationCount += 1
     End Sub
 
     Private Sub setFNewFromFOldAndFEq()

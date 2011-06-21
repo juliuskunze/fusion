@@ -38,13 +38,13 @@ Public Class Particle3D
         End Set
     End Property
 
-    Private _charge As Double
+    Private _Charge As Double
     Public Property Charge() As Double
         Get
-            Return _charge
+            Return _Charge
         End Get
         Set(ByVal value As Double)
-            _charge = value
+            _Charge = value
         End Set
     End Property
 
@@ -94,13 +94,13 @@ Public Class Particle3D
         Me.Velocity += timeSpan * acceleration
     End Sub
 
-    Private _color As Color
+    Private _Color As Color
     Public Property Color() As Color
         Get
-            Return _color
+            Return _Color
         End Get
         Set(ByVal value As Color)
-            _color = value
+            _Color = value
         End Set
     End Property
 End Class

@@ -1,4 +1,5 @@
 ﻿Public Class RayChanger
+
     Public Property SourceRay As Ray
 
     Public Sub New(ByVal sourceRay As Ray)
@@ -8,12 +9,12 @@
     Public Function ReflectedRay(ByVal intersection As SurfacePoint) As Ray
         Dim normalizedNormal = intersection.NormalizedNormal
         Return WithSafetyDistance(New Ray(origin:=intersection.Location,
-                                 direction:=Me.SourceRay.NormalizedDirection - 2 * Me.SourceRay.NormalizedDirection.OrthogonalProjectionOn(normalizedNormal)))
+                                  direction:=Me.SourceRay.NormalizedDirection - 2 * Me.SourceRay.NormalizedDirection.OrthogonalProjectionOn(normalizedNormal)))
     End Function
 
     Public Function RefractedRay(Of TLight)(ByVal intersection As SurfacePoint(Of Material2D(Of TLight))) As Ray
         Dim normalizedNormal = intersection.NormalizedNormal
-        Dim refractionIndexQuotient = intersection.Material.RefractionIndexRatio
+        Dim refractionIndexQuotient = intersection.Material.RefractionIndexQuotient
 
         Dim startSinusVector = Me.SourceRay.NormalizedDirection - Me.SourceRay.NormalizedDirection.OrthogonalProjectionOn(normalizedNormal)
         Dim startSinus = startSinusVector.Length
@@ -30,7 +31,7 @@
 
     Private Shared _Random As New Random
     Public Function ScatteredRay(ByVal intersection As SurfacePoint) As Ray
-        Dim scatteredRayDirection = normalizedRandomDirection()
+        Dim scatteredRayDirection = NormalizedRandomDirection()
         If scatteredRayDirection * intersection.NormalizedNormal < 0 Then
             scatteredRayDirection *= -1
         End If

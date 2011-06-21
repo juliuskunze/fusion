@@ -15,10 +15,10 @@
         End Get
     End Property
 
-    Private _colorDrawer As Field2DColorAreaDrawer
+    Private _ColorDrawer As Field2DColorAreaDrawer
     Public ReadOnly Property ColorDrawer As Field2DColorAreaDrawer
         Get
-            Return _colorDrawer
+            Return _ColorDrawer
         End Get
     End Property
 
@@ -34,7 +34,7 @@
 
         _ArrowGridDrawer = New Field2DArrowGridDrawer(Me.Visualizer, field)
         _FieldlineDrawer = New Field2DFieldlineDrawer(Me.Visualizer, field)
-        _colorDrawer = New Field2DColorAreaDrawer(Me.Visualizer, field)
+        _ColorDrawer = New Field2DColorAreaDrawer(Me.Visualizer, field)
 
         Me.VisualizationType = VisualizationTypes.Fieldlines
     End Sub

@@ -1,33 +1,33 @@
 ﻿Public Class InfiniteAntiCylinder
     Implements ISurfacedPointSet3D
 
-    Private ReadOnly _cylinder As InfiniteCylinder
+    Private ReadOnly _Cylinder As InfiniteCylinder
     Public ReadOnly Property Origin As Vector3D
         Get
-            Return _cylinder.Origin
+            Return _Cylinder.Origin
         End Get
     End Property
     Public ReadOnly Property NormalizedDirection As Vector3D
         Get
-            Return _cylinder.NormalizedDirection
+            Return _Cylinder.NormalizedDirection
         End Get
     End Property
     Public ReadOnly Property Radius As Double
         Get
-            Return _cylinder.Radius
+            Return _Cylinder.Radius
         End Get
     End Property
 
     Public Sub New(ByVal origin As Vector3D, ByVal direction As Vector3D, ByVal radius As Double)
-        _cylinder = New InfiniteCylinder(origin, direction, Radius)
+        _Cylinder = New InfiniteCylinder(origin, direction, Radius)
     End Sub
 
     Public Sub New(ByVal cylinder As InfiniteCylinder)
-        _cylinder = cylinder
+        _Cylinder = cylinder
     End Sub
 
     Public Function Intersection(ByVal ray As Ray) As SurfacePoint Implements ISurfacedPointSet3D.FirstIntersection
-        Dim allIntersectionRayLengths = _cylinder.SurfaceIntersectionRayLengths(ray)
+        Dim allIntersectionRayLengths = _Cylinder.SurfaceIntersectionRayLengths(ray)
 
         If allIntersectionRayLengths.Count = 0 Then Return Nothing
 
@@ -40,7 +40,7 @@
     End Function
 
     Public Function Contains(ByVal point As Fusion.Math.Vector3D) As Boolean Implements Fusion.Math.IPointSet3D.Contains
-        Return Not _cylinder.Contains(point)
+        Return Not _Cylinder.Contains(point)
     End Function
 
     Public Function Intersections(ByVal ray As Ray) As System.Collections.Generic.IEnumerable(Of SurfacePoint) Implements ISurface.Intersections

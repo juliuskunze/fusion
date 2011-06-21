@@ -135,7 +135,7 @@
         _Drawer.FieldDrawer.VisualizationType = Field2DDrawer.VisualizationTypes.Fieldlines
         _Drawer.ShowField = True
 
-        loadParticleSystem(ParticleSystems2D.Dipole(mass:=1, positiveCharge:=0.00000099999999999999995, negativeCharge:=-0.00000099999999999999995, distance:=1, radius:=0.050000000000000003))
+        loadParticleSystem(ParticleSystems2D.Dipole(mass:=1, positiveCharge:=0.000001, negativeCharge:=-0.000001, distance:=1, radius:=0.05))
     End Sub
 
     Private Sub moonEarthSystemMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles moonEarthSystemMenuItem.Click

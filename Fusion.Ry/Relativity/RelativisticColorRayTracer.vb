@@ -1,6 +1,6 @@
 ﻿''' <summary>
-''' A ray tracer that provides the geometry effects of a camera 
-''' that moves with a velocity (in x-direction) very close to the light velocity.
+''' A ray tracer that provides visual effects (geometry, intensity) for an observer 
+''' that moves with a constant velocity (in x-direction) very close to the light velocity.
 ''' </summary>
 ''' <remarks></remarks>
 Public Class RelativisticGeometryRayTracer(Of TLight As {ILight(Of TLight), New})

@@ -4,13 +4,13 @@
     Public Sub New(ByVal videoSize As Size, ByVal rayTracer As IRayTracer(Of RgbLight), ByVal cameraViewCourse As IViewCourse)
         _VideoSize = videoSize
         _RayTracer = rayTracer
-        _cameraViewCourse = cameraViewCourse
+        _CameraViewCourse = cameraViewCourse
     End Sub
 
-    Private _cameraViewCourse As IViewCourse
+    Private _CameraViewCourse As IViewCourse
     Public ReadOnly Property CameraViewCourse As IViewCourse
         Get
-            Return _cameraViewCourse
+            Return _CameraViewCourse
         End Get
     End Property
 
