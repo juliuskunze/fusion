@@ -11,7 +11,7 @@
                                  direction:=Me.SourceRay.NormalizedDirection - 2 * Me.SourceRay.NormalizedDirection.OrthogonalProjectionOn(normalizedNormal)))
     End Function
 
-    Public Function RefractedRay(ByVal intersection As MaterialSurfacePoint(Of Material2D)) As Ray
+    Public Function RefractedRay(ByVal intersection As SurfacePoint(Of Material2D(Of ExactColor))) As Ray
         Dim normalizedNormal = intersection.NormalizedNormal
         Dim refractionIndexQuotient = intersection.Material.RefractionIndexRatio
 

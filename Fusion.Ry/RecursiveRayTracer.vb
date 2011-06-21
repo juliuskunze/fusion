@@ -1,11 +1,11 @@
 ﻿Public Class RecursiveRayTracer
     Implements IRayTracer
 
-    Public Sub New(ByVal surface As IMaterialSurface(Of Material2D))
+    Public Sub New(ByVal surface As ISurface(Of Material2D(Of ExactColor)))
         Me.New(surface, LightSource:=New LightSources, ShadedPointLightSources:=New ShadedLightSources(surface))
     End Sub
 
-    Public Sub New(ByVal surface As IMaterialSurface(Of Material2D),
+    Public Sub New(ByVal surface As ISurface(Of Material2D(Of ExactColor)),
                    ByVal lightSource As ILightSource(Of ExactColor),
                    ByVal shadedPointLightSources As List(Of IPointLightSource(Of ExactColor)),
                    Optional ByVal maxIntersectionCount As Integer = 10)
@@ -15,7 +15,7 @@
         Me.MaxIntersectionCount = maxIntersectionCount
     End Sub
 
-    Public Property Surface As IMaterialSurface(Of Material2D)
+    Public Property Surface As ISurface(Of Material2D(Of ExactColor))
     Public Property LightSource As ILightSource(Of ExactColor)
 
     Public Property ShadedPointLightSources As List(Of IPointLightSource(Of ExactColor))

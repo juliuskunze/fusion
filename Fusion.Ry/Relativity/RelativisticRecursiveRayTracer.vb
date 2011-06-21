@@ -6,13 +6,13 @@
 Public Class RelativisticRecursiveRayTracer
     Inherits RecursiveRayTracer
 
-    Public Sub New(ByVal surface As IMaterialSurface(Of Material2D), ByVal xCameraVelocityInC As Double)
+    Public Sub New(ByVal surface As ISurface(Of Material2D(Of ExactColor)), ByVal xCameraVelocityInC As Double)
         MyBase.New(surface:=surface)
 
         _RayTransformation = New RelativisticRayTransformation(relativeXVelocityInC:=xCameraVelocityInC)
     End Sub
 
-    Public Sub New(ByVal surface As IMaterialSurface(Of Material2D),
+    Public Sub New(ByVal surface As ISurface(Of Material2D(Of ExactColor)),
                    ByVal lightSource As ILightSource(Of ExactColor),
                    ByVal shadedPointLightSources As List(Of IPointLightSource(Of ExactColor)),
                    ByVal xCameraVelocityInC As Double,

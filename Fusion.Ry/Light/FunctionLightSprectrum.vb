@@ -12,4 +12,5 @@
     Public Function GetIntensity(ByVal wavelength As Double) As Double Implements ILightSprectrum.GetIntensity
         Return _IntensityFunction.Invoke(wavelength)
     End Function
+
 End Class

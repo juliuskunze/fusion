@@ -1,8 +1,8 @@
-﻿Public Interface IMaterialSurface(Of MaterialType)
+﻿Public Interface ISurface(Of TMaterial)
     Inherits ISurface
 
-    Function MaterialIntersections(ByVal ray As Ray) As IEnumerable(Of MaterialSurfacePoint(Of MaterialType))
+    Function MaterialIntersections(ByVal ray As Ray) As IEnumerable(Of SurfacePoint(Of TMaterial))
 
-    Function FirstMaterialIntersection(ByVal ray As Ray) As MaterialSurfacePoint(Of MaterialType)
+    Function FirstMaterialIntersection(ByVal ray As Ray) As SurfacePoint(Of TMaterial)
 
 End Interface

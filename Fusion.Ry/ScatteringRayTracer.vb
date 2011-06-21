@@ -1,13 +1,13 @@
 ﻿Public Class ScatteringRayTracer
     Implements IRayTracer
 
-    Public Sub New(ByVal surface As IMaterialSurface(Of Material2D), Optional ByVal rayCount As Integer = 1, Optional ByVal maxIntersectionCount As Integer = 10)
+    Public Sub New(ByVal surface As ISurface(Of Material2D(Of ExactColor)), Optional ByVal rayCount As Integer = 1, Optional ByVal maxIntersectionCount As Integer = 10)
         Me.Surface = surface
         Me.RayCount = rayCount
         Me.MaxIntersectionCount = maxIntersectionCount
     End Sub
 
-    Public Property Surface As IMaterialSurface(Of Material2D)
+    Public Property Surface As ISurface(Of Material2D(Of ExactColor))
 
     Private Function TraceColor(ByVal ray As Ray, ByVal intersectionCount As Integer) As ExactColor
         Dim firstIntersection = Me.Surface.FirstMaterialIntersection(ray)

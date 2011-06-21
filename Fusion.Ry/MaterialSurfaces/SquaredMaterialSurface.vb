@@ -1,6 +1,6 @@
 ﻿Public Class SquaredMaterialSurface(Of MaterialType)
-    Implements IMaterialSurface(Of MaterialType)
-    
+    Implements ISurface(Of MaterialType)
+
     Public Property Surface As ISurface
     Public Property Material1 As MaterialType
     Public Property Material2 As MaterialType
@@ -56,13 +56,13 @@
         Return Me.Surface.Intersections(ray)
     End Function
 
-    Public Function MaterialIntersections(ByVal ray As Math.Ray) As IEnumerable(Of MaterialSurfacePoint(Of MaterialType)) Implements IMaterialSurface(Of MaterialType).MaterialIntersections
+    Public Function MaterialIntersections(ByVal ray As Math.Ray) As IEnumerable(Of SurfacePoint(Of MaterialType)) Implements ISurface(Of MaterialType).MaterialIntersections
         Return From surfacePoint In Me.Intersections(ray)
                Select MaterialSurfacePointFromSurfacePoint(surfacePoint:=surfacePoint)
     End Function
 
-    Private Function MaterialSurfacePointFromSurfacePoint(ByVal surfacePoint As SurfacePoint) As MaterialSurfacePoint(Of MaterialType)
-        Return New MaterialSurfacePoint(Of MaterialType)(surfacePoint:=surfacePoint, Material:=Me.Material(surfacePoint))
+    Private Function MaterialSurfacePointFromSurfacePoint(ByVal surfacePoint As SurfacePoint) As SurfacePoint(Of MaterialType)
+        Return New SurfacePoint(Of MaterialType)(surfacePoint:=surfacePoint, Material:=Me.Material(surfacePoint))
     End Function
 
     Private Function Material(ByVal surfacePoint As SurfacePoint) As MaterialType
@@ -85,7 +85,7 @@
         Return Me.Surface.FirstIntersection(ray)
     End Function
 
-    Public Function FirstMaterialIntersection(ByVal ray As Math.Ray) As MaterialSurfacePoint(Of MaterialType) Implements IMaterialSurface(Of MaterialType).FirstMaterialIntersection
+    Public Function FirstMaterialIntersection(ByVal ray As Math.Ray) As SurfacePoint(Of MaterialType) Implements ISurface(Of MaterialType).FirstMaterialIntersection
         Dim intersection = Me.FirstIntersection(ray)
 
         If intersection Is Nothing Then Return Nothing
