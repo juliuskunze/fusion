@@ -4,7 +4,7 @@
     Private Const _GreenWaveLength = 435.8 * 10 ^ -9
     Private Const _BlueWaveLength = 546.1 * 10 ^ -9
 
-    Public Shared Function BrightnessToWavelength(ByVal hsbColor As HsbColor) As Double
+    Public Shared Function HsbToWavelength(ByVal hsbColor As HsbColor) As Double
         Dim wavelength As Double
         Dim hue As Double = hsbColor.Hue
 

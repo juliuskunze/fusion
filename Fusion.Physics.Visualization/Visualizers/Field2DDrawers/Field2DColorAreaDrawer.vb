@@ -19,7 +19,7 @@
                     Dim simulationLocation = Me.Visualizer.InverseMap.Apply(screenLocation)
                     Dim field = Me.Field.Field(simulationLocation)
                     Dim fieldAngle = field.Argument
-                    Dim color = New HsbColor(hue:=fieldAngle, saturation:=1, value:=1).ToRgbColor
+                    Dim color = New HsbColor(hue:=fieldAngle, saturation:=1, brightness:=1).ToRgbColor
 
                     bitmap.SetPixel(xIndex, yIndex, color)
                 Catch ex As OverflowException

@@ -36,7 +36,7 @@
                     Dim finalDrawingPen As Pen = DirectCast(Me.FieldArrowPen.Clone, Pen)
 
                     If Me.MultiColored Then
-                        finalDrawingPen.Color = New HsbColor(hue:=field.Argument, saturation:=1, value:=1).ToRgbColor
+                        finalDrawingPen.Color = New HsbColor(hue:=field.Argument, saturation:=1, brightness:=1).ToRgbColor
                     End If
 
                     drawFieldArrow(arrowLocation:=simulationLocation, fieldStrength:=field, pen:=finalDrawingPen)

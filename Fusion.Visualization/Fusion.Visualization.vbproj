@@ -84,7 +84,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HsvColor.vb" />
+    <Compile Include="HsbColor.vb" />
     <Compile Include="ExactColor.vb" />
     <Compile Include="NormalizedMidpointCoordinateSystem.vb" />
     <Compile Include="View2D.vb" />

@@ -13,8 +13,8 @@ Public Class RelativisticRecursiveRayTracer
     End Sub
 
     Public Sub New(ByVal surface As IMaterialSurface(Of Material2D),
-                   ByVal lightSource As ILightSource,
-                   ByVal shadedPointLightSources As List(Of IPointLightSource),
+                   ByVal lightSource As ILightSource(Of ExactColor),
+                   ByVal shadedPointLightSources As List(Of IPointLightSource(Of ExactColor)),
                    ByVal xCameraVelocityInC As Double,
                    Optional ByVal maxIntersectionCount As Integer = 10)
         MyBase.New(surface:=surface, lightSource:=lightSource, shadedPointLightSources:=shadedPointLightSources, maxIntersectionCount:=maxIntersectionCount)

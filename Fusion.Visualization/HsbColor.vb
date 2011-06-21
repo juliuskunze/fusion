@@ -21,7 +21,7 @@
         End Get
     End Property
 
-    Public Sub New(ByVal hue As Double, ByVal saturation As Double, ByVal value As Double)
+    Public Sub New(ByVal hue As Double, ByVal saturation As Double, ByVal brightness As Double)
         If Not (0 <= hue AndAlso hue <= 2 * PI) Then Throw New ArgumentException("Hue has to be an angle in [0, 2 * Pi).")
         _Hue = hue
 
@@ -29,7 +29,7 @@
         _Saturation = saturation
 
         If Not (0 <= Me.Brightness AndAlso Me.Brightness <= 1) Then Throw New ArgumentOutOfRangeException("Value has to be in [0; 1].")
-        _Brightness = value
+        _Brightness = brightness
     End Sub
 
     Public Function ToRgbColor() As Color
@@ -112,7 +112,7 @@
 
         Dim value = maximum
 
-        Return New HsbColor(hue:=hue, saturation:=saturation, value:=value)
+        Return New HsbColor(hue:=hue, saturation:=saturation, brightness:=value)
     End Function
 
 End Structure

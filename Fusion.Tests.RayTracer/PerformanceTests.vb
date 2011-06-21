@@ -84,7 +84,7 @@
         Dim backWall = New SingleMaterialSurface(Of Material2D)(backWallPlane, whiteMaterial)
 
         Dim pointLightSource = New LinearPointLightSource(Location:=New Vector3D(6, 9.5, 10), colorAtDistance1:=ExactColor.White * 5)
-        Dim shadedLightSources = New List(Of IPointLightSource) From {pointLightSource}
+        Dim shadedLightSources = New List(Of IPointLightSource(Of ExactColor)) From {pointLightSource}
 
         Dim ceilingPlane = New Fusion.Math.Rectangle(backLeftUp, originUp, frontRightUp)
         Dim ceiling = New SingleMaterialSurface(Of Material2D)(ceilingPlane, whiteMaterial)

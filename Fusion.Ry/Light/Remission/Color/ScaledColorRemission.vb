@@ -1,5 +1,5 @@
 ﻿Public Class ScaledColorRemission
-    Implements IRemission(Of ExactColor)
+    Implements ILightRemission(Of ExactColor)
 
     Public Property Albedo As Double
 
@@ -7,11 +7,11 @@
         Me.Albedo = albedo
     End Sub
 
-    Public Function Color(ByVal startColor As ExactColor) As ExactColor Implements IRemission(Of ExactColor).Remission
+    Public Function Color(ByVal startColor As ExactColor) As ExactColor Implements ILightRemission(Of ExactColor).GetRemission
         Return Me.Albedo * startColor
     End Function
 
-    Public ReadOnly Property NoRemission As Boolean Implements IRemission(Of ExactColor).NoRemission
+    Public ReadOnly Property NoRemission As Boolean Implements ILightRemission(Of ExactColor).NoRemission
         Get
             Return Me.Albedo = 0
         End Get

@@ -73,7 +73,7 @@
         Dim allSurfaces = New MaterialSurfaces(Of Material2D) From {ground, ceiling, rightWall, leftWall, frontWall, backWall, lampSurface,
                                                      reflectingSphere, refractingSphere, innerRefractingSphere} ', glassCylinder, antiGlassCylinder}
 
-        'Dim rayTracer = New RecursiveRayTracer(surface:=allSurfaces, lightSource:=New LightSources, shadedPointLightSources:=New List(Of IPointLightSource) From {lamp})
+        'Dim rayTracer = New RecursiveRayTracer(surface:=allSurfaces, lightSource:=New LightSources, shadedPointLightSources:=New List(Of IPointLightSource(Of ExactColor)) From {lamp})
         Dim rayTracer = New ScatteringRayTracer(surface:=allSurfaces, rayCount:=1, maxIntersectionCount:=7)
 
         Return New RayTraceDrawer(rayTracer, Me.PictureSize, view)
@@ -138,7 +138,7 @@
         Dim pointLightSource2 = New PointLightSource(Location:=New Vector3D(2, 0, -1),
                                                      colorAtDistance1:=Color.White)
         Dim lightSources = New LightSources 'From {directionalLightSoure}
-        Dim shadedLightSources = New List(Of IPointLightSource) From {pointLightSource1, pointLightSource2}
+        Dim shadedLightSources = New List(Of IPointLightSource(Of ExactColor)) From {pointLightSource1, pointLightSource2}
 
         Dim rayTracer = New RecursiveRayTracer(surface:=surfaces,
                                       lightSource:=lightSources,
@@ -245,7 +245,7 @@
         Dim backWall = New SingleMaterialSurface(Of Material2D)(backWallPlane, whiteMaterial)
 
         Dim pointLightSource = New LinearPointLightSource(location:=New Vector3D(6, 9.5, 10), colorAtDistance1:=ExactColor.White * 5)
-        Dim shadedLightSources = New List(Of IPointLightSource) From {pointLightSource}
+        Dim shadedLightSources = New List(Of IPointLightSource(Of ExactColor)) From {pointLightSource}
 
         Dim ceilingPlane = New Fusion.Math.Rectangle(backLeftUp, originUp, frontRightUp)
         Dim ceiling = New SingleMaterialSurface(Of Material2D)(ceilingPlane, whiteMaterial)
