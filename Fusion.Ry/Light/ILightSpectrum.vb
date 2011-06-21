@@ -1,4 +1,4 @@
-﻿Public Interface ILightSprectrum
+﻿Public Interface ILightSpectrum
 
     Function GetIntensity(ByVal wavelength As Double) As Double
 

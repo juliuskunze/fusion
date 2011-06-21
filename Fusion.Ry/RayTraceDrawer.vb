@@ -1,6 +1,6 @@
-﻿Public Class RayTraceDrawer
+﻿Public Class RayTraceDrawer(Of TLight As {ILight(Of TLight), New})
 
-    Public Sub New(ByVal rayTracer As IRayTracer, ByVal size As Size, ByVal view As View3D)
+    Public Sub New(ByVal rayTracer As IRayTracer(Of TLight), ByVal size As Size, ByVal view As View3D)
         Me.PictureSize = size
         Me.View = view
         Me.RayTracer = rayTracer
@@ -21,7 +21,7 @@
 
     Public Property View As View3D
 
-    Public Property RayTracer As IRayTracer
+    Public Property RayTracer As IRayTracer(Of TLight)
 
     Private _Origin As Vector2D
 
@@ -46,7 +46,7 @@
         Dim projectedLocation = _coordinateSystem.VirtualLocation(pixelLocation:=New Vector2D(bitmapX, bitmapY))
         Dim sightRay = Me.View.SightRay(viewPlaneLocation:=projectedLocation)
 
-        Return Me.RayTracer.GetColor(startRay:=sightRay).ToColorByTruncate
+        Return Me.RayTracer.GetColor(startRay:=sightRay).ToColor
     End Function
 
     Public Event ProgressIncreased(ByVal sender As Object, ByVal e As ProgressEventArgs)

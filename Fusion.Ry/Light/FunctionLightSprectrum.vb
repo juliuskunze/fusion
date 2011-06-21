@@ -1,5 +1,5 @@
 ﻿Public Class FunctionLightSprectrum
-    Implements ILightSprectrum
+    Implements ILightSpectrum
 
     Private ReadOnly _IntensityFunction As IntensityFunction
 
@@ -9,7 +9,7 @@
         _IntensityFunction = intensityFunction
     End Sub
 
-    Public Function GetIntensity(ByVal wavelength As Double) As Double Implements ILightSprectrum.GetIntensity
+    Public Function GetIntensity(ByVal wavelength As Double) As Double Implements ILightSpectrum.GetIntensity
         Return _IntensityFunction.Invoke(wavelength)
     End Function
 

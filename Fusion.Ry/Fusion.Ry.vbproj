@@ -72,10 +72,10 @@
     <Compile Include="Examples\LensVideo.vb" />
     <Compile Include="Examples\RayTracingExamples.vb" />
     <Compile Include="IRayTracer.vb" />
-    <Compile Include="Light\ExactColor.vb" />
+    <Compile Include="Light\RgbLight.vb" />
     <Compile Include="Light\FunctionLightSprectrum.vb" />
     <Compile Include="Light\ILight.vb" />
-    <Compile Include="Light\ILightSprectrum.vb" />
+    <Compile Include="Light\ILightSpectrum.vb" />
     <Compile Include="Light\Remission\BlackRemission.vb" />
     <Compile Include="Light\Source\DirectionalLightSource.vb" />
     <Compile Include="Light\Remission\IRemission.vb" />
@@ -154,7 +154,6 @@
       <Name>Fusion.Visualization</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

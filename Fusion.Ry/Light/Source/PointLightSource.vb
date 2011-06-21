@@ -1,4 +1,4 @@
-﻿Public Class PointLightSource(Of TLight As {ILight(Of TLight), New})
+Public Class PointLightSource(Of TLight As {ILight(Of TLight), New})
     Implements IPointLightSource(Of TLight)
 
     Public Property Location As Vector3D Implements IPointLightSource(Of TLight).Location
@@ -9,7 +9,7 @@
         Me.BaseLight = baseLight
     End Sub
 
-    Public Function LightColor(ByVal surfacePoint As SurfacePoint) As TLight Implements IPointLightSource(Of TLight).GetLight
+    Public Function GetLight(ByVal surfacePoint As SurfacePoint) As TLight Implements ILightSource(Of TLight).GetLight
         Dim relativeVector = surfacePoint.Location - Me.Location
         Dim normalizedRelativeVector = relativeVector.Normalized
         Dim distanceSquared = relativeVector.LengthSquared

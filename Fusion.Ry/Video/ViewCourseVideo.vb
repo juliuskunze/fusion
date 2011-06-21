@@ -1,7 +1,7 @@
 ﻿Public Class ViewCourseVideo
     Implements IRayTraceVideo
 
-    Public Sub New(ByVal videoSize As Size, ByVal rayTracer As IRayTracer, ByVal cameraViewCourse As IViewCourse)
+    Public Sub New(ByVal videoSize As Size, ByVal rayTracer As IRayTracer(Of RgbLight), ByVal cameraViewCourse As IViewCourse)
         _VideoSize = videoSize
         _RayTracer = rayTracer
         _cameraViewCourse = cameraViewCourse
@@ -14,8 +14,8 @@
         End Get
     End Property
 
-    Private _RayTracer As IRayTracer
-    Public ReadOnly Property RayTracer As IRayTracer
+    Private _RayTracer As IRayTracer(Of RgbLight)
+    Public ReadOnly Property RayTracer As IRayTracer(Of RgbLight)
         Get
             Return _RayTracer
         End Get
@@ -28,8 +28,8 @@
         End Get
     End Property
 
-    Public Function GetRayTracerDrawer(ByVal pointOfTime As Double) As RayTraceDrawer Implements IRayTraceVideo.GetRayTracerDrawer
-        Return New RayTraceDrawer(Me.RayTracer, Me.VideoSize, Me.CameraViewCourse.GetView(pointOfTime:=pointOfTime))
+    Public Function GetRayTracerDrawer(ByVal pointOfTime As Double) As RayTraceDrawer(Of RgbLight) Implements IRayTraceVideo.GetRayTracerDrawer
+        Return New RayTraceDrawer(Of RgbLight)(Me.RayTracer, Me.VideoSize, Me.CameraViewCourse.GetView(pointOfTime:=pointOfTime))
     End Function
 
     Public Sub CreateVideo(ByVal directoryPath As String, ByVal timeIntervalStart As Double, ByVal timeIntervalEnd As Double, ByVal timeStep As Double)

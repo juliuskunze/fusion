@@ -1,6 +1,6 @@
 ﻿Public Class RyForm
 
-    Private WithEvents _RayTraceDrawer As RayTraceDrawer
+    Private WithEvents _RayTraceDrawer As RayTraceDrawer(Of RgbLight)
     Private _Graphics As Graphics
     Private _BackColor As Color
     Private _Picture As Bitmap
@@ -62,7 +62,7 @@
         colorPanel.BackColor = _RayTraceDrawer.GetPixelColor(mouseLocation.X, mouseLocation.Y)
     End Sub
 
-    Private Sub rayTraceDrawer_ProgressIncreased(ByVal sender As Object, ByVal e As ProgressEventArgs) Handles _RayTraceDrawer.ProgressIncreased
+    Private Sub RayTraceDrawer_ProgressIncreased(ByVal sender As Object, ByVal e As ProgressEventArgs) Handles _RayTraceDrawer.ProgressIncreased
         Me.progressBar.Value = CInt(e.Progress * 100)
     End Sub
 

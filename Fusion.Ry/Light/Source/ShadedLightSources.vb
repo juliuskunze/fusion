@@ -1,4 +1,4 @@
-﻿Public Class ShadedLightSources(Of TLight As {ILight(Of TLight), New})
+Public Class ShadedLightSources(Of TLight As {ILight(Of TLight), New})
     Inherits List(Of IPointLightSource(Of TLight))
     Implements ILightSource(Of TLight)
 
@@ -16,7 +16,7 @@
         Me.ShadowingSurface = shadowingSurface
     End Sub
 
-    Public Function GetLightColor(ByVal surfacePoint As SurfacePoint) As TLight Implements ILightSource(Of TLight).GetLight
+    Public Function GetLight(ByVal surfacePoint As SurfacePoint) As TLight Implements ILightSource(Of TLight).GetLight
         Dim returnColor = New TLight
         For Each pointLightSource In Me
             Dim lightRay = New Ray(origin:=pointLightSource.Location,
