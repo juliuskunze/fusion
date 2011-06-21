@@ -40,7 +40,7 @@
         Throw New NotImplementedException
     End Function
 
-    Private Shared Function normalizedRandomDirection() As Vector3D
+    Private Shared Function NormalizedRandomDirection() As Vector3D
         ' The z coordinate of random sphere surface points is uniform distributed in [-1; 1].
         Dim z = _Random.NextDouble * 2 - 1
         Dim phi = _Random.NextDouble * 2 * PI

@@ -79,7 +79,7 @@
 
     Public ReadOnly Property LengthSquared As Double
         Get
-            Return Me.X * Me.X + Me.Y * Me.Y + Me.Z * Me.Z
+            Return _X * _X + _Y * _Y + _Z * _Z
         End Get
     End Property
 

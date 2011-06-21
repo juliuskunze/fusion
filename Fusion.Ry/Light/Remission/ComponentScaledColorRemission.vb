@@ -1,5 +1,5 @@
 ﻿Public Class ComponentScaledColorRemission
-    Implements IColorRemission
+    Implements IRemission(Of ExactColor)
 
     Public Property RedAlbedo As Double
     Public Property GreenAlbedo As Double
@@ -19,13 +19,13 @@
         Me.New(New ExactColor(color))
     End Sub
 
-    Public Function Color(ByVal startColor As ExactColor) As ExactColor Implements IColorRemission.Color
+    Public Function Color(ByVal startColor As ExactColor) As ExactColor Implements IRemission(Of ExactColor).Remission
         Return New ExactColor(red:=Me.RedAlbedo * startColor.Red,
                               green:=Me.GreenAlbedo * startColor.Green,
                               blue:=Me.BlueAlbedo * startColor.Blue)
     End Function
 
-    Public ReadOnly Property NoRemission As Boolean Implements IColorRemission.NoRemission
+    Public ReadOnly Property NoRemission As Boolean Implements IRemission(Of ExactColor).NoRemission
         Get
             Return Me.RedAlbedo = 0 AndAlso
                 Me.GreenAlbedo = 0 AndAlso

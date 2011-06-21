@@ -39,7 +39,7 @@
         Dim finalColor = hitMaterial.LightSourceColor
         If hitMaterial.Scatters Then
             Dim lightColor = Me.LightSource.LightColor(firstIntersection) + _ShadedLightSources.LightColor(firstIntersection)
-            finalColor += hitMaterial.ScatteringRemission.Color(lightColor)
+            finalColor += hitMaterial.ScatteringRemission.Remission(lightColor)
         End If
 
         If intersectionCount >= Me.MaxIntersectionCount Then
@@ -49,7 +49,7 @@
             If hitMaterial.Reflects Then
                 Dim reflectedRay = rayChanger.ReflectedRay(firstIntersection)
                 Dim reflectionColor = Me.TraceColor(ray:=reflectedRay, intersectionCount:=intersectionCount + 1)
-                finalColor += hitMaterial.ReflectionRemission.Color(reflectionColor)
+                finalColor += hitMaterial.ReflectionRemission.Remission(reflectionColor)
             End If
             If hitMaterial.IsTranslucent Then
                 Dim passedRay As Ray
@@ -59,7 +59,7 @@
                     passedRay = rayChanger.PassedRay(firstIntersection)
                 End If
                 Dim passedColor = Me.TraceColor(ray:=passedRay, intersectionCount:=intersectionCount + 1)
-                finalColor += hitMaterial.TransparencyRemission.Color(passedColor)
+                finalColor += hitMaterial.TransparencyRemission.Remission(passedColor)
             End If
             Return finalColor
         End If

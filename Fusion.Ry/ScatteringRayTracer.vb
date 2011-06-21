@@ -24,13 +24,13 @@
             If firstIntersection.Material.Scatters Then
                 Dim scatteredRay = New RayChanger(ray).ScatteredRay(firstIntersection)
                 Dim scatteredColor = TraceColor(ray:=scatteredRay, intersectionCount:=intersectionCount + 1)
-                finalColor += firstIntersection.Material.ScatteringRemission.Color(scatteredColor)
+                finalColor += firstIntersection.Material.ScatteringRemission.Remission(scatteredColor)
             End If
 
             If firstIntersection.Material.Reflects Then
                 Dim reflectedRay = rayChanger.ReflectedRay(firstIntersection)
                 Dim reflectionColor = TraceColor(ray:=reflectedRay, intersectionCount:=intersectionCount + 1)
-                finalColor += firstIntersection.Material.ReflectionRemission.Color(reflectionColor)
+                finalColor += firstIntersection.Material.ReflectionRemission.Remission(reflectionColor)
             End If
 
             If firstIntersection.Material.IsTranslucent Then
@@ -41,7 +41,7 @@
                     passedRay = rayChanger.PassedRay(firstIntersection)
                 End If
                 Dim passedColor = TraceColor(ray:=passedRay, intersectionCount:=intersectionCount + 1)
-                finalColor += firstIntersection.Material.TransparencyRemission.Color(passedColor)
+                finalColor += firstIntersection.Material.TransparencyRemission.Remission(passedColor)
             End If
 
             Return finalColor

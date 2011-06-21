@@ -81,7 +81,7 @@ Public Structure Vector2D
 
     Public ReadOnly Property LengthSquared As Double
         Get
-            Return X * X + Y * Y
+            Return _X * _X + _Y * _Y
         End Get
     End Property
 
@@ -96,7 +96,7 @@ Public Structure Vector2D
 
     Public ReadOnly Property Argument() As Double
         Get
-            Return Atan2(Me.Y, Me.X)
+            Return Atan2(_Y, _X)
         End Get
     End Property
 
@@ -105,7 +105,7 @@ Public Structure Vector2D
     End Function
 
     Public Shadows Function Equals(ByVal other As Vector2D) As Boolean
-        Return Me.X = other.X AndAlso Me.Y = other.Y
+        Return _X = other.X AndAlso _Y = other.Y
     End Function
 
     Public Shared Operator =(ByVal v1 As Vector2D, ByVal v2 As Vector2D) As Boolean
@@ -141,7 +141,7 @@ Public Structure Vector2D
     End Operator
 
     Public Shared Function DotProduct(ByVal v1 As Vector2D, ByVal v2 As Vector2D) As Double
-        Return v1._X * v2._X + _
+        Return v1._X * v2._X +
                v1._Y * v2._Y
     End Function
 
@@ -151,9 +151,8 @@ Public Structure Vector2D
 
 
     Public Shared Function Fit(ByVal v1 As Vector2D, ByVal v2 As Vector2D, Optional ByVal maxRelativeError As Double = 0.00000000000001) As Boolean
-        If v1 = v2 Then
-            Return True
-        End If
+        If v1 = v2 Then Return True
+
         Return (v1 - v2).Length / (0.5 * (v1.Length + v2.Length)) < maxRelativeError
     End Function
 

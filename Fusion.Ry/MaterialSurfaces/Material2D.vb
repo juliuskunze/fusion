@@ -12,25 +12,25 @@
         Me.New(lightSourceColor, New BlackColorRemission, New BlackColorRemission, New BlackColorRemission, refractionIndexQuotient)
     End Sub
 
-    Public Sub New(ByVal scatteringRemission As IColorRemission,
-                   ByVal reflectionRemission As IColorRemission,
-                   ByVal transparencyRemission As IColorRemission,
+    Public Sub New(ByVal scatteringRemission As IRemission(Of ExactColor),
+                   ByVal reflectionRemission As IRemission(Of ExactColor),
+                   ByVal transparencyRemission As IRemission(Of ExactColor),
                    Optional ByVal refractionIndexQuotient As Double = 1)
         Me.New(ExactColor.Black, scatteringRemission, reflectionRemission, transparencyRemission, refractionIndexQuotient)
     End Sub
 
     Public Sub New(ByVal lightSourceColor As Color,
-                   ByVal scatteringRemission As IColorRemission,
-                   ByVal reflectionRemission As IColorRemission,
-                   ByVal transparencyRemission As IColorRemission,
+                   ByVal scatteringRemission As IRemission(Of ExactColor),
+                   ByVal reflectionRemission As IRemission(Of ExactColor),
+                   ByVal transparencyRemission As IRemission(Of ExactColor),
                Optional ByVal refractionIndexQuotient As Double = 1)
         Me.New(New ExactColor(lightSourceColor), scatteringRemission, reflectionRemission, transparencyRemission, refractionIndexQuotient)
     End Sub
 
     Public Sub New(ByVal lightSourceColor As ExactColor,
-                   ByVal scatteringRemission As IColorRemission,
-                   ByVal reflectionRemission As IColorRemission,
-                   ByVal transparencyRemission As IColorRemission,
+                   ByVal scatteringRemission As IRemission(Of ExactColor),
+                   ByVal reflectionRemission As IRemission(Of ExactColor),
+                   ByVal transparencyRemission As IRemission(Of ExactColor),
                    Optional ByVal refractionIndexQuotient As Double = 1)
         Me.LightSourceColor = lightSourceColor
         Me.ScatteringRemission = scatteringRemission
@@ -53,21 +53,21 @@
         End Get
     End Property
 
-    Public Property ReflectionRemission As IColorRemission
+    Public Property ReflectionRemission As IRemission(Of ExactColor)
     Public ReadOnly Property Reflects As Boolean
         Get
             Return Not Me.ReflectionRemission.NoRemission
         End Get
     End Property
 
-    Public Property TransparencyRemission As IColorRemission
+    Public Property TransparencyRemission As IRemission(Of ExactColor)
     Public ReadOnly Property IsTranslucent As Boolean
         Get
             Return Not Me.TransparencyRemission.NoRemission
         End Get
     End Property
 
-    Public Property ScatteringRemission As IColorRemission
+    Public Property ScatteringRemission As IRemission(Of ExactColor)
     Public ReadOnly Property Scatters As Boolean
         Get
             Return Not Me.ScatteringRemission.NoRemission
