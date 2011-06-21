@@ -1,4 +1,4 @@
-﻿Public Structure HsvColor
+﻿Public Structure HsbColor
 
     Private ReadOnly _Hue As Double
     Public ReadOnly Property Hue As Double
@@ -14,10 +14,10 @@
         End Get
     End Property
 
-    Private ReadOnly _Value As Double
-    Public ReadOnly Property Value As Double
+    Private ReadOnly _Brightness As Double
+    Public ReadOnly Property Brightness As Double
         Get
-            Return _Value
+            Return _Brightness
         End Get
     End Property
 
@@ -28,8 +28,8 @@
         If Not (0 <= Me.Saturation AndAlso Me.Saturation <= 1) Then Throw New ArgumentOutOfRangeException("Saturation has to be in [0; 1].")
         _Saturation = saturation
 
-        If Not (0 <= Me.Value AndAlso Me.Value <= 1) Then Throw New ArgumentOutOfRangeException("Value has to be in [0; 1].")
-        _Value = value
+        If Not (0 <= Me.Brightness AndAlso Me.Brightness <= 1) Then Throw New ArgumentOutOfRangeException("Value has to be in [0; 1].")
+        _Brightness = value
     End Sub
 
     Public Function ToRgbColor() As Color
@@ -40,7 +40,7 @@
             h += 6
         End If
 
-        Dim v = Me.Value * 255
+        Dim v = Me.Brightness * 255
 
         Dim partOfCircle0To5 = Floor(h)
         Dim locationInPart As Double = (h - partOfCircle0To5)
@@ -81,7 +81,7 @@
         Return Color.FromArgb(red, green, blue)
     End Function
 
-    Public Shared Function FromRgbColor(ByVal rgbColor As Color) As HsvColor
+    Public Shared Function FromRgbColor(ByVal rgbColor As Color) As HsbColor
         Dim r = rgbColor.R / Byte.MaxValue
         Dim g = rgbColor.G / Byte.MaxValue
         Dim b = rgbColor.B / Byte.MaxValue
@@ -112,7 +112,7 @@
 
         Dim value = maximum
 
-        Return New HsvColor(hue:=hue, saturation:=saturation, value:=value)
+        Return New HsbColor(hue:=hue, saturation:=saturation, value:=value)
     End Function
 
 End Structure

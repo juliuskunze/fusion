@@ -4,9 +4,9 @@
     Private Const _GreenWaveLength = 435.8 * 10 ^ -9
     Private Const _BlueWaveLength = 546.1 * 10 ^ -9
 
-    Public Shared Function HsvToWavelength(ByVal hsvColor As HsvColor) As Double
+    Public Shared Function BrightnessToWavelength(ByVal hsbColor As HsbColor) As Double
         Dim wavelength As Double
-        Dim hue As Double = hsvColor.Hue
+        Dim hue As Double = hsbColor.Hue
 
         If 5 * PI / 3 <= hue AndAlso hue < 6 * PI / 3 Then
             ' the split 5*Pi/3 is magenta
