@@ -1,4 +1,4 @@
-﻿Public Class RayTracingExamples
+Public Class RayTracingExamples
 
     Public Property PictureSize As Size
 
@@ -19,14 +19,11 @@
                                                material:=grayMaterial)
 
         Dim rightWall = New SingleMaterialSurface(Of Material2D)(New Plane(Location:=New Vector3D(10, 0, 0), normal:=New Vector3D(-1, 0, 0)),
-                                                  material:=Materials2D.Scattering(New ExactColor(Color.MediumBlue)))
+                                                                 material:=Materials2D.Scattering(New ExactColor(Color.MediumBlue)))
         Dim leftWall = New SingleMaterialSurface(Of Material2D)(New Plane(Location:=Vector3D.Zero, normal:=New Vector3D(1, 0, 0)),
-                                                 material:=Materials2D.Scattering(New ExactColor(Color.Orange)))
+                                                                material:=Materials2D.Scattering(New ExactColor(Color.Orange)))
         Dim ceiling = New SingleMaterialSurface(Of Material2D)(New Plane(Location:=New Vector3D(0, 10, 0), normal:=New Vector3D(0, -1, 0)),
-                                       material:=New Material2D(
-                                           scatteringRemission:=New ComponentScaledColorRemission(New ExactColor(0.2, 0.2, 0.2)),
-                                           reflectionRemission:=New BlackColorRemission,
-                                           transparencyRemission:=New BlackColorRemission))
+                                                               material:=Materials2D.Scattering(0.2))
 
         Dim frontWall = New SingleMaterialSurface(Of Material2D)(New Plane(Location:=Vector3D.Zero, normal:=New Vector3D(0, 0, 1)),
                                                                  material:=grayMaterial)
@@ -39,15 +36,11 @@
 
         Dim reflectingSphereRadius = 2
         Dim reflectingSphere = New SingleMaterialSurface(Of Material2D)(New Sphere(center:=New Vector3D(3.5, reflectingSphereRadius, 8), radius:=reflectingSphereRadius),
-                                material:=New Material2D(
-                                    scatteringRemission:=New BlackColorRemission,
-                                    reflectionRemission:=New FullColorRemission,
-                                    transparencyRemission:=New BlackColorRemission))
+                                material:=Materials2D.Reflecting)
 
-        Dim glass = New Material2D(scatteringRemission:=New BlackColorRemission,
-                                                reflectionRemission:=New ScaledColorRemission(0.4),
-                                                transparencyRemission:=New FullColorRemission,
-                                                refractionIndexQuotient:=1 / glassRefractionIndex)
+        Dim glass = Materials2D.Transparent(scatteringRemission:=New BlackColorRemission,
+                                            reflectionRemission:=New ScaledColorRemission(0.4),
+                                            refractionIndexQuotient:=1 / glassRefractionIndex)
         Dim glassInside = glass.Clone
         glassInside.RefractionIndexRatio = glassRefractionIndex
         glassInside.ReflectionRemission = New BlackColorRemission
@@ -103,24 +96,20 @@
                                                 material2:=groundMaterial2)
 
         Dim refractingSphere = New SingleMaterialSurface(Of Material2D)(New Sphere(center:=New Vector3D(1.5, 0, 1), radius:=1),
-                                                         material:=New Material2D(scatteringRemission:=New ScaledColorRemission(0.2),
-                                                                                  transparencyRemission:=New FullColorRemission,
-                                                                                  reflectionRemission:=New ScaledColorRemission(0.1),
-                                                                                  refractionIndexQuotient:=1 / 2))
+                                                         material:=Materials2D.Transparent(scatteringRemission:=New ScaledColorRemission(0.2),
+                                                                                           reflectionRemission:=New ScaledColorRemission(0.1),
+                                                                                           refractionIndexQuotient:=1 / 2))
         Dim refractingSphereInside = New SingleMaterialSurface(Of Material2D)(New AntiSphere(center:=New Vector3D(1.5, 0, 1), radius:=1),
-                                                               material:=New Material2D(New ScaledColorRemission(0.2),
-                                                                                  transparencyRemission:=New FullColorRemission,
-                                                                                  reflectionRemission:=New ScaledColorRemission(0.1),
-                                                                                  refractionIndexQuotient:=2))
+                                                               material:=Materials2D.Transparent(scatteringRemission:=New ScaledColorRemission(0.2),
+                                                                                                 reflectionRemission:=New ScaledColorRemission(0.1),
+                                                                                                 refractionIndexQuotient:=2))
 
         Dim sphere2 = New SingleMaterialSurface(Of Material2D)(New Sphere(center:=New Vector3D(-0.6, 0.8, 0), radius:=1.3),
-                                                material:=New Material2D(scatteringRemission:=New BlackColorRemission,
-                                                           transparencyRemission:=New BlackColorRemission,
-                                                           reflectionRemission:=New ScaledColorRemission(0.2),
-                                                           refractionIndexQuotient:=1 / 2))
+                                                material:=Materials2D.Reflecting(albedo:=0.2))
 
         Dim reflectingSphere = New SingleMaterialSurface(Of Material2D)(New Sphere(center:=New Vector3D(-0.6, 0.8, -2.5), radius:=1),
-                                                         material:=New Material2D(scatteringRemission:=New ScaledColorRemission(0.2),
+                                                         material:=New Material2D(sourceLight:=ExactColor.Black,
+                                                                                  scatteringRemission:=New ScaledColorRemission(0.2),
                                                                                   reflectionRemission:=New FullColorRemission,
                                                                                   transparencyRemission:=New BlackColorRemission))
 
@@ -159,7 +148,7 @@
         Dim scatteringRemission = New ScaledColorRemission(1 - reflectionRemission.Albedo)
         Dim sphereColor = scatteringRemission.Albedo * ExactColor.White
 
-        Return New ColorfulSphere(New Vector3D(x, y, z), radius, material:=New Material2D(lightSourceColor:=sphereColor,
+        Return New ColorfulSphere(New Vector3D(x, y, z), radius, material:=New Material2D(sourceLight:=sphereColor,
                                                                                           scatteringRemission:=scatteringRemission,
                                                                                           reflectionRemission:=reflectionRemission,
                                                                                           transparencyRemission:=New BlackColorRemission))
@@ -206,10 +195,10 @@
 
         Dim glassRefractionIndex = 1.3
 
-        Dim glass = Materials2D.Glass(1 / glassRefractionIndex, reflectionAlbedo:=0.2)
-        Dim innerGlass = Materials2D.InnerGlass(1 / glassRefractionIndex)
+        Dim glass = Materials2D.Transparent(1 / glassRefractionIndex, reflectionAlbedo:=0.2)
+        Dim innerGlass = Materials2D.TransparentInner(1 / glassRefractionIndex)
 
-        Dim metal = Materials2D.Mirror
+        Dim metal = Materials2D.Reflecting
 
         Dim blueGroundMaterial = New Material2D(lightSourceColor:=Color.Black,
                              scatteringRemission:=New ComponentScaledColorRemission(Color.Blue),

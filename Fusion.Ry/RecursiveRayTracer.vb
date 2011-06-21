@@ -36,7 +36,7 @@
 
         Dim hitMaterial = firstIntersection.Material
 
-        Dim finalColor = hitMaterial.LightSourceColor
+        Dim finalColor = hitMaterial.SourceLight
         If hitMaterial.Scatters Then
             Dim lightColor = Me.LightSource.GetLight(firstIntersection) + _ShadedLightSources.LightColor(firstIntersection)
             finalColor += hitMaterial.ScatteringRemission.GetRemission(lightColor)

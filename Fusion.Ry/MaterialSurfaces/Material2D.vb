@@ -1,38 +1,19 @@
 ﻿Public Class Material2D
 
-    Public Sub New(Optional ByVal refractionIndexQuotient As Double = 1)
-        Me.New(Color.Black, New BlackColorRemission, New BlackColorRemission, New BlackColorRemission, refractionIndexQuotient)
-    End Sub
-
-    Public Sub New(ByVal lightSourceColor As Color, Optional ByVal refractionIndexQuotient As Double = 1)
-        Me.New(lightSourceColor, New BlackColorRemission, New BlackColorRemission, New BlackColorRemission, refractionIndexQuotient)
-    End Sub
-
-    Public Sub New(ByVal lightSourceColor As ExactColor, Optional ByVal refractionIndexQuotient As Double = 1)
-        Me.New(lightSourceColor, New BlackColorRemission, New BlackColorRemission, New BlackColorRemission, refractionIndexQuotient)
-    End Sub
-
-    Public Sub New(ByVal scatteringRemission As ILightRemission(Of ExactColor),
-                   ByVal reflectionRemission As ILightRemission(Of ExactColor),
-                   ByVal transparencyRemission As ILightRemission(Of ExactColor),
-                   Optional ByVal refractionIndexQuotient As Double = 1)
-        Me.New(ExactColor.Black, scatteringRemission, reflectionRemission, transparencyRemission, refractionIndexQuotient)
-    End Sub
-
     Public Sub New(ByVal lightSourceColor As Color,
                    ByVal scatteringRemission As ILightRemission(Of ExactColor),
                    ByVal reflectionRemission As ILightRemission(Of ExactColor),
                    ByVal transparencyRemission As ILightRemission(Of ExactColor),
-               Optional ByVal refractionIndexQuotient As Double = 1)
+                   Optional ByVal refractionIndexQuotient As Double = 1)
         Me.New(New ExactColor(lightSourceColor), scatteringRemission, reflectionRemission, transparencyRemission, refractionIndexQuotient)
     End Sub
 
-    Public Sub New(ByVal lightSourceColor As ExactColor,
+    Public Sub New(ByVal sourceLight As ExactColor,
                    ByVal scatteringRemission As ILightRemission(Of ExactColor),
                    ByVal reflectionRemission As ILightRemission(Of ExactColor),
                    ByVal transparencyRemission As ILightRemission(Of ExactColor),
                    Optional ByVal refractionIndexQuotient As Double = 1)
-        Me.LightSourceColor = lightSourceColor
+        Me.SourceLight =  SourceLight
         Me.ScatteringRemission = scatteringRemission
         Me.ReflectionRemission = reflectionRemission
         Me.TransparencyRemission = transparencyRemission
@@ -46,12 +27,7 @@
         End Get
     End Property
 
-    Public Property LightSourceColor As ExactColor
-    Public ReadOnly Property IsLightSource As Boolean
-        Get
-            Return Me.LightSourceColor <> ExactColor.Black
-        End Get
-    End Property
+    Public Property SourceLight As ExactColor
 
     Public Property ReflectionRemission As ILightRemission(Of ExactColor)
     Public ReadOnly Property Reflects As Boolean
@@ -75,7 +51,7 @@
     End Property
 
     Public Function Clone() As Material2D
-        Return New Material2D(Me.LightSourceColor,
+        Return New Material2D(Me.SourceLight,
                               Me.ScatteringRemission,
                               Me.ReflectionRemission,
                               Me.TransparencyRemission,

@@ -14,7 +14,7 @@
 
         If firstIntersection Is Nothing Then Return Me.BackColor
 
-        Dim finalColor = firstIntersection.Material.LightSourceColor
+        Dim finalColor = firstIntersection.Material.SourceLight
 
         If intersectionCount >= Me.MaxIntersectionCount Then
             Return finalColor

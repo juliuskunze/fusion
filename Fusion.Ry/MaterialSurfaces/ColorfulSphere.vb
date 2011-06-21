@@ -17,7 +17,7 @@
         If firstIntersection Is Nothing Then Return Nothing
 
         Dim material = Me.Material.Clone()
-        material.LightSourceColor = ColorFromDirection(firstIntersection.NormalizedNormal)
+        material.SourceLight = ColorFromDirection(firstIntersection.NormalizedNormal)
 
         Return New MaterialSurfacePoint(Of Material2D)(SurfacePoint:=firstIntersection, material:=material)
     End Function

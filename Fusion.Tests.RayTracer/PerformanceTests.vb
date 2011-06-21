@@ -41,10 +41,10 @@
 
         Dim glassRefractionIndex = 1.3
 
-        Dim glass = Materials2D.Glass(1 / glassRefractionIndex, reflectionAlbedo:=0.2)
-        Dim innerGlass = Materials2D.InnerGlass(1 / glassRefractionIndex)
+        Dim glass = Materials2D.Transparent(1 / glassRefractionIndex, reflectionAlbedo:=0.2)
+        Dim innerGlass = Materials2D.TransparentInner(1 / glassRefractionIndex)
 
-        Dim metal = Materials2D.Mirror
+        Dim metal = Materials2D.Reflecting
 
         Dim groundMaterial1 = New Material2D(lightSourceColor:=Color.Black,
                              scatteringRemission:=New ComponentScaledColorRemission(Color.Blue),

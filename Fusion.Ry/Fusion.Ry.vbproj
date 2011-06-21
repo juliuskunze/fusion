@@ -72,6 +72,8 @@
     <Compile Include="Examples\LensVideo.vb" />
     <Compile Include="Examples\RayTracingExamples.vb" />
     <Compile Include="IRayTracer.vb" />
+    <Compile Include="Light\FunctionLightSprectrum.vb" />
+    <Compile Include="Light\ILightSprectrum.vb" />
     <Compile Include="Light\Remission\Color\BlackColorRemission.vb" />
     <Compile Include="Light\Source\Color\DirectionalLightSource.vb" />
     <Compile Include="Light\Remission\ILightRemission.vb" />

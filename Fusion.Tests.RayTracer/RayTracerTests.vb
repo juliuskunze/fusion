@@ -3,13 +3,13 @@
     <Test()>
     Public Sub Reflection()
         Dim reflectingSphere = New SingleMaterialSurface(Of Material2D)(New Sphere(center:=New Vector3D(-1, 0, 0), radius:=1),
-                                                         material:=New Material2D(lightSourceColor:=New ExactColor(0, 0, 1),
+                                                         material:=New Material2D(sourceLight:=New ExactColor(0, 0, 1),
                                                                                   scatteringRemission:=New BlackColorRemission,
                                                                                   reflectionRemission:=New BlackColorRemission,
                                                                                   transparencyRemission:=New BlackColorRemission))
 
         Dim colorSphere = New SingleMaterialSurface(Of Material2D)(New Sphere(center:=New Vector3D(3, -3, 0), radius:=1),
-                                                         material:=New Material2D(lightSourceColor:=New ExactColor(0, 0, 1)))
+                                                         material:=Materials2D.LightSource(sourceLight:=New ExactColor(0, 0, 1)))
 
         Dim surfaces = New MaterialSurfaces(Of Material2D) From {reflectingSphere, colorSphere}
         Dim rayTracer = New Fusion.Ry.ScatteringRayTracer(surfaces)
