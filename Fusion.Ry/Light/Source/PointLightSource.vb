@@ -20,7 +20,7 @@ Public Class PointLightSource(Of TLight As {ILight(Of TLight), New})
         End If
 
         Dim valueFactor = valueFactorByDistance * valueFactorByNormal
-        Return Me.BaseLight.MultiplyBrighness(valueFactor)
+        Return Me.BaseLight.MultiplyBrightness(valueFactor)
     End Function
 
 End Class

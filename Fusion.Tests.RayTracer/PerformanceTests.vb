@@ -110,7 +110,7 @@
         Dim glassAntiSphere = New SingleMaterialSurface(Of Material2D(Of RgbLight))(glassAntiSphereSurface, innerGlass)
 
         Dim surfaces = New Surfaces(Of Material2D(Of RgbLight)) From {ground, redWall, frontWall, greenWall, backWall, ceiling, frontWall, light, scatteringSphere, glassSphere, glassAntiSphere, metalSphere}
-        Dim rayTracer = New RecursiveRayTracer(Of RgbLight)(surface:=surfaces, lightSource:=New LightSources(Of RgbLight), shadedPointLightSources:=shadedLightSources, maxIntersectionCount:=10)
+        Dim rayTracer = New RecursiveRayTracer(Of RgbLight)(surface:=surfaces, unshadedLightSource:=New LightSources(Of RgbLight), shadedPointLightSources:=shadedLightSources, maxIntersectionCount:=10)
         'Dim rayTracer = New ScatteringRayTracer(surface:=surfaces, rayCount:=1, maxIntersectionCount:=10)
 
         Dim glassCylinderSurface = New Cylinder(startCenter:=glassLocation, endCenter:=glassLocation + New Vector3D(0, glassCylinderHeight, 0), radius:=0.1)

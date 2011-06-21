@@ -20,6 +20,6 @@ Public Class LinearPointLightSource(Of TLight As {ILight(Of TLight), New})
         End If
 
         Dim valueFactor = brightnessFactorByDistance * brightnessFactorByNormal
-        Return Me.BaseLight.MultiplyBrighness(valueFactor)
+        Return Me.BaseLight.MultiplyBrightness(valueFactor)
     End Function
 End Class

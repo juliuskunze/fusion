@@ -28,7 +28,7 @@ Public Class DirectionalLightSource(Of TLight As {ILight(Of TLight), New})
             Return New TLight
         End If
 
-        Return Me.BaseLight.MultiplyBrighness(valueFactor)
+        Return Me.BaseLight.MultiplyBrightness(valueFactor)
     End Function
 
 End Class

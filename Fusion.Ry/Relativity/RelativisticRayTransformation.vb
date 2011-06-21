@@ -34,7 +34,7 @@ Public Class RelativisticRayTransformation
     ''' <param name="ray">The ray in the stationary reference frame.</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function TransformedRay(ByVal ray As Ray) As Ray
+    Public Function GetTransformedRay(ByVal ray As Ray) As Ray
         Dim directionInStationaryFrame = ray.NormalizedDirection
         Dim directionInMovedFrame = New Vector3D(x:=directionInStationaryFrame.X,
                                                  y:=directionInStationaryFrame.Y,
@@ -42,15 +42,23 @@ Public Class RelativisticRayTransformation
         Return New Ray(origin:=Ray.Origin, direction:=directionInMovedFrame)
     End Function
 
-    Public Function TransformedWavelength(ByVal ray As Ray, ByVal waveLength As Double) As Double
-        Dim direction = ray.NormalizedDirection
-        Return waveLength * Sqrt((Me.Gamma * (direction.Z - Me.Beta * direction.Length)) ^ 2 +
-                                 direction.X ^ 2 +
-                                 direction.Y ^ 2) /
-                            direction.Length
+    Public Function GetTransformedWavelength(ByVal ray As Ray, ByVal wavelength As Double) As Double
+        Return wavelength * GetTransformedWavelengthFactor(ray)
     End Function
 
-    Public Function TransformedIntensity(ByVal ray As Ray, ByVal intensity As Double) As Double
+    Private Function GetTransformedWavelengthFactor(ByVal ray As Ray) As Double
+        Dim direction = ray.NormalizedDirection
+        Return Sqrt((Me.Gamma * (direction.Z - Me.Beta * direction.Length)) ^ 2 +
+                                 direction.X ^ 2 +
+                                 direction.Y ^ 2) /
+                     direction.Length
+    End Function
+
+    Public Function GetTransformedIntensityFunction(ByVal ray As Ray, ByVal intensityFunction As IntensityFunction) As IntensityFunction
+        Return Function(wavelength) intensityFunction.Invoke(Me.GetTransformedWavelength(ray:=ray, wavelength:=wavelength))
+    End Function
+
+    Public Function GetTransformedIntensity(ByVal ray As Ray, ByVal intensity As Double) As Double
         Dim direction = ray.NormalizedDirection
         Return intensity * direction.LengthSquared / (Me.Gamma * (direction.Z - Me.Beta * direction.Length) ^ 2 + (direction.Y ^ 2 + direction.X ^ 2) / Me.Gamma)
     End Function

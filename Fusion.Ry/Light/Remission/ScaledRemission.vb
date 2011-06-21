@@ -8,7 +8,7 @@ Public Class ScaledRemission(Of TLight As {ILight(Of TLight), New})
     End Sub
 
     Public Function GetRemission(ByVal light As TLight) As TLight Implements IRemission(Of TLight).GetRemission
-        Return light.MultiplyBrighness(Me.Albedo)
+        Return light.MultiplyBrightness(Me.Albedo)
     End Function
 
     Public ReadOnly Property NoRemission As Boolean Implements IRemission(Of TLight).NoRemission

@@ -130,7 +130,7 @@ Public Class RayTracingExamples
         Dim shadedLightSources = New List(Of IPointLightSource(Of RgbLight)) From {pointLightSource1, pointLightSource2}
 
         Dim rayTracer = New RecursiveRayTracer(Of RgbLight)(surface:=surfaces,
-                                                              lightSource:=lightSources,
+                                                              unshadedLightSource:=lightSources,
                                                               shadedPointLightSources:=shadedLightSources)
 
         Return New RayTraceDrawer(Of RgbLight)(rayTracer:=rayTracer, Size:=PictureSize, view:=view)
@@ -168,7 +168,7 @@ Public Class RayTracingExamples
         Return New RayTraceDrawer(Of RgbLight)(rayTracer:=rayTracer, Size:=PictureSize, view:=view)
     End Function
 
-    Public Function SecondRoomRayTracer() As RelativisticGeometryRayTracer(Of RgbLight)
+    Public Function SecondRoomRayTracer() As RelativisticRayTracer(Of RgbLight)
         Dim origin = Vector3D.Zero
         Dim frontLeftDown = New Vector3D(0, 0, 6)
         Dim backLeftDown = New Vector3D(0, 0, 16)
@@ -299,7 +299,7 @@ Public Class RayTracingExamples
                                                                  glassCylinderSurface, glassAntiCylinderSurface,
                                                                  frontCylinderSurface,
                                                                  lampSide}
-        Return New RelativisticGeometryRayTracer(Of RgbLight)(surface:=surfaces, xCameraVelocityInC:=-0.5,
+        Return New RelativisticRayTracer(Of RgbLight)(surface:=surfaces, xCameraVelocityInC:=-0.5,
                                                               unshadedLightSource:=New LightSources(Of RgbLight),
                                                               shadedPointLightSources:=shadedLightSources,
                                                               maxIntersectionCount:=10)

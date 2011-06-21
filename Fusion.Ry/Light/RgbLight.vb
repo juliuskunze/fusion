@@ -102,7 +102,7 @@ Public Structure RgbLight
         Return Me + other
     End Function
 
-    Public Function MultiplyBrighness(ByVal factor As Double) As RgbLight Implements ILight(Of RgbLight).MultiplyBrighness
+    Public Function MultiplyBrightness(ByVal factor As Double) As RgbLight Implements ILight(Of RgbLight).MultiplyBrightness
         Return Me * factor
     End Function
 
