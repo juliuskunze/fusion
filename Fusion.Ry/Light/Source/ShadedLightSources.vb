@@ -1,6 +1,6 @@
-﻿Public Class ShadedColorLightSources
-    Inherits List(Of IPointLightSource(Of ExactColor))
-    Implements ILightSource(Of ExactColor)
+﻿Public Class ShadedLightSources(Of TLight As {ILight(Of TLight), New})
+    Inherits List(Of IPointLightSource(Of TLight))
+    Implements ILightSource(Of TLight)
 
     Public Property ShadowingSurface As ISurface
 
@@ -10,14 +10,14 @@
         Me.ShadowingSurface = shadowingSurface
     End Sub
 
-    Public Sub New(ByVal pointLightSources As IEnumerable(Of IPointLightSource(Of ExactColor)), ByVal shadowingSurface As ISurface)
+    Public Sub New(ByVal pointLightSources As IEnumerable(Of IPointLightSource(Of TLight)), ByVal shadowingSurface As ISurface)
         MyBase.New(pointLightSources)
 
         Me.ShadowingSurface = shadowingSurface
     End Sub
 
-    Public Function GetLightColor(ByVal surfacePoint As SurfacePoint) As ExactColor Implements ILightSource(Of ExactColor).GetLight
-        Dim returnColor = ExactColor.Black
+    Public Function GetLightColor(ByVal surfacePoint As SurfacePoint) As TLight Implements ILightSource(Of TLight).GetLight
+        Dim returnColor = New TLight
         For Each pointLightSource In Me
             Dim lightRay = New Ray(origin:=pointLightSource.Location,
                                    direction:=surfacePoint.Location - pointLightSource.Location)
@@ -27,7 +27,7 @@
             If firstIntersection Is Nothing Then Continue For
             If (firstIntersection.Location - surfacePoint.Location).LengthSquared >= SafetyDistanceSquared Then Continue For
 
-            returnColor += pointLightSource.GetLight(surfacePoint)
+            returnColor = returnColor.Add(pointLightSource.GetLight(surfacePoint))
         Next
 
         Return returnColor

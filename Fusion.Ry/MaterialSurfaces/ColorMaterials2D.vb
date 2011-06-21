@@ -8,55 +8,53 @@
 
     Public Shared Function LightSource(ByVal sourceLight As ExactColor) As Material2D(Of ExactColor)
         Return New Material2D(Of ExactColor)(sourceLight:=sourceLight,
-                              scatteringRemission:=New BlackColorRemission,
-                              reflectionRemission:=New BlackColorRemission,
-                              transparencyRemission:=New BlackColorRemission)
+                              scatteringRemission:=New BlackRemission(Of ExactColor),
+                              reflectionRemission:=New BlackRemission(Of ExactColor),
+                              transparencyRemission:=New BlackRemission(Of ExactColor))
     End Function
 
     Public Shared Function Scattering(ByVal color As ExactColor) As Material2D(Of ExactColor)
         Return New Material2D(Of ExactColor)(sourceLight:=ExactColor.Black,
                               scatteringRemission:=New ComponentScaledColorRemission(color),
-                              reflectionRemission:=New BlackColorRemission,
-                              transparencyRemission:=New BlackColorRemission)
+                              reflectionRemission:=New BlackRemission(Of ExactColor),
+                              transparencyRemission:=New BlackRemission(Of ExactColor))
     End Function
 
     Public Shared Function Transparent(ByVal refractionIndexQuotient As Double, ByVal reflectionAlbedo As Double) As Material2D(Of ExactColor)
-        Return ColorMaterials2D.Transparent(scatteringRemission:=New BlackColorRemission,
-                                       reflectionRemission:=New ScaledColorRemission(reflectionAlbedo),
-                                       refractionIndexQuotient:=refractionIndexQuotient)
+        Return ColorMaterials2D.Transparent(scatteringRemission:=New BlackRemission(Of ExactColor),
+                                            reflectionRemission:=New ScaledRemission(Of ExactColor)(reflectionAlbedo),
+                                            refractionIndexQuotient:=refractionIndexQuotient)
     End Function
 
-    Public Shared Function Transparent(ByVal scatteringRemission As ILightRemission(Of ExactColor),
-                                       ByVal reflectionRemission As ILightRemission(Of ExactColor),
+    Public Shared Function Transparent(ByVal scatteringRemission As IRemission(Of ExactColor),
+                                       ByVal reflectionRemission As IRemission(Of ExactColor),
                                        ByVal refractionIndexQuotient As Double) As Material2D(Of ExactColor)
 
         Return New Material2D(Of ExactColor)(sourceLight:=ExactColor.Black,
                               scatteringRemission:=scatteringRemission,
                               reflectionRemission:=reflectionRemission,
-                              transparencyRemission:=New FullColorRemission,
+                              transparencyRemission:=New FullRemission(Of ExactColor),
                               refractionIndexQuotient:=refractionIndexQuotient)
     End Function
 
     Public Shared Function TransparentInner(ByVal refractionIndexQuotient As Double) As Material2D(Of ExactColor)
-        Return New Material2D(Of ExactColor)(sourceLight:=ExactColor.Black,
-                              scatteringRemission:=New BlackColorRemission,
-                              reflectionRemission:=New BlackColorRemission,
-                              transparencyRemission:=New FullColorRemission,
-                              refractionIndexQuotient:=1 / refractionIndexQuotient)
+        Return ColorMaterials2D.Transparent(scatteringRemission:=New BlackRemission(Of ExactColor),
+                                            reflectionRemission:=New BlackRemission(Of ExactColor),
+                                            refractionIndexQuotient:=1 / refractionIndexQuotient)
     End Function
 
     Public Shared Function Reflecting(Optional ByVal albedo As Double = 1) As Material2D(Of ExactColor)
         Return New Material2D(Of ExactColor)(sourceLight:=ExactColor.Black,
-                              scatteringRemission:=New BlackColorRemission,
-                              reflectionRemission:=New ScaledColorRemission(albedo:=albedo),
-                              transparencyRemission:=New BlackColorRemission)
+                              scatteringRemission:=New BlackRemission(Of ExactColor),
+                              reflectionRemission:=New ScaledRemission(Of ExactColor)(albedo:=albedo),
+                              transparencyRemission:=New BlackRemission(Of ExactColor))
     End Function
 
     Public Shared Function Scattering(Optional ByVal albedo As Double = 1) As Material2D(Of ExactColor)
         Return New Material2D(Of ExactColor)(sourceLight:=ExactColor.Black,
-                              scatteringRemission:=New ScaledColorRemission(albedo:=albedo),
-                              reflectionRemission:=New BlackColorRemission,
-                              transparencyRemission:=New BlackColorRemission)
+                              scatteringRemission:=New ScaledRemission(Of ExactColor)(albedo:=albedo),
+                              reflectionRemission:=New BlackRemission(Of ExactColor),
+                              transparencyRemission:=New BlackRemission(Of ExactColor))
     End Function
 
 End Class

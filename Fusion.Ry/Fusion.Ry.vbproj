@@ -76,20 +76,20 @@
     <Compile Include="Light\FunctionLightSprectrum.vb" />
     <Compile Include="Light\ILight.vb" />
     <Compile Include="Light\ILightSprectrum.vb" />
-    <Compile Include="Light\Remission\Color\BlackColorRemission.vb" />
-    <Compile Include="Light\Source\Color\DirectionalLightSource.vb" />
-    <Compile Include="Light\Remission\ILightRemission.vb" />
+    <Compile Include="Light\Remission\BlackRemission.vb" />
+    <Compile Include="Light\Source\DirectionalLightSource.vb" />
+    <Compile Include="Light\Remission\IRemission.vb" />
     <Compile Include="Light\Source\ILightSource.vb" />
     <Compile Include="Light\Source\IPointLightSource.vb" />
-    <Compile Include="Light\Source\Color\LightSources.vb" />
-    <Compile Include="Light\Source\Color\LinearPointLightSource.vb" />
-    <Compile Include="Light\Source\Color\PointLightSource.vb" />
-    <Compile Include="Light\Remission\Color\ComponentScaledColorRemission.vb" />
+    <Compile Include="Light\Source\LightSources.vb" />
+    <Compile Include="Light\Source\LinearPointLightSource.vb" />
+    <Compile Include="Light\Source\PointLightSource.vb" />
+    <Compile Include="Light\Remission\ComponentScaledColorRemission.vb" />
     <Compile Include="Light\ColorWavelengthConverter.vb" />
-    <Compile Include="Light\Remission\Color\ScaledColorRemission.vb" />
-    <Compile Include="Light\Source\Color\ShadedLightSources.vb" />
-    <Compile Include="Light\Source\Color\UndirectionalLightSource.vb" />
-    <Compile Include="Light\Remission\Color\FullColorRemission.vb" />
+    <Compile Include="Light\Remission\ScaledRemission.vb" />
+    <Compile Include="Light\Source\ShadedLightSources.vb" />
+    <Compile Include="Light\Source\UndirectionalLightSource.vb" />
+    <Compile Include="Light\Remission\FullColorRemission.vb" />
     <Compile Include="MaterialSurfaces\ColorMaterials2D.vb" />
     <Compile Include="MaterialSurfaces\SquaredMaterialSurface.vb" />
     <Compile Include="MaterialSurfaces\ColorfulSphere.vb" />
@@ -154,6 +154,7 @@
       <Name>Fusion.Visualization</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -7,11 +7,11 @@ Public Class RelativisticGeometryRayTracer
     Inherits RecursiveRayTracer
 
     Public Sub New(ByVal surface As ISurface(Of Material2D(Of ExactColor)),
-                   ByVal lightSource As ILightSource(Of ExactColor),
+                   ByVal unshadedLightSource As ILightSource(Of ExactColor),
                    ByVal shadedPointLightSources As List(Of IPointLightSource(Of ExactColor)),
                    ByVal xCameraVelocityInC As Double,
                    Optional ByVal maxIntersectionCount As Integer = 10)
-        MyBase.New(surface:=surface, lightSource:=lightSource, shadedPointLightSources:=shadedPointLightSources, maxIntersectionCount:=maxIntersectionCount)
+        MyBase.New(surface:=surface, lightSource:=unshadedLightSource, shadedPointLightSources:=shadedPointLightSources, maxIntersectionCount:=maxIntersectionCount)
 
         _RayTransformation = New RelativisticRayTransformation(relativeXVelocityInC:=xCameraVelocityInC)
     End Sub

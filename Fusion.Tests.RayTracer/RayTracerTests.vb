@@ -4,9 +4,9 @@
     Public Sub Reflection()
         Dim reflectingSphere = New SingleMaterialSurface(Of Material2D(Of ExactColor))(New Sphere(center:=New Vector3D(-1, 0, 0), radius:=1),
                                                          material:=New Material2D(Of ExactColor)(sourceLight:=New ExactColor(0, 0, 1),
-                                                                                  scatteringRemission:=New BlackColorRemission,
-                                                                                  reflectionRemission:=New BlackColorRemission,
-                                                                                  transparencyRemission:=New BlackColorRemission))
+                                                                                  scatteringRemission:=New BlackRemission(Of ExactColor),
+                                                                                  reflectionRemission:=New BlackRemission(Of ExactColor),
+                                                                                  transparencyRemission:=New BlackRemission(Of ExactColor)))
 
         Dim colorSphere = New SingleMaterialSurface(Of Material2D(Of ExactColor))(New Sphere(center:=New Vector3D(3, -3, 0), radius:=1),
                                                          material:=ColorMaterials2D.LightSource(sourceLight:=New ExactColor(0, 0, 1)))

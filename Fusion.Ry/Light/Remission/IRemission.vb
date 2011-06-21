@@ -1,4 +1,4 @@
-﻿Public Interface ILightRemission(Of TLight)
+Public Interface IRemission(Of TLight)
 
     Function GetRemission(ByVal light As TLight) As TLight
 
