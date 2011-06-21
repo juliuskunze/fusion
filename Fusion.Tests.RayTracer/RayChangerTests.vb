@@ -24,7 +24,7 @@
     <Test()>
     Public Sub RefractedRay_RefractionIndexQuotientIs1()
         Dim sourceRay = New Ray(origin:=New Vector3D(1, 1, 0), direction:=New Vector3D(-1, -1, 0))
-        Dim intersection = New SurfacePoint(Of Material2D(Of ExactColor))(location:=Vector3D.Zero, normal:=New Vector3D(0, 1, 0), material:=Materials2D.Black)
+        Dim intersection = New SurfacePoint(Of Material2D(Of ExactColor))(location:=Vector3D.Zero, normal:=New Vector3D(0, 1, 0), material:=ColorMaterials2D.Black)
 
         Dim refractedRay = New RayChanger(sourceRay).RefractedRay(intersection)
         Dim passedRay = New RayChanger(sourceRay).PassedRay(intersection)
@@ -61,7 +61,7 @@
     <Test()>
     Public Sub RefractedRay_Should_Not_Intersect_IntersectionPlane()
         Dim sourceRay = New Ray(origin:=New Vector3D(5, 6, 1), direction:=New Vector3D(5, 7, -1))
-        Dim plane = New SingleMaterialSurface(Of Material2D(Of ExactColor))(New Plane(location:=Vector3D.Zero, normal:=New Vector3D(0, 0, 1)), material:=Materials2D.Black)
+        Dim plane = New SingleMaterialSurface(Of Material2D(Of ExactColor))(New Plane(location:=Vector3D.Zero, normal:=New Vector3D(0, 0, 1)), material:=ColorMaterials2D.Black)
 
         Dim intersection = plane.MaterialIntersections(sourceRay).First
         Dim refractedRay = New RayChanger(sourceRay).RefractedRay(intersection)

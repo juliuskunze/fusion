@@ -3,7 +3,8 @@
 ''' </summary>
 ''' <remarks></remarks>
 Public Structure ExactColor
-
+    Implements ILight(Of ExactColor)
+    
     Private ReadOnly _Red As Double
     Public ReadOnly Property Red As Double
         Get
@@ -21,7 +22,7 @@ Public Structure ExactColor
     Private ReadOnly _Blue As Double
     Public ReadOnly Property Blue As Double
         Get
-            Return _blue
+            Return _Blue
         End Get
     End Property
 
@@ -34,18 +35,18 @@ Public Structure ExactColor
     Public Sub New(ByVal red As Double, ByVal green As Double, ByVal blue As Double)
         _Red = red
         _Green = green
-        _blue = blue
+        _Blue = blue
     End Sub
 
     Public Function ToColor() As Color
-        Return Color.FromArgb(Red:=GetByteComponent(Me.Red),
-                              Green:=GetByteComponent(Me.Green),
+        Return Color.FromArgb(red:=GetByteComponent(Me.Red),
+                              green:=GetByteComponent(Me.Green),
                               blue:=GetByteComponent(Me.Blue))
     End Function
 
     Public Function ToColorByTruncate() As Color
-        Return Color.FromArgb(Red:=GetByteComponentByTruncate(Me.Red),
-                              Green:=GetByteComponentByTruncate(Me.Green),
+        Return Color.FromArgb(red:=GetByteComponentByTruncate(Me.Red),
+                              green:=GetByteComponentByTruncate(Me.Green),
                               blue:=GetByteComponentByTruncate(Me.Blue))
     End Function
 
@@ -115,5 +116,13 @@ Public Structure ExactColor
 
     Public Overrides Function ToString() As String
         Return "Color(" & Me.Red.ToString & ", " & Me.Green.ToString & ", " & Me.Blue.ToString & ")"
+    End Function
+
+    Public Function Add(ByVal other As ExactColor) As ExactColor Implements ILight(Of ExactColor).Add
+        Return Me + other
+    End Function
+
+    Public Function MultiplyBrighness(ByVal factor As Double) As ExactColor Implements ILight(Of ExactColor).MultiplyBrighness
+        Return Me * factor
     End Function
 End Structure

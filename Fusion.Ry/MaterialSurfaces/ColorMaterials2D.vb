@@ -1,9 +1,9 @@
-﻿Public NotInheritable Class Materials2D
+﻿Public NotInheritable Class ColorMaterials2D
     Private Sub New()
     End Sub
 
     Public Shared Function Black() As Material2D(Of ExactColor)
-        Return Materials2D.LightSource(sourceLight:=ExactColor.Black)
+        Return ColorMaterials2D.LightSource(sourceLight:=ExactColor.Black)
     End Function
 
     Public Shared Function LightSource(ByVal sourceLight As ExactColor) As Material2D(Of ExactColor)
@@ -21,7 +21,7 @@
     End Function
 
     Public Shared Function Transparent(ByVal refractionIndexQuotient As Double, ByVal reflectionAlbedo As Double) As Material2D(Of ExactColor)
-        Return Materials2D.Transparent(scatteringRemission:=New BlackColorRemission,
+        Return ColorMaterials2D.Transparent(scatteringRemission:=New BlackColorRemission,
                                        reflectionRemission:=New ScaledColorRemission(reflectionAlbedo),
                                        refractionIndexQuotient:=refractionIndexQuotient)
     End Function

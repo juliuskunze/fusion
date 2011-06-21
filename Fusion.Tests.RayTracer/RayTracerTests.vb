@@ -9,9 +9,9 @@
                                                                                   transparencyRemission:=New BlackColorRemission))
 
         Dim colorSphere = New SingleMaterialSurface(Of Material2D(Of ExactColor))(New Sphere(center:=New Vector3D(3, -3, 0), radius:=1),
-                                                         material:=Materials2D.LightSource(sourceLight:=New ExactColor(0, 0, 1)))
+                                                         material:=ColorMaterials2D.LightSource(sourceLight:=New ExactColor(0, 0, 1)))
 
-        Dim surfaces = New MaterialSurfaces(Of Material2D(Of ExactColor)) From {reflectingSphere, colorSphere}
+        Dim surfaces = New Surfaces(Of Material2D(Of ExactColor)) From {reflectingSphere, colorSphere}
         Dim rayTracer = New Fusion.Ry.ScatteringRayTracer(surfaces)
 
         Dim startRay = New Ray(origin:=New Vector3D(1, 1, 0), direction:=New Vector3D(-1, -1, 0))

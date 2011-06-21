@@ -6,7 +6,12 @@ Fusion.Ry
 </name>
 </assembly>
 <members>
-<member name="T:Fusion.Ry.RelativisticRecursiveRayTracer">
+<member name="T:Fusion.Ry.ExactColor">
+	<summary>
+ A float number rgb-color which is displayable when the red, green and blue color component is in [0; 1].
+ </summary>
+	<remarks></remarks>
+</member><member name="T:Fusion.Ry.RelativisticGeometryRayTracer">
 	<summary>
  A ray tracer that provides the geometry effects of a camera 
  that moves with a velocity (in x-direction) very close to the light velocity.
@@ -51,6 +56,10 @@ Fusion.Ry
  </summary>
  The origins of the reference frames are equal, their times are equal.
  <remarks></remarks>
+</member><member name="T:Fusion.Ry.ILight`1">
+	<summary>
+ A representation of light (i. e. color, wavelength-spectrum, ...).
+ </summary>
 </member>
 </members>
 </doc>

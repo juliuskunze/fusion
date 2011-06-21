@@ -7,7 +7,7 @@
         End Get
     End Property
 
-    Public Function Color(ByVal startColor As Visualization.ExactColor) As Visualization.ExactColor Implements ILightRemission(Of ExactColor).GetRemission
+    Public Function Color(ByVal startColor As ExactColor) As ExactColor Implements ILightRemission(Of ExactColor).GetRemission
         Return ExactColor.Black
     End Function
 End Class

@@ -6,12 +6,7 @@ Fusion.Visualization
 </name>
 </assembly>
 <members>
-<member name="T:Fusion.Visualization.ExactColor">
-	<summary>
- A float number rgb-color which is displayable when the red, green and blue color component is in [0; 1].
- </summary>
-	<remarks></remarks>
-</member><member name="M:Fusion.Visualization.NormalizedMidpointCoordinateSystem.VirtualLocation(Fusion.Math.Vector2D)">
+<member name="M:Fusion.Visualization.NormalizedMidpointCoordinateSystem.VirtualLocation(Fusion.Math.Vector2D)">
 	<summary>
  Projects a pixel location on a picture to a vector, which origin is the midpoint of the picture
  and where the right picture bound has an x-coordinate 1; the y-coordinate has the same scale and is up-orientated.

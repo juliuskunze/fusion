@@ -1,12 +1,12 @@
-﻿Public Class SquaredMaterialSurface(Of MaterialType)
-    Implements ISurface(Of MaterialType)
+﻿Public Class SquaredMaterialSurface(Of TMaterial)
+    Implements ISurface(Of TMaterial)
 
     Public Property Surface As ISurface
-    Public Property Material1 As MaterialType
-    Public Property Material2 As MaterialType
+    Public Property Material1 As TMaterial
+    Public Property Material2 As TMaterial
 
     Public Sub New(ByVal surface As ISurface,
-                   ByVal material1 As MaterialType, ByVal material2 As MaterialType,
+                   ByVal material1 As TMaterial, ByVal material2 As TMaterial,
                    ByVal squaresXVector As Vector3D, ByVal squaresYVector As Vector3D,
                    ByVal squareLength As Double)
         Me.Surface = surface
@@ -56,22 +56,22 @@
         Return Me.Surface.Intersections(ray)
     End Function
 
-    Public Function MaterialIntersections(ByVal ray As Math.Ray) As IEnumerable(Of SurfacePoint(Of MaterialType)) Implements ISurface(Of MaterialType).MaterialIntersections
+    Public Function MaterialIntersections(ByVal ray As Math.Ray) As IEnumerable(Of SurfacePoint(Of TMaterial)) Implements ISurface(Of TMaterial).MaterialIntersections
         Return From surfacePoint In Me.Intersections(ray)
                Select MaterialSurfacePointFromSurfacePoint(surfacePoint:=surfacePoint)
     End Function
 
-    Private Function MaterialSurfacePointFromSurfacePoint(ByVal surfacePoint As SurfacePoint) As SurfacePoint(Of MaterialType)
-        Return New SurfacePoint(Of MaterialType)(surfacePoint:=surfacePoint, Material:=Me.Material(surfacePoint))
+    Private Function MaterialSurfacePointFromSurfacePoint(ByVal surfacePoint As SurfacePoint) As SurfacePoint(Of TMaterial)
+        Return New SurfacePoint(Of TMaterial)(surfacePoint:=surfacePoint, Material:=Me.Material(surfacePoint))
     End Function
 
-    Private Function Material(ByVal surfacePoint As SurfacePoint) As MaterialType
+    Private Function Material(ByVal surfacePoint As SurfacePoint) As TMaterial
         Dim xLocation = Me.NormalizedSquaresXVector * surfacePoint.Location
         Dim yLocation = Me.NormalizedSquaresYVector * surfacePoint.Location
 
         Dim useMaterial1 As Boolean = IsInEvenRow(xLocation) Xor IsInEvenRow(yLocation)
 
-        Dim resultMaterial As MaterialType
+        Dim resultMaterial As TMaterial
         If useMaterial1 Then
             resultMaterial = Me.Material1
         Else
@@ -85,7 +85,7 @@
         Return Me.Surface.FirstIntersection(ray)
     End Function
 
-    Public Function FirstMaterialIntersection(ByVal ray As Math.Ray) As SurfacePoint(Of MaterialType) Implements ISurface(Of MaterialType).FirstMaterialIntersection
+    Public Function FirstMaterialIntersection(ByVal ray As Math.Ray) As SurfacePoint(Of TMaterial) Implements ISurface(Of TMaterial).FirstMaterialIntersection
         Dim intersection = Me.FirstIntersection(ray)
 
         If intersection Is Nothing Then Return Nothing

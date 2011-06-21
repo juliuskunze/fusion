@@ -1,10 +1,6 @@
 ﻿Public Class RecursiveRayTracer
     Implements IRayTracer
 
-    Public Sub New(ByVal surface As ISurface(Of Material2D(Of ExactColor)))
-        Me.New(surface, LightSource:=New LightSources, ShadedPointLightSources:=New ShadedLightSources(surface))
-    End Sub
-
     Public Sub New(ByVal surface As ISurface(Of Material2D(Of ExactColor)),
                    ByVal lightSource As ILightSource(Of ExactColor),
                    ByVal shadedPointLightSources As List(Of IPointLightSource(Of ExactColor)),
@@ -23,11 +19,11 @@
             Return _ShadedLightSources
         End Get
         Set(ByVal value As List(Of IPointLightSource(Of ExactColor)))
-            _ShadedLightSources = New ShadedLightSources(pointLightSources:=value, shadowingSurface:=Me.Surface)
+            _ShadedLightSources = New ShadedColorLightSources(pointLightSources:=value, shadowingSurface:=Me.Surface)
         End Set
     End Property
 
-    Private _ShadedLightSources As ShadedLightSources
+    Private _ShadedLightSources As ShadedColorLightSources
 
     Protected Function TraceColor(ByVal ray As Ray, ByVal intersectionCount As Integer) As ExactColor
         Dim firstIntersection = Me.Surface.FirstMaterialIntersection(ray)
@@ -38,7 +34,7 @@
 
         Dim finalColor = hitMaterial.SourceLight
         If hitMaterial.Scatters Then
-            Dim lightColor = Me.LightSource.GetLight(firstIntersection) + _ShadedLightSources.LightColor(firstIntersection)
+            Dim lightColor = Me.LightSource.GetLight(firstIntersection) + _ShadedLightSources.GetLightColor(firstIntersection)
             finalColor += hitMaterial.ScatteringRemission.GetRemission(lightColor)
         End If
 

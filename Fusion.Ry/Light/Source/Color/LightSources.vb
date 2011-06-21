@@ -1,4 +1,4 @@
-﻿Public Class LightSources
+﻿Public Class ColorLightSources
     Inherits List(Of ILightSource(Of ExactColor))
     Implements ILightSource(Of ExactColor)
 

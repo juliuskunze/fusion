@@ -1,13 +1,9 @@
-﻿Public Class DirectionalLightSource
-    Implements ILightSource(Of ExactColor)
+﻿Public Class DirectionalLightSource(Of TLight As {ILight(Of TLight), New})
+    Implements ILightSource(Of TLight)
 
-    Public Sub New(ByVal direction As Vector3D, ByVal color As Color)
-        Me.New(direction, New ExactColor(color))
-    End Sub
-
-    Public Sub New(ByVal direction As Vector3D, ByVal color As ExactColor)
+    Public Sub New(ByVal direction As Vector3D, ByVal baseLight As TLight)
         Me.Direction = direction
-        Me.Color = color
+        Me.BaseLight = baseLight
     End Sub
 
     Public WriteOnly Property Direction As Vector3D
@@ -23,16 +19,16 @@
         End Get
     End Property
 
-    Public Property Color As ExactColor
+    Public Property BaseLight As TLight
 
-    Public Function LightColor(ByVal surfacePoint As SurfacePoint) As ExactColor Implements ILightSource(Of ExactColor).GetLight
+    Public Function LightColor(ByVal surfacePoint As SurfacePoint) As TLight Implements ILightSource(Of TLight).GetLight
         Dim valueFactor = surfacePoint.NormalizedNormal * _NormalizedDirection
 
         If valueFactor < 0 Then
-            Return ExactColor.Black
+            Return New TLight
         End If
 
-        Return Me.Color * valueFactor
+        Return Me.BaseLight.MultiplyBrighness(valueFactor)
     End Function
 
 End Class

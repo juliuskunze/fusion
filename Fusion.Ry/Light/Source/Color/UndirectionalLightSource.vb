@@ -1,4 +1,4 @@
-﻿Public Class UndirectionalLightSource
+﻿Public Class UndirectionalColorLightSource
     Implements ILightSource(Of ExactColor)
 
     Public Sub New(ByVal color As Color)

@@ -1,4 +1,4 @@
-﻿Public Class LinearPointLightSource
+﻿Public Class LinearPointColorLightSource
     Implements IPointLightSource(Of ExactColor)
 
     Public Property Location As Vector3D Implements IPointLightSource(Of ExactColor).Location

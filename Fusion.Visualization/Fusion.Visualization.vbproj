@@ -85,7 +85,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HsbColor.vb" />
-    <Compile Include="ExactColor.vb" />
     <Compile Include="NormalizedMidpointCoordinateSystem.vb" />
     <Compile Include="View2D.vb" />
     <Compile Include="View3D.vb" />

@@ -72,7 +72,9 @@
     <Compile Include="Examples\LensVideo.vb" />
     <Compile Include="Examples\RayTracingExamples.vb" />
     <Compile Include="IRayTracer.vb" />
+    <Compile Include="Light\ExactColor.vb" />
     <Compile Include="Light\FunctionLightSprectrum.vb" />
+    <Compile Include="Light\ILight.vb" />
     <Compile Include="Light\ILightSprectrum.vb" />
     <Compile Include="Light\Remission\Color\BlackColorRemission.vb" />
     <Compile Include="Light\Source\Color\DirectionalLightSource.vb" />
@@ -88,7 +90,7 @@
     <Compile Include="Light\Source\Color\ShadedLightSources.vb" />
     <Compile Include="Light\Source\Color\UndirectionalLightSource.vb" />
     <Compile Include="Light\Remission\Color\FullColorRemission.vb" />
-    <Compile Include="MaterialSurfaces\Materials2D.vb" />
+    <Compile Include="MaterialSurfaces\ColorMaterials2D.vb" />
     <Compile Include="MaterialSurfaces\SquaredMaterialSurface.vb" />
     <Compile Include="MaterialSurfaces\ColorfulSphere.vb" />
     <Compile Include="MaterialSurfaces\IMaterialSurface.vb" />
@@ -113,6 +115,7 @@
     </Compile>
     <Compile Include="RayChanger.vb" />
     <Compile Include="RayTraceDrawer.vb" />
+    <Compile Include="Relativity\RelativisticRayTracer.vb" />
     <Compile Include="Video\IViewCourse.vb" />
     <Compile Include="Video\IRayTraceVideo.vb" />
     <Compile Include="Relativity\RelativisticRecursiveRayTracer.vb" />

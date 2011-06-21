@@ -1,12 +1,12 @@
-﻿Public Class MaterialSurfaces(Of MaterialType)
-    Inherits List(Of ISurface(Of MaterialType))
-    Implements ISurface(Of MaterialType)
+﻿Public Class Surfaces(Of TMaterial)
+    Inherits List(Of ISurface(Of TMaterial))
+    Implements ISurface(Of TMaterial)
 
     Public Function Intersections(ByVal ray As Math.Ray) As System.Collections.Generic.IEnumerable(Of Math.SurfacePoint) Implements Math.ISurface.Intersections
         Return Me.MaterialIntersections(ray)
     End Function
 
-    Public Function MaterialIntersections(ByVal ray As Math.Ray) As System.Collections.Generic.IEnumerable(Of SurfacePoint(Of MaterialType)) Implements ISurface(Of MaterialType).MaterialIntersections
+    Public Function MaterialIntersections(ByVal ray As Math.Ray) As System.Collections.Generic.IEnumerable(Of SurfacePoint(Of TMaterial)) Implements ISurface(Of TMaterial).MaterialIntersections
         Return Me.SelectMany(Function(surface) surface.MaterialIntersections(ray)).
                OrderBy(Function(intersection) (intersection.Location - ray.Origin).LengthSquared)
     End Function
@@ -17,7 +17,7 @@
                MinItem(Function(intersection) (intersection.Location - ray.Origin).LengthSquared)
     End Function
 
-    Public Function FirstMaterialIntersection(ByVal ray As Math.Ray) As SurfacePoint(Of MaterialType) Implements ISurface(Of MaterialType).FirstMaterialIntersection
+    Public Function FirstMaterialIntersection(ByVal ray As Math.Ray) As SurfacePoint(Of TMaterial) Implements ISurface(Of TMaterial).FirstMaterialIntersection
         Return Me.Select(Function(surface) surface.FirstMaterialIntersection(ray)).
                Where(Function(intersection) intersection IsNot Nothing).
                MinItem(Function(intersection) (intersection.Location - ray.Origin).LengthSquared)

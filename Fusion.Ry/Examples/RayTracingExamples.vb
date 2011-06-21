@@ -11,19 +11,19 @@ Public Class RayTracingExamples
                               lookAt:=New Vector3D(5, 5, 0),
                               upVector:=New Vector3D(0, 1, 0),
                               xAngleFromMinus1To1:=PI / 3)
-        Dim lamp = New LinearPointLightSource(Location:=New Vector3D(5, 9.9, 8), colorAtDistance1:=ExactColor.White * 5)
+        Dim lamp = New LinearPointColorLightSource(Location:=New Vector3D(5, 9.9, 8), colorAtDistance1:=ExactColor.White * 5)
 
-        Dim grayMaterial = Materials2D.Scattering(New ExactColor(Color.Gray))
+        Dim grayMaterial = ColorMaterials2D.Scattering(New ExactColor(Color.Gray))
 
         Dim ground = New SingleMaterialSurface(Of Material2D(Of ExactColor))(New Plane(Location:=Vector3D.Zero, normal:=New Vector3D(0, 1, 0)),
                                                material:=grayMaterial)
 
         Dim rightWall = New SingleMaterialSurface(Of Material2D(Of ExactColor))(New Plane(Location:=New Vector3D(10, 0, 0), normal:=New Vector3D(-1, 0, 0)),
-                                                                 material:=Materials2D.Scattering(New ExactColor(Color.MediumBlue)))
+                                                                 material:=ColorMaterials2D.Scattering(New ExactColor(Color.MediumBlue)))
         Dim leftWall = New SingleMaterialSurface(Of Material2D(Of ExactColor))(New Plane(Location:=Vector3D.Zero, normal:=New Vector3D(1, 0, 0)),
-                                                                material:=Materials2D.Scattering(New ExactColor(Color.Orange)))
+                                                                material:=ColorMaterials2D.Scattering(New ExactColor(Color.Orange)))
         Dim ceiling = New SingleMaterialSurface(Of Material2D(Of ExactColor))(New Plane(Location:=New Vector3D(0, 10, 0), normal:=New Vector3D(0, -1, 0)),
-                                                               material:=Materials2D.Scattering(0.2))
+                                                               material:=ColorMaterials2D.Scattering(0.2))
 
         Dim frontWall = New SingleMaterialSurface(Of Material2D(Of ExactColor))(New Plane(Location:=Vector3D.Zero, normal:=New Vector3D(0, 0, 1)),
                                                                  material:=grayMaterial)
@@ -32,13 +32,13 @@ Public Class RayTracingExamples
                                                                 material:=grayMaterial)
 
         Dim lampSurface = New SingleMaterialSurface(Of Material2D(Of ExactColor))(New Sphere(center:=New Vector3D(5, 10, 8), radius:=2),
-                                        material:=Materials2D.LightSource(ExactColor.White * 10))
+                                        material:=ColorMaterials2D.LightSource(ExactColor.White * 10))
 
         Dim reflectingSphereRadius = 2
         Dim reflectingSphere = New SingleMaterialSurface(Of Material2D(Of ExactColor))(New Sphere(center:=New Vector3D(3.5, reflectingSphereRadius, 8), radius:=reflectingSphereRadius),
-                                material:=Materials2D.Reflecting)
+                                material:=ColorMaterials2D.Reflecting)
 
-        Dim glass = Materials2D.Transparent(scatteringRemission:=New BlackColorRemission,
+        Dim glass = ColorMaterials2D.Transparent(scatteringRemission:=New BlackColorRemission,
                                             reflectionRemission:=New ScaledColorRemission(0.4),
                                             refractionIndexQuotient:=1 / glassRefractionIndex)
         Dim glassInside = glass.Clone
@@ -63,7 +63,7 @@ Public Class RayTracingExamples
                                                               material:=glassInside)
 
 
-        Dim allSurfaces = New MaterialSurfaces(Of Material2D(Of ExactColor)) From {ground, ceiling, rightWall, leftWall, frontWall, backWall, lampSurface,
+        Dim allSurfaces = New Surfaces(Of Material2D(Of ExactColor)) From {ground, ceiling, rightWall, leftWall, frontWall, backWall, lampSurface,
                                                      reflectingSphere, refractingSphere, innerRefractingSphere} ', glassCylinder, antiGlassCylinder}
 
         'Dim rayTracer = New RecursiveRayTracer(surface:=allSurfaces, lightSource:=New LightSources, shadedPointLightSources:=New List(Of IPointLightSource(Of ExactColor)) From {lamp})
@@ -96,16 +96,16 @@ Public Class RayTracingExamples
                                                 material2:=groundMaterial2)
 
         Dim refractingSphere = New SingleMaterialSurface(Of Material2D(Of ExactColor))(New Sphere(center:=New Vector3D(1.5, 0, 1), radius:=1),
-                                                         material:=Materials2D.Transparent(scatteringRemission:=New ScaledColorRemission(0.2),
+                                                         material:=ColorMaterials2D.Transparent(scatteringRemission:=New ScaledColorRemission(0.2),
                                                                                            reflectionRemission:=New ScaledColorRemission(0.1),
                                                                                            refractionIndexQuotient:=1 / 2))
         Dim refractingSphereInside = New SingleMaterialSurface(Of Material2D(Of ExactColor))(New AntiSphere(center:=New Vector3D(1.5, 0, 1), radius:=1),
-                                                               material:=Materials2D.Transparent(scatteringRemission:=New ScaledColorRemission(0.2),
+                                                               material:=ColorMaterials2D.Transparent(scatteringRemission:=New ScaledColorRemission(0.2),
                                                                                                  reflectionRemission:=New ScaledColorRemission(0.1),
                                                                                                  refractionIndexQuotient:=2))
 
         Dim sphere2 = New SingleMaterialSurface(Of Material2D(Of ExactColor))(New Sphere(center:=New Vector3D(-0.6, 0.8, 0), radius:=1.3),
-                                                material:=Materials2D.Reflecting(albedo:=0.2))
+                                                material:=ColorMaterials2D.Reflecting(albedo:=0.2))
 
         Dim reflectingSphere = New SingleMaterialSurface(Of Material2D(Of ExactColor))(New Sphere(center:=New Vector3D(-0.6, 0.8, -2.5), radius:=1),
                                                          material:=New Material2D(Of ExactColor)(sourceLight:=ExactColor.Black,
@@ -113,20 +113,20 @@ Public Class RayTracingExamples
                                                                                   reflectionRemission:=New FullColorRemission,
                                                                                   transparencyRemission:=New BlackColorRemission))
 
-        Dim surfaces = New MaterialSurfaces(Of Material2D(Of ExactColor)) From {ground, refractingSphere, sphere2, reflectingSphere}
+        Dim surfaces = New Surfaces(Of Material2D(Of ExactColor)) From {ground, refractingSphere, sphere2, reflectingSphere}
         'Dim surfaces = New MaterialSurfaces
         'For i = 1 To 10
         '    surfaces.Add(Me.RandomSphere)
         'Next
 
-        Dim undirectionalLightSource = New UndirectionalLightSource(Color.DarkGray)
-        Dim directionalLightSoure = New DirectionalLightSource(direction:=New Vector3D(1, 1, 1),
-                                                                Color:=Color.DarkGray)
-        Dim pointLightSource1 = New PointLightSource(Location:=1.5 * New Vector3D(1, 1, 1),
+        Dim undirectionalLightSource = New UndirectionalColorLightSource(Color.DarkGray)
+        Dim directionalLightSoure = New DirectionalLightSource(Of ExactColor)(direction:=New Vector3D(1, 1, 1),
+                                                                    baseLight:=New ExactColor(Color.DarkGray))
+        Dim pointLightSource1 = New PointColorLightSource(Location:=1.5 * New Vector3D(1, 1, 1),
                                                      colorAtDistance1:=Color.Orange)
-        Dim pointLightSource2 = New PointLightSource(Location:=New Vector3D(2, 0, -1),
+        Dim pointLightSource2 = New PointColorLightSource(Location:=New Vector3D(2, 0, -1),
                                                      colorAtDistance1:=Color.White)
-        Dim lightSources = New LightSources 'From {directionalLightSoure}
+        Dim lightSources = New ColorLightSources 'From {directionalLightSoure}
         Dim shadedLightSources = New List(Of IPointLightSource(Of ExactColor)) From {pointLightSource1, pointLightSource2}
 
         Dim rayTracer = New RecursiveRayTracer(surface:=surfaces,
@@ -163,13 +163,13 @@ Public Class RayTracingExamples
                               lookAt:=New Vector3D(7.5, 3, 0),
                               upVector:=New Vector3D(0, 1, 0),
                               xAngleFromMinus1To1:=PI * 0.26)
-        Dim rayTracer As RelativisticRecursiveRayTracer = SecondRoomRayTracer()
+        Dim rayTracer As RelativisticGeometryRayTracer = SecondRoomRayTracer()
         'Dim rayTracer = New ScatteringRayTracer(surface:=surfaces, rayCount:=200, maxIntersectionCount:=10)
 
         Return New RayTraceDrawer(rayTracer:=rayTracer, Size:=PictureSize, view:=view)
     End Function
 
-    Public Function SecondRoomRayTracer() As RelativisticRecursiveRayTracer
+    Public Function SecondRoomRayTracer() As RelativisticGeometryRayTracer
         Dim origin = Vector3D.Zero
         Dim frontLeftDown = New Vector3D(0, 0, 6)
         Dim backLeftDown = New Vector3D(0, 0, 16)
@@ -188,17 +188,17 @@ Public Class RayTracingExamples
         Dim leftFrontUp = leftFrontDown + heightVector
         Dim midUp = midDown + heightVector
 
-        Dim lightMaterial = Materials2D.LightSource(ExactColor.White)
-        Dim redMaterial = Materials2D.Scattering(New ExactColor(Color.Red))
-        Dim whiteMaterial = Materials2D.Scattering(New ExactColor(Color.White))
-        Dim greenMaterial = Materials2D.Scattering(New ExactColor(Color.Green))
+        Dim lightMaterial = ColorMaterials2D.LightSource(ExactColor.White)
+        Dim redMaterial = ColorMaterials2D.Scattering(New ExactColor(Color.Red))
+        Dim whiteMaterial = ColorMaterials2D.Scattering(New ExactColor(Color.White))
+        Dim greenMaterial = ColorMaterials2D.Scattering(New ExactColor(Color.Green))
 
         Dim glassRefractionIndex = 1.3
 
-        Dim glass = Materials2D.Transparent(1 / glassRefractionIndex, reflectionAlbedo:=0.2)
-        Dim innerGlass = Materials2D.TransparentInner(1 / glassRefractionIndex)
+        Dim glass = ColorMaterials2D.Transparent(1 / glassRefractionIndex, reflectionAlbedo:=0.2)
+        Dim innerGlass = ColorMaterials2D.TransparentInner(1 / glassRefractionIndex)
 
-        Dim metal = Materials2D.Reflecting
+        Dim metal = ColorMaterials2D.Reflecting
 
         Dim blueGroundMaterial = New Material2D(Of ExactColor)(sourceLight:=New ExactColor(Color.Black),
                              scatteringRemission:=New ComponentScaledColorRemission(Color.Blue),
@@ -233,7 +233,7 @@ Public Class RayTracingExamples
         Dim backWallPlane = New Fusion.Math.Rectangle(backRightDown, backLeftDown, backLeftUp)
         Dim backWall = New SingleMaterialSurface(Of Material2D(Of ExactColor))(backWallPlane, whiteMaterial)
 
-        Dim pointLightSource = New LinearPointLightSource(location:=New Vector3D(6, 9.5, 10), colorAtDistance1:=ExactColor.White * 5)
+        Dim pointLightSource = New LinearPointColorLightSource(location:=New Vector3D(6, 9.5, 10), colorAtDistance1:=ExactColor.White * 5)
         Dim shadedLightSources = New List(Of IPointLightSource(Of ExactColor)) From {pointLightSource}
 
         Dim ceilingPlane = New Fusion.Math.Rectangle(backLeftUp, originUp, frontRightUp)
@@ -293,13 +293,13 @@ Public Class RayTracingExamples
         Dim lampSide = New SingleMaterialSurface(Of Material2D(Of ExactColor))(New Surfaces From {lampFront, lampBack,
                                                                                    lampRight, lampLeft},
                                                                 whiteMaterial)
-        Dim surfaces = New MaterialSurfaces(Of Material2D(Of ExactColor)) From {ground, redWall, frontWall, greenWall, backWall, ceiling,
+        Dim surfaces = New Surfaces(Of Material2D(Of ExactColor)) From {ground, redWall, frontWall, greenWall, backWall, ceiling,
                                                                  light, scatteringSphere,
                                                                  glassSphere, glassAntiSphere,
                                                                  metalSphere,
                                                                  glassCylinderSurface, glassAntiCylinderSurface,
                                                                  frontCylinderSurface,
                                                                  lampSide}
-        Return New RelativisticRecursiveRayTracer(surface:=surfaces, xCameraVelocityInC:=-0.999, lightSource:=New LightSources, shadedPointLightSources:=shadedLightSources, maxIntersectionCount:=10)
+        Return New RelativisticGeometryRayTracer(surface:=surfaces, xCameraVelocityInC:=-0.999, lightSource:=New ColorLightSources, shadedPointLightSources:=shadedLightSources, maxIntersectionCount:=10)
     End Function
 End Class
