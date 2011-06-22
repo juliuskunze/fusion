@@ -1,5 +1,5 @@
-﻿Public Interface ILightSpectrum(Of TLight As {ILight(Of TLight), New})
-    Inherits ILight(Of TLight)
+﻿Public Interface ILightSpectrum
+    Inherits ILight(Of ILightSpectrum)
 
     Function GetIntensity(ByVal wavelength As Double) As Double
 

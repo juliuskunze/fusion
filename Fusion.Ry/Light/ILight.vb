@@ -1,7 +1,7 @@
 ﻿''' <summary>
 ''' A representation of light (i. e. color, wavelength-spectrum, ...).
 ''' </summary>
-Public Interface ILight(Of TLight As {ILight(Of TLight), New})
+Public Interface ILight(Of TLight As ILight(Of TLight))
 
     Function Add(ByVal other As TLight) As TLight
 

@@ -1,6 +1,6 @@
 ﻿Public Class FunctionLightSpectrum
-    Implements ILightSpectrum(Of FunctionLightSpectrum)
-
+    Implements ILight(Of FunctionLightSpectrum), ILightSpectrum
+    
     Private ReadOnly _IntensityFunction As IntensityFunction
     Public ReadOnly Property IntensityFunction As IntensityFunction
         Get
@@ -21,7 +21,7 @@
     End Sub
 
     Public Function Add(ByVal other As FunctionLightSpectrum) As FunctionLightSpectrum Implements ILight(Of FunctionLightSpectrum).Add
-        Return New FunctionLightSpectrum(IntensityFunction:=Function(waveLength) Me.GetIntensity(waveLength) + other.GetIntensity(waveLength))
+        Return New FunctionLightSpectrum(IntensityFunction:=AddressOf Me.Add(DirectCast(other, ILightSpectrum)).GetIntensity)
     End Function
 
     Public Function DivideBrightness(ByVal divisor As Double) As FunctionLightSpectrum Implements ILight(Of FunctionLightSpectrum).DivideBrightness
@@ -32,12 +32,24 @@
         Return New FunctionLightSpectrum(IntensityFunction:=Function(waveLength) Me.GetIntensity(waveLength) * factor)
     End Function
 
-    Public Function ToColor() As System.Drawing.Color Implements ILight(Of FunctionLightSpectrum).ToColor
+    Public Function ToColor() As System.Drawing.Color Implements ILightSpectrum.ToColor, ILight(Of Fusion.Ry.FunctionLightSpectrum).ToColor
         Throw New NotImplementedException
     End Function
 
-    Public Function GetIntensity(ByVal wavelength As Double) As Double Implements ILightSpectrum(Of FunctionLightSpectrum).GetIntensity
+    Public Function GetIntensity(ByVal wavelength As Double) As Double Implements ILightSpectrum.GetIntensity
         Return _IntensityFunction.Invoke(wavelength)
+    End Function
+
+    Public Function Add(ByVal other As ILightSpectrum) As ILightSpectrum Implements ILight(Of ILightSpectrum).Add
+        Return New FunctionLightSpectrum(IntensityFunction:=Function(waveLength) Me.GetIntensity(waveLength) + other.GetIntensity(waveLength))
+    End Function
+
+    Private Function DivideBrightness2(ByVal divisor As Double) As ILightSpectrum Implements ILight(Of ILightSpectrum).DivideBrightness
+        Return Me.DivideBrightness(divisor:=divisor)
+    End Function
+
+    Private Function MultiplyBrightness2(ByVal factor As Double) As ILightSpectrum Implements ILight(Of ILightSpectrum).MultiplyBrightness
+        Return Me.MultiplyBrightness(factor:=factor)
     End Function
 
 End Class

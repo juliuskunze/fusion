@@ -1,16 +1,6 @@
 <Configuration>
   <RecentFiles>
     <RecentFiles>
-      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:ExactColor.vb" caret="0" fromTop="0" />
-      <File id="74A8E394-FD08-418B-BBBE-B9FD54589B2E/f:SunSystemConstants.vb" caret="0" fromTop="0" />
-      <File id="74A8E394-FD08-418B-BBBE-B9FD54589B2E/f:Constants.vb" caret="0" fromTop="0" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:PointSets2D/f:ICoordinateSystemToArray.vb" caret="0" fromTop="0" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:PointSets2D/f:HalfCircle.vb" caret="0" fromTop="0" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:PointSets2D/f:Circle2D.vb" caret="0" fromTop="0" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:PointSets2D/f:CoordinateSystemToArray.vb" caret="1308" fromTop="12" />
-      <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/f:PointLightSourceTests.vb" caret="0" fromTop="0" />
-      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="0" fromTop="0" />
-      <File id="9A318D74-127E-441B-BF66-38E7B0617A8B/d:My Project/d:MyExtensions/f:MyWpfExtension.vb" caret="2556" fromTop="0" />
       <File id="9A318D74-127E-441B-BF66-38E7B0617A8B/f:CalculatorWindow.xaml.vb" caret="0" fromTop="0" />
       <File id="9A318D74-127E-441B-BF66-38E7B0617A8B/f:CalculatorWindow.xaml" caret="0" fromTop="0" />
       <File id="0B269A14-CE71-48F5-A86E-843C7646F4A1/d:FieldEvolution/f:FieldEvolutionStrategy.vb" caret="1431" fromTop="12" />
@@ -29,21 +19,20 @@
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:SquareMatrix.vb" caret="1223" fromTop="46" />
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:SurfaceTests/f:IntersectedSurfaceTests.vb" caret="0" fromTop="0" />
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestSquareMatrix.vb" caret="0" fromTop="0" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:RayChanger.vb" caret="2646" fromTop="55" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Relativity/f:RelativisticRayTransformation.vb" caret="2478" fromTop="21" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:IRayTracer.vb" caret="17" fromTop="0" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Light/f:FunctionLightSpectrum.vb" caret="694" fromTop="17" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Relativity/f:RelativisticRayTransformation.vb" caret="1748" fromTop="5" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Relativity/f:RelativisticRayTracer.vb" caret="1459" fromTop="22" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Relativity/f:RelativisticSpectrumRayTracer.vb" caret="1056" fromTop="17" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Video/f:IViewCourse.vb" caret="0" fromTop="0" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Video/f:ViewCourseVideo.vb" caret="0" fromTop="0" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Video/f:LinearViewCourse.vb" caret="1290" fromTop="42" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Video/f:IRayTraceVideo.vb" caret="128" fromTop="2" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:RayChanger.vb" caret="1374" fromTop="14" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:RecursiveRayTracer.vb" caret="2641" fromTop="20" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:ScatteringRayTracer.vb" caret="0" fromTop="0" />
     </RecentFiles>
     <RecentEdits>
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Graph.vb" caret="697" fromTop="11" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Graph.vb" caret="840" fromTop="16" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:LinearMap.vb" caret="319" fromTop="9" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Matrix.vb" caret="153" fromTop="4" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Matrix.vb" caret="259" fromTop="8" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Matrix.vb" caret="1006" fromTop="11" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestMatrix.vb" caret="882" fromTop="11" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestMatrix.vb" caret="1398" fromTop="11" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestMatrix.vb" caret="1353" fromTop="7" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestMatrix.vb" caret="1675" fromTop="14" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestMatrix.vb" caret="2227" fromTop="10" />
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestMatrix.vb" caret="1961" fromTop="11" />
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestSquareMatrix.vb" caret="31" fromTop="0" />
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestLinearMap.vb" caret="4056" fromTop="14" />
@@ -63,6 +52,17 @@
       <File id="74A8E394-FD08-418B-BBBE-B9FD54589B2E/d:2D/d:ParticleInteraction/d:SingleForceGenerators/f:ISingleForceGenerator2D.vb" caret="106" fromTop="2" />
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:SquareMatrix.vb" caret="1683" fromTop="5" />
       <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:RayChanger.vb" caret="2069" fromTop="17" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Light/f:FunctionLightSpectrum.vb" caret="2164" fromTop="21" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Light/f:FunctionLightSpectrum.vb" caret="276" fromTop="5" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Relativity/f:RelativisticRayTransformation.vb" caret="2411" fromTop="14" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Relativity/f:RelativisticSpectrumRayTracer.vb" caret="997" fromTop="14" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Relativity/f:RelativisticSpectrumRayTracer.vb" caret="514" fromTop="6" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Relativity/f:RelativisticSpectrumRayTracer.vb" caret="103" fromTop="0" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:RecursiveRayTracer.vb" caret="1932" fromTop="40" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:RecursiveRayTracer.vb" caret="107" fromTop="0" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Video/f:LinearViewCourse.vb" caret="58" fromTop="0" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Video/f:LinearViewCourse.vb" caret="1539" fromTop="11" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Video/f:IRayTraceVideo.vb" caret="31" fromTop="0" />
     </RecentEdits>
   </RecentFiles>
   <NAntValidationSettings>

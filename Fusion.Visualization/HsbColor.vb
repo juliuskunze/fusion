@@ -22,7 +22,7 @@
     End Property
 
     Public Sub New(ByVal hue As Double, ByVal saturation As Double, ByVal brightness As Double)
-        If Not (0 <= hue AndAlso hue <= 2 * PI) Then Throw New ArgumentException("Hue has to be an angle in [0, 2 * Pi).")
+        If Not (0 <= hue AndAlso hue < 2 * PI) Then Throw New ArgumentException("Hue has to be an angle in [0, 2 * Pi).")
         _Hue = hue
 
         If Not (0 <= Me.Saturation AndAlso Me.Saturation <= 1) Then Throw New ArgumentOutOfRangeException("Saturation has to be in [0; 1].")
