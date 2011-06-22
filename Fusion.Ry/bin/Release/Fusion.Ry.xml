@@ -8,7 +8,7 @@ Fusion.Ry
 <members>
 <member name="T:Fusion.Ry.LinearViewCourse">
 	<summary>
- A camera view course, where the camera moves on an even path with a constant velocity and looks forward.
+ A camera view course, where an observer moves on an even path with a constant velocity and looks forward.
  </summary>
 	<remarks></remarks>
 </member><member name="T:Fusion.Ry.RgbLight">

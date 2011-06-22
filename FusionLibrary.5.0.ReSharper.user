@@ -1,7 +1,6 @@
 <Configuration>
   <RecentFiles>
     <RecentFiles>
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector3D.vb" caret="1773" fromTop="19" />
       <File id="74A8E394-FD08-418B-BBBE-B9FD54589B2E/d:2D/d:ParticleInteraction/d:ParticleSystemChangers/f:ISingleForce2D.vb" caret="147" fromTop="3" />
       <File id="74A8E394-FD08-418B-BBBE-B9FD54589B2E/d:2D/d:ParticleInteraction/d:SingleForceGenerators/f:ISingleForceGenerator2D.vb" caret="123" fromTop="4" />
       <File id="9A318D74-127E-441B-BF66-38E7B0617A8B/d:My Project/f:Settings.Designer.vb" caret="2890" fromTop="13" />
@@ -29,7 +28,9 @@
       <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Light/d:Remission/f:IRemission.vb" caret="22" fromTop="0" />
       <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Light/f:FunctionLightSpectrum.vb" caret="13" fromTop="0" />
       <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsbColor.vb" caret="955" fromTop="21" />
-      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="220" fromTop="6" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="345" fromTop="10" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="0" fromTop="0" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml" caret="231" fromTop="4" />
     </RecentFiles>
     <RecentEdits>
       <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsbColor.vb" caret="674" fromTop="8" />

@@ -33,6 +33,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Fusion.Tests.Visualization"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Fusion.Calculator", "Fusion.Calculator\Fusion.Calculator.vbproj", "{9A318D74-127E-441B-BF66-38E7B0617A8B}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Fusion.RayTracer.Windows", "Fusion.RayTracer.Windows\Fusion.RayTracer.Windows.vbproj", "{7FDFF364-EE99-408F-A031-BAC91FA5F324}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -203,6 +205,16 @@ Global
 		{9A318D74-127E-441B-BF66-38E7B0617A8B}.Release|Mixed Platforms.Build.0 = Release|x86
 		{9A318D74-127E-441B-BF66-38E7B0617A8B}.Release|x86.ActiveCfg = Release|x86
 		{9A318D74-127E-441B-BF66-38E7B0617A8B}.Release|x86.Build.0 = Release|x86
+		{7FDFF364-EE99-408F-A031-BAC91FA5F324}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{7FDFF364-EE99-408F-A031-BAC91FA5F324}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{7FDFF364-EE99-408F-A031-BAC91FA5F324}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{7FDFF364-EE99-408F-A031-BAC91FA5F324}.Debug|x86.ActiveCfg = Debug|x86
+		{7FDFF364-EE99-408F-A031-BAC91FA5F324}.Debug|x86.Build.0 = Debug|x86
+		{7FDFF364-EE99-408F-A031-BAC91FA5F324}.Release|Any CPU.ActiveCfg = Release|x86
+		{7FDFF364-EE99-408F-A031-BAC91FA5F324}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{7FDFF364-EE99-408F-A031-BAC91FA5F324}.Release|Mixed Platforms.Build.0 = Release|x86
+		{7FDFF364-EE99-408F-A031-BAC91FA5F324}.Release|x86.ActiveCfg = Release|x86
+		{7FDFF364-EE99-408F-A031-BAC91FA5F324}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -14,4 +14,6 @@
   <Module PersistentId="0824BE8F-818F-4834-A5C0-2C8B1C3FEAB7" ModuleId="Fusion.IO" />
   <Module PersistentId="B322DEC2-F5D9-4BEF-8D5B-EC8DE173C56F" ModuleId="Fusion.Physics.Interaction" />
   <Module PersistentId="0B269A14-CE71-48F5-A86E-843C7646F4A1" ModuleId="Fusion.Evolution" />
+  <Module PersistentId="7FDFF364-EE99-408F-A031-BAC91FA5F324" ModuleId="Fusion.RayTracer.Windows" />
+  <Module PersistentId="DF905DB0-EF46-4037-8F17-14A778AEF299" ModuleId="Fusion.Evolution.Visualization" />
 </Modules>
