@@ -110,9 +110,7 @@
             saturation = difference / maximum
         End If
 
-        Dim value = maximum
-
-        Return New HsbColor(hue:=hue, saturation:=saturation, brightness:=value)
+        Return New HsbColor(hue:=hue, saturation:=saturation, Brightness:=maximum)
     End Function
 
 End Structure
