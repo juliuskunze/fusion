@@ -48,6 +48,9 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Fluent">
+      <HintPath>..\ForeignSources\Fluent Ribbon Control Suite 2.0\.NET 4.0\Assembly\Release\Fluent.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
@@ -127,6 +130,25 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <AppDesigner Include="My Project\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Blue.png" />
+    <Resource Include="Images\BlueLarge.png" />
+    <Resource Include="Images\Brown.png" />
+    <Resource Include="Images\BrownLarge.png" />
+    <Resource Include="Images\Fluent.ico" />
+    <Resource Include="Images\Gray.png" />
+    <Resource Include="Images\GrayLarge.png" />
+    <Resource Include="Images\Green.png" />
+    <Resource Include="Images\GreenLarge.png" />
+    <Resource Include="Images\Orange.png" />
+    <Resource Include="Images\OrangeLarge.png" />
+    <Resource Include="Images\Pink.png" />
+    <Resource Include="Images\PinkLarge.png" />
+    <Resource Include="Images\Red.png" />
+    <Resource Include="Images\RedLarge.png" />
+    <Resource Include="Images\Yellow.png" />
+    <Resource Include="Images\YellowLarge.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

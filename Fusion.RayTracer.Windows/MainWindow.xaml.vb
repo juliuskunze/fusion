@@ -1,7 +1,12 @@
-﻿Class MainWindow 
-    
+﻿Class MainWindow
+    Inherits Fluent.RibbonWindow
+
+    Public Sub New()
+        Me.InitializeComponent()
+    End Sub
+
     Private Sub RenderButton_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles _RenderButton.Click
-        Render()
+        Me.Render()
     End Sub
 
     Private Sub Render()
@@ -13,7 +18,7 @@
                 simpleBitmap.SetPixel(i, i, color:=System.Drawing.Color.White)
             Next
 
-            _Image.Source = simpleBitmap.ToBitmapSource
+            '_Image.Source = simpleBitmap.ToBitmapSource
         Catch
         End Try
     End Sub
@@ -23,7 +28,7 @@
         Private ReadOnly _Width As Integer
         Private ReadOnly _Height As Integer
         Private ReadOnly _Bytes As Byte()
-        
+
         Private Shared ReadOnly _PixelFormat As PixelFormat = PixelFormats.Rgb24
         Private ReadOnly _Stride As Integer
 
