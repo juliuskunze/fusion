@@ -1,0 +1,80 @@
+﻿<Fluent:RibbonWindow x:Class="Fluent.Sample.KeyTips.Window"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
+    Title="Fluent.Sample.KeyTips" Width="500" Height="250" Background="#FFEBEDF0">
+    <Grid>
+        <Fluent:Ribbon>
+
+          <!--KeyTips in Quick Access Toolbar names automatically-->
+          <Fluent:Ribbon.QuickAccessItems>
+            <Fluent:QuickAccessMenuItem IsChecked="true" Target="{Binding ElementName=buttonRed}"/>
+            <Fluent:QuickAccessMenuItem IsChecked="true" Target="{Binding ElementName=buttonGray}"/>
+          </Fluent:Ribbon.QuickAccessItems>
+
+          <!--It is enough to set attached property Fluent:KeyTip.Keys and
+              the ribbon will move and show the keytips automatically.
+              It is possible to set keytips to menu and/or submenu items.
+              Also you need to set keytip for groups to open it while it is collapsed state
+          -->
+          <Fluent:RibbonTabItem Fluent:KeyTip.Keys="A" Header="Auto Placement" ReduceOrder="ZC,ZC,ZC">
+            <Fluent:RibbonGroupBox Fluent:KeyTip.Keys="ZC" Header="Group" Name="ZC">
+              <Fluent:SplitButton Fluent:KeyTip.Keys="R" Name="buttonRed" Header="Red" Icon="Images\Red.png" LargeIcon="Images\RedLarge.png" SizeDefinition="Large">
+                <Fluent:MenuItem Fluent:KeyTip.Keys="P" Header="Pink" Icon="Images\Pink.png" />
+                <Fluent:MenuItem Fluent:KeyTip.Keys="R" Header="Red" Icon="Images\Red.png">
+                  <Fluent:MenuItem Fluent:KeyTip.Keys="O" Header="Orange" Icon="Images\Orange.png" />
+                </Fluent:MenuItem>
+              </Fluent:SplitButton>
+              <Fluent:Button Fluent:KeyTip.Keys="G" Name="buttonGray" Header="Grey" Icon="Images\Gray.png" LargeIcon="Images\GrayLarge.png" SizeDefinition="Large" />
+              <Fluent:Button Fluent:KeyTip.Keys="O" Header="Orange" Icon="Images\Orange.png" LargeIcon="Images\OrangeLarge.png" SizeDefinition="Large" />
+              <Fluent:Button Fluent:KeyTip.Keys="P" Header="Pink" Icon="Images\Pink.png" LargeIcon="Images\PinkLarge.png" SizeDefinition="Large" />
+              <Fluent:Button Fluent:KeyTip.Keys="Y" Header="Yellow" Icon="Images\Yellow.png" LargeIcon="Images\YellowLarge.png" SizeDefinition="Large" />
+              <Fluent:Button Fluent:KeyTip.Keys="B" Header="Brown" Icon="Images\Brown.png" LargeIcon="Images\BrownLarge.png" SizeDefinition="Large" />
+              <Fluent:Button Fluent:KeyTip.Keys="X1" Header="Gray" Icon="Images\Gray.png" LargeIcon="Images\GrayLarge.png" SizeDefinition="Middle" />
+              <Fluent:Button Fluent:KeyTip.Keys="X2" Header="Gray" Icon="Images\Gray.png" LargeIcon="Images\GrayLarge.png" SizeDefinition="Middle" />
+              <Fluent:Button Fluent:KeyTip.Keys="X3" Header="Gray" Icon="Images\Gray.png" LargeIcon="Images\GrayLarge.png" SizeDefinition="Middle" />
+            </Fluent:RibbonGroupBox>
+          </Fluent:RibbonTabItem>
+
+          <!--Additionally you have properties to arrange key tips as you wish.
+              In this case you have to set Fluent:KeyTip.AutoPlacement to false
+              You can use 
+                Fluent:KeyTip.HorizontalAlignment
+                Fluent:KeyTip.VerticalAlignment
+                Fluent:KeyTip.Margin
+          -->
+          <Fluent:RibbonTabItem Fluent:KeyTip.Keys="C" Header="Custom Placement">
+            <Fluent:RibbonGroupBox Header="Group">
+              <Fluent:Button Header="Center" Icon="Images\Green.png" LargeIcon="Images\GreenLarge.png"
+                Fluent:KeyTip.AutoPlacement="False"
+                Fluent:KeyTip.HorizontalAlignment="Center"
+                Fluent:KeyTip.VerticalAlignment="Center"
+                Fluent:KeyTip.Keys="C" />
+              <Fluent:Button Header="Left" Icon="Images\Gray.png" LargeIcon="Images\GrayLarge.png"
+                Fluent:KeyTip.AutoPlacement="False"
+                Fluent:KeyTip.HorizontalAlignment="Left"
+                Fluent:KeyTip.VerticalAlignment="Center"           
+                Fluent:KeyTip.Keys="L" />
+              <Fluent:Button Header="Top" Icon="Images\Yellow.png" LargeIcon="Images\YellowLarge.png"
+                Fluent:KeyTip.AutoPlacement="False"
+                Fluent:KeyTip.HorizontalAlignment="Center"
+                Fluent:KeyTip.VerticalAlignment="Top"         
+                Fluent:KeyTip.Keys="T"/>
+            </Fluent:RibbonGroupBox>
+          </Fluent:RibbonTabItem>
+          
+          <!--Backstage items can be also keytipped-->
+          <Fluent:Ribbon.Menu>
+            <Fluent:Backstage>
+              <Fluent:BackstageTabControl>
+                <Fluent:BackstageTabItem Fluent:KeyTip.Keys="N" Header="New"/>
+                <Fluent:BackstageTabItem Fluent:KeyTip.Keys="P" Header="Print"/>
+                <Fluent:Button Fluent:KeyTip.Keys="B" Header="Blue" Icon="Images\Blue.png"/>
+              </Fluent:BackstageTabControl>
+            </Fluent:Backstage>
+          </Fluent:Ribbon.Menu>
+        </Fluent:Ribbon>
+      
+      <TextBlock Text="* Press Alt or F10 to show KeyTips" VerticalAlignment="Bottom" Margin="10"/>
+    </Grid>
+</Fluent:RibbonWindow>

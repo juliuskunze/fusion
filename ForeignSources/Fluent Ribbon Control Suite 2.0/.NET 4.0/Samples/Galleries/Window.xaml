@@ -1,0 +1,94 @@
+﻿<Fluent:RibbonWindow x:Class="Fluent.Sample.Galleries.Window"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
+    Title="Fluent.Sample.Galleries" Width="500" Height="250" Background="#FFEBEDF0" x:Name="window">
+
+  <!--Data Templates-->
+  <Fluent:RibbonWindow.Resources>
+    <DataTemplate x:Key="middleDataItemTemplate">
+      <Border>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+          <Image Source="{Binding Icon}" Stretch="UniformToFill"/>
+          <TextBlock Text="{Binding Path=Text, Mode=OneWay}" FontSize="10" VerticalAlignment="Center"/>
+        </StackPanel>
+      </Border>
+    </DataTemplate>
+    <DataTemplate x:Key="largeDataItemTemplate">
+      <Border ToolTip="{Binding Text}">        
+        <Image Source="{Binding IconLarge}"/>        
+      </Border>
+    </DataTemplate>
+  </Fluent:RibbonWindow.Resources>
+  
+    <Grid>
+        <Fluent:Ribbon>
+
+          <!--You can use Galleries in Quick Access Toolbar-->
+          <Fluent:Ribbon.QuickAccessItems>
+            <Fluent:QuickAccessMenuItem Target="{Binding ElementName=buttonGreen}" IsChecked="True"/>
+            <Fluent:QuickAccessMenuItem Target="{Binding ElementName=inRibbonGallery}" IsChecked="True"/>
+          </Fluent:Ribbon.QuickAccessItems>
+
+          <!--To define reducing of InRibbonGalleries
+              you must use special syntax (see below). 
+              Each time when group name in brackets is received 
+              it will reduce all InRibbonGalleries in this group by one item-->
+          <Fluent:RibbonTabItem Header="Tab" ReduceOrder="(A),(A),(A),(A),(A),(B),(B),(B),(B)">
+            <Fluent:RibbonGroupBox Header="Without Grouping" Name="A">
+              
+              <!--You can use Gallery in ContextMenu. 
+                  Below we insert Gallery in DropDownButton's context menu
+                  We set ItemsSource and ItemTemplate.-->                  
+             <Fluent:DropDownButton Name="buttonGreen" Header="DropDownButton" Icon="Images\Green.png" LargeIcon="Images\GreenLarge.png">
+                <Fluent:Gallery ItemsSource ="{Binding DataItems}" ItemTemplate="{DynamicResource middleDataItemTemplate}" MaxItemsInRow="3"/>
+                <Fluent:MenuItem Icon="Images\Pink.png" Header="Pink"/>
+              </Fluent:DropDownButton>
+
+              <!--Though, you may set children of the Gallery explicitly -->
+              <Fluent:DropDownButton Header="Pink" Icon="Images\Pink.png" LargeIcon="Images\PinkLarge.png">
+                <Fluent:Gallery>
+                  <Image Source="Images\RedLarge.png" Stretch="None"/>
+                  <Image Source="Images\GreenLarge.png" Stretch="None"/>
+                  <Image Source="Images\BlueLarge.png" Stretch="None"/>
+                </Fluent:Gallery>
+              </Fluent:DropDownButton>
+             
+              <!--InRibbonGallery-->
+              <Fluent:InRibbonGallery MinItemsInRow="3" MaxItemsInRow="8" Icon="Images\Gray.png" Header="InRibbonGallery"
+                                      ItemWidth="40" ItemHeight="56"
+                                      ItemsSource ="{Binding DataItems}"
+                                      ItemTemplate="{DynamicResource largeDataItemTemplate}"
+                                      ResizeMode="Both">
+                <!--You can also add items to context menu-->
+                <Fluent:InRibbonGallery.Menu>
+                  <Fluent:RibbonMenu>
+                    <Fluent:MenuItem Header="Menu Item 1"></Fluent:MenuItem>
+                    <Fluent:MenuItem Header="Menu Item 2"></Fluent:MenuItem>
+                  </Fluent:RibbonMenu>
+                </Fluent:InRibbonGallery.Menu>
+              </Fluent:InRibbonGallery>              
+            </Fluent:RibbonGroupBox>
+              
+            <Fluent:RibbonGroupBox Header="With Grouping" Name="B">  
+              
+              <!--To group items in Gallery (or InRibbonGallery) 
+                  you can use GroupBy for simplified grouping method or 
+                  use traditional method as in System.Windows.Controls.ListBox -->
+              <Fluent:InRibbonGallery Name="inRibbonGallery" MinItemsInRow="1" MaxItemsInRow="5" Icon="Images\Gray.png" Header="Grouped"
+                                      ItemWidth="50" ItemHeight="18"
+                                      ItemsSource ="{Binding DataItems}"
+                                      ItemTemplate="{DynamicResource middleDataItemTemplate}"
+                                      GroupBy="Group" ResizeMode="Both">
+                <Fluent:InRibbonGallery.Filters>
+                  <Fluent:GalleryGroupFilter Title="All" Groups="Group A,Group B" x:Name="galleryFilterAll"/>
+                  <Fluent:GalleryGroupFilter Title="Group A" Groups="Group A"/>
+                  <Fluent:GalleryGroupFilter Title="Group B" Groups="Group B"/>
+                </Fluent:InRibbonGallery.Filters>                
+              </Fluent:InRibbonGallery>
+              
+            </Fluent:RibbonGroupBox>
+          </Fluent:RibbonTabItem>
+        </Fluent:Ribbon>      
+    </Grid>
+</Fluent:RibbonWindow>

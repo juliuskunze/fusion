@@ -1,0 +1,66 @@
+﻿<Fluent:RibbonWindow x:Class="Fluent.Sample.ScreenTips.Window"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
+    
+    Title="Fluent.Sample.ScreenTips" Width="500" Height="250" Background="#FFEBEDF0">
+    <Grid>
+      <Fluent:Ribbon>
+        <!--Quick Access toolbar items 
+            automatically have ScreenTips of the target -->
+        <Fluent:Ribbon.QuickAccessItems>
+          <Fluent:QuickAccessMenuItem IsChecked="true" Target="{Binding ElementName=buttonRed}"/>
+          <Fluent:QuickAccessMenuItem IsChecked="true" Target="{Binding ElementName=buttonGray}"/>
+        </Fluent:Ribbon.QuickAccessItems>
+
+
+        <Fluent:RibbonTabItem Header="Tab" >
+          <Fluent:RibbonGroupBox Header="Group" >
+                        
+            <!--To use ScreenTip you have to create it and set to ToolTip property-->
+            <Fluent:Button Name="buttonGray" Header="Grey" Icon="Images\Gray.png" LargeIcon="Images\GrayLarge.png">
+              <Fluent:Button.ToolTip>
+                <Fluent:ScreenTip Title="Gray"
+                                  HelpTopic="Help for Gray ScreenTip"
+                                  Image="Images\GrayLarge.png"
+                                  Text="This ScreenTip is ribbon aligned. &#x0a;It has the image and handles F1."/>
+              </Fluent:Button.ToolTip>
+            </Fluent:Button>
+            
+            <!--ScreenTip is able to be shown on disabled controls-->
+            <Fluent:Button Header="Orange" IsEnabled="False" Icon="Images\Orange.png" LargeIcon="Images\OrangeLarge.png">
+              <Fluent:Button.ToolTip>
+                <Fluent:ScreenTip Title="Orange" Width ="250"
+                                  Image="Images\OrangeLarge.png"
+                                  Text="This control is disabled and has fixed width 250px"                                  
+                                  HelpTopic="Help for Orange ScreenTip"
+                                  DisableReason="This control is disabled to show 'disable reason' section"/>
+              </Fluent:Button.ToolTip>
+            </Fluent:Button>
+            
+            <!--Set IsRibbonAligned property to false to 
+                suppress aligment to ribbon bottom-->
+            <Fluent:SplitButton Name="buttonRed" Header="Red" Icon="Images\Red.png" LargeIcon="Images\RedLarge.png" SizeDefinition="Large">
+              <Fluent:SplitButton.ToolTip>
+                <Fluent:ScreenTip Title="Red" IsRibbonAligned="False" 
+                                  Text="This ScreenTip is NOT aligned to ribbon bottom"/>
+              </Fluent:SplitButton.ToolTip>
+
+              <!--You can attach ScreenTips to MenuItem-->
+              <Fluent:MenuItem Header="Pink" Icon="Images\Pink.png">
+                <Fluent:MenuItem.ToolTip>
+                  <Fluent:ScreenTip Title="Pink"
+                                    Image="Images\PinkLarge.png"
+                                    IsRibbonAligned="False"
+                                    Text="This ScreenTip is attached to menu item"/>
+                </Fluent:MenuItem.ToolTip>  
+              </Fluent:MenuItem>
+
+              <!--You can use usual ToolTip-->
+              <Fluent:MenuItem Header="Orange" Icon="Images\Orange.png" ToolTip="Regular Tooltip" />
+            </Fluent:SplitButton>
+          </Fluent:RibbonGroupBox>
+        </Fluent:RibbonTabItem>
+      </Fluent:Ribbon>
+    </Grid>
+</Fluent:RibbonWindow>

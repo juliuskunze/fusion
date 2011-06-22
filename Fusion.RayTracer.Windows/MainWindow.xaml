@@ -7,11 +7,11 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-
-        <Image Grid.Column="0" Name="_Image" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True"></Image>
+        <Grid Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Image Name="_Image" Stretch="None" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="NearestNeighbor"></Image>
+        </Grid>
         <StackPanel Grid.Column="1">
             <Button Margin="3" Name="_RenderButton">Render</Button>
-            <TextBox Name="_DpiTextBox"></TextBox>
         </StackPanel>
     </Grid>
 </Window>

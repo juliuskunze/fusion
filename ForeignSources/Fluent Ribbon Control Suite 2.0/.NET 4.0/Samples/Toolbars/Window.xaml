@@ -1,0 +1,76 @@
+﻿<Fluent:RibbonWindow x:Class="Fluent.Sample.Toolbars.Window"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
+    Title="Fluent.Sample.Toolbars" Width="500" Height="250" Background="#FFEBEDF0">
+    <Grid>
+        <Fluent:Ribbon>
+          
+          <Fluent:RibbonTabItem Header="Tab" ReduceOrder="Group,Group,Group">
+            <Fluent:RibbonGroupBox Header="Group" Name="Group">
+              
+              <Fluent:RibbonToolBar>
+                <!--ToolBar Layout Definitions-->
+                <Fluent:RibbonToolBar.LayoutDefinitions>
+
+                  <!--Large Size of the RibbonToolBar-->
+                  <Fluent:RibbonToolBarLayoutDefinition Size="Large">
+                    <Fluent:RibbonToolBarRow>
+                      <Fluent:RibbonToolBarControlDefinition Target="spinner" Width="127"/>
+                    </Fluent:RibbonToolBarRow>
+                    <Fluent:RibbonToolBarRow>
+                      <Fluent:RibbonToolBarControlDefinition Target="buttonGreen" />
+                      <Fluent:RibbonToolBarControlDefinition Target="buttonGray" />
+                      <Fluent:RibbonToolBarControlDefinition Target="buttonYellow" />
+                      <Fluent:RibbonToolBarControlDefinition Target="buttonBrown" Size="Middle" />
+                    </Fluent:RibbonToolBarRow>
+                  </Fluent:RibbonToolBarLayoutDefinition>
+
+
+                  <!--Large Size of the RibbonToolBar-->
+                  <Fluent:RibbonToolBarLayoutDefinition Size="Middle">
+                    <Fluent:RibbonToolBarRow>
+                      <Fluent:RibbonToolBarControlDefinition Target="spinner" Width="90"/>
+                    </Fluent:RibbonToolBarRow>
+                    <Fluent:RibbonToolBarRow>
+                      <Fluent:RibbonToolBarControlDefinition Target="buttonGreen" />
+                      <Fluent:RibbonToolBarControlDefinition Target="buttonGray" />
+                      <Fluent:RibbonToolBarControlDefinition Target="buttonYellow" />
+                      <Fluent:RibbonToolBarControlDefinition Target="buttonBrown"/>
+                    </Fluent:RibbonToolBarRow>
+                  </Fluent:RibbonToolBarLayoutDefinition>
+                  
+                  <!--Middle Size of the RibbonToolBar-->
+                  <Fluent:RibbonToolBarLayoutDefinition Size="Small">
+                    <Fluent:RibbonToolBarRow>
+                      <Fluent:RibbonToolBarControlDefinition Target="spinner" Width="45"/>
+                    </Fluent:RibbonToolBarRow>
+                    <Fluent:RibbonToolBarRow>
+                      <Fluent:RibbonToolBarControlDefinition Target="buttonGreen" />
+                      <Fluent:RibbonToolBarControlDefinition Target="buttonGray" />
+                    </Fluent:RibbonToolBarRow>
+                    <Fluent:RibbonToolBarRow>
+                      <Fluent:RibbonToolBarControlDefinition Target="buttonYellow" />
+                      <Fluent:RibbonToolBarControlDefinition Target="buttonBrown" />
+                    </Fluent:RibbonToolBarRow>
+                  </Fluent:RibbonToolBarLayoutDefinition>
+                  
+                </Fluent:RibbonToolBar.LayoutDefinitions>
+
+                <!--ToolBar Controls-->
+                <Fluent:Spinner x:Name="spinner" />
+                <Fluent:Button x:Name="buttonGreen" Header="Green" Icon="Images\Green.png" LargeIcon="Images\GreenLarge.png" />
+                <Fluent:Button x:Name="buttonGray" Header="Gray" Icon="Images\Gray.png" LargeIcon="Images\GrayLarge.png" />
+                <Fluent:Button x:Name="buttonYellow" Header="Yellow" Icon="Images\Yellow.png" LargeIcon="Images\YellowLarge.png" />
+                <Fluent:Button x:Name="buttonBrown" Header="Brown" Icon="Images\Brown.png" LargeIcon="Images\BrownLarge.png" />
+              </Fluent:RibbonToolBar>
+              
+            </Fluent:RibbonGroupBox>
+
+            <Fluent:RibbonGroupBox Header="Group to fill empty space">
+              <Grid Width="300"/>
+            </Fluent:RibbonGroupBox>
+          </Fluent:RibbonTabItem>
+        </Fluent:Ribbon>
+    </Grid>
+</Fluent:RibbonWindow>

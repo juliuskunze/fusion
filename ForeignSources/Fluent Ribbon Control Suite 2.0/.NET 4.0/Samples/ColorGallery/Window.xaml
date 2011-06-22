@@ -1,0 +1,78 @@
+﻿<Fluent:RibbonWindow x:Class="Fluent.Sample.ColorGallery.Window"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
+    Title="Fluent.Sample.ColorGallery" Width="500" Height="250" Background="#FFEBEDF0" x:Name="window">
+  
+    <Grid>
+        <Fluent:Ribbon>
+
+          <!--You can use ColorGalley(ColorPicker buttons) in Quick Access Toolbar-->
+          <Fluent:Ribbon.QuickAccessItems>
+            <Fluent:QuickAccessMenuItem Target="{Binding ElementName=colorPickerThemed}" IsChecked="True"/>
+            <Fluent:QuickAccessMenuItem Target="{Binding ElementName=colorPickerHighlight}" IsChecked="True"/>
+          </Fluent:Ribbon.QuickAccessItems>
+
+          <Fluent:RibbonTabItem Header="Tab">
+            <Fluent:RibbonGroupBox Header="Home" Name="A">
+
+            <!-- The following code shows standard mode for color gallery -->
+            <Fluent:DropDownButton Name="colorPickerStandard" SizeDefinition="Middle" Header="Standard" >
+
+              <!-- It's possible to create custom icon to present selected color -->
+              <Fluent:DropDownButton.Icon>
+                <Grid Width="16" Height="16">
+                  <Image Source="Images\FontColor.png"/>
+                  <Border BorderThickness="0" VerticalAlignment="Bottom" Height="4">
+                    <Border.Background>
+                      <SolidColorBrush Color="{Binding ElementName=colorGalleryStandard, Path=SelectedColor, FallbackValue=Black}" />
+                    </Border.Background>
+                  </Border>
+                </Grid>
+              </Fluent:DropDownButton.Icon>
+                
+              <Fluent:ColorGallery x:Name="colorGalleryStandard" SelectedColor="Red" IsNoColorButtonVisible="False" />
+              <Fluent:MenuItem Icon="Images\Pink.png" Header="A Menu Item"/>
+            </Fluent:DropDownButton>
+
+             <!-- The following code shows theme colors mode for color gallery -->                
+             <Fluent:DropDownButton Name="colorPickerThemed" SizeDefinition="Middle" Header="Themed" >
+
+               <Fluent:DropDownButton.Icon>
+                 <Grid Width="16" Height="16">
+                   <Image Source="Images\Shading.png"/>
+                   <Border BorderThickness="1" BorderBrush="Transparent" VerticalAlignment="Bottom" Height="4">
+                     <Border.Background>
+                       <SolidColorBrush Color="{Binding ElementName=colorGalleryThemed, Path=SelectedColor, FallbackValue=Black}" />
+                     </Border.Background>
+                   </Border>
+                 </Grid>
+               </Fluent:DropDownButton.Icon>
+               
+                <Fluent:ColorGallery Mode="ThemeColors" x:Name="colorGalleryThemed" SelectedColor="Orange"  
+                                     ThemeColorsSource="{Binding ThemeColors}"
+                                     ThemeColorGridRows="5" StandardColorGridRows="3"/>                
+              </Fluent:DropDownButton>
+
+              <!-- The following code shows highlight colors mode for color gallery -->
+              <Fluent:DropDownButton Name="colorPickerHighlight" SizeDefinition="Middle" Header="Highlight">
+
+                <Fluent:DropDownButton.Icon>
+                  <Grid Width="16" Height="16">
+                    <Image Source="Images\TextHighlightColor.png"/>
+                    <Border BorderThickness="0" VerticalAlignment="Bottom" Height="4">
+                      <Border.Background>
+                        <SolidColorBrush Color="{Binding ElementName=colorGalleryHighlight, Path=SelectedColor, FallbackValue=Black}" />
+                      </Border.Background>
+                    </Border>
+                  </Grid>
+                </Fluent:DropDownButton.Icon>
+
+                <Fluent:ColorGallery x:Name="colorGalleryHighlight" Mode="HighlightColors" SelectedColor="Yellow" IsAutomaticColorButtonVisible="False" />
+              </Fluent:DropDownButton>             
+              
+            </Fluent:RibbonGroupBox>
+          </Fluent:RibbonTabItem>
+        </Fluent:Ribbon>      
+    </Grid>
+</Fluent:RibbonWindow>
