@@ -48,9 +48,7 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Fluent">
-      <HintPath>..\ForeignSources\Fluent Ribbon Control Suite 2.0\.NET 4.0\Assembly\Release\Fluent.dll</HintPath>
-    </Reference>
+    <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
@@ -84,6 +82,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Import Include="Microsoft.Windows.Controls.Ribbon" />
     <Import Include="System.Drawing" />
     <Import Include="System.Linq" />
     <Import Include="System.Xml.Linq" />

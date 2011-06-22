@@ -1,7 +1,7 @@
-﻿<Fluent:RibbonWindow x:Class="MainWindow"
+﻿<r:RibbonWindow x:Class="MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
+    xmlns:r="clr-namespace:Microsoft.Windows.Controls.Ribbon;assembly=RibbonControlsLibrary"
     Title="Fusion Ray Tracer" Height="350" Width="525">
     <Grid>    
         <Grid.RowDefinitions>
@@ -9,21 +9,10 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         
-        <Fluent:Ribbon Grid.Row="0">
-            <!--Backstage-->
-            <Fluent:Ribbon.Menu>
-                <Fluent:Backstage>
-                </Fluent:Backstage>
-            </Fluent:Ribbon.Menu>
-            <!--Tabs-->
-            <Fluent:RibbonTabItem Header="Tab">
-                <Fluent:RibbonGroupBox Header="Group">
-                    <Fluent:Button Name="buttonGreen" Header="Green" Icon="Images\Green.png" LargeIcon="Images\GreenLarge.png" />
-                    <Fluent:Button Name="buttonGray" Header="Grey" Icon="Images\Gray.png" LargeIcon="Images\GrayLarge.png" />
-                </Fluent:RibbonGroupBox>
-            </Fluent:RibbonTabItem>
-        </Fluent:Ribbon>
-
+        <r:Ribbon Grid.Row="0">
+            
+        </r:Ribbon>
+        
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
@@ -37,4 +26,4 @@
             </StackPanel>
         </Grid>
     </Grid>
-</Fluent:RibbonWindow>
+</r:RibbonWindow>

@@ -1,6 +1,5 @@
 ﻿Class MainWindow
-    Inherits Fluent.RibbonWindow
-
+    
     Public Sub New()
         Me.InitializeComponent()
     End Sub
@@ -18,7 +17,7 @@
                 simpleBitmap.SetPixel(i, i, color:=System.Drawing.Color.White)
             Next
 
-            '_Image.Source = simpleBitmap.ToBitmapSource
+            _Image.Source = simpleBitmap.ToBitmapSource
         Catch
         End Try
     End Sub
