@@ -10,22 +10,26 @@ Public Class SpectrumToRgbConverter
     Private Const _UpperWavelengthBound = 760 * 10 ^ -9
 
     Private Const _WavelengthStep = 5 * 10 ^ -9
-    Private Shared _WavelengthRgbDictionary As Dictionary(Of Double, RgbLight)
+    Private _WavelengthRgbDictionary As Dictionary(Of Double, RgbLight)
 
-    Public Shared Function Convert(ByVal wavelength As Double, ByVal intensity As Double) As RgbLight
-        If _WavelengthRgbDictionary Is Nothing Then
-            _WavelengthRgbDictionary = New Dictionary(Of Double, RgbLight)
+    Public Sub New()
+        Me.ReadWavelengthRgbDictionary()
+    End Sub
 
-            Dim lines = IO.File.ReadLines(IO.Directory.GetCurrentDirectory & "\Data\CIE 1931 RGB tristimulus values.txt").Select(Function(line) line.Replace(","c, "."c))
-            Dim numbersCollection = From line In lines Select line.Split(" "c)
-            For Each numbers In numbersCollection
-                _WavelengthRgbDictionary.Add(key:=CDbl(numbers(0)), value:=New RgbLight(red:=CDbl(numbers(1)), green:=CDbl(numbers(2)), blue:=CDbl(numbers(3))))
-            Next
-        End If
+    Private Sub ReadWavelengthRgbDictionary()
+        _WavelengthRgbDictionary = New Dictionary(Of Double, RgbLight)
 
+        Dim lines = IO.File.ReadLines(IO.Directory.GetCurrentDirectory & "\Data\CIE 1931 RGB tristimulus values.txt")
+        Dim numbersCollection = From line In lines Select line.Split(count:=4, separator:={ControlChars.Tab})
+        For Each numbers In numbersCollection
+            _WavelengthRgbDictionary.Add(key:=CDbl(numbers(0)) * 10 ^ -9, value:=New RgbLight(red:=CDbl(numbers(1)), green:=CDbl(numbers(2)), blue:=CDbl(numbers(3))))
+        Next
+    End Sub
+
+    Public Function Convert(ByVal wavelength As Double, ByVal intensity As Double) As RgbLight
         If wavelength < _LowerWavelengthBound OrElse wavelength > _UpperWavelengthBound Then Return New RgbLight
 
-        If wavelength Mod 5 = 0 Then
+        If wavelength Mod _WavelengthStep = 0 Then
             Dim rgbLight As RgbLight
             If Not _WavelengthRgbDictionary.TryGetValue(key:=wavelength, value:=rgbLight) Then Throw New InvalidOperationException
             Return rgbLight
