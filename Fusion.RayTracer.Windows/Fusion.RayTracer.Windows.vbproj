@@ -68,6 +68,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SpectrumToRgbConverterCreator.vb" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -82,6 +83,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Import Include="Fusion.Ry" />
     <Import Include="Microsoft.Windows.Controls.Ribbon" />
     <Import Include="System.Drawing" />
     <Import Include="System.Linq" />
@@ -148,6 +150,15 @@
     <Resource Include="Images\RedLarge.png" />
     <Resource Include="Images\Yellow.png" />
     <Resource Include="Images\YellowLarge.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Data\CIE 1931 RGB tristimulus values.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Fusion.Ry\Fusion.Ry.vbproj">
+      <Project>{9DABD0F8-9C88-4C47-A346-B60C25DAEFCA}</Project>
+      <Name>Fusion.Ry</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
