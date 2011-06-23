@@ -26,7 +26,7 @@ Public Class SpectrumToRgbConverter
         Next
     End Sub
 
-    Public Function Convert(ByVal wavelength As Double, ByVal intensity As Double) As RgbLight
+    Public Function ConvertMonochromatic(ByVal wavelength As Double, ByVal intensity As Double) As RgbLight
         If wavelength < LowerWavelengthBound OrElse wavelength > UpperWavelengthBound Then Return New RgbLight
 
         If wavelength Mod _WavelengthStep < 1.0E-19 Then

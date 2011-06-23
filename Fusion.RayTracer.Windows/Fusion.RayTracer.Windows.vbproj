@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Import Include="Fusion.RayTracer" />
+    <Import Include="Fusion.Visualization" />
     <Import Include="Microsoft.Windows.Controls.Ribbon" />
     <Import Include="System.Linq" />
     <Import Include="System.Xml.Linq" />
@@ -162,6 +163,10 @@
     <ProjectReference Include="..\Fusion.RayTracer\Fusion.RayTracer.vbproj">
       <Project>{85E3D12F-55C2-41DF-BC93-3E718C0BEE0E}</Project>
       <Name>Fusion.RayTracer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fusion.Visualization\Fusion.Visualization.vbproj">
+      <Project>{999FDCC5-C7B2-4F1E-B559-919752F9BC03}</Project>
+      <Name>Fusion.Visualization</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

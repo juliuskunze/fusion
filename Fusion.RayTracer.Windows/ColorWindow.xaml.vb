@@ -21,7 +21,12 @@
         Dim bitmap = New SimpleBitmap(width:=width, height:=height)
 
         For x = 0 To width - 1
-            Dim color = _SpectrumToRgbConverter.Convert(wavelength:=SpectrumToRgbConverter.LowerWavelengthBound + x * wavelengthStep, intensity:=_IntensitySlider.Value).ToColor
+            Dim unchangedColor = _SpectrumToRgbConverter.ConvertMonochromatic(wavelength:=SpectrumToRgbConverter.LowerWavelengthBound + x * wavelengthStep,
+                                                                 intensity:=_IntensitySlider.Value)
+
+            Dim color = (New HsbColor(hue:=HsbColor.FromRgbColor(unchangedColor.ToColor).Hue,
+                                      saturation:=1,
+                                      brightness:=1)).ToRgbColor
 
             For y = 0 To height - 1
                 bitmap.SetPixel(x:=x, y:=y, color:=color)

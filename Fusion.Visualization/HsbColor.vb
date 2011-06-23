@@ -102,6 +102,7 @@
                     hue = PI / 3 * (4 + (r - g) / difference)
             End Select
         End If
+        If hue < 0 Then hue += 2 * PI
 
         Dim saturation As Double
         If maximum = 0 Then
