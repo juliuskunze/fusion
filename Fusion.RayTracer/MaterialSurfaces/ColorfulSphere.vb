@@ -12,7 +12,7 @@
         Me.Material = material
     End Sub
 
-    Public Function MaterialIntersection(ByVal ray As Ray) As SurfacePoint(Of Material2D(Of RgbLight)) Implements ISurface(Of Fusion.Ry.Material2D(Of RgbLight)).FirstMaterialIntersection
+    Public Function MaterialIntersection(ByVal ray As Ray) As SurfacePoint(Of Material2D(Of RgbLight)) Implements ISurface(Of Material2D(Of RgbLight)).FirstMaterialIntersection
         Dim firstIntersection = MyBase.Intersection(ray)
         If firstIntersection Is Nothing Then Return Nothing
 

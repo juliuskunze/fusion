@@ -42,12 +42,9 @@ B:\Fusion Repository\Fusion.Ry.Forms\bin\Release\Fusion.Ry.Forms.exe
 B:\Fusion Repository\Fusion.Ry.Forms\bin\Release\Fusion.Ry.Forms.pdb
 B:\Fusion Repository\Fusion.Ry.Forms\bin\Release\Fusion.Ry.Forms.xml
 B:\Fusion Repository\Fusion.Ry.Forms\bin\Release\Fusion.Math.dll
-B:\Fusion Repository\Fusion.Ry.Forms\bin\Release\Fusion.Ry.dll
 B:\Fusion Repository\Fusion.Ry.Forms\bin\Release\Fusion.Visualization.dll
 B:\Fusion Repository\Fusion.Ry.Forms\bin\Release\Fusion.Math.pdb
 B:\Fusion Repository\Fusion.Ry.Forms\bin\Release\Fusion.Math.xml
-B:\Fusion Repository\Fusion.Ry.Forms\bin\Release\Fusion.Ry.pdb
-B:\Fusion Repository\Fusion.Ry.Forms\bin\Release\Fusion.Ry.xml
 B:\Fusion Repository\Fusion.Ry.Forms\bin\Release\Fusion.Visualization.pdb
 B:\Fusion Repository\Fusion.Ry.Forms\bin\Release\Fusion.Visualization.xml
 B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Release\ResolveAssemblyReference.cache
@@ -59,3 +56,7 @@ B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Release\Fusion.Ry.Forms.exe
 B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Release\Fusion.Ry.Forms.xml
 B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Release\Fusion.Ry.Forms.pdb
 B:\Fusion Repository\Fusion.Ry.Forms\obj\x86\Release\Fusion.Ry.Forms.CalculateTimeOptionsForm.resources
+B:\Fusion Repository\Fusion.Ry.Forms\bin\Release\Fusion.RayTracer.dll
+B:\Fusion Repository\Fusion.Ry.Forms\bin\Release\Fusion.RayTracer.pdb
+B:\Fusion Repository\Fusion.Ry.Forms\bin\Release\Fusion.RayTracer.xml
+B:\Fusion Repository\Fusion.Ry.Forms\bin\Release\Data\CIE 1931 RGB tristimulus values.txt

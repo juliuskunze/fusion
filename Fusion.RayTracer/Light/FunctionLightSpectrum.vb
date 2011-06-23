@@ -32,7 +32,7 @@
         Return New FunctionLightSpectrum(IntensityFunction:=Function(waveLength) Me.GetIntensity(waveLength) * factor)
     End Function
 
-    Public Function ToColor() As System.Drawing.Color Implements ILightSpectrum.ToColor, ILight(Of Fusion.Ry.FunctionLightSpectrum).ToColor
+    Public Function ToColor() As System.Drawing.Color Implements ILightSpectrum.ToColor, ILight(Of FunctionLightSpectrum).ToColor
         Throw New NotImplementedException
     End Function
 

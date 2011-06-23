@@ -44,13 +44,10 @@ B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.Tests.RayTracer.d
 B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.Tests.RayTracer.pdb
 B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.Tests.RayTracer.xml
 B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.Math.dll
-B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.Ry.dll
 B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.Visualization.dll
 B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\nunit.framework.dll
 B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.Math.pdb
 B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.Math.xml
-B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.Ry.pdb
-B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.Ry.xml
 B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.Visualization.pdb
 B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.Visualization.xml
 B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\nunit.framework.xml
@@ -61,3 +58,7 @@ B:\Fusion Repository\Fusion.Tests.RayTracer\obj\Release\GenerateResource.write.1
 B:\Fusion Repository\Fusion.Tests.RayTracer\obj\Release\Fusion.Tests.RayTracer.dll
 B:\Fusion Repository\Fusion.Tests.RayTracer\obj\Release\Fusion.Tests.RayTracer.xml
 B:\Fusion Repository\Fusion.Tests.RayTracer\obj\Release\Fusion.Tests.RayTracer.pdb
+B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.RayTracer.dll
+B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.RayTracer.pdb
+B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.RayTracer.xml
+B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Data\CIE 1931 RGB tristimulus values.txt

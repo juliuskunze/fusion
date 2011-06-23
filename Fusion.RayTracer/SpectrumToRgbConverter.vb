@@ -1,4 +1,6 @@
-﻿Public Class SpectrumToRgbConverter
+﻿Imports System.IO
+
+Public Class SpectrumToRgbConverter
 
     Public Const RedWavelength = 700.0 * 10 ^ -9
     Public Const GreenWavelength = 546.1 * 10 ^ -9
@@ -7,15 +9,20 @@
     Private Const _LowerWavelengthBound = 380 * 10 ^ -9
     Private Const _UpperWavelengthBound = 760 * 10 ^ -9
 
-    Private ReadOnly _WavelengthStep As Double
-    Private ReadOnly _WavelengthRgbDictionary As Dictionary(Of Double, RgbLight)
+    Private Const _WavelengthStep = 5 * 10 ^ -9
+    Private Shared _WavelengthRgbDictionary As Dictionary(Of Double, RgbLight)
 
-    Public Sub New(ByVal wavelengthRgbDictionary As Dictionary(Of Double, RgbLight), ByVal wavelengthStep As Double)
-        _WavelengthRgbDictionary = wavelengthRgbDictionary
-        _WavelengthStep = wavelengthStep
-    End Sub
+    Public Shared Function Convert(ByVal wavelength As Double, ByVal intensity As Double) As RgbLight
+        If _WavelengthRgbDictionary Is Nothing Then
+            _WavelengthRgbDictionary = New Dictionary(Of Double, RgbLight)
 
-    Public Function Convert(ByVal wavelength As Double, ByVal intensity As Double) As RgbLight
+            Dim lines = IO.File.ReadLines(IO.Directory.GetCurrentDirectory & "\Data\CIE 1931 RGB tristimulus values.txt").Select(Function(line) line.Replace(","c, "."c))
+            Dim numbersCollection = From line In lines Select line.Split(" "c)
+            For Each numbers In numbersCollection
+                _WavelengthRgbDictionary.Add(key:=CDbl(numbers(0)), value:=New RgbLight(red:=CDbl(numbers(1)), green:=CDbl(numbers(2)), blue:=CDbl(numbers(3))))
+            Next
+        End If
+
         If wavelength < _LowerWavelengthBound OrElse wavelength > _UpperWavelengthBound Then Return New RgbLight
 
         If wavelength Mod 5 = 0 Then
@@ -37,7 +44,7 @@
         End If
     End Function
 
-    Private Function InterpolateWavelength(ByVal wavelength As Double, ByVal lower As KeyValuePair(Of Double, RgbLight), ByVal upper As KeyValuePair(Of Double, RgbLight)) As RgbLight
+    Private Shared Function InterpolateWavelength(ByVal wavelength As Double, ByVal lower As KeyValuePair(Of Double, RgbLight), ByVal upper As KeyValuePair(Of Double, RgbLight)) As RgbLight
         Return lower.Value + upper.Value * (wavelength - lower.Key) / _WavelengthStep
     End Function
 

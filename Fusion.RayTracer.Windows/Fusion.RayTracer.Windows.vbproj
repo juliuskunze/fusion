@@ -82,7 +82,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Import Include="Fusion.Ry" />
+    <Import Include="Fusion.RayTracer" />
     <Import Include="Microsoft.Windows.Controls.Ribbon" />
     <Import Include="System.Drawing" />
     <Import Include="System.Linq" />
@@ -151,9 +151,9 @@
     <Resource Include="Images\YellowLarge.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Fusion.Ry\Fusion.Ry.vbproj">
-      <Project>{9DABD0F8-9C88-4C47-A346-B60C25DAEFCA}</Project>
-      <Name>Fusion.Ry</Name>
+    <ProjectReference Include="..\Fusion.RayTracer\Fusion.RayTracer.vbproj">
+      <Project>{85E3D12F-55C2-41DF-BC93-3E718C0BEE0E}</Project>
+      <Name>Fusion.RayTracer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

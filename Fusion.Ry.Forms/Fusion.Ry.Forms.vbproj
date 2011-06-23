@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Import Include="Fusion.Math" />
+    <Import Include="Fusion.RayTracer" />
     <Import Include="Fusion.Visualization" />
     <Import Include="System" />
     <Import Include="System.Collections" />
@@ -136,9 +137,9 @@
       <Project>{F6034AE4-65A7-49CB-9756-C13EDFA258E6}</Project>
       <Name>Fusion.Math</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Fusion.Ry\Fusion.Ry.vbproj">
-      <Project>{9DABD0F8-9C88-4C47-A346-B60C25DAEFCA}</Project>
-      <Name>Fusion.Ry</Name>
+    <ProjectReference Include="..\Fusion.RayTracer\Fusion.RayTracer.vbproj">
+      <Project>{85E3D12F-55C2-41DF-BC93-3E718C0BEE0E}</Project>
+      <Name>Fusion.RayTracer</Name>
     </ProjectReference>
     <ProjectReference Include="..\Fusion.Visualization\Fusion.Visualization.vbproj">
       <Project>{999FDCC5-C7B2-4F1E-B559-919752F9BC03}</Project>

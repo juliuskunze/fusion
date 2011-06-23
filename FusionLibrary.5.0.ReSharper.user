@@ -5,30 +5,17 @@
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:SquareMatrix.vb" caret="1223" fromTop="46" />
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:SurfaceTests/f:IntersectedSurfaceTests.vb" caret="0" fromTop="0" />
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestSquareMatrix.vb" caret="0" fromTop="0" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:IRayTracer.vb" caret="17" fromTop="0" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Relativity/f:RelativisticRayTransformation.vb" caret="1748" fromTop="5" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Video/f:IViewCourse.vb" caret="0" fromTop="0" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Video/f:ViewCourseVideo.vb" caret="0" fromTop="0" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Video/f:LinearViewCourse.vb" caret="1290" fromTop="42" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Video/f:IRayTraceVideo.vb" caret="128" fromTop="2" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:RayChanger.vb" caret="1374" fromTop="14" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:ScatteringRayTracer.vb" caret="0" fromTop="0" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Light/d:Source/f:ILightSource.vb" caret="111" fromTop="1" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:RecursiveRayTracer.vb" caret="899" fromTop="17" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Relativity/f:RelativisticRayTracer.vb" caret="694" fromTop="11" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Light/f:ILight.vb" caret="120" fromTop="2" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Light/f:ILightSpectrum.vb" caret="17" fromTop="0" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Relativity/f:RelativisticSpectrumRayTracer.vb" caret="895" fromTop="15" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Light/d:Remission/f:IRemission.vb" caret="22" fromTop="0" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Light/f:FunctionLightSpectrum.vb" caret="13" fromTop="0" />
-      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="345" fromTop="10" />
       <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsbColor.vb" caret="3151" fromTop="11" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml" caret="501" fromTop="8" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Light/f:RgbLight.vb" caret="902" fromTop="0" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Light/f:ColorWavelengthConverter.vb" caret="299" fromTop="4" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="704" fromTop="16" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:Application.xaml" caret="165" fromTop="1" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="521" fromTop="15" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Video/f:LinearViewCourse.vb" caret="595" fromTop="15" />
+      <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/f:PerformanceTests.vb" caret="4419" fromTop="15" />
+      <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="1411" fromTop="15" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/f:RayChanger.vb" caret="1100" fromTop="20" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:MaterialSurfaces/f:ColorfulSphere.vb" caret="470" fromTop="10" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Light/f:FunctionLightSpectrum.vb" caret="1494" fromTop="9" />
+      <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/f:SpectrumToRgbConverterFactoryTests.vb" caret="398" fromTop="9" />
     </RecentFiles>
     <RecentEdits>
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml" caret="544" fromTop="8" />
@@ -41,20 +28,11 @@
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="564" fromTop="9" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml" caret="1148" fromTop="5" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml" caret="501" fromTop="8" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="514" fromTop="3" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Light/f:ColorWavelengthConverter.vb" caret="142" fromTop="1" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="362" fromTop="8" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="1474" fromTop="13" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="557" fromTop="12" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="1142" fromTop="3" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="362" fromTop="5" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="271" fromTop="6" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="1124" fromTop="13" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="675" fromTop="6" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="1595" fromTop="15" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="1736" fromTop="9" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:Application.xaml" caret="229" fromTop="3" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="2029" fromTop="23" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:MaterialSurfaces/f:ColorfulSphere.vb" caret="613" fromTop="13" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Light/f:FunctionLightSpectrum.vb" caret="1784" fromTop="13" />
+      <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/f:SpectrumToRgbConverterFactoryTests.vb" caret="398" fromTop="9" />
+      <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/f:SpectrumToRgbConverterFactoryTests.vb" caret="51" fromTop="1" />
     </RecentEdits>
   </RecentFiles>
   <NAntValidationSettings>
