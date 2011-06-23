@@ -1,0 +1,23 @@
+﻿<Window x:Class="ColorWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Color spectrum" MinHeight="500" MinWidth="500">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+            <Image Name="_Image" Stretch="None" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="NearestNeighbor"></Image>
+        <StackPanel Grid.Column="1">
+             <GroupBox Header="Wavelength / m">
+                <StackPanel >
+                    <TextBox Name="_IntensityTextBox" MinWidth="50"></TextBox>
+                    <Slider Name="_IntensitySlider" MinWidth="150" Minimum="0" Maximum="1000" TickFrequency="0.1" IsSnapToTickEnabled="True" 
+                            Value="{Binding ElementName=_IntensityTextBox, Path=Text, Mode=TwoWay}"></Slider>
+                </StackPanel>
+            </GroupBox>
+
+        </StackPanel>
+        
+    </Grid>
+</Window>

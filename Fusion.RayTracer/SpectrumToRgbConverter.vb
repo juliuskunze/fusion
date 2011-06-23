@@ -6,8 +6,8 @@ Public Class SpectrumToRgbConverter
     Public Const GreenWavelength = 546.1 * 10 ^ -9
     Public Const BlueWavelength = 435.8 * 10 ^ -9
 
-    Private Const _LowerWavelengthBound = 380 * 10 ^ -9
-    Private Const _UpperWavelengthBound = 760 * 10 ^ -9
+    Public Const LowerWavelengthBound = 380 * 10 ^ -9
+    Public Const UpperWavelengthBound = 760 * 10 ^ -9
 
     Private Const _WavelengthStep = 5 * 10 ^ -9
     Private _WavelengthRgbDictionary As Dictionary(Of Double, RgbLight)
@@ -27,12 +27,14 @@ Public Class SpectrumToRgbConverter
     End Sub
 
     Public Function Convert(ByVal wavelength As Double, ByVal intensity As Double) As RgbLight
-        If wavelength < _LowerWavelengthBound OrElse wavelength > _UpperWavelengthBound Then Return New RgbLight
+        If wavelength < LowerWavelengthBound OrElse wavelength > UpperWavelengthBound Then Return New RgbLight
 
-        If wavelength Mod _WavelengthStep = 0 Then
+        If wavelength Mod _WavelengthStep < 1.0E-19 Then
+            If wavelength = LowerWavelengthBound Then Return _WavelengthRgbDictionary.Values.First
+
             Dim rgbLight As RgbLight
             If Not _WavelengthRgbDictionary.TryGetValue(key:=wavelength, value:=rgbLight) Then Throw New InvalidOperationException
-            Return rgbLight
+            Return intensity * rgbLight
         End If
 
         Dim neighbors = From wavelengthRgbPair In _WavelengthRgbDictionary Where Abs(wavelength - wavelengthRgbPair.Key) < _WavelengthStep
@@ -44,12 +46,12 @@ Public Class SpectrumToRgbConverter
         If first.Key < second.Key Then
             Return intensity * InterpolateWavelength(wavelength:=wavelength, lower:=first, upper:=second)
         Else
-            Return intensity * InterpolateWavelength(wavelength:=wavelength, lower:=first, upper:=second)
+            Return intensity * InterpolateWavelength(wavelength:=wavelength, lower:=second, upper:=first)
         End If
     End Function
 
     Private Shared Function InterpolateWavelength(ByVal wavelength As Double, ByVal lower As KeyValuePair(Of Double, RgbLight), ByVal upper As KeyValuePair(Of Double, RgbLight)) As RgbLight
-        Return lower.Value + upper.Value * (wavelength - lower.Key) / _WavelengthStep
+        Return lower.Value + (upper.Value - lower.Value) * (wavelength - lower.Key) / _WavelengthStep
     End Function
 
 End Class
