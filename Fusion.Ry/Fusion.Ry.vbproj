@@ -116,6 +116,7 @@
     <Compile Include="RayChanger.vb" />
     <Compile Include="RayTraceDrawer.vb" />
     <Compile Include="Relativity\RelativisticSpectrumRayTracer.vb" />
+    <Compile Include="SpectrumToRgbConverter.vb" />
     <Compile Include="Video\IViewCourse.vb" />
     <Compile Include="Video\IRayTraceVideo.vb" />
     <Compile Include="Relativity\RelativisticRayTracer.vb" />
