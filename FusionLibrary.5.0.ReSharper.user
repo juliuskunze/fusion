@@ -1,9 +1,6 @@
 <Configuration>
   <RecentFiles>
     <RecentFiles>
-      <File id="9A318D74-127E-441B-BF66-38E7B0617A8B/d:My Project/f:Settings.Designer.vb" caret="2890" fromTop="13" />
-      <File id="0B269A14-CE71-48F5-A86E-843C7646F4A1/d:FieldEvolution/f:FieldInitializer.vb" caret="0" fromTop="0" />
-      <File id="0B269A14-CE71-48F5-A86E-843C7646F4A1/f:IMutator.vb" caret="0" fromTop="0" />
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Matrix.vb" caret="609" fromTop="23" />
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:SquareMatrix.vb" caret="1223" fromTop="46" />
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:SurfaceTests/f:IntersectedSurfaceTests.vb" caret="0" fromTop="0" />
@@ -16,7 +13,6 @@
       <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Video/f:IRayTraceVideo.vb" caret="128" fromTop="2" />
       <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:RayChanger.vb" caret="1374" fromTop="14" />
       <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:ScatteringRayTracer.vb" caret="0" fromTop="0" />
-      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Light/f:ColorWavelengthConverter.vb" caret="1104" fromTop="18" />
       <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Light/d:Source/f:ILightSource.vb" caret="111" fromTop="1" />
       <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:RecursiveRayTracer.vb" caret="899" fromTop="17" />
       <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Relativity/f:RelativisticRayTracer.vb" caret="694" fromTop="11" />
@@ -27,41 +23,38 @@
       <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Light/f:FunctionLightSpectrum.vb" caret="13" fromTop="0" />
       <File id="873338A0-8CEF-44DB-AE3A-56188FC81E40/f:RyForm.vb" caret="345" fromTop="10" />
       <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsbColor.vb" caret="3151" fromTop="11" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:Application.xaml" caret="277" fromTop="6" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml" caret="501" fromTop="8" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="469" fromTop="6" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Light/f:RgbLight.vb" caret="902" fromTop="0" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Light/f:ColorWavelengthConverter.vb" caret="299" fromTop="4" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="704" fromTop="16" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:Application.xaml" caret="165" fromTop="1" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="521" fromTop="15" />
     </RecentFiles>
     <RecentEdits>
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml" caret="544" fromTop="3" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="2040" fromTop="15" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="822" fromTop="6" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="1685" fromTop="16" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="1445" fromTop="8" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml" caret="544" fromTop="2" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="822" fromTop="8" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="1137" fromTop="23" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="1024" fromTop="19" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="1261" fromTop="4" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml" caret="544" fromTop="9" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="2249" fromTop="13" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml" caret="544" fromTop="5" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="822" fromTop="1" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:Application.xaml" caret="229" fromTop="4" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml" caret="544" fromTop="10" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml" caret="544" fromTop="7" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml" caret="615" fromTop="2" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml" caret="316" fromTop="3" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml" caret="544" fromTop="8" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="822" fromTop="0" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="27" fromTop="2" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="104" fromTop="6" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml" caret="183" fromTop="2" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml" caret="1263" fromTop="10" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:Application.xaml" caret="229" fromTop="3" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="46" fromTop="2" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="564" fromTop="9" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml" caret="1148" fromTop="5" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml" caret="501" fromTop="8" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="514" fromTop="3" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/d:Light/f:ColorWavelengthConverter.vb" caret="142" fromTop="1" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="362" fromTop="8" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="1474" fromTop="13" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="557" fromTop="12" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="1142" fromTop="3" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="362" fromTop="5" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="271" fromTop="6" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="1124" fromTop="13" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="675" fromTop="6" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="1595" fromTop="15" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="1736" fromTop="9" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:Application.xaml" caret="229" fromTop="3" />
+      <File id="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA/f:SpectrumToRgbConverter.vb" caret="2029" fromTop="23" />
     </RecentEdits>
   </RecentFiles>
   <NAntValidationSettings>

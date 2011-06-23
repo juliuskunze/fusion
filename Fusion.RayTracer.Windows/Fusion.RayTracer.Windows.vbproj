@@ -68,7 +68,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="SpectrumToRgbConverterCreator.vb" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -150,9 +149,6 @@
     <Resource Include="Images\RedLarge.png" />
     <Resource Include="Images\Yellow.png" />
     <Resource Include="Images\YellowLarge.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Data\CIE 1931 RGB tristimulus values.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Fusion.Ry\Fusion.Ry.vbproj">

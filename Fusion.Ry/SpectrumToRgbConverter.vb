@@ -40,4 +40,5 @@
     Private Function InterpolateWavelength(ByVal wavelength As Double, ByVal lower As KeyValuePair(Of Double, RgbLight), ByVal upper As KeyValuePair(Of Double, RgbLight)) As RgbLight
         Return lower.Value + upper.Value * (wavelength - lower.Key) / _WavelengthStep
     End Function
+
 End Class
