@@ -15,14 +15,14 @@
       <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/f:SpectrumToRgbConverterTests.vb" caret="919" fromTop="10" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorExtensions.vb" caret="727" fromTop="14" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="669" fromTop="22" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Data/f:CIE 1931 RGB tristimulus values.txt" caret="0" fromTop="0" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Light/f:RgbLight.vb" caret="4309" fromTop="112" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml" caret="833" fromTop="1" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml" caret="669" fromTop="0" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:SimpleBitmap.vb" caret="1864" fromTop="10" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/f:SpectrumToRgbConverter.vb" caret="2025" fromTop="12" />
+      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsbColor.vb" caret="3292" fromTop="17" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml.vb" caret="802" fromTop="10" />
-      <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsbColor.vb" caret="3278" fromTop="16" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/f:SpectrumToRgbConverter.vb" caret="2025" fromTop="21" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:SimpleBitmap.vb" caret="1864" fromTop="25" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml" caret="461" fromTop="2" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Light/f:RgbLight.vb" caret="4309" fromTop="112" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Data/f:CIE 1931 RGB tristimulus values.txt" caret="0" fromTop="0" />
     </RecentFiles>
     <RecentEdits>
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorExtensions.vb" caret="708" fromTop="9" />
@@ -50,11 +50,11 @@
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml.vb" caret="162" fromTop="5" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml.vb" caret="216" fromTop="9" />
       <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/f:SpectrumToRgbConverter.vb" caret="1575" fromTop="4" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml" caret="843" fromTop="2" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml.vb" caret="1224" fromTop="18" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml.vb" caret="1167" fromTop="14" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml.vb" caret="840" fromTop="10" />
       <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:HsbColor.vb" caret="3278" fromTop="16" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml" caret="623" fromTop="1" />
     </RecentEdits>
   </RecentFiles>
   <NAntValidationSettings>

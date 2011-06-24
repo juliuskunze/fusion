@@ -9,10 +9,10 @@
         </Grid.ColumnDefinitions>
             <Image Name="_Image" Stretch="None" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="NearestNeighbor"></Image>
         <StackPanel Grid.Column="1">
-             <GroupBox Header="Wavelength / m">
+            <GroupBox Margin="3" Header="Wavelength / m">
                 <StackPanel >
-                    <TextBox Name="_IntensityTextBox" MinWidth="50"></TextBox>
-                    <Slider Name="_IntensitySlider" MinWidth="150" Minimum="0" Maximum="1000" TickFrequency="0.1" IsSnapToTickEnabled="True" 
+                    <TextBox Margin="3" Name="_IntensityTextBox" MinWidth="50"></TextBox>
+                    <Slider Margin="3" Name="_IntensitySlider" MinWidth="150" Minimum="0" Maximum="1000" TickFrequency="0.1" IsSnapToTickEnabled="True" 
                             Value="{Binding ElementName=_IntensityTextBox, Path=Text, Mode=TwoWay}"></Slider>
                 </StackPanel>
             </GroupBox>
