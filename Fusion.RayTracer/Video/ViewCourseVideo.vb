@@ -40,7 +40,7 @@
         For time = timeIntervalStart To timeIntervalEnd Step timeStep
             Dim drawer = Me.GetRayTracerDrawer(time)
 
-            drawer.Picture.Save(directoryPath & "\image" & imageIndex.ToString(formatString) & ".png")
+            drawer.GetPicture.Save(directoryPath & "\image" & imageIndex.ToString(formatString) & ".png")
             imageIndex += 1
         Next
     End Sub

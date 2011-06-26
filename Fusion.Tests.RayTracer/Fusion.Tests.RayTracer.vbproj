@@ -74,6 +74,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SpectrumToRgbConverterTests.vb" />
     <Compile Include="ExactColorTests.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -96,7 +97,7 @@
     <Compile Include="RayTracerTests.vb" />
     <Compile Include="NormalizedMidpointCoordinateSystemTests.vb" />
     <Compile Include="RelativityTests\RelativisticRayTransformationTests.vb" />
-    <Compile Include="SpectrumToRgbConverterTests.vb" />
+    <Compile Include="OldSpectrumToRgbConverterTests.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

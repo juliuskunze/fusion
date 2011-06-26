@@ -10,24 +10,24 @@
 
     Public Sub New()
         Me.InitializeComponent()
-        screenSizeRadioButton.Text = "Screen " & New Vector2D(My.Computer.Screen.Bounds.Size).ToString
+        _ScreenSizeRadioButton.Text = "Screen " & New Vector2D(My.Computer.Screen.Bounds.Size).ToString
     End Sub
 
     Private Sub StartButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _StartButton.Click
         If Not Me.TrySetRayTracerDrawer Then Return
 
-        Dim stopWatch = New Stopwatch
-        stopWatch.Start()
+        Dim stopwatch = New Stopwatch
+        stopwatch.Start()
 
-        _Picture = _RayTraceDrawer.Picture
+        _Picture = _RayTraceDrawer.GetPicture
 
-        stopWatch.Stop()
-        elapsedTimeLabel.Text = "Time: " & stopWatch.Elapsed.ToString
-        timePerPixelLabel.Text = "Time per pixel: " & (stopWatch.ElapsedMilliseconds / (_Picture.Size.Width * _Picture.Size.Height)).ToString & "ms"
+        stopwatch.Stop()
+        _ElapsedTimeLabel.Text = "Time: " & stopwatch.Elapsed.ToString
+        _TimePerPixelLabel.Text = "Time per pixel: " & (stopwatch.ElapsedMilliseconds / (_Picture.Size.Width * _Picture.Size.Height)).ToString & "ms"
 
         _PictureBox.BackgroundImage = _Picture
 
-        Me.saveButton.Enabled = True
+        Me._SaveButton.Enabled = True
     End Sub
 
     Private Function TrySetRayTracerDrawer() As Boolean
@@ -39,12 +39,11 @@
     End Function
 
     Private Function TryGetPictureSize(ByRef out_size As Size) As Boolean
-
         If _CustomSizeRadioButton.Checked Then
             If Not _CustomPictureSizeOk Then Return False
 
             out_size = _CustomPictureSize
-        ElseIf windowSizeRadioButton.Checked Then
+        ElseIf _WindowSizeRadioButton.Checked Then
             out_size = _PictureBox.Size
         Else
             out_size = My.Computer.Screen.Bounds.Size
@@ -54,27 +53,26 @@
     End Function
 
     Private Sub pictureBox_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles _PictureBox.MouseDown
-        Dim mouseLocation = e.Location
-        ColorColorPanel(mouseLocation)
+        SetColorPanelPixel(e.Location)
     End Sub
 
-    Private Sub ColorColorPanel(ByVal mouseLocation As Point)
+    Private Sub SetColorPanelPixel(ByVal mouseLocation As Point)
         colorPanel.BackColor = _RayTraceDrawer.GetPixelColor(mouseLocation.X, mouseLocation.Y)
     End Sub
 
     Private Sub RayTraceDrawer_ProgressIncreased(ByVal sender As Object, ByVal e As ProgressEventArgs) Handles _RayTraceDrawer.ProgressIncreased
-        Me.progressBar.Value = CInt(e.Progress * 100)
+        _ProgressBar.Value = CInt(e.Progress * 100)
     End Sub
 
-    Private Sub saveButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles saveButton.Click
-        saveFileDialog.FileName = "ray tracing picture "
+    Private Sub saveButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _SaveButton.Click
+        _SaveFileDialog.FileName = "ray tracing picture "
         Dim pictureNumber As Integer = 1
-        Do While New IO.FileInfo(saveFileDialog.InitialDirectory & "\" & saveFileDialog.FileName & pictureNumber).Exists
+        Do While New IO.FileInfo(_SaveFileDialog.InitialDirectory & "\" & _SaveFileDialog.FileName & pictureNumber).Exists
             pictureNumber += 1
         Loop
-        saveFileDialog.FileName &= pictureNumber
-        If saveFileDialog.ShowDialog = Windows.Forms.DialogResult.OK Then
-            _Picture.Save(saveFileDialog.FileName)
+        _SaveFileDialog.FileName &= pictureNumber
+        If _SaveFileDialog.ShowDialog = Windows.Forms.DialogResult.OK Then
+            _Picture.Save(_SaveFileDialog.FileName)
         End If
     End Sub
 
@@ -99,14 +97,7 @@
     End Sub
 
     Private Sub VideoButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _VideoButton.Click
-        Dim viewCourse = New LinearViewCourse(velocity:=New Vector3D(0, 0, -1),
-                                             startLocation:=New Vector3D(7.5, 6, 30),
-                                             visibleXAngle:=PI * 0.26)
-
-        Dim videoTracer As New ViewCourseVideo(videoSize:=New Size(500, 500),
-                                               rayTracer:=New RayTracingExamples(Nothing).SecondRoomRayTracer,
-                                               cameraViewCourse:=viewCourse)
-        videoTracer.CreateVideo("B:\tmp\vid", timeIntervalStart:=0, timeIntervalEnd:=30, timeStep:=1)
+        RayTracingExamples.WriteVideo()
     End Sub
 
     Private Sub calculateTimeButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _CalculateTimeButton.Click
@@ -165,7 +156,7 @@
     End Sub
 
     Private Sub pictureBox_Resize(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _PictureBox.Resize
-        windowSizeRadioButton.Text = "Window " & New Vector2D(_PictureBox.Size).ToString
+        _WindowSizeRadioButton.Text = "Window " & New Vector2D(_PictureBox.Size).ToString
     End Sub
 End Class
 

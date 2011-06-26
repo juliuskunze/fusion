@@ -7,6 +7,16 @@
     Private Shared ReadOnly _PixelFormat As PixelFormat = PixelFormats.Rgb24
     Private ReadOnly _Stride As Integer
 
+    Public Sub New(ByVal bitmap As System.Drawing.Bitmap)
+        Me.New(bitmap.Width, bitmap.Height)
+
+        For x = 0 To _Width - 1
+            For y = 0 To _Height - 1
+                Me.SetPixel(x, y, color:=bitmap.GetPixel(x, y))
+            Next
+        Next
+    End Sub
+
     Public Sub New(ByVal width As Integer, ByVal height As Integer)
         _Width = width
         _Height = height
@@ -26,16 +36,12 @@
     Public Function ToBitmapSource() As BitmapSource
         Dim dpiX As Double
         Dim dpiY As Double
-
         Try
-            Dim m = PresentationSource.FromVisual(Application.Current.Windows(0)).CompositionTarget.TransformToDevice
-            dpiX = m.M11 * 96
-            dpiY = m.M22 * 96
+            Application.Current.Windows(0).GetPixelFactor(out_dpiX:=dpiX, out_dpiY:=dpiY)
         Catch ex As NullReferenceException
             dpiX = 120
             dpiY = 120
         End Try
-        
 
         Return BitmapSource.Create(pixelWidth:=_Width,
                                    pixelHeight:=_Height,

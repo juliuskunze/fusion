@@ -116,7 +116,7 @@ Public Class PerformanceTests
         Dim glassCylinderSurface = New Cylinder(startCenter:=glassLocation, endCenter:=glassLocation + New Vector3D(0, glassCylinderHeight, 0), radius:=0.1)
 
 
-        Return New RayTraceDrawer(Of RgbLight)(rayTracer:=rayTracer, Size:=New Size(100, 100), view:=view)
+        Return New RayTraceDrawer(Of RgbLight)(rayTracer:=rayTracer, pictureSize:=New Size(100, 100), view:=view)
     End Function
 
 End Class

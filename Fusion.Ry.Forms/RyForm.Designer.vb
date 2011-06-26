@@ -25,8 +25,8 @@ Partial Class RyForm
         Me._startButton = New System.Windows.Forms.Button()
         Me.buttonPanel = New System.Windows.Forms.Panel()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.screenSizeRadioButton = New System.Windows.Forms.RadioButton()
-        Me.windowSizeRadioButton = New System.Windows.Forms.RadioButton()
+        Me._screenSizeRadioButton = New System.Windows.Forms.RadioButton()
+        Me._windowSizeRadioButton = New System.Windows.Forms.RadioButton()
         Me._CustomSizeRadioButton = New System.Windows.Forms.RadioButton()
         Me._CustomSizeTextBox = New System.Windows.Forms.TextBox()
         Me.calculateTimePanel = New System.Windows.Forms.GroupBox()
@@ -36,15 +36,15 @@ Partial Class RyForm
         Me.calculatedOverallTimeLabel = New System.Windows.Forms.Label()
         Me.calculatedTimePerPixelLabel = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.timePerPixelLabel = New System.Windows.Forms.Label()
-        Me.elapsedTimeLabel = New System.Windows.Forms.Label()
+        Me._TimePerPixelLabel = New System.Windows.Forms.Label()
+        Me._ElapsedTimeLabel = New System.Windows.Forms.Label()
         Me._VideoButton = New System.Windows.Forms.Button()
-        Me.saveButton = New System.Windows.Forms.Button()
-        Me.progressBar = New System.Windows.Forms.ProgressBar()
+        Me._SaveButton = New System.Windows.Forms.Button()
+        Me._ProgressBar = New System.Windows.Forms.ProgressBar()
         Me._PictureBox = New System.Windows.Forms.PictureBox()
         Me.colorPanel = New System.Windows.Forms.Panel()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.saveFileDialog = New System.Windows.Forms.SaveFileDialog()
+        Me._SaveFileDialog = New System.Windows.Forms.SaveFileDialog()
         Me.buttonPanel.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.calculateTimePanel.SuspendLayout()
@@ -68,11 +68,11 @@ Partial Class RyForm
         Me.buttonPanel.Controls.Add(Me.GroupBox1)
         Me.buttonPanel.Controls.Add(Me.calculateTimePanel)
         Me.buttonPanel.Controls.Add(Me.Label2)
-        Me.buttonPanel.Controls.Add(Me.timePerPixelLabel)
-        Me.buttonPanel.Controls.Add(Me.elapsedTimeLabel)
+        Me.buttonPanel.Controls.Add(Me._TimePerPixelLabel)
+        Me.buttonPanel.Controls.Add(Me._ElapsedTimeLabel)
         Me.buttonPanel.Controls.Add(Me._VideoButton)
-        Me.buttonPanel.Controls.Add(Me.saveButton)
-        Me.buttonPanel.Controls.Add(Me.progressBar)
+        Me.buttonPanel.Controls.Add(Me._SaveButton)
+        Me.buttonPanel.Controls.Add(Me._ProgressBar)
         Me.buttonPanel.Controls.Add(Me._StartButton)
         Me.buttonPanel.Location = New System.Drawing.Point(518, 12)
         Me.buttonPanel.Name = "buttonPanel"
@@ -83,8 +83,8 @@ Partial Class RyForm
         '
         Me.GroupBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.GroupBox1.Controls.Add(Me.screenSizeRadioButton)
-        Me.GroupBox1.Controls.Add(Me.windowSizeRadioButton)
+        Me.GroupBox1.Controls.Add(Me._ScreenSizeRadioButton)
+        Me.GroupBox1.Controls.Add(Me._windowSizeRadioButton)
         Me.GroupBox1.Controls.Add(Me._CustomSizeRadioButton)
         Me.GroupBox1.Controls.Add(Me._CustomSizeTextBox)
         Me.GroupBox1.Location = New System.Drawing.Point(3, 100)
@@ -96,26 +96,26 @@ Partial Class RyForm
         '
         'screenSizeRadioButton
         '
-        Me.screenSizeRadioButton.AutoSize = True
-        Me.screenSizeRadioButton.Location = New System.Drawing.Point(6, 76)
-        Me.screenSizeRadioButton.Name = "screenSizeRadioButton"
-        Me.screenSizeRadioButton.Size = New System.Drawing.Size(74, 21)
-        Me.screenSizeRadioButton.TabIndex = 20
-        Me.screenSizeRadioButton.TabStop = True
-        Me.screenSizeRadioButton.Text = "Screen"
-        Me.screenSizeRadioButton.UseVisualStyleBackColor = True
+        Me._ScreenSizeRadioButton.AutoSize = True
+        Me._ScreenSizeRadioButton.Location = New System.Drawing.Point(6, 76)
+        Me._ScreenSizeRadioButton.Name = "_ScreenSizeRadioButton"
+        Me._ScreenSizeRadioButton.Size = New System.Drawing.Size(74, 21)
+        Me._ScreenSizeRadioButton.TabIndex = 20
+        Me._ScreenSizeRadioButton.TabStop = True
+        Me._ScreenSizeRadioButton.Text = "Screen"
+        Me._ScreenSizeRadioButton.UseVisualStyleBackColor = True
         '
         'windowSizeRadioButton
         '
-        Me.windowSizeRadioButton.AutoSize = True
-        Me.windowSizeRadioButton.Checked = True
-        Me.windowSizeRadioButton.Location = New System.Drawing.Point(6, 49)
-        Me.windowSizeRadioButton.Name = "windowSizeRadioButton"
-        Me.windowSizeRadioButton.Size = New System.Drawing.Size(78, 21)
-        Me.windowSizeRadioButton.TabIndex = 8
-        Me.windowSizeRadioButton.TabStop = True
-        Me.windowSizeRadioButton.Text = "Window"
-        Me.windowSizeRadioButton.UseVisualStyleBackColor = True
+        Me._windowSizeRadioButton.AutoSize = True
+        Me._windowSizeRadioButton.Checked = True
+        Me._windowSizeRadioButton.Location = New System.Drawing.Point(6, 49)
+        Me._windowSizeRadioButton.Name = "_WindowSizeRadioButton"
+        Me._windowSizeRadioButton.Size = New System.Drawing.Size(78, 21)
+        Me._windowSizeRadioButton.TabIndex = 8
+        Me._windowSizeRadioButton.TabStop = True
+        Me._windowSizeRadioButton.Text = "Window"
+        Me._windowSizeRadioButton.UseVisualStyleBackColor = True
         '
         'customSizeRadioButton
         '
@@ -212,21 +212,21 @@ Partial Class RyForm
         '
         'timePerPixelLabel
         '
-        Me.timePerPixelLabel.AutoSize = True
-        Me.timePerPixelLabel.Location = New System.Drawing.Point(3, 273)
-        Me.timePerPixelLabel.Name = "timePerPixelLabel"
-        Me.timePerPixelLabel.Size = New System.Drawing.Size(100, 17)
-        Me.timePerPixelLabel.TabIndex = 12
-        Me.timePerPixelLabel.Text = "Time per pixel:"
+        Me._TimePerPixelLabel.AutoSize = True
+        Me._TimePerPixelLabel.Location = New System.Drawing.Point(3, 273)
+        Me._TimePerPixelLabel.Name = "_TimePerPixelLabel"
+        Me._TimePerPixelLabel.Size = New System.Drawing.Size(100, 17)
+        Me._TimePerPixelLabel.TabIndex = 12
+        Me._TimePerPixelLabel.Text = "Time per pixel:"
         '
         'elapsedTimeLabel
         '
-        Me.elapsedTimeLabel.AutoSize = True
-        Me.elapsedTimeLabel.Location = New System.Drawing.Point(3, 256)
-        Me.elapsedTimeLabel.Name = "elapsedTimeLabel"
-        Me.elapsedTimeLabel.Size = New System.Drawing.Size(47, 17)
-        Me.elapsedTimeLabel.TabIndex = 11
-        Me.elapsedTimeLabel.Text = "Time: "
+        Me._ElapsedTimeLabel.AutoSize = True
+        Me._ElapsedTimeLabel.Location = New System.Drawing.Point(3, 256)
+        Me._ElapsedTimeLabel.Name = "_ElapsedTimeLabel"
+        Me._ElapsedTimeLabel.Size = New System.Drawing.Size(47, 17)
+        Me._ElapsedTimeLabel.TabIndex = 11
+        Me._ElapsedTimeLabel.Text = "Time: "
         '
         'VideoButton
         '
@@ -241,24 +241,24 @@ Partial Class RyForm
         '
         'saveButton
         '
-        Me.saveButton.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me._SaveButton.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.saveButton.Enabled = False
-        Me.saveButton.Location = New System.Drawing.Point(3, 66)
-        Me.saveButton.Name = "saveButton"
-        Me.saveButton.Size = New System.Drawing.Size(284, 28)
-        Me.saveButton.TabIndex = 7
-        Me.saveButton.Text = "Save..."
-        Me.saveButton.UseVisualStyleBackColor = True
+        Me._SaveButton.Enabled = False
+        Me._SaveButton.Location = New System.Drawing.Point(3, 66)
+        Me._SaveButton.Name = "_SaveButton"
+        Me._SaveButton.Size = New System.Drawing.Size(284, 28)
+        Me._SaveButton.TabIndex = 7
+        Me._SaveButton.Text = "Save..."
+        Me._SaveButton.UseVisualStyleBackColor = True
         '
         'progressBar
         '
-        Me.progressBar.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me._ProgressBar.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.progressBar.Location = New System.Drawing.Point(3, 37)
-        Me.progressBar.Name = "progressBar"
-        Me.progressBar.Size = New System.Drawing.Size(284, 23)
-        Me.progressBar.TabIndex = 6
+        Me._ProgressBar.Location = New System.Drawing.Point(3, 37)
+        Me._ProgressBar.Name = "_ProgressBar"
+        Me._ProgressBar.Size = New System.Drawing.Size(284, 23)
+        Me._ProgressBar.TabIndex = 6
         '
         'pictureBox
         '
@@ -293,8 +293,8 @@ Partial Class RyForm
         '
         'saveFileDialog
         '
-        Me.saveFileDialog.DefaultExt = "bmp"
-        Me.saveFileDialog.FileName = "ray tracing picture"
+        Me._SaveFileDialog.DefaultExt = "bmp"
+        Me._SaveFileDialog.FileName = "ray tracing picture"
         '
         'RyForm
         '
@@ -323,15 +323,15 @@ Partial Class RyForm
     Private WithEvents _PictureBox As System.Windows.Forms.PictureBox
     Private WithEvents colorPanel As System.Windows.Forms.Panel
     Friend WithEvents Label1 As System.Windows.Forms.Label
-    Private WithEvents progressBar As System.Windows.Forms.ProgressBar
-    Private WithEvents saveButton As System.Windows.Forms.Button
-    Private WithEvents saveFileDialog As System.Windows.Forms.SaveFileDialog
+    Private WithEvents _ProgressBar As System.Windows.Forms.ProgressBar
+    Private WithEvents _SaveButton As System.Windows.Forms.Button
+    Private WithEvents _SaveFileDialog As System.Windows.Forms.SaveFileDialog
     Private WithEvents _CustomSizeTextBox As System.Windows.Forms.TextBox
     Private WithEvents _CustomSizeRadioButton As System.Windows.Forms.RadioButton
-    Private WithEvents windowSizeRadioButton As System.Windows.Forms.RadioButton
+    Private WithEvents _WindowSizeRadioButton As System.Windows.Forms.RadioButton
     Friend WithEvents _VideoButton As System.Windows.Forms.Button
-    Friend WithEvents elapsedTimeLabel As System.Windows.Forms.Label
-    Friend WithEvents timePerPixelLabel As System.Windows.Forms.Label
+    Friend WithEvents _ElapsedTimeLabel As System.Windows.Forms.Label
+    Friend WithEvents _TimePerPixelLabel As System.Windows.Forms.Label
     Friend WithEvents _CalculateTimeButton As System.Windows.Forms.Button
     Friend WithEvents calculatedOverallTimeLabel As System.Windows.Forms.Label
     Friend WithEvents calculateTimePanel As System.Windows.Forms.GroupBox
@@ -340,6 +340,6 @@ Partial Class RyForm
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents _CalculateTimeOptions As System.Windows.Forms.Button
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-    Friend WithEvents screenSizeRadioButton As System.Windows.Forms.RadioButton
+    Friend WithEvents _ScreenSizeRadioButton As System.Windows.Forms.RadioButton
 
 End Class

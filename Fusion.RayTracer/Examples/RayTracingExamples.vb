@@ -3,6 +3,7 @@ Public Class RayTracingExamples
     Public Property PictureSize As Size
 
     Public Sub New(ByVal pictureSize As Size)
+        If pictureSize = New Size Then Throw New ArgumentNullException("pictureSize")
         Me.PictureSize = pictureSize
     End Sub
 
@@ -133,7 +134,7 @@ Public Class RayTracingExamples
                                                               unshadedLightSource:=lightSources,
                                                               shadedPointLightSources:=shadedLightSources)
 
-        Return New RayTraceDrawer(Of RgbLight)(rayTracer:=rayTracer, Size:=PictureSize, view:=view)
+        Return New RayTraceDrawer(Of RgbLight)(rayTracer:=rayTracer, pictureSize:=Me.PictureSize, view:=view)
     End Function
 
     Dim random As Random = New Random()
@@ -165,7 +166,7 @@ Public Class RayTracingExamples
         Dim rayTracer = SecondRoomRayTracer()
         'Dim rayTracer = New ScatteringRayTracer(surface:=surfaces, rayCount:=200, maxIntersectionCount:=10)
 
-        Return New RayTraceDrawer(Of RgbLight)(rayTracer:=rayTracer, Size:=PictureSize, view:=view)
+        Return New RayTraceDrawer(Of RgbLight)(rayTracer:=rayTracer, pictureSize:=PictureSize, view:=view)
     End Function
 
     Public Function SecondRoomRayTracer() As RelativisticRayTracer(Of RgbLight)
@@ -304,4 +305,16 @@ Public Class RayTracingExamples
                                                               shadedPointLightSources:=shadedLightSources,
                                                               maxIntersectionCount:=10)
     End Function
+
+    Public Shared Sub WriteVideo()
+        Dim viewCourse = New LinearViewCourse(velocity:=New Vector3D(0, 0, -1),
+                                             startLocation:=New Vector3D(7.5, 6, 30),
+                                             visibleXAngle:=PI * 0.26)
+
+        Dim videoTracer As New ViewCourseVideo(videoSize:=New Size(500, 500),
+                                               RayTracer:=New RayTracingExamples(Nothing).SecondRoomRayTracer,
+                                               cameraViewCourse:=viewCourse)
+        videoTracer.CreateVideo("B:\tmp\vid", timeIntervalStart:=0, timeIntervalEnd:=30, timeStep:=1)
+    End Sub
+
 End Class

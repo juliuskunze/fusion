@@ -1,7 +1,9 @@
 ﻿Public Class RayTraceDrawer(Of TLight As {ILight(Of TLight), New})
 
-    Public Sub New(ByVal rayTracer As IRayTracer(Of TLight), ByVal size As Size, ByVal view As View3D)
-        Me.PictureSize = size
+    Public Sub New(ByVal rayTracer As IRayTracer(Of TLight), ByVal pictureSize As Size, ByVal view As View3D)
+        If pictureSize = New Size Then Throw New ArgumentNullException("pictureSize")
+
+        Me.PictureSize = pictureSize
         Me.View = view
         Me.RayTracer = rayTracer
     End Sub
@@ -25,7 +27,7 @@
 
     Private _Origin As Vector2D
 
-    Public Function Picture() As Bitmap
+    Public Function GetPicture() As Bitmap
         Dim bitmap = New Bitmap(Me.PictureSize.Width, Me.PictureSize.Height)
 
         For bitmapX = 0 To Me.PictureSize.Width - 1

@@ -3,5 +3,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     StartupUri="ColorWindow.xaml">
     <Application.Resources>
+        <Style x:Key="DefaultControlStyle">
+            <Setter Property="Control.Margin" Value="3" />
+        </Style>
+
+        <Style TargetType="Button" BasedOn="{StaticResource DefaultControlStyle}"></Style>
+        <Style TargetType="Label" BasedOn="{StaticResource DefaultControlStyle}"></Style>
+        <Style TargetType="RadioButton" BasedOn="{StaticResource DefaultControlStyle}"></Style>
+        <Style TargetType="TextBox" BasedOn="{StaticResource DefaultControlStyle}"></Style>
     </Application.Resources>
 </Application>

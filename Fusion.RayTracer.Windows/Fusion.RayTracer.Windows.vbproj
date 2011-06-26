@@ -68,11 +68,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CalculateTimeOptionsDialog.xaml.vb">
+      <DependentUpon>CalculateTimeOptionsDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ColorWindow.xaml.vb">
       <DependentUpon>ColorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ColorExtensions.vb" />
     <Compile Include="SimpleBitmap.vb" />
+    <Compile Include="WindowExtensions.vb" />
+    <Page Include="CalculateTimeOptionsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -91,8 +99,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Import Include="Fusion.Math" />
     <Import Include="Fusion.RayTracer" />
     <Import Include="Fusion.Visualization" />
+    <Import Include="Microsoft.Win32" />
     <Import Include="Microsoft.Windows.Controls.Ribbon" />
     <Import Include="System.Linq" />
     <Import Include="System.Xml.Linq" />
@@ -160,6 +170,10 @@
     <Resource Include="Images\YellowLarge.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Fusion.Math\Fusion.Math.vbproj">
+      <Project>{F6034AE4-65A7-49CB-9756-C13EDFA258E6}</Project>
+      <Name>Fusion.Math</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Fusion.RayTracer\Fusion.RayTracer.vbproj">
       <Project>{85E3D12F-55C2-41DF-BC93-3E718C0BEE0E}</Project>
       <Name>Fusion.RayTracer</Name>

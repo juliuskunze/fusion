@@ -22,7 +22,7 @@
         Dim formatString = New String("0"c, maxIndex.ToString.Length)
 
         For time = timeIntervalStart To timeIntervalEnd Step timeStep
-            Me.GetRayTracerDrawer(time).Picture.Save(directoryPath & "\image" & imageIndex.ToString(formatString) & ".png", format:=Imaging.ImageFormat.Png)
+            Me.GetRayTracerDrawer(time).GetPicture.Save(directoryPath & "\image" & imageIndex.ToString(formatString) & ".png", format:=Imaging.ImageFormat.Png)
 
             imageIndex += 1
         Next
