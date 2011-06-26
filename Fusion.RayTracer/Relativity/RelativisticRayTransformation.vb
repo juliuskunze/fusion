@@ -2,7 +2,7 @@
 ''' Transforms a (light) ray of a (stationary) reference frame into one which relativly moves
 ''' with a constant velocity in x-direction.
 ''' </summary>
-''' The origins of the reference frames are equal, their times are equal.
+''' When the origins of the reference frames are equal, their times are 0.
 ''' <remarks></remarks>
 Public Class RelativisticRayTransformation
 
@@ -43,7 +43,7 @@ Public Class RelativisticRayTransformation
     End Function
 
     Public Function GetTransformedWavelength(ByVal ray As Ray, ByVal wavelength As Double) As Double
-        Return wavelength * GetTransformedWavelengthFactor(ray)
+        Return wavelength * Me.GetTransformedWavelengthFactor(ray)
     End Function
 
     Private Function GetTransformedWavelengthFactor(ByVal ray As Ray) As Double

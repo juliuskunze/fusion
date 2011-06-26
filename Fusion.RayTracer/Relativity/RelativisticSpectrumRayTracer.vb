@@ -15,8 +15,8 @@
 
     Private _RayTransformation As RelativisticRayTransformation
 
-    Public Overrides Function GetColor(ByVal startRay As Ray) As FunctionLightSpectrum
-        Dim transformedIntensityFunction = _RayTransformation.GetTransformedIntensityFunction(ray:=startRay, intensityFunction:=MyBase.GetColor(startRay:=startRay).IntensityFunction)
+    Public Overrides Function GetLight(ByVal startRay As Ray) As FunctionLightSpectrum
+        Dim transformedIntensityFunction = _RayTransformation.GetTransformedIntensityFunction(ray:=startRay, intensityFunction:=MyBase.GetLight(startRay:=startRay).IntensityFunction)
 
         Return New FunctionLightSpectrum(IntensityFunction:=transformedIntensityFunction)
     End Function

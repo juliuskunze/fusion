@@ -18,12 +18,12 @@ Public Class RelativisticRayTracer(Of TLight As {ILight(Of TLight), New})
 
     Private _RayTransformation As RelativisticRayTransformation
 
-    Public Overrides Function GetColor(ByVal startRay As Ray) As TLight
+    Public Overrides Function GetLight(ByVal startRay As Ray) As TLight
         Dim transformedRay = _RayTransformation.GetTransformedRay(ray:=startRay)
 
         Dim transformedIntensity = _RayTransformation.GetTransformedIntensity(ray:=startRay, intensity:=1)
 
-        Return MyBase.GetColor(transformedRay).MultiplyBrightness(transformedIntensity)
+        Return MyBase.GetLight(transformedRay).MultiplyBrightness(transformedIntensity)
     End Function
 
 End Class
