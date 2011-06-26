@@ -1,4 +1,4 @@
-Public Class ComponentScaledColorRemission
+Public Class RgbLightRemission
     Implements IRemission(Of RgbLight)
 
     Public Property RedAlbedo As Double
@@ -25,11 +25,11 @@ Public Class ComponentScaledColorRemission
                               blue:=Me.BlueAlbedo * light.Blue)
     End Function
 
-    Public ReadOnly Property NoRemission As Boolean Implements IRemission(Of RgbLight).NoRemission
+    Public ReadOnly Property IsBlack As Boolean Implements IRemission(Of RgbLight).IsBlack
         Get
             Return Me.RedAlbedo = 0 AndAlso
-                Me.GreenAlbedo = 0 AndAlso
-                Me.BlueAlbedo = 0
+                   Me.GreenAlbedo = 0 AndAlso
+                   Me.BlueAlbedo = 0
         End Get
     End Property
 End Class

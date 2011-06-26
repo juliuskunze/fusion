@@ -11,7 +11,7 @@ Public Class ScaledRemission(Of TLight As {ILight(Of TLight), New})
         Return light.MultiplyBrightness(Me.Albedo)
     End Function
 
-    Public ReadOnly Property NoRemission As Boolean Implements IRemission(Of TLight).NoRemission
+    Public ReadOnly Property IsBlack As Boolean Implements IRemission(Of TLight).IsBlack
         Get
             Return Me.Albedo = 0
         End Get

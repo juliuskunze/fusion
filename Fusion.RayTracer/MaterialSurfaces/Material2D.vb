@@ -24,21 +24,21 @@
     Public Property ReflectionRemission As IRemission(Of TLight)
     Public ReadOnly Property Reflects As Boolean
         Get
-            Return Not Me.ReflectionRemission.NoRemission
+            Return Not Me.ReflectionRemission.IsBlack
         End Get
     End Property
 
     Public Property TransparencyRemission As IRemission(Of TLight)
     Public ReadOnly Property IsTranslucent As Boolean
         Get
-            Return Not Me.TransparencyRemission.NoRemission
+            Return Not Me.TransparencyRemission.IsBlack
         End Get
     End Property
 
     Public Property ScatteringRemission As IRemission(Of TLight)
     Public ReadOnly Property Scatters As Boolean
         Get
-            Return Not Me.ScatteringRemission.NoRemission
+            Return Not Me.ScatteringRemission.IsBlack
         End Get
     End Property
 

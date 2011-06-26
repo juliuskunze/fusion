@@ -70,12 +70,11 @@
     <Compile Include="Examples\LensVideo.vb" />
     <Compile Include="Examples\RayTracingExamples.vb" />
     <Compile Include="IRayTracer.vb" />
-    <Compile Include="Light\ColorWavelengthConverter.vb" />
     <Compile Include="Light\FunctionLightSpectrum.vb" />
     <Compile Include="Light\ILight.vb" />
     <Compile Include="Light\ILightSpectrum.vb" />
     <Compile Include="Light\Remission\BlackRemission.vb" />
-    <Compile Include="Light\Remission\ComponentScaledColorRemission.vb" />
+    <Compile Include="Light\Remission\RgbLightRemission.vb" />
     <Compile Include="Light\Remission\FullRemission.vb" />
     <Compile Include="Light\Remission\IRemission.vb" />
     <Compile Include="Light\Remission\ScaledRemission.vb" />

@@ -1,7 +1,7 @@
 ﻿Public Class BlackRemission(Of TLight As {ILight(Of TLight), New})
     Implements IRemission(Of TLight)
 
-    Public ReadOnly Property NoRemission As Boolean Implements IRemission(Of TLight).NoRemission
+    Public ReadOnly Property IsBlack As Boolean Implements IRemission(Of TLight).IsBlack
         Get
             Return True
         End Get

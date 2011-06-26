@@ -15,7 +15,7 @@
 
     Public Shared Function Scattering(ByVal color As RgbLight) As Material2D(Of RgbLight)
         Return New Material2D(Of RgbLight)(sourceLight:=RgbLight.Black,
-                              scatteringRemission:=New ComponentScaledColorRemission(color),
+                              scatteringRemission:=New RgbLightRemission(color),
                               reflectionRemission:=New BlackRemission(Of RgbLight),
                               transparencyRemission:=New BlackRemission(Of RgbLight))
     End Function

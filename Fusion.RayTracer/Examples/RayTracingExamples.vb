@@ -201,11 +201,11 @@ Public Class RayTracingExamples
         Dim metal = ColorMaterials2D.Reflecting
 
         Dim blueGroundMaterial = New Material2D(Of RgbLight)(sourceLight:=New RgbLight(Color.Black),
-                             scatteringRemission:=New ComponentScaledColorRemission(Color.Blue),
+                             scatteringRemission:=New RgbLightRemission(Color.Blue),
                              reflectionRemission:=New ScaledRemission(Of RgbLight)(0.5),
                              transparencyRemission:=New BlackRemission(Of RgbLight))
         Dim whiteGroundMaterial = New Material2D(Of RgbLight)(sourceLight:=RgbLight.Black,
-                                             scatteringRemission:=New ComponentScaledColorRemission(Color.White),
+                                             scatteringRemission:=New RgbLightRemission(Color.White),
                                              reflectionRemission:=New ScaledRemission(Of RgbLight)(0.5),
                                              transparencyRemission:=New BlackRemission(Of RgbLight))
         Dim groundRectangle = New Fusion.Math.Rectangle(frontRightDown, origin, backLeftDown)
