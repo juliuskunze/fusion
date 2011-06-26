@@ -16,8 +16,6 @@
         Dim width = 1000
         Dim height = 1000
 
-
-
         Dim bitmap = New SimpleBitmap(width:=width, height:=height)
 
         Dim wavelengthStep = (SpectrumToRgbConverter.UpperWavelengthBound - SpectrumToRgbConverter.LowerWavelengthBound) / width
