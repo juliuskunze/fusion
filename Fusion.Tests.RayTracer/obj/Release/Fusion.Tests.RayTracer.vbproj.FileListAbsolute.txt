@@ -61,5 +61,4 @@ B:\Fusion Repository\Fusion.Tests.RayTracer\obj\Release\Fusion.Tests.RayTracer.p
 B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.RayTracer.dll
 B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.RayTracer.pdb
 B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Fusion.RayTracer.xml
-B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Data\CIE 1931 RGB tristimulus values.txt
 B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Release\Data\2000pixel spectrum sRGB (380nm to 710nm).bmp

@@ -23,7 +23,7 @@
             End Try
         End If
 
-        Me.Close()
+        Me.Hide()
     End Sub
 
     Public ReadOnly Property FixTestTime As Double
@@ -58,6 +58,12 @@
 
         _FixTimeTextBox.IsEnabled = _FixTimeRadioButton.IsChecked.Value
         _FixPixelCountTextBox.IsEnabled = _FixPixelCountRadioButton.IsChecked.Value
+    End Sub
+
+    Protected Overrides Sub OnClosing(ByVal e As System.ComponentModel.CancelEventArgs)
+        e.Cancel = True
+
+        Me.Hide()
     End Sub
 
 End Class

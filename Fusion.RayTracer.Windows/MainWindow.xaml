@@ -26,14 +26,7 @@
                 <ProgressBar Name="_RenderProgressBar" Height="25" Maximum="1"></ProgressBar>
                 <Button Name="_SaveButton">Save...</Button>
                 <GroupBox Header="Picture size">
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <RadioButton Name="_CustomSizeRadioButton" VerticalAlignment="Center" IsChecked="True">Custom size</RadioButton>
-                            <TextBox Name="_CustomSizeTextBox"></TextBox>
-                        </StackPanel>
-                        <RadioButton Name="_WindowSizeRadioButton">Window size</RadioButton>
-                        <RadioButton Name="_ScreenSizeRadioButton">Screen size</RadioButton>
-                    </StackPanel>
+                    <TextBox Grid.Column="1" Name="_CustomSizeTextBox" HorizontalAlignment="Stretch">100;100</TextBox>
                 </GroupBox>
                 <GroupBox Header="Rendering">
                     <StackPanel>

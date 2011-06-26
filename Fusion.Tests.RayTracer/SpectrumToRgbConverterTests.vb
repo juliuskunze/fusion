@@ -2,14 +2,14 @@
 
     <Test()>
     Public Sub TestWhite()
-        Dim _Converter = New SpectrumToRgbConverter(testStepCount:=25)
+        Dim _Converter = New SpectrumToRgbConverter(testStepCount:=150)
 
         Dim whiteSpectrum = New FunctionLightSpectrum(IntensityFunction:=Function(wavelength) 1)
         Dim white = _Converter.Convert(whiteSpectrum)
 
-        Assert.That(Abs(1 - white.Red), [Is].LessThan(0.25))
-        Assert.That(Abs(1 - white.Green), [Is].LessThan(0.25))
-        Assert.That(Abs(1 - white.Blue), [Is].LessThan(0.25))
+        Assert.That(Abs(1 - white.Red), [Is].LessThan(0.01))
+        Assert.That(Abs(1 - white.Green), [Is].LessThan(0.01))
+        Assert.That(Abs(1 - white.Blue), [Is].LessThan(0.01))
 
     End Sub
 

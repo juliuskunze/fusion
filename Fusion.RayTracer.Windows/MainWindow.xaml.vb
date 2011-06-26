@@ -11,7 +11,6 @@
 
     Public Sub New()
         Me.InitializeComponent()
-        _ScreenSizeRadioButton.Content = "Screen " & New Vector2D(WindowExtensions.ScreenSize).ToString
     End Sub
 
     Private Sub RenderButton_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles _RenderButton.Click
@@ -40,32 +39,18 @@
     End Function
 
     Private Function TryGetPictureSize(ByRef out_size As System.Drawing.Size) As Boolean
-        If _CustomSizeRadioButton.IsChecked Then
-            If Not _CustomPictureSizeOk Then Return False
-            out_size = _CustomPictureSize
-        ElseIf _WindowSizeRadioButton.IsChecked Then
-            out_size = _ResultImageContainer.SizeInPixels
-        Else
-            out_size = WindowExtensions.ScreenSize
-        End If
-
+        If Not _CustomPictureSizeOk Then Return False
+        out_size = _CustomPictureSize
         Return True
     End Function
 
-    Private Sub MainWindow_Loaded(ByVal sender As Object, ByVal e As System.Windows.RoutedEventArgs) Handles Me.Loaded
-        _CustomSizeTextBox.Text = New Vector2D(_ResultImageContainer.SizeInPixels).ToString
-    End Sub
-
-    '!!!Private Sub pictureBox_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles _PictureBox.MouseDown
-    '    SetColorPanelPixel(e.Location)
-    'End Sub
-
-    '!!!Private Sub SetColorPanelPixel(ByVal mouseLocation As Point)
-    '    colorPanel.BackColor = _RayTraceDrawer.GetPixelColor(mouseLocation.X, mouseLocation.Y)
-    'End Sub
-
     Private Sub RayTraceDrawer_ProgressIncreased(ByVal sender As Object, ByVal e As ProgressEventArgs) Handles _RayTraceDrawer.ProgressIncreased
-        _RenderProgressBar.Value = e.Progress
+        Select Case e.Progress
+            Case 1
+                _RenderProgressBar.Value = 0
+            Case Else
+                _RenderProgressBar.Value = e.Progress
+        End Select
     End Sub
 
     Private Sub SaveButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _SaveButton.Click
@@ -80,12 +65,6 @@
         Else
             MessageBox.Show("Saving failed.")
         End If
-    End Sub
-
-    Private Sub CustomSizeRadioButton_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles _CustomSizeRadioButton.Checked
-        If Not Me.IsLoaded Then Return
-
-        _CustomSizeTextBox.IsEnabled = _CustomSizeRadioButton.IsChecked.Value
     End Sub
 
     Private Sub customSizeTextBox_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles _CustomSizeTextBox.TextChanged
@@ -153,11 +132,8 @@
 
     Private _CalculateTimeOptionsDialog As New CalculateTimeOptionsDialog
 
-    Private Sub ResultImage_SizeChanged(ByVal sender As System.Object, ByVal e As SizeChangedEventArgs) Handles _ResultImage.SizeChanged
-        _WindowSizeRadioButton.Content = "Window " & New Vector2D(_ResultImageContainer.SizeInPixels).ToString
-    End Sub
-
     Private Sub CalculateNeededTimeOptionsButton_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles _CalculateNeededTimeOptionsButton.Click
         _CalculateTimeOptionsDialog.ShowDialog()
     End Sub
+
 End Class

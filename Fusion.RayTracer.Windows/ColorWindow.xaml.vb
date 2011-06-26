@@ -1,6 +1,6 @@
 ﻿Public Class ColorWindow
 
-    Private ReadOnly _SpectrumToRgbConverter As New SpectrumToRgbConverter(testStepCount:=25)
+    Private _SpectrumToRgbConverter As New SpectrumToRgbConverter(testStepCount:=150)
 
     Public Sub New()
         Me.InitializeComponent()
@@ -14,20 +14,16 @@
 
     Private Sub DrawSpectrum()
         Dim width = 1000
-        Dim height = 1000
+        Dim height = 400
 
         Dim bitmap = New SimpleBitmap(width:=width, height:=height)
 
         Dim wavelengthStep = (SpectrumToRgbConverter.UpperWavelengthBound - SpectrumToRgbConverter.LowerWavelengthBound) / width
         For x = 0 To width - 1
-            Dim unchangedColor = _SpectrumToRgbConverter.GetIntensityPerWavelength(wavelength:=SpectrumToRgbConverter.LowerWavelengthBound + x * wavelengthStep) * _IntensitySlider.Value
-
-            Dim color = (New HsbColor(hue:=HsbColor.FromRgbColor(unchangedColor.ToColor).Hue,
-                                      saturation:=0,
-                                      brightness:=1)).ToRgbColor
+            Dim color = _SpectrumToRgbConverter.GetIntensityPerWavelength(wavelength:=SpectrumToRgbConverter.LowerWavelengthBound + x * wavelengthStep) * _IntensitySlider.Value
 
             For y = 0 To height - 1
-                bitmap.SetPixel(x:=x, y:=y, color:=unchangedColor.ToColor)
+                bitmap.SetPixel(x:=x, y:=y, color:=color.ToColor)
             Next
 
         Next
