@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<AssemblyDependencies>
+  <Dependencies_For Assembly="Fusion.Math v1.0.0.0">
+    <DependsOn>
+      <DependsOn_Name>mscorlib v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Microsoft.VisualBasic v10.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Xml.Linq v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Drawing v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Core v4.0.0.0</DependsOn_Name>
+    </DependsOn>
+    <ReferencedBy>
+      <ReferencedBy_Name>Fusion.Physics.Interaction v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.Physics v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.Evolution v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.Visualization v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.Forms v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.Flow v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.Physics.Visualization v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.Evolution.Visualization v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.Tests.RayTracer v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.Tests.Math v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.Ry.Forms v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.Tests.Visualization v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.Calculator v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.RayTracer.Windows v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.RayTracer v1.0.0.0</ReferencedBy_Name>
+    </ReferencedBy>
+  </Dependencies_For>
+  <Dependencies_For Assembly="Fusion.Physics v1.0.0.0">
+    <DependsOn>
+      <DependsOn_Name>mscorlib v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Microsoft.VisualBasic v10.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Xml.Linq v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Math v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Drawing v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Core v4.0.0.0</DependsOn_Name>
+    </DependsOn>
+    <ReferencedBy>
+      <ReferencedBy_Name>Fusion.IO v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.Physics.Interaction v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.Evolution v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.Forms v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.Physics.Visualization v1.0.0.0</ReferencedBy_Name>
+    </ReferencedBy>
+  </Dependencies_For>
+  <Dependencies_For Assembly="Fusion.IO v1.0.0.0">
+    <DependsOn>
+      <DependsOn_Name>mscorlib v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Microsoft.VisualBasic v10.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Xml.Linq v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Physics v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Core v4.0.0.0</DependsOn_Name>
+    </DependsOn>
+    <ReferencedBy>
+      <ReferencedBy_Name>Fusion.Forms v1.0.0.0</ReferencedBy_Name>
+    </ReferencedBy>
+  </Dependencies_For>
+  <Dependencies_For Assembly="Fusion.Physics.Interaction v1.0.0.0">
+    <DependsOn>
+      <DependsOn_Name>mscorlib v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Microsoft.VisualBasic v10.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Xml.Linq v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Physics v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Math v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Core v4.0.0.0</DependsOn_Name>
+    </DependsOn>
+    <ReferencedBy>
+      <ReferencedBy_Name>Fusion.Forms v1.0.0.0</ReferencedBy_Name>
+    </ReferencedBy>
+  </Dependencies_For>
+  <Dependencies_For Assembly="Fusion.Evolution v1.0.0.0">
+    <DependsOn>
+      <DependsOn_Name>mscorlib v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Microsoft.VisualBasic v10.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Xml.Linq v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Physics v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Math v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Core v4.0.0.0</DependsOn_Name>
+    </DependsOn>
+    <ReferencedBy>
+      <ReferencedBy_Name>Fusion.Forms v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.Evolution.Visualization v1.0.0.0</ReferencedBy_Name>
+    </ReferencedBy>
+  </Dependencies_For>
+  <Dependencies_For Assembly="Fusion.Visualization v1.0.0.0">
+    <DependsOn>
+      <DependsOn_Name>mscorlib v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Microsoft.VisualBasic v10.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Xml.Linq v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Drawing v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Windows.Forms v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Math v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Core v4.0.0.0</DependsOn_Name>
+    </DependsOn>
+    <ReferencedBy>
+      <ReferencedBy_Name>Fusion.Forms v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.Flow v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.Physics.Visualization v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.Evolution.Visualization v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.Tests.RayTracer v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.Tests.Visualization v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.RayTracer v1.0.0.0</ReferencedBy_Name>
+    </ReferencedBy>
+  </Dependencies_For>
+  <Dependencies_For Assembly="Fusion.Physics.Visualization v1.0.0.0">
+    <DependsOn>
+      <DependsOn_Name>mscorlib v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Microsoft.VisualBasic v10.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Xml.Linq v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Visualization v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Drawing v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Physics v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Math v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Core v4.0.0.0</DependsOn_Name>
+    </DependsOn>
+    <ReferencedBy>
+      <ReferencedBy_Name>Fusion.Forms v1.0.0.0</ReferencedBy_Name>
+    </ReferencedBy>
+  </Dependencies_For>
+  <Dependencies_For Assembly="Fusion.Evolution.Visualization v1.0.0.0">
+    <DependsOn>
+      <DependsOn_Name>mscorlib v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Microsoft.VisualBasic v10.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Xml.Linq v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Visualization v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Math v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Evolution v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Drawing v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Core v4.0.0.0</DependsOn_Name>
+    </DependsOn>
+    <ReferencedBy>
+      <ReferencedBy_Name>Fusion.Forms v1.0.0.0</ReferencedBy_Name>
+    </ReferencedBy>
+  </Dependencies_For>
+  <Dependencies_For Assembly="Fusion.Forms v1.0.0.0">
+    <DependsOn>
+      <DependsOn_Name>mscorlib v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Microsoft.VisualBasic v10.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Windows.Forms v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Xml.Linq v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Evolution v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Visualization v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Physics.Visualization v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Physics v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.IO v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Physics.Interaction v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Math v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Evolution.Visualization v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Core v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Drawing v4.0.0.0</DependsOn_Name>
+    </DependsOn>
+  </Dependencies_For>
+  <Dependencies_For Assembly="Fusion.Flow v1.0.0.0">
+    <DependsOn>
+      <DependsOn_Name>mscorlib v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Microsoft.VisualBasic v10.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Windows.Forms v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Xml.Linq v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Math v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Visualization v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Drawing v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Core v4.0.0.0</DependsOn_Name>
+    </DependsOn>
+  </Dependencies_For>
+  <Dependencies_For Assembly="Fusion.RayTracer v1.0.0.0">
+    <DependsOn>
+      <DependsOn_Name>mscorlib v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Microsoft.VisualBasic v10.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Xml.Linq v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Drawing v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Math v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Visualization v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Core v4.0.0.0</DependsOn_Name>
+    </DependsOn>
+    <ReferencedBy>
+      <ReferencedBy_Name>Fusion.Tests.RayTracer v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.Ry.Forms v1.0.0.0</ReferencedBy_Name>
+      <ReferencedBy_Name>Fusion.RayTracer.Windows v1.0.0.0</ReferencedBy_Name>
+    </ReferencedBy>
+  </Dependencies_For>
+  <Dependencies_For Assembly="Fusion.Tests.RayTracer v1.0.0.0">
+    <DependsOn>
+      <DependsOn_Name>mscorlib v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Microsoft.VisualBasic v10.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Xml.Linq v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.RayTracer v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Core v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Drawing v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>nunit.framework v2.5.5.10112</DependsOn_Name>
+      <DependsOn_Name>Fusion.Visualization v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Math v1.0.0.0</DependsOn_Name>
+    </DependsOn>
+  </Dependencies_For>
+  <Dependencies_For Assembly="Fusion.Tests.Math v1.0.0.0">
+    <DependsOn>
+      <DependsOn_Name>mscorlib v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Microsoft.VisualBasic v10.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Xml.Linq v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Math v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Core v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>nunit.framework v2.5.5.10112</DependsOn_Name>
+      <DependsOn_Name>System.Drawing v4.0.0.0</DependsOn_Name>
+    </DependsOn>
+  </Dependencies_For>
+  <Dependencies_For Assembly="Fusion.Ry.Forms v1.0.0.0">
+    <DependsOn>
+      <DependsOn_Name>mscorlib v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Microsoft.VisualBasic v10.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Windows.Forms v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Xml.Linq v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.RayTracer v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Drawing v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Core v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Math v1.0.0.0</DependsOn_Name>
+    </DependsOn>
+  </Dependencies_For>
+  <Dependencies_For Assembly="Fusion.Tests.Visualization v1.0.0.0">
+    <DependsOn>
+      <DependsOn_Name>mscorlib v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Microsoft.VisualBasic v10.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Xml.Linq v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Drawing v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Core v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Visualization v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>nunit.framework v2.5.5.10112</DependsOn_Name>
+      <DependsOn_Name>Fusion.Math v1.0.0.0</DependsOn_Name>
+    </DependsOn>
+  </Dependencies_For>
+  <Dependencies_For Assembly="Fusion.Calculator v1.0.0.0">
+    <DependsOn>
+      <DependsOn_Name>mscorlib v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Microsoft.VisualBasic v10.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Xml.Linq v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>PresentationFramework v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Xaml v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>PresentationCore v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Core v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Math v1.0.0.0</DependsOn_Name>
+    </DependsOn>
+  </Dependencies_For>
+  <Dependencies_For Assembly="Fusion.RayTracer.Windows v1.0.0.0">
+    <DependsOn>
+      <DependsOn_Name>mscorlib v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Microsoft.VisualBasic v10.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Xml.Linq v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>PresentationFramework v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Xaml v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>PresentationCore v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>System.Drawing v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.RayTracer v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>RibbonControlsLibrary v4.0.0.11019</DependsOn_Name>
+      <DependsOn_Name>System.Core v4.0.0.0</DependsOn_Name>
+      <DependsOn_Name>Fusion.Math v1.0.0.0</DependsOn_Name>
+      <DependsOn_Name>WindowsBase v4.0.0.0</DependsOn_Name>
+    </DependsOn>
+  </Dependencies_For>
+</AssemblyDependencies>

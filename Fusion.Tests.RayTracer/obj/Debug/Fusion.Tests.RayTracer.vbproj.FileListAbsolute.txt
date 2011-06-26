@@ -54,3 +54,14 @@ B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Debug\Fusion.Ry.xml
 B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Debug\Fusion.Visualization.pdb
 B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Debug\Fusion.Visualization.xml
 B:\Fusion Repository\Fusion.Tests.RayTracer\bin\Debug\nunit.framework.xml
+B:\Fusion Repository\BuildOutput\Tests\bin\debug\Data\2000pixel spectrum sRGB (380nm to 710nm).bmp
+B:\Fusion Repository\BuildOutput\Tests\bin\debug\Fusion.Tests.RayTracer.dll
+B:\Fusion Repository\BuildOutput\Tests\bin\debug\Fusion.Tests.RayTracer.pdb
+B:\Fusion Repository\BuildOutput\Tests\bin\debug\Fusion.Tests.RayTracer.xml
+B:\Fusion Repository\Fusion.Tests.RayTracer\obj\Debug\ResolveAssemblyReference.cache
+B:\Fusion Repository\Fusion.Tests.RayTracer\obj\Debug\Fusion.Tests.RayTracer.Resources.resources
+B:\Fusion Repository\Fusion.Tests.RayTracer\obj\Debug\GenerateResource.read.1.tlog
+B:\Fusion Repository\Fusion.Tests.RayTracer\obj\Debug\GenerateResource.write.1.tlog
+B:\Fusion Repository\Fusion.Tests.RayTracer\obj\Debug\Fusion.Tests.RayTracer.dll
+B:\Fusion Repository\Fusion.Tests.RayTracer\obj\Debug\Fusion.Tests.RayTracer.xml
+B:\Fusion Repository\Fusion.Tests.RayTracer\obj\Debug\Fusion.Tests.RayTracer.pdb

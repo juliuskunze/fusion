@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<AssemblySortForCompilOrObfusk>
+  <Assembly Assembly="Fusion.Math">14</Assembly>
+  <Assembly Assembly="Fusion.Physics">15</Assembly>
+  <Assembly Assembly="Fusion.IO">16</Assembly>
+  <Assembly Assembly="Fusion.Physics.Interaction">17</Assembly>
+  <Assembly Assembly="Fusion.Evolution">18</Assembly>
+  <Assembly Assembly="Fusion.Visualization">19</Assembly>
+  <Assembly Assembly="Fusion.Physics.Visualization">20</Assembly>
+  <Assembly Assembly="Fusion.Evolution.Visualization">21</Assembly>
+  <Assembly Assembly="Fusion.Forms">22</Assembly>
+  <Assembly Assembly="Fusion.Flow">23</Assembly>
+  <Assembly Assembly="Fusion.RayTracer">24</Assembly>
+  <Assembly Assembly="Fusion.Tests.RayTracer">25</Assembly>
+  <Assembly Assembly="Fusion.Tests.Math">26</Assembly>
+  <Assembly Assembly="Fusion.Ry.Forms">27</Assembly>
+  <Assembly Assembly="Fusion.Tests.Visualization">28</Assembly>
+  <Assembly Assembly="Fusion.Calculator">29</Assembly>
+  <Assembly Assembly="Fusion.RayTracer.Windows">30</Assembly>
+</AssemblySortForCompilOrObfusk>

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<ApplicationMetrics NAsm="17" NbLinesOfCode="8242" NbLinesOfComment="0" PercentageComment="0" NType="416" NClass="371" NAbstractClass="0" NInterface="32" NValueType="6" NExceptionType="0" NAttributeType="0" NDelegateType="8" NEnumType="7" NGenericMethodsDefinition="43" NGenericTypesDefinition="57" NILInstruction="63828" NMethods="2818" NFields="883" NNamespaces="51" NThirdPartyAssemblies="13" NThirdPartyNamespaces="47" NThirdPartyTypes="287" NThirdPartyMethods="536" NThirdPartyFields="22" PercentCodeCoverage="0" PercentPublicType="57.45" PercentPublicMethod="66" PercentClassWithAtLeastOnePublicField="1.68">
+  <PropertyOnInterface Occ="32" Avg="0.69" StdDev="1.36" MaxVal="6" MaxName="Fusion.Math.ICoordinateSystemToArray&lt;T&gt;" />
+  <MethodOnInterface Occ="32" Avg="2.41" StdDev="2.23" MaxVal="11" MaxName="Fusion.Math.ICoordinateSystemToArray&lt;T&gt;" />
+  <ArgOnMethodOnInterface Occ="77" Avg="0.81" StdDev="0.68" MaxVal="2" MaxName="Fusion.IO.ISerializer&lt;T&gt;.Serialize(T,String)" />
+  <PublicPropertyOnClass Occ="371" Avg="1.16" StdDev="1.93" MaxVal="12" MaxName="Fusion.Physics.ParticleSystem2D" />
+  <PublicMethodOnClass Occ="371" Avg="4.54" StdDev="4.82" MaxVal="23" MaxName="Fusion.Physics.Visualization.ParticleSystem2DDrawer" />
+  <ArgOnPublicMethodOnClass Occ="1685" Avg="0.93" StdDev="1.17" MaxVal="7" MaxName="Fusion.Flow.FlowDrawer2D&lt;T&gt;..ctor(Visualizer2D,ICoordinateSystemToArray&lt;T&gt;,Double,Double,FlowDrawer2D&lt;T&gt;+VelocityDisplayModes,Boolean,Boolean)" />
+  <ILInstructionInNonAbstractMethods Occ="2741" Avg="23.29" StdDev="53.87" MaxVal="1375" MaxName="Fusion.Forms.ParticleSystem2DForm.InitializeComponent()" />
+  <TypeWithTheMostILInstruction Occ="371" Avg="166.24" StdDev="307.04" MaxVal="3619" MaxName="Fusion.Forms.ParticleSystem2DForm" />
+  <MethodCC Occ="2741" Avg="1.92" StdDev="2.7" MaxVal="57" MaxName="Fusion.Math.TermParser.TermWithoutBlanksToValue(String)" />
+</ApplicationMetrics>

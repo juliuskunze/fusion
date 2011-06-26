@@ -1,7 +1,6 @@
 ﻿Class MainWindow
 
     Private WithEvents _RayTraceDrawer As RayTraceDrawer(Of RgbLight)
-    Private _BackColor As Color
     Private _Picture As System.Drawing.Bitmap
 
     Private _CustomPictureSizeOk As Boolean = False

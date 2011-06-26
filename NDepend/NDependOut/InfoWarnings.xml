@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<InfoWarnings>
+  <Info>06.26.2011 20:02:21 Begin full analysis with NDepend v3.7.0</Info>
+  <Info>No Baseline for Comparison loaded.</Info>
+  <Info>Concurrent mode</Info>
+  <Info>Assemblies loaded from {C:\Windows\Microsoft.NET\Framework\v4.0.30319} 
+   mscorlib.dll   v4.0.0.0
+   Microsoft.VisualBasic.dll   v10.0.0.0
+   System.Xml.Linq.dll   v4.0.0.0
+   System.Drawing.dll   v4.0.0.0
+   System.Windows.Forms.dll   v4.0.0.0
+   System.dll   v4.0.0.0
+   System.Core.dll   v4.0.0.0
+   System.Xaml.dll   v4.0.0.0</Info>
+  <Info>Assemblies loaded from {C:\Windows\Microsoft.NET\Framework\v4.0.30319\WPF} 
+   PresentationFramework.dll   v4.0.0.0
+   PresentationCore.dll   v4.0.0.0
+   WindowsBase.dll   v4.0.0.0</Info>
+  <Info>Assemblies loaded from {B:\Fusion Repository\BuildOutput\bin\debug} 
+   Fusion.IO.dll   v1.0.0.0
+   Fusion.Math.dll   v1.0.0.0
+   Fusion.Physics.Interaction.dll   v1.0.0.0
+   Fusion.Physics.dll   v1.0.0.0
+   Fusion.Evolution.dll   v1.0.0.0
+   Fusion.Visualization.dll   v1.0.0.0
+   Fusion.Forms.exe   v1.0.0.0
+   Fusion.Flow.exe   v1.0.0.0
+   Fusion.Physics.Visualization.dll   v1.0.0.0
+   Fusion.Evolution.Visualization.dll   v1.0.0.0
+   Fusion.Ry.Forms.exe   v1.0.0.0
+   Fusion.RayTracer.dll   v1.0.0.0</Info>
+  <Info>Assemblies loaded from {B:\Fusion Repository\BuildOutput\Tests\bin\debug} 
+   Fusion.Tests.RayTracer.dll   v1.0.0.0
+   Fusion.Tests.Math.dll   v1.0.0.0
+   Fusion.Tests.Visualization.dll   v1.0.0.0
+   nunit.framework.dll   v2.5.5.10112</Info>
+  <Info>Assemblies loaded from {B:\Fusion Repository\Fusion.Calculator\bin\Debug} 
+   Fusion.Calculator.exe   v1.0.0.0</Info>
+  <Info>Assemblies loaded from {B:\Fusion Repository\Fusion.RayTracer.Windows\bin\Debug} 
+   Fusion.RayTracer.Windows.exe   v1.0.0.0
+   RibbonControlsLibrary.dll   v4.0.0.11019</Info>
+  <Warning>No application or third party assembly found in directory {B:\Fusion Repository\Fusion.RayTracer\bin\Debug}</Warning>
+  <Info>0 CQL rule has been extracted from code.</Info>
+  <Info>No dependency cycle detected in assemblies referencement graph.</Info>
+  <Info>06.26.2011 20:02:23 Analyse dependencies of your application.</Info>
+  <Info>06.26.2011 20:02:23 Building the report (standard).</Info>
+  <Warning>1 critical rule is violated.
+  - Types too big - critical (NbLinesOfCode)</Warning>
+</InfoWarnings>

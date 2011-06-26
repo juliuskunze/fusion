@@ -101,3 +101,13 @@ B:\Fusion Repository\Fusion.Physics.Interaction\bin\Debug\Fusion.Math.pdb
 B:\Fusion Repository\Fusion.Physics.Interaction\bin\Debug\Fusion.Math.xml
 B:\Fusion Repository\Fusion.Physics.Interaction\bin\Debug\Fusion.Physics.pdb
 B:\Fusion Repository\Fusion.Physics.Interaction\bin\Debug\Fusion.Physics.xml
+B:\Fusion Repository\BuildOutput\bin\debug\Fusion.Physics.Interaction.dll
+B:\Fusion Repository\BuildOutput\bin\debug\Fusion.Physics.Interaction.pdb
+B:\Fusion Repository\BuildOutput\bin\debug\Fusion.Physics.Interaction.xml
+B:\Fusion Repository\Fusion.Physics.Interaction\obj\Debug\ResolveAssemblyReference.cache
+B:\Fusion Repository\Fusion.Physics.Interaction\obj\Debug\Fusion.Physics.Interaction.Resources.resources
+B:\Fusion Repository\Fusion.Physics.Interaction\obj\Debug\GenerateResource.read.1.tlog
+B:\Fusion Repository\Fusion.Physics.Interaction\obj\Debug\GenerateResource.write.1.tlog
+B:\Fusion Repository\Fusion.Physics.Interaction\obj\Debug\Fusion.Physics.Interaction.dll
+B:\Fusion Repository\Fusion.Physics.Interaction\obj\Debug\Fusion.Physics.Interaction.xml
+B:\Fusion Repository\Fusion.Physics.Interaction\obj\Debug\Fusion.Physics.Interaction.pdb

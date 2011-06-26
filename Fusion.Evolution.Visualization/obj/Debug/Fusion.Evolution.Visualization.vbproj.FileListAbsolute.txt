@@ -57,3 +57,13 @@ B:\Fusion Repository\Fusion.Evolution.Visualization\bin\Debug\Fusion.Visualizati
 B:\Fusion Repository\Fusion.Evolution.Visualization\bin\Debug\Fusion.Visualization.xml
 B:\Fusion Repository\Fusion.Evolution.Visualization\bin\Debug\Fusion.Physics.pdb
 B:\Fusion Repository\Fusion.Evolution.Visualization\bin\Debug\Fusion.Physics.xml
+B:\Fusion Repository\BuildOutput\bin\debug\Fusion.Evolution.Visualization.dll
+B:\Fusion Repository\BuildOutput\bin\debug\Fusion.Evolution.Visualization.pdb
+B:\Fusion Repository\BuildOutput\bin\debug\Fusion.Evolution.Visualization.xml
+B:\Fusion Repository\Fusion.Evolution.Visualization\obj\Debug\ResolveAssemblyReference.cache
+B:\Fusion Repository\Fusion.Evolution.Visualization\obj\Debug\Fusion.Evolution.Visualization.Resources.resources
+B:\Fusion Repository\Fusion.Evolution.Visualization\obj\Debug\GenerateResource.read.1.tlog
+B:\Fusion Repository\Fusion.Evolution.Visualization\obj\Debug\GenerateResource.write.1.tlog
+B:\Fusion Repository\Fusion.Evolution.Visualization\obj\Debug\Fusion.Evolution.Visualization.dll
+B:\Fusion Repository\Fusion.Evolution.Visualization\obj\Debug\Fusion.Evolution.Visualization.xml
+B:\Fusion Repository\Fusion.Evolution.Visualization\obj\Debug\Fusion.Evolution.Visualization.pdb

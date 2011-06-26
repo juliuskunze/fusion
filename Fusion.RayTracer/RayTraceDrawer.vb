@@ -25,8 +25,6 @@
 
     Public Property RayTracer As IRayTracer(Of TLight)
 
-    Private _Origin As Vector2D
-
     Public Function GetPicture() As Bitmap
         Dim bitmap = New Bitmap(Me.PictureSize.Width, Me.PictureSize.Height)
 
