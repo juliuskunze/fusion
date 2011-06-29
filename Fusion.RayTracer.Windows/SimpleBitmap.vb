@@ -17,6 +17,10 @@
         Next
     End Sub
 
+    Public Sub New(ByVal size As System.Drawing.Size)
+        Me.New(width:=size.Width, height:=size.Height)
+    End Sub
+
     Public Sub New(ByVal width As Integer, ByVal height As Integer)
         _Width = width
         _Height = height

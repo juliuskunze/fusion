@@ -23,7 +23,7 @@
             </Grid>
             <StackPanel Grid.Column="1">
                 <Button Name="_RenderButton">Render</Button>
-                <ProgressBar Name="_RenderProgressBar" Height="25" Maximum="1"></ProgressBar>
+                <ProgressBar Name="_RenderProgressBar" Height="25" Maximum="100"></ProgressBar>
                 <Button Name="_SaveButton">Save...</Button>
                 <GroupBox Header="Picture size">
                     <TextBox Grid.Column="1" Name="_CustomSizeTextBox" HorizontalAlignment="Stretch">100;100</TextBox>

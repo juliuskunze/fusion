@@ -1,7 +1,10 @@
 ﻿Class MainWindow
 
     Private WithEvents _RayTraceDrawer As RayTraceDrawer(Of RgbLight)
-    Private _Picture As System.Drawing.Bitmap
+    Private _ResultBitmap As System.Drawing.Bitmap
+    Private _RenderStopwatch As Stopwatch
+
+    Private WithEvents _RenderBackgroundWorker As ComponentModel.BackgroundWorker
 
     Private _CustomPictureSizeOk As Boolean = False
     Private _CustomPictureSize As System.Drawing.Size
@@ -10,23 +13,17 @@
 
     Public Sub New()
         Me.InitializeComponent()
+
+        _RenderBackgroundWorker = New ComponentModel.BackgroundWorker
+        _RenderBackgroundWorker.WorkerReportsProgress = True
+        _RenderBackgroundWorker.WorkerSupportsCancellation = True
     End Sub
 
     Private Sub RenderButton_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles _RenderButton.Click
         If Not Me.TrySetRayTracerDrawer Then Return
 
-        Dim stopwatch = New Stopwatch
-        stopwatch.Start()
-
-        _Picture = _RayTraceDrawer.GetPicture
-
-        stopwatch.Stop()
-        _TotalElapsedTimeLabel.Content = "Total elapsed time: " & stopwatch.Elapsed.ToString
-        _AverageElapsedTimePerPixelLabel.Content = "Average elapsed time per pixel: " & (stopwatch.ElapsedMilliseconds / (_Picture.Size.Width * _Picture.Size.Height)).ToString & "ms"
-
-        _ResultImage.Source = New SimpleBitmap(bitmap:=_Picture).ToBitmapSource
-
-        _SaveButton.IsEnabled = True
+        _RenderStopwatch = Stopwatch.StartNew
+        _RenderBackgroundWorker.RunWorkerAsync(_RayTraceDrawer)
     End Sub
 
     Private Function TrySetRayTracerDrawer() As Boolean
@@ -43,14 +40,7 @@
         Return True
     End Function
 
-    Private Sub RayTraceDrawer_ProgressIncreased(ByVal sender As Object, ByVal e As ProgressEventArgs) Handles _RayTraceDrawer.ProgressIncreased
-        Select Case e.Progress
-            Case 1
-                _RenderProgressBar.Value = 0
-            Case Else
-                _RenderProgressBar.Value = e.Progress
-        End Select
-    End Sub
+
 
     Private Sub SaveButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _SaveButton.Click
         _SaveFileDialog.FileName = "ray tracing picture "
@@ -60,7 +50,7 @@
         Loop
         _SaveFileDialog.FileName &= pictureNumber
         If _SaveFileDialog.ShowDialog Then
-            _Picture.Save(_SaveFileDialog.FileName)
+            _ResultBitmap.Save(_SaveFileDialog.FileName)
         Else
             MessageBox.Show("Saving failed.")
         End If
@@ -133,6 +123,42 @@
 
     Private Sub CalculateNeededTimeOptionsButton_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles _CalculateNeededTimeOptionsButton.Click
         _CalculateTimeOptionsDialog.ShowDialog()
+    End Sub
+
+    Private Sub RenderBackgroundWorker_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles _RenderBackgroundWorker.DoWork
+        Dim rayTracerDrawer = CType(e.Argument, RayTraceDrawer(Of RgbLight))
+
+        Dim resultBitmap = New System.Drawing.Bitmap(rayTracerDrawer.PictureSize.Width, rayTracerDrawer.PictureSize.Height)
+
+        For bitmapX = 0 To rayTracerDrawer.PictureSize.Width - 1
+            For bitmapY = 0 To rayTracerDrawer.PictureSize.Height - 1
+                resultBitmap.SetPixel(bitmapX, bitmapY, rayTracerDrawer.GetPixelColor(bitmapX, bitmapY))
+            Next
+            _RenderBackgroundWorker.ReportProgress(CInt((bitmapX + 1) / rayTracerDrawer.PictureSize.Width * 100))
+        Next
+
+        e.Result = resultBitmap
+    End Sub
+
+    Private Sub RenderBackgroundWorker_ProgressChanged(ByVal sender As Object, ByVal e As System.ComponentModel.ProgressChangedEventArgs) Handles _RenderBackgroundWorker.ProgressChanged
+        _RenderProgressBar.Value = e.ProgressPercentage
+    End Sub
+
+    Private Sub RenderBackgroundWorker_RunWorkerCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles _RenderBackgroundWorker.RunWorkerCompleted
+        If e.Error IsNot Nothing Then Throw e.Error
+        If e.Cancelled Then Return
+
+        _ResultBitmap = CType(e.Result, System.Drawing.Bitmap)
+
+        _ResultImage.Source = New SimpleBitmap(_ResultBitmap).ToBitmapSource
+
+        _RenderStopwatch.Stop()
+        _TotalElapsedTimeLabel.Content = "Total elapsed time: " & _RenderStopwatch.Elapsed.ToString
+        _AverageElapsedTimePerPixelLabel.Content = "Average elapsed time per pixel: " & (_RenderStopwatch.ElapsedMilliseconds / (_ResultBitmap.Size.Width * _ResultBitmap.Size.Height)).ToString & "ms"
+
+        _RenderProgressBar.Value = 0
+
+        _SaveButton.IsEnabled = True
     End Sub
 
 End Class

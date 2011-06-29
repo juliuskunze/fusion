@@ -32,7 +32,6 @@
             For bitmapY = 0 To Me.PictureSize.Height - 1
                 Me.SetPixelColor(bitmap, bitmapX, bitmapY)
             Next
-            RaiseEvent ProgressIncreased(Me, New ProgressEventArgs((bitmapX + 1) / Me.PictureSize.Width))
         Next
 
         Return bitmap
@@ -49,16 +48,4 @@
         Return Me.RayTracer.GetColor(startRay:=sightRay).ToColor
     End Function
 
-    Public Event ProgressIncreased(ByVal sender As Object, ByVal e As ProgressEventArgs)
-
-End Class
-
-Public Class ProgressEventArgs
-
-    Public Property Progress As Double
-
-    Public Sub New(ByVal progress As Double)
-        Me.Progress = progress
-    End Sub
-    
 End Class
