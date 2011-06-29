@@ -3,6 +3,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:r="clr-namespace:Microsoft.Windows.Controls.Ribbon;assembly=RibbonControlsLibrary"
     Title="Fusion Ray Tracer" Height="700" Width="525">
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo></TaskbarItemInfo>
+    </Window.TaskbarItemInfo>
+
     <Grid>    
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -25,7 +29,7 @@
                 <Button Name="_RenderButton">Render</Button>
                 <Button Name="_RenderCancelButton" Visibility="Collapsed">Cancel</Button>
                 
-                <ProgressBar Name="_RenderProgressBar" Height="25" Maximum="100"></ProgressBar>
+                <ProgressBar Name="_RenderProgressBar" Height="25" Maximum="100" Visibility="Collapsed"></ProgressBar>
                 <Button Name="_SaveButton" IsEnabled="False">Save...</Button>
                 <GroupBox Header="Picture size">
                     <TextBox Grid.Column="1" Name="_CustomSizeTextBox" HorizontalAlignment="Stretch">100;100</TextBox>

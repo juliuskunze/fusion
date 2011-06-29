@@ -22,9 +22,14 @@
     Private Sub RenderButton_Click(ByVal sender As System.Object, ByVal e As RoutedEventArgs) Handles _RenderButton.Click
         If Not Me.TrySetRayTracerDrawer Then Return
 
+        _RenderTimeCalculationGroupBox.Visibility = Visibility.Collapsed
         _RenderButton.Visibility = Visibility.Collapsed
         _RenderCancelButton.Visibility = Visibility.Visible
+        _RenderProgressBar.Visibility = Visibility.Visible
+        Me.TaskbarItemInfo.ProgressState = Shell.TaskbarItemProgressState.Normal
+
         _RenderStopwatch = Stopwatch.StartNew
+
         _RenderBackgroundWorker.RunWorkerAsync(_RayTraceDrawer)
     End Sub
 
@@ -133,6 +138,11 @@
         Dim resultBitmap = New System.Drawing.Bitmap(rayTracerDrawer.PictureSize.Width, rayTracerDrawer.PictureSize.Height)
 
         For bitmapX = 0 To rayTracerDrawer.PictureSize.Width - 1
+            If _RenderBackgroundWorker.CancellationPending Then
+                e.Cancel = True
+                Return
+            End If
+
             For bitmapY = 0 To rayTracerDrawer.PictureSize.Height - 1
                 rayTracerDrawer.SetPixelColor(resultBitmap, bitmapX, bitmapY)
             Next
@@ -148,16 +158,23 @@
 
     Private Sub RenderBackgroundWorker_RunWorkerCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles _RenderBackgroundWorker.RunWorkerCompleted
         If e.Error IsNot Nothing Then Throw e.Error
-        If e.Cancelled Then Return
 
-        _RenderTimeCalculationGroupBox.Visibility = Visibility.Collapsed
+        _RenderProgressBar.Value = 0
+        _RenderProgressBar.Visibility = Visibility.Collapsed
         _RenderButton.Visibility = Visibility.Visible
         _RenderCancelButton.Visibility = Visibility.Collapsed
+        _RenderStopwatch.Stop()
+        Me.TaskbarItemInfo.ProgressState = Shell.TaskbarItemProgressState.None
+
+        If e.Cancelled Then
+            _RenderTimeCalculationGroupBox.Visibility = Visibility.Visible
+            Return
+        End If
+
         _ResultBitmap = CType(e.Result, System.Drawing.Bitmap)
 
         _ResultImage.Source = New SimpleBitmap(_ResultBitmap).ToBitmapSource
 
-        _RenderStopwatch.Stop()
         _TotalElapsedTimeLabel.Content = "Total elapsed time: " & _RenderStopwatch.Elapsed.ToString
         _AverageElapsedTimePerPixelLabel.Content = "Average elapsed time per pixel: " & (_RenderStopwatch.ElapsedMilliseconds / (_ResultBitmap.Size.Width * _ResultBitmap.Size.Height)).ToString & "ms"
 
@@ -170,4 +187,7 @@
         _RenderBackgroundWorker.CancelAsync()
     End Sub
 
+    Private Sub _RenderProgressBar_ValueChanged(ByVal sender As Object, ByVal e As System.Windows.RoutedPropertyChangedEventArgs(Of Double)) Handles _RenderProgressBar.ValueChanged
+        Me.TaskbarItemInfo.ProgressValue = e.NewValue / 100
+    End Sub
 End Class
