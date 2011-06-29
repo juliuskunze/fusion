@@ -23,8 +23,10 @@
             </Grid>
             <StackPanel Grid.Column="1">
                 <Button Name="_RenderButton">Render</Button>
+                <Button Name="_RenderCancelButton" Visibility="Collapsed">Cancel</Button>
+                
                 <ProgressBar Name="_RenderProgressBar" Height="25" Maximum="100"></ProgressBar>
-                <Button Name="_SaveButton">Save...</Button>
+                <Button Name="_SaveButton" IsEnabled="False">Save...</Button>
                 <GroupBox Header="Picture size">
                     <TextBox Grid.Column="1" Name="_CustomSizeTextBox" HorizontalAlignment="Stretch">100;100</TextBox>
                 </GroupBox>
@@ -34,7 +36,7 @@
                         <Label Name="_AverageElapsedTimePerPixelLabel">(Elapsed time per pixel average:)</Label>
                     </StackPanel>       
                 </GroupBox>
-                <GroupBox Header="Needed rendering time">
+                <GroupBox Name="_RenderTimeCalculationGroupBox" Header="Needed rendering time">
                     <StackPanel>
                         <Grid>
                             <Grid.ColumnDefinitions>

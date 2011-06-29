@@ -37,8 +37,8 @@
         Return bitmap
     End Function
 
-    Public Sub SetPixelColor(ByVal bitmap As Bitmap, ByVal bitmapX As Integer, ByVal bitmapY As Integer)
-        bitmap.SetPixel(x:=bitmapX, y:=bitmapY, color:=Me.GetPixelColor(bitmapX, bitmapY))
+    Public Sub SetPixelColor(ByVal targetBitmap As Bitmap, ByVal bitmapX As Integer, ByVal bitmapY As Integer)
+        targetBitmap.SetPixel(x:=bitmapX, y:=bitmapY, color:=Me.GetPixelColor(bitmapX, bitmapY))
     End Sub
 
     Public Function GetPixelColor(ByVal bitmapX As Integer, ByVal bitmapY As Integer) As Color

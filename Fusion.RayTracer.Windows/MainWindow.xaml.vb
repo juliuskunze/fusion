@@ -9,7 +9,7 @@
     Private _CustomPictureSizeOk As Boolean = False
     Private _CustomPictureSize As System.Drawing.Size
 
-    Private _SaveFileDialog As SaveFileDialog
+    Private _SaveFileDialog As New SaveFileDialog
 
     Public Sub New()
         Me.InitializeComponent()
@@ -19,9 +19,11 @@
         _RenderBackgroundWorker.WorkerSupportsCancellation = True
     End Sub
 
-    Private Sub RenderButton_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles _RenderButton.Click
+    Private Sub RenderButton_Click(ByVal sender As System.Object, ByVal e As RoutedEventArgs) Handles _RenderButton.Click
         If Not Me.TrySetRayTracerDrawer Then Return
 
+        _RenderButton.Visibility = Visibility.Collapsed
+        _RenderCancelButton.Visibility = Visibility.Visible
         _RenderStopwatch = Stopwatch.StartNew
         _RenderBackgroundWorker.RunWorkerAsync(_RayTraceDrawer)
     End Sub
@@ -72,7 +74,7 @@
         RayTracingExamples.WriteVideo()
     End Sub
 
-    Private Sub CalculateNeededTimeButton_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles _CalculateNeededTimeButton.Click
+    Private Sub CalculateNeededTimeButton_Click(ByVal sender As System.Object, ByVal e As RoutedEventArgs) Handles _CalculateNeededTimeButton.Click
         If Not Me.TrySetRayTracerDrawer() Then Return
         If Not _CalculateTimeOptionsDialog.DialogResult Then Return
 
@@ -121,7 +123,7 @@
 
     Private _CalculateTimeOptionsDialog As New CalculateTimeOptionsDialog
 
-    Private Sub CalculateNeededTimeOptionsButton_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles _CalculateNeededTimeOptionsButton.Click
+    Private Sub CalculateNeededTimeOptionsButton_Click(ByVal sender As System.Object, ByVal e As RoutedEventArgs) Handles _CalculateNeededTimeOptionsButton.Click
         _CalculateTimeOptionsDialog.ShowDialog()
     End Sub
 
@@ -132,7 +134,7 @@
 
         For bitmapX = 0 To rayTracerDrawer.PictureSize.Width - 1
             For bitmapY = 0 To rayTracerDrawer.PictureSize.Height - 1
-                resultBitmap.SetPixel(bitmapX, bitmapY, rayTracerDrawer.GetPixelColor(bitmapX, bitmapY))
+                rayTracerDrawer.SetPixelColor(resultBitmap, bitmapX, bitmapY)
             Next
             _RenderBackgroundWorker.ReportProgress(CInt((bitmapX + 1) / rayTracerDrawer.PictureSize.Width * 100))
         Next
@@ -148,6 +150,9 @@
         If e.Error IsNot Nothing Then Throw e.Error
         If e.Cancelled Then Return
 
+        _RenderTimeCalculationGroupBox.Visibility = Visibility.Collapsed
+        _RenderButton.Visibility = Visibility.Visible
+        _RenderCancelButton.Visibility = Visibility.Collapsed
         _ResultBitmap = CType(e.Result, System.Drawing.Bitmap)
 
         _ResultImage.Source = New SimpleBitmap(_ResultBitmap).ToBitmapSource
@@ -159,6 +164,10 @@
         _RenderProgressBar.Value = 0
 
         _SaveButton.IsEnabled = True
+    End Sub
+
+    Private Sub RenderCancelButton_Click(ByVal sender As System.Object, ByVal e As RoutedEventArgs) Handles _RenderCancelButton.Click
+        _RenderBackgroundWorker.CancelAsync()
     End Sub
 
 End Class
