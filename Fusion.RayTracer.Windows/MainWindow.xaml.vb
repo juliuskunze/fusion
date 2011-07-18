@@ -22,7 +22,6 @@
     Private Sub RenderButton_Click(ByVal sender As System.Object, ByVal e As RoutedEventArgs) Handles _RenderButton.Click
         If Not Me.TrySetRayTracerDrawer Then Return
 
-        _RenderTimeCalculationGroupBox.Visibility = Visibility.Collapsed
         _RenderButton.Visibility = Visibility.Collapsed
         _RenderCancelButton.Visibility = Visibility.Visible
         _RenderProgressBar.Visibility = Visibility.Visible
@@ -50,12 +49,14 @@
 
 
     Private Sub SaveButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _SaveButton.Click
+        Const fileEnding = ".bmp"
         _SaveFileDialog.FileName = "ray tracing picture "
+        If _SaveFileDialog.InitialDirectory = "" Then _SaveFileDialog.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.Desktop
         Dim pictureNumber As Integer = 1
-        Do While New IO.FileInfo(_SaveFileDialog.InitialDirectory & "\" & _SaveFileDialog.FileName & pictureNumber).Exists
+        Do While New IO.FileInfo(_SaveFileDialog.InitialDirectory & "\" & _SaveFileDialog.FileName & pictureNumber & fileEnding).Exists
             pictureNumber += 1
         Loop
-        _SaveFileDialog.FileName &= pictureNumber
+        _SaveFileDialog.FileName &= pictureNumber & fileEnding
         If _SaveFileDialog.ShowDialog Then
             _ResultBitmap.Save(_SaveFileDialog.FileName)
         Else
@@ -163,6 +164,7 @@
         _RenderProgressBar.Visibility = Visibility.Collapsed
         _RenderButton.Visibility = Visibility.Visible
         _RenderCancelButton.Visibility = Visibility.Collapsed
+        _RenderTimeCalculationGroupBox.Visibility = Visibility.Collapsed
         _RenderStopwatch.Stop()
         Me.TaskbarItemInfo.ProgressState = Shell.TaskbarItemProgressState.None
 
@@ -190,4 +192,9 @@
     Private Sub _RenderProgressBar_ValueChanged(ByVal sender As Object, ByVal e As System.Windows.RoutedPropertyChangedEventArgs(Of Double)) Handles _RenderProgressBar.ValueChanged
         Me.TaskbarItemInfo.ProgressValue = e.NewValue / 100
     End Sub
+
+    Private Sub RibbonWindow_Unloaded(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles MyBase.Unloaded
+        Application.Current.Shutdown()
+    End Sub
+
 End Class
