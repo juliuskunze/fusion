@@ -13,7 +13,7 @@
     End Sub
 
     Public Function GetRayTracerDrawer(ByVal pointOfTime As Double) As RayTraceDrawer(Of RgbLight) Implements IRayTraceVideo.GetRayTracerDrawer
-        Return New RayTracingExamples(Me.VideoSize).FirstRoom(glassRefractionIndex:=pointOfTime)
+        Return New RayTracingExamples(Me.VideoSize).OldExampleBox(glassRefractionIndex:=pointOfTime)
     End Function
 
     Public Sub CreateVideo(ByVal directoryPath As String, ByVal timeIntervalStart As Double, ByVal timeIntervalEnd As Double, ByVal timeStep As Double)

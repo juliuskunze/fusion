@@ -145,6 +145,7 @@
     <Compile Include="Surfaces\Sphere.vb" />
     <Compile Include="Surfaces\SurfacePoint.vb" />
     <Compile Include="Surfaces\Surfaces.vb" />
+    <Compile Include="Surfaces\TranslatedSurface.vb" />
     <Compile Include="Surfaces\Triangle.vb" />
     <Compile Include="Surfaces\TruncatedSurface.vb" />
     <Compile Include="Surfaces\UnitedSurfacedPointSet3D.vb" />

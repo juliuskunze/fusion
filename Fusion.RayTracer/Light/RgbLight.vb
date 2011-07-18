@@ -33,13 +33,15 @@ Public Structure RgbLight
     End Sub
 
     Public Sub New(ByVal red As Double, ByVal green As Double, ByVal blue As Double)
+        If _Red < 0 OrElse _Green < 0 OrElse _Blue < 0 Then Throw New ArgumentOutOfRangeException("Color components must be > 0.")
+
         _Red = red
         _Green = green
         _Blue = blue
     End Sub
 
-    Private Shared Function GetByteComponentByTruncate(ByVal exactColorComponent As Double) As Byte
-        Return CByte(Min(Byte.MaxValue, Max(Byte.MinValue, exactColorComponent * Byte.MaxValue)))
+    Private Shared Function GetByteComponent(ByVal exactColorComponent As Double) As Byte
+        Return CByte(exactColorComponent * Byte.MaxValue)
     End Function
 
     Private Shared Function GetComponent(ByVal byteColorComponent As Byte) As Double
@@ -111,9 +113,17 @@ Public Structure RgbLight
     End Function
 
     Public Function ToColor() As Color Implements ILight(Of RgbLight).ToColor
-        Return Color.FromArgb(red:=GetByteComponentByTruncate(Me.Red),
-                              green:=GetByteComponentByTruncate(Me.Green),
-                              blue:=GetByteComponentByTruncate(Me.Blue))
+        If Max(_Red, Max(_Green, _Blue)) > 1 Then
+            Return GetColor(displayableRgbLight:=Me / Max(_Red, Max(_Green, _Blue)))
+        End If
+
+        Return GetColor(displayableRgbLight:=Me)
+    End Function
+
+    Private Shared Function GetColor(ByVal displayableRgbLight As RgbLight) As Color
+        Return Color.FromArgb(red:=GetByteComponent(displayableRgbLight.Red),
+                              green:=GetByteComponent(displayableRgbLight.Green),
+                              blue:=GetByteComponent(displayableRgbLight.Blue))
     End Function
 
 End Structure

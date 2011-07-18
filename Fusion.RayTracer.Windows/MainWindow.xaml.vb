@@ -37,7 +37,7 @@
         Dim pictureSize As System.Drawing.Size
         If Not Me.TryGetPictureSize(out_size:=pictureSize) Then Return False
 
-        _RayTraceDrawer = New RayTracingExamples(pictureSize).SecondRoom(cameraZLocation:=29)
+        _RayTraceDrawer = New RayTracingExamples(pictureSize).ExampleBox
         Return True
     End Function
 

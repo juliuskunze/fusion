@@ -100,6 +100,7 @@
     <Compile Include="SurfaceTests\RectangleTests.vb" />
     <Compile Include="SurfaceTests\SphereTests.vb" />
     <Compile Include="SurfaceTests\SurfaceTests.vb" />
+    <Compile Include="SurfaceTests\TranslatedSurfaceTests.vb" />
     <Compile Include="SurfaceTests\TriangleTests.vb" />
     <Compile Include="SurfaceTests\TruncatedSurfaceTests.vb" />
     <Compile Include="TestFunctions.vb" />

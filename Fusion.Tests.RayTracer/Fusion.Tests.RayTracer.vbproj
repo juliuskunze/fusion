@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Import Include="Fusion.Math" />
+    <Import Include="Fusion.Physics" />
     <Import Include="Fusion.RayTracer" />
     <Import Include="Fusion.Visualization" />
     <Import Include="NUnit.Framework" />
@@ -74,6 +75,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlackBodyRadianceSpectrumTests.vb" />
     <Compile Include="SpectrumToRgbConverterTests.vb" />
     <Compile Include="ExactColorTests.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -96,7 +98,7 @@
     <Compile Include="RayChangerTests.vb" />
     <Compile Include="RayTracerTests.vb" />
     <Compile Include="NormalizedMidpointCoordinateSystemTests.vb" />
-    <Compile Include="RelativityTests\RelativisticRayTransformationTests.vb" />
+    <Compile Include="RelativityTests\RelativisticRadianceTransformationTests.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -121,6 +123,10 @@
     <ProjectReference Include="..\Fusion.Math\Fusion.Math.vbproj">
       <Project>{F6034AE4-65A7-49CB-9756-C13EDFA258E6}</Project>
       <Name>Fusion.Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fusion.Physics\Fusion.Physics.vbproj">
+      <Project>{74A8E394-FD08-418B-BBBE-B9FD54589B2E}</Project>
+      <Name>Fusion.Physics</Name>
     </ProjectReference>
     <ProjectReference Include="..\Fusion.RayTracer\Fusion.RayTracer.vbproj">
       <Project>{85E3D12F-55C2-41DF-BC93-3E718C0BEE0E}</Project>
