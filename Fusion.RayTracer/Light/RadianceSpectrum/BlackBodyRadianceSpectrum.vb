@@ -9,7 +9,8 @@
 
     Public Function GetSpectralRadiance(ByVal wavelength As Double) As Double Implements IRadianceSpectrum.GetSpectralRadiance
         'source: http://de.wikipedia.org/wiki/Plancksches_Strahlungsgesetz
-        '(without factor 2*pi) h * c^2 / lambda ^ 5 / (e ^ (h * c / (lambda * k * T)) - 1)
+        '(without factor pi, because this function returns spectral radiance not a radiance) 
+        '2 * h * c^2 / lambda ^ 5 / (e ^ (h * c / (lambda * k * T)) - 1)
         Return 2 * Constants.PlanckConstant * Constants.SpeedOfLight ^ 2 / (wavelength ^ 5 * (System.Math.Exp(_ExponentFactor / wavelength) - 1))
     End Function
 

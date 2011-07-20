@@ -31,8 +31,11 @@
                 
                 <ProgressBar Name="_RenderProgressBar" Height="25" Maximum="100" Visibility="Collapsed"></ProgressBar>
                 <Button Name="_SaveButton" IsEnabled="False">Save...</Button>
-                <GroupBox Header="Picture size">
-                    <TextBox Grid.Column="1" Name="_CustomSizeTextBox" HorizontalAlignment="Stretch">100;100</TextBox>
+                <GroupBox Header="Picture properties">
+                    <StackPanel>
+                        <TextBox Name="_CustomSizeTextBox" HorizontalAlignment="Stretch">100;100</TextBox>
+                        <TextBox Name="_RadiancePerWhite" HorizontalAlignment="Stretch">100000</TextBox>
+                    </StackPanel>
                 </GroupBox>
                 <GroupBox Header="Rendering">
                     <StackPanel>

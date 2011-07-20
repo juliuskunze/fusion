@@ -16,7 +16,7 @@ Public Class RelativisticRayTracer(Of TLight As {ILight(Of TLight), New})
         _RayTransformation = New RelativisticRadianceTransformation(relativeVelocity:=cameraVelocity)
     End Sub
 
-    Private _RayTransformation As RelativisticRadianceTransformation
+    Protected _RayTransformation As RelativisticRadianceTransformation
 
     Public Overrides Function GetLight(ByVal startRay As Ray) As TLight
         Dim transformedRay = _RayTransformation.GetTransformedRay(ray:=startRay)

@@ -1,7 +1,7 @@
 ﻿Imports System.IO
 
 Public Class RadianceSpectrumToColorConverter
-    Implements ILightToColorConverter(Of IRadianceSpectrum)
+    Implements ILightToColorConverter(Of FunctionRadianceSpectrum)
 
     Private _RgbLightToColorConverter As New RgbLightToColorConverter
 
@@ -18,11 +18,13 @@ Public Class RadianceSpectrumToColorConverter
     ''' 
     ''' </summary>
     ''' <param name="testStepCount"></param>
-    ''' <param name="radiancePerWhite">Wenn das ganze Spektrum die übergebene Strahlstärke besitzt, wird die RGB-Farbe Weiß (255, 255, 255) zurückgegeben.</param>
+    ''' <param name="spectralRadiancePerWhite">Wenn das ganze Spektrum die übergebene spektrale Strahlstärke besitzt, wird die RGB-Farbe Weiß (255, 255, 255) zurückgegeben.</param>
     ''' <remarks></remarks>
-    Public Sub New(ByVal testStepCount As Integer, ByVal radiancePerWhite As Double)
+    Public Sub New(ByVal testStepCount As Integer, ByVal spectralRadiancePerWhite As Double)
+        If spectralRadiancePerWhite <= 0 Then Throw New ArgumentOutOfRangeException("spectralRadiancePerWhite")
+
         _TestStepCount = testStepCount
-        _RadiancePerWhite = radiancePerWhite
+        _RadiancePerWhite = spectralRadiancePerWhite
         Me.ReadWavelengthRgbDictionary()
     End Sub
 
@@ -47,7 +49,7 @@ Public Class RadianceSpectrumToColorConverter
     End Sub
 
     Private Sub NormalizeToWhite()
-        Dim white = Me.GetRgbLight(New RadianceSpectrum(SpectralRadianceFunction:=Function(wavelength) 1), testStepCount:=_ColorArray.Count)
+        Dim white = Me.GetRgbLight(New FunctionRadianceSpectrum(SpectralRadianceFunction:=Function(wavelength) 1), testStepCount:=_ColorArray.Count)
 
         Me.NormalizeColorData(divisorRed:=white.Red, divisorGreen:=white.Green, divisorBlue:=white.Blue)
     End Sub
@@ -86,7 +88,7 @@ Public Class RadianceSpectrumToColorConverter
         Return rgbLight / testStepCount
     End Function
 
-    Public Function Convert(ByVal light As IRadianceSpectrum) As System.Drawing.Color Implements ILightToColorConverter(Of IRadianceSpectrum).Convert
+    Public Function Convert(ByVal light As FunctionRadianceSpectrum) As System.Drawing.Color Implements ILightToColorConverter(Of FunctionRadianceSpectrum).Convert
         Return _RgbLightToColorConverter.Convert(Me.GetRgbLight(radianceSpectrum:=light, testStepCount:=_TestStepCount))
     End Function
 End Class

@@ -1,17 +1,8 @@
-﻿Public NotInheritable Class ColorMaterials2D
+﻿Public NotInheritable Class RgbLightMaterials2D
+    Inherits Materials2D(Of RgbLight)
+
     Private Sub New()
     End Sub
-
-    Public Shared Function Black() As Material2D(Of RgbLight)
-        Return ColorMaterials2D.LightSource(sourceLight:=RgbLight.Black)
-    End Function
-
-    Public Shared Function LightSource(ByVal sourceLight As RgbLight) As Material2D(Of RgbLight)
-        Return New Material2D(Of RgbLight)(sourceLight:=sourceLight,
-                              scatteringRemission:=New BlackRemission(Of RgbLight),
-                              reflectionRemission:=New BlackRemission(Of RgbLight),
-                              transparencyRemission:=New BlackRemission(Of RgbLight))
-    End Function
 
     Public Shared Function Scattering(ByVal color As RgbLight) As Material2D(Of RgbLight)
         Return New Material2D(Of RgbLight)(sourceLight:=RgbLight.Black,
@@ -21,7 +12,7 @@
     End Function
 
     Public Shared Function Transparent(ByVal refractionIndexQuotient As Double, ByVal reflectionAlbedo As Double) As Material2D(Of RgbLight)
-        Return ColorMaterials2D.Transparent(scatteringRemission:=New BlackRemission(Of RgbLight),
+        Return RgbLightMaterials2D.Transparent(scatteringRemission:=New BlackRemission(Of RgbLight),
                                             reflectionRemission:=New ScaledRemission(Of RgbLight)(reflectionAlbedo),
                                             refractionIndexQuotient:=refractionIndexQuotient)
     End Function
@@ -38,7 +29,7 @@
     End Function
 
     Public Shared Function TransparentInner(ByVal refractionIndexQuotient As Double) As Material2D(Of RgbLight)
-        Return ColorMaterials2D.Transparent(scatteringRemission:=New BlackRemission(Of RgbLight),
+        Return RgbLightMaterials2D.Transparent(scatteringRemission:=New BlackRemission(Of RgbLight),
                                             reflectionRemission:=New BlackRemission(Of RgbLight),
                                             refractionIndexQuotient:=1 / refractionIndexQuotient)
     End Function

@@ -1,0 +1,7 @@
+﻿Public NotInheritable Class RadianceSpectrumMaterials2D
+    Inherits Materials2D(Of FunctionRadianceSpectrum)
+
+    Private Sub New()
+    End Sub
+
+End Class

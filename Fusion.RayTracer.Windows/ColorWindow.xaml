@@ -22,7 +22,7 @@
             <GroupBox Margin="3" Header="Wavelength / m">
                 <StackPanel >
                     <TextBox Margin="3" Name="_IntensityTextBox" MinWidth="50"></TextBox>
-                    <Slider Margin="3" Name="_IntensitySlider" MinWidth="150" Minimum="0" Maximum="1000" TickFrequency="0.1" IsSnapToTickEnabled="True" 
+                    <Slider Margin="3" Name="_IntensitySlider" MinWidth="150" Minimum="0" Maximum="1e30" TickFrequency="0.1" IsSnapToTickEnabled="True" 
                             Value="{Binding ElementName=_IntensityTextBox, Path=Text, Mode=TwoWay}"></Slider>
                 </StackPanel>
             </GroupBox>

@@ -1,5 +1,5 @@
-﻿Public Class RadianceSpectrum
-    Implements ILight(Of RadianceSpectrum), IRadianceSpectrum
+﻿Public Class FunctionRadianceSpectrum
+    Implements ILight(Of FunctionRadianceSpectrum), IRadianceSpectrum
 
     Private ReadOnly _SpectralRadianceFunction As SpectralRadianceFunction
     Public ReadOnly Property IntensityFunction As SpectralRadianceFunction
@@ -24,16 +24,16 @@
         _SpectralRadianceFunction = AddressOf radianceSpectrum.GetSpectralRadiance
     End Sub
 
-    Public Function Add(ByVal other As RadianceSpectrum) As RadianceSpectrum Implements ILight(Of RadianceSpectrum).Add
-        Return New RadianceSpectrum(AddressOf New RadianceSpectrum(Function(waveLength) Me.GetSpectralRadiance(waveLength) + other.GetSpectralRadiance(waveLength)).GetSpectralRadiance)
+    Public Function Add(ByVal other As FunctionRadianceSpectrum) As FunctionRadianceSpectrum Implements ILight(Of FunctionRadianceSpectrum).Add
+        Return New FunctionRadianceSpectrum(AddressOf New FunctionRadianceSpectrum(Function(waveLength) Me.GetSpectralRadiance(waveLength) + other.GetSpectralRadiance(waveLength)).GetSpectralRadiance)
     End Function
 
-    Public Function DivideBrightness(ByVal divisor As Double) As RadianceSpectrum Implements ILight(Of RadianceSpectrum).DivideBrightness
-        Return New RadianceSpectrum(spectralRadianceFunction:=Function(waveLength) Me.GetSpectralRadiance(waveLength) / divisor)
+    Public Function DivideBrightness(ByVal divisor As Double) As FunctionRadianceSpectrum Implements ILight(Of FunctionRadianceSpectrum).DivideBrightness
+        Return New FunctionRadianceSpectrum(spectralRadianceFunction:=Function(waveLength) Me.GetSpectralRadiance(waveLength) / divisor)
     End Function
 
-    Public Function MultiplyBrightness(ByVal factor As Double) As RadianceSpectrum Implements ILight(Of RadianceSpectrum).MultiplyBrightness
-        Return New RadianceSpectrum(spectralRadianceFunction:=Function(waveLength) Me.GetSpectralRadiance(waveLength) * factor)
+    Public Function MultiplyBrightness(ByVal factor As Double) As FunctionRadianceSpectrum Implements ILight(Of FunctionRadianceSpectrum).MultiplyBrightness
+        Return New FunctionRadianceSpectrum(spectralRadianceFunction:=Function(waveLength) Me.GetSpectralRadiance(waveLength) * factor)
     End Function
 
     Public Function GetSpectralRadiance(ByVal wavelength As Double) As Double Implements IRadianceSpectrum.GetSpectralRadiance

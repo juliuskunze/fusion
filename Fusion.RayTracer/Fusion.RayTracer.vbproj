@@ -74,7 +74,7 @@
     <Compile Include="IRayTracer.vb" />
     <Compile Include="ColorConversion\ILightToColorConverter.vb" />
     <Compile Include="Light\RadianceSpectrum\BlackBodyRadianceSpectrum.vb" />
-    <Compile Include="Light\RadianceSpectrum\RadianceSpectrum.vb" />
+    <Compile Include="Light\RadianceSpectrum\FunctionRadianceSpectrum.vb" />
     <Compile Include="Light\ILight.vb" />
     <Compile Include="Light\RadianceSpectrum\IRadianceSpectrum.vb" />
     <Compile Include="Light\Remission\BlackRemission.vb" />
@@ -92,7 +92,9 @@
     <Compile Include="Light\Source\ShadedLightSources.vb" />
     <Compile Include="Light\Source\UndirectionalLightSource.vb" />
     <Compile Include="MaterialSurfaces\ColorfulSphere.vb" />
-    <Compile Include="MaterialSurfaces\ColorMaterials2D.vb" />
+    <Compile Include="MaterialSurfaces\Materials2D.vb" />
+    <Compile Include="MaterialSurfaces\RadianceSpectrumMaterials2D.vb" />
+    <Compile Include="MaterialSurfaces\RgbLightMaterials2D.vb" />
     <Compile Include="MaterialSurfaces\IMaterialSurface.vb" />
     <Compile Include="MaterialSurfaces\Material2D.vb" />
     <Compile Include="MaterialSurfaces\MaterialSurfacePoint.vb" />

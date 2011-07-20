@@ -8,8 +8,8 @@
     End Sub
 
     Private Sub IntensitySlider_ValueChanged(ByVal sender As System.Object, ByVal e As System.Windows.RoutedPropertyChangedEventArgs(Of System.Double)) Handles _IntensitySlider.ValueChanged
-        _RadianceSpectrumToColorConverter = New RadianceSpectrumToColorConverter(testStepCount:=150, radiancePerWhite:=1)
-        'Me.DrawBlackbodySpectrum()
+        _RadianceSpectrumToColorConverter = New RadianceSpectrumToColorConverter(testStepCount:=150, spectralRadiancePerWhite:=_IntensitySlider.Value)
+        Me.DrawBlackbodySpectrum()
     End Sub
 
     Private Sub DrawMonochromaticSpectrum()
@@ -28,7 +28,7 @@
 
         Next
 
-        Dim white = _RadianceSpectrumToColorConverter.Convert(New RadianceSpectrum(spectralRadianceFunction:=Function(wavelength) 1))
+        Dim white = _RadianceSpectrumToColorConverter.Convert(New FunctionRadianceSpectrum(spectralRadianceFunction:=Function(wavelength) 1))
 
         ' bitmap.Clear(white.ToColor)
 
@@ -41,13 +41,13 @@
 
         Dim bitmap = New SimpleBitmap(width:=width, height:=height)
 
-        Dim lowerTemperatureBound = 1000
+        Dim lowerTemperatureBound = 0
         Dim upperTemperatureBound = 16000
 
         Dim temperatureStep = (upperTemperatureBound - lowerTemperatureBound) / width
 
         For x = 0 To width - 1
-            Dim color = _RadianceSpectrumToColorConverter.Convert(New RadianceSpectrum(New BlackBodyRadianceSpectrum(lowerTemperatureBound + x * temperatureStep)))
+            Dim color = _RadianceSpectrumToColorConverter.Convert(New FunctionRadianceSpectrum(New BlackBodyRadianceSpectrum(lowerTemperatureBound + x * temperatureStep)))
 
             For y = 0 To height - 1
                 bitmap.SetPixel(x:=x, y:=y, color:=color)

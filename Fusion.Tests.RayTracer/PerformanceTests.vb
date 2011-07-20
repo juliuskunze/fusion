@@ -34,17 +34,17 @@ Public Class PerformanceTests
         Dim leftFrontUp = leftFrontDown + heightVector
         Dim midUp = midDown + heightVector
 
-        Dim lightMaterial = ColorMaterials2D.LightSource(RgbLight.White)
-        Dim redMaterial = ColorMaterials2D.Scattering(New RgbLight(Color.Red))
-        Dim whiteMaterial = ColorMaterials2D.Scattering(New RgbLight(Color.White))
-        Dim greenMaterial = ColorMaterials2D.Scattering(New RgbLight(Color.Green))
+        Dim lightMaterial = RgbLightMaterials2D.LightSource(RgbLight.White)
+        Dim redMaterial = RgbLightMaterials2D.Scattering(New RgbLight(Color.Red))
+        Dim whiteMaterial = RgbLightMaterials2D.Scattering(New RgbLight(Color.White))
+        Dim greenMaterial = RgbLightMaterials2D.Scattering(New RgbLight(Color.Green))
 
         Dim glassRefractionIndex = 1.3
 
-        Dim glass = ColorMaterials2D.Transparent(1 / glassRefractionIndex, reflectionAlbedo:=0.2)
-        Dim innerGlass = ColorMaterials2D.TransparentInner(1 / glassRefractionIndex)
+        Dim glass = RgbLightMaterials2D.Transparent(1 / glassRefractionIndex, reflectionAlbedo:=0.2)
+        Dim innerGlass = RgbLightMaterials2D.TransparentInner(1 / glassRefractionIndex)
 
-        Dim metal = ColorMaterials2D.Reflecting
+        Dim metal = RgbLightMaterials2D.Reflecting
 
         Dim groundMaterial1 = New Material2D(Of RgbLight)(sourceLight:=RgbLight.Black,
                              scatteringRemission:=New RgbLightRemission(Color.Blue),

@@ -1,9 +1,9 @@
-﻿Public Class RelativisticSpectrumRayTracer
-    Inherits RelativisticRayTracer(Of RadianceSpectrum)
+﻿Public Class RelativisticRadianceSpectrumRayTracer
+    Inherits RelativisticRayTracer(Of FunctionRadianceSpectrum)
 
-    Public Sub New(ByVal surface As ISurface(Of Material2D(Of RadianceSpectrum)),
-                   ByVal unshadedLightSource As ILightSource(Of RadianceSpectrum),
-                   ByVal shadedPointLightSources As List(Of IPointLightSource(Of RadianceSpectrum)),
+    Public Sub New(ByVal surface As ISurface(Of Material2D(Of FunctionRadianceSpectrum)),
+                   ByVal unshadedLightSource As ILightSource(Of FunctionRadianceSpectrum),
+                   ByVal shadedPointLightSources As List(Of IPointLightSource(Of FunctionRadianceSpectrum)),
                    ByVal cameraVelocity As Vector3D,
                    Optional ByVal maxIntersectionCount As Integer = 10)
         MyBase.New(surface:=surface,
@@ -13,12 +13,10 @@
                    cameraVelocity:=cameraVelocity)
     End Sub
 
-    Private _RayTransformation As RelativisticRadianceTransformation
+    Public Overrides Function GetLight(ByVal startRay As Ray) As FunctionRadianceSpectrum
+        Dim transformedIntensityFunction = _RayTransformation.GetTransformedSpectralRadianceFunction(Ray:=startRay, SpectralRadianceFunction:=MyBase.GetLight(startRay:=startRay).IntensityFunction)
 
-    Public Overrides Function GetLight(ByVal startRay As Ray) As RadianceSpectrum
-        Dim transformedIntensityFunction = _RayTransformation.GetTransformedSpectralRadianceFunction(ray:=startRay, spectralRadianceFunction:=MyBase.GetLight(startRay:=startRay).IntensityFunction)
-
-        Return New RadianceSpectrum(spectralRadianceFunction:=transformedIntensityFunction)
+        Return New FunctionRadianceSpectrum(SpectralRadianceFunction:=transformedIntensityFunction)
     End Function
 
 End Class

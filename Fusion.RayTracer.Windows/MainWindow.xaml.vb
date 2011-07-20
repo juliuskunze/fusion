@@ -1,6 +1,6 @@
 ﻿Public Class MainWindow
 
-    Private WithEvents _RayTraceDrawer As RayTraceDrawer(Of RgbLight)
+    Private WithEvents _RayTraceDrawer As RayTraceDrawer(Of FunctionRadianceSpectrum)
     Private _ResultBitmap As System.Drawing.Bitmap
     Private _RenderStopwatch As Stopwatch
 
@@ -36,7 +36,7 @@
         Dim pictureSize As System.Drawing.Size
         If Not Me.TryGetPictureSize(out_size:=pictureSize) Then Return False
 
-        _RayTraceDrawer = New RayTracingExamples(pictureSize).ExampleBox
+        _RayTraceDrawer = New RayTracingExamples(pictureSize).BlackBodyPlaneRelativistic(New RadianceSpectrumToColorConverter(testStepCount:=150, spectralRadiancePerWhite:=CDbl(_RadiancePerWhite.Text)))
         Return True
     End Function
 
@@ -134,7 +134,7 @@
     End Sub
 
     Private Sub RenderBackgroundWorker_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles _RenderBackgroundWorker.DoWork
-        Dim rayTracerDrawer = CType(e.Argument, RayTraceDrawer(Of RgbLight))
+        Dim rayTracerDrawer = CType(e.Argument, RayTraceDrawer(Of FunctionRadianceSpectrum))
 
         Dim resultBitmap = New System.Drawing.Bitmap(rayTracerDrawer.PictureSize.Width, rayTracerDrawer.PictureSize.Height)
 
