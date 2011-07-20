@@ -3,7 +3,7 @@
     <Test()>
     Public Sub Velocity0()
         Dim transformation = New RelativisticRadianceTransformation(relativeVelocity:=New Vector3D)
-        Dim ray = New Ray(origin:=New Vector3D(0, 0, 0), direction:=New Vector3D(0, 1, 0))
+        Dim ray = New Ray(origin:=New Vector3D, direction:=New Vector3D(0, 1, 0))
 
         Dim transformedRay = transformation.GetTransformedRay(ray)
 
@@ -12,7 +12,7 @@
         Assert.AreEqual(transformation.GetTransformedWavelength(ray, wavelength:=17), 17)
         Assert.AreEqual(transformation.GetTransformedSpectralRadiance(ray, intensity:=17), 17)
 
-        Dim randomRay = New Ray(origin:=New Vector3D(0, 0, 0), direction:=New Vector3D(43, -12, 4))
+        Dim randomRay = New Ray(origin:=New Vector3D, direction:=New Vector3D(43, -12, 4))
 
         Assert.AreEqual(transformation.GetTransformedWavelength(randomRay, wavelength:=17), 17)
         Assert.AreEqual(transformation.GetTransformedSpectralRadiance(randomRay, intensity:=17), 17)
@@ -20,12 +20,9 @@
 
     <Test()>
     Public Sub PositiveVelocity()
-        Dim transformation = New RelativisticRadianceTransformation(relativeVelocity:=New Vector3D(Physics.Constants.SpeedOfLight, 0, 0))
-        Assert.AreEqual(transformation.RelativeVelocity, New Vector3D(1, 0, 0))
+        Dim transformation = New RelativisticRadianceTransformation(relativeVelocity:=New Vector3D(0.5 * Physics.Constants.SpeedOfLight, 0, 0))
+        Assert.AreEqual(transformation.RelativeVelocity, New Vector3D(0.5 * Physics.Constants.SpeedOfLight, 0, 0))
         Assert.AreEqual(transformation.NormalizedRelativeVelocityDirection, New Vector3D(1, 0, 0))
-        Assert.AreEqual(transformation.RelativeVelocity, New Vector3D(1, 0, 0))
-        Assert.AreEqual(transformation.RelativeVelocity, New Vector3D(1, 0, 0))
-
 
         Dim frontRay = New Ray(origin:=New Vector3D, direction:=New Vector3D(1, 0, 0))
         Dim transformedFrontRay = transformation.GetTransformedRay(frontRay)

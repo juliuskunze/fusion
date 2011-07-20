@@ -1,12 +1,6 @@
 ﻿Public Class RayTraceDrawer(Of TLight As {ILight(Of TLight), New})
 
-    Public Sub New(ByVal rayTracer As IRayTracer(Of TLight), ByVal pictureSize As Size, ByVal view As View3D)
-        If pictureSize = New Size Then Throw New ArgumentNullException("pictureSize")
-
-        Me.PictureSize = pictureSize
-        Me.View = view
-        Me.RayTracer = rayTracer
-    End Sub
+    Private ReadOnly _LightToColorConverter As ILightToColorConverter(Of TLight)
 
     Private _PicturSize As Size
     Public Property PictureSize As Size
@@ -15,7 +9,7 @@
         End Get
         Set(ByVal value As Size)
             _PicturSize = value
-            _CoordinateSystem = New NormalizedMidpointCoordinateSystem(New Vector2D(value))
+            _CoordinateSystem = New NormalizedMidpointCoordinateSystem(PictureSize:=New Vector2D(value))
         End Set
     End Property
 
@@ -24,6 +18,19 @@
     Public Property View As View3D
 
     Public Property RayTracer As IRayTracer(Of TLight)
+
+    Public Sub New(ByVal rayTracer As IRayTracer(Of TLight),
+               ByVal pictureSize As Size,
+               ByVal view As View3D,
+               ByVal lightToColorConverter As ILightToColorConverter(Of TLight))
+
+        If pictureSize = New Size Then Throw New ArgumentNullException("pictureSize")
+
+        Me.PictureSize = pictureSize
+        Me.View = view
+        Me.RayTracer = rayTracer
+        _LightToColorConverter = lightToColorConverter
+    End Sub
 
     Public Function GetPicture() As Bitmap
         Dim bitmap = New Bitmap(Me.PictureSize.Width, Me.PictureSize.Height)
@@ -45,7 +52,7 @@
         Dim projectedLocation = _CoordinateSystem.VirtualLocation(pixelLocation:=New Vector2D(bitmapX, bitmapY))
         Dim sightRay = Me.View.SightRay(viewPlaneLocation:=projectedLocation)
 
-        Return Me.RayTracer.GetColor(startRay:=sightRay).ToColor
+        Return _LightToColorConverter.Convert(Me.RayTracer.GetColor(startRay:=sightRay))
     End Function
 
 End Class

@@ -1,23 +1,23 @@
-﻿Public Class SpectrumToRgbConverterTests
+﻿Public Class RadianceSpectrumToColorConverterTests
+
+    Const exampleRadiancePerWhite = 25
+
+    Private _Converter As New RadianceSpectrumToColorConverter(testStepCount:=150, radiancePerWhite:=exampleRadiancePerWhite)
 
     <Test()>
     Public Sub TestWhite()
-        Dim _Converter = New SpectrumToRgbConverter(testStepCount:=150)
-
-        Dim whiteSpectrum = New RadianceSpectrum(spectralRadianceFunction:=Function(wavelength) 1)
+        Dim whiteSpectrum = New RadianceSpectrum(SpectralRadianceFunction:=Function(wavelength) exampleRadiancePerWhite)
         Dim white = _Converter.Convert(whiteSpectrum)
 
-        Assert.That(Abs(1 - white.Red), [Is].LessThan(0.01))
-        Assert.That(Abs(1 - white.Green), [Is].LessThan(0.01))
-        Assert.That(Abs(1 - white.Blue), [Is].LessThan(0.01))
+        Assert.That(Abs(1 - white.R / 255), [Is].LessThan(0.01))
+        Assert.That(Abs(1 - white.G / 255), [Is].LessThan(0.01))
+        Assert.That(Abs(1 - white.B / 255), [Is].LessThan(0.01))
 
     End Sub
 
     <Test()>
     Public Sub TestBlue()
-        Dim _Converter = New SpectrumToRgbConverter(testStepCount:=25)
-
-        Dim blueSpectrum = New RadianceSpectrum(spectralRadianceFunction:=Function(wavelength)
+        Dim blueSpectrum = New RadianceSpectrum(SpectralRadianceFunction:=Function(wavelength)
                                                                               If wavelength > 400 * 10 ^ -9 AndAlso wavelength < 430 * 10 ^ -9 Then
                                                                                   Return 2
                                                                               Else
@@ -27,9 +27,8 @@
 
         Dim blue = _Converter.Convert(blueSpectrum)
 
-        Assert.That(blue.Blue, [Is].GreaterThan(10 * blue.Green))
-        Assert.That(blue.Blue, [Is].GreaterThan(2 * blue.Red))
-
+        Assert.That(blue.B, [Is].GreaterThan(10 * blue.G))
+        Assert.That(blue.B, [Is].GreaterThan(2 * blue.R))
     End Sub
 
 End Class

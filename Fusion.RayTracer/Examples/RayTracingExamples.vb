@@ -70,7 +70,7 @@ Public Class RayTracingExamples
         'Dim rayTracer = New RecursiveRayTracer(surface:=allSurfaces, lightSource:=New LightSources, shadedPointLightSources:=New List(Of IPointLightSource(Of ExactColor)) From {lamp})
         Dim rayTracer = New ScatteringRayTracer(Of RgbLight)(surface:=allSurfaces, rayCount:=1, maxIntersectionCount:=7)
 
-        Return New RayTraceDrawer(Of RgbLight)(rayTracer, Me.PictureSize, view)
+        Return New RayTraceDrawer(Of RgbLight)(rayTracer, Me.PictureSize, view, New RgbLightToColorConverter)
     End Function
 
     Public Function SquaredSurfaceDrawer() As RayTraceDrawer(Of RgbLight)
@@ -134,7 +134,7 @@ Public Class RayTracingExamples
                                                               unshadedLightSource:=lightSources,
                                                               shadedPointLightSources:=shadedLightSources)
 
-        Return New RayTraceDrawer(Of RgbLight)(rayTracer:=rayTracer, PictureSize:=Me.PictureSize, view:=view)
+        Return New RayTraceDrawer(Of RgbLight)(rayTracer:=rayTracer, PictureSize:=Me.PictureSize, view:=view, lightToColorConverter:=New RgbLightToColorConverter)
     End Function
 
     Dim random As Random = New Random()
@@ -162,7 +162,7 @@ Public Class RayTracingExamples
         Dim rayTracer = SecondRoomRayTracer()
         'Dim rayTracer = New ScatteringRayTracer(surface:=surfaces, rayCount:=200, maxIntersectionCount:=10)
 
-        Return New RayTraceDrawer(Of RgbLight)(rayTracer:=rayTracer, PictureSize:=PictureSize, view:=view)
+        Return New RayTraceDrawer(Of RgbLight)(rayTracer:=rayTracer, PictureSize:=PictureSize, view:=view, lightToColorConverter:=New RgbLightToColorConverter)
     End Function
 
     Public Function SecondRoomRayTracer() As RelativisticRayTracer(Of RgbLight)
@@ -374,12 +374,12 @@ Public Class RayTracingExamples
         Dim allSurfaces = New Surfaces(Of Material2D(Of RgbLight)) From {ground, ceiling, rightWall, leftWall, frontWall, backWall, lampSurface,
                                                      reflectingSphere, refractingSphere, innerRefractingSphere, scatteringSphere}
 
-        Dim rayTracer = New ScatteringRayTracer(Of RgbLight)(surface:=allSurfaces, rayCount:=1000)
-        'unshadedLightSource:=New LightSources(Of RgbLight),
-        'shadedPointLightSources:=New List(Of IPointLightSource(Of RgbLight)) From {lamp})
+        Dim rayTracer = New RecursiveRayTracer(Of RgbLight)(surface:=allSurfaces,
+                                                            unshadedLightSource:=New LightSources(Of RgbLight),
+                                                            shadedPointLightSources:=New List(Of IPointLightSource(Of RgbLight)) From {lamp})
+        ', rayCount:=400)
 
-
-        Return New RayTraceDrawer(Of RgbLight)(rayTracer, Me.PictureSize, view)
+        Return New RayTraceDrawer(Of RgbLight)(rayTracer, Me.PictureSize, view, lightToColorConverter:=New RgbLightToColorConverter)
     End Function
 
 End Class

@@ -36,10 +36,6 @@
         Return New RadianceSpectrum(spectralRadianceFunction:=Function(waveLength) Me.GetSpectralRadiance(waveLength) * factor)
     End Function
 
-    Public Function ToColor() As System.Drawing.Color Implements ILight(Of RadianceSpectrum).ToColor
-        Return DefaultSpectrumToRgbConverter.Get.Convert(Me).ToColor
-    End Function
-
     Public Function GetSpectralRadiance(ByVal wavelength As Double) As Double Implements IRadianceSpectrum.GetSpectralRadiance
         Return _SpectralRadianceFunction.Invoke(wavelength)
     End Function

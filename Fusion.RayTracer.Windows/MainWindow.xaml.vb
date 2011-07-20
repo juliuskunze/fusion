@@ -1,4 +1,4 @@
-﻿Class MainWindow
+﻿Public Class MainWindow
 
     Private WithEvents _RayTraceDrawer As RayTraceDrawer(Of RgbLight)
     Private _ResultBitmap As System.Drawing.Bitmap

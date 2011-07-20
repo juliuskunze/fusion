@@ -27,9 +27,9 @@ Public Structure RgbLight
     End Property
 
     Public Sub New(ByVal color As Color)
-        Me.New(Red:=GetComponent(color.R),
-               Green:=GetComponent(color.G),
-               Blue:=GetComponent(color.B))
+        Me.New(Red:=RgbLightToColorConverter.GetComponent(color.R),
+               Green:=RgbLightToColorConverter.GetComponent(color.G),
+               Blue:=RgbLightToColorConverter.GetComponent(color.B))
     End Sub
 
     Public Sub New(ByVal red As Double, ByVal green As Double, ByVal blue As Double)
@@ -39,14 +39,6 @@ Public Structure RgbLight
         _Green = green
         _Blue = blue
     End Sub
-
-    Private Shared Function GetByteComponent(ByVal exactColorComponent As Double) As Byte
-        Return CByte(exactColorComponent * Byte.MaxValue)
-    End Function
-
-    Private Shared Function GetComponent(ByVal byteColorComponent As Byte) As Double
-        Return byteColorComponent / Byte.MaxValue
-    End Function
 
     Public Shared Operator +(ByVal color1 As RgbLight, ByVal color2 As RgbLight) As RgbLight
         Return New RgbLight(Red:=color1.Red + color2.Red,
@@ -110,20 +102,6 @@ Public Structure RgbLight
 
     Public Function DivideBrightness(ByVal divisor As Double) As RgbLight Implements ILight(Of RgbLight).DivideBrightness
         Return Me / divisor
-    End Function
-
-    Public Function ToColor() As Color Implements ILight(Of RgbLight).ToColor
-        If Max(_Red, Max(_Green, _Blue)) > 1 Then
-            Return GetColor(displayableRgbLight:=Me / Max(_Red, Max(_Green, _Blue)))
-        End If
-
-        Return GetColor(displayableRgbLight:=Me)
-    End Function
-
-    Private Shared Function GetColor(ByVal displayableRgbLight As RgbLight) As Color
-        Return Color.FromArgb(red:=GetByteComponent(displayableRgbLight.Red),
-                              green:=GetByteComponent(displayableRgbLight.Green),
-                              blue:=GetByteComponent(displayableRgbLight.Blue))
     End Function
 
 End Structure

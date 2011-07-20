@@ -8,6 +8,4 @@ Public Interface ILight(Of TLight As ILight(Of TLight))
     Function MultiplyBrightness(ByVal factor As Double) As TLight
     Function DivideBrightness(ByVal divisor As Double) As TLight
 
-    Function ToColor() As Color
-
 End Interface

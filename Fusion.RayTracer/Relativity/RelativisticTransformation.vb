@@ -47,6 +47,8 @@ Public Class RelativisticRadianceTransformation
     Private ReadOnly _RelativeVelocityIsNull As Boolean
 
     Private Function GetGammaTheta(ByVal ray As Ray) As Double
+        If _RelativeVelocityIsNull Then Return 1
+
         Return Me.GetGammaTheta(cosinusTheta:=ray.NormalizedDirection * _NormalizedRelativeVelocityDirection)
     End Function
 
