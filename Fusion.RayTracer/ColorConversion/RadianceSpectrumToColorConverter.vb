@@ -12,7 +12,7 @@ Public Class RadianceSpectrumToColorConverter
     Private ReadOnly _TestStepCount As Integer
 
     Private _ColorArray As RgbLight()
-    Private ReadOnly _RadiancePerWhite As Double
+    Private ReadOnly _SpectralRadiancePerWhite As Double
 
     ''' <summary>
     ''' 
@@ -24,7 +24,7 @@ Public Class RadianceSpectrumToColorConverter
         If spectralRadiancePerWhite <= 0 Then Throw New ArgumentOutOfRangeException("spectralRadiancePerWhite")
 
         _TestStepCount = testStepCount
-        _RadiancePerWhite = spectralRadiancePerWhite
+        _SpectralRadiancePerWhite = spectralRadiancePerWhite
         Me.ReadWavelengthRgbDictionary()
     End Sub
 
@@ -45,7 +45,7 @@ Public Class RadianceSpectrumToColorConverter
     End Sub
 
     Private Sub NormalizeWhiteToSpecificRadiance()
-        Me.NormalizeColorData(divisor:=_RadiancePerWhite)
+        Me.NormalizeColorData(divisor:=_SpectralRadiancePerWhite)
     End Sub
 
     Private Sub NormalizeToWhite()
@@ -66,7 +66,7 @@ Public Class RadianceSpectrumToColorConverter
         Next
     End Sub
 
-    Public Function GetSpectralRadiance(ByVal wavelength As Double) As RgbLight
+    Public Function GetColor(ByVal wavelength As Double) As RgbLight
         If wavelength < LowerVisibleWavelengthBound OrElse wavelength > UpperVisibleWavelengthBound Then Return RgbLight.Black
 
         Dim index = CInt((wavelength - LowerVisibleWavelengthBound) / _WavelengthStep)
@@ -82,7 +82,7 @@ Public Class RadianceSpectrumToColorConverter
         For index = 0 To testStepCount - 1
             Dim wavelength = LowerVisibleWavelengthBound + index * interval
             Dim intensity = radianceSpectrum.GetSpectralRadiance(wavelength)
-            rgbLight += Me.GetSpectralRadiance(wavelength:=wavelength) * intensity
+            rgbLight += Me.GetColor(wavelength:=wavelength) * intensity
         Next
 
         Return rgbLight / testStepCount

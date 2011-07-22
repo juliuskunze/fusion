@@ -8,13 +8,7 @@
             <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
-
-            <Image Name="_MonochromaticColorsImage" Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor"></Image>
-            <Image Grid.Row="1" Name="_BlackBodyImage" Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor"></Image>
+            <Image Name="_ColorsImage" Stretch="None" RenderOptions.BitmapScalingMode="NearestNeighbor"></Image>
         </Grid>
             
             
@@ -22,7 +16,7 @@
             <GroupBox Margin="3" Header="Wavelength / m">
                 <StackPanel >
                     <TextBox Margin="3" Name="_IntensityTextBox" MinWidth="50"></TextBox>
-                    <Slider Margin="3" Name="_IntensitySlider" MinWidth="150" Minimum="0" Maximum="1e30" TickFrequency="0.1" IsSnapToTickEnabled="True" 
+                    <Slider Margin="3" Name="_IntensitySlider" MinWidth="150" Minimum="0" Maximum="1e30"
                             Value="{Binding ElementName=_IntensityTextBox, Path=Text, Mode=TwoWay}"></Slider>
                 </StackPanel>
             </GroupBox>

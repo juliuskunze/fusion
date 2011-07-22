@@ -393,15 +393,15 @@ Public Class RayTracingExamples
         Dim plane = New Plane(location:=New Vector3D(0, 0, 1),
                               normal:=New Vector3D(0, 0, -1))
 
-        Dim blackBodyMaterial = RadianceSpectrumMaterials2D.LightSource(sourceLight:=New RadianceSpectrum(New BlackBodyRadianceSpectrum(2800)))
+        Dim blackBodyMaterial = RadianceSpectrumMaterials2D.LightSource(sourceLight:=New RadianceSpectrum(New BlackBodyRadianceSpectrum(5000)))
 
-        Dim blackBodyPlane = New SingleMaterialSurface(Of Material2D(Of RadianceSpectrum))(plane, blackBodyMaterial)
+        Dim blackBodyPlane = New SquaredMaterialSurface(Of Material2D(Of RadianceSpectrum))(plane, blackBodyMaterial, RadianceSpectrumMaterials2D.Black, squaresXVector:=New Vector3D(1, 0, 0), squaresYVector:=New Vector3D(0, 1, 0), squareLength:=1)
 
         Dim classicRayTracer = New RecursiveRayTracer(Of RadianceSpectrum)(surface:=blackBodyPlane,
                                                                            unshadedLightSource:=New LightSources(Of RadianceSpectrum),
                                                                            shadedPointLightSources:=New List(Of IPointLightSource(Of RadianceSpectrum)))
 
-        Dim relativisticRayTracer = New RelativisticRayTracer(classicRayTracer:=classicRayTracer, cameraVelocity:=New Vector3D(0, 0, 0.4 * SpeedOfLight))
+        Dim relativisticRayTracer = New RelativisticRayTracer(classicRayTracer:=classicRayTracer, cameraVelocity:=New Vector3D(0, 0, 0.9 * SpeedOfLight))
 
         Return New RayTraceDrawer(Of RadianceSpectrum)(rayTracer:=relativisticRayTracer,
                                                        PictureSize:=Me.PictureSize,

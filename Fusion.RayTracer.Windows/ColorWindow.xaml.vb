@@ -9,7 +9,7 @@
 
     Private Sub IntensitySlider_ValueChanged(ByVal sender As System.Object, ByVal e As System.Windows.RoutedPropertyChangedEventArgs(Of System.Double)) Handles _IntensitySlider.ValueChanged
         _RadianceSpectrumToColorConverter = New RadianceSpectrumToColorConverter(testStepCount:=150, spectralRadiancePerWhite:=_IntensitySlider.Value)
-        Me.DrawBlackbodySpectrum()
+        Me.DrawRelativisticColors()
     End Sub
 
     Private Sub DrawMonochromaticSpectrum()
@@ -19,20 +19,21 @@
         Dim bitmap = New SimpleBitmap(width:=width, height:=height)
 
         Dim wavelengthStep = (RadianceSpectrumToColorConverter.UpperVisibleWavelengthBound - RadianceSpectrumToColorConverter.LowerVisibleWavelengthBound) / width
+
         For x = 0 To width - 1
-            Dim color = _RadianceSpectrumToColorConverter.GetSpectralRadiance(wavelength:=RadianceSpectrumToColorConverter.LowerVisibleWavelengthBound + x * wavelengthStep) * _IntensitySlider.Value
+            Dim color = _RgbLightToColorConverter.Convert(_RadianceSpectrumToColorConverter.GetColor(wavelength:=RadianceSpectrumToColorConverter.LowerVisibleWavelengthBound + x * wavelengthStep))
 
             For y = 0 To height - 1
-                bitmap.SetPixel(x:=x, y:=y, color:=_RgbLightToColorConverter.Convert(color))
+                bitmap.SetPixel(x:=x, y:=y, color:=color)
             Next
 
         Next
 
         Dim white = _RadianceSpectrumToColorConverter.Convert(New RadianceSpectrum(Function(wavelength) 1))
 
-        ' bitmap.Clear(white.ToColor)
+        'bitmap.Clear(white)
 
-        _MonochromaticColorsImage.Source = bitmap.ToBitmapSource
+        _ColorsImage.Source = bitmap.ToBitmapSource
     End Sub
 
     Private Sub DrawBlackbodySpectrum()
@@ -55,7 +56,40 @@
 
         Next
 
-        _BlackBodyImage.Source = bitmap.ToBitmapSource
+        _ColorsImage.Source = bitmap.ToBitmapSource
+    End Sub
+
+    Private Sub DrawRelativisticColors()
+        Const width = 1000
+        Const height = 200
+
+        Dim bitmap = New SimpleBitmap(width:=width, height:=height)
+
+        Dim temperature = 2800
+
+        Const minBeta = -0.9999999
+        Const maxBeta = 0.9999999
+
+        Const betaStep = (maxBeta - minBeta) / width
+
+
+        For x = 0 To width - 1
+            Dim beta = minBeta + x * betaStep
+            Dim transformation = New RelativisticRadianceTransformation(New Vector3D(beta * SpeedOfLight, 0, 0))
+
+            Const minTemperature = 0
+            Const maxTemperature = 16000
+
+            Const temperatureStep = (maxTemperature - minTemperature) / height
+
+            For y = 0 To height - 1
+                Dim color = _RadianceSpectrumToColorConverter.Convert(transformation.GetRadianceSpectrumInT(viewRayInS:=New Ray(New Vector3D, New Vector3D(1, 0, 0)), radianceSpectrumInS:=New RadianceSpectrum(New BlackBodyRadianceSpectrum(minTemperature + y * temperatureStep))))
+                bitmap.SetPixel(x:=x, y:=y, color:=Color)
+            Next
+
+        Next
+
+        _ColorsImage.Source = bitmap.ToBitmapSource
     End Sub
 
 End Class

@@ -1,14 +1,7 @@
 <Configuration>
   <RecentFiles>
     <RecentFiles>
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Light/f:ILight.vb" caret="348" fromTop="8" />
-      <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/f:PerformanceTests.vb" caret="7393" fromTop="15" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Video/f:ViewCourseVideo.vb" caret="1015" fromTop="19" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:ColorConversion/f:ILightToColorConverter.vb" caret="17" fromTop="0" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/f:RayTraceDrawer.vb" caret="98" fromTop="1" />
-      <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/f:ExactColorTests.vb" caret="656" fromTop="15" />
       <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/f:RadianceSpectrumToColorConverterTests.vb" caret="1341" fromTop="27" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml" caret="1040" fromTop="3" />
       <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:MaterialSurfaces/f:Materials2D.vb" caret="655" fromTop="11" />
       <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:MaterialSurfaces/f:Material2D.vb" caret="13" fromTop="0" />
       <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Light/f:RgbLight.vb" caret="183" fromTop="3" />
@@ -17,52 +10,59 @@
       <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:MaterialSurfaces/f:RadianceSpectrumMaterials2D.vb" caret="142" fromTop="4" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="1582" fromTop="19" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml" caret="1881" fromTop="8" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:ColorConversion/f:RgbLightToColorConverter.vb" caret="96" fromTop="2" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Light/d:RadianceSpectrum/f:BlackBodyRadianceSpectrum.vb" caret="1061" fromTop="17" />
       <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/f:BlackBodyRadianceSpectrumTests.vb" caret="300" fromTop="5" />
       <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Light/d:RadianceSpectrum/f:IRadianceSpectrum.vb" caret="125" fromTop="3" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Light/d:RadianceSpectrum/f:RadianceSpectrum.vb" caret="29" fromTop="0" />
-      <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/d:RelativityTests/f:RelativisticRadianceTransformationTests.vb" caret="13" fromTop="0" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml.vb" caret="1365" fromTop="16" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticTransformation.vb" caret="3570" fromTop="19" />
       <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/f:IRayTracer.vb" caret="83" fromTop="1" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:ColorConversion/f:RadianceSpectrumToColorConverter.vb" caret="1949" fromTop="16" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticRadianceSpectrumRayTracer.vb" caret="456" fromTop="8" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticRayTracer.vb" caret="933" fromTop="19" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticRayTracerWithoutDopplerEffect.vb" caret="782" fromTop="15" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Examples/f:RayTracingExamples.vb" caret="28543" fromTop="3" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorExtensions.vb" caret="684" fromTop="13" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticRayTracerBase.vb" caret="742" fromTop="13" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticRayTracerWithoutDopplerEffect.vb" caret="793" fromTop="16" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/f:RecursiveRayTracer.vb" caret="3121" fromTop="17" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/f:RayTraceDrawer.vb" caret="2046" fromTop="17" />
+      <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/d:RelativityTests/f:RelativisticRadianceTransformationTests.vb" caret="1937" fromTop="18" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticRayTracer.vb" caret="1134" fromTop="20" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:ColorConversion/f:ILightToColorConverter.vb" caret="71" fromTop="1" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector3D.vb" caret="564" fromTop="17" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Light/d:RadianceSpectrum/f:BlackBodyRadianceSpectrum.vb" caret="891" fromTop="15" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Light/d:RadianceSpectrum/f:RadianceSpectrum.vb" caret="747" fromTop="14" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticTransformation.vb" caret="4177" fromTop="17" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Surfaces/f:Ray.vb" caret="484" fromTop="16" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:ColorConversion/f:RgbLightToColorConverter.vb" caret="390" fromTop="6" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml" caret="738" fromTop="3" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:ColorConversion/f:RadianceSpectrumToColorConverter.vb" caret="963" fromTop="0" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml.vb" caret="2990" fromTop="24" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Examples/f:RayTracingExamples.vb" caret="29934" fromTop="34" />
     </RecentFiles>
     <RecentEdits>
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Light/d:RadianceSpectrum/f:RadianceSpectrum.vb" caret="740" fromTop="5" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Light/d:RadianceSpectrum/f:RadianceSpectrum.vb" caret="740" fromTop="9" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml.vb" caret="1466" fromTop="19" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:ColorConversion/f:RadianceSpectrumToColorConverter.vb" caret="2045" fromTop="19" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Light/d:RadianceSpectrum/f:RadianceSpectrum.vb" caret="1422" fromTop="19" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Light/d:RadianceSpectrum/f:RadianceSpectrum.vb" caret="1700" fromTop="23" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Light/d:RadianceSpectrum/f:RadianceSpectrum.vb" caret="32" fromTop="0" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Light/d:RadianceSpectrum/f:RadianceSpectrum.vb" caret="937" fromTop="25" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Light/d:RadianceSpectrum/f:RadianceSpectrum.vb" caret="301" fromTop="7" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Light/d:RadianceSpectrum/f:RadianceSpectrum.vb" caret="741" fromTop="18" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticTransformation.vb" caret="4150" fromTop="19" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticTransformation.vb" caret="4150" fromTop="24" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticTransformation.vb" caret="3880" fromTop="22" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticTransformation.vb" caret="3461" fromTop="16" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticRayTracer.vb" caret="798" fromTop="20" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticRayTracerWithoutDopplerEffect.vb" caret="771" fromTop="6" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticRayTracerWithoutDopplerEffect.vb" caret="618" fromTop="1" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticRayTracer.vb" caret="688" fromTop="13" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticRadianceSpectrumRayTracer.vb" caret="347" fromTop="6" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticRadianceSpectrumRayTracer.vb" caret="527" fromTop="8" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticRayTracerWithoutDopplerEffect.vb" caret="771" fromTop="14" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Examples/f:RayTracingExamples.vb" caret="29824" fromTop="19" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Examples/f:RayTracingExamples.vb" caret="29463" fromTop="14" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Examples/f:RayTracingExamples.vb" caret="21745" fromTop="19" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticRayTracer.vb" caret="252" fromTop="4" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticRayTracer.vb" caret="933" fromTop="19" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticRayTracerWithoutDopplerEffect.vb" caret="54" fromTop="0" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Examples/f:RayTracingExamples.vb" caret="22247" fromTop="21" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Examples/f:RayTracingExamples.vb" caret="28476" fromTop="1" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Examples/f:RayTracingExamples.vb" caret="29503" fromTop="15" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticTransformation.vb" caret="2096" fromTop="10" />
+      <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/d:RelativityTests/f:RelativisticRadianceTransformationTests.vb" caret="2547" fromTop="30" />
+      <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/d:RelativityTests/f:RelativisticRadianceTransformationTests.vb" caret="2146" fromTop="19" />
+      <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/d:RelativityTests/f:RelativisticRadianceTransformationTests.vb" caret="2238" fromTop="15" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticRayTracer.vb" caret="982" fromTop="14" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticTransformation.vb" caret="1895" fromTop="22" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticTransformation.vb" caret="3183" fromTop="17" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticTransformation.vb" caret="3441" fromTop="22" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml.vb" caret="3470" fromTop="39" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Examples/f:RayTracingExamples.vb" caret="29539" fromTop="19" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Examples/f:RayTracingExamples.vb" caret="28478" fromTop="15" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml.vb" caret="2595" fromTop="20" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml" caret="453" fromTop="3" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml.vb" caret="2251" fromTop="31" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml.vb" caret="1513" fromTop="23" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml.vb" caret="3405" fromTop="24" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml.vb" caret="1470" fromTop="28" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:ColorConversion/f:RadianceSpectrumToColorConverter.vb" caret="2918" fromTop="10" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:ColorConversion/f:RadianceSpectrumToColorConverter.vb" caret="1105" fromTop="16" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml.vb" caret="984" fromTop="17" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml" caret="935" fromTop="5" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:ColorConversion/f:RadianceSpectrumToColorConverter.vb" caret="1789" fromTop="9" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml.vb" caret="1214" fromTop="22" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml.vb" caret="631" fromTop="10" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml.vb" caret="3309" fromTop="27" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml.vb" caret="2382" fromTop="5" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml.vb" caret="2590" fromTop="14" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml.vb" caret="2989" fromTop="24" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Examples/f:RayTracingExamples.vb" caret="28606" fromTop="10" />
+      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Examples/f:RayTracingExamples.vb" caret="28749" fromTop="12" />
     </RecentEdits>
   </RecentFiles>
   <NAntValidationSettings>

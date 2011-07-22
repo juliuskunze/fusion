@@ -100,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <Import Include="Fusion.Math" />
+    <Import Include="Fusion.Physics" />
     <Import Include="Fusion.RayTracer" />
     <Import Include="Fusion.Visualization" />
     <Import Include="Microsoft.Win32" />
@@ -172,6 +173,10 @@
     <ProjectReference Include="..\Fusion.Math\Fusion.Math.vbproj">
       <Project>{F6034AE4-65A7-49CB-9756-C13EDFA258E6}</Project>
       <Name>Fusion.Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fusion.Physics\Fusion.Physics.vbproj">
+      <Project>{74A8E394-FD08-418B-BBBE-B9FD54589B2E}</Project>
+      <Name>Fusion.Physics</Name>
     </ProjectReference>
     <ProjectReference Include="..\Fusion.RayTracer\Fusion.RayTracer.vbproj">
       <Project>{85E3D12F-55C2-41DF-BC93-3E718C0BEE0E}</Project>
