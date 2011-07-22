@@ -1,4 +1,4 @@
-﻿Public Class RayTracerTests
+Public Class RayTracerTests
 
     <Test()>
     Public Sub Reflection()
@@ -15,7 +15,7 @@
         Dim rayTracer = New ScatteringRayTracer(Of RgbLight)(surfaces)
 
         Dim startRay = New Ray(origin:=New Vector3D(1, 1, 0), direction:=New Vector3D(-1, -1, 0))
-        Dim color = rayTracer.GetColor(startRay)
+        Dim color = rayTracer.GetLight(startRay)
         Assert.AreEqual(0, color.Red)
         Assert.AreEqual(0, color.Green)
         Assert.AreEqual(1, color.Blue)

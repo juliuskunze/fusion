@@ -63,8 +63,8 @@ Public Class RecursiveRayTracer(Of TLight As {ILight(Of TLight), New})
     Public Property BackgroundLight As New TLight
     Public Property MaxIntersectionCount As Integer
 
-    Public Overridable Function GetLight(ByVal startRay As Ray) As TLight Implements IRayTracer(Of TLight).GetColor
-        Return Me.TraceColor(startRay, intersectionCount:=0)
+    Public Overridable Function GetLight(ByVal viewRay As Ray) As TLight Implements IRayTracer(Of TLight).GetLight
+        Return Me.TraceColor(viewRay, intersectionCount:=0)
     End Function
 
 End Class

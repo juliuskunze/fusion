@@ -14,4 +14,8 @@
         Return 2 * Constants.PlanckConstant * Constants.SpeedOfLight ^ 2 / (wavelength ^ 5 * (System.Math.Exp(_ExponentFactor / wavelength) - 1))
     End Function
 
+    Public Overrides Function ToString() As String
+        Return 2 * Constants.PlanckConstant * Constants.SpeedOfLight ^ 2 & " / lambda ^ 5 / (e ^ (" & _ExponentFactor & " / lambda)) - 1)"
+    End Function
+
 End Class

@@ -28,7 +28,7 @@
 
         Next
 
-        Dim white = _RadianceSpectrumToColorConverter.Convert(New FunctionRadianceSpectrum(spectralRadianceFunction:=Function(wavelength) 1))
+        Dim white = _RadianceSpectrumToColorConverter.Convert(New RadianceSpectrum(Function(wavelength) 1))
 
         ' bitmap.Clear(white.ToColor)
 
@@ -47,7 +47,7 @@
         Dim temperatureStep = (upperTemperatureBound - lowerTemperatureBound) / width
 
         For x = 0 To width - 1
-            Dim color = _RadianceSpectrumToColorConverter.Convert(New FunctionRadianceSpectrum(New BlackBodyRadianceSpectrum(lowerTemperatureBound + x * temperatureStep)))
+            Dim color = _RadianceSpectrumToColorConverter.Convert(New RadianceSpectrum(New BlackBodyRadianceSpectrum(lowerTemperatureBound + x * temperatureStep)))
 
             For y = 0 To height - 1
                 bitmap.SetPixel(x:=x, y:=y, color:=color)

@@ -1,6 +1,6 @@
 ﻿Public Class MainWindow
 
-    Private WithEvents _RayTraceDrawer As RayTraceDrawer(Of FunctionRadianceSpectrum)
+    Private WithEvents _RayTraceDrawer As RayTraceDrawer(Of RadianceSpectrum)
     Private _ResultBitmap As System.Drawing.Bitmap
     Private _RenderStopwatch As Stopwatch
 
@@ -134,7 +134,7 @@
     End Sub
 
     Private Sub RenderBackgroundWorker_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles _RenderBackgroundWorker.DoWork
-        Dim rayTracerDrawer = CType(e.Argument, RayTraceDrawer(Of FunctionRadianceSpectrum))
+        Dim rayTracerDrawer = CType(e.Argument, RayTraceDrawer(Of RadianceSpectrum))
 
         Dim resultBitmap = New System.Drawing.Bitmap(rayTracerDrawer.PictureSize.Width, rayTracerDrawer.PictureSize.Height)
 

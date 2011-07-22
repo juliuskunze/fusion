@@ -1,4 +1,4 @@
-﻿Public Class RayTraceDrawer(Of TLight As {ILight(Of TLight), New})
+Public Class RayTraceDrawer(Of TLight As {ILight(Of TLight), New})
 
     Private ReadOnly _LightToColorConverter As ILightToColorConverter(Of TLight)
 
@@ -52,7 +52,7 @@
         Dim projectedLocation = _CoordinateSystem.VirtualLocation(pixelLocation:=New Vector2D(bitmapX, bitmapY))
         Dim sightRay = Me.View.SightRay(viewPlaneLocation:=projectedLocation)
 
-        Return _LightToColorConverter.Convert(Me.RayTracer.GetColor(startRay:=sightRay))
+        Return _LightToColorConverter.Convert(Me.RayTracer.GetLight(viewRay:=sightRay))
     End Function
 
 End Class

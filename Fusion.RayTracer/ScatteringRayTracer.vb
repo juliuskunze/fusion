@@ -1,4 +1,4 @@
-﻿Public Class ScatteringRayTracer(Of TLight As {ILight(Of TLight), New})
+Public Class ScatteringRayTracer(Of TLight As {ILight(Of TLight), New})
     Implements IRayTracer(Of TLight)
 
     Public Sub New(ByVal surface As ISurface(Of Material2D(Of TLight)), Optional ByVal rayCount As Integer = 1, Optional ByVal maxIntersectionCount As Integer = 10)
@@ -52,10 +52,10 @@
     Public Property MaxIntersectionCount As Integer
     Public Property RayCount As Integer
 
-    Public Function GetColor(ByVal startRay As Ray) As TLight Implements IRayTracer(Of TLight).GetColor
+    Public Function GetLight(ByVal viewRay As Ray) As TLight Implements IRayTracer(Of TLight).GetLight
         Dim colorSum = New TLight
         For i = 1 To Me.RayCount
-            colorSum = colorSum.Add(Me.TraceColor(startRay, intersectionCount:=0))
+            colorSum = colorSum.Add(Me.TraceColor(viewRay, intersectionCount:=0))
         Next
         Return colorSum.DivideBrightness(Me.RayCount)
     End Function

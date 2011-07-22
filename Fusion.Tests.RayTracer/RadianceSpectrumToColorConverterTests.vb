@@ -6,7 +6,7 @@
 
     <Test()>
     Public Sub TestWhite()
-        Dim whiteSpectrum = New FunctionRadianceSpectrum(SpectralRadianceFunction:=Function(wavelength) exampleRadiancePerWhite)
+        Dim whiteSpectrum = New RadianceSpectrum([function]:=Function(wavelength) exampleRadiancePerWhite)
         Dim white = _Converter.Convert(whiteSpectrum)
 
         Assert.That(Abs(1 - white.R / 255), [Is].LessThan(0.01))
@@ -17,13 +17,13 @@
 
     <Test()>
     Public Sub TestBlue()
-        Dim blueSpectrum = New FunctionRadianceSpectrum(SpectralRadianceFunction:=Function(wavelength)
-                                                                                      If wavelength > 400 * 10 ^ -9 AndAlso wavelength < 430 * 10 ^ -9 Then
-                                                                                          Return 2
-                                                                                      Else
-                                                                                          Return 0
-                                                                                      End If
-                                                                                  End Function)
+        Dim blueSpectrum = New RadianceSpectrum([function]:=Function(wavelength)
+                                                                If wavelength > 400 * 10 ^ -9 AndAlso wavelength < 430 * 10 ^ -9 Then
+                                                                    Return 2
+                                                                Else
+                                                                    Return 0
+                                                                End If
+                                                            End Function)
 
         Dim blue = _Converter.Convert(blueSpectrum)
 

@@ -1,15 +1,14 @@
 ﻿''' <summary>
-''' Transforms a (light) ray of a (stationary) reference frame into one which relativly moves
-''' with a constant velocity in x-direction.
+''' Transforms a view ray of a (stationary) reference frame S into a reference frame T which relativly moves with a constant velocity in x-direction.
 ''' When the origins of the reference frames are equal, their times are 0.
 ''' </summary>
 ''' <remarks></remarks>
 Public Class RelativisticRadianceTransformation
 
-    Public Sub New(ByVal relativeVelocity As Vector3D)
-        If relativeVelocity.Length >= Physics.Constants.SpeedOfLight Then Throw New ArgumentException("A velocity must be smaller than light velocity.")
+    Public Sub New(ByVal relativeVelocityOfTInS As Vector3D)
+        If relativeVelocityOfTInS.Length >= Physics.Constants.SpeedOfLight Then Throw New ArgumentException("A velocity must be smaller than light velocity.")
 
-        _RelativeVelocity = relativeVelocity
+        _RelativeVelocity = relativeVelocityOfTInS
         _NormalizedRelativeVelocityDirection = _RelativeVelocity.Normalized
         _Beta = _RelativeVelocity.Length / Physics.Constants.SpeedOfLight
         _Gamma = 1 / (1 - _Beta ^ 2)
@@ -46,57 +45,52 @@ Public Class RelativisticRadianceTransformation
 
     Private ReadOnly _RelativeVelocityIsNull As Boolean
 
-    Private Function GetGammaTheta(ByVal ray As Ray) As Double
+    Private Function GetGammaTheta(ByVal viewRayInS As Ray) As Double
         If _RelativeVelocityIsNull Then Return 1
 
-        Return Me.GetGammaTheta(cosinusTheta:=ray.NormalizedDirection * _NormalizedRelativeVelocityDirection)
+        Return Me.GetGammaTheta(cosinusTheta:=-viewRayInS.NormalizedDirection * _NormalizedRelativeVelocityDirection)
     End Function
 
     Private Function GetGammaTheta(ByVal cosinusTheta As Double) As Double
-        Return 1 / (_Gamma * (1 - _Beta * cosinusTheta))
+        Return 1 / (_Gamma * (1 + _Beta * cosinusTheta))
     End Function
 
-    ''' <summary>
-    ''' Returns the transformed ray in the moved reference frame.
-    ''' </summary>
-    ''' <param name="ray">The ray in the stationary reference frame.</param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    Public Function GetTransformedRay(ByVal ray As Ray) As Ray
-        If _RelativeVelocityIsNull Then Return ray
+    Public Function GetViewRayInS(ByVal viewRayInT As Ray) As Ray
+        If _RelativeVelocityIsNull Then Return viewRayInT
 
-        Dim oldDirection = ray.NormalizedDirection
+        Dim oldDirection = viewRayInT.NormalizedDirection
         Dim oldCosinus = oldDirection * _NormalizedRelativeVelocityDirection
         Dim oldCosinusVector = oldCosinus * _NormalizedRelativeVelocityDirection
         Dim oldSinusVector = oldDirection - oldCosinusVector
 
-        'cos theta'= (cos theta - beta) / (1-beta * cos theta)
+        'cos theta= (cos theta' - beta) / (1 - beta * cos theta')
         Dim newCosinus = (oldCosinus - _Beta) / (1 - _Beta * oldCosinus)
         Dim newCosinusVector = newCosinus * _NormalizedRelativeVelocityDirection
 
-        'cos phi'= cos phi
+        'cos phi= cos phi'
         Dim newSinusVector = oldSinusVector
 
         Dim newDirection = newSinusVector + newCosinusVector
-        Return New Ray(origin:=ray.Origin, direction:=newDirection)
+        Return New Ray(origin:=viewRayInT.Origin, direction:=newDirection)
     End Function
 
-    Public Function GetTransformedWavelength(ByVal ray As Ray, ByVal wavelength As Double) As Double
-        Return wavelength * Me.GetGammaTheta(ray)
+    Public Function GetWavelengthInS(ByVal viewRayInS As Ray, ByVal wavelengthInT As Double) As Double
+        'lambda = lambda' * gamma_phi
+        Return wavelengthInT * Me.GetGammaTheta(viewRayInS:=viewRayInS)
     End Function
 
-    Public Function GetTransformedSpectralRadianceFunction(ByVal ray As Ray, ByVal spectralRadianceFunction As SpectralRadianceFunction) As SpectralRadianceFunction
-        Return Function(wavelength) Me.GetTransformedSpectralRadiance(ray:=ray,
-                                                                      intensity:=spectralRadianceFunction.Invoke(wavelength:=Me.GetTransformedWavelength(ray:=ray,
-                                                                                                                                                         wavelength:=wavelength)))
+    Public Function GetSpectralRadianceInT(ByVal viewRayInS As Ray, ByVal spectralRadianceInS As Double) As Double
+        'L'(...') = L(...) * gamma_phi ^ 5
+        Return spectralRadianceInS * Me.GetGammaTheta(viewRayInS:=viewRayInS) ^ 5
     End Function
 
-    Private Function GetTransformedRadiance(ByVal ray As Ray, ByVal intensity As Double) As Double
-        Return intensity * Me.GetGammaTheta(ray) ^ 4
+    Public Function GetSpectralRadianceFunctionInT(ByVal viewRayInS As Ray, ByVal spectralRadianceFunctionInS As SpectralRadianceFunction) As SpectralRadianceFunction
+        Return Function(wavelengthInT) Me.GetSpectralRadianceInT(viewRayInS:=viewRayInS, spectralRadianceInS:=spectralRadianceFunctionInS(Me.GetWavelengthInS(viewRayInS:=viewRayInS, wavelengthInT:=wavelengthInT)))
+        'Me.GetTransformedSpectralRadiance(ray, spectralRadianceFunction(Me.GetTransformedWavelength(ray, wavelength)))
     End Function
 
-    Public Function GetTransformedSpectralRadiance(ByVal ray As Ray, ByVal intensity As Double) As Double
-        Return intensity * Me.GetGammaTheta(ray) ^ 5
+    Public Function GetRadianceSpectrumInT(ByVal viewRayInS As Ray, ByVal radianceSpectrumInS As RadianceSpectrum) As RadianceSpectrum
+        Return New RadianceSpectrum(Me.GetSpectralRadianceFunctionInT(viewRayInS:=viewRayInS, spectralRadianceFunctionInS:=radianceSpectrumInS.Function))
     End Function
 
 End Class

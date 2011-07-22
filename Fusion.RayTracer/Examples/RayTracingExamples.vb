@@ -165,7 +165,7 @@ Public Class RayTracingExamples
         Return New RayTraceDrawer(Of RgbLight)(rayTracer:=rayTracer, PictureSize:=PictureSize, view:=view, lightToColorConverter:=New RgbLightToColorConverter)
     End Function
 
-    Public Function SecondRoomRayTracer() As RelativisticRayTracer(Of RgbLight)
+    Public Function SecondRoomRayTracer() As RelativisticRayTracerBase(Of RgbLight)
         Dim origin = Vector3D.Zero
         Dim frontLeftDown = New Vector3D(0, 0, 6)
         Dim backLeftDown = New Vector3D(0, 0, 16)
@@ -296,10 +296,12 @@ Public Class RayTracingExamples
                                                                  glassCylinderSurface, glassAntiCylinderSurface,
                                                                  frontCylinderSurface,
                                                                  lampSide}
-        Return New RelativisticRayTracer(Of RgbLight)(surface:=surfaces, cameraVelocity:=New Vector3D(0, 0, -0.5) * Physics.Constants.SpeedOfLight,
+        Dim classicRayTracer = New RecursiveRayTracer(Of RgbLight)(surface:=surfaces,
                                                               unshadedLightSource:=New LightSources(Of RgbLight),
-                                                              shadedPointLightSources:=shadedLightSources,
-                                                              maxIntersectionCount:=10)
+                                                              shadedPointLightSources:=shadedLightSources)
+
+        Return New RelativisticRayTracerWithoutDopplerEffect(Of RgbLight)(classicRayTracer:=classicRayTracer,
+                                                                          cameraVelocity:=New Vector3D(0, 0, -0.5) * Physics.Constants.SpeedOfLight)
     End Function
 
     Public Shared Sub WriteVideo()
@@ -382,7 +384,7 @@ Public Class RayTracingExamples
         Return New RayTraceDrawer(Of RgbLight)(rayTracer, Me.PictureSize, view, lightToColorConverter:=New RgbLightToColorConverter)
     End Function
 
-    Public Function BlackBodyPlaneRelativistic(ByVal lightToColorConverter As ILightToColorConverter(Of FunctionRadianceSpectrum)) As RayTraceDrawer(Of FunctionRadianceSpectrum)
+    Public Function BlackBodyPlaneRelativistic(ByVal lightToColorConverter As ILightToColorConverter(Of RadianceSpectrum)) As RayTraceDrawer(Of RadianceSpectrum)
         Dim view = New View3D(observerLocation:=New Vector3D,
                               lookAt:=New Vector3D(0, 0, 1),
                               upVector:=New Vector3D(0, 1, 0),
@@ -391,19 +393,20 @@ Public Class RayTracingExamples
         Dim plane = New Plane(location:=New Vector3D(0, 0, 1),
                               normal:=New Vector3D(0, 0, -1))
 
-        Dim blackBodyMaterial = RadianceSpectrumMaterials2D.LightSource(sourceLight:=New FunctionRadianceSpectrum(New BlackBodyRadianceSpectrum(2800)))
+        Dim blackBodyMaterial = RadianceSpectrumMaterials2D.LightSource(sourceLight:=New RadianceSpectrum(New BlackBodyRadianceSpectrum(2800)))
 
-        Dim blackBodyPlane = New SingleMaterialSurface(Of Material2D(Of FunctionRadianceSpectrum))(plane, blackBodyMaterial)
+        Dim blackBodyPlane = New SingleMaterialSurface(Of Material2D(Of RadianceSpectrum))(plane, blackBodyMaterial)
 
-        Dim rayTracer = New RelativisticRadianceSpectrumRayTracer(surface:=blackBodyPlane,
-                                                         unshadedLightSource:=New LightSources(Of FunctionRadianceSpectrum),
-                                                         shadedPointLightSources:=New List(Of IPointLightSource(Of FunctionRadianceSpectrum)),
-                                                         cameraVelocity:=New Vector3D(0.7 * SpeedOfLight, 0, 0))
+        Dim classicRayTracer = New RecursiveRayTracer(Of RadianceSpectrum)(surface:=blackBodyPlane,
+                                                                           unshadedLightSource:=New LightSources(Of RadianceSpectrum),
+                                                                           shadedPointLightSources:=New List(Of IPointLightSource(Of RadianceSpectrum)))
 
-        Return New RayTraceDrawer(Of FunctionRadianceSpectrum)(rayTracer:=rayTracer,
-                                                               PictureSize:=Me.PictureSize,
-                                                               view:=view,
-                                                               lightToColorConverter:=lightToColorConverter)
+        Dim relativisticRayTracer = New RelativisticRayTracer(classicRayTracer:=classicRayTracer, cameraVelocity:=New Vector3D(0, 0, 0.4 * SpeedOfLight))
+
+        Return New RayTraceDrawer(Of RadianceSpectrum)(rayTracer:=relativisticRayTracer,
+                                                       PictureSize:=Me.PictureSize,
+                                                       view:=view,
+                                                       lightToColorConverter:=lightToColorConverter)
     End Function
 
 End Class
