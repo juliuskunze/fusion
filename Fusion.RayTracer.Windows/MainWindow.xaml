@@ -22,45 +22,82 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Grid Name="_ResultImageContainer" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Image Name="_ResultImage" Stretch="None" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="NearestNeighbor"></Image>
-            </Grid>
-            <StackPanel Grid.Column="1">
-                <Button Name="_RenderButton">Render</Button>
-                <Button Name="_RenderCancelButton" Visibility="Collapsed">Cancel</Button>
-                
-                <ProgressBar Name="_RenderProgressBar" Height="25" Maximum="100" Visibility="Collapsed"></ProgressBar>
-                <Button Name="_SaveButton" IsEnabled="False">Save...</Button>
-                <GroupBox Header="Picture properties">
+            <TabControl>
+                <TabItem Header="Scene description" >
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="250" MinHeight="50"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*" MinHeight="50"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        
+                        <StackPanel>
+                            <Button Name="_CompileSceneButton">Compile scene</Button>
+                            <GroupBox Header="Picture properties">
+                                <StackPanel>
+                                    <TextBox Name="_CustomSizeTextBox" HorizontalAlignment="Stretch">100;100</TextBox>
+                                    <TextBox Name="_RadiancePerWhiteTextBox" HorizontalAlignment="Stretch">100000</TextBox>
+                                </StackPanel>
+                            </GroupBox>
+                        </StackPanel>
+                        
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
+                            <TextBox Margin="0" AcceptsReturn="True" Name="_SceneDescriptionTextBox"></TextBox>
+                        </ScrollViewer>
+
+                        <GridSplitter HorizontalAlignment="Stretch" Grid.Row="2" Grid.ColumnSpan="1" Height="3"></GridSplitter>
+                        
+                        <Label Grid.Row="3">Errors:</Label>
+                        
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="4">
+                            <ListBox Name="_SceneDescriptionCompileErrorListBox">
+                            </ListBox>
+                        </ScrollViewer>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Rendering" IsEnabled="True" Name="_RenderingTabItem" Visibility="Collapsed">
+                    
                     <StackPanel>
-                        <TextBox Name="_CustomSizeTextBox" HorizontalAlignment="Stretch">100;100</TextBox>
-                        <TextBox Name="_RadiancePerWhite" HorizontalAlignment="Stretch">100000</TextBox>
-                    </StackPanel>
-                </GroupBox>
-                <GroupBox Header="Rendering">
-                    <StackPanel>
+                        <GroupBox Header="Time calculation" Name="_RenderingTimeCalculationGroupBox">
+                            <StackPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Button Name="_CalculateNeededTimeButton">Calculate rendering time</Button>
+                                    <Button Name="_CalculateNeededTimeOptionsButton" Grid.Column="1">Options...</Button>
+                                </Grid>
+
+                                <Label Name="_TotalNeededTimeLabel">(Needed total time:)</Label>
+                                <Label Name="_AverageNeededTimePerPixelLabel">(Needed time per pixel average:)</Label>
+                            </StackPanel>
+                        </GroupBox>
+                        
+                        <Button Name="_RenderButton">Render</Button>
+                        <Button Name="_RenderCancelButton" Visibility="Collapsed">Cancel</Button>
+                        <ProgressBar Name="_RenderProgressBar" Height="25" Maximum="100" Visibility="Collapsed"></ProgressBar>
                         <Label Name="_TotalElapsedTimeLabel">(Elapsed total time:)</Label>
                         <Label Name="_AverageElapsedTimePerPixelLabel">(Elapsed time per pixel average:)</Label>
-                    </StackPanel>       
-                </GroupBox>
-                <GroupBox Name="_RenderTimeCalculationGroupBox" Header="Needed rendering time">
-                    <StackPanel>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            
-                            <Button Name="_CalculateNeededTimeButton">Calculate</Button>
-                            <Button Name="_CalculateNeededTimeOptionsButton" Grid.Column="1">Options...</Button>
-                        </Grid>
-                        
-                        <Label Name="_TotalNeededTimeLabel">(Needed total time:)</Label>
-                        <Label Name="_AverageNeededTimePerPixelLabel">(Needed time per pixel average:)</Label>
                     </StackPanel>
-                </GroupBox>
-                <Button Name="_VideoButton">Write example video</Button>
-            </StackPanel>
+                </TabItem>
+                <TabItem Header="Result image" Visibility="Collapsed" Name="_ResultTabItem">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Button Name="_SaveButton">Save...</Button>
+                        <Image Grid.Row="1" Name="_ResultImage" Stretch="None" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="NearestNeighbor"></Image>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+
+
+                
         </Grid>
     </Grid>
 </r:RibbonWindow>

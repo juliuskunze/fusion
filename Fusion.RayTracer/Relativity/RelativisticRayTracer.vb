@@ -17,12 +17,24 @@
     End Sub
 
     Public Overrides Function GetLight(ByVal viewRay As Ray) As RadianceSpectrum
-        Dim viewRayInS = _RayTransformation.GetViewRayInS(viewRayInT:=viewRay)
+        Dim viewRayInS = Me.GetViewRayInS(viewRayInT:=viewRay)
+        Dim spectralRadianceFunctionInS = _ClassicRayTracer.GetLight(viewRayInS).Function
 
-        Return New RadianceSpectrum(_RayTransformation.GetSpectralRadianceFunctionInT(viewRayInS:=viewRayInS,
-                                                                                      spectralRadianceFunctionInS:=_ClassicRayTracer.GetLight(viewRayInS).Function))
+        Return New RadianceSpectrum(Me.GetSpectralRadianceFunctionInT(viewRayInS:=viewRayInS, spectralRadianceFunctionInS:=spectralRadianceFunctionInS))
     End Function
 
+    Private Function GetViewRayInS(ByVal viewRayInT As Ray) As Ray
+        If _IgnoreGeometryEffect Then Return viewRayInT
 
+        Return _RayTransformation.GetViewRayInS(viewRayInT:=viewRayInT)
+    End Function
+
+    Private Function GetSpectralRadianceFunctionInT(ByVal viewRayInS As Ray, ByVal spectralRadianceFunctionInS As SpectralRadianceFunction) As SpectralRadianceFunction
+        If _IgnoreDopplerEffect AndAlso _IgnoreSearchlightEffect Then Return spectralRadianceFunctionInS
+        If _IgnoreSearchlightEffect Then Return Function(wavelengthInT) spectralRadianceFunctionInS(_RayTransformation.GetWavelengthInS(viewRayInS:=viewRayInS, wavelengthInT:=wavelengthInT))
+        If _IgnoreDopplerEffect Then Return Function(wavelengthInT) _RayTransformation.GetSpectralRadianceInT(viewRayInS:=viewRayInS, spectralRadianceInS:=spectralRadianceFunctionInS(wavelengthInT))
+
+        Return _RayTransformation.GetSpectralRadianceFunctionInT(viewRayInS:=viewRayInS, spectralRadianceFunctionInS:=spectralRadianceFunctionInS)
+    End Function
 
 End Class

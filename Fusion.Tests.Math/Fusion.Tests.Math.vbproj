@@ -92,6 +92,7 @@
     <Compile Include="QaudraticEquationSolverTests.vb" />
     <Compile Include="SurfaceTests\AntiCylinderTests.vb" />
     <Compile Include="SurfaceTests\AntiSphereTests.vb" />
+    <Compile Include="SurfaceTests\BoxTests.vb" />
     <Compile Include="SurfaceTests\CylinderTests.vb" />
     <Compile Include="SurfaceTests\InfiniteAntiCylinderTests.vb" />
     <Compile Include="SurfaceTests\InfiniteCylinderTests.vb" />

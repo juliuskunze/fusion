@@ -132,6 +132,7 @@
     <Compile Include="SquareMatrix.vb" />
     <Compile Include="Surfaces\AntiCylinder.vb" />
     <Compile Include="Surfaces\AntiSphere.vb" />
+    <Compile Include="Surfaces\Box.vb" />
     <Compile Include="Surfaces\Circle.vb" />
     <Compile Include="Surfaces\Cylinder.vb" />
     <Compile Include="Surfaces\InfiniteAntiCylinder.vb" />
@@ -151,6 +152,7 @@
     <Compile Include="Surfaces\UnitedSurfacedPointSet3D.vb" />
     <Compile Include="TermParser.vb" />
     <Compile Include="Vector2D.vb" />
+    <Compile Include="Vector2DRoughComparer.vb" />
     <Compile Include="Vector3D.vb" />
   </ItemGroup>
   <ItemGroup>

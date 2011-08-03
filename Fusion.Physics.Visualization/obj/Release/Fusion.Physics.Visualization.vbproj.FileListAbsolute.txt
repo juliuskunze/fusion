@@ -36,22 +36,3 @@ B:\Fusion-Repository\(Fusion)\Fusion.Physics.Visualization\obj\Release\GenerateR
 B:\Fusion-Repository\(Fusion)\Fusion.Physics.Visualization\obj\Release\Fusion.Physics.Visualization.dll
 B:\Fusion-Repository\(Fusion)\Fusion.Physics.Visualization\obj\Release\Fusion.Physics.Visualization.xml
 B:\Fusion-Repository\(Fusion)\Fusion.Physics.Visualization\obj\Release\Fusion.Physics.Visualization.pdb
-B:\Fusion Repository\Fusion.Physics.Visualization\bin\Release\Fusion.Physics.Visualization.dll
-B:\Fusion Repository\Fusion.Physics.Visualization\bin\Release\Fusion.Physics.Visualization.pdb
-B:\Fusion Repository\Fusion.Physics.Visualization\bin\Release\Fusion.Physics.Visualization.xml
-B:\Fusion Repository\Fusion.Physics.Visualization\bin\Release\Fusion.Math.dll
-B:\Fusion Repository\Fusion.Physics.Visualization\bin\Release\Fusion.Physics.dll
-B:\Fusion Repository\Fusion.Physics.Visualization\bin\Release\Fusion.Visualization.dll
-B:\Fusion Repository\Fusion.Physics.Visualization\bin\Release\Fusion.Math.pdb
-B:\Fusion Repository\Fusion.Physics.Visualization\bin\Release\Fusion.Math.xml
-B:\Fusion Repository\Fusion.Physics.Visualization\bin\Release\Fusion.Physics.pdb
-B:\Fusion Repository\Fusion.Physics.Visualization\bin\Release\Fusion.Physics.xml
-B:\Fusion Repository\Fusion.Physics.Visualization\bin\Release\Fusion.Visualization.pdb
-B:\Fusion Repository\Fusion.Physics.Visualization\bin\Release\Fusion.Visualization.xml
-B:\Fusion Repository\Fusion.Physics.Visualization\obj\Release\ResolveAssemblyReference.cache
-B:\Fusion Repository\Fusion.Physics.Visualization\obj\Release\Fusion.Physics.Visualization.Resources.resources
-B:\Fusion Repository\Fusion.Physics.Visualization\obj\Release\GenerateResource.read.1.tlog
-B:\Fusion Repository\Fusion.Physics.Visualization\obj\Release\GenerateResource.write.1.tlog
-B:\Fusion Repository\Fusion.Physics.Visualization\obj\Release\Fusion.Physics.Visualization.dll
-B:\Fusion Repository\Fusion.Physics.Visualization\obj\Release\Fusion.Physics.Visualization.xml
-B:\Fusion Repository\Fusion.Physics.Visualization\obj\Release\Fusion.Physics.Visualization.pdb

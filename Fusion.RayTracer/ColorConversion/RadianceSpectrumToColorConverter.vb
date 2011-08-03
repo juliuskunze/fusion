@@ -18,7 +18,7 @@ Public Class RadianceSpectrumToColorConverter
     ''' 
     ''' </summary>
     ''' <param name="testStepCount"></param>
-    ''' <param name="spectralRadiancePerWhite">Wenn das ganze Spektrum die übergebene spektrale Strahlstärke besitzt, wird die RGB-Farbe Weiß (255, 255, 255) zurückgegeben.</param>
+    ''' <param name="spectralRadiancePerWhite">Wenn das ganze Spektrum die übergebene spektrale Strahldichte besitzt, wird die RGB-Farbe Weiß (255, 255, 255) zurückgegeben.</param>
     ''' <remarks></remarks>
     Public Sub New(ByVal testStepCount As Integer, ByVal spectralRadiancePerWhite As Double)
         If spectralRadiancePerWhite <= 0 Then Throw New ArgumentOutOfRangeException("spectralRadiancePerWhite")

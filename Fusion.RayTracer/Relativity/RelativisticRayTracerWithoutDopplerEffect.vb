@@ -7,11 +7,12 @@
     End Sub
 
     Public Overrides Function GetLight(ByVal viewRay As Math.Ray) As TLight
-        Dim transformedRay = _RayTransformation.GetViewRayInS(viewRayInT:=viewRay)
+        Dim viewRayInS = _RayTransformation.GetViewRayInS(viewRayInT:=viewRay)
+        Dim lightInS = _ClassicRayTracer.GetLight(viewRayInS)
 
-        Dim transformedIntensity = _RayTransformation.GetSpectralRadianceInT(viewRayInS:=viewRay, spectralRadianceInS:=1)
+        Dim searchlightFactor = _RayTransformation.GetSpectralRadianceInT(viewRayInS:=viewRay, spectralRadianceInS:=1)
 
-        Return _ClassicRayTracer.GetLight(transformedRay).MultiplyBrightness(transformedIntensity)
+        Return lightInS.MultiplyBrightness(searchlightFactor)
     End Function
 
 End Class

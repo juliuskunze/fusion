@@ -99,4 +99,5 @@
     <Test()> Public Shared Sub TestToString()
         Assert.True((New Vector2D(1, 2)).ToString() = "(1|2)")
     End Sub
+
 End Class

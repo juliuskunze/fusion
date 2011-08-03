@@ -6,7 +6,13 @@ Fusion.Visualization
 </name>
 </assembly>
 <members>
-<member name="M:Fusion.Visualization.NormalizedMidpointCoordinateSystem.VirtualLocation(Fusion.Math.Vector2D)">
+<member name="M:Fusion.Visualization.View3D.SightRay(Fusion.Math.Vector2D)">
+	<summary>
+	</summary>
+	<param name="viewPlaneLocation">The view plane is visible if viewPlaneLocation.X and viewPlaneLocation.Y are in [-1; 1].</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:Fusion.Visualization.NormalizedMidpointCoordinateSystem.VirtualLocation(Fusion.Math.Vector2D)">
 	<summary>
  Projects a pixel location on a picture to a vector, which origin is the midpoint of the picture
  and where the right picture bound has an x-coordinate 1; the y-coordinate has the same scale and is up-orientated.

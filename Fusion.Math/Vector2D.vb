@@ -41,13 +41,14 @@ Public Structure Vector2D
     End Sub
 
     Public Sub New(ByVal vectorString As String)
-        If vectorString(0) = "("c AndAlso vectorString(vectorString.Length - 1) = ")" OrElse _
-            vectorString(0) = "["c AndAlso vectorString(vectorString.Length - 1) = "]" OrElse _
-            vectorString(0) = "{"c AndAlso vectorString(vectorString.Length - 1) = "}" Then
+        If vectorString(0) = "("c AndAlso vectorString(vectorString.Length - 1) = ")" OrElse
+           vectorString(0) = "["c AndAlso vectorString(vectorString.Length - 1) = "]" OrElse
+           vectorString(0) = "{"c AndAlso vectorString(vectorString.Length - 1) = "}" OrElse
+           vectorString(0) = "<"c AndAlso vectorString(vectorString.Length - 1) = ">" Then
             vectorString = vectorString.Remove(vectorString.Length - 1, 1).Remove(0, 1)
         End If
 
-        Dim splitStrings = vectorString.Split(New Char() {";"c, "|"c})
+        Dim splitStrings = vectorString.Split(";"c, "|"c)
 
         If splitStrings.Count <> 2 Then
             Throw New ArgumentException("String can't be converted into a vector.")

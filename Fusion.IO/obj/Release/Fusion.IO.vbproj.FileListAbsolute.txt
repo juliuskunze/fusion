@@ -44,19 +44,3 @@ B:\Fusion-Repository\(Fusion)\Fusion.IO\obj\Release\GenerateResource.write.1.tlo
 B:\Fusion-Repository\(Fusion)\Fusion.IO\obj\Release\Fusion.IO.dll
 B:\Fusion-Repository\(Fusion)\Fusion.IO\obj\Release\Fusion.IO.xml
 B:\Fusion-Repository\(Fusion)\Fusion.IO\obj\Release\Fusion.IO.pdb
-B:\Fusion Repository\Fusion.IO\bin\Release\Fusion.IO.dll
-B:\Fusion Repository\Fusion.IO\bin\Release\Fusion.IO.pdb
-B:\Fusion Repository\Fusion.IO\bin\Release\Fusion.IO.xml
-B:\Fusion Repository\Fusion.IO\bin\Release\Fusion.Math.dll
-B:\Fusion Repository\Fusion.IO\bin\Release\Fusion.Physics.dll
-B:\Fusion Repository\Fusion.IO\bin\Release\Fusion.Math.pdb
-B:\Fusion Repository\Fusion.IO\bin\Release\Fusion.Math.xml
-B:\Fusion Repository\Fusion.IO\bin\Release\Fusion.Physics.pdb
-B:\Fusion Repository\Fusion.IO\bin\Release\Fusion.Physics.xml
-B:\Fusion Repository\Fusion.IO\obj\Release\ResolveAssemblyReference.cache
-B:\Fusion Repository\Fusion.IO\obj\Release\Fusion.IO.Resources.resources
-B:\Fusion Repository\Fusion.IO\obj\Release\GenerateResource.read.1.tlog
-B:\Fusion Repository\Fusion.IO\obj\Release\GenerateResource.write.1.tlog
-B:\Fusion Repository\Fusion.IO\obj\Release\Fusion.IO.dll
-B:\Fusion Repository\Fusion.IO\obj\Release\Fusion.IO.xml
-B:\Fusion Repository\Fusion.IO\obj\Release\Fusion.IO.pdb

@@ -75,6 +75,7 @@
       <DependentUpon>ColorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ColorExtensions.vb" />
+    <Compile Include="RelativisticRayTracerDrawerCompiler.vb" />
     <Compile Include="SimpleBitmap.vb" />
     <Compile Include="WindowExtensions.vb" />
     <Page Include="CalculateTimeOptionsDialog.xaml">

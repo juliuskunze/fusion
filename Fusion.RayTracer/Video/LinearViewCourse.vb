@@ -46,6 +46,6 @@ Public Class LinearViewCourse
     Public Function GetView(ByVal pointOfTime As Double) As Visualization.View3D Implements IViewCourse.GetView
         Dim location = _StartLocation + (pointOfTime - Me.StartTime) * Me.Velocity
 
-        Return New View3D(observerLocation:=location, lookAt:=location + Me.Velocity, upVector:=New Vector3D(0, 1, 0), xAngleFromMinus1To1:=Me.VisibleXAngle)
+        Return New View3D(observerLocation:=location, lookAt:=location + Me.Velocity, upVector:=New Vector3D(0, 1, 0), horizontalViewAngle:=Me.VisibleXAngle)
     End Function
 End Class

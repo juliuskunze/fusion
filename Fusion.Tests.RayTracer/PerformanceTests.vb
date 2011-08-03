@@ -15,7 +15,7 @@ Public Class PerformanceTests
         Dim view = New View3D(observerLocation:=New Vector3D(15, 6, 33),
                               lookAt:=New Vector3D(3, 3, 0),
                               upVector:=New Vector3D(0, 1, 0),
-                              xAngleFromMinus1To1:=PI / 4)
+                              horizontalViewAngle:=PI / 4)
         Dim origin = Vector3D.Zero
         Dim frontLeftDown = New Vector3D(0, 0, 6)
         Dim backLeftDown = New Vector3D(0, 0, 16)

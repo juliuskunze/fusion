@@ -1,19 +1,19 @@
 Public Class View3D
 
-    Public Sub New(ByVal observerLocation As Vector3D, ByVal lookAt As Vector3D, ByVal upVector As Vector3D, ByVal xAngleFromMinus1To1 As Double)
+    Public Sub New(ByVal observerLocation As Vector3D, ByVal lookAt As Vector3D, ByVal upVector As Vector3D, ByVal horizontalViewAngle As Double)
         Me.CameraLocation = observerLocation
         Me.LookAt = lookAt
         Me.UpVector = upVector
-        Me.AngleFromMinus1To1 = xAngleFromMinus1To1
+        Me.HorizontalViewAngle = horizontalViewAngle
     End Sub
 
-    Private _AngleFromMinus1To1 As Double
-    Public Property AngleFromMinus1To1 As Double
+    Private _HorizontalViewAngle As Double
+    Public Property HorizontalViewAngle As Double
         Get
-            Return _AngleFromMinus1To1
+            Return _HorizontalViewAngle
         End Get
         Set(ByVal value As Double)
-            _AngleFromMinus1To1 = value
+            _HorizontalViewAngle = value
             Me.ViewPlaneToCameraDistance = 1 / Tan(value / 2)
         End Set
     End Property
@@ -25,7 +25,7 @@ Public Class View3D
         End Get
         Set(ByVal value As Vector3D)
             _CameraLocation = value
-            adaptDirection()
+            Me.AdaptDirection()
         End Set
     End Property
 
@@ -36,11 +36,11 @@ Public Class View3D
         End Get
         Set(ByVal value As Vector3D)
             _LookAt = value
-            adaptDirection()
+            Me.AdaptDirection()
         End Set
     End Property
 
-    Private Sub adaptDirection()
+    Private Sub AdaptDirection()
         Me.Direction = Me.LookAt - Me.CameraLocation
     End Sub
     Public WriteOnly Property Direction As Vector3D
@@ -77,7 +77,7 @@ Public Class View3D
         End Get
     End Property
 
-    Private Sub adaptViewPlaneDistanceVector()
+    Private Sub AdaptViewPlaneDistanceVector()
         _ViewPlaneDistanceVector = Me.NormalizedDirection * Me.ViewPlaneToCameraDistance
     End Sub
     Private _ViewPlaneDistanceVector As Vector3D
@@ -89,22 +89,28 @@ Public Class View3D
         End Get
         Set(ByVal value As Double)
             _ViewPlaneToCameraDistance = value
-            Me.adaptViewPlaneDistanceVector()
+            Me.AdaptViewPlaneDistanceVector()
         End Set
     End Property
 
     Private _NormalizedRightVectorInViewPlane As Vector3D
     Private _NormalizedUpVectorInViewPlane As Vector3D
 
-    Private Sub adaptNormalizedVectorsInViewPlane()
+    Private Sub AdaptNormalizedVectorsInViewPlane()
         _NormalizedRightVectorInViewPlane = Me.NormalizedDirection.CrossProduct(Me.NormalizedUpVector)
-        adaptNormalizedUpVectorInViewPlane()
+        Me.AdaptNormalizedUpVectorInViewPlane()
     End Sub
 
-    Private Sub adaptNormalizedUpVectorInViewPlane()
+    Private Sub AdaptNormalizedUpVectorInViewPlane()
         _NormalizedUpVectorInViewPlane = _NormalizedRightVectorInViewPlane.CrossProduct(Me.NormalizedDirection)
     End Sub
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="viewPlaneLocation">The view plane is visible if viewPlaneLocation.X and viewPlaneLocation.Y are in [-1; 1].</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
     Public Function SightRay(ByVal viewPlaneLocation As Vector2D) As Ray
         Dim sightVectorInViewPlane = _NormalizedRightVectorInViewPlane * viewPlaneLocation.X + _NormalizedUpVectorInViewPlane * viewPlaneLocation.Y
         Return New Ray(origin:=Me.CameraLocation, Direction:=_ViewPlaneDistanceVector + sightVectorInViewPlane)

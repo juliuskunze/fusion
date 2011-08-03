@@ -6,7 +6,12 @@ Fusion.Math
 </name>
 </assembly>
 <members>
-<member name="T:Fusion.Math.ISurface">
+<member name="T:Fusion.Math.Box">
+	<summary>
+ Repräsentiert einen Quader, dessen Kanten parallel zu den Koordinatenachsen ausgerichtet sind.
+ </summary>
+	<remarks></remarks>
+</member><member name="T:Fusion.Math.ISurface">
 	<summary>
  Implemented by surfaces, where all intersections are known for each ray. 
  </summary>

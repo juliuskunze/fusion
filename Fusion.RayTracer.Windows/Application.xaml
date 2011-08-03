@@ -12,5 +12,8 @@
         <Style TargetType="RadioButton" BasedOn="{StaticResource DefaultControlStyle}"></Style>
         <Style TargetType="TextBox" BasedOn="{StaticResource DefaultControlStyle}"></Style>
         <Style TargetType="ProgressBar" BasedOn="{StaticResource DefaultControlStyle}"></Style>
+        <Style TargetType="ScrollViewer" BasedOn="{StaticResource DefaultControlStyle}"></Style>
+        <Style TargetType="GroupBox" BasedOn="{StaticResource DefaultControlStyle}"></Style>
+        
     </Application.Resources>
 </Application>

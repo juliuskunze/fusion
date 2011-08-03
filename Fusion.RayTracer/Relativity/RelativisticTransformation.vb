@@ -1,6 +1,6 @@
 ﻿''' <summary>
-''' Transforms a view ray of a (stationary) reference frame S into a reference frame T which relativly moves with a constant velocity in x-direction.
-''' When the origins of the reference frames are equal, their times are 0.
+''' Transforms a view ray of a (stationary) reference frame S into a reference frame T which relativly moves with a constant velocity.
+''' When the time is 0, the origins of the reference frames are both 0.
 ''' </summary>
 ''' <remarks></remarks>
 Public Class RelativisticRadianceTransformation

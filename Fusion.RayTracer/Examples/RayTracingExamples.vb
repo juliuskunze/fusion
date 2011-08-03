@@ -11,7 +11,7 @@ Public Class RayTracingExamples
         Dim view = New View3D(observerLocation:=New Vector3D(5, 5, 25),
                               lookAt:=New Vector3D(5, 5, 0),
                               upVector:=New Vector3D(0, 1, 0),
-                              xAngleFromMinus1To1:=PI / 3)
+                              horizontalViewAngle:=PI / 3)
         Dim lamp = New LinearPointLightSource(Of RgbLight)(Location:=New Vector3D(5, 9.9, 8), baseLight:=RgbLight.White * 5)
 
         Dim grayMaterial = RgbLightMaterials2D.Scattering(New RgbLight(Color.Gray))
@@ -79,7 +79,7 @@ Public Class RayTracingExamples
         Dim view = New View3D(observerLocation:=cameraLocation,
                               lookAt:=New Vector3D(0, 0.3, 0),
                               upVector:=New Vector3D(0, 1, 0),
-                              xAngleFromMinus1To1:=PI / 2)
+                              horizontalViewAngle:=PI / 2)
         Dim groundMaterial1 = New Material2D(Of RgbLight)(sourceLight:=New RgbLight(Color.Gray),
                                              scatteringRemission:=New BlackRemission(Of RgbLight),
                                              reflectionRemission:=New ScaledRemission(Of RgbLight)(0.2),
@@ -158,7 +158,7 @@ Public Class RayTracingExamples
         Dim view = New View3D(observerLocation:=New Vector3D(7.5, 6, 15),
                               lookAt:=New Vector3D(7.5, 3, 0),
                               upVector:=New Vector3D(0, 1, 0),
-                              xAngleFromMinus1To1:=PI * 0.26)
+                              horizontalViewAngle:=PI * 0.26)
         Dim rayTracer = SecondRoomRayTracer()
         'Dim rayTracer = New ScatteringRayTracer(surface:=surfaces, rayCount:=200, maxIntersectionCount:=10)
 
@@ -319,7 +319,7 @@ Public Class RayTracingExamples
         Dim view = New View3D(observerLocation:=New Vector3D(5, 5, 25),
                               lookAt:=New Vector3D(5, 5, 0),
                               upVector:=New Vector3D(0, 1, 0),
-                              xAngleFromMinus1To1:=PI / 3)
+                              horizontalViewAngle:=PI / 3)
 
         Dim undirectionalLight = New UndirectionalLightSource(Of RgbLight)(New RgbLight(Color.White))
 
@@ -388,20 +388,40 @@ Public Class RayTracingExamples
         Dim view = New View3D(observerLocation:=New Vector3D,
                               lookAt:=New Vector3D(0, 0, 1),
                               upVector:=New Vector3D(0, 1, 0),
-                              xAngleFromMinus1To1:=PI / 2)
+                              horizontalViewAngle:=PI / 4)
 
-        Dim plane = New Plane(location:=New Vector3D(0, 0, 1),
-                              normal:=New Vector3D(0, 0, -1))
+        Dim plane = New Plane(location:=New Vector3D(0, -1, 0),
+                              normal:=New Vector3D(0, 1, 0))
 
-        Dim blackBodyMaterial = RadianceSpectrumMaterials2D.LightSource(sourceLight:=New RadianceSpectrum(New BlackBodyRadianceSpectrum(5000)))
+        Dim blackBodyMaterial10000 = RadianceSpectrumMaterials2D.LightSource(sourceLight:=New RadianceSpectrum(New BlackBodyRadianceSpectrum(5000)))
+        Dim blackBodyMaterial5000 = RadianceSpectrumMaterials2D.LightSource(sourceLight:=New RadianceSpectrum(New BlackBodyRadianceSpectrum(5000)))
+        Dim monochromaticMaterial = RadianceSpectrumMaterials2D.LightSource(sourceLight:=New RadianceSpectrum(Function(wavelength)
+                                                                                                                  Select Case wavelength
+                                                                                                                      Case Is < 775 * 10 ^ -9 : Return 0
+                                                                                                                      Case Is > 825 * 10 ^ -9 : Return 0
+                                                                                                                      Case Else
+                                                                                                                          Return 10 ^ 20
+                                                                                                                  End Select
+                                                                                                              End Function))
 
-        Dim blackBodyPlane = New SquaredMaterialSurface(Of Material2D(Of RadianceSpectrum))(plane, blackBodyMaterial, RadianceSpectrumMaterials2D.Black, squaresXVector:=New Vector3D(1, 0, 0), squaresYVector:=New Vector3D(0, 1, 0), squareLength:=1)
+        Dim blackBodyPlane = New SquaredMaterialSurface(Of Material2D(Of RadianceSpectrum))(plane, blackBodyMaterial5000, RadianceSpectrumMaterials2D.Black, squaresXVector:=New Vector3D(1, 0, 0), squaresYVector:=New Vector3D(0, 0, 1), squareLength:=1)
 
-        Dim classicRayTracer = New RecursiveRayTracer(Of RadianceSpectrum)(surface:=blackBodyPlane,
+        Dim box = New MultiMaterialBox(Of Material2D(Of RadianceSpectrum))(New Box(New Vector3D(1, -1, 4), New Vector3D(2, 2, 5)),
+                                                                                    lowerXMaterial:=RadianceSpectrumMaterials2D.Black,
+                                                                                    upperXMaterial:=blackBodyMaterial5000,
+                                                                                    lowerYMaterial:=RadianceSpectrumMaterials2D.Black,
+                                                                                    upperYMaterial:=RadianceSpectrumMaterials2D.Black,
+                                                                                    lowerZMaterial:=blackBodyMaterial10000,
+                                                                                    upperZMaterial:=RadianceSpectrumMaterials2D.Black)
+
+        Dim classicRayTracer = New RecursiveRayTracer(Of RadianceSpectrum)(surface:=New Surfaces(Of Material2D(Of RadianceSpectrum)) From {blackBodyPlane, box},
                                                                            unshadedLightSource:=New LightSources(Of RadianceSpectrum),
                                                                            shadedPointLightSources:=New List(Of IPointLightSource(Of RadianceSpectrum)))
 
-        Dim relativisticRayTracer = New RelativisticRayTracer(classicRayTracer:=classicRayTracer, cameraVelocity:=New Vector3D(0, 0, 0.9 * SpeedOfLight))
+        Dim relativisticRayTracer = New RelativisticRayTracer(classicRayTracer:=classicRayTracer, cameraVelocity:=New Vector3D(0, 0, 0.9 * SpeedOfLight),
+                                                              ignoreDopplerEffect:=False,
+                                                              ignoreSearchlightEffect:=False,
+                                                              ignoreGeometryEffect:=False)
 
         Return New RayTraceDrawer(Of RadianceSpectrum)(rayTracer:=relativisticRayTracer,
                                                        PictureSize:=Me.PictureSize,
