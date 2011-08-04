@@ -98,6 +98,7 @@
     <Compile Include="RayChangerTests.vb" />
     <Compile Include="RayTracerTests.vb" />
     <Compile Include="NormalizedMidpointCoordinateSystemTests.vb" />
+    <Compile Include="RelativisticRayTracingComilerTests.vb" />
     <Compile Include="RelativityTests\RelativisticRadianceTransformationTests.vb" />
   </ItemGroup>
   <ItemGroup>

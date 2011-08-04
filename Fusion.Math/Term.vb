@@ -6,7 +6,6 @@
                                                                    New DisplayableFunction("tan", AddressOf System.Math.Tan),
                                                                    New DisplayableFunction("asin", AddressOf System.Math.Asin),
                                                                    New DisplayableFunction("acos", AddressOf System.Math.Acos)}
-    Private Shared ReadOnly _InvalidTermException As New ArgumentException("The term is invalid.")
 
     Private ReadOnly _Term As String
     Private _CharIsInBrackets As Boolean()
@@ -25,7 +24,7 @@
     End Function
 
     Public Function GetValue() As Double
-        If _Term = "" Then Throw _InvalidTermException
+        If _Term = "" Then Throw New InvalidTermException(_Term)
 
         If String.Equals(_Term, "pi", StringComparison.OrdinalIgnoreCase) Then Return System.Math.PI
         If String.Equals(_Term, "e", StringComparison.OrdinalIgnoreCase) Then Return System.Math.E
@@ -33,7 +32,7 @@
         Dim parsedDouble As Double
         If Double.TryParse(_Term, result:=parsedDouble) AndAlso Not _Term.Contains("("c) Then Return parsedDouble
 
-        _CharIsInBrackets = Me.GetCharIsInBracketsArray
+        Me.InitializeCharIsInBracketsArray()
         If TermIsInBrackets(startIndex:=0, endIndex:=_Term.Length - 1) Then Return New Term(_Term.Substring(startIndex:=1, length:=_Term.Length - 2)).GetValue
 
         Dim startingFunction = Me.GetStartingFunction
@@ -93,7 +92,7 @@
             If Not _CharIsInBrackets(i) AndAlso _Term.Chars(i) = "^"c Then Return ValueBeforeIndex(i) ^ ValueAfterIndex(i)
         Next
 
-        Throw _InvalidTermException
+        Throw New InvalidTermException(_Term)
     End Function
 
     Private Function GetStartingFunction() As DisplayableFunction
@@ -104,8 +103,8 @@
         Return startingFunctionNames.Single
     End Function
 
-    Private Function GetCharIsInBracketsArray() As Boolean()
-        Dim out_charIsInBrackets(_Term.Length - 1) As Boolean
+    Private Sub InitializeCharIsInBracketsArray()
+        ReDim _CharIsInBrackets(_Term.Length - 1)
         Dim bracketDepth As Integer = 0
 
         For i = 0 To _Term.Length - 1
@@ -114,10 +113,10 @@
             End If
 
             If bracketDepth < 0 Then
-                Throw _InvalidTermException
+                Throw New InvalidTermException(_Term)
             End If
             If bracketDepth > 0 Then
-                out_charIsInBrackets(i) = True
+                _CharIsInBrackets(i) = True
             End If
 
             If _Term.Chars(i) = ")"c Then
@@ -125,11 +124,8 @@
             End If
         Next
 
-        If bracketDepth <> 0 Then Throw _InvalidTermException
-
-
-        Return out_charIsInBrackets
-    End Function
+        If bracketDepth <> 0 Then Throw New InvalidTermException(_Term)
+    End Sub
 
     Private ReadOnly Property ValueBeforeIndex(ByVal index As Integer) As Double
         Get
@@ -181,5 +177,14 @@
         End Sub
 
     End Class
+
+End Class
+
+Public Class InvalidTermException
+    Inherits ArgumentException
+
+    Public Sub New(ByVal term As String)
+        MyBase.New(Message:="The term is invalid: " & term)
+    End Sub
 
 End Class

@@ -60,9 +60,9 @@
         End If
 
         Try
-            _X = CDbl(splitStrings(0))
-            _Y = CDbl(splitStrings(1))
-            _Z = CDbl(splitStrings(2))
+            _X = TermParser.Parse(splitStrings(0))
+            _Y = TermParser.Parse(splitStrings(1))
+            _Z = TermParser.Parse(splitStrings(2))
         Catch ex As Exception
             Throw New ArgumentException("String can't be converted into a vector.")
         End Try

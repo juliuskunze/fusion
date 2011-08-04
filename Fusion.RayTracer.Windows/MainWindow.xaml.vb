@@ -1,17 +1,10 @@
 ﻿Public Class MainWindow
 
-    Private ReadOnly _OkBrush As Brush = Brushes.White
-    Private ReadOnly _ErrorBrush As Brush = Brushes.Tomato
-
     Private WithEvents _RayTraceDrawer As RayTraceDrawer(Of RadianceSpectrum)
     Private _ResultBitmap As System.Drawing.Bitmap
     Private _RenderStopwatch As Stopwatch
 
     Private WithEvents _RenderBackgroundWorker As ComponentModel.BackgroundWorker
-
-    Private _Width As Integer?
-    Private _Height As Integer?
-    Private _RadiancePerWhite As Double?
 
     Private _Compiler As RelativisticRayTracerDrawerCompiler
 
@@ -48,11 +41,13 @@
     End Sub
 
     Private Function TryCompileRayTracerDrawerAndShowErrors() As Boolean
-        If Not _Width.HasValue Then Return False
-        If Not _Height.HasValue Then Return False
-        If Not _RadiancePerWhite.HasValue Then Return False
+        If Not _WidthTermBox.HasResult Then Return False
+        If Not _HeightTermBox.HasResult Then Return False
+        If Not _RadiancePerWhiteTermBox.HasResult Then Return False
 
-        _Compiler = New RelativisticRayTracerDrawerCompiler(pictureSize:=New System.Drawing.Size(_Width.Value, _Height.Value), descriptionText:=_SceneDescriptionTextBox.Text, radiancePerWhite:=_RadiancePerWhite.Value)
+        _Compiler = New RelativisticRayTracerDrawerCompiler(pictureSize:=New System.Drawing.Size(_WidthTermBox.Result.Value, _HeightTermBox.Result.Value),
+                                                            descriptionText:=_SceneDescriptionTextBox.Text,
+                                                            radiancePerWhite:=_RadiancePerWhiteTermBox.Result.Value)
         _RayTraceDrawer = _Compiler.Compile
         _SceneDescriptionCompileErrorListBox.ItemsSource = _Compiler.Errors
 
@@ -70,36 +65,6 @@
                     Throw New ArgumentOutOfRangeException("_SaveFileDialog.FilterIndex")
             End Select
         End If
-    End Sub
-
-    Private Sub WidthTextBox_LostFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles _WidthTextBox.LostFocus
-        Try
-            _Width = CInt(_WidthTextBox.Text)
-            _WidthTextBox.Background = _OkBrush
-        Catch ex As InvalidCastException
-            _Width = Nothing
-            _WidthTextBox.Background = _ErrorBrush
-        End Try
-    End Sub
-
-    Private Sub HeightTextBox_LostFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles _HeightTextBox.LostFocus
-        Try
-            _Height = CInt(_HeightTextBox.Text)
-            _HeightTextBox.Background = _OkBrush
-        Catch ex As InvalidCastException
-            _Height = Nothing
-            _HeightTextBox.Background = _ErrorBrush
-        End Try
-    End Sub
-
-    Private Sub RadiancePerWhiteTextBox_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles _RadiancePerWhiteTextBox.TextChanged
-        Try
-            _RadiancePerWhite = CDbl(_RadiancePerWhiteTextBox.Text)
-            _RadiancePerWhiteTextBox.Background = Brushes.White
-        Catch ex As Exception
-            _RadiancePerWhite = Nothing
-            _RadiancePerWhiteTextBox.Background = Brushes.Tomato
-        End Try
     End Sub
 
     Private Sub CalculateNeededTimeButton_Click(ByVal sender As System.Object, ByVal e As RoutedEventArgs) Handles _CalculateNeededTimeButton.Click

@@ -75,8 +75,12 @@
       <DependentUpon>ColorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ColorExtensions.vb" />
+    <Compile Include="Controls\IntegerTermBox.vb" />
+    <Compile Include="Controls\ValidatingTextBox.vb" />
+    <Compile Include="Controls\Vector3DBox.vb" />
     <Compile Include="RelativisticRayTracerDrawerCompiler.vb" />
     <Compile Include="SimpleBitmap.vb" />
+    <Compile Include="Controls\TermBox.vb" />
     <Compile Include="WindowExtensions.vb" />
     <Page Include="CalculateTimeOptionsDialog.xaml">
       <SubType>Designer</SubType>
