@@ -1,7 +1,7 @@
 ﻿Public Class MainWindow
 
     Private ReadOnly _OkBrush As Brush = Brushes.White
-    Private ReadOnly _ErrorBrush As Brush = Brushes.White
+    Private ReadOnly _ErrorBrush As Brush = Brushes.Tomato
 
     Private WithEvents _RayTraceDrawer As RayTraceDrawer(Of RadianceSpectrum)
     Private _ResultBitmap As System.Drawing.Bitmap
@@ -9,7 +9,8 @@
 
     Private WithEvents _RenderBackgroundWorker As ComponentModel.BackgroundWorker
 
-    Private _CustomPictureSize As System.Drawing.Size?
+    Private _Width As Integer?
+    Private _Height As Integer?
     Private _RadiancePerWhite As Double?
 
     Private _Compiler As RelativisticRayTracerDrawerCompiler
@@ -19,6 +20,8 @@
     Private ReadOnly _SavePictureDialog As New SaveFileDialog
 
     Public Sub New()
+        System.Threading.Thread.CurrentThread.CurrentCulture = New System.Globalization.CultureInfo("en-US")
+
         Me.InitializeComponent()
 
         _RenderBackgroundWorker = New ComponentModel.BackgroundWorker
@@ -45,10 +48,11 @@
     End Sub
 
     Private Function TryCompileRayTracerDrawerAndShowErrors() As Boolean
-        If Not _CustomPictureSize.HasValue Then Return False
+        If Not _Width.HasValue Then Return False
+        If Not _Height.HasValue Then Return False
         If Not _RadiancePerWhite.HasValue Then Return False
 
-        _Compiler = New RelativisticRayTracerDrawerCompiler(pictureSize:=_CustomPictureSize.Value, descriptionText:=_SceneDescriptionTextBox.Text, radiancePerWhite:=_RadiancePerWhite.Value)
+        _Compiler = New RelativisticRayTracerDrawerCompiler(pictureSize:=New System.Drawing.Size(_Width.Value, _Height.Value), descriptionText:=_SceneDescriptionTextBox.Text, radiancePerWhite:=_RadiancePerWhite.Value)
         _RayTraceDrawer = _Compiler.Compile
         _SceneDescriptionCompileErrorListBox.ItemsSource = _Compiler.Errors
 
@@ -68,13 +72,23 @@
         End If
     End Sub
 
-    Private Sub CustomSizeTextBox_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles _CustomSizeTextBox.TextChanged
+    Private Sub WidthTextBox_LostFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles _WidthTextBox.LostFocus
         Try
-            _CustomPictureSize = New Vector2D(_CustomSizeTextBox.Text).ToSizeF.ToSize
-            _CustomSizeTextBox.Background = Brushes.White
-        Catch ex As Exception
-            _CustomPictureSize = Nothing
-            _CustomSizeTextBox.Background = Brushes.Tomato
+            _Width = CInt(_WidthTextBox.Text)
+            _WidthTextBox.Background = _OkBrush
+        Catch ex As InvalidCastException
+            _Width = Nothing
+            _WidthTextBox.Background = _ErrorBrush
+        End Try
+    End Sub
+
+    Private Sub HeightTextBox_LostFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles _HeightTextBox.LostFocus
+        Try
+            _Height = CInt(_HeightTextBox.Text)
+            _HeightTextBox.Background = _OkBrush
+        Catch ex As InvalidCastException
+            _Height = Nothing
+            _HeightTextBox.Background = _ErrorBrush
         End Try
     End Sub
 

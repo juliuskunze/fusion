@@ -1,9 +1,9 @@
 Public Class View3D
 
-    Public Sub New(ByVal observerLocation As Vector3D, ByVal lookAt As Vector3D, ByVal upVector As Vector3D, ByVal horizontalViewAngle As Double)
+    Public Sub New(ByVal observerLocation As Vector3D, ByVal lookAt As Vector3D, ByVal upDirection As Vector3D, ByVal horizontalViewAngle As Double)
         Me.CameraLocation = observerLocation
         Me.LookAt = lookAt
-        Me.UpVector = upVector
+        Me.UpDirection = upDirection
         Me.HorizontalViewAngle = horizontalViewAngle
     End Sub
 
@@ -46,8 +46,8 @@ Public Class View3D
     Public WriteOnly Property Direction As Vector3D
         Set(ByVal value As Vector3D)
             _NormalizedDirection = value.Normalized
-            adaptViewPlaneDistanceVector()
-            adaptNormalizedVectorsInViewPlane()
+            AdaptViewPlaneDistanceVector()
+            AdaptNormalizedVectorsInViewPlane()
         End Set
     End Property
 
@@ -58,15 +58,15 @@ Public Class View3D
         End Get
     End Property
 
-    Private _UpVector As Vector3D
-    Public Property UpVector As Vector3D
+    Private _UpDirection As Vector3D
+    Public Property UpDirection As Vector3D
         Get
-            Return _UpVector
+            Return _UpDirection
         End Get
         Set(ByVal value As Vector3D)
-            _UpVector = value
-            _NormalizedUpVector = Me.UpVector.Normalized
-            adaptNormalizedVectorsInViewPlane()
+            _UpDirection = value
+            _NormalizedUpVector = Me.UpDirection.Normalized
+            AdaptNormalizedVectorsInViewPlane()
         End Set
     End Property
 

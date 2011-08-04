@@ -1,9 +1,9 @@
-﻿Public Class RelativisticRayTracerWithoutDopplerEffect(Of TLight As {ILight(Of TLight), New})
+Public Class RelativisticRayTracerWithoutDopplerEffect(Of TLight As {ILight(Of TLight), New})
     Inherits RelativisticRayTracerBase(Of TLight)
 
     Public Sub New(ByVal classicRayTracer As IRayTracer(Of TLight),
                    ByVal cameraVelocity As Vector3D)
-        MyBase.New(classicRayTracer:=classicRayTracer, cameraVelocity:=cameraVelocity)
+        MyBase.New(classicRayTracer:=classicRayTracer, observerVelocity:=cameraVelocity)
     End Sub
 
     Public Overrides Function GetLight(ByVal viewRay As Math.Ray) As TLight

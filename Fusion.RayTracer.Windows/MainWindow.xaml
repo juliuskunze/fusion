@@ -35,12 +35,67 @@
                         
                         <StackPanel>
                             <Button Name="_CompileSceneButton">Compile scene</Button>
-                            <GroupBox Header="Picture properties">
-                                <StackPanel>
-                                    <TextBox Name="_CustomSizeTextBox" HorizontalAlignment="Stretch">100;100</TextBox>
-                                    <TextBox Name="_RadiancePerWhiteTextBox" HorizontalAlignment="Stretch">100000</TextBox>
-                                </StackPanel>
-                            </GroupBox>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+
+                                <GroupBox Header="Picture properties">
+                                    <StackPanel>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                <ColumnDefinition></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Label>Width</Label>
+                                            <TextBox Grid.Column="1" Name="_WidthTextBox">100</TextBox>
+
+                                            <Label Grid.Row="1">Height</Label>
+                                            <TextBox Grid.Row="1" Grid.Column="1" Name="_HeightTextBox">100</TextBox>
+                                        </Grid>
+
+                                        <TextBox Name="_RadiancePerWhiteTextBox" HorizontalAlignment="Stretch">100000</TextBox>
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="View properties" Grid.Column="1">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label>Observer location</Label>
+                                        <TextBox Grid.Column="1" Name="_ObserverLocation"></TextBox>
+
+                                        <Label Grid.Row="1">Look at</Label>
+                                        <TextBox Grid.Row="1" Grid.Column="1" Name="_LookAtTextBox"></TextBox>
+
+                                        <Label Grid.Row="2">Up direction</Label>
+                                        <TextBox Grid.Row="2" Grid.Column="1" Name="_UpDirectionTextBox">(0, 1, 0)</TextBox>
+
+                                        <Label Grid.Row="3">Horizontal view angle</Label>
+                                        <TextBox Grid.Row="3" Grid.Column="1" Name="_HorizontalViewAngleTextBox">Pi/2</TextBox>
+
+                                        <Label Grid.Row="4">Observer velocity / c</Label>
+                                        <TextBox Grid.Row="4" Grid.Column="1" Name="_ObserverVelocityTextBox">(0, 0.5, 0)</TextBox>
+                                    </Grid>
+                                </GroupBox>
+                            </Grid>
+                            
+                            
                         </StackPanel>
                         
                         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
@@ -95,9 +150,7 @@
                     </Grid>
                 </TabItem>
             </TabControl>
-
-
-                
+           
         </Grid>
     </Grid>
 </r:RibbonWindow>

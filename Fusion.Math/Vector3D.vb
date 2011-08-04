@@ -45,6 +45,30 @@
         End If
     End Sub
 
+    Public Sub New(ByVal vectorString As String)
+        If vectorString(0) = "("c AndAlso vectorString(vectorString.Length - 1) = ")" OrElse
+           vectorString(0) = "["c AndAlso vectorString(vectorString.Length - 1) = "]" OrElse
+           vectorString(0) = "{"c AndAlso vectorString(vectorString.Length - 1) = "}" OrElse
+           vectorString(0) = "<"c AndAlso vectorString(vectorString.Length - 1) = ">" Then
+            vectorString = vectorString.Remove(vectorString.Length - 1, 1).Remove(0, 1)
+        End If
+
+        Dim splitStrings = vectorString.Split(";"c, "|"c, ","c)
+
+        If splitStrings.Count <> 3 Then
+            Throw New ArgumentException("String can't be converted into a vector.")
+        End If
+
+        Try
+            _X = CDbl(splitStrings(0))
+            _Y = CDbl(splitStrings(1))
+            _Z = CDbl(splitStrings(2))
+        Catch ex As Exception
+            Throw New ArgumentException("String can't be converted into a vector.")
+        End Try
+
+    End Sub
+
     Public Shared Function FromCylinderCoordinates(ByVal rho As Double, ByVal phi As Double, ByVal z As Double) As Vector3D
         Return New Vector3D(rho * Cos(phi), rho * Sin(phi), z)
     End Function

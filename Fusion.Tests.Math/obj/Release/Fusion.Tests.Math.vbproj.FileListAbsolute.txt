@@ -28,3 +28,18 @@ B:\Fusion-Repository\(Fusion)\Fusion.Tests.Math\obj\Release\GenerateResource.wri
 B:\Fusion-Repository\(Fusion)\Fusion.Tests.Math\obj\Release\Fusion.Tests.Math.dll
 B:\Fusion-Repository\(Fusion)\Fusion.Tests.Math\obj\Release\Fusion.Tests.Math.xml
 B:\Fusion-Repository\(Fusion)\Fusion.Tests.Math\obj\Release\Fusion.Tests.Math.pdb
+B:\Fusion Repository\Fusion.Tests.Math\bin\Release\Fusion.Tests.Math.dll
+B:\Fusion Repository\Fusion.Tests.Math\bin\Release\Fusion.Tests.Math.pdb
+B:\Fusion Repository\Fusion.Tests.Math\bin\Release\Fusion.Tests.Math.xml
+B:\Fusion Repository\Fusion.Tests.Math\bin\Release\Fusion.Math.dll
+B:\Fusion Repository\Fusion.Tests.Math\bin\Release\nunit.framework.dll
+B:\Fusion Repository\Fusion.Tests.Math\bin\Release\Fusion.Math.pdb
+B:\Fusion Repository\Fusion.Tests.Math\bin\Release\Fusion.Math.xml
+B:\Fusion Repository\Fusion.Tests.Math\bin\Release\nunit.framework.xml
+B:\Fusion Repository\Fusion.Tests.Math\obj\Release\ResolveAssemblyReference.cache
+B:\Fusion Repository\Fusion.Tests.Math\obj\Release\Fusion.Tests.Math.Resources.resources
+B:\Fusion Repository\Fusion.Tests.Math\obj\Release\GenerateResource.read.1.tlog
+B:\Fusion Repository\Fusion.Tests.Math\obj\Release\GenerateResource.write.1.tlog
+B:\Fusion Repository\Fusion.Tests.Math\obj\Release\Fusion.Tests.Math.dll
+B:\Fusion Repository\Fusion.Tests.Math\obj\Release\Fusion.Tests.Math.xml
+B:\Fusion Repository\Fusion.Tests.Math\obj\Release\Fusion.Tests.Math.pdb

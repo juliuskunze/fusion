@@ -4,7 +4,7 @@ Public Class View3DTests
     Public Sub SightRay()
         Dim view = New View3D(observerLocation:=Vector3D.Zero,
                               lookAt:=New Vector3D(1, 0, 0),
-                              upVector:=New Vector3D(0, 1, 0),
+                              upDirection:=New Vector3D(0, 1, 0),
                               horizontalViewAngle:=PI / 2)
         Dim sightRay = view.SightRay(viewPlaneLocation:=New Vector2D(1, 1))
         Assert.That(sightRay.Origin = Vector3D.Zero)

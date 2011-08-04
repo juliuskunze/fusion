@@ -48,14 +48,14 @@ Public Structure Vector2D
             vectorString = vectorString.Remove(vectorString.Length - 1, 1).Remove(0, 1)
         End If
 
-        Dim splitStrings = vectorString.Split(";"c, "|"c)
+        Dim splitStrings = vectorString.Split(";"c, "|"c, ","c)
 
         If splitStrings.Count <> 2 Then
             Throw New ArgumentException("String can't be converted into a vector.")
         End If
 
         Try
-            _X = CDbl(splitStrings(0))
+            _X = TermParser.Parse(splitStrings(0))
             _Y = CDbl(splitStrings(1))
         Catch ex As Exception
             Throw New ArgumentException("String can't be converted into a vector.")

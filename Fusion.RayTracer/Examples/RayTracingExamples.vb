@@ -10,7 +10,7 @@ Public Class RayTracingExamples
     Public Function OldExampleBox(Optional ByVal glassRefractionIndex As Double = 1.4) As RayTraceDrawer(Of RgbLight)
         Dim view = New View3D(observerLocation:=New Vector3D(5, 5, 25),
                               lookAt:=New Vector3D(5, 5, 0),
-                              upVector:=New Vector3D(0, 1, 0),
+                              upDirection:=New Vector3D(0, 1, 0),
                               horizontalViewAngle:=PI / 3)
         Dim lamp = New LinearPointLightSource(Of RgbLight)(Location:=New Vector3D(5, 9.9, 8), baseLight:=RgbLight.White * 5)
 
@@ -78,7 +78,7 @@ Public Class RayTracingExamples
 
         Dim view = New View3D(observerLocation:=cameraLocation,
                               lookAt:=New Vector3D(0, 0.3, 0),
-                              upVector:=New Vector3D(0, 1, 0),
+                              upDirection:=New Vector3D(0, 1, 0),
                               horizontalViewAngle:=PI / 2)
         Dim groundMaterial1 = New Material2D(Of RgbLight)(sourceLight:=New RgbLight(Color.Gray),
                                              scatteringRemission:=New BlackRemission(Of RgbLight),
@@ -157,7 +157,7 @@ Public Class RayTracingExamples
     Public Function SecondRoom() As RayTraceDrawer(Of RgbLight)
         Dim view = New View3D(observerLocation:=New Vector3D(7.5, 6, 15),
                               lookAt:=New Vector3D(7.5, 3, 0),
-                              upVector:=New Vector3D(0, 1, 0),
+                              upDirection:=New Vector3D(0, 1, 0),
                               horizontalViewAngle:=PI * 0.26)
         Dim rayTracer = SecondRoomRayTracer()
         'Dim rayTracer = New ScatteringRayTracer(surface:=surfaces, rayCount:=200, maxIntersectionCount:=10)
@@ -318,7 +318,7 @@ Public Class RayTracingExamples
     Public Function ExampleBox(Optional ByVal glassRefractionIndex As Double = 1.3) As RayTraceDrawer(Of RgbLight)
         Dim view = New View3D(observerLocation:=New Vector3D(5, 5, 25),
                               lookAt:=New Vector3D(5, 5, 0),
-                              upVector:=New Vector3D(0, 1, 0),
+                              upDirection:=New Vector3D(0, 1, 0),
                               horizontalViewAngle:=PI / 3)
 
         Dim undirectionalLight = New UndirectionalLightSource(Of RgbLight)(New RgbLight(Color.White))
@@ -384,10 +384,10 @@ Public Class RayTracingExamples
         Return New RayTraceDrawer(Of RgbLight)(rayTracer, Me.PictureSize, view, lightToColorConverter:=New RgbLightToColorConverter)
     End Function
 
-    Public Function BlackBodyPlaneRelativistic(ByVal lightToColorConverter As ILightToColorConverter(Of RadianceSpectrum)) As RayTraceDrawer(Of RadianceSpectrum)
+    Public Function BlackBodyPlaneRelativistic(ByVal radianceSpectrumToColorConverter As ILightToColorConverter(Of RadianceSpectrum)) As RayTraceDrawer(Of RadianceSpectrum)
         Dim view = New View3D(observerLocation:=New Vector3D,
                               lookAt:=New Vector3D(0, 0, 1),
-                              upVector:=New Vector3D(0, 1, 0),
+                              upDirection:=New Vector3D(0, 1, 0),
                               horizontalViewAngle:=PI / 4)
 
         Dim plane = New Plane(location:=New Vector3D(0, -1, 0),
@@ -418,15 +418,15 @@ Public Class RayTracingExamples
                                                                            unshadedLightSource:=New LightSources(Of RadianceSpectrum),
                                                                            shadedPointLightSources:=New List(Of IPointLightSource(Of RadianceSpectrum)))
 
-        Dim relativisticRayTracer = New RelativisticRayTracer(classicRayTracer:=classicRayTracer, cameraVelocity:=New Vector3D(0, 0, 0.9 * SpeedOfLight),
+        Dim relativisticRayTracer = New RelativisticRayTracer(classicRayTracer:=classicRayTracer, observerVelocity:=New Vector3D(0, 0, 0.9 * SpeedOfLight),
                                                               ignoreDopplerEffect:=False,
                                                               ignoreSearchlightEffect:=False,
                                                               ignoreGeometryEffect:=False)
 
-        Return New RayTraceDrawer(Of RadianceSpectrum)(rayTracer:=relativisticRayTracer,
+        Return New RayTraceDrawer(Of RadianceSpectrum)(RayTracer:=relativisticRayTracer,
                                                        PictureSize:=Me.PictureSize,
                                                        view:=view,
-                                                       lightToColorConverter:=lightToColorConverter)
+                                                       lightToColorConverter:=radianceSpectrumToColorConverter)
     End Function
 
 End Class

@@ -19,4 +19,17 @@
         Assert.That(New Vector3D(-2, -2, 0).OrthogonalProjectionOn(New Vector3D(1, 0, 0)) = New Vector3D(-2, 0, 0))
     End Sub
 
+    <Test()>
+    Public Sub NewFromString()
+        Threading.Thread.CurrentThread.CurrentCulture = New Globalization.CultureInfo("en-US")
+
+        Assert.AreEqual(New Vector3D(0, 1, 2), New Vector3D("<0;1;2>"))
+        Assert.AreEqual(New Vector3D(0, 1, 2), New Vector3D("<0|1|2>"))
+        Assert.AreEqual(New Vector3D(0, 1, 2), New Vector3D("(0|1|2)"))
+        Assert.AreEqual(New Vector3D(0, 1, 2), New Vector3D("0|1|2"))
+        Assert.AreEqual(New Vector3D(0, 1, 2), New Vector3D("0,1,2"))
+        Assert.AreEqual(New Vector3D(0.1, 1.0, 2), New Vector3D("0.1,1.0,2"))
+        Assert.AreEqual(New Vector3D(0.1, 1.0, 2), New Vector3D("{0.1,1.0,2}"))
+    End Sub
+
 End Class

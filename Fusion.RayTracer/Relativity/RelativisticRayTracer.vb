@@ -1,4 +1,4 @@
-﻿Public Class RelativisticRayTracer
+Public Class RelativisticRayTracer
     Inherits RelativisticRayTracerBase(Of RadianceSpectrum)
 
     Private ReadOnly _IgnoreGeometryEffect As Boolean
@@ -6,11 +6,11 @@
     Private ReadOnly _IgnoreSearchlightEffect As Boolean
 
     Public Sub New(ByVal classicRayTracer As IRayTracer(Of RadianceSpectrum),
-                   ByVal cameraVelocity As Vector3D,
+                   ByVal observerVelocity As Vector3D,
                    Optional ByVal ignoreGeometryEffect As Boolean = False,
                    Optional ByVal ignoreDopplerEffect As Boolean = False,
                    Optional ByVal ignoreSearchlightEffect As Boolean = False)
-        MyBase.New(classicRayTracer:=classicRayTracer, cameraVelocity:=cameraVelocity)
+        MyBase.New(classicRayTracer:=classicRayTracer, observerVelocity:=observerVelocity)
         _IgnoreGeometryEffect = ignoreGeometryEffect
         _IgnoreDopplerEffect = ignoreDopplerEffect
         _IgnoreSearchlightEffect = ignoreSearchlightEffect
