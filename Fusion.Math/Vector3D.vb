@@ -1,4 +1,4 @@
-﻿Public Structure Vector3D
+Public Structure Vector3D
 
     Private ReadOnly _X As Double
     Public ReadOnly Property X As Double
@@ -60,9 +60,9 @@
         End If
 
         Try
-            _X = New IndependentTerm(Term:=splitStrings(0)).Parse
-            _Y = New IndependentTerm(splitStrings(1)).Parse
-            _Z = New IndependentTerm(splitStrings(2)).Parse
+            _X = New IndependentTerm(Term:=splitStrings(0)).GetResult
+            _Y = New IndependentTerm(splitStrings(1)).GetResult
+            _Z = New IndependentTerm(splitStrings(2)).GetResult
         Catch ex As Exception
             Throw New ArgumentException("String can't be converted into a vector.")
         End Try

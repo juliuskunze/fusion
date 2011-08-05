@@ -3,55 +3,62 @@
 Public Class TestTerm
 
     <Test()> Public Sub TestTermToValue1()
-        Assert.True(New IndependentTerm("5").Parse = 5)
-        Assert.True(New IndependentTerm("(5)").Parse = 5)
-        Assert.True(New IndependentTerm("1+2").Parse = 3)
-        Assert.True(New IndependentTerm("(1+2)").Parse = 3)
+        Assert.True(New IndependentTerm("5").GetResult = 5)
+        Assert.True(New IndependentTerm("(5)").GetResult = 5)
+        Assert.True(New IndependentTerm("1+2").GetResult = 3)
+        Assert.True(New IndependentTerm("(1+2)").GetResult = 3)
     End Sub
 
     <Test()> Public Sub TestTermToValue2()
-        Assert.True(New IndependentTerm("2*3+5").Parse = 11)
-        Assert.True(New IndependentTerm("5+3*4").Parse = 17)
-        Assert.True(New IndependentTerm("3*(2+3)").Parse = 15)
-        Assert.True(New IndependentTerm("3^2").Parse = 9)
+        Assert.True(New IndependentTerm("2*3+5").GetResult = 11)
+        Assert.True(New IndependentTerm("5+3*4").GetResult = 17)
+        Assert.True(New IndependentTerm("3*(2+3)").GetResult = 15)
+        Assert.True(New IndependentTerm("3^2").GetResult = 9)
     End Sub
 
     <Test()> Public Sub TestTermToValue3()
-        Assert.True(New IndependentTerm("((3*(4+3/(2+1*1*1+1-1^(1+0)))*2/2))").Parse = 15)
-        Assert.True(New IndependentTerm("2^3^2").Parse = New IndependentTerm("2^(3^2)").Parse)
+        Assert.True(New IndependentTerm("((3*(4+3/(2+1*1*1+1-1^(1+0)))*2/2))").GetResult = 15)
+        Assert.True(New IndependentTerm("2^3^2").GetResult = New IndependentTerm("2^(3^2)").GetResult)
     End Sub
 
     <Test()> Public Sub TestTermToValue4()
-        Assert.True(New IndependentTerm("-5").Parse = -5)
-        Assert.True(New IndependentTerm("--++-5").Parse = -5)
+        Assert.True(New IndependentTerm("-5").GetResult = -5)
+        Assert.True(New IndependentTerm("--++-5").GetResult = -5)
     End Sub
 
     <Test()> Public Sub TestTermToValue5()
-        Assert.True(New IndependentTerm("-3+3").Parse = 0)
-        Assert.True(New IndependentTerm("-3+3-3+3").Parse = 0)
+        Assert.True(New IndependentTerm("-3+3").GetResult = 0)
+        Assert.True(New IndependentTerm("-3+3-3+3").GetResult = 0)
     End Sub
 
-    <Test()> Public Sub TestTermToValue6()
+    <Test()>
+    Public Sub TestTermToValue6()
         Try
-            Dim value = New IndependentTerm("").Parse
+            Dim value = New IndependentTerm("").GetResult
             Assert.Fail()
         Catch ex As ArgumentException
         End Try
 
         Try
-            Dim value = New IndependentTerm("23+(3+4))")
+            Dim value = New IndependentTerm("4)").GetResult
             Assert.Fail()
         Catch ex As ArgumentException
         End Try
 
         Try
-            Dim value = New IndependentTerm("(((")
+            Dim value = New IndependentTerm("23+(3+4))").GetResult
             Assert.Fail()
         Catch ex As ArgumentException
         End Try
 
         Try
-            Dim value = New IndependentTerm("2a")
+            Dim value = New IndependentTerm("(((").GetResult
+            Assert.Fail()
+        Catch ex As ArgumentException
+        End Try
+
+        Try
+            Dim value = New IndependentTerm("2a").GetResult
             Assert.Fail()
         Catch ex As ArgumentException
         End Try
@@ -59,20 +66,20 @@ Public Class TestTerm
 
     <Test()>
     Public Sub TestPiAndE()
-        Assert.That(New IndependentTerm("Pi").Parse = System.Math.PI)
-        Assert.That(New IndependentTerm("E").Parse = System.Math.E)
+        Assert.That(New IndependentTerm("Pi").GetResult = System.Math.PI)
+        Assert.That(New IndependentTerm("E").GetResult = System.Math.E)
     End Sub
 
     <Test()>
     Public Sub TestCos()
-        Assert.That(New IndependentTerm("Cos(0)").Parse = 1)
-        Assert.That(New IndependentTerm("Cos(pi)").Parse = -1)
-        Assert.That(New IndependentTerm("Cos(pi/2)").Parse < 10 ^ -15)
+        Assert.That(New IndependentTerm("Cos(0)").GetResult = 1)
+        Assert.That(New IndependentTerm("Cos(pi)").GetResult = -1)
+        Assert.That(New IndependentTerm("Cos(pi/2)").GetResult < 10 ^ -15)
     End Sub
 
     <Test()>
     Public Sub TestExp()
-        Assert.That(New IndependentTerm("exp(1)").Parse = System.Math.E)
+        Assert.That(New IndependentTerm("exp(1)").GetResult = System.Math.E)
     End Sub
 
     <Test()>

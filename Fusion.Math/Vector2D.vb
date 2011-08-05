@@ -1,4 +1,4 @@
-﻿<Serializable()>
+<Serializable()>
 Public Structure Vector2D
 
     Private ReadOnly _X As Double
@@ -55,8 +55,8 @@ Public Structure Vector2D
         End If
 
         Try
-            _X = New IndependentTerm(splitStrings(0)).Parse
-            _Y = New IndependentTerm(splitStrings(1)).Parse
+            _X = New IndependentTerm(splitStrings(0)).GetResult
+            _Y = New IndependentTerm(splitStrings(1)).GetResult
         Catch ex As Exception
             Throw New ArgumentException("String can't be converted into a vector.")
         End Try

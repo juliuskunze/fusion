@@ -9,14 +9,14 @@ Public NotInheritable Class IndependentTerm
         MyBase.New(term:=term, doubleParameterNames:={})
     End Sub
 
-    Public Function TryParse() As Double?
+    Public Function TryGetResult() As Double?
         Dim f = MyBase.TryGetDelegate(Of Func(Of Double))()
         If f Is Nothing Then Return Nothing
 
         Return f.Invoke
     End Function
 
-    Public Function Parse() As Double
+    Public Function GetResult() As Double
         Return MyBase.GetDelegate(Of Func(Of Double)).Invoke
     End Function
 
