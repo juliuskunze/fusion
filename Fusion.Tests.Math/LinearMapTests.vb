@@ -1,4 +1,4 @@
-﻿Public Class TestLinearMap
+﻿Public Class LinearMapTests
 
     <Test()> Shared Sub NewFromSquareMatrix()
         Dim m As New SquareMatrix(New Double(,) {{1, 2}, {3, 4}})

@@ -60,9 +60,9 @@ Public Structure Vector3D
         End If
 
         Try
-            _X = New IndependentTerm(Term:=splitStrings(0)).GetResult
-            _Y = New IndependentTerm(splitStrings(1)).GetResult
-            _Z = New IndependentTerm(splitStrings(2)).GetResult
+            _X = CDbl(splitStrings(0))
+            _Y = CDbl(splitStrings(1))
+            _Z = CDbl(splitStrings(2))
         Catch ex As Exception
             Throw New ArgumentException("String can't be converted into a vector.")
         End Try

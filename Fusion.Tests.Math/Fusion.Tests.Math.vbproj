@@ -105,11 +105,11 @@
     <Compile Include="SurfaceTests\TranslatedSurfaceTests.vb" />
     <Compile Include="SurfaceTests\TriangleTests.vb" />
     <Compile Include="SurfaceTests\TruncatedSurfaceTests.vb" />
-    <Compile Include="TestFunctions.vb" />
-    <Compile Include="TestLinearMap.vb" />
-    <Compile Include="TestMatrix.vb" />
-    <Compile Include="TestSquareMatrix.vb" />
-    <Compile Include="TestTerm.vb" />
+    <Compile Include="FunctionsTests.vb" />
+    <Compile Include="LinearMapTests.vb" />
+    <Compile Include="MatrixTests.vb" />
+    <Compile Include="SquareMatrixTests.vb" />
+    <Compile Include="TermTests.vb" />
     <Compile Include="Vector2DTests.vb" />
     <Compile Include="Vector3DTests.vb" />
   </ItemGroup>

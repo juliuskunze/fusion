@@ -3,7 +3,7 @@ Public Class TermBox
     
     Protected Overrides Function Convert(ByVal text As String) As Double?
         Try
-            Return New IndependentTerm(text).GetResult
+            Return New IndependentTerm(Of Double)(text).GetResult
         Catch ex As InvalidTermException
             Return Nothing
         End Try

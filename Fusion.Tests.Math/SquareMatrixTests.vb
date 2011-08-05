@@ -1,4 +1,4 @@
-﻿Public Class TestSquareMatrix
+﻿Public Class SquareMatrixTests
 
     <Test()> <Ignore()>
     Public Shared Sub NewByOrder()

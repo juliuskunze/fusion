@@ -152,10 +152,12 @@
     <Compile Include="Surfaces\Triangle.vb" />
     <Compile Include="Surfaces\TruncatedSurface.vb" />
     <Compile Include="Surfaces\UnitedSurfacedPointSet3D.vb" />
+    <Compile Include="Terms\InvalidTermException.vb" />
+    <Compile Include="Terms\NamedConstantExpression.vb" />
     <Compile Include="Terms\NamedExpression.vb" />
-    <Compile Include="Terms\ParameterExpressionReplacer.vb" />
-    <Compile Include="Terms\TermWithoutBlanks.vb" />
+    <Compile Include="Terms\TermContext.vb" />
     <Compile Include="Terms\Term.vb" />
+    <Compile Include="Terms\TermBase.vb" />
     <Compile Include="Vector2D.vb" />
     <Compile Include="Vector2DRoughComparer.vb" />
     <Compile Include="Vector3D.vb" />

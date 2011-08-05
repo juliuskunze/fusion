@@ -1,4 +1,4 @@
-﻿Public Class TestMatrix
+﻿Public Class MatrixTests
 
     <Test()> Public Shared Sub NewFromWidthAndHeight()
         Dim m = New Matrix(width:=1, height:=2)
@@ -84,7 +84,7 @@
         Assert.True(m(0, 1) = 8)
     End Sub
 
-     <Test()> <Ignore()>
+    <Test()> <Ignore()>
     Public Shared Sub OperatorMultiply()
         Dim v = New Vector2D(1, 2).ToColumnMatrix
         Dim m = New Matrix(New Double(,) {{1, 2}, {3, 0}})

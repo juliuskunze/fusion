@@ -55,8 +55,8 @@ Public Structure Vector2D
         End If
 
         Try
-            _X = New IndependentTerm(splitStrings(0)).GetResult
-            _Y = New IndependentTerm(splitStrings(1)).GetResult
+            _X = CDbl(splitStrings(0))
+            _Y = CDbl(splitStrings(1))
         Catch ex As Exception
             Throw New ArgumentException("String can't be converted into a vector.")
         End Try

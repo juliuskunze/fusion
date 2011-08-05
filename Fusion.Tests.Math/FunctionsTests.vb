@@ -1,6 +1,7 @@
 ﻿Imports Fusion.Math.Functions
 
-Public Class TestFunctions
+Public Class FunctionsTests
+
     <Test()> Public Shared Sub TestGcd()
         Assert.True(Gcd(23, 45) = 1)
         Assert.True(Gcd(12, 24) = 12)

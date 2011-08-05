@@ -2,8 +2,8 @@
     Implements ILightToColorConverter(Of RgbLight)
 
     ''' <summary>
-    ''' Wandelt das RgbLight in eine darstellbare System.Drawing.Color um. 
-    ''' Ist eine der Komponenten (R, G, oder B) größer als 1, so wird die Helligkeit der Farbe so skaliert, dass die größte Komponente 1 wird.
+    ''' Converts an RgbLight into a displayable System.Drawing.Color. 
+    ''' If one of the comonents R, G or B is greater that 1, the brightness of the light is scaled so that the greatest component becomes 1.
     ''' </summary>
     Public Function Convert(ByVal light As RgbLight) As System.Drawing.Color Implements ILightToColorConverter(Of RgbLight).Convert
         If Max(light.Red, Max(light.Green, light.Blue)) > 1 Then

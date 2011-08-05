@@ -6,14 +6,14 @@ Fusion.Math
 </name>
 </assembly>
 <members>
-<member name="T:Fusion.Math.Box">
+<member name="T:Fusion.Math.IndependentTerm`1">
 	<summary>
- Repräsentiert einen Quader, dessen Kanten parallel zu den Koordinatenachsen ausgerichtet sind.
+ A term that contains no user defined constants, parameters and functions.
  </summary>
 	<remarks></remarks>
-</member><member name="T:Fusion.Math.IndependentTerm">
+</member><member name="T:Fusion.Math.Box">
 	<summary>
- A term that has no user defined parameters and functions.
+ Repräsentiert einen Quader, dessen Kanten parallel zu den Koordinatenachsen ausgerichtet sind.
  </summary>
 	<remarks></remarks>
 </member><member name="T:Fusion.Math.ISurface">
