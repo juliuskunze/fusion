@@ -1,6 +1,4 @@
-﻿Imports System.Linq.Expressions
-
-Public Class TestTerm
+﻿Public Class TestTerm
 
     <Test()> Public Sub TestTermToValue1()
         Assert.True(New IndependentTerm("5").GetResult = 5)
@@ -84,8 +82,20 @@ Public Class TestTerm
 
     <Test()>
     Public Sub TestParameters()
-        Assert.That(New Term("a+4", doubleParameterNames:={"a"}).GetDelegate(Of Func(Of Double, Double)).Invoke(5.0) = 9)
-        Assert.That(New Term("x^2 + x", doubleParameterNames:={"x"}).GetDelegate(Of Func(Of Double, Double)).Invoke(5.0) = 30)
+        Assert.That(New Term("a+4", parameterNames:={"a"}, userFunctions:={}).GetDelegate(Of Func(Of Double, Double)).Invoke(5) = 9)
+        Assert.That(New Term("x^2 + x", parameterNames:={"x"}, userFunctions:={}).GetDelegate(Of Func(Of Double, Double)).Invoke(5) = 30)
+        Assert.That(New Term("a1^2 + a1", parameterNames:={"a1"}, userFunctions:={}).GetDelegate(Of Func(Of Double, Double)).Invoke(5) = 30)
+    End Sub
+
+    <Test()>
+    Public Sub TestFunction()
+        Dim userFunctionExpression = CType(Function(x As Double) x, Expression(Of Func(Of Double, Double)))
+        Dim userFunctionExpressionBuilder = Function(parameters As IEnumerable(Of Expression)) userFunctionExpression
+        Dim namedMethodExpression = New NamedExpression(name:="user", Expression:=userFunctionExpressionBuilder)
+        Dim term = New Term("user(1)", parameterNames:={}, userFunctions:={namedMethodExpression})
+        Dim d = term.GetDelegate(Of Func(Of Double))()
+
+        Assert.That(d() = 5)
     End Sub
 
     <Test()>

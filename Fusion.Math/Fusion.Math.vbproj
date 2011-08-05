@@ -84,6 +84,7 @@
     <Import Include="System.Diagnostics" />
     <Import Include="System.Drawing" />
     <Import Include="System.Linq" />
+    <Import Include="System.Linq.Expressions" />
     <Import Include="System.Math" />
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
@@ -95,7 +96,7 @@
     <Compile Include="Graph.vb" />
     <Compile Include="IEdge.vb" />
     <Compile Include="IMap2D.vb" />
-    <Compile Include="IndependentTerm.vb" />
+    <Compile Include="Terms\IndependentTerm.vb" />
     <Compile Include="LinearMap.vb" />
     <Compile Include="EnumerableExtensions\ConcatenatedSortedEnumerator.vb" />
     <Compile Include="EnumerableExtensions\LinqExtensions.vb" />
@@ -151,8 +152,10 @@
     <Compile Include="Surfaces\Triangle.vb" />
     <Compile Include="Surfaces\TruncatedSurface.vb" />
     <Compile Include="Surfaces\UnitedSurfacedPointSet3D.vb" />
-    <Compile Include="TermWithoutBlanks.vb" />
-    <Compile Include="Term.vb" />
+    <Compile Include="Terms\NamedExpression.vb" />
+    <Compile Include="Terms\ParameterExpressionReplacer.vb" />
+    <Compile Include="Terms\TermWithoutBlanks.vb" />
+    <Compile Include="Terms\Term.vb" />
     <Compile Include="Vector2D.vb" />
     <Compile Include="Vector2DRoughComparer.vb" />
     <Compile Include="Vector3D.vb" />

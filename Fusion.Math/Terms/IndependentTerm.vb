@@ -6,7 +6,7 @@ Public NotInheritable Class IndependentTerm
     Inherits Term
 
     Public Sub New(ByVal term As String)
-        MyBase.New(term:=term, doubleParameterNames:={})
+        MyBase.New(term:=term, parameterNames:={}, userFunctions:={})
     End Sub
 
     Public Function TryGetResult() As Double?
