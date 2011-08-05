@@ -95,7 +95,7 @@ Public Class TermTests
 
     <Test()>
     Public Sub TestFunction()
-        Dim namedMethodExpression = New NamedExpression(name:="square", ExpressionBuilder:=NamedExpression.GetFunctionExpressionBuilder(Of Func(Of Double, Double))(userFunction:=Function(x As Double) x ^ 2))
+        Dim namedMethodExpression = New NamedFUnctionExpression(name:="square", ExpressionBuilder:=NamedFUnctionExpression.GetFunctionExpressionBuilder(Of Func(Of Double, Double))(userFunction:=Function(x As Double) x ^ 2))
         Dim term = New Term("square(2*x)", userContext:=New TermContext(constants:={}, parameters:={Expression.Parameter(GetType(Double), "x")}, Functions:={namedMethodExpression}))
         Dim d = term.GetDelegate(Of Func(Of Double, Double))()
 

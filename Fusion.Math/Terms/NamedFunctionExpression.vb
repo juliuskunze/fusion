@@ -1,4 +1,4 @@
-﻿Public Class NamedExpression
+﻿Public Class NamedFunctionExpression
 
     Private ReadOnly _Name As String
     Public ReadOnly Property Name As String

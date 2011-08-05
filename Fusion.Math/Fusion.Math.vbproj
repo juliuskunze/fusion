@@ -154,7 +154,7 @@
     <Compile Include="Surfaces\UnitedSurfacedPointSet3D.vb" />
     <Compile Include="Terms\InvalidTermException.vb" />
     <Compile Include="Terms\NamedConstantExpression.vb" />
-    <Compile Include="Terms\NamedExpression.vb" />
+    <Compile Include="Terms\NamedFunctionExpression.vb" />
     <Compile Include="Terms\TermContext.vb" />
     <Compile Include="Terms\Term.vb" />
     <Compile Include="Terms\TermBase.vb" />

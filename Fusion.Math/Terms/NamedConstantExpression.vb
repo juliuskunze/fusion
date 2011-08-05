@@ -1,5 +1,5 @@
-﻿Public Class NamedConstantExpression
-    Inherits NamedExpression
+Public Class NamedConstantExpression
+    Inherits NamedFUnctionExpression
 
     Public ReadOnly Property ConstantExpression As ConstantExpression
         Get

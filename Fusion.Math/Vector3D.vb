@@ -55,9 +55,7 @@ Public Structure Vector3D
 
         Dim components = vectorString.Split(";"c, "|"c, ","c)
 
-        If components.Count <> 3 Then
-            Throw New ArgumentException("String can not be converted into a vector.")
-        End If
+        If components.Count <> 3 Then Throw New ArgumentException("The component count of a 3D-vector must be 3.")
 
         Try
             _X = CDbl(components(0))
