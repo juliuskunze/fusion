@@ -2,12 +2,15 @@
     Private Sub New()
     End Sub
 
-    Public Shared Function TryParse(ByVal term As String, ByVal out_result As Double) As Boolean
-        Return New Term(termWithoutBlanks:=BlanksRemoved(term)).TryGetValue(out_result:=out_result)
+    Public Shared Function TryParse(ByVal term As String) As Double?
+        Dim f = New Term(Of Func(Of Double))(termWithoutBlanks:=BlanksRemoved(term), doubleParameterNames:={}).TryGetDelegate
+        If f Is Nothing Then Return Nothing
+
+        Return f.Invoke
     End Function
 
     Public Shared Function Parse(ByVal term As String) As Double
-        Return New Term(termWithoutBlanks:=BlanksRemoved(term)).GetValue
+        Return New Term(Of Func(Of Double))(termWithoutBlanks:=BlanksRemoved(term), doubleParameterNames:={}).GetDelegate.Invoke
     End Function
 
     Private Shared Function BlanksRemoved(ByVal term As String) As String

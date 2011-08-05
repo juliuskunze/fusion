@@ -42,3 +42,25 @@ B:\Fusion-Repository\(Fusion)\Fusion.Evolution.Visualization\obj\Release\Generat
 B:\Fusion-Repository\(Fusion)\Fusion.Evolution.Visualization\obj\Release\Fusion.Evolution.Visualization.dll
 B:\Fusion-Repository\(Fusion)\Fusion.Evolution.Visualization\obj\Release\Fusion.Evolution.Visualization.xml
 B:\Fusion-Repository\(Fusion)\Fusion.Evolution.Visualization\obj\Release\Fusion.Evolution.Visualization.pdb
+B:\Fusion Repository\Fusion.Evolution.Visualization\bin\Release\Fusion.Evolution.Visualization.dll
+B:\Fusion Repository\Fusion.Evolution.Visualization\bin\Release\Fusion.Evolution.Visualization.pdb
+B:\Fusion Repository\Fusion.Evolution.Visualization\bin\Release\Fusion.Evolution.Visualization.xml
+B:\Fusion Repository\Fusion.Evolution.Visualization\bin\Release\Fusion.Evolution.dll
+B:\Fusion Repository\Fusion.Evolution.Visualization\bin\Release\Fusion.Math.dll
+B:\Fusion Repository\Fusion.Evolution.Visualization\bin\Release\Fusion.Visualization.dll
+B:\Fusion Repository\Fusion.Evolution.Visualization\bin\Release\Fusion.Physics.dll
+B:\Fusion Repository\Fusion.Evolution.Visualization\bin\Release\Fusion.Evolution.pdb
+B:\Fusion Repository\Fusion.Evolution.Visualization\bin\Release\Fusion.Evolution.xml
+B:\Fusion Repository\Fusion.Evolution.Visualization\bin\Release\Fusion.Math.pdb
+B:\Fusion Repository\Fusion.Evolution.Visualization\bin\Release\Fusion.Math.xml
+B:\Fusion Repository\Fusion.Evolution.Visualization\bin\Release\Fusion.Visualization.pdb
+B:\Fusion Repository\Fusion.Evolution.Visualization\bin\Release\Fusion.Visualization.xml
+B:\Fusion Repository\Fusion.Evolution.Visualization\bin\Release\Fusion.Physics.pdb
+B:\Fusion Repository\Fusion.Evolution.Visualization\bin\Release\Fusion.Physics.xml
+B:\Fusion Repository\Fusion.Evolution.Visualization\obj\Release\ResolveAssemblyReference.cache
+B:\Fusion Repository\Fusion.Evolution.Visualization\obj\Release\Fusion.Evolution.Visualization.Resources.resources
+B:\Fusion Repository\Fusion.Evolution.Visualization\obj\Release\GenerateResource.read.1.tlog
+B:\Fusion Repository\Fusion.Evolution.Visualization\obj\Release\GenerateResource.write.1.tlog
+B:\Fusion Repository\Fusion.Evolution.Visualization\obj\Release\Fusion.Evolution.Visualization.dll
+B:\Fusion Repository\Fusion.Evolution.Visualization\obj\Release\Fusion.Evolution.Visualization.xml
+B:\Fusion Repository\Fusion.Evolution.Visualization\obj\Release\Fusion.Evolution.Visualization.pdb

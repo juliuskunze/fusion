@@ -85,3 +85,21 @@ B:\Fusion-Repository\(Fusion)\Fusion.Flow\obj\x86\Release\GenerateResource.write
 B:\Fusion-Repository\(Fusion)\Fusion.Flow\obj\x86\Release\Fusion.Flow.exe
 B:\Fusion-Repository\(Fusion)\Fusion.Flow\obj\x86\Release\Fusion.Flow.xml
 B:\Fusion-Repository\(Fusion)\Fusion.Flow\obj\x86\Release\Fusion.Flow.pdb
+B:\Fusion Repository\Fusion.Flow\bin\Release\Fusion.Flow.exe
+B:\Fusion Repository\Fusion.Flow\bin\Release\Fusion.Flow.pdb
+B:\Fusion Repository\Fusion.Flow\bin\Release\Fusion.Flow.xml
+B:\Fusion Repository\Fusion.Flow\bin\Release\Fusion.Math.dll
+B:\Fusion Repository\Fusion.Flow\bin\Release\Fusion.Visualization.dll
+B:\Fusion Repository\Fusion.Flow\bin\Release\Fusion.Math.pdb
+B:\Fusion Repository\Fusion.Flow\bin\Release\Fusion.Math.xml
+B:\Fusion Repository\Fusion.Flow\bin\Release\Fusion.Visualization.pdb
+B:\Fusion Repository\Fusion.Flow\bin\Release\Fusion.Visualization.xml
+B:\Fusion Repository\Fusion.Flow\obj\x86\Release\ResolveAssemblyReference.cache
+B:\Fusion Repository\Fusion.Flow\obj\x86\Release\Fusion.Flow.FlowForm.resources
+B:\Fusion Repository\Fusion.Flow\obj\x86\Release\Fusion.Flow.Resources.resources
+B:\Fusion Repository\Fusion.Flow\obj\x86\Release\Fusion.Flow.PointSet2DPlotterForm.resources
+B:\Fusion Repository\Fusion.Flow\obj\x86\Release\GenerateResource.read.1.tlog
+B:\Fusion Repository\Fusion.Flow\obj\x86\Release\GenerateResource.write.1.tlog
+B:\Fusion Repository\Fusion.Flow\obj\x86\Release\Fusion.Flow.exe
+B:\Fusion Repository\Fusion.Flow\obj\x86\Release\Fusion.Flow.xml
+B:\Fusion Repository\Fusion.Flow\obj\x86\Release\Fusion.Flow.pdb

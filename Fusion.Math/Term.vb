@@ -1,43 +1,54 @@
-﻿Public Class Term
+﻿Imports System.Linq.Expressions
 
-    Private Shared ReadOnly _DisplayableFunctions As DisplayableFunction() = {New DisplayableFunction("exp", AddressOf System.Math.Exp),
-                                                                   New DisplayableFunction("sin", AddressOf System.Math.Sin),
-                                                                   New DisplayableFunction("cos", AddressOf System.Math.Cos),
-                                                                   New DisplayableFunction("tan", AddressOf System.Math.Tan),
-                                                                   New DisplayableFunction("asin", AddressOf System.Math.Asin),
-                                                                   New DisplayableFunction("acos", AddressOf System.Math.Acos)}
+Public Class Term(Of TDelegate)
+
+    Private Shared ReadOnly _DisplayableFunctions As DoubleSingleParameterFunction() = {New DoubleSingleParameterFunction("Exp", AddressOf System.Math.Exp),
+                                                                   New DoubleSingleParameterFunction("Sin", AddressOf System.Math.Sin),
+                                                                   New DoubleSingleParameterFunction("Cos", AddressOf System.Math.Cos),
+                                                                   New DoubleSingleParameterFunction("Tan", AddressOf System.Math.Tan),
+                                                                   New DoubleSingleParameterFunction("Asin", AddressOf System.Math.Asin),
+                                                                   New DoubleSingleParameterFunction("Acos", AddressOf System.Math.Acos)}
 
     Private ReadOnly _Term As String
     Private _CharIsInBrackets As Boolean()
+    Private ReadOnly _DoubleParameterNames As IEnumerable(Of String)
 
-    Public Sub New(ByVal termWithoutBlanks As String)
+    Public Sub New(ByVal termWithoutBlanks As String, ByVal doubleParameterNames As IEnumerable(Of String))
         _Term = termWithoutBlanks
+        _DoubleParameterNames = doubleParameterNames
     End Sub
 
-    Public Function TryGetValue(ByVal out_result As Double) As Boolean
+    Public Function TryGetDelegate() As TDelegate
         Try
-            out_result = Me.GetValue
-            Return True
+            Return Me.GetDelegate
         Catch ex As Exception
-            Return False
+            Return Nothing
         End Try
     End Function
 
-    Public Function GetValue() As Double
+    Public Function GetDelegate() As TDelegate
+        Dim parameters = From parameterName In _DoubleParameterNames Select Expression.Parameter(GetType(Double), parameterName)
+
+        Return Expression.Lambda(Of TDelegate)(body:=Me.GetExpression,
+                                               parameters:=parameters).Compile
+    End Function
+
+    Public Function GetExpression() As Expression
         If _Term = "" Then Throw New InvalidTermException(_Term)
 
-        If String.Equals(_Term, "pi", StringComparison.OrdinalIgnoreCase) Then Return System.Math.PI
-        If String.Equals(_Term, "e", StringComparison.OrdinalIgnoreCase) Then Return System.Math.E
+        If String.Equals(_Term, "pi", StringComparison.OrdinalIgnoreCase) Then Return Expression.Constant(System.Math.PI)
+        If String.Equals(_Term, "e", StringComparison.OrdinalIgnoreCase) Then Return Expression.Constant(System.Math.E)
 
         Dim parsedDouble As Double
-        If Double.TryParse(_Term, result:=parsedDouble) AndAlso Not _Term.Contains("("c) Then Return parsedDouble
+        If Double.TryParse(_Term, result:=parsedDouble) AndAlso Not _Term.Contains("("c) Then Return Expression.Constant(parsedDouble)
 
         Me.InitializeCharIsInBracketsArray()
-        If TermIsInBrackets(startIndex:=0, endIndex:=_Term.Length - 1) Then Return New Term(_Term.Substring(startIndex:=1, length:=_Term.Length - 2)).GetValue
+        If TermIsInBrackets(startIndex:=0, endIndex:=_Term.Length - 1) Then Return SubstringExpression(startIndex:=1, length:=_Term.Length - 2)
 
         Dim startingFunction = Me.GetStartingFunction
         If startingFunction IsNot Nothing AndAlso TermIsInBrackets(startIndex:=startingFunction.Name.Length, endIndex:=_Term.Length - 1) Then
-            Return startingFunction.F(ValueAfterIndex(startingFunction.Name.Length - 1))
+
+            Return startingFunction.Expression(AfterIndexExpression(startingFunction.Name.Length - 1))
         End If
 
         Select Case _Term.Chars(0)
@@ -58,44 +69,44 @@
                 Dim termIsPositve = (minusCountAtStart Mod 2 = 0)
 
                 If termIsPositve Then
-                    Return ValueOfSubstring(startIndex:=notSignIndex, length:=_Term.Length - notSignIndex)
+                    Return SubstringExpression(startIndex:=notSignIndex, length:=_Term.Length - notSignIndex)
                 Else
                     For i = notSignIndex To _Term.Length - 1
-                        If Not _CharIsInBrackets(i) AndAlso _Term.Chars(i) = "+"c Then Return -ValueOfSubstring(startIndex:=notSignIndex, length:=i - notSignIndex) + ValueAfterIndex(i)
+                        If Not _CharIsInBrackets(i) AndAlso _Term.Chars(i) = "+"c Then Return Expression.AddChecked(Expression.NegateChecked(SubstringExpression(startIndex:=notSignIndex, length:=i - notSignIndex)), AfterIndexExpression(i))
                     Next
 
                     For i = notSignIndex To _Term.Length - 1
-                        If Not _CharIsInBrackets(i) AndAlso _Term.Chars(i) = "-"c Then Return -ValueOfSubstring(startIndex:=notSignIndex, length:=i - notSignIndex) - ValueAfterIndex(i)
+                        If Not _CharIsInBrackets(i) AndAlso _Term.Chars(i) = "-"c Then Return Expression.SubtractChecked(Expression.NegateChecked(SubstringExpression(startIndex:=notSignIndex, length:=i - notSignIndex)), AfterIndexExpression(i))
                     Next
 
-                    Return -ValueOfSubstring(startIndex:=notSignIndex, length:=_Term.Length - notSignIndex)
+                    Return Expression.NegateChecked(SubstringExpression(startIndex:=notSignIndex, length:=_Term.Length - notSignIndex))
                 End If
         End Select
 
         For i = 0 To _Term.Length - 1
-            If Not _CharIsInBrackets(i) AndAlso _Term.Chars(i) = "+"c Then Return ValueBeforeIndex(i) + ValueAfterIndex(i)
+            If Not _CharIsInBrackets(i) AndAlso _Term.Chars(i) = "+"c Then Return Expression.AddChecked(BeforeIndexExpression(i), AfterIndexExpression(i))
         Next
 
         For i = 0 To _Term.Length - 1
-            If Not _CharIsInBrackets(i) AndAlso _Term.Chars(i) = "-"c Then Return ValueBeforeIndex(i) - ValueAfterIndex(i)
+            If Not _CharIsInBrackets(i) AndAlso _Term.Chars(i) = "-"c Then Return Expression.SubtractChecked(BeforeIndexExpression(i), AfterIndexExpression(i))
         Next
 
         For i = 0 To _Term.Length - 1
-            If Not _CharIsInBrackets(i) AndAlso _Term.Chars(i) = "*"c Then Return ValueBeforeIndex(i) * ValueAfterIndex(i)
+            If Not _CharIsInBrackets(i) AndAlso _Term.Chars(i) = "*"c Then Return Expression.MultiplyChecked(BeforeIndexExpression(i), AfterIndexExpression(i))
         Next
 
         For i = 0 To _Term.Length - 1
-            If Not _CharIsInBrackets(i) AndAlso _Term.Chars(i) = "/"c Then Return ValueBeforeIndex(i) / ValueAfterIndex(i)
+            If Not _CharIsInBrackets(i) AndAlso _Term.Chars(i) = "/"c Then Return Expression.Divide(BeforeIndexExpression(i), AfterIndexExpression(i))
         Next
 
         For i = 0 To _Term.Length - 1
-            If Not _CharIsInBrackets(i) AndAlso _Term.Chars(i) = "^"c Then Return ValueBeforeIndex(i) ^ ValueAfterIndex(i)
+            If Not _CharIsInBrackets(i) AndAlso _Term.Chars(i) = "^"c Then Return Expression.Power(BeforeIndexExpression(i), AfterIndexExpression(i))
         Next
 
         Throw New InvalidTermException(_Term)
     End Function
 
-    Private Function GetStartingFunction() As DisplayableFunction
+    Private Function GetStartingFunction() As DoubleSingleParameterFunction
         Dim startingFunctionNames = From displayableFunction In _DisplayableFunctions Where _Term.StartsWith(displayableFunction.Name, StringComparison.OrdinalIgnoreCase)
 
         If Not startingFunctionNames.Any Then Return Nothing
@@ -127,21 +138,21 @@
         If bracketDepth <> 0 Then Throw New InvalidTermException(_Term)
     End Sub
 
-    Private ReadOnly Property ValueBeforeIndex(ByVal index As Integer) As Double
+    Private ReadOnly Property BeforeIndexExpression(ByVal index As Integer) As Expression
         Get
-            Return ValueOfSubstring(0, index)
+            Return SubstringExpression(0, index)
         End Get
     End Property
 
-    Private ReadOnly Property ValueAfterIndex(ByVal index As Integer) As Double
+    Private ReadOnly Property AfterIndexExpression(ByVal index As Integer) As Expression
         Get
-            Return ValueOfSubstring(index + 1, _Term.Length - 1 - index)
+            Return SubstringExpression(index + 1, _Term.Length - 1 - index)
         End Get
     End Property
 
-    Private ReadOnly Property ValueOfSubstring(ByVal startIndex As Integer, ByVal length As Integer) As Double
+    Private ReadOnly Property SubstringExpression(ByVal startIndex As Integer, ByVal length As Integer) As Expression
         Get
-            Return New Term(_Term.Substring(startIndex, length)).GetValue
+            Return New Term(Of TDelegate)(_Term.Substring(startIndex, length), doubleParameterNames:=_DoubleParameterNames).GetExpression
         End Get
     End Property
 
@@ -155,7 +166,7 @@
         End Get
     End Property
 
-    Private Class DisplayableFunction
+    Private Class DoubleSingleParameterFunction
 
         Private ReadOnly _Name As String
         Public ReadOnly Property Name As String
@@ -168,6 +179,12 @@
         Public ReadOnly Property F As Func(Of Double, Double)
             Get
                 Return _F
+            End Get
+        End Property
+
+        Public ReadOnly Property Expression(ByVal argument As Expression) As Expression
+            Get
+                Return Expressions.Expression.Call(method:=GetType(System.Math).GetMethod(name:=Me.Name), arguments:={argument})
             End Get
         End Property
 

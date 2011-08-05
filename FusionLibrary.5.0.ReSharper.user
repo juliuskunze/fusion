@@ -1,12 +1,6 @@
 <Configuration>
   <RecentFiles>
     <RecentFiles>
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:ColorConversion/f:RgbLightToColorConverter.vb" caret="390" fromTop="6" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml" caret="738" fromTop="3" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:ColorWindow.xaml.vb" caret="2990" fromTop="24" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:SurfaceTests/f:BoxTests.vb" caret="663" fromTop="14" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Light/d:RadianceSpectrum/f:RadianceSpectrum.vb" caret="236" fromTop="0" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/f:IRayTracer.vb" caret="46" fromTop="0" />
       <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Light/f:ILight.vb" caret="240" fromTop="6" />
       <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticRayTracerBase.vb" caret="0" fromTop="0" />
       <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticRayTracerWithoutDopplerEffect.vb" caret="620" fromTop="11" />
@@ -14,55 +8,61 @@
       <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:ColorConversion/f:ILightToColorConverter.vb" caret="24" fromTop="0" />
       <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticTransformation.vb" caret="3270" fromTop="20" />
       <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:MaterialSurfaces/f:MultiMaterialBox.vb" caret="3545" fromTop="27" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:Application.xaml" caret="0" fromTop="0" />
       <File id="1EE4717E-64D6-4CAF-973F-1D45270BFA9A/f:FlowForm.vb" caret="4108" fromTop="11" />
       <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Relativity/f:RelativisticRayTracer.vb" caret="829" fromTop="13" />
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:Vector2DTests.vb" caret="3643" fromTop="31" />
       <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:ColorConversion/f:RadianceSpectrumToColorConverter.vb" caret="1187" fromTop="0" />
       <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Examples/f:LensVideo.vb" caret="502" fromTop="14" />
       <File id="999FDCC5-C7B2-4F1E-B559-919752F9BC03/f:View3D.vb" caret="264" fromTop="4" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="809" fromTop="15" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:RelativisticRayTracerDrawerCompiler.vb" caret="623" fromTop="12" />
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:Vector3DTests.vb" caret="1244" fromTop="29" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector3D.vb" caret="1137" fromTop="14" />
       <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Examples/f:RayTracingExamples.vb" caret="28101" fromTop="0" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml" caret="25" fromTop="0" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="1329" fromTop="24" />
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestTermParser.vb" caret="2220" fromTop="28" />
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector2D.vb" caret="1774" fromTop="23" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:TermParser.vb" caret="423" fromTop="13" />
+      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:SurfaceTests/f:TranslatedSurfaceTests.vb" caret="258" fromTop="4" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector3D.vb" caret="1862" fromTop="23" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:RelativisticRayTracerDrawerCompiler.vb" caret="50" fromTop="0" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/d:Controls/f:Vector3DBox.vb" caret="304" fromTop="8" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/d:Controls/f:IntegerTermBox.vb" caret="341" fromTop="10" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml" caret="3321" fromTop="10" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:Application.xaml" caret="1432" fromTop="22" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/d:Controls/f:TermBox.vb" caret="49" fromTop="0" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/d:Controls/f:ValidatingTextBox.vb" caret="25" fromTop="0" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="409" fromTop="11" />
+      <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/f:RelativisticRayTracingComilerTests.vb" caret="80" fromTop="2" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="2110" fromTop="0" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:TermParser.vb" caret="199" fromTop="4" />
     </RecentFiles>
     <RecentEdits>
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="4655" fromTop="27" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="3939" fromTop="16" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="3775" fromTop="22" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="3090" fromTop="18" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="3775" fromTop="28" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="6811" fromTop="29" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="6457" fromTop="21" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="6496" fromTop="25" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="6257" fromTop="23" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="6015" fromTop="16" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="6054" fromTop="20" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="2291" fromTop="24" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="1843" fromTop="19" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="1235" fromTop="19" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:TermParser.vb" caret="423" fromTop="13" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:TermParser.vb" caret="95" fromTop="3" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector2D.vb" caret="1769" fromTop="23" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestTermParser.vb" caret="254" fromTop="5" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestTermParser.vb" caret="526" fromTop="12" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestTermParser.vb" caret="746" fromTop="17" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestTermParser.vb" caret="905" fromTop="22" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestTermParser.vb" caret="1069" fromTop="27" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestTermParser.vb" caret="1188" fromTop="23" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestTermParser.vb" caret="1320" fromTop="29" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestTermParser.vb" caret="1461" fromTop="20" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestTermParser.vb" caret="1596" fromTop="26" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestTermParser.vb" caret="1958" fromTop="28" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestTermParser.vb" caret="2130" fromTop="7" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestTermParser.vb" caret="2235" fromTop="21" />
-      <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:TestTermParser.vb" caret="2033" fromTop="22" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml" caret="3378" fromTop="11" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="3203" fromTop="18" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/d:Controls/f:ValidatingTextBox.vb" caret="878" fromTop="28" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/d:Controls/f:ValidatingTextBox.vb" caret="209" fromTop="3" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="288" fromTop="7" />
+      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="2491" fromTop="13" />
+      <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/f:RelativisticRayTracingComilerTests.vb" caret="415" fromTop="8" />
+      <File id="25D84F4D-5A27-47AA-9A26-72457EFF6F82/f:RelativisticRayTracingComilerTests.vb" caret="271" fromTop="6" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="20" fromTop="0" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="1320" fromTop="20" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="8137" fromTop="20" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="881" fromTop="8" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="7237" fromTop="21" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="6831" fromTop="9" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="7021" fromTop="15" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="4020" fromTop="20" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="4982" fromTop="20" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="4715" fromTop="16" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="5147" fromTop="24" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="5354" fromTop="28" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="5560" fromTop="32" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="2472" fromTop="16" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="2922" fromTop="22" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="8229" fromTop="17" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="8488" fromTop="22" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="7860" fromTop="13" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="4334" fromTop="20" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="1271" fromTop="17" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="1912" fromTop="25" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Term.vb" caret="1609" fromTop="20" />
     </RecentEdits>
   </RecentFiles>
   <NAntValidationSettings>
