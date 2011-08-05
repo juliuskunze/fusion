@@ -23,7 +23,7 @@
 
     Private Property IsOk As Boolean
         Get
-            Return Me.Background Is _OkBrush
+            Return Me.Background IsNot _OkBrush
         End Get
         Set(ByVal value As Boolean)
             If value Then

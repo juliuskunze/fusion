@@ -3,7 +3,7 @@
     
     Protected Overrides Function Convert(ByVal text As String) As Double?
         Try
-            Return TermParser.Parse(text)
+            Return New IndependentTerm(text).Parse
         Catch ex As InvalidTermException
             Return Nothing
         End Try

@@ -3,7 +3,7 @@
     
     Protected Overrides Function Convert(ByVal text As String) As Integer?
         Try
-            Return CInt(TermParser.Parse(Me.Text))
+            Return CInt(New IndependentTerm(Me.Text).Parse)
         Catch ex As InvalidTermException
             Return Nothing
         End Try

@@ -95,6 +95,7 @@
     <Compile Include="Graph.vb" />
     <Compile Include="IEdge.vb" />
     <Compile Include="IMap2D.vb" />
+    <Compile Include="IndependentTerm.vb" />
     <Compile Include="LinearMap.vb" />
     <Compile Include="EnumerableExtensions\ConcatenatedSortedEnumerator.vb" />
     <Compile Include="EnumerableExtensions\LinqExtensions.vb" />
@@ -150,8 +151,8 @@
     <Compile Include="Surfaces\Triangle.vb" />
     <Compile Include="Surfaces\TruncatedSurface.vb" />
     <Compile Include="Surfaces\UnitedSurfacedPointSet3D.vb" />
+    <Compile Include="TermWithoutBlanks.vb" />
     <Compile Include="Term.vb" />
-    <Compile Include="TermParser.vb" />
     <Compile Include="Vector2D.vb" />
     <Compile Include="Vector2DRoughComparer.vb" />
     <Compile Include="Vector3D.vb" />

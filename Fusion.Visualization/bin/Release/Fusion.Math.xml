@@ -11,6 +11,11 @@ Fusion.Math
  Repräsentiert einen Quader, dessen Kanten parallel zu den Koordinatenachsen ausgerichtet sind.
  </summary>
 	<remarks></remarks>
+</member><member name="T:Fusion.Math.IndependentTerm">
+	<summary>
+ A term that has no user defined parameters and functions.
+ </summary>
+	<remarks></remarks>
 </member><member name="T:Fusion.Math.ISurface">
 	<summary>
  Implemented by surfaces, where all intersections are known for each ray. 

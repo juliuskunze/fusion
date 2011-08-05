@@ -108,7 +108,7 @@
     <Compile Include="TestLinearMap.vb" />
     <Compile Include="TestMatrix.vb" />
     <Compile Include="TestSquareMatrix.vb" />
-    <Compile Include="TestTermParser.vb" />
+    <Compile Include="TestTerm.vb" />
     <Compile Include="Vector2DTests.vb" />
     <Compile Include="Vector3DTests.vb" />
   </ItemGroup>

@@ -60,9 +60,9 @@
         End If
 
         Try
-            _X = TermParser.Parse(splitStrings(0))
-            _Y = TermParser.Parse(splitStrings(1))
-            _Z = TermParser.Parse(splitStrings(2))
+            _X = New IndependentTerm(Term:=splitStrings(0)).Parse
+            _Y = New IndependentTerm(splitStrings(1)).Parse
+            _Z = New IndependentTerm(splitStrings(2)).Parse
         Catch ex As Exception
             Throw New ArgumentException("String can't be converted into a vector.")
         End Try
