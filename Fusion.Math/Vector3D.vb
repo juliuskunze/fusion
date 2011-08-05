@@ -46,27 +46,26 @@ Public Structure Vector3D
     End Sub
 
     Public Sub New(ByVal vectorString As String)
-        If vectorString(0) = "("c AndAlso vectorString(vectorString.Length - 1) = ")" OrElse
-           vectorString(0) = "["c AndAlso vectorString(vectorString.Length - 1) = "]" OrElse
-           vectorString(0) = "{"c AndAlso vectorString(vectorString.Length - 1) = "}" OrElse
-           vectorString(0) = "<"c AndAlso vectorString(vectorString.Length - 1) = ">" Then
+        If vectorString.First = "("c AndAlso vectorString.Last = ")"c OrElse
+           vectorString.First = "["c AndAlso vectorString.Last = "]"c OrElse
+           vectorString.First = "{"c AndAlso vectorString.Last = "}"c OrElse
+           vectorString.First = "<"c AndAlso vectorString.Last = ">"c Then
             vectorString = vectorString.Remove(vectorString.Length - 1, 1).Remove(0, 1)
         End If
 
-        Dim splitStrings = vectorString.Split(";"c, "|"c, ","c)
+        Dim components = vectorString.Split(";"c, "|"c, ","c)
 
-        If splitStrings.Count <> 3 Then
-            Throw New ArgumentException("String can't be converted into a vector.")
+        If components.Count <> 3 Then
+            Throw New ArgumentException("String can not be converted into a vector.")
         End If
 
         Try
-            _X = CDbl(splitStrings(0))
-            _Y = CDbl(splitStrings(1))
-            _Z = CDbl(splitStrings(2))
-        Catch ex As Exception
-            Throw New ArgumentException("String can't be converted into a vector.")
+            _X = CDbl(components(0))
+            _Y = CDbl(components(1))
+            _Z = CDbl(components(2))
+        Catch ex As InvalidCastException
+            Throw New ArgumentException("String can not be converted into a vector.")
         End Try
-
     End Sub
 
     Public Shared Function FromCylinderCoordinates(ByVal rho As Double, ByVal phi As Double, ByVal z As Double) As Vector3D

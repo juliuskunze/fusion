@@ -158,6 +158,7 @@
     <Compile Include="Terms\TermContext.vb" />
     <Compile Include="Terms\Term.vb" />
     <Compile Include="Terms\TermBase.vb" />
+    <Compile Include="Terms\Vector3DTerm.vb" />
     <Compile Include="Vector2D.vb" />
     <Compile Include="Vector2DRoughComparer.vb" />
     <Compile Include="Vector3D.vb" />

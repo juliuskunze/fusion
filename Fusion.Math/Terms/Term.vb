@@ -5,11 +5,11 @@
 
     Public Sub New(ByVal term As String, ByVal userContext As TermContext)
         Me.New(termWithoutBlanks:=New String((term.Where(Function(c) Not Char.IsWhiteSpace(c))).ToArray),
-               context:=TermContext.DefaultContext.Merge(userContext), uselessSignatureDifferParameter:=False)
+               context:=TermContext.DefaultContext.Merge(userContext), obsolete_signatureDifferParameter:=False)
     End Sub
 
-    Private Sub New(ByVal termWithoutBlanks As String,
-                    ByVal context As TermContext, ByVal uselessSignatureDifferParameter As Boolean)
+    Friend Sub New(ByVal termWithoutBlanks As String,
+                    ByVal context As TermContext, ByVal obsolete_signatureDifferParameter As Boolean)
         MyBase.New(Term:=termWithoutBlanks, context:=context)
     End Sub
 
@@ -149,7 +149,7 @@
 
     Private ReadOnly Property SubstringExpression(ByVal term As String) As Expression
         Get
-            Return New Term(termWithoutBlanks:=term, context:=_Context, uselessSignatureDifferParameter:=False).GetExpression
+            Return New Term(termWithoutBlanks:=term, context:=_Context, obsolete_signatureDifferParameter:=False).GetExpression
         End Get
     End Property
 

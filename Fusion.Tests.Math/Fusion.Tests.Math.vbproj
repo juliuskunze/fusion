@@ -109,9 +109,10 @@
     <Compile Include="LinearMapTests.vb" />
     <Compile Include="MatrixTests.vb" />
     <Compile Include="SquareMatrixTests.vb" />
-    <Compile Include="TermTests.vb" />
+    <Compile Include="Terms\TermTests.vb" />
+    <Compile Include="Terms\Vector3DTermTests.vb" />
     <Compile Include="Vector2DTests.vb" />
-    <Compile Include="Vector3DTests.vb" />
+    <Compile Include="Vector3DTermTests.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
