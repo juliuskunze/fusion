@@ -6,7 +6,7 @@
 
     Public Property CoordinateSystemPen() As Pen
 
-    Public Sub New(ByVal visualizer As Visualizer2D)
+    Public Sub New(visualizer As Visualizer2D)
         Me.Visualizer = visualizer
 
         Me.CoordinateSystemPen = New Pen(Color.Gray)

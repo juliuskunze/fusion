@@ -1,6 +1,6 @@
 ﻿Public Class ViewController2D
 
-    Public Sub New(ByVal visualizer As Visualizer2D, Optional ByVal zoomInFactorPerZoomStep As Double = 1.2, Optional ByVal rotationAnglePerDeltaInPixels As Double = PI / 100)
+    Public Sub New(visualizer As Visualizer2D, Optional zoomInFactorPerZoomStep As Double = 1.2, Optional rotationAnglePerDeltaInPixels As Double = PI / 100)
         Me.ZoomInFactorPerZoomStep = zoomInFactorPerZoomStep
         Me.ZoomCenterMode = CenterModes.AtMouseLocation
 
@@ -27,12 +27,12 @@
     Public Property ZoomInFactorPerZoomStep() As Double
     Public Property RotationAnglePerDeltaInPixels As Double
 
-    Public Sub Relocate(ByVal oldSimulationMouseLocation As Vector2D)
+    Public Sub Relocate(oldSimulationMouseLocation As Vector2D)
         Me.Visualizer.ProjectionMap = Me.Visualizer.ProjectionMap.
             After(AffineMap2D.Translation(Me.SimulationMouseLocation - oldSimulationMouseLocation))
     End Sub
 
-    Public Sub Zoom(ByVal zoomSteps As Double)
+    Public Sub Zoom(zoomSteps As Double)
         Dim zoomCenter As Vector2D
         Select Case Me.ZoomCenterMode
             Case CenterModes.AtMidpoint
@@ -51,7 +51,7 @@
         _RotationCenterSimulationLocation = Me.SimulationMouseLocation
     End Sub
 
-    Public Sub Rotate(ByVal oldScreenMouseLocation As Vector2D)
+    Public Sub Rotate(oldScreenMouseLocation As Vector2D)
         Dim xDeltaInPixels = Me.ScreenMouseLocation.X - oldScreenMouseLocation.X
         Dim rotationAngle = xDeltaInPixels * RotationAnglePerDeltaInPixels
 
@@ -67,7 +67,7 @@
             After(AffineMap2D.Rotation(rotationAngle).At(zoomCenter))
     End Sub
 
-    Public Sub CenterSimulationLocation(ByVal simulationLocation As Vector2D)
+    Public Sub CenterSimulationLocation(simulationLocation As Vector2D)
         Me.Visualizer.ProjectionMap = Me.Visualizer.ProjectionMap.
             Before(AffineMap2D.Translation(-Me.Visualizer.ProjectionMap.Apply(simulationLocation)))
     End Sub

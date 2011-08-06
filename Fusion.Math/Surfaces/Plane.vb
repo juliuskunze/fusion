@@ -1,17 +1,17 @@
 ﻿Public Class Plane
     Implements ISurfacedPointSet3D
 
-    Public Sub New(ByVal location As Vector3D, ByVal normal As Vector3D)
+    Public Sub New(location As Vector3D, normal As Vector3D)
         Me.Location = location
         Me.Normal = normal
     End Sub
 
-    Public Sub New(ByVal point1 As Vector3D, ByVal point2 As Vector3D, ByVal point3 As Vector3D)
+    Public Sub New(point1 As Vector3D, point2 As Vector3D, point3 As Vector3D)
         Me.New(Location:=point1, Normal:=(point2 - point1).CrossProduct(point3 - point1))
     End Sub
 
     Public WriteOnly Property Normal As Vector3D
-        Set(ByVal value As Vector3D)
+        Set(value As Vector3D)
             _NormalizedNormal = value.Normalized
         End Set
     End Property
@@ -25,7 +25,7 @@
 
     Public Property Location As Vector3D
 
-    Public Function Intersection(ByVal ray As Ray) As SurfacePoint Implements ISurfacedPointSet3D.FirstIntersection
+    Public Function Intersection(ray As Ray) As SurfacePoint Implements ISurfacedPointSet3D.FirstIntersection
         Dim relativeRayOrigin = ray.Origin - Me.Location
 
         Dim signedRelativeRayOriginDistance = relativeRayOrigin * Me.NormalizedNormal
@@ -43,11 +43,11 @@
         Return New SurfacePoint(Location:=intersectionLocation, Normal:=Me.NormalizedNormal)
     End Function
 
-    Public Function CoveredHalfSpaceContains(ByVal point As Vector3D) As Boolean Implements IPointSet3D.Contains
+    Public Function CoveredHalfSpaceContains(point As Vector3D) As Boolean Implements IPointSet3D.Contains
         Return Me.NormalizedNormal * (point - Me.Location) < 0
     End Function
 
-    Public Function Intersections(ByVal ray As Ray) As IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
+    Public Function Intersections(ray As Ray) As IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
         Dim intersection = Me.Intersection(ray)
 
         If intersection Is Nothing Then Return Enumerable.Empty(Of SurfacePoint)()

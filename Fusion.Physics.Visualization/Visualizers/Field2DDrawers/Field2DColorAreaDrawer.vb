@@ -1,7 +1,7 @@
 ﻿Public Class Field2DColorAreaDrawer
     Implements IDrawer2D
 
-    Public Sub New(ByVal visualizer As Visualizer2D, ByVal field As IField2D)
+    Public Sub New(visualizer As Visualizer2D, field As IField2D)
         Me.Visualizer = visualizer
         Me.Field = field
     End Sub

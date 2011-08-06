@@ -19,7 +19,7 @@ Public Class FlowBox2DLE
         Get
             Return _DefaultViscosity
         End Get
-        Set(ByVal value As Double)
+        Set(value As Double)
             _DefaultViscosity = value
             _DefaultLambda = 1 / (1 / 2 + 3 * _DefaultViscosity)
         End Set
@@ -31,7 +31,7 @@ Public Class FlowBox2DLE
     Public Property FOld As Double(,)
     Private Property Omega As Double(,)
 
-    Public Sub New(ByVal isWall As Boolean, ByVal density As Double, ByVal velocity As Vector2D, ByVal viscosity As Double)
+    Public Sub New(isWall As Boolean, density As Double, velocity As Vector2D, viscosity As Double)
         Me.IsWall = isWall
         Me.Density = density
 

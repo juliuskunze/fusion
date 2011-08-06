@@ -7,7 +7,7 @@
         End Get
     End Property
 
-    Public Function GetRemission(ByVal light As TLight) As TLight Implements IRemission(Of TLight).GetRemission
+    Public Function GetRemission(light As TLight) As TLight Implements IRemission(Of TLight).GetRemission
         Return New TLight
     End Function
 End Class

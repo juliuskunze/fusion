@@ -4,7 +4,7 @@
         Me.InitializeComponent()
     End Sub
 
-    Private Sub OkButton_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles _OkButton.Click
+    Private Sub OkButton_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles _OkButton.Click
         Me.DialogResult = True
 
         If Me.Mode = FixMode.Time Then
@@ -53,14 +53,14 @@
         End Get
     End Property
 
-    Private Sub Grid_Checked(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs)
+    Private Sub Grid_Checked(sender As System.Object, e As System.Windows.RoutedEventArgs)
         If Not Me.IsLoaded Then Return
 
         _FixTimeTextBox.IsEnabled = _FixTimeRadioButton.IsChecked.Value
         _FixPixelCountTextBox.IsEnabled = _FixPixelCountRadioButton.IsChecked.Value
     End Sub
 
-    Protected Overrides Sub OnClosing(ByVal e As System.ComponentModel.CancelEventArgs)
+    Protected Overrides Sub OnClosing(e As System.ComponentModel.CancelEventArgs)
         e.Cancel = True
 
         Me.Hide()

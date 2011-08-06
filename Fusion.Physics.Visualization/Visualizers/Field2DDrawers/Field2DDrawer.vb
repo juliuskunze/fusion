@@ -24,11 +24,11 @@
 
     Public Property Field As ParticleField2D
 
-    Public Sub New(ByVal visualizer As Visualizer2D, ByVal particles As IEnumerable(Of Particle2D))
+    Public Sub New(visualizer As Visualizer2D, particles As IEnumerable(Of Particle2D))
         Me.New(visualizer, New ParticleField2D(New Electric2D, particles))
     End Sub
 
-    Public Sub New(ByVal visualizer As Visualizer2D, ByVal field As ParticleField2D)
+    Public Sub New(visualizer As Visualizer2D, field As ParticleField2D)
         Me.Visualizer = visualizer
         Me.Field = field
 

@@ -3,13 +3,13 @@
 
     Private _CharIsInBrackets As Boolean()
 
-    Public Sub New(ByVal term As String, ByVal userContext As TermContext)
+    Public Sub New(term As String, userContext As TermContext)
         Me.New(termWithoutBlanks:=New String((term.Where(Function(c) Not Char.IsWhiteSpace(c))).ToArray),
                context:=TermContext.DefaultContext.Merge(userContext), obsolete_signatureDifferParameter:=False)
     End Sub
 
-    Friend Sub New(ByVal termWithoutBlanks As String,
-                   ByVal context As TermContext, ByVal obsolete_signatureDifferParameter As Boolean)
+    Friend Sub New(termWithoutBlanks As String,
+                   context As TermContext, obsolete_signatureDifferParameter As Boolean)
         MyBase.New(Term:=termWithoutBlanks, context:=context)
     End Sub
 
@@ -117,31 +117,31 @@
     End Sub
 
 
-    Private ReadOnly Property BeforeIndexExpression(ByVal index As Integer) As Expression
+    Private ReadOnly Property BeforeIndexExpression(index As Integer) As Expression
         Get
             Return Me.SubstringExpression(0, index)
         End Get
     End Property
 
-    Private ReadOnly Property AfterIndexExpression(ByVal index As Integer) As Expression
+    Private ReadOnly Property AfterIndexExpression(index As Integer) As Expression
         Get
             Return Me.SubstringExpression(index + 1, _Term.Length - 1 - index)
         End Get
     End Property
 
-    Private ReadOnly Property SubstringExpression(ByVal startIndex As Integer, ByVal length As Integer) As Expression
+    Private ReadOnly Property SubstringExpression(startIndex As Integer, length As Integer) As Expression
         Get
             Return Me.SubstringExpression(_Term.Substring(startIndex, length))
         End Get
     End Property
 
-    Private ReadOnly Property SubstringExpression(ByVal term As String) As Expression
+    Private ReadOnly Property SubstringExpression(term As String) As Expression
         Get
             Return New Term(termWithoutBlanks:=term, context:=_Context, obsolete_signatureDifferParameter:=False).GetExpression
         End Get
     End Property
 
-    Private ReadOnly Property TermIsInBrackets(ByVal startIndex As Integer, ByVal endIndex As Integer) As Boolean
+    Private ReadOnly Property TermIsInBrackets(startIndex As Integer, endIndex As Integer) As Boolean
         Get
             For i = startIndex To endIndex
                 If Not _CharIsInBrackets(i) Then Return False

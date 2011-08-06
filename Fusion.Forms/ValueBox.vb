@@ -3,7 +3,7 @@
         Get
             Return CDbl(Me.Txt.Text)
         End Get
-        Set(ByVal value As Double)
+        Set(value As Double)
             Me.Txt.Text = value.ToString
         End Set
     End Property

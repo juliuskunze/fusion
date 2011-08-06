@@ -1,7 +1,7 @@
 ﻿Public Class ViewCourseVideo
     Implements IRayTraceVideo
 
-    Public Sub New(ByVal videoSize As Size, ByVal rayTracer As IRayTracer(Of RgbLight), ByVal cameraViewCourse As IViewCourse)
+    Public Sub New(videoSize As Size, rayTracer As IRayTracer(Of RgbLight), cameraViewCourse As IViewCourse)
         _VideoSize = videoSize
         _RayTracer = rayTracer
         _CameraViewCourse = cameraViewCourse
@@ -28,11 +28,11 @@
         End Get
     End Property
 
-    Public Function GetRayTracerDrawer(ByVal pointOfTime As Double) As RayTraceDrawer(Of RgbLight) Implements IRayTraceVideo.GetRayTracerDrawer
+    Public Function GetRayTracerDrawer(pointOfTime As Double) As RayTraceDrawer(Of RgbLight) Implements IRayTraceVideo.GetRayTracerDrawer
         Return New RayTraceDrawer(Of RgbLight)(Me.RayTracer, Me.VideoSize, Me.CameraViewCourse.GetView(pointOfTime:=pointOfTime), lightToColorConverter:=New RgbLightToColorConverter)
     End Function
 
-    Public Sub CreateVideo(ByVal directoryPath As String, ByVal timeIntervalStart As Double, ByVal timeIntervalEnd As Double, ByVal timeStep As Double)
+    Public Sub CreateVideo(directoryPath As String, timeIntervalStart As Double, timeIntervalEnd As Double, timeStep As Double)
         Dim imageIndex As Integer = 0
         Dim maxIndex As Integer = CInt(Floor((timeIntervalEnd - timeIntervalStart) / timeStep))
         Dim formatString = New String("0"c, maxIndex.ToString.Length)

@@ -3,7 +3,7 @@
         Get
             Return New Vector2D(Me.Txt.Text)
         End Get
-        Set(ByVal value As Vector2D)
+        Set(value As Vector2D)
             Me.Txt.Text = value.ToString
         End Set
     End Property

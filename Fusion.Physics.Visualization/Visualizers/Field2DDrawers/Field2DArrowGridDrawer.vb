@@ -1,7 +1,7 @@
 ﻿Public Class Field2DArrowGridDrawer
     Implements IDrawer2D
 
-    Public Sub New(ByVal visualizer As Visualizer2D, ByVal field As IField2D)
+    Public Sub New(visualizer As Visualizer2D, field As IField2D)
         Me.Visualizer = visualizer
         Me.Field = field
 
@@ -46,7 +46,7 @@
         Next
     End Sub
 
-    Private Sub drawFieldArrow(ByVal arrowLocation As Vector2D, ByVal fieldStrength As Vector2D, ByVal pen As Pen)
+    Private Sub drawFieldArrow(arrowLocation As Vector2D, fieldStrength As Vector2D, pen As Pen)
         If Me.ArrowsCentered Then
             drawCenteredFieldArrow(arrowLocation:=arrowLocation, fieldStrength:=fieldStrength, pen:=pen)
         Else
@@ -54,12 +54,12 @@
         End If
     End Sub
 
-    Private Sub drawUncenteredFieldArrow(ByVal arrowLocation As Vector2D, ByVal fieldStrength As Vector2D, ByVal pen As Pen)
+    Private Sub drawUncenteredFieldArrow(arrowLocation As Vector2D, fieldStrength As Vector2D, pen As Pen)
         Dim arrowVector = _FieldArrowSimulationLengthPerFieldStrength * fieldStrength
         Me.Visualizer.DrawingGraphics.DrawLine(pen, Me.Visualizer.Map.Apply(arrowLocation).ToPointF, Me.Visualizer.Map.Apply(arrowLocation + arrowVector).ToPointF)
     End Sub
 
-    Private Sub drawCenteredFieldArrow(ByVal arrowLocation As Vector2D, ByVal fieldStrength As Vector2D, ByVal pen As Pen)
+    Private Sub drawCenteredFieldArrow(arrowLocation As Vector2D, fieldStrength As Vector2D, pen As Pen)
         Dim halfArrowVector = 0.5 * _FieldArrowSimulationLengthPerFieldStrength * fieldStrength
         Me.Visualizer.DrawingGraphics.DrawLine(pen, Me.Visualizer.Map.Apply(arrowLocation - halfArrowVector).ToPointF, Me.Visualizer.Map.Apply(arrowLocation + halfArrowVector).ToPointF)
     End Sub

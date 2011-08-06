@@ -3,7 +3,7 @@
 
     Private _Rnd As New Random
 
-    Public Function Mutate(ByVal solution As String) As String Implements IMutator(Of String).Mutate
+    Public Function Mutate(solution As String) As String Implements IMutator(Of String).Mutate
         Dim typeOfMutation = _Rnd.NextDouble()
 
         Select Case typeOfMutation
@@ -16,7 +16,7 @@
         End Select
     End Function
 
-    Private Function changeChar(ByVal solution As String) As String
+    Private Function changeChar(solution As String) As String
         Dim charPosition = _Rnd.Next(solution.Length)
 
         Dim newCharIndex As Integer
@@ -32,11 +32,11 @@
     End Function
 
 
-    Private Function addChar(ByVal solution As String) As String
+    Private Function addChar(solution As String) As String
         Return solution & Chr(_Rnd.Next(32, 255))
     End Function
 
-    Private Function trimChar(ByVal solution As String) As String
+    Private Function trimChar(solution As String) As String
         Return solution.Substring(0, solution.Length - 1)
     End Function
 End Class

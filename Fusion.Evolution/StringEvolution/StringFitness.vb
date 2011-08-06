@@ -6,17 +6,17 @@
         Get
             Return _TargetString
         End Get
-        Set(ByVal value As String)
+        Set(value As String)
             _TargetString = value
         End Set
     End Property
 
 
-    Public Sub New(ByVal targetString As String)
+    Public Sub New(targetString As String)
         _TargetString = targetString
     End Sub
 
-    Public Function Fitness(ByVal solution As String) As Double Implements IFitness(Of String).Fitness
+    Public Function Fitness(solution As String) As Double Implements IFitness(Of String).Fitness
         Fitness = 0
 
         If TargetString.Length <> solution.Length Then

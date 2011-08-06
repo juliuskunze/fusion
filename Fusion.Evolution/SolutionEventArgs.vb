@@ -1,7 +1,7 @@
 ﻿Public Class SolutionEventArgs(Of SolutionType)
     Inherits EventArgs
 
-    Public Sub New(ByVal solution As SolutionType)
+    Public Sub New(solution As SolutionType)
         _Solution = solution
     End Sub
 

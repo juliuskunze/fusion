@@ -21,17 +21,17 @@ Public Structure Vector3D
         End Get
     End Property
 
-    Public Sub New(ByVal x As Double, ByVal y As Double, ByVal z As Double)
+    Public Sub New(x As Double, y As Double, z As Double)
         _X = x
         _Y = y
         _Z = z
     End Sub
 
-    Public Sub New(ByVal v As Vector2D)
+    Public Sub New(v As Vector2D)
         Me.New(v.X, v.Y, 0)
     End Sub
 
-    Public Sub New(ByVal m As Matrix)
+    Public Sub New(m As Matrix)
         If m.Width = 1 AndAlso m.Height = 3 Then
             _X = m(0, 0)
             _Y = m(1, 0)
@@ -45,7 +45,7 @@ Public Structure Vector3D
         End If
     End Sub
 
-    Public Sub New(ByVal vectorString As String)
+    Public Sub New(vectorString As String)
         If vectorString.First = "("c AndAlso vectorString.Last = ")"c OrElse
            vectorString.First = "["c AndAlso vectorString.Last = "]"c OrElse
            vectorString.First = "{"c AndAlso vectorString.Last = "}"c OrElse
@@ -66,11 +66,11 @@ Public Structure Vector3D
         End Try
     End Sub
 
-    Public Shared Function FromCylinderCoordinates(ByVal rho As Double, ByVal phi As Double, ByVal z As Double) As Vector3D
+    Public Shared Function FromCylinderCoordinates(rho As Double, phi As Double, z As Double) As Vector3D
         Return New Vector3D(rho * Cos(phi), rho * Sin(phi), z)
     End Function
 
-    Public Shared Function FromSphericalCoordinates(ByVal r As Double, ByVal theta As Double, ByVal phi As Double) As Vector3D
+    Public Shared Function FromSphericalCoordinates(r As Double, theta As Double, phi As Double) As Vector3D
         Return New Vector3D(r * Sin(theta) * Cos(phi),
                             r * Sin(theta) * Sin(phi),
                             r * Cos(theta))
@@ -89,7 +89,7 @@ Public Structure Vector3D
         End Get
     End Property
 
-    Public Function ScaledToLength(ByVal newLength As Double) As Vector3D
+    Public Function ScaledToLength(newLength As Double) As Vector3D
         If Me.Length = 0 Then
             Return New Vector3D(newLength, 0, 0)
         Else
@@ -128,63 +128,63 @@ Public Structure Vector3D
         End Get
     End Property
 
-    Public Shared Operator +(ByVal v1 As Vector3D, ByVal v2 As Vector3D) As Vector3D
+    Public Shared Operator +(v1 As Vector3D, v2 As Vector3D) As Vector3D
         Return New Vector3D(v1._X + v2._X,
                             v1._Y + v2._Y,
                             v1._Z + v2._Z)
     End Operator
 
-    Public Shared Operator -(ByVal v1 As Vector3D, ByVal v2 As Vector3D) As Vector3D
+    Public Shared Operator -(v1 As Vector3D, v2 As Vector3D) As Vector3D
         Return New Vector3D(v1._X - v2._X,
                             v1._Y - v2._Y,
                             v1._Z - v2._Z)
     End Operator
 
-    Public Shared Operator -(ByVal v As Vector3D) As Vector3D
+    Public Shared Operator -(v As Vector3D) As Vector3D
         Return New Vector3D(-v._X, -v._Y, -v._Z)
     End Operator
 
-    Public Shared Operator *(ByVal a As Double, ByVal v As Vector3D) As Vector3D
+    Public Shared Operator *(a As Double, v As Vector3D) As Vector3D
         Return New Vector3D(a * v._X,
                             a * v._Y,
                             a * v._Z)
     End Operator
 
-    Public Shared Operator *(ByVal v As Vector3D, ByVal a As Double) As Vector3D
+    Public Shared Operator *(v As Vector3D, a As Double) As Vector3D
         Return a * v
     End Operator
 
-    Public Shared Operator /(ByVal v As Vector3D, ByVal a As Double) As Vector3D
+    Public Shared Operator /(v As Vector3D, a As Double) As Vector3D
         Return New Vector3D(v._X / a,
                             v._Y / a,
                             v._Z / a)
     End Operator
 
-    Public Shared Operator =(ByVal v1 As Vector3D, ByVal v2 As Vector3D) As Boolean
+    Public Shared Operator =(v1 As Vector3D, v2 As Vector3D) As Boolean
         Return v1.X = v2.X AndAlso v1.Y = v2.Y AndAlso v1.Z = v2.Z
     End Operator
 
-    Public Shared Operator <>(ByVal v1 As Vector3D, ByVal v2 As Vector3D) As Boolean
+    Public Shared Operator <>(v1 As Vector3D, v2 As Vector3D) As Boolean
         Return Not v1 = v2
     End Operator
 
-    Public Function DotProduct(ByVal v As Vector3D) As Double
+    Public Function DotProduct(v As Vector3D) As Double
         Return X * v.X +
                Y * v.Y +
                Z * v.Z
     End Function
 
-    Public Shared Operator *(ByVal v1 As Vector3D, ByVal v2 As Vector3D) As Double
+    Public Shared Operator *(v1 As Vector3D, v2 As Vector3D) As Double
         Return v1.DotProduct(v2)
     End Operator
 
-    Public Function CrossProduct(ByVal v As Vector3D) As Vector3D
+    Public Function CrossProduct(v As Vector3D) As Vector3D
         Return New Vector3D(_Y * v._Z - _Z * v._Y,
                             _Z * v._X - _X * v._Z,
                             _X * v._Y - _Y * v._X)
     End Function
 
-    Public Shared Function TripleProduct(ByVal v1 As Vector3D, ByVal v2 As Vector3D, ByVal v3 As Vector3D) As Double
+    Public Shared Function TripleProduct(v1 As Vector3D, v2 As Vector3D, v3 As Vector3D) As Double
         Return v1.CrossProduct(v2).DotProduct(v3)
     End Function
 
@@ -203,7 +203,7 @@ Public Structure Vector3D
         Return Me / Me.Length
     End Function
 
-    Public Function OrthogonalProjectionOn(ByVal v As Vector3D) As Vector3D
+    Public Function OrthogonalProjectionOn(v As Vector3D) As Vector3D
         Return Me.DotProduct(v) / v.LengthSquared * v
     End Function
 
@@ -211,11 +211,11 @@ Public Structure Vector3D
         Return ToString("0.00")
     End Function
 
-    Public Overloads Function ToString(ByVal numberFormat As String) As String
+    Public Overloads Function ToString(numberFormat As String) As String
         Return "(" & _X.ToString(numberFormat) & "|" & _Y.ToString(numberFormat) & "|" & _Z.ToString(numberFormat) & ")"
     End Function
 
-    Public Shared Function Fit(ByVal v1 As Vector3D, ByVal v2 As Vector3D, Optional ByVal maxRelativeError As Double = 0.00000000000001) As Boolean
+    Public Shared Function Fit(v1 As Vector3D, v2 As Vector3D, Optional maxRelativeError As Double = 0.00000000000001) As Boolean
         If v1 = v2 Then Return True
 
         Return (v1 - v2).Length / (0.5 * (v1.Length + v2.Length)) < maxRelativeError

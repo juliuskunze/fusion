@@ -6,7 +6,7 @@
         Get
             Return _Sphere.Center
         End Get
-        Set(ByVal value As Vector3D)
+        Set(value As Vector3D)
             _Sphere.Center = value
         End Set
     End Property
@@ -14,20 +14,20 @@
         Get
             Return _Sphere.Radius
         End Get
-        Set(ByVal value As Double)
+        Set(value As Double)
             _Sphere.Radius = value
         End Set
     End Property
 
-    Public Sub New(ByVal center As Vector3D, ByVal radius As Double)
+    Public Sub New(center As Vector3D, radius As Double)
         _Sphere = New Sphere(center, radius)
     End Sub
 
-    Public Sub New(ByVal sphere As Sphere)
+    Public Sub New(sphere As Sphere)
         _Sphere = sphere
     End Sub
 
-    Public Function Intersection(ByVal ray As Ray) As SurfacePoint Implements ISurfacedPointSet3D.FirstIntersection
+    Public Function Intersection(ray As Ray) As SurfacePoint Implements ISurfacedPointSet3D.FirstIntersection
         Dim allIntersectionRayLengths = _Sphere.SurfaceIntersectionRayLengths(ray)
 
         If allIntersectionRayLengths.Count = 0 Then Return Nothing
@@ -38,11 +38,11 @@
         Return New SurfacePoint(location:=intersectionLocation, normal:=normal)
     End Function
 
-    Public Function Contains(ByVal point As Fusion.Math.Vector3D) As Boolean Implements Fusion.Math.IPointSet3D.Contains
+    Public Function Contains(point As Fusion.Math.Vector3D) As Boolean Implements Fusion.Math.IPointSet3D.Contains
         Return Not _Sphere.Contains(point)
     End Function
 
-    Public Function Intersections(ByVal ray As Ray) As System.Collections.Generic.IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
+    Public Function Intersections(ray As Ray) As System.Collections.Generic.IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
         Dim intersection = Me.Intersection(ray)
 
         If intersection Is Nothing Then Return Enumerable.Empty(Of SurfacePoint)()

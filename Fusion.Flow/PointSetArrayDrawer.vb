@@ -3,7 +3,7 @@
 
     Public Property PointSetToArray As PointSet2DToArray
 
-    Public Sub New(ByVal visualizer As Visualizer2D, ByVal pointSetToArray As PointSet2DToArray)
+    Public Sub New(visualizer As Visualizer2D, pointSetToArray As PointSet2DToArray)
         Me.Visualizer = visualizer
         Me.PointSetToArray = pointSetToArray
     End Sub

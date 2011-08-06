@@ -8,7 +8,7 @@
     Private _Renderer As Renderer2D
 
 
-    Private Sub startButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles startButton.Click
+    Private Sub startButton_Click(sender As System.Object, e As System.EventArgs) Handles startButton.Click
         Dim fitness = New MultiFitness(Of ParticleField2D)
         fitness.FitnessFunctions.Add(New FieldFitnessTarget(Location:=New Vector2D(5, 5), targetField:=New Vector2D(10 ^ 5, 10 ^ 5)))
         'fitness.FitnessFunctions.Add(New FieldFitnessTarget(Location:=New Vector2D(0, 0), targetField:=New Vector2D(10 ^ 6, 10 ^ 6)))
@@ -35,11 +35,11 @@
         _Renderer.Render()
     End Sub
 
-    Private Sub startEvolutionButton_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles startEvolutionButton.Click
+    Private Sub startEvolutionButton_Click(sender As Object, e As System.EventArgs) Handles startEvolutionButton.Click
         _EvolutionStrategy.Evolute()
     End Sub
 
-    Private Sub evolutionStratedy_BestSolutionImproved(ByVal sender As Object, ByVal e As Evolution.SolutionEventArgs(Of ParticleField2D)) Handles _EvolutionStrategy.BestSolutionImproved
+    Private Sub evolutionStratedy_BestSolutionImproved(sender As Object, e As Evolution.SolutionEventArgs(Of ParticleField2D)) Handles _EvolutionStrategy.BestSolutionImproved
         _Drawer.ParticleSystem = New ParticleSystem2D(e.Solution.Particles.ToList)
         _Renderer.Render()
         fitnessLabel.Text = _EvolutionStrategy.CurrentBestFitness.ToString
@@ -47,14 +47,14 @@
 
 
 
-    Private Sub pictureBox_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles pictureBox.MouseMove
+    Private Sub pictureBox_MouseMove(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles pictureBox.MouseMove
         If _ViewController IsNot Nothing Then
             _ViewController.ScreenMouseLocation = New Vector2D(e.Location)
         End If
     End Sub
 
     Private Const _DeltaPerMouseWheelStep As Double = 120
-    Private Sub FieldEvolutionForm_MouseWheel(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseWheel
+    Private Sub FieldEvolutionForm_MouseWheel(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseWheel
         If _ViewController IsNot Nothing Then
             Dim mouseWheelSteps = e.Delta / _DeltaPerMouseWheelStep
             _ViewController.Zoom(zoomSteps:=mouseWheelSteps)

@@ -3,7 +3,7 @@
 Public Module ColorExtensions
 
     <Extension()>
-    Public Function ToMediaColor(ByVal systemColor As System.Drawing.Color) As System.Windows.Media.Color
+    Public Function ToMediaColor(systemColor As System.Drawing.Color) As System.Windows.Media.Color
         Return System.Windows.Media.Color.FromArgb(a:=systemColor.A,
                                                    r:=systemColor.R,
                                                    g:=systemColor.G,
@@ -11,7 +11,7 @@ Public Module ColorExtensions
     End Function
 
     <Extension()>
-    Public Function ToMediaBrush(ByVal systemColor As System.Drawing.Color) As System.Windows.Media.Brush
+    Public Function ToMediaBrush(systemColor As System.Drawing.Color) As System.Windows.Media.Brush
         Return New System.Windows.Media.SolidColorBrush(systemColor.ToMediaColor)
     End Function
 

@@ -1,9 +1,9 @@
 ﻿Public Class VectorEvolutionStrategy
     Implements IEvolutionStrategy(Of Vector2D)
 
-    Public Event BestSolutionImproved(ByVal sender As Object, ByVal e As SolutionEventArgs(Of Math.Vector2D)) Implements IEvolutionStrategy(Of Vector2D).BestSolutionImproved
+    Public Event BestSolutionImproved(sender As Object, e As SolutionEventArgs(Of Math.Vector2D)) Implements IEvolutionStrategy(Of Vector2D).BestSolutionImproved
 
-    Public Sub New(Optional ByVal maxStepsWithoutFitnessGrowth As Integer = 100)
+    Public Sub New(Optional maxStepsWithoutFitnessGrowth As Integer = 100)
         _MaxStepsWithoutFitnessGrowth = maxStepsWithoutFitnessGrowth
     End Sub
 
@@ -12,7 +12,7 @@
         Get
             Return _MaxStepsWithoutFitnessGrowth
         End Get
-        Set(ByVal value As Integer)
+        Set(value As Integer)
             _MaxStepsWithoutFitnessGrowth = value
         End Set
     End Property
@@ -64,6 +64,6 @@
         End Get
     End Property
 
-    Public Event BadSolutionGenerated(ByVal sender As Object, ByVal e As SolutionEventArgs(Of Vector2D))
+    Public Event BadSolutionGenerated(sender As Object, e As SolutionEventArgs(Of Vector2D))
 
 End Class

@@ -3,7 +3,7 @@
 
     Private _Timer As Windows.Forms.Timer
 
-    Public Sub New(ByVal framerate As Double, ByVal calcRate As Double, Optional ByVal fastMotion As Double = 1)
+    Public Sub New(framerate As Double, calcRate As Double, Optional fastMotion As Double = 1)
         _Timer = New Windows.Forms.Timer
 
         _Framerate = framerate
@@ -20,7 +20,7 @@
         Get
             Return _Timer.Enabled
         End Get
-        Set(ByVal value As Boolean)
+        Set(value As Boolean)
             _Timer.Enabled = value
         End Set
     End Property
@@ -39,7 +39,7 @@
         Get
             Return _Framerate
         End Get
-        Set(ByVal value As Double)
+        Set(value As Double)
             _Framerate = value
 
             Dim interval = CInt(1000 / _Framerate)
@@ -55,7 +55,7 @@
         Get
             Return _FastMotion
         End Get
-        Set(ByVal value As Double)
+        Set(value As Double)
             _FastMotion = value
         End Set
     End Property
@@ -64,7 +64,7 @@
         Get
             Return 1 / _FastMotion
         End Get
-        Set(ByVal value As Double)
+        Set(value As Double)
             _FastMotion = 1 / value
         End Set
     End Property
@@ -74,7 +74,7 @@
         Get
             Return _CalcsPerFrame
         End Get
-        Set(ByVal value As Integer)
+        Set(value As Integer)
             _CalcsPerFrame = value
         End Set
     End Property
@@ -83,7 +83,7 @@
         Get
             Return Me.Framerate * Me.CalcsPerFrame
         End Get
-        Set(ByVal value As Double)
+        Set(value As Double)
             Me.CalcsPerFrame = CInt(value / _Framerate)
             Me.Framerate = value / Me.CalcsPerFrame
         End Set
@@ -93,21 +93,21 @@
         Get
             Return Me.FastMotion / Me.CalcRate
         End Get
-        Set(ByVal value As Double)
+        Set(value As Double)
             Me.CalcRate = Me.FastMotion / Me.TimeStep
         End Set
     End Property
 
 
-    Public Sub TickHandler(ByVal sender As Object, ByVal e As EventArgs)
+    Public Sub TickHandler(sender As Object, e As EventArgs)
         RaiseEvent FrameTick(Me, New FrameTickEventArgs(TimeStep:=Me.TimeStep, CalcsPerFrame:=Me.CalcsPerFrame))
     End Sub
 
-    Public Event FrameTick(ByVal sender As Object, ByVal e As FrameTickEventArgs)
+    Public Event FrameTick(sender As Object, e As FrameTickEventArgs)
 
 
     Private _Disposed As Boolean
-    Protected Overridable Sub Dispose(ByVal disposing As Boolean)
+    Protected Overridable Sub Dispose(disposing As Boolean)
         If Not _Disposed Then
             If disposing Then
             End If

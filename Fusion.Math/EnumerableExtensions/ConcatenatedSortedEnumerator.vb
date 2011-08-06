@@ -7,7 +7,7 @@ Public Class ConcatenatedSortedEnumerator(Of T)
     Implements IEnumerator(Of T)
 
     Private Class ActivatableEnumerator
-        Public Sub New(ByVal enumerator As IEnumerator(Of T))
+        Public Sub New(enumerator As IEnumerator(Of T))
             Me.Enumerator = enumerator
             _Activated = True
         End Sub
@@ -38,7 +38,7 @@ Public Class ConcatenatedSortedEnumerator(Of T)
 
     Private _CompareValueFunction As Func(Of T, Double)
 
-    Public Sub New(ByVal sourceEnumerators As IEnumerable(Of IEnumerator(Of T)), ByVal compareValueFunction As Func(Of T, Double))
+    Public Sub New(sourceEnumerators As IEnumerable(Of IEnumerator(Of T)), compareValueFunction As Func(Of T, Double))
         'Deleting ".ToList" will cause failing tests.
         _SourceEnumerators = sourceEnumerators.Select(Function(enumerator) New ActivatableEnumerator(enumerator)).ToList
         _CompareValueFunction = compareValueFunction
@@ -112,7 +112,7 @@ Public Class ConcatenatedSortedEnumerator(Of T)
     End Sub
 
     Private disposedValue As Boolean
-    Protected Overridable Sub Dispose(ByVal disposing As Boolean)
+    Protected Overridable Sub Dispose(disposing As Boolean)
         If Not disposedValue Then
             For Each sourceEnumerator In _SourceEnumerators
                 sourceEnumerator.Enumerator.Dispose()

@@ -4,7 +4,7 @@
     Private ReadOnly _DescriptionText As String
     Private ReadOnly _RadiancePerWhite As Double
 
-    Public Sub New(ByVal pictureSize As System.Drawing.Size, ByVal radiancePerWhite As Double, ByVal descriptionText As String)
+    Public Sub New(pictureSize As System.Drawing.Size, radiancePerWhite As Double, descriptionText As String)
         _PictureSize = pictureSize
         _DescriptionText = descriptionText
         _RadiancePerWhite = radiancePerWhite

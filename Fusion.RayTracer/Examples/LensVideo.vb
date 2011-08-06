@@ -8,15 +8,15 @@
         End Get
     End Property
 
-    Public Sub New(ByVal videoSize As Size)
+    Public Sub New(videoSize As Size)
         _VideoSize = videoSize
     End Sub
 
-    Public Function GetRayTracerDrawer(ByVal pointOfTime As Double) As RayTraceDrawer(Of RgbLight) Implements IRayTraceVideo.GetRayTracerDrawer
+    Public Function GetRayTracerDrawer(pointOfTime As Double) As RayTraceDrawer(Of RgbLight) Implements IRayTraceVideo.GetRayTracerDrawer
         Return New RayTracingExamples(Me.VideoSize).OldExampleBox(glassRefractionIndex:=pointOfTime)
     End Function
 
-    Public Sub CreateVideo(ByVal directoryPath As String, ByVal timeIntervalStart As Double, ByVal timeIntervalEnd As Double, ByVal timeStep As Double)
+    Public Sub CreateVideo(directoryPath As String, timeIntervalStart As Double, timeIntervalEnd As Double, timeStep As Double)
         Dim imageIndex As Integer = 0
         Dim maxIndex As Integer = CInt(Floor((timeIntervalEnd - timeIntervalStart) / timeStep))
         Dim formatString = New String("0"c, maxIndex.ToString.Length)

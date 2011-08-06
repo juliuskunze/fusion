@@ -1,7 +1,7 @@
 ﻿<Serializable()>
 Public Class EndNodes(Of NodeType)
 
-    Public Sub New(ByVal node1 As NodeType, ByVal node2 As NodeType)
+    Public Sub New(node1 As NodeType, node2 As NodeType)
         Me.Node1 = node1
         Me.Node2 = node2
     End Sub

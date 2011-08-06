@@ -21,7 +21,7 @@
         End Get
     End Property
 
-    Public Sub New(ByVal hue As Double, ByVal saturation As Double, ByVal brightness As Double)
+    Public Sub New(hue As Double, saturation As Double, brightness As Double)
         If Not (0 <= hue AndAlso hue < 2 * PI) Then Throw New ArgumentException("Hue has to be an angle in [0, 2 * Pi).")
         _Hue = hue
 
@@ -81,7 +81,7 @@
         Return Color.FromArgb(red, green, blue)
     End Function
 
-    Public Shared Function FromRgbColor(ByVal rgbColor As Color) As HsbColor
+    Public Shared Function FromRgbColor(rgbColor As Color) As HsbColor
         Dim r = rgbColor.R / Byte.MaxValue
         Dim g = rgbColor.G / Byte.MaxValue
         Dim b = rgbColor.B / Byte.MaxValue

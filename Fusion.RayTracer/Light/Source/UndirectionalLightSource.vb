@@ -3,11 +3,11 @@
 
     Private ReadOnly _Color As TLight
 
-    Public Sub New(ByVal light As TLight)
+    Public Sub New(light As TLight)
         _Color = light
     End Sub
 
-    Public Function GetLight(ByVal surfacePoint As SurfacePoint) As TLight Implements ILightSource(Of TLight).GetLight
+    Public Function GetLight(surfacePoint As SurfacePoint) As TLight Implements ILightSource(Of TLight).GetLight
         Return _Color
     End Function
 

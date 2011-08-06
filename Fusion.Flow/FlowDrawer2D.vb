@@ -6,7 +6,7 @@
 
     Public Property FlowPanel As ICoordinateSystemToArray(Of T)
 
-    Public Sub New(ByVal visualizer As Visualizer2D, ByVal flowPanel As ICoordinateSystemToArray(Of T), ByVal arrowSimulationLengthPerVelocity As Double, ByVal maxVelocityLength As Double, Optional ByVal displayMode As VelocityDisplayModes = VelocityDisplayModes.Arrows, Optional ByVal showVelocity As Boolean = True, Optional ByVal showDensity As Boolean = True)
+    Public Sub New(visualizer As Visualizer2D, flowPanel As ICoordinateSystemToArray(Of T), arrowSimulationLengthPerVelocity As Double, maxVelocityLength As Double, Optional displayMode As VelocityDisplayModes = VelocityDisplayModes.Arrows, Optional showVelocity As Boolean = True, Optional showDensity As Boolean = True)
         Me.Visualizer = visualizer
         Me.FlowPanel = flowPanel
         Me.VelocityDisplayMode = displayMode

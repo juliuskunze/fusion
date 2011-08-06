@@ -1,19 +1,19 @@
 ﻿Public Class AdvancedParticleSystem2DDrawer
     Implements IDrawer2D
 
-    Public Sub New(ByVal graphics As Graphics)
+    Public Sub New(graphics As Graphics)
         Me.New(Visualizer:=New Visualizer2D(graphics), particleSystem:=New ParticleSystem2D)
     End Sub
 
-    Public Sub New(ByVal visualizer As Visualizer2D)
+    Public Sub New(visualizer As Visualizer2D)
         Me.New(visualizer:=visualizer, particleSystem:=New ParticleSystem2D)
     End Sub
 
-    Public Sub New(ByVal graphics As Graphics, ByVal particleSystem As ParticleSystem2D)
+    Public Sub New(graphics As Graphics, particleSystem As ParticleSystem2D)
         Me.New(Visualizer:=New Visualizer2D(graphics), particleSystem:=particleSystem)
     End Sub
 
-    Public Sub New(ByVal visualizer As Visualizer2D, ByVal particleSystem As ParticleSystem2D)
+    Public Sub New(visualizer As Visualizer2D, particleSystem As ParticleSystem2D)
         Me.Visualizer = visualizer
 
         Me.CoordinateSystemDrawer = New CoordinateSystem2DDrawer(Me.Visualizer)

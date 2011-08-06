@@ -5,7 +5,7 @@
         Me.New(MoveStepLength:=1)
     End Sub
 
-    Public Sub New(ByVal moveStepLength As Double)
+    Public Sub New(moveStepLength As Double)
         _Random = New Random
         _MoveStepLength = moveStepLength
     End Sub
@@ -17,12 +17,12 @@
         Get
             Return _MoveStepLength
         End Get
-        Set(ByVal value As Double)
+        Set(value As Double)
             _MoveStepLength = value
         End Set
     End Property
 
-    Public Function Mutate(ByVal solution As Physics.ParticleField2D) As Physics.ParticleField2D Implements IMutator(Of Physics.ParticleField2D).Mutate
+    Public Function Mutate(solution As Physics.ParticleField2D) As Physics.ParticleField2D Implements IMutator(Of Physics.ParticleField2D).Mutate
         Dim mutatedSolution = solution.Clone
 
 
@@ -32,7 +32,7 @@
         Return mutatedSolution
     End Function
 
-    Private Sub moveParticle(ByVal particle As Particle2D)
+    Private Sub moveParticle(particle As Particle2D)
         Dim directionAngle As Double = 2 * PI * _Random.NextDouble
         Dim stepVector As Vector2D = Vector2D.FromLengthAndArgument(length:=Me.MoveStepLength, argument:=directionAngle)
 

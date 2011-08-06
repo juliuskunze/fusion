@@ -2,7 +2,7 @@
 
     Public Property Drawer As IDrawer2D
 
-    Public Sub New(ByVal drawer As IDrawer2D)
+    Public Sub New(drawer As IDrawer2D)
         Me.Drawer = drawer
     End Sub
 

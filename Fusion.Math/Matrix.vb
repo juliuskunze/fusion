@@ -2,11 +2,11 @@
 
     Protected Friend _Elements(,) As Double
 
-    Public Sub New(ByVal width As Integer, ByVal height As Integer)
+    Public Sub New(width As Integer, height As Integer)
         ReDim _Elements(height - 1, width - 1)
     End Sub
 
-    Public Sub New(ByVal elements(,) As Double)
+    Public Sub New(elements(,) As Double)
         _Elements = elements
     End Sub
 
@@ -22,11 +22,11 @@
         End Get
     End Property
 
-    Default Public Property Element(ByVal rowIndex As Integer, ByVal columnIndex As Integer) As Double
+    Default Public Property Element(rowIndex As Integer, columnIndex As Integer) As Double
         Get
             Return _Elements(rowIndex, columnIndex)
         End Get
-        Set(ByVal value As Double)
+        Set(value As Double)
             _Elements(rowIndex, columnIndex) = value
         End Set
     End Property
@@ -40,12 +40,12 @@
     End Function
 
 
-    Private Function SwapRows(ByVal m As Integer, ByVal n As Integer, ByRef determinant As Double) As SquareMatrix
+    Private Function SwapRows(m As Integer, n As Integer, ByRef determinant As Double) As SquareMatrix
         determinant = -determinant
         Return SwapRows(m, n)
     End Function
 
-    Public Function SwapRows(ByVal m As Integer, ByVal n As Integer) As SquareMatrix
+    Public Function SwapRows(m As Integer, n As Integer) As SquareMatrix
         Dim resultArray = DirectCast(_Elements.Clone(), Double(,))
 
         For iColumn = 0 To Me.Width - 1
@@ -56,12 +56,12 @@
         Return New SquareMatrix(resultArray)
     End Function
 
-    Private Function MultiplyRow(ByVal rowIndex As Integer, ByVal factor As Double, ByRef determinant As Double) As SquareMatrix
+    Private Function MultiplyRow(rowIndex As Integer, factor As Double, ByRef determinant As Double) As SquareMatrix
         determinant *= factor
         Return MultiplyRow(rowIndex, factor)
     End Function
 
-    Public Function MultiplyRow(ByVal rowIndex As Integer, ByVal factor As Double) As SquareMatrix
+    Public Function MultiplyRow(rowIndex As Integer, factor As Double) As SquareMatrix
         Dim resultArray = DirectCast(_Elements.Clone(), Double(,))
 
         For iColumn = 0 To Me.Width - 1
@@ -71,7 +71,7 @@
         Return New SquareMatrix(resultArray)
     End Function
 
-    Public Function MultiplyAddRow(ByVal sourceRowIndex As Integer, ByVal targetRowIndex As Integer, ByVal factor As Double) As SquareMatrix
+    Public Function MultiplyAddRow(sourceRowIndex As Integer, targetRowIndex As Integer, factor As Double) As SquareMatrix
         Dim resultArray = DirectCast(_Elements.Clone(), Double(,))
 
         For iColumn = 0 To Me.Width - 1
@@ -82,7 +82,7 @@
     End Function
 
 
-    Public Shared Operator *(ByVal m1 As Matrix, ByVal m2 As Matrix) As Matrix
+    Public Shared Operator *(m1 As Matrix, m2 As Matrix) As Matrix
         If m1.Width <> m2.Height Then
             Throw New ArgumentException("Width of first matrix has to be height of second matrix.")
         End If
@@ -104,7 +104,7 @@
     End Operator
 
 
-    Public Shared Operator =(ByVal m1 As Matrix, ByVal m2 As Matrix) As Boolean
+    Public Shared Operator =(m1 As Matrix, m2 As Matrix) As Boolean
 
         If m1.Width <> m2.Width OrElse _
            m1.Height <> m2.Height Then
@@ -123,7 +123,7 @@
 
     End Operator
 
-    Public Shared Operator <>(ByVal m1 As Matrix, ByVal m2 As Matrix) As Boolean
+    Public Shared Operator <>(m1 As Matrix, m2 As Matrix) As Boolean
         Return Not m1 = m2
     End Operator
 

@@ -6,7 +6,7 @@ Public Class LightSources(Of TLight As {ILight(Of TLight), New})
         MyBase.New()
     End Sub
 
-    Public Function GetLight(ByVal surfacePoint As SurfacePoint) As TLight Implements ILightSource(Of TLight).GetLight
+    Public Function GetLight(surfacePoint As SurfacePoint) As TLight Implements ILightSource(Of TLight).GetLight
         Dim colorSum = New TLight
 
         For Each lightSource In Me

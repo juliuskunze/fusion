@@ -21,17 +21,17 @@ Public Class Graph(Of NodeType As Class, EdgeType As IEdge(Of NodeType))
         End Get
     End Property
 
-    Public Sub AddNode(ByVal node As NodeType)
+    Public Sub AddNode(node As NodeType)
         _Nodes.Add(node)
     End Sub
 
-    Public Sub AddNodes(ByVal nodes As IEnumerable(Of NodeType))
+    Public Sub AddNodes(nodes As IEnumerable(Of NodeType))
         For Each node In nodes
             _Nodes.Add(node)
         Next
     End Sub
 
-    Public Sub AddEdge(ByVal edge As EdgeType)
+    Public Sub AddEdge(edge As EdgeType)
         If _Nodes.Contains(edge.EndNodes.Node1) AndAlso _
            _Nodes.Contains(edge.EndNodes.Node2) Then
             _Edges.Add(edge)
@@ -40,20 +40,20 @@ Public Class Graph(Of NodeType As Class, EdgeType As IEdge(Of NodeType))
         End If
     End Sub
 
-    Public Sub RemoveEdge(ByVal edge As EdgeType)
+    Public Sub RemoveEdge(edge As EdgeType)
         _Edges.Remove(edge)
     End Sub
 
-    Public Sub RemoveEdgeAt(ByVal index As Integer)
+    Public Sub RemoveEdgeAt(index As Integer)
         _Edges.RemoveAt(index)
     End Sub
 
-    Public Function IsEndpoint(ByVal node As NodeType, ByVal edge As EdgeType) As Boolean
+    Public Function IsEndpoint(node As NodeType, edge As EdgeType) As Boolean
         Return node Is edge.EndNodes.Node1 OrElse _
                node Is edge.EndNodes.Node2
     End Function
 
-    Public Sub RemoveNode(ByVal node As NodeType)
+    Public Sub RemoveNode(node As NodeType)
         For Each edge In _Edges
             If IsEndpoint(node, edge) Then
                 _Edges.Remove(edge)
@@ -62,7 +62,7 @@ Public Class Graph(Of NodeType As Class, EdgeType As IEdge(Of NodeType))
         _Nodes.Remove(node)
     End Sub
 
-    Public Function Degree(ByVal node As NodeType) As Integer
+    Public Function Degree(node As NodeType) As Integer
         Degree = 0
         For Each edge In _Edges
             If IsEndpoint(node, edge) Then

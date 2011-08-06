@@ -1,6 +1,6 @@
 ﻿Public Class SurfacePoint
 
-    Public Sub New(ByVal location As Vector3D, ByVal normal As Vector3D)
+    Public Sub New(location As Vector3D, normal As Vector3D)
         _Location = location
         _NormalizedNormal = normal.Normalized
     End Sub

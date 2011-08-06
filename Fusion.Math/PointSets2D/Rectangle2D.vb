@@ -40,12 +40,12 @@
     End Property
 
 
-    Public Sub New(ByVal location As Vector2D, ByVal size As Vector2D)
+    Public Sub New(location As Vector2D, size As Vector2D)
         _Location = location
         _Size = size
     End Sub
 
-    Public Function Contains(ByVal point As Vector2D) As Boolean Implements IPointSet2D.Contains
+    Public Function Contains(point As Vector2D) As Boolean Implements IPointSet2D.Contains
         Return point.X >= _Location.X AndAlso point.Y >= _Location.Y AndAlso
                point.X <= _Location.X + _Size.X AndAlso point.Y <= _Location.Y + _Size.Y
     End Function

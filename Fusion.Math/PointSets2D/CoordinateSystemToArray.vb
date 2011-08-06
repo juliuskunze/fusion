@@ -6,7 +6,7 @@
         Get
             Return _LowerVertex
         End Get
-        Set(ByVal value As Vector2D)
+        Set(value As Vector2D)
             _LowerVertex = value
             Me.RefreshGridSize()
         End Set
@@ -17,7 +17,7 @@
         Get
             Return _Size
         End Get
-        Set(ByVal value As Vector2D)
+        Set(value As Vector2D)
             _Size = value
             Me.RefreshGridSize()
         End Set
@@ -28,7 +28,7 @@
         Get
             Return _GridLength
         End Get
-        Set(ByVal value As Double)
+        Set(value As Double)
             _GridLength = value
             Me.RefreshGridSize()
         End Set
@@ -36,7 +36,7 @@
 
     Public Property Array As T(,) Implements ICoordinateSystemToArray(Of T).Array
 
-    Public Sub New(ByVal lowerVertex As Vector2D, ByVal size As Vector2D, ByVal gridLength As Double)
+    Public Sub New(lowerVertex As Vector2D, size As Vector2D, gridLength As Double)
         _LowerVertex = lowerVertex
         _Size = size
         _GridLength = gridLength
@@ -60,7 +60,7 @@
         End Get
     End Property
 
-    Public Function PointFromRowColumn(ByVal column As Integer, ByVal row As Integer) As Vector2D Implements ICoordinateSystemToArray(Of T).PointFromRowColumn
+    Public Function PointFromRowColumn(column As Integer, row As Integer) As Vector2D Implements ICoordinateSystemToArray(Of T).PointFromRowColumn
         Return New Vector2D(Me.LowerVertex.X + Me.GridLength * column, Me.LowerVertex.Y + Me.GridLength * row)
     End Function
 

@@ -1,5 +1,5 @@
 ﻿Public Interface ILightToColorConverter(Of TLight)
 
-    Function Convert(ByVal light As TLight) As Color
+    Function Convert(light As TLight) As Color
 
 End Interface

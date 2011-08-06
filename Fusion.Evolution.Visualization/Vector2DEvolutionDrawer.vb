@@ -9,7 +9,7 @@
         Get
             Return _VectorEvolutionStrategy
         End Get
-        Set(ByVal value As VectorEvolutionStrategy)
+        Set(value As VectorEvolutionStrategy)
             _VectorEvolutionStrategy = value
 
             _Solutions = New List(Of Vector2D)
@@ -18,7 +18,7 @@
     End Property
 
 
-    Public Sub New(ByVal graphics As Graphics, ByVal vectorEvolutionStrategy As VectorEvolutionStrategy)
+    Public Sub New(graphics As Graphics, vectorEvolutionStrategy As VectorEvolutionStrategy)
         Me.Visualizer = New Visualizer2D(graphics)
 
         Me.Visualizer.BackColor = Color.White
@@ -33,12 +33,12 @@
         AddHandler _VectorEvolutionStrategy.BadSolutionGenerated, AddressOf vectorEvolutionStrategy_BadSolutionGenerated
     End Sub
 
-    Private Sub vectorEvolutionStrategy_BestSolutionImproved(ByVal sender As Object, ByVal e As SolutionEventArgs(Of Vector2D))
+    Private Sub vectorEvolutionStrategy_BestSolutionImproved(sender As Object, e As SolutionEventArgs(Of Vector2D))
         _Solutions.Add(e.Solution)
         _BadSolutions.Add(New List(Of Vector2D))
     End Sub
 
-    Private Sub vectorEvolutionStrategy_BadSolutionGenerated(ByVal sender As Object, ByVal e As Evolution.SolutionEventArgs(Of Math.Vector2D)) Handles _VectorEvolutionStrategy.BadSolutionGenerated
+    Private Sub vectorEvolutionStrategy_BadSolutionGenerated(sender As Object, e As Evolution.SolutionEventArgs(Of Math.Vector2D)) Handles _VectorEvolutionStrategy.BadSolutionGenerated
         _BadSolutions(_Solutions.Count - 1).Add(e.Solution)
     End Sub
 
@@ -81,7 +81,7 @@
 
     Private _BadSolutionPen As Pen
 
-    Private Sub drawBadSolution(ByVal goodSolutionIndex As Integer, ByVal badSolution As Vector2D)
+    Private Sub drawBadSolution(goodSolutionIndex As Integer, badSolution As Vector2D)
         Me.Visualizer.DrawingGraphics.DrawLine(_BadSolutionPen, Me.Visualizer.Map.Apply(_Solutions(goodSolutionIndex)).ToPointF, Me.Visualizer.Map.Apply(badSolution).ToPointF)
     End Sub
 

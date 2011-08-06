@@ -21,9 +21,9 @@
         End Get
     End Property
 
-    Public Sub New(ByVal constants As IEnumerable(Of NamedConstantExpression),
-                   ByVal parameters As IEnumerable(Of ParameterExpression),
-                   ByVal functions As IEnumerable(Of NamedFUnctionExpression))
+    Public Sub New(constants As IEnumerable(Of NamedConstantExpression),
+                    parameters As IEnumerable(Of ParameterExpression),
+                    functions As IEnumerable(Of NamedFUnctionExpression))
         _Constants = constants
         _Parameters = parameters
         _Functions = functions
@@ -44,7 +44,7 @@
         End Get
     End Property
 
-    Public Function Merge(ByVal second As TermContext) As TermContext
+    Public Function Merge(second As TermContext) As TermContext
         Return New TermContext(Constants:=_Constants.Concat(second._Constants),
                                Functions:=_Functions.Concat(second._Functions),
                                Parameters:=_Parameters.Concat(second._Parameters))

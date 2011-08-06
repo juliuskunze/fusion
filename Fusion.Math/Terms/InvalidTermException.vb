@@ -8,12 +8,12 @@
         End Get
     End Property
 
-    Public Sub New(ByVal term As String)
+    Public Sub New(term As String)
         MyBase.New(Message:="The term is invalid: " & term)
         _Term = term
     End Sub
 
-    Public Sub New(ByVal term As String, ByVal message As String)
+    Public Sub New(term As String, message As String)
         MyBase.New(message:=message)
         _Term = term
     End Sub

@@ -4,7 +4,7 @@
     Public Property Name As String
 
 
-    Public Sub New(ByVal flowPanel As IFlowPanel2D(Of T), ByVal directory As String, ByVal name As String)
+    Public Sub New(flowPanel As IFlowPanel2D(Of T), directory As String, name As String)
         Me.FlowPanel = flowPanel
         Me.Directory = directory
         Me.Name = name

@@ -3,11 +3,11 @@ Public Class ScaledRemission(Of TLight As {ILight(Of TLight), New})
 
     Public Property Albedo As Double
 
-    Public Sub New(ByVal albedo As Double)
+    Public Sub New(albedo As Double)
         Me.Albedo = albedo
     End Sub
 
-    Public Function GetRemission(ByVal light As TLight) As TLight Implements IRemission(Of TLight).GetRemission
+    Public Function GetRemission(light As TLight) As TLight Implements IRemission(Of TLight).GetRemission
         Return light.MultiplyBrightness(Me.Albedo)
     End Function
 

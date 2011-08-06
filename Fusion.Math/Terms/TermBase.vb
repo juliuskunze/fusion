@@ -3,7 +3,7 @@
     Protected ReadOnly _Term As String
     Protected ReadOnly _Context As TermContext
 
-    Public Sub New(ByVal term As String, ByVal context As TermContext)
+    Public Sub New(term As String, context As TermContext)
         _Term = term
         _Context = context
     End Sub

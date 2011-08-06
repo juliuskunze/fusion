@@ -4,11 +4,11 @@ Public Class Force3D
 
     Public Property ParticlePairField As ParticlePairField3D
 
-    Public Sub New(ByVal field As IField3D, ByVal endNodes As EndNodes(Of Particle3D))
+    Public Sub New(field As IField3D, endNodes As EndNodes(Of Particle3D))
         Me.New(field, endNodes, Color.Black)
     End Sub
 
-    Public Sub New(ByVal field As IField3D, ByVal endNodes As EndNodes(Of Particle3D), ByVal color As Color)
+    Public Sub New(field As IField3D, endNodes As EndNodes(Of Particle3D), color As Color)
         ParticlePairField = New ParticlePairField3D(field)
         _EndNodes = endNodes
         _Color = color
@@ -40,7 +40,7 @@ Public Class Force3D
         End Get
     End Property
 
-    Public Sub AccelerateParticles(ByVal timeSpan As Double)
+    Public Sub AccelerateParticles(timeSpan As Double)
         Dim forceOnParticle1 = Me.ForceOnParticle1
 
         Me.EndNodes.Node1.Accelerate(timeSpan, forceOnParticle1)
@@ -64,7 +64,7 @@ Public Class Force3D
         Get
             Return _Color
         End Get
-        Set(ByVal value As Color)
+        Set(value As Color)
             _Color = value
         End Set
     End Property
@@ -73,7 +73,7 @@ Public Class Force3D
         Get
             Return New Pen(Me.Color)
         End Get
-        Set(ByVal value As Pen)
+        Set(value As Pen)
             Me.Color = value.Color
         End Set
     End Property

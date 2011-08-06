@@ -2,12 +2,12 @@ Public Class RayTracingExamples
 
     Public Property PictureSize As Size
 
-    Public Sub New(ByVal pictureSize As Size)
+    Public Sub New(pictureSize As Size)
         If pictureSize = New Size Then Throw New ArgumentNullException("pictureSize")
         Me.PictureSize = pictureSize
     End Sub
 
-    Public Function OldExampleBox(Optional ByVal glassRefractionIndex As Double = 1.4) As RayTraceDrawer(Of RgbLight)
+    Public Function OldExampleBox(Optional glassRefractionIndex As Double = 1.4) As RayTraceDrawer(Of RgbLight)
         Dim view = New View3D(observerLocation:=New Vector3D(5, 5, 25),
                               lookAt:=New Vector3D(5, 5, 0),
                               upDirection:=New Vector3D(0, 1, 0),
@@ -315,7 +315,7 @@ Public Class RayTracingExamples
         videoTracer.CreateVideo("B:\tmp\vid", timeIntervalStart:=0, timeIntervalEnd:=30, timeStep:=1)
     End Sub
 
-    Public Function ExampleBox(Optional ByVal glassRefractionIndex As Double = 1.3) As RayTraceDrawer(Of RgbLight)
+    Public Function ExampleBox(Optional glassRefractionIndex As Double = 1.3) As RayTraceDrawer(Of RgbLight)
         Dim view = New View3D(observerLocation:=New Vector3D(5, 5, 25),
                               lookAt:=New Vector3D(5, 5, 0),
                               upDirection:=New Vector3D(0, 1, 0),
@@ -384,7 +384,7 @@ Public Class RayTracingExamples
         Return New RayTraceDrawer(Of RgbLight)(rayTracer, Me.PictureSize, view, lightToColorConverter:=New RgbLightToColorConverter)
     End Function
 
-    Public Function BlackBodyPlaneRelativistic(ByVal radianceSpectrumToColorConverter As ILightToColorConverter(Of RadianceSpectrum)) As RayTraceDrawer(Of RadianceSpectrum)
+    Public Function BlackBodyPlaneRelativistic(radianceSpectrumToColorConverter As ILightToColorConverter(Of RadianceSpectrum)) As RayTraceDrawer(Of RadianceSpectrum)
         Dim view = New View3D(observerLocation:=New Vector3D,
                               lookAt:=New Vector3D(0, 0, 1),
                               upDirection:=New Vector3D(0, 1, 0),

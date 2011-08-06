@@ -5,9 +5,9 @@
     Private _Fitness As IFitness(Of ParticleField2D)
     Private _Mutator As FieldMutator
 
-    Public Event BestSolutionImproved(ByVal sender As Object, ByVal e As SolutionEventArgs(Of Physics.ParticleField2D)) Implements IEvolutionStrategy(Of Physics.ParticleField2D).BestSolutionImproved
+    Public Event BestSolutionImproved(sender As Object, e As SolutionEventArgs(Of Physics.ParticleField2D)) Implements IEvolutionStrategy(Of Physics.ParticleField2D).BestSolutionImproved
 
-    Public Sub New(ByVal fitness As IFitness(Of ParticleField2D), ByVal initializer As IInitializer(Of ParticleField2D), ByVal mutator As FieldMutator)
+    Public Sub New(fitness As IFitness(Of ParticleField2D), initializer As IInitializer(Of ParticleField2D), mutator As FieldMutator)
         _Fitness = fitness
         _Initializer = initializer
         _Mutator = mutator

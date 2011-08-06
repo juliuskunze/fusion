@@ -1,6 +1,6 @@
 ﻿Public Class NormalizedMidpointCoordinateSystem
 
-    Public Sub New(ByVal pictureSize As Vector2D)
+    Public Sub New(pictureSize As Vector2D)
         Me.PictureSize = pictureSize
     End Sub
 
@@ -11,7 +11,7 @@
         Get
             Return _PictureSize
         End Get
-        Set(ByVal value As Vector2D)
+        Set(value As Vector2D)
             _PictureSize = value
             _Origin = _PictureSize / 2
         End Set
@@ -22,7 +22,7 @@
     ''' and where the right picture bound has an x-coordinate 1; the y-coordinate has the same scale and is up-orientated.
     ''' </summary>
     ''' <remarks></remarks>
-    Public Function VirtualLocation(ByVal pixelLocation As Vector2D) As Vector2D
+    Public Function VirtualLocation(pixelLocation As Vector2D) As Vector2D
         Return (New Vector2D(pixelLocation.X, Me.PictureSize.Y - pixelLocation.Y) - _Origin) / (Me.PictureSize.X / 2)
     End Function
 

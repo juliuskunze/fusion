@@ -5,7 +5,7 @@
 Public Class IndependentTerm(Of TResult As Structure)
     Inherits Term
 
-    Public Sub New(ByVal term As String)
+    Public Sub New(term As String)
         MyBase.New(term:=term, userContext:=New TermContext(constants:={}, parameters:={}, Functions:={}))
     End Sub
 

@@ -1,7 +1,7 @@
 ﻿Public Class Sphere
     Implements ISurfacedPointSet3D
 
-    Public Sub New(ByVal center As Vector3D, ByVal radius As Double)
+    Public Sub New(center As Vector3D, radius As Double)
         Me.Center = center
         Me.Radius = radius
     End Sub
@@ -9,7 +9,7 @@
     Public Property Center As Vector3D
     Public Property Radius As Double
 
-    Public Function Intersection(ByVal ray As Ray) As SurfacePoint Implements ISurfacedPointSet3D.FirstIntersection
+    Public Function Intersection(ray As Ray) As SurfacePoint Implements ISurfacedPointSet3D.FirstIntersection
         If Me.Contains(ray.Origin) Then Return Nothing
 
         Dim allIntersectionLocations = Me.SurfaceIntersectionRayLengths(ray)
@@ -22,7 +22,7 @@
         Return New SurfacePoint(location:=intersectionLocation, normal:=normal)
     End Function
 
-    Friend Function SurfaceIntersectionRayLengths(ByVal ray As Ray) As IEnumerable(Of Double)
+    Friend Function SurfaceIntersectionRayLengths(ray As Ray) As IEnumerable(Of Double)
         ' the quadratic equation was derived from the the sphere equation and the parametrization of the sight ray
         Dim relativeRayOrigin = ray.Origin - Me.Center
         Dim rayLengthQuadraticEquation As New QuadraticEquation(
@@ -32,7 +32,7 @@
         Return rayLengthQuadraticEquation.Solve.Where(Function(rayLength) rayLength >= 0)
     End Function
 
-    Public Function AllSurfaceIntersectionLocations(ByVal ray As Ray) As List(Of Vector3D)
+    Public Function AllSurfaceIntersectionLocations(ray As Ray) As List(Of Vector3D)
         Dim distances = Me.SurfaceIntersectionRayLengths(ray)
         Dim surfaceIntersections = New List(Of Vector3D)
         For Each distance In distances
@@ -41,11 +41,11 @@
         Return surfaceIntersections
     End Function
 
-    Public Function Contains(ByVal point As Fusion.Math.Vector3D) As Boolean Implements Fusion.Math.IPointSet3D.Contains
+    Public Function Contains(point As Fusion.Math.Vector3D) As Boolean Implements Fusion.Math.IPointSet3D.Contains
         Return (point - Center).Length <= Me.Radius
     End Function
 
-    Public Function Intersections(ByVal ray As Ray) As IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
+    Public Function Intersections(ray As Ray) As IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
         Dim intersection = Me.Intersection(ray)
 
         If intersection Is Nothing Then Return Enumerable.Empty(Of SurfacePoint)()

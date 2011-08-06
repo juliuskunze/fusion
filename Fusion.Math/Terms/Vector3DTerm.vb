@@ -1,13 +1,13 @@
 ﻿Public Class Vector3DTerm
     Inherits TermBase(Of Vector3D)
 
-    Public Sub New(ByVal term As String, ByVal userContext As TermContext)
+    Public Sub New(term As String, userContext As TermContext)
         Me.New(termWithoutBlanks:=New String((term.Where(Function(c) Not Char.IsWhiteSpace(c))).ToArray),
                context:=TermContext.DefaultContext.Merge(userContext), obsolete_signatureDifferParameter:=False)
     End Sub
 
-    Private Sub New(ByVal termWithoutBlanks As String,
-                    ByVal context As TermContext, ByVal obsolete_signatureDifferParameter As Boolean)
+    Private Sub New(termWithoutBlanks As String,
+                     context As TermContext, obsolete_signatureDifferParameter As Boolean)
         MyBase.New(Term:=termWithoutBlanks, context:=context)
     End Sub
 
@@ -39,6 +39,6 @@
         Return NamedConstantExpression.GetFunctionExpressionBuilder(Of Vector3DConstructor)(userFunction:=Function(x, y, z) New Vector3D(x, y, z)).Invoke(arguments:={xExpression, yExpression, zExpression})
     End Function
 
-    Private Delegate Function Vector3DConstructor(ByVal x As Double, ByVal y As Double, ByVal z As Double) As Vector3D
+    Private Delegate Function Vector3DConstructor(x As Double, y As Double, z As Double) As Vector3D
 
 End Class

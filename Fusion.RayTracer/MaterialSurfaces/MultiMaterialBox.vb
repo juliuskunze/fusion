@@ -19,13 +19,13 @@
     Private ReadOnly _UpperYNormal As New Vector3D(0, 1, 0)
     Private ReadOnly _UpperZNormal As New Vector3D(0, 0, 1)
 
-    Public Sub New(ByVal box As Box,
-                   ByVal lowerXMaterial As TMaterial,
-                   ByVal upperXMaterial As TMaterial,
-                   ByVal lowerYMaterial As TMaterial,
-                   ByVal upperYMaterial As TMaterial,
-                   ByVal lowerZMaterial As TMaterial,
-                   ByVal upperZMaterial As TMaterial)
+    Public Sub New(box As Box,
+                    lowerXMaterial As TMaterial,
+                    upperXMaterial As TMaterial,
+                    lowerYMaterial As TMaterial,
+                    upperYMaterial As TMaterial,
+                    lowerZMaterial As TMaterial,
+                    upperZMaterial As TMaterial)
         _Box = box
 
         _LowerXMaterial = lowerXMaterial
@@ -36,23 +36,23 @@
         _UpperZMaterial = upperZMaterial
     End Sub
 
-    Public Function FirstIntersection(ByVal ray As Math.Ray) As Math.SurfacePoint Implements Math.ISurface.FirstIntersection
+    Public Function FirstIntersection(ray As Math.Ray) As Math.SurfacePoint Implements Math.ISurface.FirstIntersection
         Return _Box.FirstIntersection(ray)
     End Function
 
-    Public Function Intersections(ByVal ray As Math.Ray) As System.Collections.Generic.IEnumerable(Of Math.SurfacePoint) Implements Math.ISurface.Intersections
+    Public Function Intersections(ray As Math.Ray) As System.Collections.Generic.IEnumerable(Of Math.SurfacePoint) Implements Math.ISurface.Intersections
         Return _Box.Intersections(ray)
     End Function
 
-    Public Function FirstMaterialIntersection(ByVal ray As Math.Ray) As SurfacePoint(Of TMaterial) Implements ISurface(Of TMaterial).FirstMaterialIntersection
+    Public Function FirstMaterialIntersection(ray As Math.Ray) As SurfacePoint(Of TMaterial) Implements ISurface(Of TMaterial).FirstMaterialIntersection
         Return Me.GetMaterialSurfacePoint(Me.FirstIntersection(ray))
     End Function
 
-    Public Function MaterialIntersections(ByVal ray As Math.Ray) As System.Collections.Generic.IEnumerable(Of SurfacePoint(Of TMaterial)) Implements ISurface(Of TMaterial).MaterialIntersections
+    Public Function MaterialIntersections(ray As Math.Ray) As System.Collections.Generic.IEnumerable(Of SurfacePoint(Of TMaterial)) Implements ISurface(Of TMaterial).MaterialIntersections
         Return Me.Intersections(ray).Select(Function(surfacePoint) Me.GetMaterialSurfacePoint(surfacePoint))
     End Function
 
-    Private Function GetMaterialSurfacePoint(ByVal surfacePoint As SurfacePoint) As SurfacePoint(Of TMaterial)
+    Private Function GetMaterialSurfacePoint(surfacePoint As SurfacePoint) As SurfacePoint(Of TMaterial)
         If surfacePoint Is Nothing Then Return Nothing
 
         Select Case surfacePoint.NormalizedNormal

@@ -1,7 +1,7 @@
 ﻿Public Class ParticleSystem2DDrawer
     Implements IDrawer2D
 
-    Public Sub New(ByVal visualizer As Visualizer2D, ByVal particleSystem As ParticleSystem2D)
+    Public Sub New(visualizer As Visualizer2D, particleSystem As ParticleSystem2D)
         Me.Visualizer = visualizer
         Me.ParticleSystem = particleSystem
 
@@ -18,7 +18,7 @@
     Public Property ShowParticles As Boolean
     Public Property ShowForces As Boolean
 
-    Public Event Changed(ByVal sender As Object, ByVal e As EventArgs)
+    Public Event Changed(sender As Object, e As EventArgs)
 
     Public Sub Draw() Implements IDrawer2D.Draw
         If Me.ShowForces Then drawForces()
@@ -32,11 +32,11 @@
 
     Private Sub drawParticles()
         For Each particle In Me.ParticleSystem.Particles
-                drawParticle(particle)
+            drawParticle(particle)
         Next
     End Sub
 
-    Private Sub drawParticle(ByVal particle As Particle2D)
+    Private Sub drawParticle(particle As Particle2D)
         If TypeOf particle Is SphereParticle2D Then
             Dim sphereParticle As SphereParticle2D = DirectCast(particle, SphereParticle2D)
             Me.Visualizer.DrawingGraphics.FillEllipse(New SolidBrush(particle.Color), generateSphereParticleRect(sphereParticle))
@@ -52,7 +52,7 @@
         Next
     End Sub
 
-    Private Sub drawForce(ByVal force As Force2D)
+    Private Sub drawForce(force As Force2D)
         Me.Visualizer.DrawingGraphics.DrawLine(force.Pen, Me.Visualizer.Map.Apply(force.ConnectedParticles.Node1.Location).ToPointF, Me.Visualizer.Map.Apply(force.ConnectedParticles.Node2.Location).ToPointF)
     End Sub
 
@@ -68,11 +68,11 @@
     End Sub
 
 
-    Private Function generateSphereParticleRect(ByVal particle As SphereParticle2D) As RectangleF
+    Private Function generateSphereParticleRect(particle As SphereParticle2D) As RectangleF
         Return generateParticleRect(particle, Me.Visualizer.ProjectionMap.LinearMap.ZoomOut * particle.Radius)
     End Function
 
-    Private Function generateParticleRect(ByVal particle As Particle2D, ByVal screenRadius As Double) As RectangleF
+    Private Function generateParticleRect(particle As Particle2D, screenRadius As Double) As RectangleF
         screenRadius = Max(Me.MinimalParticleScreenRadiusInPixels, screenRadius)
         Return Me.Visualizer.generateScreenRadiusCircleRect(particle.Location, screenRadius)
     End Function

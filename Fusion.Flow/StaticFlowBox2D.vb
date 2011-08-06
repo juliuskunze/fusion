@@ -4,11 +4,11 @@
     Public Property KeptVelocity As Vector2D
     Private Property KeptDensity As Double
 
-    Public Sub New(ByVal flowBoxToKeep As FlowBox2D)
+    Public Sub New(flowBoxToKeep As FlowBox2D)
         MyBase.New(IsWall:=flowBoxToKeep.IsWall, Density:=flowBoxToKeep.Density, Velocity:=flowBoxToKeep.Velocity)
     End Sub
 
-    Public Sub New(ByVal isWall As Boolean, ByVal keptDensity As Double, ByVal keptVelocity As Vector2D)
+    Public Sub New(isWall As Boolean, keptDensity As Double, keptVelocity As Vector2D)
         MyBase.New(isWall:=isWall, Density:=keptDensity, Velocity:=keptVelocity)
 
         Me.KeptVelocity = keptVelocity

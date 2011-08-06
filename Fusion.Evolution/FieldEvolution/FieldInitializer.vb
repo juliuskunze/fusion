@@ -6,17 +6,17 @@
         Get
             Return _StartParticles
         End Get
-        Set(ByVal value As List(Of Particle2D))
+        Set(value As List(Of Particle2D))
             _StartParticles = value
         End Set
     End Property
 
-    Public Sub New(ByVal startParticle As Particle2D)
+    Public Sub New(startParticle As Particle2D)
         _StartParticles = New List(Of Particle2D)
         _StartParticles.Add(startParticle)
     End Sub
 
-    Public Sub New(ByVal startParticles As List(Of Particle2D))
+    Public Sub New(startParticles As List(Of Particle2D))
         _StartParticles = startParticles
     End Sub
 

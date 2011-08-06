@@ -14,12 +14,12 @@
         End Get
     End Property
 
-    Public Sub New(ByVal origin As Vector3D, ByVal direction As Vector3D)
+    Public Sub New(origin As Vector3D, direction As Vector3D)
         _Origin = origin
         _NormalizedDirection = direction.Normalized
     End Sub
 
-    Public Function PointOnRay(ByVal distanceFromOrigin As Double) As Vector3D
+    Public Function PointOnRay(distanceFromOrigin As Double) As Vector3D
         If distanceFromOrigin < 0 Then Throw New ArgumentException("The distance from start location must be positve.")
 
         Return Me.Origin + distanceFromOrigin * Me.NormalizedDirection

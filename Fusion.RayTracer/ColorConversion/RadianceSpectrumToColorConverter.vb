@@ -20,7 +20,7 @@ Public Class RadianceSpectrumToColorConverter
     ''' <param name="testStepCount"></param>
     ''' <param name="spectralRadiancePerWhite">Wenn das ganze Spektrum die übergebene spektrale Strahldichte besitzt, wird die RGB-Farbe Weiß (255, 255, 255) zurückgegeben.</param>
     ''' <remarks></remarks>
-    Public Sub New(ByVal testStepCount As Integer, ByVal spectralRadiancePerWhite As Double)
+    Public Sub New(testStepCount As Integer, spectralRadiancePerWhite As Double)
         If spectralRadiancePerWhite <= 0 Then Throw New ArgumentOutOfRangeException("spectralRadiancePerWhite")
 
         _TestStepCount = testStepCount
@@ -54,11 +54,11 @@ Public Class RadianceSpectrumToColorConverter
         Me.NormalizeColorData(divisorRed:=white.Red, divisorGreen:=white.Green, divisorBlue:=white.Blue)
     End Sub
 
-    Private Sub NormalizeColorData(ByVal divisor As Double)
+    Private Sub NormalizeColorData(divisor As Double)
         Me.NormalizeColorData(divisorRed:=divisor, divisorGreen:=divisor, divisorBlue:=divisor)
     End Sub
 
-    Private Sub NormalizeColorData(ByVal divisorRed As Double, ByVal divisorGreen As Double, ByVal divisorBlue As Double)
+    Private Sub NormalizeColorData(divisorRed As Double, divisorGreen As Double, divisorBlue As Double)
         For index = 0 To _ColorArray.Count - 1
             _ColorArray(index) = New RgbLight(red:=_ColorArray(index).Red / divisorRed,
                                               green:=_ColorArray(index).Green / divisorGreen,
@@ -66,7 +66,7 @@ Public Class RadianceSpectrumToColorConverter
         Next
     End Sub
 
-    Public Function GetColor(ByVal wavelength As Double) As RgbLight
+    Public Function GetColor(wavelength As Double) As RgbLight
         If wavelength < LowerVisibleWavelengthBound OrElse wavelength > UpperVisibleWavelengthBound Then Return RgbLight.Black
 
         Dim index = CInt((wavelength - LowerVisibleWavelengthBound) / _WavelengthStep)
@@ -74,7 +74,7 @@ Public Class RadianceSpectrumToColorConverter
         Return _ColorArray(index)
     End Function
 
-    Private Function GetRgbLight(ByVal radianceSpectrum As IRadianceSpectrum, ByVal testStepCount As Integer) As RgbLight
+    Private Function GetRgbLight(radianceSpectrum As IRadianceSpectrum, testStepCount As Integer) As RgbLight
         Dim rgbLight = New RgbLight
 
         Dim interval = (UpperVisibleWavelengthBound - LowerVisibleWavelengthBound) / (testStepCount - 1)
@@ -88,7 +88,7 @@ Public Class RadianceSpectrumToColorConverter
         Return rgbLight / testStepCount
     End Function
 
-    Public Function Convert(ByVal light As RadianceSpectrum) As System.Drawing.Color Implements ILightToColorConverter(Of RadianceSpectrum).Convert
+    Public Function Convert(light As RadianceSpectrum) As System.Drawing.Color Implements ILightToColorConverter(Of RadianceSpectrum).Convert
         Return _RgbLightToColorConverter.Convert(Me.GetRgbLight(radianceSpectrum:=light, testStepCount:=_TestStepCount))
     End Function
 End Class

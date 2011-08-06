@@ -9,14 +9,14 @@
         End Get
     End Property
 
-    Public Sub New(ByVal lowerVertex As Vector2D, ByVal size As Vector2D, ByVal gridLength As Double, ByVal viscosity As Double, ByVal startVelocity As Vector2D)
+    Public Sub New(lowerVertex As Vector2D, size As Vector2D, gridLength As Double, viscosity As Double, startVelocity As Vector2D)
         MyBase.New(lowerVertex:=lowerVertex, size:=size, gridLength:=gridLength)
         Me.Viscosity = viscosity
 
         setGeneralBoxes(startVelocity)
     End Sub
 
-    Private Sub setGeneralBoxes(ByVal startVelocity As Vector2D)
+    Private Sub setGeneralBoxes(startVelocity As Vector2D)
         For columnIndex = 0 To Me.ColumnCount - 1
             For rowIndex = 0 To Me.RowCount - 1
                 Me.Array(columnIndex, rowIndex) = New FlowBox2D(isWall:=False, density:=1, velocity:=startVelocity)
@@ -53,7 +53,7 @@
         Next
     End Sub
 
-    Public Sub SetWallFromPointSet(ByVal pointSet As IPointSet2D)
+    Public Sub SetWallFromPointSet(pointSet As IPointSet2D)
         For columnIndex = 0 To Me.ColumnCount - 1
             For rowIndex = 0 To Me.RowCount - 1
                 If pointSet.Contains(Me.PointFromRowColumn(columnIndex, rowIndex)) Then
@@ -102,7 +102,7 @@
         Loop While (From thread In threads Where thread.IsAlive).ToList.Count <> 0
     End Sub
 
-    Private Sub setFNewFromFOldAndFEqMultiThreaded(ByVal startIndexAndStepObject As Object)
+    Private Sub setFNewFromFOldAndFEqMultiThreaded(startIndexAndStepObject As Object)
         Dim startIndexAndStep = CType(startIndexAndStepObject, StartIndexAndStep)
         For columnIndex = 0 To Me.ColumnCount - 1
             For rowIndex = startIndexAndStep.StartIndex To Me.RowCount - 1 Step startIndexAndStep.Step
@@ -111,7 +111,7 @@
         Next
     End Sub
 
-    Private Sub setFNewFromFOldAndFEq(ByVal columnIndex As Integer, ByVal rowIndex As Integer)
+    Private Sub setFNewFromFOldAndFEq(columnIndex As Integer, rowIndex As Integer)
         Dim startFlowBox = Me.Array(columnIndex, rowIndex)
         If Not startFlowBox.IsWall Then
             For innerColumnIndex = 0 To 2
@@ -139,7 +139,7 @@
         Get
             Return _Viscosity
         End Get
-        Set(ByVal value As Double)
+        Set(value As Double)
             _Viscosity = value
             _Lambda = 1 / (0.5 + 3 * value)
         End Set

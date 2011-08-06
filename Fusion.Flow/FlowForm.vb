@@ -11,11 +11,11 @@
 
     Private _ParaviewWriter As FlowPanel2DParaviewWriter(Of FlowBox2D)
 
-    Private Sub PointSet2DPlotterForm_MouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseClick
+    Private Sub PointSet2DPlotterForm_MouseClick(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseClick
         _Renderer.Render()
     End Sub
 
-    Private Sub pictureBox_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles pictureBox.MouseDown
+    Private Sub pictureBox_MouseDown(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles pictureBox.MouseDown
         Select Case e.Button
             Case MouseButtons.Left
                 setWallAtScreenLocation(New Vector2D(e.Location))
@@ -24,7 +24,7 @@
         End Select
     End Sub
 
-    Private Sub setWallAtScreenLocation(ByVal screenLocation As Vector2D)
+    Private Sub setWallAtScreenLocation(screenLocation As Vector2D)
         Dim simulationLocation = _Visualizer.InverseMap.Apply(screenLocation)
         Dim arrayLocation = (simulationLocation - _FlowPanel.LowerVertex) / _FlowPanel.GridLength
         Dim columnIndex = CInt(arrayLocation.X)
@@ -34,14 +34,14 @@
         End If
     End Sub
 
-    Private Sub PointSet2DPlotterForm_MouseWheel(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseWheel
+    Private Sub PointSet2DPlotterForm_MouseWheel(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseWheel
         If _Drawer IsNot Nothing Then
             _ViewController.Zoom(zoomSteps:=e.Delta / 120)
             _Renderer.Render()
         End If
     End Sub
 
-    Private Sub pictureBox_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles pictureBox.MouseMove
+    Private Sub pictureBox_MouseMove(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles pictureBox.MouseMove
         If _Drawer IsNot Nothing Then
             Dim oldScreenMouseLocation = _ViewController.ScreenMouseLocation
             Dim oldSimulationMouseLocation = _ViewController.SimulationMouseLocation
@@ -60,7 +60,7 @@
 
     Private _Directory As String = My.Computer.FileSystem.SpecialDirectories.Desktop
 
-    Private Sub _Timer_FrameTick(ByVal sender As Object, ByVal e As Visualization.FrameTickEventArgs) Handles _Timer.FrameTick
+    Private Sub _Timer_FrameTick(sender As Object, e As Visualization.FrameTickEventArgs) Handles _Timer.FrameTick
         For i = 0 To e.CalcsPerFrame - 1
             _FlowPanel.NextTimeStep()
         Next
@@ -78,7 +78,7 @@
         frameCountLabel.Text = "Frame count: " & CInt(_FlowPanel.CalculationCount / e.CalcsPerFrame).ToString
     End Sub
 
-    Private Sub startButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles restartButton.Click
+    Private Sub startButton_Click(sender As System.Object, e As System.EventArgs) Handles restartButton.Click
         IO.Directory.CreateDirectory(_Directory)
 
         _Graphics = pictureBox.CreateGraphics()
@@ -128,11 +128,11 @@
         _Timer.Start()
     End Sub
 
-    Private Sub startStopButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles startStopButton.Click
+    Private Sub startStopButton_Click(sender As System.Object, e As System.EventArgs) Handles startStopButton.Click
         _Timer.Enabled = Not _Timer.Enabled
     End Sub
 
-    Private Sub refreshButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles refreshButton.Click
+    Private Sub refreshButton_Click(sender As System.Object, e As System.EventArgs) Handles refreshButton.Click
         _Timer.CalcRate = CInt(calculationRateTextBox.Text)
         _Timer.Framerate = CInt(frameRateTextBox.Text)
     End Sub

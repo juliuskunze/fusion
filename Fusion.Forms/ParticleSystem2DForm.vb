@@ -9,7 +9,7 @@
         Get
             Return _ParticleSystemLoaded
         End Get
-        Set(ByVal value As Boolean)
+        Set(value As Boolean)
             _ParticleSystemLoaded = value
 
             closeMenuItem.Enabled = value
@@ -28,14 +28,14 @@
     Private _Renderer As Renderer2D
     Private _Timer As FrameTimer
 
-    Private Sub saveMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles saveMenuItem.Click
+    Private Sub saveMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles saveMenuItem.Click
         If saveFileDialog.ShowDialog = Windows.Forms.DialogResult.OK Then
             _Serializer.Serialize(_ParticleSystem, saveFileDialog.FileName)
         End If
     End Sub
 
 
-    Private Sub loadParticleSystem(ByVal particleSystem As ParticleSystem2D)
+    Private Sub loadParticleSystem(particleSystem As ParticleSystem2D)
         If _ParticleSystemLoaded Then
             closeParticleSystem()
         End If
@@ -74,7 +74,7 @@
         updateSystemDisplay()
     End Sub
 
-    Private Sub frameTick(ByVal sender As Object, ByVal e As FrameTickEventArgs)
+    Private Sub frameTick(sender As Object, e As FrameTickEventArgs)
         For i = 0 To e.CalcsPerFrame - 1
             _ParticleSystem.DoEulerStep(timeSpan:=e.TimeStep)
             _ParticleGuide.TryStopFixedParticle()
@@ -83,7 +83,7 @@
         dragFixedParticleAndUpdateSystemDisplay()
     End Sub
 
-    Private Sub closeMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles closeMenuItem.Click
+    Private Sub closeMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles closeMenuItem.Click
         closeParticleSystem()
     End Sub
 
@@ -118,7 +118,7 @@
         Get
             Return _Timer.Enabled
         End Get
-        Set(ByVal value As Boolean)
+        Set(value As Boolean)
             If value Then
                 _Timer.Start()
                 startStopButton.Text = "Stop"
@@ -131,18 +131,18 @@
         End Set
     End Property
 
-    Private Sub dipoleMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles dipoleMenuItem.Click
+    Private Sub dipoleMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles dipoleMenuItem.Click
         _Drawer.FieldDrawer.VisualizationType = Field2DDrawer.VisualizationTypes.Fieldlines
         _Drawer.ShowField = True
 
         loadParticleSystem(ParticleSystems2D.Dipole(mass:=1, positiveCharge:=0.000001, negativeCharge:=-0.000001, distance:=1, radius:=0.05))
     End Sub
 
-    Private Sub moonEarthSystemMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles moonEarthSystemMenuItem.Click
+    Private Sub moonEarthSystemMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles moonEarthSystemMenuItem.Click
         loadParticleSystem(ParticleSystems2D.MoonEarthSystem)
     End Sub
 
-    Private Sub startStopButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles startStopButton.Click
+    Private Sub startStopButton_Click(sender As System.Object, e As System.EventArgs) Handles startStopButton.Click
         timerEnabled = Not timerEnabled
     End Sub
 
@@ -152,7 +152,7 @@
     End Enum
     Private _ActiveChangeMode As changeModes
 
-    Private Sub pictureBox_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
+    Private Sub pictureBox_MouseDown(sender As Object, e As System.Windows.Forms.MouseEventArgs)
         Select Case _ActiveChangeMode
             Case changeModes.DragAndView
                 Select Case e.Button
@@ -172,7 +172,7 @@
         End Select
     End Sub
 
-    Private Sub pictureBox_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
+    Private Sub pictureBox_MouseMove(sender As Object, e As System.Windows.Forms.MouseEventArgs)
         Dim oldSimulationMouseLocation = _ViewController.SimulationMouseLocation
         Dim oldScreenMouseLocation = _ViewController.ScreenMouseLocation
         _ViewController.ScreenMouseLocation = New Vector2D(e.Location)
@@ -199,7 +199,7 @@
         End Select
     End Sub
 
-    Private Sub pictureBox_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
+    Private Sub pictureBox_MouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs)
         Select Case _ActiveChangeMode
             Case changeModes.DragAndView
                 Select Case e.Button
@@ -217,7 +217,7 @@
 
 
     Private Const _DeltaPerMouseWheelStep As Double = 120
-    Private Sub form_MouseWheel(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
+    Private Sub form_MouseWheel(sender As Object, e As System.Windows.Forms.MouseEventArgs)
         Dim mouseWheelSteps = e.Delta / _DeltaPerMouseWheelStep
         _ViewController.Zoom(zoomSteps:=mouseWheelSteps)
     End Sub
@@ -226,14 +226,14 @@
         Get
             Return _Drawer.ParticleSystemDrawer.SelectedParticle
         End Get
-        Set(ByVal value As Particle2D)
+        Set(value As Particle2D)
             _Drawer.ParticleSystemDrawer.SelectedParticle = value
 
             changeButton.Enabled = (value IsNot Nothing)
         End Set
     End Property
 
-    Private Sub dragFixedParticleAndUpdateSystemDisplayIfTimerDisabled(ByVal sender As Object, ByVal e As EventArgs)
+    Private Sub dragFixedParticleAndUpdateSystemDisplayIfTimerDisabled(sender As Object, e As EventArgs)
         If Not timerEnabled Then
             dragFixedParticleAndUpdateSystemDisplay()
         End If
@@ -244,7 +244,7 @@
         updateSystemDisplay()
     End Sub
 
-    Private Sub updateSystemDisplayIfTimerDisabled(ByVal sender As Object, ByVal e As EventArgs)
+    Private Sub updateSystemDisplayIfTimerDisabled(sender As Object, e As EventArgs)
         If Not _Timer.Enabled Then
             updateSystemDisplay()
         End If
@@ -261,11 +261,11 @@
     End Sub
 
 
-    Private Sub startStopMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles startStopMenuItem.Click
+    Private Sub startStopMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles startStopMenuItem.Click
         timerEnabled = Not timerEnabled
     End Sub
 
-    Private Sub changeButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles changeButton.Click
+    Private Sub changeButton_Click(sender As System.Object, e As System.EventArgs) Handles changeButton.Click
         Dim selectedParticleRadius As Double = 0
         If TypeOf selectedParticle Is SphereParticle2D Then
             selectedParticleRadius = DirectCast(selectedParticle, SphereParticle2D).Radius
@@ -286,7 +286,7 @@
         End If
     End Sub
 
-    Private Sub addParticleButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles addParticleButton.Click
+    Private Sub addParticleButton_Click(sender As System.Object, e As System.EventArgs) Handles addParticleButton.Click
         If selectedParticle Is Nothing Then
             _SphereParticleDialog = New SphereParticle2DDialog
         Else
@@ -305,11 +305,11 @@
         End If
     End Sub
 
-    Private Sub newMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles newMenuItem.Click
+    Private Sub newMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles newMenuItem.Click
         loadParticleSystem(New ParticleSystem2D)
     End Sub
 
-    Private Sub openMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles openMenuItem.Click
+    Private Sub openMenuItem_Click(sender As Object, e As System.EventArgs) Handles openMenuItem.Click
         openFileDialog.FileName = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)
         If openFileDialog.ShowDialog = Windows.Forms.DialogResult.OK Then
             Try
@@ -320,14 +320,14 @@
         End If
     End Sub
 
-    Private Sub ParticleSystem2DForm_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
+    Private Sub ParticleSystem2DForm_KeyDown(sender As Object, e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         If e.KeyCode = Keys.Space AndAlso _Drawer.ParticleSystemDrawer.SelectedParticle IsNot Nothing Then
             _ViewController.CenterSimulationLocation(_Drawer.ParticleSystemDrawer.SelectedParticle.Location)
             e.Handled = True
         End If
     End Sub
 
-    Private Sub form_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+    Private Sub form_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         _Serializer = New ParticleSystem2DSerializer
         _SphereParticleDialog = New SphereParticle2DDialog
 
@@ -348,24 +348,24 @@
         loadParticleSystem(particleSystem)
     End Sub
 
-    Private Sub addForceButton_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles addForceButton.CheckedChanged
+    Private Sub addForceButton_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles addForceButton.CheckedChanged
         If addForceButton.Checked Then
 
         End If
     End Sub
 
-    Private Sub dragAndViewRadioButton_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles dragAndViewRadioButton.CheckedChanged
+    Private Sub dragAndViewRadioButton_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles dragAndViewRadioButton.CheckedChanged
         If dragAndViewRadioButton.Checked Then
             _ActiveChangeMode = changeModes.DragAndView
         End If
     End Sub
-    Private Sub selectAndViewRadioButton_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles selectAndViewRadioButton.CheckedChanged
+    Private Sub selectAndViewRadioButton_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles selectAndViewRadioButton.CheckedChanged
         If selectAndViewRadioButton.Checked Then
             _ActiveChangeMode = changeModes.SelectAndView
         End If
     End Sub
 
-    Private Sub pictureBox_SizeChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles pictureBox.SizeChanged
+    Private Sub pictureBox_SizeChanged(sender As Object, e As System.EventArgs) Handles pictureBox.SizeChanged
         If _Drawer IsNot Nothing Then
             _Drawer.Visualizer.Graphics = pictureBox.CreateGraphics
         End If

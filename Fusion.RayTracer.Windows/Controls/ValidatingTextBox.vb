@@ -17,7 +17,7 @@
         Me.IsOk = _Result IsNot Nothing
     End Sub
 
-    Private Sub TermBox_LostFocus(ByVal sender As Object, ByVal e As System.Windows.RoutedEventArgs) Handles Me.LostFocus
+    Private Sub TermBox_LostFocus(sender As Object, e As System.Windows.RoutedEventArgs) Handles Me.LostFocus
         Me.ValidateAndAdaptStyle()
     End Sub
 
@@ -25,7 +25,7 @@
         Get
             Return Me.Background IsNot _OkBrush
         End Get
-        Set(ByVal value As Boolean)
+        Set(value As Boolean)
             If value Then
                 Me.Background = _OkBrush
             Else
@@ -40,6 +40,6 @@
         End Get
     End Property
 
-    Protected MustOverride Function Convert(ByVal text As String) As T
+    Protected MustOverride Function Convert(text As String) As T
 
 End Class

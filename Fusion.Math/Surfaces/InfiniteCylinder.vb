@@ -23,18 +23,18 @@
         End Get
     End Property
 
-    Public Sub New(ByVal origin As Vector3D, ByVal direction As Vector3D, ByVal radius As Double)
+    Public Sub New(origin As Vector3D, direction As Vector3D, radius As Double)
         _Origin = origin
         _NormalizedDirection = direction.Normalized
         _Radius = radius
         _RadiusSquared = radius ^ 2
     End Sub
 
-    Public Function Contains(ByVal point As Vector3D) As Boolean Implements IPointSet3D.Contains
+    Public Function Contains(point As Vector3D) As Boolean Implements IPointSet3D.Contains
         Return (point - Me.Origin).CrossProduct(Me.NormalizedDirection).LengthSquared <= _RadiusSquared
     End Function
 
-    Friend Function SurfaceIntersectionRayLengths(ByVal ray As Ray) As IEnumerable(Of Double)
+    Friend Function SurfaceIntersectionRayLengths(ray As Ray) As IEnumerable(Of Double)
         ' the quadratic equation was derived from the the cylinder equation and the parametrization of the sight ray
         Dim relativeRayOrigin = ray.Origin - Me.Origin
         Dim temp1 = Me.NormalizedDirection.CrossProduct(ray.NormalizedDirection)
@@ -45,7 +45,7 @@
         Return rayLengthQuadraticEquation.Solve.Where(Function(rayLength) rayLength >= 0)
     End Function
 
-    Public Function Intersection(ByVal ray As Ray) As SurfacePoint Implements ISurfacedPointSet3D.FirstIntersection
+    Public Function Intersection(ray As Ray) As SurfacePoint Implements ISurfacedPointSet3D.FirstIntersection
         If Me.Contains(ray.Origin) Then Return Nothing
 
         Dim allIntersectionLocations = Me.SurfaceIntersectionRayLengths(ray)
@@ -60,7 +60,7 @@
         Return New SurfacePoint(location:=intersectionLocation, normal:=normal)
     End Function
 
-    Public Function Intersections(ByVal ray As Ray) As System.Collections.Generic.IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
+    Public Function Intersections(ray As Ray) As System.Collections.Generic.IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
         Dim intersection = Me.Intersection(ray)
 
         If intersection Is Nothing Then Return Enumerable.Empty(Of SurfacePoint)()

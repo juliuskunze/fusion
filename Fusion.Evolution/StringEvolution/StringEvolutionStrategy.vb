@@ -1,9 +1,9 @@
 ﻿Public Class StringEvolutionStrategy
     Implements IEvolutionStrategy(Of String)
 
-    Public Event BestSolutionImproved(ByVal sender As Object, ByVal e As SolutionEventArgs(Of String)) Implements IEvolutionStrategy(Of String).BestSolutionImproved
+    Public Event BestSolutionImproved(sender As Object, e As SolutionEventArgs(Of String)) Implements IEvolutionStrategy(Of String).BestSolutionImproved
 
-    Public Sub New(ByVal maxStepsWithoutFitnessGrowth As Integer)
+    Public Sub New(maxStepsWithoutFitnessGrowth As Integer)
         _MaxStepsWithoutFitnessGrowth = maxStepsWithoutFitnessGrowth
     End Sub
 
@@ -12,7 +12,7 @@
         Get
             Return _MaxStepsWithoutFitnessGrowth
         End Get
-        Set(ByVal value As Integer)
+        Set(value As Integer)
             _MaxStepsWithoutFitnessGrowth = value
         End Set
     End Property

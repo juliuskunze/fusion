@@ -1,10 +1,10 @@
 Public Class RecursiveRayTracer(Of TLight As {ILight(Of TLight), New})
     Implements IRayTracer(Of TLight)
 
-    Public Sub New(ByVal surface As ISurface(Of Material2D(Of TLight)),
-                   ByVal unshadedLightSource As ILightSource(Of TLight),
-                   ByVal shadedPointLightSources As List(Of IPointLightSource(Of TLight)),
-                   Optional ByVal maxIntersectionCount As Integer = 10)
+    Public Sub New(surface As ISurface(Of Material2D(Of TLight)),
+                    unshadedLightSource As ILightSource(Of TLight),
+                    shadedPointLightSources As List(Of IPointLightSource(Of TLight)),
+                   Optional maxIntersectionCount As Integer = 10)
         Me.Surface = surface
         Me.LightSource = unshadedLightSource
         Me.ShadedPointLightSources = shadedPointLightSources
@@ -18,14 +18,14 @@ Public Class RecursiveRayTracer(Of TLight As {ILight(Of TLight), New})
         Get
             Return _ShadedLightSources
         End Get
-        Set(ByVal value As List(Of IPointLightSource(Of TLight)))
+        Set(value As List(Of IPointLightSource(Of TLight)))
             _ShadedLightSources = New ShadedLightSources(Of TLight)(pointLightSources:=value, shadowingSurface:=Me.Surface)
         End Set
     End Property
 
     Private _ShadedLightSources As ShadedLightSources(Of TLight)
 
-    Protected Function TraceColor(ByVal ray As Ray, ByVal intersectionCount As Integer) As TLight
+    Protected Function TraceColor(ray As Ray, intersectionCount As Integer) As TLight
         Dim firstIntersection = Me.Surface.FirstMaterialIntersection(ray)
 
         If firstIntersection Is Nothing Then Return Me.BackgroundLight
@@ -63,7 +63,7 @@ Public Class RecursiveRayTracer(Of TLight As {ILight(Of TLight), New})
     Public Property BackgroundLight As New TLight
     Public Property MaxIntersectionCount As Integer
 
-    Public Overridable Function GetLight(ByVal viewRay As Ray) As TLight Implements IRayTracer(Of TLight).GetLight
+    Public Overridable Function GetLight(viewRay As Ray) As TLight Implements IRayTracer(Of TLight).GetLight
         Return Me.TraceColor(viewRay, intersectionCount:=0)
     End Function
 

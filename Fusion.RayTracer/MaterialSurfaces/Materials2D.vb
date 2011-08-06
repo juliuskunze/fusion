@@ -4,7 +4,7 @@
         Return Materials2D(Of TLight).LightSource(sourceLight:=New TLight)
     End Function
 
-    Public Shared Function LightSource(ByVal sourceLight As TLight) As Material2D(Of TLight)
+    Public Shared Function LightSource(sourceLight As TLight) As Material2D(Of TLight)
         Return New Material2D(Of TLight)(sourceLight:=sourceLight,
                               scatteringRemission:=New BlackRemission(Of TLight),
                               reflectionRemission:=New BlackRemission(Of TLight),

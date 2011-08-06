@@ -27,7 +27,7 @@
         _SavePictureDialog.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.Desktop
     End Sub
 
-    Private Sub RenderButton_Click(ByVal sender As System.Object, ByVal e As RoutedEventArgs) Handles _RenderButton.Click
+    Private Sub RenderButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _RenderButton.Click
         If Not Me.TryCompileRayTracerDrawerAndShowErrors Then Return
 
         _RenderButton.Visibility = Visibility.Collapsed
@@ -54,7 +54,7 @@
         Return True
     End Function
 
-    Private Sub SaveButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _SaveButton.Click
+    Private Sub SaveButton_Click(sender As System.Object, e As System.EventArgs) Handles _SaveButton.Click
         If _SavePictureDialog.ShowDialog Then
             Select Case _SavePictureDialog.FilterIndex
                 Case 1
@@ -67,7 +67,7 @@
         End If
     End Sub
 
-    Private Sub CalculateNeededTimeButton_Click(ByVal sender As System.Object, ByVal e As RoutedEventArgs) Handles _CalculateNeededTimeButton.Click
+    Private Sub CalculateNeededTimeButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _CalculateNeededTimeButton.Click
         If Not Me.TryCompileRayTracerDrawerAndShowErrors() Then Return
         If Not _CalculateTimeOptionsDialog.DialogResult Then Return
 
@@ -116,11 +116,11 @@
 
     Private _CalculateTimeOptionsDialog As New CalculateTimeOptionsDialog
 
-    Private Sub CalculateNeededTimeOptionsButton_Click(ByVal sender As System.Object, ByVal e As RoutedEventArgs) Handles _CalculateNeededTimeOptionsButton.Click
+    Private Sub CalculateNeededTimeOptionsButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _CalculateNeededTimeOptionsButton.Click
         _CalculateTimeOptionsDialog.ShowDialog()
     End Sub
 
-    Private Sub RenderBackgroundWorker_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles _RenderBackgroundWorker.DoWork
+    Private Sub RenderBackgroundWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles _RenderBackgroundWorker.DoWork
         Dim rayTracerDrawer = CType(e.Argument, RayTraceDrawer(Of RadianceSpectrum))
 
         Dim resultBitmap = New System.Drawing.Bitmap(rayTracerDrawer.PictureSize.Width, rayTracerDrawer.PictureSize.Height)
@@ -140,11 +140,11 @@
         e.Result = resultBitmap
     End Sub
 
-    Private Sub RenderBackgroundWorker_ProgressChanged(ByVal sender As Object, ByVal e As System.ComponentModel.ProgressChangedEventArgs) Handles _RenderBackgroundWorker.ProgressChanged
+    Private Sub RenderBackgroundWorker_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles _RenderBackgroundWorker.ProgressChanged
         _RenderProgressBar.Value = e.ProgressPercentage
     End Sub
 
-    Private Sub RenderBackgroundWorker_RunWorkerCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles _RenderBackgroundWorker.RunWorkerCompleted
+    Private Sub RenderBackgroundWorker_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles _RenderBackgroundWorker.RunWorkerCompleted
         If e.Error IsNot Nothing Then Throw e.Error
 
         _RenderStopwatch.Stop()
@@ -174,19 +174,19 @@
         _ResultTabItem.IsSelected = True
     End Sub
 
-    Private Sub RenderCancelButton_Click(ByVal sender As System.Object, ByVal e As RoutedEventArgs) Handles _RenderCancelButton.Click
+    Private Sub RenderCancelButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _RenderCancelButton.Click
         _RenderBackgroundWorker.CancelAsync()
     End Sub
 
-    Private Sub RenderProgressBar_ValueChanged(ByVal sender As Object, ByVal e As System.Windows.RoutedPropertyChangedEventArgs(Of Double)) Handles _RenderProgressBar.ValueChanged
+    Private Sub RenderProgressBar_ValueChanged(sender As Object, e As System.Windows.RoutedPropertyChangedEventArgs(Of Double)) Handles _RenderProgressBar.ValueChanged
         Me.TaskbarItemInfo.ProgressValue = e.NewValue / 100
     End Sub
 
-    Private Sub RibbonWindow_Unloaded(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles MyBase.Unloaded
+    Private Sub RibbonWindow_Unloaded(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles MyBase.Unloaded
         Application.Current.Shutdown()
     End Sub
 
-    Private Sub SceneDescriptionTextBox_TextChanged(ByVal sender As System.Object, ByVal e As System.Windows.Controls.TextChangedEventArgs) Handles _SceneDescriptionTextBox.TextChanged
+    Private Sub SceneDescriptionTextBox_TextChanged(sender As System.Object, e As System.Windows.Controls.TextChangedEventArgs) Handles _SceneDescriptionTextBox.TextChanged
         RaiseEvent SceneChanged()
     End Sub
 
@@ -202,7 +202,7 @@
         Get
             Return _RenderingTabItem.Visibility = Visibility.Visible
         End Get
-        Set(ByVal value As Boolean)
+        Set(value As Boolean)
             If value Then
                 _RenderingTabItem.Visibility = Visibility.Visible
             Else
@@ -215,12 +215,12 @@
         Get
             Return _SceneDescriptionTextBox.IsEnabled
         End Get
-        Set(ByVal value As Boolean)
+        Set(value As Boolean)
             _SceneDescriptionTextBox.IsEnabled = value
         End Set
     End Property
-    
-    Private Sub CompileSceneButton_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles _CompileSceneButton.Click
+
+    Private Sub CompileSceneButton_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles _CompileSceneButton.Click
         Me.TryCompileAndAdaptVisibilities()
     End Sub
 

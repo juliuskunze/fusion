@@ -1,11 +1,11 @@
 ﻿Public Class Particle2DGrid
-    Public Sub LoadParticleList(ByVal particleList As List(Of Particle2D))
+    Public Sub LoadParticleList(particleList As List(Of Particle2D))
         For Each particle In particleList
             addRow(particle)
         Next
     End Sub
 
-    Private Sub addRow(ByVal particle As Particle2D)
+    Private Sub addRow(particle As Particle2D)
         Dim gridRow As New DataGridViewRow
         'gridRow.Cells(gridColums.Name).Value = particle.Name
         gridRow.Cells(gridColums.Mass).Value = particle.Mass
@@ -21,7 +21,7 @@
         grid.Rows.Add(gridRow)
     End Sub
 
-    Private Sub grid_CellContentClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles grid.CellContentClick
+    Private Sub grid_CellContentClick(sender As System.Object, e As System.Windows.Forms.DataGridViewCellEventArgs) Handles grid.CellContentClick
     End Sub
 
     Private Enum gridColums As INteger

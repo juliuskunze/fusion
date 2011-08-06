@@ -30,7 +30,7 @@
     Private _EndPlane As Plane
     Private _Surface As ISurface
 
-    Public Sub New(ByVal startCenter As Vector3D, ByVal endCenter As Vector3D, ByVal radius As Double)
+    Public Sub New(startCenter As Vector3D, endCenter As Vector3D, radius As Double)
         _EndCenter = endCenter
 
         Dim startToEndVector = endCenter - startCenter
@@ -46,17 +46,17 @@
         _Surface = New Surfaces From {girthedArea, startCircle, endCircle}
     End Sub
 
-    Public Function Contains(ByVal point As Vector3D) As Boolean Implements IPointSet3D.Contains
+    Public Function Contains(point As Vector3D) As Boolean Implements IPointSet3D.Contains
         Return _StartPlane.CoveredHalfSpaceContains(point) AndAlso
                _EndPlane.CoveredHalfSpaceContains(point) AndAlso
                _InfiniteCylinder.Contains(point)
     End Function
 
-    Public Function FirstIntersection(ByVal ray As Ray) As SurfacePoint Implements ISurface.FirstIntersection
+    Public Function FirstIntersection(ray As Ray) As SurfacePoint Implements ISurface.FirstIntersection
         Return _Surface.FirstIntersection(ray)
     End Function
 
-    Public Function Intersections(ByVal ray As Ray) As System.Collections.Generic.IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
+    Public Function Intersections(ray As Ray) As System.Collections.Generic.IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
         Return _Surface.Intersections(ray)
     End Function
 End Class

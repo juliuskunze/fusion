@@ -1,5 +1,5 @@
 ﻿Public Interface IRayTraceVideo
 
-    Function GetRayTracerDrawer(ByVal pointOfTime As Double) As RayTraceDrawer(Of RgbLight)
+    Function GetRayTracerDrawer(pointOfTime As Double) As RayTraceDrawer(Of RgbLight)
 
 End Interface

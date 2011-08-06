@@ -7,7 +7,7 @@ Public Class Triangle
 
     Private _Surface As ISurface
     
-    Public Sub New(ByVal vertex1 As Vector3D, ByVal vertex2 As Vector3D, ByVal vertex3 As Vector3D)
+    Public Sub New(vertex1 As Vector3D, vertex2 As Vector3D, vertex3 As Vector3D)
         _Vertex1 = vertex1
         _Vertex2 = vertex2
         _Vertex3 = vertex3
@@ -58,11 +58,11 @@ Public Class Triangle
         End Get
     End Property
 
-    Public Function Intersection(ByVal ray As Ray) As SurfacePoint Implements ISurface.FirstIntersection
+    Public Function Intersection(ray As Ray) As SurfacePoint Implements ISurface.FirstIntersection
         Return _Surface.FirstIntersection(ray)
     End Function
 
-    Public Function Intersections(ByVal ray As Ray) As System.Collections.Generic.IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
+    Public Function Intersections(ray As Ray) As System.Collections.Generic.IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
         Dim intersection = Me.Intersection(ray)
 
         If intersection Is Nothing Then Return Enumerable.Empty(Of SurfacePoint)()

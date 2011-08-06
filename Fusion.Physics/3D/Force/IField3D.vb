@@ -1,9 +1,9 @@
 ﻿Public Interface IField3D
 
-    Function Field(ByVal particle As Particle3D, ByVal location As Vector3D) As Vector3D
-    Function Force(ByVal field As Vector3D, ByVal particle As Particle3D) As Vector3D
+    Function Field(particle As Particle3D, location As Vector3D) As Vector3D
+    Function Force(field As Vector3D, particle As Particle3D) As Vector3D
 
-    Function Potential(ByVal particle As Particle3D, ByVal location As Vector3D) As Double
-    Function PotentialEnergy(ByVal potential As Double, ByVal particle As Particle3D) As Double
+    Function Potential(particle As Particle3D, location As Vector3D) As Double
+    Function PotentialEnergy(potential As Double, particle As Particle3D) As Double
 
 End Interface

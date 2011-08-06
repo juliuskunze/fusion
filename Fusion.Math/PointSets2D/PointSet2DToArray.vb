@@ -3,7 +3,7 @@
 
     Public Property PointSet As IPointSet2D
 
-    Public Sub New(ByVal lowerVertex As Vector2D, ByVal size As Vector2D, ByVal gridLength As Double, ByVal pointSet As IPointSet2D)
+    Public Sub New(lowerVertex As Vector2D, size As Vector2D, gridLength As Double, pointSet As IPointSet2D)
         MyBase.New(lowerVertex:=lowerVertex, size:=size, gridLength:=gridLength)
         Me.PointSet = pointSet
 

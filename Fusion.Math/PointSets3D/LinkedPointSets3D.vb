@@ -6,13 +6,13 @@
 
     Public Property LinkOperator As Func(Of Boolean, Boolean, Boolean)
 
-    Public Sub New(ByVal pointSet1 As IPointSet3D, ByVal pointSet2 As IPointSet3D, ByVal linkOperator As Func(Of Boolean, Boolean, Boolean))
+    Public Sub New(pointSet1 As IPointSet3D, pointSet2 As IPointSet3D, linkOperator As Func(Of Boolean, Boolean, Boolean))
         Me.PointSet1 = pointSet1
         Me.PointSet2 = pointSet2
         Me.LinkOperator = linkOperator
     End Sub
 
-    Public Overloads Function Contains(ByVal point As Vector3D) As Boolean Implements IPointSet3D.Contains
+    Public Overloads Function Contains(point As Vector3D) As Boolean Implements IPointSet3D.Contains
         Return Me.LinkOperator.Invoke(Me.PointSet1.Contains(point), Me.PointSet2.Contains(point))
     End Function
 

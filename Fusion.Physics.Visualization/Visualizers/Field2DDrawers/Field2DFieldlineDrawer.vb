@@ -6,7 +6,7 @@
     Public Property FieldlineStepLength As Double = 0.01
     Public Property ArrowsPerFieldStrengthAndFieldlineLength As Double = 0
 
-    Public Sub New(ByVal visualizer As Visualizer2D, ByVal field As ParticleField2D)
+    Public Sub New(visualizer As Visualizer2D, field As ParticleField2D)
         Me.FieldlinePen = New Pen(Color.Beige)
         Me.Visualizer = visualizer
         Me.Field = field
@@ -41,7 +41,7 @@
         Get
             Return _FieldLinePen
         End Get
-        Set(ByVal value As Pen)
+        Set(value As Pen)
             _FieldLinePen = value
             _FieldlinePenWithArrow = CType(FieldlinePen.Clone, Pen)
             _FieldlinePenWithArrow.EndCap = Drawing2D.LineCap.ArrowAnchor
@@ -50,7 +50,7 @@
 
     Private _FieldlinePenWithArrow As Pen
 
-    Private Sub drawFieldline(ByVal origin As Vector2D)
+    Private Sub drawFieldline(origin As Vector2D)
         Dim currentFieldlineLocation = origin
         Dim nextFieldlineLocation As Vector2D
 

@@ -6,15 +6,15 @@ Public Class ParticleSystem2D
         Me.New(StartTime:=New DateTime(0))
     End Sub
 
-    Public Sub New(ByVal startTime As DateTime)
+    Public Sub New(startTime As DateTime)
         Me.New(Particles:=New List(Of Particle2D), startTime:=startTime)
     End Sub
 
-    Public Sub New(ByVal particles As List(Of Particle2D))
+    Public Sub New(particles As List(Of Particle2D))
         Me.New(particles:=particles, StartTime:=New DateTime(0))
     End Sub
 
-    Public Sub New(ByVal particles As List(Of Particle2D), ByVal startTime As DateTime)
+    Public Sub New(particles As List(Of Particle2D), startTime As DateTime)
         _StartTime = startTime
         Me.AddNodes(particles)
         Me.SingleForces = New List(Of ISingleForce2D)
@@ -62,7 +62,7 @@ Public Class ParticleSystem2D
 
     Public Property SingleForces As List(Of ISingleForce2D)
 
-    Public Sub DoEulerStep(ByVal timeSpan As Double)
+    Public Sub DoEulerStep(timeSpan As Double)
         _ElapsedSeconds += timeSpan
 
         For Each force In Me.Edges
@@ -148,11 +148,11 @@ Public Class ParticleSystem2D
         End Get
     End Property
 
-    Public Sub ConnectEachParticleWithEachByForces(ByVal forceGenerator As IForceGenerator2D)
+    Public Sub ConnectEachParticleWithEachByForces(forceGenerator As IForceGenerator2D)
         Me.ConnectEachParticleWithEachByForces(Particles:=Me.Particles.ToList, forceGenerator:=forceGenerator)
     End Sub
 
-    Public Sub ConnectEachParticleWithEachByForces(ByVal particles As List(Of Particle2D), ByVal forceGenerator As IForceGenerator2D)
+    Public Sub ConnectEachParticleWithEachByForces(particles As List(Of Particle2D), forceGenerator As IForceGenerator2D)
         For particle1Index = 0 To particles.Count - 2
             For particle2Index = particle1Index + 1 To Me.Particles.Count - 1
                 Me.AddEdge(New Force2D(forceGenerator, New EndNodes(Of Particle2D)(particles(particle1Index), particles(particle2Index))))

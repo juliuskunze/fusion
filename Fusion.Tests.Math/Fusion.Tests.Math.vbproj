@@ -109,6 +109,7 @@
     <Compile Include="LinearMapTests.vb" />
     <Compile Include="MatrixTests.vb" />
     <Compile Include="SquareMatrixTests.vb" />
+    <Compile Include="Terms\TermDefinitionTests.vb" />
     <Compile Include="Terms\TermTests.vb" />
     <Compile Include="Terms\Vector3DTermTests.vb" />
     <Compile Include="Vector2DTests.vb" />

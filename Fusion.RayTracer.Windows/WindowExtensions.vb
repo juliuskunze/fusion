@@ -6,7 +6,7 @@ Public Module WindowExtensions
     ''' Erfüllt die Gleichung pixels = pixelFactor * visual.Width.
     ''' </summary>
     <Extension()>
-    Public Sub GetPixelFactor(ByVal visual As Visual, ByVal out_dpiX As Double, ByVal out_dpiY As Double)
+    Public Sub GetPixelFactor(visual As Visual, out_dpiX As Double, out_dpiY As Double)
         Dim m = PresentationSource.FromVisual(visual).CompositionTarget.TransformToDevice
         out_dpiX = m.M11 * 96
         out_dpiY = m.M22 * 96

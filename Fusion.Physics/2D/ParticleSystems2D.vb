@@ -23,7 +23,7 @@
         Return MoonEarthSystem
     End Function
 
-    Public Function Dipole(ByVal mass As Double, ByVal positiveCharge As Double, ByVal negativeCharge As Double, ByVal distance As Double, ByVal radius As Double) As ParticleSystem2D
+    Public Function Dipole(mass As Double, positiveCharge As Double, negativeCharge As Double, distance As Double, radius As Double) As ParticleSystem2D
         Dipole = New ParticleSystem2D
 
         Dim plus = New SphereParticle2D(mass:=mass, _

@@ -15,12 +15,12 @@ Public Structure Vector2D
         End Get
     End Property
 
-    Public Sub New(ByVal x As Double, ByVal y As Double)
+    Public Sub New(x As Double, y As Double)
         _X = x
         _Y = y
     End Sub
 
-    Public Sub New(ByVal m As Matrix)
+    Public Sub New(m As Matrix)
         If m.Width = 1 AndAlso m.Height = 2 Then
             _X = m(0, 0)
             _Y = m(1, 0)
@@ -32,15 +32,15 @@ Public Structure Vector2D
         End If
     End Sub
 
-    Public Sub New(ByVal p As PointF)
+    Public Sub New(p As PointF)
         Me.New(p.X, p.Y)
     End Sub
 
-    Public Sub New(ByVal s As SizeF)
+    Public Sub New(s As SizeF)
         Me.New(s.Width, s.Height)
     End Sub
 
-    Public Sub New(ByVal vectorString As String)
+    Public Sub New(vectorString As String)
         If vectorString(0) = "("c AndAlso vectorString(vectorString.Length - 1) = ")" OrElse
            vectorString(0) = "["c AndAlso vectorString(vectorString.Length - 1) = "]" OrElse
            vectorString(0) = "{"c AndAlso vectorString(vectorString.Length - 1) = "}" OrElse
@@ -63,7 +63,7 @@ Public Structure Vector2D
 
     End Sub
 
-    Public Shared Function FromLengthAndArgument(ByVal length As Double, ByVal argument As Double) As Vector2D
+    Public Shared Function FromLengthAndArgument(length As Double, argument As Double) As Vector2D
         Return New Vector2D(length * Cos(argument), length * Sin(argument))
     End Function
 
@@ -86,7 +86,7 @@ Public Structure Vector2D
         End Get
     End Property
 
-    Public Function ScaledToLength(ByVal newLength As Double) As Vector2D
+    Public Function ScaledToLength(newLength As Double) As Vector2D
         If Me.Length = 0 Then
             Return New Vector2D(newLength, 0)
         Else
@@ -101,57 +101,57 @@ Public Structure Vector2D
         End Get
     End Property
 
-    Public Function RotateToArgument(ByVal newArgument As Double) As Vector2D
+    Public Function RotateToArgument(newArgument As Double) As Vector2D
         Return Vector2D.FromLengthAndArgument(Me.Length, newArgument)
     End Function
 
-    Public Shadows Function Equals(ByVal other As Vector2D) As Boolean
+    Public Shadows Function Equals(other As Vector2D) As Boolean
         Return _X = other.X AndAlso _Y = other.Y
     End Function
 
-    Public Shared Operator =(ByVal v1 As Vector2D, ByVal v2 As Vector2D) As Boolean
+    Public Shared Operator =(v1 As Vector2D, v2 As Vector2D) As Boolean
         Return v1.Equals(v2)
     End Operator
 
-    Public Shared Operator <>(ByVal v1 As Vector2D, ByVal v2 As Vector2D) As Boolean
+    Public Shared Operator <>(v1 As Vector2D, v2 As Vector2D) As Boolean
         Return Not v1 = v2
     End Operator
 
-    Public Shared Operator +(ByVal v1 As Vector2D, ByVal v2 As Vector2D) As Vector2D
+    Public Shared Operator +(v1 As Vector2D, v2 As Vector2D) As Vector2D
         Return New Vector2D(v1._X + v2._X, v1._Y + v2._Y)
     End Operator
 
-    Public Shared Operator -(ByVal v1 As Vector2D, ByVal v2 As Vector2D) As Vector2D
+    Public Shared Operator -(v1 As Vector2D, v2 As Vector2D) As Vector2D
         Return New Vector2D(v1._X - v2._X, v1._Y - v2._Y)
     End Operator
 
-    Public Shared Operator -(ByVal v As Vector2D) As Vector2D
+    Public Shared Operator -(v As Vector2D) As Vector2D
         Return New Vector2D(-v._X, -v._Y)
     End Operator
 
-    Public Shared Operator *(ByVal a As Double, ByVal v As Vector2D) As Vector2D
+    Public Shared Operator *(a As Double, v As Vector2D) As Vector2D
         Return New Vector2D(a * v._X, a * v._Y)
     End Operator
 
-    Public Shared Operator *(ByVal v As Vector2D, ByVal a As Double) As Vector2D
+    Public Shared Operator *(v As Vector2D, a As Double) As Vector2D
         Return a * v
     End Operator
 
-    Public Shared Operator /(ByVal v As Vector2D, ByVal a As Double) As Vector2D
+    Public Shared Operator /(v As Vector2D, a As Double) As Vector2D
         Return New Vector2D(v._X / a, v._Y / a)
     End Operator
 
-    Public Shared Function DotProduct(ByVal v1 As Vector2D, ByVal v2 As Vector2D) As Double
+    Public Shared Function DotProduct(v1 As Vector2D, v2 As Vector2D) As Double
         Return v1._X * v2._X +
                v1._Y * v2._Y
     End Function
 
-    Public Shared Function CrossProduct(ByVal v1 As Vector2D, ByVal v2 As Vector2D) As Double
+    Public Shared Function CrossProduct(v1 As Vector2D, v2 As Vector2D) As Double
         Return v1._X * v2._Y - v1._Y * v2._X
     End Function
 
 
-    Public Shared Function Fit(ByVal v1 As Vector2D, ByVal v2 As Vector2D, Optional ByVal maxRelativeError As Double = 0.00000000000001) As Boolean
+    Public Shared Function Fit(v1 As Vector2D, v2 As Vector2D, Optional maxRelativeError As Double = 0.00000000000001) As Boolean
         If v1 = v2 Then Return True
 
         Return (v1 - v2).Length / (0.5 * (v1.Length + v2.Length)) < maxRelativeError
@@ -180,7 +180,7 @@ Public Structure Vector2D
         Return Me.ToString("")
     End Function
 
-    Public Overloads Function ToString(ByVal numberFormat As String) As String
+    Public Overloads Function ToString(numberFormat As String) As String
         Return "(" & _X.ToString(numberFormat) & "|" & _Y.ToString(numberFormat) & ")"
     End Function
 

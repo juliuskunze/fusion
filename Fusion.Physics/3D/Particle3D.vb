@@ -1,26 +1,26 @@
 ﻿<Serializable()>
 Public Class Particle3D
-    Public Sub New(ByVal mass As Double, ByVal location As Vector3D)
+    Public Sub New(mass As Double, location As Vector3D)
         Me.New(mass:=mass, Charge:=0, location:=location, Velocity:=Vector3D.Zero, Color:=Drawing.Color.Black)
     End Sub
 
-    Public Sub New(ByVal mass As Double, ByVal location As Vector3D, ByVal velocity As Vector3D)
+    Public Sub New(mass As Double, location As Vector3D, velocity As Vector3D)
         Me.New(mass:=mass, Charge:=0, location:=location, velocity:=velocity, Color:=Drawing.Color.Black)
     End Sub
 
-    Public Sub New(ByVal mass As Double, ByVal location As Vector3D, ByVal velocity As Vector3D, ByVal color As Color)
+    Public Sub New(mass As Double, location As Vector3D, velocity As Vector3D, color As Color)
         Me.New(mass:=mass, Charge:=0, location:=location, velocity:=velocity, color:=color)
     End Sub
 
-    Public Sub New(ByVal mass As Double, ByVal charge As Double, ByVal location As Vector3D)
+    Public Sub New(mass As Double, charge As Double, location As Vector3D)
         Me.New(mass:=mass, charge:=charge, location:=location, Velocity:=Vector3D.Zero, Color:=Drawing.Color.Black)
     End Sub
 
-    Public Sub New(ByVal mass As Double, ByVal charge As Double, ByVal location As Vector3D, ByVal velocity As Vector3D)
+    Public Sub New(mass As Double, charge As Double, location As Vector3D, velocity As Vector3D)
         Me.New(mass:=mass, charge:=charge, location:=location, velocity:=velocity, Color:=Drawing.Color.Black)
     End Sub
 
-    Public Sub New(ByVal mass As Double, ByVal charge As Double, ByVal location As Vector3D, ByVal velocity As Vector3D, ByVal color As Color)
+    Public Sub New(mass As Double, charge As Double, location As Vector3D, velocity As Vector3D, color As Color)
         Me.Mass = mass
         Me.Charge = charge
         Me.Location = location
@@ -33,7 +33,7 @@ Public Class Particle3D
         Get
             Return _Mass
         End Get
-        Set(ByVal value As Double)
+        Set(value As Double)
             _Mass = value
         End Set
     End Property
@@ -43,7 +43,7 @@ Public Class Particle3D
         Get
             Return _Charge
         End Get
-        Set(ByVal value As Double)
+        Set(value As Double)
             _Charge = value
         End Set
     End Property
@@ -53,7 +53,7 @@ Public Class Particle3D
         Get
             Return _Location
         End Get
-        Set(ByVal value As Vector3D)
+        Set(value As Vector3D)
             _Location = value
         End Set
     End Property
@@ -63,12 +63,12 @@ Public Class Particle3D
         Get
             Return _Velocity
         End Get
-        Set(ByVal value As Vector3D)
+        Set(value As Vector3D)
             _Velocity = value
         End Set
     End Property
 
-    Public Shared Function Distance(ByVal p1 As Particle3D, ByVal p2 As Particle3D) As Double
+    Public Shared Function Distance(p1 As Particle3D, p2 As Particle3D) As Double
         Return (p1.Location - p2.Location).Length
     End Function
 
@@ -84,11 +84,11 @@ Public Class Particle3D
         End Get
     End Property
 
-    Public Sub Move(ByVal timeSpan As Double)
+    Public Sub Move(timeSpan As Double)
         Me.Location += timeSpan * Me.Velocity
     End Sub
 
-    Public Sub Accelerate(ByVal timeSpan As Double, ByVal force As Vector3D)
+    Public Sub Accelerate(timeSpan As Double, force As Vector3D)
         Dim acceleration = force / Me.Mass
 
         Me.Velocity += timeSpan * acceleration
@@ -99,7 +99,7 @@ Public Class Particle3D
         Get
             Return _Color
         End Get
-        Set(ByVal value As Color)
+        Set(value As Color)
             _Color = value
         End Set
     End Property

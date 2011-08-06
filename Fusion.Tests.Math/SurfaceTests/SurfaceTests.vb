@@ -4,19 +4,19 @@
 ''' <remarks></remarks>
 Public Class SurfaceTests
 
-    Public Shared Sub SurfaceRayIntersection(ByVal surface As ISurface, ByVal ray As Ray)
+    Public Shared Sub SurfaceRayIntersection(surface As ISurface, ray As Ray)
         NotFromBehind(surface, ray)
         IntersectionLiesOnRayAndNotContraRayDirection(surface, ray)
     End Sub
 
-    Private Shared Sub NotFromBehind(ByVal surface As ISurface, ByVal ray As Ray)
+    Private Shared Sub NotFromBehind(surface As ISurface, ray As Ray)
         For Each intersection In surface.Intersections(ray)
             Assert.That(intersection.NormalizedNormal * ray.NormalizedDirection < 0,
                         "A ray should not intersect a surface from behind.")
         Next
     End Sub
 
-    Private Shared Sub IntersectionLiesOnRayAndNotContraRayDirection(ByVal surface As ISurface, ByVal ray As Ray)
+    Private Shared Sub IntersectionLiesOnRayAndNotContraRayDirection(surface As ISurface, ray As Ray)
         For Each intersection In surface.Intersections(ray)
             Dim relativeIntersectionLocation = intersection.Location - ray.Origin
             Assert.That(relativeIntersectionLocation.Length * ray.NormalizedDirection = relativeIntersectionLocation,

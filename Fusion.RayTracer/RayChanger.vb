@@ -2,17 +2,17 @@
 
     Public Property SourceRay As Ray
 
-    Public Sub New(ByVal sourceRay As Ray)
+    Public Sub New(sourceRay As Ray)
         Me.SourceRay = sourceRay
     End Sub
 
-    Public Function ReflectedRay(ByVal intersection As SurfacePoint) As Ray
+    Public Function ReflectedRay(intersection As SurfacePoint) As Ray
         Dim normalizedNormal = intersection.NormalizedNormal
         Return WithSafetyDistance(New Ray(origin:=intersection.Location,
                                   direction:=Me.SourceRay.NormalizedDirection - 2 * Me.SourceRay.NormalizedDirection.OrthogonalProjectionOn(normalizedNormal)))
     End Function
 
-    Public Function RefractedRay(Of TLight)(ByVal intersection As SurfacePoint(Of Material2D(Of TLight))) As Ray
+    Public Function RefractedRay(Of TLight)(intersection As SurfacePoint(Of Material2D(Of TLight))) As Ray
         Dim normalizedNormal = intersection.NormalizedNormal
         Dim refractionIndexQuotient = intersection.Material.RefractionIndexQuotient
 
@@ -25,12 +25,12 @@
         Return WithSafetyDistance(New Ray(origin:=intersection.Location, direction:=finalDirection))
     End Function
 
-    Public Function PassedRay(ByVal intersection As SurfacePoint) As Ray
+    Public Function PassedRay(intersection As SurfacePoint) As Ray
         Return WithSafetyDistance(New Ray(origin:=intersection.Location, direction:=Me.SourceRay.NormalizedDirection))
     End Function
 
     Private Shared _Random As New Random
-    Public Function ScatteredRay(ByVal intersection As SurfacePoint) As Ray
+    Public Function ScatteredRay(intersection As SurfacePoint) As Ray
         Dim scatteredRayDirection = NormalizedRandomDirection()
         If scatteredRayDirection * intersection.NormalizedNormal < 0 Then
             scatteredRayDirection *= -1
@@ -58,7 +58,7 @@
     ''' <param name="ray"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Shared Function WithSafetyDistance(ByVal ray As Ray) As Ray
+    Private Shared Function WithSafetyDistance(ray As Ray) As Ray
         Return New Ray(origin:=ray.Origin + ray.NormalizedDirection * SaftyDistance, direction:=ray.NormalizedDirection)
     End Function
 

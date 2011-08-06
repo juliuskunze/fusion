@@ -9,13 +9,13 @@
         End Get
     End Property
 
-    Public Sub New(ByVal lowerVertex As Vector2D, ByVal size As Vector2D, ByVal gridLength As Double, ByVal startViscosity As Double, ByVal startVelocity As Vector2D)
+    Public Sub New(lowerVertex As Vector2D, size As Vector2D, gridLength As Double, startViscosity As Double, startVelocity As Vector2D)
         MyBase.New(lowerVertex:=lowerVertex, size:=size, gridLength:=gridLength)
 
         setGeneralBoxes(startVelocity, startViscosity)
     End Sub
 
-    Private Sub setGeneralBoxes(ByVal startVelocity As Vector2D, ByVal startViscosity As Double)
+    Private Sub setGeneralBoxes(startVelocity As Vector2D, startViscosity As Double)
         For columnIndex = 0 To Me.ColumnCount - 1
             For rowIndex = 0 To Me.RowCount - 1
                 Me.Array(columnIndex, rowIndex) = New FlowBox2DLE(isWall:=False, density:=1, velocity:=startVelocity, viscosity:=startViscosity)
@@ -23,7 +23,7 @@
         Next
     End Sub
 
-    Public Sub SetKeptVelocityBoxes(ByVal viscosity As Double)
+    Public Sub SetKeptVelocityBoxes(viscosity As Double)
         Dim keptVelocity = New Vector2D
 
         For rowIndex = 0 To Me.RowCount - 1
@@ -52,7 +52,7 @@
         Next
     End Sub
 
-    Public Sub SetWallFromPointSet(ByVal pointSet As IPointSet2D)
+    Public Sub SetWallFromPointSet(pointSet As IPointSet2D)
         For columnIndex = 0 To Me.ColumnCount - 1
             For rowIndex = 0 To Me.RowCount - 1
                 If pointSet.Contains(Me.PointFromRowColumn(columnIndex, rowIndex)) Then
@@ -99,7 +99,7 @@
         Loop While (From thread In threads Where thread.IsAlive).ToList.Count <> 0
     End Sub
 
-    Private Sub setFNewFromFOldAndFEqMultiThreaded(ByVal startIndexAndStepObject As Object)
+    Private Sub setFNewFromFOldAndFEqMultiThreaded(startIndexAndStepObject As Object)
         Dim startIndexAndStep = CType(startIndexAndStepObject, StartIndexAndStep)
         For columnIndex = 0 To Me.ColumnCount - 1
             For rowIndex = startIndexAndStep.StartIndex To Me.RowCount - 1 Step startIndexAndStep.Step
@@ -108,7 +108,7 @@
         Next
     End Sub
 
-    Private Sub setFNewFromFOldAndFEq(ByVal columnIndex As Integer, ByVal rowIndex As Integer)
+    Private Sub setFNewFromFOldAndFEq(columnIndex As Integer, rowIndex As Integer)
         Dim startFlowBox = Me.Array(columnIndex, rowIndex)
         If Not startFlowBox.IsWall Then
             For innerColumnIndex = 0 To 2

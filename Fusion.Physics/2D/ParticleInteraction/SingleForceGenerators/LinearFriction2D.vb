@@ -4,11 +4,11 @@ Public Class LinearFriction2D
 
     Public Property FrictionPerVelocity As Double
 
-    Public Sub New(ByVal frictionConstant As Double)
+    Public Sub New(frictionConstant As Double)
         Me.FrictionPerVelocity = frictionConstant
     End Sub
 
-    Public Function Force(ByVal particle As Particle2D) As Math.Vector2D Implements ISingleForceGenerator2D.Force
+    Public Function Force(particle As Particle2D) As Math.Vector2D Implements ISingleForceGenerator2D.Force
         Return -Me.FrictionPerVelocity * particle.Velocity
     End Function
 

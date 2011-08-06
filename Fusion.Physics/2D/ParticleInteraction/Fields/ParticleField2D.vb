@@ -16,12 +16,12 @@
         End Get
     End Property
 
-    Public Sub New(ByVal forceType As IParticleFieldGenerator2D, ByVal particles As IEnumerable(Of Particle2D))
+    Public Sub New(forceType As IParticleFieldGenerator2D, particles As IEnumerable(Of Particle2D))
         Me.FieldType = forceType
         _Particles = particles
     End Sub
 
-    Public Function Field(ByVal location As Math.Vector2D) As Vector2D Implements IField2D.Field
+    Public Function Field(location As Math.Vector2D) As Vector2D Implements IField2D.Field
         Field = New Vector2D
 
         For Each particle In Particles
@@ -31,7 +31,7 @@
         Return Field
     End Function
 
-    Public Function Potential(ByVal location As Vector2D) As Double Implements IField2D.Potential
+    Public Function Potential(location As Vector2D) As Double Implements IField2D.Potential
         Potential = 0
 
         For Each particle In Particles

@@ -3,11 +3,11 @@
 
     Private ReadOnly _ExponentFactor As Double
 
-    Public Sub New(ByVal temperature As Double)
+    Public Sub New(temperature As Double)
         _ExponentFactor = Constants.PlanckConstant * Constants.SpeedOfLight / (Constants.BoltzmannConstant * temperature)
     End Sub
 
-    Public Function GetSpectralRadiance(ByVal wavelength As Double) As Double Implements IRadianceSpectrum.GetSpectralRadiance
+    Public Function GetSpectralRadiance(wavelength As Double) As Double Implements IRadianceSpectrum.GetSpectralRadiance
         'source: http://de.wikipedia.org/wiki/Plancksches_Strahlungsgesetz
         '(without factor pi, because this function returns spectral radiance not a radiance) 
         '2 * h * c^2 / lambda ^ 5 / (e ^ (h * c / (lambda * k * T)) - 1)

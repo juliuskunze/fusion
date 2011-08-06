@@ -1,27 +1,27 @@
 ﻿<Serializable()>
 Public Class Particle2D
 
-    Public Sub New(ByVal mass As Double, ByVal location As Vector2D)
+    Public Sub New(mass As Double, location As Vector2D)
         Me.New(mass:=mass, Charge:=0, location:=location, Velocity:=Vector2D.Zero, Color:=Drawing.Color.Black)
     End Sub
 
-    Public Sub New(ByVal mass As Double, ByVal location As Vector2D, ByVal velocity As Vector2D)
+    Public Sub New(mass As Double, location As Vector2D, velocity As Vector2D)
         Me.New(mass:=mass, Charge:=0, location:=location, velocity:=velocity, Color:=Drawing.Color.Black)
     End Sub
 
-    Public Sub New(ByVal mass As Double, ByVal location As Vector2D, ByVal velocity As Vector2D, ByVal color As Color)
+    Public Sub New(mass As Double, location As Vector2D, velocity As Vector2D, color As Color)
         Me.New(mass:=mass, Charge:=0, location:=location, velocity:=velocity, color:=color)
     End Sub
 
-    Public Sub New(ByVal mass As Double, ByVal charge As Double, ByVal location As Vector2D)
+    Public Sub New(mass As Double, charge As Double, location As Vector2D)
         Me.New(mass:=mass, charge:=charge, location:=location, Velocity:=Vector2D.Zero, Color:=Drawing.Color.Black)
     End Sub
 
-    Public Sub New(ByVal mass As Double, ByVal charge As Double, ByVal location As Vector2D, ByVal velocity As Vector2D)
+    Public Sub New(mass As Double, charge As Double, location As Vector2D, velocity As Vector2D)
         Me.New(mass:=mass, charge:=charge, location:=location, velocity:=velocity, Color:=Drawing.Color.Black)
     End Sub
 
-    Public Sub New(ByVal mass As Double, ByVal charge As Double, ByVal location As Vector2D, ByVal velocity As Vector2D, ByVal color As Color)
+    Public Sub New(mass As Double, charge As Double, location As Vector2D, velocity As Vector2D, color As Color)
         Me.Mass = mass
         Me.Charge = charge
         Me.Location = location
@@ -46,11 +46,11 @@ Public Class Particle2D
         End Get
     End Property
 
-    Public Sub Move(ByVal timeSpan As Double)
+    Public Sub Move(timeSpan As Double)
         Me.Location += timeSpan * Me.Velocity
     End Sub
 
-    Public Sub Accelerate(ByVal timeSpan As Double, ByVal force As Vector2D)
+    Public Sub Accelerate(timeSpan As Double, force As Vector2D)
         Dim acceleration = force / Me.Mass
 
         Me.Velocity += timeSpan * acceleration

@@ -4,15 +4,15 @@ Public Class Force2D
 
     Public Property ForceGenerator As IForceGenerator2D Implements IForce2D.ForceGenerator
 
-    Public Sub New(ByVal forceGenerator As IForceGenerator2D, ByVal particlesToConnect As EndNodes(Of Particle2D))
+    Public Sub New(forceGenerator As IForceGenerator2D, particlesToConnect As EndNodes(Of Particle2D))
         Me.New(forceGenerator, particlesToConnect, New Pen(Color.Black))
     End Sub
 
-    Public Sub New(ByVal forceGenerator As IForceGenerator2D, ByVal particlesToConnect As EndNodes(Of Particle2D), ByVal color As Color)
+    Public Sub New(forceGenerator As IForceGenerator2D, particlesToConnect As EndNodes(Of Particle2D), color As Color)
         Me.New(forceGenerator, particlesToConnect, New Pen(color))
     End Sub
 
-    Public Sub New(ByVal forceGenerator As IForceGenerator2D, ByVal particlesToConnect As EndNodes(Of Particle2D), ByVal pen As Pen)
+    Public Sub New(forceGenerator As IForceGenerator2D, particlesToConnect As EndNodes(Of Particle2D), pen As Pen)
         Me.ForceGenerator = forceGenerator
         _ConnectedParticles = particlesToConnect
         Me.Pen = pen
@@ -37,7 +37,7 @@ Public Class Force2D
         End Get
     End Property
 
-    Public Sub AccelerateParticles(ByVal timeSpan As Double) Implements IParticleSystemChanger.ChangeSystem
+    Public Sub AccelerateParticles(timeSpan As Double) Implements IParticleSystemChanger.ChangeSystem
         Dim forceOnParticle1 = Me.ForceOnParticle1
 
         Me.ConnectedParticles.Node1.Accelerate(timeSpan, forceOnParticle1)
@@ -50,7 +50,7 @@ Public Class Force2D
         Get
             Return _Pen
         End Get
-        Set(ByVal value As Pen)
+        Set(value As Pen)
             _Pen = value
         End Set
     End Property

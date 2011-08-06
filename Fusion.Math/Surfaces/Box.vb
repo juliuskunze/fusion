@@ -21,7 +21,7 @@ Public Class Box
 
     Private ReadOnly _Surface As ISurface
 
-    Public Sub New(ByVal vertex As Vector3D, ByVal oppositeVertex As Vector3D)
+    Public Sub New(vertex As Vector3D, oppositeVertex As Vector3D)
         Dim lowerBoundX = Min(vertex.X, oppositeVertex.X)
         Dim upperBoundX = Max(vertex.X, oppositeVertex.X)
 
@@ -63,17 +63,17 @@ Public Class Box
         _Surface = New Surfaces From {xSurface, ySurface, zSurface}
     End Sub
 
-    Public Function Contains(ByVal point As Vector3D) As Boolean Implements IPointSet3D.Contains
+    Public Function Contains(point As Vector3D) As Boolean Implements IPointSet3D.Contains
         Return _LowerVertex.X <= point.X AndAlso point.X <= _UpperVertex.X AndAlso
                _LowerVertex.Y <= point.Y AndAlso point.Y <= _UpperVertex.Y AndAlso
                _LowerVertex.Z <= point.Z AndAlso point.Z <= _UpperVertex.Z
     End Function
 
-    Public Function FirstIntersection(ByVal ray As Ray) As SurfacePoint Implements ISurface.FirstIntersection
+    Public Function FirstIntersection(ray As Ray) As SurfacePoint Implements ISurface.FirstIntersection
         Return _Surface.FirstIntersection(ray)
     End Function
 
-    Public Function Intersections(ByVal ray As Ray) As System.Collections.Generic.IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
+    Public Function Intersections(ray As Ray) As System.Collections.Generic.IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
         Return _Surface.Intersections(ray)
     End Function
 End Class

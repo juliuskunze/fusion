@@ -1,6 +1,6 @@
 ﻿Public Module Functions
 
-    Public Function Gcd(ByVal a As Long, ByVal b As Long) As Long
+    Public Function Gcd(a As Long, b As Long) As Long
         If a = 0 AndAlso b = 0 Then
             Throw New ArgumentException("Gcd of 0 and 0 is not defined.")
         End If
@@ -36,13 +36,13 @@
         End If
     End Function
 
-    Public Function Lcm(ByVal a As Long, ByVal b As Long) As Long
+    Public Function Lcm(a As Long, b As Long) As Long
         If a = 0 AndAlso b = 0 Then Return 0
 
         Return Abs(a * b) \ Gcd(a, b)
     End Function
 
-    Public Function Factors(ByVal a As Long) As List(Of Long)
+    Public Function Factors(a As Long) As List(Of Long)
         Dim result = New List(Of Long)
 
         For t = 1 To CLng(Sqrt(a))
@@ -57,7 +57,7 @@
         Return result
     End Function
 
-    Public Function Primes(ByVal upperBound As Integer, Optional ByVal lowerBound As Integer = 2) As List(Of Integer)
+    Public Function Primes(upperBound As Integer, Optional lowerBound As Integer = 2) As List(Of Integer)
         If lowerBound < 0 Then lowerBound = 0
         If upperBound < 0 Then upperBound = 0
 
@@ -84,7 +84,7 @@
         Return Primes
     End Function
 
-    Public Function Factorial(ByVal n As Long) As Long
+    Public Function Factorial(n As Long) As Long
         If n <= 1 Then
             Return 1
         Else
@@ -96,7 +96,7 @@
         End If
     End Function
 
-    Public Function Choose(ByVal total As Long, ByVal chosen As Long) As Long
+    Public Function Choose(total As Long, chosen As Long) As Long
         If chosen > total Then Return 0
 
         If chosen > total - chosen Then
@@ -106,7 +106,7 @@
         End If
     End Function
 
-    Public Function FactorialPiece(ByVal upperBound As Long, ByVal lowerBoundMinusOne As Long) As Long
+    Public Function FactorialPiece(upperBound As Long, lowerBoundMinusOne As Long) As Long
         If upperBound <= 1 Or upperBound < lowerBoundMinusOne Then Return 1
 
         FactorialPiece = 1
@@ -116,14 +116,14 @@
         Return FactorialPiece
     End Function
 
-    Public Function ChoosingPossibilityCount(ByVal total As Long,
-                                             ByVal chosen As Long,
-                                             ByVal respectOrder As Boolean,
-                                             ByVal respectDuplication As Boolean) As Long
+    Public Function ChoosingPossibilityCount(total As Long,
+                                              chosen As Long,
+                                              respectOrder As Boolean,
+                                              respectDuplication As Boolean) As Long
 
         If total < 0 Then Return 0
         If chosen < 0 Then Return 0
-        
+
         If respectDuplication Then
             If respectOrder Then
                 Return CLng(total ^ chosen)

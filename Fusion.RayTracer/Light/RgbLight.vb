@@ -26,13 +26,13 @@ Public Structure RgbLight
         End Get
     End Property
 
-    Public Sub New(ByVal color As Color)
+    Public Sub New(color As Color)
         Me.New(Red:=RgbLightToColorConverter.GetComponent(color.R),
                Green:=RgbLightToColorConverter.GetComponent(color.G),
                Blue:=RgbLightToColorConverter.GetComponent(color.B))
     End Sub
 
-    Public Sub New(ByVal red As Double, ByVal green As Double, ByVal blue As Double)
+    Public Sub New(red As Double, green As Double, blue As Double)
         If _Red < 0 OrElse _Green < 0 OrElse _Blue < 0 Then Throw New ArgumentOutOfRangeException("Color components must be > 0.")
 
         _Red = red
@@ -40,43 +40,43 @@ Public Structure RgbLight
         _Blue = blue
     End Sub
 
-    Public Shared Operator +(ByVal color1 As RgbLight, ByVal color2 As RgbLight) As RgbLight
+    Public Shared Operator +(color1 As RgbLight, color2 As RgbLight) As RgbLight
         Return New RgbLight(Red:=color1.Red + color2.Red,
                               Green:=color1.Green + color2.Green,
                               Blue:=color1.Blue + color2.Blue)
     End Operator
 
-    Public Shared Operator -(ByVal color1 As RgbLight, ByVal color2 As RgbLight) As RgbLight
+    Public Shared Operator -(color1 As RgbLight, color2 As RgbLight) As RgbLight
         Return New RgbLight(Red:=color1.Red - color2.Red,
                               Green:=color1.Green - color2.Green,
                               Blue:=color1.Blue - color2.Blue)
     End Operator
 
-    Public Shared Operator -(ByVal color As RgbLight) As RgbLight
+    Public Shared Operator -(color As RgbLight) As RgbLight
         Return New RgbLight(Red:=-color.Red, Green:=-color.Green, Blue:=-color.Blue)
     End Operator
 
-    Public Shared Operator *(ByVal color As RgbLight, ByVal factor As Double) As RgbLight
+    Public Shared Operator *(color As RgbLight, factor As Double) As RgbLight
         Return New RgbLight(Red:=color.Red * factor,
                               Green:=color.Green * factor,
                               Blue:=color.Blue * factor)
     End Operator
 
-    Public Shared Operator *(ByVal factor As Double, ByVal color As RgbLight) As RgbLight
+    Public Shared Operator *(factor As Double, color As RgbLight) As RgbLight
         Return color * factor
     End Operator
 
-    Public Shared Operator /(ByVal color As RgbLight, ByVal factor As Double) As RgbLight
+    Public Shared Operator /(color As RgbLight, factor As Double) As RgbLight
         Return New RgbLight(Red:=color.Red / factor,
                               Green:=color.Green / factor,
                               Blue:=color.Blue / factor)
     End Operator
 
-    Public Shared Operator =(ByVal color1 As RgbLight, ByVal color2 As RgbLight) As Boolean
+    Public Shared Operator =(color1 As RgbLight, color2 As RgbLight) As Boolean
         Return color1.Red = color2.Red AndAlso color1.Green = color2.Green AndAlso color1.Blue = color2.Blue
     End Operator
 
-    Public Shared Operator <>(ByVal color1 As RgbLight, ByVal color2 As RgbLight) As Boolean
+    Public Shared Operator <>(color1 As RgbLight, color2 As RgbLight) As Boolean
         Return Not color1 = color2
     End Operator
 
@@ -92,15 +92,15 @@ Public Structure RgbLight
         Return "Color(" & Me.Red.ToString & ", " & Me.Green.ToString & ", " & Me.Blue.ToString & ")"
     End Function
 
-    Public Function Add(ByVal other As RgbLight) As RgbLight Implements ILight(Of RgbLight).Add
+    Public Function Add(other As RgbLight) As RgbLight Implements ILight(Of RgbLight).Add
         Return Me + other
     End Function
 
-    Public Function MultiplyBrightness(ByVal factor As Double) As RgbLight Implements ILight(Of RgbLight).MultiplyBrightness
+    Public Function MultiplyBrightness(factor As Double) As RgbLight Implements ILight(Of RgbLight).MultiplyBrightness
         Return Me * factor
     End Function
 
-    Public Function DivideBrightness(ByVal divisor As Double) As RgbLight Implements ILight(Of RgbLight).DivideBrightness
+    Public Function DivideBrightness(divisor As Double) As RgbLight Implements ILight(Of RgbLight).DivideBrightness
         Return Me / divisor
     End Function
 

@@ -1,7 +1,7 @@
 Public Class ScatteringRayTracer(Of TLight As {ILight(Of TLight), New})
     Implements IRayTracer(Of TLight)
 
-    Public Sub New(ByVal surface As ISurface(Of Material2D(Of TLight)), Optional ByVal rayCount As Integer = 1, Optional ByVal maxIntersectionCount As Integer = 10)
+    Public Sub New(surface As ISurface(Of Material2D(Of TLight)), Optional rayCount As Integer = 1, Optional maxIntersectionCount As Integer = 10)
         Me.Surface = surface
         Me.RayCount = rayCount
         Me.MaxIntersectionCount = maxIntersectionCount
@@ -9,7 +9,7 @@ Public Class ScatteringRayTracer(Of TLight As {ILight(Of TLight), New})
 
     Public Property Surface As ISurface(Of Material2D(Of TLight))
 
-    Private Function TraceColor(ByVal ray As Ray, ByVal intersectionCount As Integer) As TLight
+    Private Function TraceColor(ray As Ray, intersectionCount As Integer) As TLight
         Dim firstIntersection = Me.Surface.FirstMaterialIntersection(ray)
 
         If firstIntersection Is Nothing Then Return Me.BackColor
@@ -52,7 +52,7 @@ Public Class ScatteringRayTracer(Of TLight As {ILight(Of TLight), New})
     Public Property MaxIntersectionCount As Integer
     Public Property RayCount As Integer
 
-    Public Function GetLight(ByVal viewRay As Ray) As TLight Implements IRayTracer(Of TLight).GetLight
+    Public Function GetLight(viewRay As Ray) As TLight Implements IRayTracer(Of TLight).GetLight
         Dim colorSum = New TLight
         For i = 1 To Me.RayCount
             colorSum = colorSum.Add(Me.TraceColor(viewRay, intersectionCount:=0))

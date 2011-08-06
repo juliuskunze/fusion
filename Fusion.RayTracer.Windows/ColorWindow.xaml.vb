@@ -7,7 +7,7 @@
         Me.InitializeComponent()
     End Sub
 
-    Private Sub IntensitySlider_ValueChanged(ByVal sender As System.Object, ByVal e As System.Windows.RoutedPropertyChangedEventArgs(Of System.Double)) Handles _IntensitySlider.ValueChanged
+    Private Sub IntensitySlider_ValueChanged(sender As System.Object, e As System.Windows.RoutedPropertyChangedEventArgs(Of System.Double)) Handles _IntensitySlider.ValueChanged
         _RadianceSpectrumToColorConverter = New RadianceSpectrumToColorConverter(testStepCount:=150, spectralRadiancePerWhite:=_IntensitySlider.Value)
         Me.DrawRelativisticColors()
     End Sub

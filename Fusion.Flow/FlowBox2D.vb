@@ -13,7 +13,7 @@
     Public Property FNew As Double(,)
     Public Property FOld As Double(,)
 
-    Public Sub New(ByVal isWall As Boolean, ByVal density As Double, ByVal velocity As Vector2D, Optional ByVal smoke As Double = 0)
+    Public Sub New(isWall As Boolean, density As Double, velocity As Vector2D, Optional smoke As Double = 0)
         Me.IsWall = isWall
         Me.Density = density
 

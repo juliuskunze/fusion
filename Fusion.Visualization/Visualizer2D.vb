@@ -9,7 +9,7 @@
         Get
             Return _ProjectionMap
         End Get
-        Set(ByVal value As AffineMap2D)
+        Set(value As AffineMap2D)
             _ProjectionMap = value
             _FinalMap = generateFinalMap()
             _InverseMap = generateInverseMap()
@@ -47,9 +47,9 @@
         End Get
     End Property
 
-    Public Event MapChanged(ByVal sender As Object, ByVal e As EventArgs)
+    Public Event MapChanged(sender As Object, e As EventArgs)
 
-    Public Sub New(ByVal graphics As Graphics)
+    Public Sub New(graphics As Graphics)
         Me.Graphics = graphics
         Me.ProjectionMap = AffineMap2D.Identity
         Me.Traces = False
@@ -60,7 +60,7 @@
         Get
             Return _Graphics
         End Get
-        Set(ByVal value As Graphics)
+        Set(value As Graphics)
             _Graphics = value
 
             _ScreenMap = generateScreenMap()
@@ -85,7 +85,7 @@
 
     Public Property BackColor As Color
 
-    Public Sub Render(ByVal DrawAction As Action)
+    Public Sub Render(DrawAction As Action)
         If Not Traces Then
             Me.DrawingGraphics.Clear(Me.BackColor)
         End If
@@ -95,11 +95,11 @@
         _Buffer.Render()
     End Sub
 
-    Public Function GenerateCircleRect(ByVal center As Vector2D, ByVal radius As Double) As RectangleF
+    Public Function GenerateCircleRect(center As Vector2D, radius As Double) As RectangleF
         Return GenerateScreenRadiusCircleRect(center, Me.ProjectionMap.LinearMap.ZoomOut * radius)
     End Function
 
-    Public Function GenerateScreenRadiusCircleRect(ByVal center As Vector2D, ByVal screenRadius As Double) As RectangleF
+    Public Function GenerateScreenRadiusCircleRect(center As Vector2D, screenRadius As Double) As RectangleF
         Dim xScreenRadiusInDots = screenRadius * Graphics.DpiX / _MetersPerInch
         Dim yScreenRadiusInDots = screenRadius * Graphics.DpiY / _MetersPerInch
 

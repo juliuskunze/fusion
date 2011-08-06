@@ -1,6 +1,6 @@
 ﻿Public Class ParticleGuide
 
-    Public Sub New(ByVal particleSystem As ParticleSystem2D)
+    Public Sub New(particleSystem As ParticleSystem2D)
         _ParticleSystem = particleSystem
     End Sub
 
@@ -21,7 +21,7 @@
         End If
     End Sub
 
-    Public Sub FixNearestParticleTo(ByVal location As Vector2D)
+    Public Sub FixNearestParticleTo(location As Vector2D)
         Me.FixedParticle = Me.ParticleSystem.Particles.NearestParticle(location)
         TryDragFixedParticleTo(location)
 
@@ -31,7 +31,7 @@
     Private _LastDragStateLocation As Vector2D
     Private _LastDragStateElapsedTime As Double
 
-    Public Sub TryDragFixedParticleTo(ByVal location As Vector2D)
+    Public Sub TryDragFixedParticleTo(location As Vector2D)
         If Me.FixedParticle IsNot Nothing Then
             Me.FixedParticle.Location = location
 
@@ -52,6 +52,6 @@
         Me.FixedParticle = Nothing
     End Sub
 
-    Public Event ParticleChanged(ByVal sender As Object, ByVal e As EventArgs)
+    Public Event ParticleChanged(sender As Object, e As EventArgs)
 
 End Class

@@ -3,11 +3,11 @@
 
     Public Property Radius As Double
 
-    Public Sub New(ByVal radius As Double)
+    Public Sub New(radius As Double)
         Me.Radius = radius
     End Sub
 
-    Public Function Contains(ByVal point As Fusion.Math.Vector2D) As Boolean Implements IPointSet2D.Contains
+    Public Function Contains(point As Fusion.Math.Vector2D) As Boolean Implements IPointSet2D.Contains
         Return Me.Radius >= point.Length
     End Function
 End Class

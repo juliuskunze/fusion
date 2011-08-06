@@ -1,7 +1,7 @@
 ﻿Public Class FrameTickEventArgs
     Inherits EventArgs
 
-    Public Sub New(ByVal timeStep As Double, ByVal calcsPerFrame As Double)
+    Public Sub New(timeStep As Double, calcsPerFrame As Double)
         Me.TimeStep = timeStep
         Me.CalcsPerFrame = calcsPerFrame
     End Sub

@@ -2,11 +2,11 @@
 
 Class CalculatorWindow
 
-    Private Sub RespectOrderCheckBox_Click(ByVal sender As System.Object, ByVal e As RoutedEventArgs) Handles _RespectOrderCheckBox.Click
+    Private Sub RespectOrderCheckBox_Click(sender As System.Object, e As RoutedEventArgs) Handles _RespectOrderCheckBox.Click
         Me.SetCalculationFormulaLabelText()
     End Sub
 
-    Private Sub RespectDuplicationCheckBox_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles _RespectDuplicationCheckBox.Click
+    Private Sub RespectDuplicationCheckBox_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles _RespectDuplicationCheckBox.Click
         Me.SetCalculationFormulaLabelText()
     End Sub
 
@@ -30,7 +30,7 @@ Class CalculatorWindow
         End If
     End Function
 
-    Private Sub CalculatePossibilityCountButton_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles _CalculatePossibilityCountButton.Click
+    Private Sub CalculatePossibilityCountButton_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles _CalculatePossibilityCountButton.Click
         Try
             Dim result = ChoosingPossibilityCount(total:=CLng(_TotalCountTextBox.Text),
                                           chosen:=CLng(_ChosenCountTextBox.Text),
@@ -45,11 +45,11 @@ Class CalculatorWindow
         End Try
     End Sub
 
-    Private Sub Window_Loaded(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles MyBase.Loaded
+    Private Sub Window_Loaded(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles MyBase.Loaded
         Me.SetCalculationFormulaLabelText()
     End Sub
 
-    Private Sub CalculatePrimesButton_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles _CalculatePrimesButton.Click
+    Private Sub CalculatePrimesButton_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles _CalculatePrimesButton.Click
         _PrimesResultTextBox.Clear()
         _PrimesCountLabel.Content = "Anzahl"
         Try

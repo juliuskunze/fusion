@@ -4,8 +4,8 @@
 ''' <remarks></remarks>
 Public Interface ISurface
 
-    Function Intersections(ByVal ray As Ray) As IEnumerable(Of SurfacePoint)
+    Function Intersections(ray As Ray) As IEnumerable(Of SurfacePoint)
 
-    Function FirstIntersection(ByVal ray As Ray) As SurfacePoint
+    Function FirstIntersection(ray As Ray) As SurfacePoint
 
 End Interface

@@ -1,16 +1,16 @@
 ﻿Public Class SquareMatrix
     Inherits Matrix
 
-    Public Sub New(ByVal order As Integer)
+    Public Sub New(order As Integer)
         MyBase.New(order, order)
     End Sub
 
-    Public Sub New(ByVal elements(,) As Double)
+    Public Sub New(elements(,) As Double)
         MyBase.New(elements)
         DemandSquareMatrix()
     End Sub
 
-    Public Sub New(ByVal matrix As Matrix)
+    Public Sub New(matrix As Matrix)
         MyBase.New(matrix._Elements)
     End Sub
 
@@ -27,7 +27,7 @@
     End Property
 
 
-    Public Shared ReadOnly Property Identity(ByVal order As Integer) As SquareMatrix
+    Public Shared ReadOnly Property Identity(order As Integer) As SquareMatrix
         Get
             Dim matrix = New SquareMatrix(order)
             For i = 0 To order - 1
@@ -88,7 +88,7 @@
         End Get
     End Property
 
-    Public Overloads Shared Operator *(ByVal m1 As SquareMatrix, ByVal m2 As SquareMatrix) As SquareMatrix
+    Public Overloads Shared Operator *(m1 As SquareMatrix, m2 As SquareMatrix) As SquareMatrix
         Dim m1AsMatrix = DirectCast(m1, Matrix)
         Return New SquareMatrix(m1AsMatrix * m2)
     End Operator

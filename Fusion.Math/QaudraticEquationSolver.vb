@@ -3,7 +3,7 @@
     Public Property LinearCoefficient As Double
     Public Property AbsoluteCoefficient As Double
 
-    Public Sub New(ByVal quadraticCoefficient As Double, ByVal linearCoefficient As Double, ByVal absoluteCoefficient As Double)
+    Public Sub New(quadraticCoefficient As Double, linearCoefficient As Double, absoluteCoefficient As Double)
         Me.QuadraticCoefficient = quadraticCoefficient
         Me.LinearCoefficient = linearCoefficient
         Me.AbsoluteCoefficient = absoluteCoefficient

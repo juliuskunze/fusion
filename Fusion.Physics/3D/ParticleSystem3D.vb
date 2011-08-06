@@ -6,7 +6,7 @@ Public Class ParticleSystem3D
         Me.New(Starttime:=New DateTime(0))
     End Sub
 
-    Public Sub New(ByVal startTime As DateTime)
+    Public Sub New(startTime As DateTime)
         _StartTime = startTime
     End Sub
 
@@ -51,7 +51,7 @@ Public Class ParticleSystem3D
     End Property
 
 
-    Public Sub DoEulerStep(ByVal timeSpan As Double)
+    Public Sub DoEulerStep(timeSpan As Double)
         _ElapsedSeconds += timeSpan
 
         For Each force In Me.Edges
