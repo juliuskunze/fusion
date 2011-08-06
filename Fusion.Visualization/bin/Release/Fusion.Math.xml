@@ -6,12 +6,7 @@ Fusion.Math
 </name>
 </assembly>
 <members>
-<member name="T:Fusion.Math.ConstantTerm`1">
-	<summary>
- A term that contains no user defined constants, parameters and functions.
- </summary>
-	<remarks></remarks>
-</member><member name="T:Fusion.Math.Box">
+<member name="T:Fusion.Math.Box">
 	<summary>
  Repräsentiert einen Quader, dessen Kanten parallel zu den Koordinatenachsen ausgerichtet sind.
  </summary>
@@ -24,6 +19,11 @@ Fusion.Math
 </member><member name="T:Fusion.Math.Triangle">
 	<summary>
  The triangle is only visible when the vertices are counter-clockwise.
+ </summary>
+	<remarks></remarks>
+</member><member name="T:Fusion.Math.ConstantTerm`1">
+	<summary>
+ A term that contains no user defined constants, parameters and functions.
  </summary>
 	<remarks></remarks>
 </member><member name="T:Fusion.Math.ConcatenatedSortedEnumerator`1">

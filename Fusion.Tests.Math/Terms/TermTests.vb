@@ -95,7 +95,7 @@ Public Class TermTests
 
     <Test()>
     Public Sub TestFunction()
-        Dim namedMethodExpression = New NamedFUnctionExpression(name:="square", ExpressionBuilder:=NamedFUnctionExpression.GetFunctionExpressionBuilder(Of Func(Of Double, Double))(userFunction:=Function(x As Double) x ^ 2))
+        Dim namedMethodExpression = New NamedFunctionExpression(name:="square", ExpressionBuilder:=NamedFunctionExpression.GetFunctionExpressionBuilder(Of Func(Of Double, Double))(lambdaExpression:=Function(x As Double) x ^ 2))
         Dim term = New Term("square(2*x)", userContext:=New TermContext(constants:={}, parameters:={Expression.Parameter(GetType(Double), "x")}, Functions:={namedMethodExpression}))
         Dim d = term.GetDelegate(Of Func(Of Double, Double))()
 
@@ -113,5 +113,17 @@ Public Class TermTests
 
         Assert.That(lambda.Compile()(5) = 9)
     End Sub
+
+    <Test()>
+    Public Sub TestFunctionNotDefined()
+        Dim term = New Term("square(1)", userContext:=TermContext.Empty)
+        Try
+            term.GetDelegate()
+            Assert.Fail()
+        Catch ex As ArgumentException
+            Assert.That(ex.Message.Contains("Function 'square' is not defined in this context"))
+        End Try
+    End Sub
+
 
 End Class

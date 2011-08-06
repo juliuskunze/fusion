@@ -10,9 +10,9 @@
         Dim parameters = functionNameDefinition.Arguments.Select(Function(name) Expression.Parameter(type:=GetType(Double), name:=name)).ToArray
 
         Dim term = New Term(term:=_Term, userContext:=_UserContext.Merge(New TermContext(constants:={}, parameters:=parameters, Functions:={})))
-        Dim lambdaFunction = Expression.Lambda(body:=term.GetExpression, parameters:=parameters)
+        Dim lambdaExpression = Expression.Lambda(body:=term.GetExpression, parameters:=parameters)
 
-        Return New NamedFunctionExpression(name:=functionNameDefinition.FunctionName, expressionBuilder:=Function(arguments) Expression.Invoke(lambdaFunction, arguments:=arguments))
+        Return New NamedFunctionExpression(name:=functionNameDefinition.FunctionName, lambdaExpression:=lambdaExpression)
     End Function
 
 End Class

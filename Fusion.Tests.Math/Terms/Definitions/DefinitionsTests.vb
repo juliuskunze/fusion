@@ -38,15 +38,4 @@
         End Try
     End Sub
 
-    <Test()>
-    Public Sub TestFunctionNotDefined()
-        Dim definition = New Term("square(1)", userContext:=TermContext.Empty)
-        Try
-            definition.GetDelegate()
-            Assert.Fail()
-        Catch ex As ArgumentException
-            Assert.That(ex.Message.Contains("Function 'square' is not defined in this context"))
-        End Try
-    End Sub
-
 End Class

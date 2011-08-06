@@ -20,4 +20,16 @@
         Assert.AreEqual(8, t.GetDelegate(Of Func(Of Double)).Invoke)
     End Sub
 
+    <Test()>
+    Public Sub TestWrongParameterCount()
+        Dim definition = New FunctionDefinition("product(x,y) = x*y", userContext:=TermContext.Empty).GetNamedFunctionExpression
+
+        Try
+            Dim t = New Term("product (4)", userContext:=New TermContext(constants:={}, parameters:={}, Functions:={definition})).GetDelegate
+            Assert.Fail()
+        Catch ex As Exception
+            Assert.That(ex.Message.Contains("Wrong argument count"))
+        End Try
+    End Sub
+
 End Class
