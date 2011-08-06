@@ -29,6 +29,12 @@
         _Functions = functions
     End Sub
 
+    Public Shared ReadOnly Property Empty As TermContext
+        Get
+            Return New TermContext(Constants:={}, Parameters:={}, Functions:={})
+        End Get
+    End Property
+
     Public Shared ReadOnly Property DefaultContext As TermContext
         Get
             Return New TermContext(Constants:={New NamedConstantExpression("Pi", System.Math.PI),

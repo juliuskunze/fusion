@@ -96,6 +96,9 @@
     <Compile Include="Graph.vb" />
     <Compile Include="IEdge.vb" />
     <Compile Include="IMap2D.vb" />
+    <Compile Include="StringExtensions.vb" />
+    <Compile Include="Terms\Definitions\DefinitionBase.vb" />
+    <Compile Include="Terms\Definitions\NamedConstantDefinition.vb" />
     <Compile Include="Terms\IndependentTerm.vb" />
     <Compile Include="LinearMap.vb" />
     <Compile Include="EnumerableExtensions\ConcatenatedSortedEnumerator.vb" />
@@ -154,10 +157,12 @@
     <Compile Include="Surfaces\UnitedSurfacedPointSet3D.vb" />
     <Compile Include="Terms\InvalidTermException.vb" />
     <Compile Include="Terms\NamedConstantExpression.vb" />
+    <Compile Include="Terms\Definitions\NamedFunctionDefinition.vb" />
     <Compile Include="Terms\NamedFunctionExpression.vb" />
     <Compile Include="Terms\TermContext.vb" />
     <Compile Include="Terms\Term.vb" />
     <Compile Include="Terms\TermBase.vb" />
+    <Compile Include="Terms\TermDefinition.vb" />
     <Compile Include="Terms\Vector3DTerm.vb" />
     <Compile Include="Vector2D.vb" />
     <Compile Include="Vector2DRoughComparer.vb" />

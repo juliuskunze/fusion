@@ -4,13 +4,17 @@
     Private _CharIsInBrackets As Boolean()
 
     Public Sub New(term As String, userContext As TermContext)
-        Me.New(termWithoutBlanks:=New String((term.Where(Function(c) Not Char.IsWhiteSpace(c))).ToArray),
-               context:=TermContext.DefaultContext.Merge(userContext), obsolete_signatureDifferParameter:=False)
+        Me.New(term:=term,
+               context:=TermContext.DefaultContext.Merge(userContext), obsolete_signatureDifferParameter:=0)
     End Sub
 
-    Friend Sub New(termWithoutBlanks As String,
-                   context As TermContext, obsolete_signatureDifferParameter As Boolean)
-        MyBase.New(Term:=termWithoutBlanks, context:=context)
+    Private Sub New(termWithoutBlanks As String,
+                    context As TermContext, obsolete_signatureDifferParameter As Boolean)
+        MyBase.New(termWithoutBlanks:=termWithoutBlanks, context:=context)
+    End Sub
+
+    Private Sub New(term As String, context As TermContext, obsolete_signatureDifferParameter As Byte)
+        MyBase.New(termWithoutBlanks:=term.WithoutBlanks, context:=context)
     End Sub
 
     Public Overrides Function GetExpression() As Expression
@@ -18,27 +22,28 @@
         If baseExpression IsNot Nothing Then Return baseExpression
 
         Dim parsedDouble As Double
-        If Double.TryParse(_Term, result:=parsedDouble) AndAlso Not _Term.StartsWith("("c) Then Return Expression.Constant(parsedDouble)
+        If Double.TryParse(_TermWithoutBlanks, result:=parsedDouble) AndAlso Not _TermWithoutBlanks.StartsWith("("c) Then Return Expression.Constant(parsedDouble)
 
-        Me.InitializeCharIsInBracketsArray()
-        If TermIsInBrackets(startIndex:=0, endIndex:=_Term.Length - 1) Then Return SubstringExpression(_Term.Substring(startIndex:=1, length:=_Term.Length - 2))
+        _CharIsInBrackets = _TermWithoutBlanks.GetCharIsInBracketsArray
+
+        If TermIsInBrackets(startIndex:=0, endIndex:=_TermWithoutBlanks.Length - 1) Then Return Me.SubstringExpression(_TermWithoutBlanks.Substring(startIndex:=1, length:=_TermWithoutBlanks.Length - 2))
 
         Dim startingFunction = Me.TryGetFunctionExpression
         If startingFunction IsNot Nothing AndAlso
-           TermIsInBrackets(startIndex:=startingFunction.Name.Length, endIndex:=_Term.Length - 1) Then
-            Dim arguments = _Term.Substring(startingFunction.Name.Length + 1,
-                                            length:=_Term.Length - 2 - startingFunction.Name.Length).
+           TermIsInBrackets(startIndex:=startingFunction.Name.Length, endIndex:=_TermWithoutBlanks.Length - 1) Then
+            Dim arguments = _TermWithoutBlanks.Substring(startingFunction.Name.Length + 1,
+                                            length:=_TermWithoutBlanks.Length - 2 - startingFunction.Name.Length).
                                   Split(","c).
-                                  Select(Function(argument) SubstringExpression(argument))
+                                  Select(Function(argument) Me.SubstringExpression(argument))
             Return startingFunction.Expression(arguments:=arguments)
         End If
 
-        Select Case _Term.Chars(0)
+        Select Case _TermWithoutBlanks.Chars(0)
             Case "+"c, "-"c
                 Dim minusCountAtStart = 0
                 Dim notSignIndex As Integer
-                For i = 0 To _Term.Length - 1
-                    Select Case _Term(i)
+                For i = 0 To _TermWithoutBlanks.Length - 1
+                    Select Case _TermWithoutBlanks(i)
                         Case "+"c
                         Case "-"c
                             minusCountAtStart -= 1
@@ -51,70 +56,44 @@
                 Dim termIsPositve = (minusCountAtStart Mod 2 = 0)
 
                 If termIsPositve Then
-                    Return SubstringExpression(startIndex:=notSignIndex, length:=_Term.Length - notSignIndex)
+                    Return SubstringExpression(startIndex:=notSignIndex, length:=_TermWithoutBlanks.Length - notSignIndex)
                 Else
-                    For i = notSignIndex To _Term.Length - 1
-                        If Not _CharIsInBrackets(i) AndAlso _Term.Chars(i) = "+"c Then Return Expression.Add(Expression.Negate(SubstringExpression(startIndex:=notSignIndex, length:=i - notSignIndex)), AfterIndexExpression(i))
+                    For i = notSignIndex To _TermWithoutBlanks.Length - 1
+                        If Not _CharIsInBrackets(i) AndAlso _TermWithoutBlanks.Chars(i) = "+"c Then Return Expression.Add(Expression.Negate(Me.SubstringExpression(startIndex:=notSignIndex, length:=i - notSignIndex)), AfterIndexExpression(i))
                     Next
 
-                    For i = notSignIndex To _Term.Length - 1
-                        If Not _CharIsInBrackets(i) AndAlso _Term.Chars(i) = "-"c Then Return Expression.Subtract(Expression.Negate(SubstringExpression(startIndex:=notSignIndex, length:=i - notSignIndex)), AfterIndexExpression(i))
+                    For i = notSignIndex To _TermWithoutBlanks.Length - 1
+                        If Not _CharIsInBrackets(i) AndAlso _TermWithoutBlanks.Chars(i) = "-"c Then Return Expression.Subtract(Expression.Negate(Me.SubstringExpression(startIndex:=notSignIndex, length:=i - notSignIndex)), AfterIndexExpression(i))
                     Next
 
-                    Return Expression.NegateChecked(SubstringExpression(startIndex:=notSignIndex, length:=_Term.Length - notSignIndex))
+                    Return Expression.NegateChecked(Me.SubstringExpression(startIndex:=notSignIndex, length:=_TermWithoutBlanks.Length - notSignIndex))
                 End If
         End Select
 
-        For i = 0 To _Term.Length - 1
-            If Not _CharIsInBrackets(i) AndAlso _Term.Chars(i) = "+"c Then Return Expression.Add(BeforeIndexExpression(i), AfterIndexExpression(i))
+        For i = 0 To _TermWithoutBlanks.Length - 1
+            If Not _CharIsInBrackets(i) AndAlso _TermWithoutBlanks.Chars(i) = "+"c Then Return Expression.Add(Me.BeforeIndexExpression(i), Me.AfterIndexExpression(i))
         Next
 
-        For i = 0 To _Term.Length - 1
-            If Not _CharIsInBrackets(i) AndAlso _Term.Chars(i) = "-"c Then Return Expression.Subtract(BeforeIndexExpression(i), AfterIndexExpression(i))
+        For i = 0 To _TermWithoutBlanks.Length - 1
+            If Not _CharIsInBrackets(i) AndAlso _TermWithoutBlanks.Chars(i) = "-"c Then Return Expression.Subtract(Me.BeforeIndexExpression(i), Me.AfterIndexExpression(i))
         Next
 
-        For i = 0 To _Term.Length - 1
-            If Not _CharIsInBrackets(i) AndAlso _Term.Chars(i) = "*"c Then Return Expression.Multiply(BeforeIndexExpression(i), AfterIndexExpression(i))
+        For i = 0 To _TermWithoutBlanks.Length - 1
+            If Not _CharIsInBrackets(i) AndAlso _TermWithoutBlanks.Chars(i) = "*"c Then Return Expression.Multiply(Me.BeforeIndexExpression(i), Me.AfterIndexExpression(i))
         Next
 
-        For i = 0 To _Term.Length - 1
-            If Not _CharIsInBrackets(i) AndAlso _Term.Chars(i) = "/"c Then Return Expression.Divide(BeforeIndexExpression(i), AfterIndexExpression(i))
+        For i = 0 To _TermWithoutBlanks.Length - 1
+            If Not _CharIsInBrackets(i) AndAlso _TermWithoutBlanks.Chars(i) = "/"c Then Return Expression.Divide(Me.BeforeIndexExpression(i), Me.AfterIndexExpression(i))
         Next
 
-        For i = 0 To _Term.Length - 1
-            If Not _CharIsInBrackets(i) AndAlso _Term.Chars(i) = "^"c Then Return Expression.Power(BeforeIndexExpression(i), AfterIndexExpression(i))
+        For i = 0 To _TermWithoutBlanks.Length - 1
+            If Not _CharIsInBrackets(i) AndAlso _TermWithoutBlanks.Chars(i) = "^"c Then Return Expression.Power(Me.BeforeIndexExpression(i), Me.AfterIndexExpression(i))
         Next
 
-        If Char.IsLetter(_Term(0)) AndAlso _Term.All(Function(c) Char.IsLetterOrDigit(c)) Then Throw New InvalidTermException(_Term & " is not defined in this context.")
+        If Char.IsLetter(_TermWithoutBlanks(0)) AndAlso _TermWithoutBlanks.All(Function(c) Char.IsLetterOrDigit(c)) Then Throw New InvalidTermException(_TermWithoutBlanks & " is not defined in this context.")
 
-        Throw New InvalidTermException(_Term)
+        Throw New InvalidTermException(_TermWithoutBlanks)
     End Function
-
-    Private Sub InitializeCharIsInBracketsArray()
-        ReDim _CharIsInBrackets(_Term.Length - 1)
-        Dim bracketDepth As Integer = 0
-
-        For i = 0 To _Term.Length - 1
-            If _Term.Chars(i) = "("c Then
-                bracketDepth += 1
-            End If
-
-            If bracketDepth < 0 Then
-                Throw New InvalidTermException(_Term, message:="Missing ""("".")
-            End If
-            If bracketDepth > 0 Then
-                _CharIsInBrackets(i) = True
-            End If
-
-            If _Term.Chars(i) = ")"c Then
-                bracketDepth -= 1
-            End If
-        Next
-
-        If bracketDepth <> 0 Then
-            If bracketDepth > 0 Then Throw New InvalidTermException(_Term, message:="Missing "")"".")
-        End If
-    End Sub
 
 
     Private ReadOnly Property BeforeIndexExpression(index As Integer) As Expression
@@ -125,13 +104,13 @@
 
     Private ReadOnly Property AfterIndexExpression(index As Integer) As Expression
         Get
-            Return Me.SubstringExpression(index + 1, _Term.Length - 1 - index)
+            Return Me.SubstringExpression(index + 1, _TermWithoutBlanks.Length - 1 - index)
         End Get
     End Property
 
     Private ReadOnly Property SubstringExpression(startIndex As Integer, length As Integer) As Expression
         Get
-            Return Me.SubstringExpression(_Term.Substring(startIndex, length))
+            Return Me.SubstringExpression(_TermWithoutBlanks.Substring(startIndex, length))
         End Get
     End Property
 
