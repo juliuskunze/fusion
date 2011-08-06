@@ -9,6 +9,8 @@ Public Module StringExtensions
 
     <Extension()>
     Public Function IsValidVariableName(s As String) As Boolean
+        If s = "" Then Return False
+
         Return Char.IsLetter(s.First) AndAlso s.All(Function(c) Char.IsLetterOrDigit(c))
     End Function
 

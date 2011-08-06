@@ -2,7 +2,7 @@
 ''' A term that contains no user defined constants, parameters and functions.
 ''' </summary>
 ''' <remarks></remarks>
-Public Class IndependentTerm(Of TResult As Structure)
+Public Class ConstantTerm(Of TResult As Structure)
     Inherits Term
 
     Public Sub New(term As String)

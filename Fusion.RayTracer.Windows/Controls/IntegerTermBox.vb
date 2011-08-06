@@ -3,7 +3,7 @@ Public Class IntegerTermBox
     
     Protected Overrides Function Convert(text As String) As Integer?
         Try
-            Return CInt(New IndependentTerm(Of Double)(Me.Text).GetResult)
+            Return CInt(New ConstantTerm(Of Double)(Me.Text).GetResult)
         Catch ex As InvalidTermException
             Return Nothing
         End Try

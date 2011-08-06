@@ -6,7 +6,7 @@ Fusion.Math
 </name>
 </assembly>
 <members>
-<member name="T:Fusion.Math.IndependentTerm`1">
+<member name="T:Fusion.Math.ConstantTerm`1">
 	<summary>
  A term that contains no user defined constants, parameters and functions.
  </summary>

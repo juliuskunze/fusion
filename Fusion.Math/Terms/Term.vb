@@ -28,14 +28,15 @@
 
         If TermIsInBrackets(startIndex:=0, endIndex:=_TermWithoutBlanks.Length - 1) Then Return Me.SubstringExpression(_TermWithoutBlanks.Substring(startIndex:=1, length:=_TermWithoutBlanks.Length - 2))
 
-        Dim startingFunction = Me.TryGetFunctionExpression
-        If startingFunction IsNot Nothing AndAlso
-           TermIsInBrackets(startIndex:=startingFunction.Name.Length, endIndex:=_TermWithoutBlanks.Length - 1) Then
-            Dim arguments = _TermWithoutBlanks.Substring(startingFunction.Name.Length + 1,
-                                            length:=_TermWithoutBlanks.Length - 2 - startingFunction.Name.Length).
-                                  Split(","c).
-                                  Select(Function(argument) Me.SubstringExpression(argument))
-            Return startingFunction.Expression(arguments:=arguments)
+
+        Dim functionCall = Me.TryGetFunctionCall
+        If functionCall IsNot Nothing Then
+            Dim matchingFunctions = From functionExpression In _Context.Functions Where functionCall.FunctionName.Equals(functionExpression.Name, StringComparison.OrdinalIgnoreCase)
+            If Not matchingFunctions.Any Then Throw New ArgumentException("Function '" & functionCall.FunctionName & "' is not defined in this context.")
+            Dim matchingFunction = matchingFunctions.Single
+            Dim arguments = functionCall.Arguments.Select(Function(argument) Me.SubstringExpression(argument))
+
+            Return matchingFunction.Expression(arguments:=arguments)
         End If
 
         Select Case _TermWithoutBlanks.Chars(0)
@@ -90,7 +91,10 @@
             If Not _CharIsInBrackets(i) AndAlso _TermWithoutBlanks.Chars(i) = "^"c Then Return Expression.Power(Me.BeforeIndexExpression(i), Me.AfterIndexExpression(i))
         Next
 
-        If Char.IsLetter(_TermWithoutBlanks(0)) AndAlso _TermWithoutBlanks.All(Function(c) Char.IsLetterOrDigit(c)) Then Throw New InvalidTermException(_TermWithoutBlanks & " is not defined in this context.")
+        If _TermWithoutBlanks.IsValidVariableName Then Throw New InvalidTermException("Constant '" & _TermWithoutBlanks & "' is not defined in this context.")
+        For functionNameLength = _TermWithoutBlanks.Length To 1 Step -1
+
+        Next
 
         Throw New InvalidTermException(_TermWithoutBlanks)
     End Function

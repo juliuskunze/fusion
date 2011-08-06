@@ -50,24 +50,25 @@
     End Function
 
     Protected Function TryGetParameterExpression() As Expression
-        Dim parameters = From parameter In _Context.Parameters Where String.Equals(_TermWithoutBlanks, parameter.Name, StringComparison.OrdinalIgnoreCase)
-        If Not parameters.Any Then Return Nothing
+        Dim matchingParameters = From parameter In _Context.Parameters Where String.Equals(_TermWithoutBlanks, parameter.Name, StringComparison.OrdinalIgnoreCase)
+        If Not matchingParameters.Any Then Return Nothing
 
-        Return parameters.Single
+        Return matchingParameters.Single
     End Function
 
     Protected Function TryGetConstantExpression() As Expression
-        Dim constants = From constant In _Context.Constants Where String.Equals(_TermWithoutBlanks, constant.Name, StringComparison.OrdinalIgnoreCase)
-        If Not constants.Any Then Return Nothing
+        Dim matchingConstants = From constant In _Context.Constants Where String.Equals(_TermWithoutBlanks, constant.Name, StringComparison.OrdinalIgnoreCase)
+        If Not matchingConstants.Any Then Return Nothing
 
-        Return constants.Single.ConstantExpression
+        Return matchingConstants.Single.ConstantExpression
     End Function
 
-    Protected Function TryGetFunctionExpression() As NamedFunctionExpression
-        Dim functions = From functionExpression In _Context.Functions Where _TermWithoutBlanks.StartsWith(functionExpression.Name, StringComparison.OrdinalIgnoreCase)
-        If Not functions.Any Then Return Nothing
-
-        Return functions.Single
+    Protected Function TryGetFunctionCall() As FunctionCall
+        Try
+            Return New FunctionCall(functionCallText:=_TermWithoutBlanks)
+        Catch ex As ArgumentException
+            Return Nothing
+        End Try
     End Function
 
     Public ReadOnly Property ResultType As System.Type

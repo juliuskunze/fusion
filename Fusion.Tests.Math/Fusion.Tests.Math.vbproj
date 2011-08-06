@@ -109,8 +109,9 @@
     <Compile Include="LinearMapTests.vb" />
     <Compile Include="MatrixTests.vb" />
     <Compile Include="SquareMatrixTests.vb" />
-    <Compile Include="Terms\Definitions\NamedConstantDefinitionTests.vb" />
-    <Compile Include="Terms\Definitions\NamedFunctionDefinitionTests.vb" />
+    <Compile Include="Terms\Definitions\DefinitionsTests.vb" />
+    <Compile Include="Terms\Definitions\ConstantDefinitionTests.vb" />
+    <Compile Include="Terms\Definitions\FunctionDefinitionTests.vb" />
     <Compile Include="Terms\TermTests.vb" />
     <Compile Include="Terms\Vector3DTermTests.vb" />
     <Compile Include="Vector2DTests.vb" />

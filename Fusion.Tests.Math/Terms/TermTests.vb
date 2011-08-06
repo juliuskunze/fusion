@@ -2,66 +2,66 @@ Public Class TermTests
 
     <Test()>
     Public Sub TestIndependentTerm1()
-        Assert.True(New IndependentTerm(Of Double)("5").GetResult = 5)
-        Assert.True(New IndependentTerm(Of Double)("(5)").GetResult = 5)
-        Assert.True(New IndependentTerm(Of Double)("1+2").GetResult = 3)
-        Assert.True(New IndependentTerm(Of Double)("(1+2)").GetResult = 3)
+        Assert.True(New ConstantTerm(Of Double)("5").GetResult = 5)
+        Assert.True(New ConstantTerm(Of Double)("(5)").GetResult = 5)
+        Assert.True(New ConstantTerm(Of Double)("1+2").GetResult = 3)
+        Assert.True(New ConstantTerm(Of Double)("(1+2)").GetResult = 3)
     End Sub
 
     <Test()>
     Public Sub TestIndependentTerm2()
-        Assert.True(New IndependentTerm(Of Double)("2*3+5").GetResult = 11)
-        Assert.True(New IndependentTerm(Of Double)("5+3*4").GetResult = 17)
-        Assert.True(New IndependentTerm(Of Double)("3*(2+3)").GetResult = 15)
-        Assert.True(New IndependentTerm(Of Double)("3^2").GetResult = 9)
+        Assert.True(New ConstantTerm(Of Double)("2*3+5").GetResult = 11)
+        Assert.True(New ConstantTerm(Of Double)("5+3*4").GetResult = 17)
+        Assert.True(New ConstantTerm(Of Double)("3*(2+3)").GetResult = 15)
+        Assert.True(New ConstantTerm(Of Double)("3^2").GetResult = 9)
     End Sub
 
     <Test()>
     Public Sub TestIndependentTerm3()
-        Assert.True(New IndependentTerm(Of Double)("((3*(4+3/(2+1*1*1+1-1^(1+0)))*2/2))").GetResult = 15)
-        Assert.True(New IndependentTerm(Of Double)("2^3^2").GetResult = New IndependentTerm(Of Double)("2^(3^2)").GetResult)
+        Assert.True(New ConstantTerm(Of Double)("((3*(4+3/(2+1*1*1+1-1^(1+0)))*2/2))").GetResult = 15)
+        Assert.True(New ConstantTerm(Of Double)("2^3^2").GetResult = New ConstantTerm(Of Double)("2^(3^2)").GetResult)
     End Sub
 
     <Test()>
     Public Sub TestIndependentTerm4()
-        Assert.True(New IndependentTerm(Of Double)("-5").GetResult = -5)
-        Assert.True(New IndependentTerm(Of Double)("--++-5").GetResult = -5)
+        Assert.True(New ConstantTerm(Of Double)("-5").GetResult = -5)
+        Assert.True(New ConstantTerm(Of Double)("--++-5").GetResult = -5)
     End Sub
 
     <Test()>
     Public Sub TestIndependentTerm5()
-        Assert.True(New IndependentTerm(Of Double)("-3+3").GetResult = 0)
-        Assert.True(New IndependentTerm(Of Double)("-3+3-3+3").GetResult = 0)
+        Assert.True(New ConstantTerm(Of Double)("-3+3").GetResult = 0)
+        Assert.True(New ConstantTerm(Of Double)("-3+3-3+3").GetResult = 0)
     End Sub
 
     <Test()>
     Public Sub TestIndependentTerm6()
         Try
-            Dim value = New IndependentTerm(Of Double)("").GetResult
+            Dim value = New ConstantTerm(Of Double)("").GetResult
             Assert.Fail()
         Catch ex As ArgumentException
         End Try
 
         Try
-            Dim value = New IndependentTerm(Of Double)("4)").GetResult
+            Dim value = New ConstantTerm(Of Double)("4)").GetResult
             Assert.Fail()
         Catch ex As ArgumentException
         End Try
 
         Try
-            Dim value = New IndependentTerm(Of Double)("23+(3+4))").GetResult
+            Dim value = New ConstantTerm(Of Double)("23+(3+4))").GetResult
             Assert.Fail()
         Catch ex As ArgumentException
         End Try
 
         Try
-            Dim value = New IndependentTerm(Of Double)("(((").GetResult
+            Dim value = New ConstantTerm(Of Double)("(((").GetResult
             Assert.Fail()
         Catch ex As ArgumentException
         End Try
 
         Try
-            Dim value = New IndependentTerm(Of Double)("2a").GetResult
+            Dim value = New ConstantTerm(Of Double)("2a").GetResult
             Assert.Fail()
         Catch ex As ArgumentException
         End Try
@@ -69,20 +69,20 @@ Public Class TermTests
 
     <Test()>
     Public Sub TestPiAndE()
-        Assert.That(New IndependentTerm(Of Double)("Pi").GetResult = System.Math.PI)
-        Assert.That(New IndependentTerm(Of Double)("E").GetResult = System.Math.E)
+        Assert.That(New ConstantTerm(Of Double)("Pi").GetResult = System.Math.PI)
+        Assert.That(New ConstantTerm(Of Double)("E").GetResult = System.Math.E)
     End Sub
 
     <Test()>
     Public Sub TestCos()
-        Assert.That(New IndependentTerm(Of Double)("Cos(0)").GetResult = 1)
-        Assert.That(New IndependentTerm(Of Double)("Cos(pi)").GetResult = -1)
-        Assert.That(New IndependentTerm(Of Double)("Cos(pi/2)").GetResult < 10 ^ -15)
+        Assert.That(New ConstantTerm(Of Double)("Cos(0)").GetResult = 1)
+        Assert.That(New ConstantTerm(Of Double)("Cos(pi)").GetResult = -1)
+        Assert.That(New ConstantTerm(Of Double)("Cos(pi/2)").GetResult < 10 ^ -15)
     End Sub
 
     <Test()>
     Public Sub TestExp()
-        Assert.That(New IndependentTerm(Of Double)("exp(1)").GetResult = System.Math.E)
+        Assert.That(New ConstantTerm(Of Double)("exp(1)").GetResult = System.Math.E)
     End Sub
 
     <Test()>
