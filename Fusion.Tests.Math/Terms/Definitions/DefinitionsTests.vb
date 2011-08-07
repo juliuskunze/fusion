@@ -2,7 +2,7 @@
 
     <Test()>
     Public Sub TestConstant()
-        Dim definitions = New Definitions("a = 4" & Microsoft.VisualBasic.ControlChars.Cr & "b = a/2")
+        Dim definitions = New Definitions("Real a = 4" & Microsoft.VisualBasic.ControlChars.Cr & "Real b = a/2")
         Assert.AreEqual(2, definitions.GetTermContext.Constants.Count)
         Dim a = definitions.GetTermContext.Constants.First
         Dim b = definitions.GetTermContext.Constants.Last
@@ -16,7 +16,7 @@
 
     <Test()>
     Public Sub TestFunction()
-        Dim definitions = New Definitions("square(x) = x^2" & Microsoft.VisualBasic.ControlChars.Cr & "c = square(4)")
+        Dim definitions = New Definitions("Real square(x) = x^2" & Microsoft.VisualBasic.ControlChars.Cr & "Real c = square(4)")
 
         Dim square = definitions.GetTermContext.Functions.Single
         Dim c = definitions.GetTermContext.Constants.Single
@@ -29,12 +29,12 @@
 
     <Test()>
     Public Sub TestConstantNotDefined()
-        Dim definitions = New Definitions("a = b" & Microsoft.VisualBasic.ControlChars.Cr & "b = a")
+        Dim definitions = New Definitions("Real a = b" & Microsoft.VisualBasic.ControlChars.Cr & "Real b = a")
         Try
             definitions.GetTermContext()
             Assert.Fail()
         Catch ex As ArgumentException
-            Assert.That(ex.Message.Contains("Constant 'b' is not defined in this context"))
+            Assert.That(ex.Message.Contains("'b' is not defined in this context"))
         End Try
     End Sub
 

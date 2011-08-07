@@ -1,8 +1,6 @@
 <Configuration>
   <RecentFiles>
     <RecentFiles>
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Examples/f:RayTracingExamples.vb" caret="22421" fromTop="19" />
-      <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Video/f:ViewCourseVideo.vb" caret="56" fromTop="0" />
       <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Video/f:LinearViewCourse.vb" caret="186" fromTop="3" />
       <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Examples/f:LensVideo.vb" caret="39" fromTop="0" />
       <File id="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E/d:Video/f:IRayTraceVideo.vb" caret="121" fromTop="1" />
@@ -20,7 +18,6 @@
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/d:Controls/f:TermBox.vb" caret="347" fromTop="10" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/d:Controls/f:IntegerTermBox.vb" caret="352" fromTop="8" />
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/f:Vector3DTermTests.vb" caret="185" fromTop="7" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/f:IndependentTerm.vb" caret="453" fromTop="11" />
       <File id="C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB/d:Terms/f:Vector3DTermTests.vb" caret="143" fromTop="3" />
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/f:TermContext.vb" caret="762" fromTop="22" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/d:Controls/f:Vector3DBox.vb" caret="13" fromTop="0" />
@@ -30,20 +27,12 @@
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/f:NamedFunctionExpression.vb" caret="571" fromTop="16" />
       <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="1976" fromTop="18" />
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/f:Vector3DTerm.vb" caret="753" fromTop="7" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/f:Term.vb" caret="53" fromTop="1" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/f:Term.vb" caret="1199" fromTop="18" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:StringExtensions.vb" caret="2250" fromTop="18" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/d:Definitions/f:FunctionCall.vb" caret="1330" fromTop="15" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/d:Definitions/f:BracketType.vb" caret="59" fromTop="1" />
     </RecentFiles>
     <RecentEdits>
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:Vector3D.vb" caret="1763" fromTop="14" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/f:Vector3DTerm.vb" caret="2335" fromTop="27" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/f:Vector3DTerm.vb" caret="2136" fromTop="22" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/f:Term.vb" caret="2813" fromTop="18" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/f:Term.vb" caret="3135" fromTop="13" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/f:Term.vb" caret="3600" fromTop="15" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/f:Term.vb" caret="3809" fromTop="19" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/f:Term.vb" caret="4018" fromTop="23" />
-      <File id="7FDFF364-EE99-408F-A031-BAC91FA5F324/f:MainWindow.xaml.vb" caret="1986" fromTop="19" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/f:Vector3DTerm.vb" caret="1283" fromTop="22" />
-      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/f:Vector3DTerm.vb" caret="1771" fromTop="28" />
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/f:Term.vb" caret="1771" fromTop="11" />
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/f:Term.vb" caret="4740" fromTop="32" />
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/f:Term.vb" caret="4740" fromTop="36" />
@@ -63,6 +52,17 @@
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/f:Term.vb" caret="790" fromTop="13" />
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/f:Vector3DTerm.vb" caret="838" fromTop="8" />
       <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/f:Term.vb" caret="487" fromTop="10" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/d:Definitions/f:FunctionCall.vb" caret="485" fromTop="7" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/d:Definitions/f:FunctionCall.vb" caret="931" fromTop="13" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:StringExtensions.vb" caret="2131" fromTop="37" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:StringExtensions.vb" caret="1524" fromTop="12" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:StringExtensions.vb" caret="1363" fromTop="8" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:StringExtensions.vb" caret="1906" fromTop="23" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/f:StringExtensions.vb" caret="1003" fromTop="7" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/d:Definitions/f:FunctionCall.vb" caret="1330" fromTop="15" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/d:Definitions/f:BracketType.vb" caret="160" fromTop="4" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/d:Definitions/f:BracketType.vb" caret="394" fromTop="13" />
+      <File id="F6034AE4-65A7-49CB-9756-C13EDFA258E6/d:Terms/d:Definitions/f:BracketType.vb" caret="288" fromTop="9" />
     </RecentEdits>
   </RecentFiles>
   <NAntValidationSettings>

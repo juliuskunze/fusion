@@ -28,7 +28,6 @@
 
         If TermIsInBrackets(startIndex:=0, endIndex:=_TermWithoutBlanks.Length - 1) Then Return Me.SubstringExpression(_TermWithoutBlanks.Substring(startIndex:=1, length:=_TermWithoutBlanks.Length - 2))
 
-
         Dim functionCall = Me.TryGetFunctionCall
         If functionCall IsNot Nothing Then
             Dim matchingFunctions = From functionExpression In _Context.Functions Where functionCall.FunctionName.Equals(functionExpression.Name, StringComparison.OrdinalIgnoreCase)

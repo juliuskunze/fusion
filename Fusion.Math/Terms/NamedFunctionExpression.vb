@@ -1,5 +1,12 @@
 ﻿Public Class NamedFunctionExpression
 
+    Private ReadOnly _Type As NamedType
+    Public ReadOnly Property Type As NamedType
+        Get
+            Return _Type
+        End Get
+    End Property
+
     Private ReadOnly _Name As String
     Public ReadOnly Property Name As String
         Get
@@ -14,13 +21,14 @@
         End Get
     End Property
 
-    Public Sub New(name As String, expressionBuilder As ExpressionBuilder)
+    Public Sub New(name As String, type As NamedType, expressionBuilder As ExpressionBuilder)
         _Name = name
+        _Type = type
         _ExpressionBuilder = expressionBuilder
     End Sub
 
-    Public Sub New(name As String, lambdaExpression As LambdaExpression)
-        Me.New(name:=name, ExpressionBuilder:=GetDynamicFunctionExpressionBuilder(lambdaExpression:=lambdaExpression))
+    Public Sub New(name As String, type As NamedType, lambdaExpression As LambdaExpression)
+        Me.New(name:=name, type:=type, ExpressionBuilder:=GetDynamicFunctionExpressionBuilder(lambdaExpression:=lambdaExpression))
     End Sub
 
     Public Shared Function GetSystemMathFunctionExpressionBuilder(name As String) As ExpressionBuilder

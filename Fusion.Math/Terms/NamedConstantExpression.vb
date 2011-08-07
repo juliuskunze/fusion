@@ -7,8 +7,8 @@ Public Class NamedConstantExpression
         End Get
     End Property
 
-    Public Sub New(name As String, value As Object)
-        MyBase.New(name:=name, ExpressionBuilder:=Function(arguments) Expressions.Expression.Constant(value:=value, Type:=value.GetType))
+    Public Sub New(name As String, type As NamedType, value As Object)
+        MyBase.New(name:=name, type:=type, ExpressionBuilder:=Function(arguments) Expressions.Expression.Constant(value:=value, type:=value.GetType))
     End Sub
 
 End Class

@@ -5,8 +5,6 @@
   <Module PersistentId="74A8E394-FD08-418B-BBBE-B9FD54589B2E" ModuleId="Fusion.Physics" />
   <Module PersistentId="25D84F4D-5A27-47AA-9A26-72457EFF6F82" ModuleId="Fusion.Tests.RayTracer" />
   <Module PersistentId="1D984EE3-7691-43F0-B674-B911B0533283" ModuleId="Fusion.Tests.Visualization" />
-  <Module PersistentId="873338A0-8CEF-44DB-AE3A-56188FC81E40" ModuleId="Fusion.Ry.Forms" />
-  <Module PersistentId="9DABD0F8-9C88-4C47-A346-B60C25DAEFCA" ModuleId="Fusion.Ry" />
   <Module PersistentId="999FDCC5-C7B2-4F1E-B559-919752F9BC03" ModuleId="Fusion.Visualization" />
   <Module PersistentId="1EE4717E-64D6-4CAF-973F-1D45270BFA9A" ModuleId="Fusion.Flow" />
   <Module PersistentId="9A318D74-127E-441B-BF66-38E7B0617A8B" ModuleId="Fusion.Calculator" />
@@ -16,6 +14,9 @@
   <Module PersistentId="0B269A14-CE71-48F5-A86E-843C7646F4A1" ModuleId="Fusion.Evolution" />
   <Module PersistentId="7FDFF364-EE99-408F-A031-BAC91FA5F324" ModuleId="Fusion.RayTracer.Windows" />
   <Module PersistentId="DF905DB0-EF46-4037-8F17-14A778AEF299" ModuleId="Fusion.Evolution.Visualization" />
-  <Module PersistentId="A50DE2AD-8465-4F86-9515-70FEB0DF5945" ModuleId="Test.Fusion.RayTracer.Windows" />
   <Module PersistentId="85E3D12F-55C2-41DF-BC93-3E718C0BEE0E" ModuleId="Fusion.RayTracer" />
+  <Module PersistentId="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" ModuleId="mscorlib" />
+  <Module PersistentId="nunit.framework, Version=2.5.5.10112, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" ModuleId="nunit.framework" />
+  <Module PersistentId="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" ModuleId="mscorlib_1" />
+  <Module PersistentId="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" ModuleId="System.Core" />
 </Modules>

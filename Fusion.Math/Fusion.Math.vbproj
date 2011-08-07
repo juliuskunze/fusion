@@ -96,8 +96,10 @@
     <Compile Include="Graph.vb" />
     <Compile Include="IEdge.vb" />
     <Compile Include="IMap2D.vb" />
-    <Compile Include="StringExtensions.vb" />
-    <Compile Include="Terms\Definitions\DefinitionBase.vb" />
+    <Compile Include="Terms\CharExtensions.vb" />
+    <Compile Include="Terms\Definitions\BracketType.vb" />
+    <Compile Include="Terms\Definitions\CompilerTools.vb" />
+    <Compile Include="Terms\Definitions\Definition.vb" />
     <Compile Include="Terms\Definitions\ConstantDefinition.vb" />
     <Compile Include="Terms\Definitions\Definitions.vb" />
     <Compile Include="Terms\ConstantTerm.vb" />
@@ -157,6 +159,7 @@
     <Compile Include="Surfaces\TruncatedSurface.vb" />
     <Compile Include="Surfaces\UnitedSurfacedPointSet3D.vb" />
     <Compile Include="Terms\Definitions\FunctionCall.vb" />
+    <Compile Include="Terms\NamedType.vb" />
     <Compile Include="Terms\InvalidTermException.vb" />
     <Compile Include="Terms\NamedConstantExpression.vb" />
     <Compile Include="Terms\Definitions\FunctionDefinition.vb" />

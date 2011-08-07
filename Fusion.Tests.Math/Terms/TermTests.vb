@@ -87,7 +87,7 @@ Public Class TermTests
 
     <Test()>
     Public Sub TestParameter()
-        Assert.That(New Term("a+4", userContext:=New TermContext(constants:={}, parameters:={Expression.Parameter(GetType(Double), "a")}, Functions:={})).GetDelegate(Of Func(Of Double, Double)).Invoke(5) = 9)
+        Assert.That(New Term("a+4", userContext:=New TermContext(constants:={}, parameters:={Expression.Parameter(GetType(Double), "a")}, Functions:={}, types:={})).GetDelegate(Of Func(Of Double, Double)).Invoke(5) = 9)
         Assert.That(New Term("x^2 + x", userContext:=New TermContext(constants:={}, parameters:={Expression.Parameter(GetType(Double), "x")}, Functions:={})).GetDelegate(Of Func(Of Double, Double)).Invoke(5) = 30)
         Assert.That(New Term("a1^2 + a1", userContext:=New TermContext(constants:={}, parameters:={Expression.Parameter(GetType(Double), "a1")}, Functions:={})).GetDelegate(Of Func(Of Double, Double)).Invoke(5) = 30)
         Assert.That(New Term("a1^2 + a2", userContext:=New TermContext(constants:={}, parameters:={Expression.Parameter(GetType(Double), "a1"), Expression.Parameter(GetType(Double), "a2")}, Functions:={})).GetDelegate(Of Func(Of Double, Double, Double)).Invoke(5, 3) = 28)
@@ -95,7 +95,7 @@ Public Class TermTests
 
     <Test()>
     Public Sub TestFunction()
-        Dim namedMethodExpression = New NamedFunctionExpression(name:="square", ExpressionBuilder:=NamedFunctionExpression.GetFunctionExpressionBuilder(Of Func(Of Double, Double))(lambdaExpression:=Function(x As Double) x ^ 2))
+        Dim namedMethodExpression = New NamedFunctionExpression(name:="square", Type:=NamedType.Real, ExpressionBuilder:=NamedFunctionExpression.GetFunctionExpressionBuilder(Of Func(Of Double, Double))(lambdaExpression:=Function(x As Double) x ^ 2))
         Dim term = New Term("square(2*x)", userContext:=New TermContext(constants:={}, parameters:={Expression.Parameter(GetType(Double), "x")}, Functions:={namedMethodExpression}))
         Dim d = term.GetDelegate(Of Func(Of Double, Double))()
 
@@ -124,6 +124,5 @@ Public Class TermTests
             Assert.That(ex.Message.Contains("Function 'square' is not defined in this context"))
         End Try
     End Sub
-
 
 End Class

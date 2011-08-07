@@ -1,5 +1,12 @@
 ﻿Public Class TermContext
 
+    Private ReadOnly _Types As IEnumerable(Of NamedType)
+    Public ReadOnly Property Types As IEnumerable(Of NamedType)
+        Get
+            Return _Types
+        End Get
+    End Property
+
     Private ReadOnly _Constants As IEnumerable(Of NamedConstantExpression)
     Public ReadOnly Property Constants As IEnumerable(Of NamedConstantExpression)
         Get
@@ -22,31 +29,39 @@
     End Property
 
     Public Sub New(constants As IEnumerable(Of NamedConstantExpression),
+                parameters As IEnumerable(Of ParameterExpression),
+                functions As IEnumerable(Of NamedFunctionExpression))
+        Me.New(constants, parameters, functions, Types:=NamedType.DefaultTypes)
+    End Sub
+
+    Public Sub New(constants As IEnumerable(Of NamedConstantExpression),
                     parameters As IEnumerable(Of ParameterExpression),
-                    functions As IEnumerable(Of NamedFUnctionExpression))
+                    functions As IEnumerable(Of NamedFunctionExpression),
+                    types As IEnumerable(Of NamedType))
         _Constants = constants
         _Parameters = parameters
         _Functions = functions
+        _Types = types
     End Sub
 
     Public Shared ReadOnly Property Empty As TermContext
         Get
-            Return New TermContext(Constants:={}, Parameters:={}, Functions:={})
+            Return New TermContext(Constants:={}, Parameters:={}, Functions:={}, Types:={NamedType.Real})
         End Get
     End Property
 
     Public Shared ReadOnly Property DefaultContext As TermContext
         Get
-            Return New TermContext(Constants:={New NamedConstantExpression("Pi", System.Math.PI),
-                                               New NamedConstantExpression("E", System.Math.E)},
+            Return New TermContext(Constants:={New NamedConstantExpression("Pi", NamedType.Real, System.Math.PI),
+                                               New NamedConstantExpression("E", NamedType.Real, System.Math.E)},
                                    Parameters:={},
-                                   Functions:={New NamedFUnctionExpression("Sqrt", NamedFUnctionExpression.GetSystemMathFunctionExpressionBuilder(name:="Sqrt")),
-                                               New NamedFUnctionExpression("Exp", NamedFUnctionExpression.GetSystemMathFunctionExpressionBuilder(name:="Exp")),
-                                               New NamedFUnctionExpression("Sin", NamedFUnctionExpression.GetSystemMathFunctionExpressionBuilder(name:="Sin")),
-                                               New NamedFUnctionExpression("Cos", NamedFUnctionExpression.GetSystemMathFunctionExpressionBuilder(name:="Cos")),
-                                               New NamedFUnctionExpression("Tan", NamedFUnctionExpression.GetSystemMathFunctionExpressionBuilder(name:="Tan")),
-                                               New NamedFUnctionExpression("Asin", NamedFUnctionExpression.GetSystemMathFunctionExpressionBuilder(name:="Asin")),
-                                               New NamedFUnctionExpression("Acos", NamedFUnctionExpression.GetSystemMathFunctionExpressionBuilder(name:="Acos"))})
+                                   Functions:={New NamedFunctionExpression("Sqrt", NamedType.Real, NamedFunctionExpression.GetSystemMathFunctionExpressionBuilder(name:="Sqrt")),
+                                               New NamedFunctionExpression("Exp", NamedType.Real, NamedFunctionExpression.GetSystemMathFunctionExpressionBuilder(name:="Exp")),
+                                               New NamedFunctionExpression("Sin", NamedType.Real, NamedFunctionExpression.GetSystemMathFunctionExpressionBuilder(name:="Sin")),
+                                               New NamedFunctionExpression("Cos", NamedType.Real, NamedFunctionExpression.GetSystemMathFunctionExpressionBuilder(name:="Cos")),
+                                               New NamedFunctionExpression("Tan", NamedType.Real, NamedFunctionExpression.GetSystemMathFunctionExpressionBuilder(name:="Tan")),
+                                               New NamedFunctionExpression("Asin", NamedType.Real, NamedFunctionExpression.GetSystemMathFunctionExpressionBuilder(name:="Asin")),
+                                               New NamedFunctionExpression("Acos", NamedType.Real, NamedFunctionExpression.GetSystemMathFunctionExpressionBuilder(name:="Acos"))})
         End Get
     End Property
 
