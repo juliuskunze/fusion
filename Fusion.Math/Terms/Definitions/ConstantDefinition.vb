@@ -7,7 +7,7 @@
 
     Public Function GetNamedConstantExpression() As NamedConstantExpression
         Dim typeName = CompilerTools.GetStartingValidVariableName(_Left.TrimStart)
-        Dim type = _UserContext.Types.Where(Function(t) t.Name = typeName).Single
+        Dim type = _UserContext.Types.Parse(typeName)
 
         Dim rest = _Left.Substring(startIndex:=typeName.Length)
         Dim constantName = CompilerTools.GetStartingValidVariableName(rest.TrimStart)

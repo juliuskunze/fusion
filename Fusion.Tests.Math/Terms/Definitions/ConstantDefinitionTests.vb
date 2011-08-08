@@ -19,7 +19,7 @@ Public Class ConstantDefinitionTests
 
     <Test()>
     Public Sub Test3()
-        Dim d = New ConstantDefinition(definition:="Real b = (a+2)/4", userContext:=New TermContext(constants:={New ConstantDefinition(definition:="Real a = 2", userContext:=TermContext.Empty).GetNamedConstantExpression}, parameters:={}, Functions:={}, types:=NamedType.DefaultTypes))
+        Dim d = New ConstantDefinition(Definition:="Real b = (a+2)/4", userContext:=New TermContext(constants:={New ConstantDefinition(Definition:="Real a = 2", userContext:=TermContext.Empty).GetNamedConstantExpression}, parameters:={}, Functions:={}, types:=NamedTypes.DefaultTypes))
 
         Dim e = d.GetNamedConstantExpression
         Assert.That(e.Name = "b")

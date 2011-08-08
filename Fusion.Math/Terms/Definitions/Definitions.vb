@@ -12,7 +12,7 @@
         Dim functions = New List(Of NamedFunctionExpression)
 
         For Each definitionString In definitions
-            Dim userContext = New TermContext(constants:=constants, parameters:={}, functions:=functions, types:=NamedType.DefaultTypes)
+            Dim userContext = New TermContext(constants:=constants, parameters:={}, functions:=functions, types:=NamedTypes.DefaultTypes)
 
             Dim definition = New Definition(definition:=definitionString, userContext:=userContext)
             If definition.IsFunctionDefinition Then
@@ -22,7 +22,7 @@
             End If
         Next
 
-        Return New TermContext(constants:=constants, parameters:={}, functions:=functions, types:=NamedType.DefaultTypes)
+        Return New TermContext(constants:=constants, parameters:={}, functions:=functions, types:=NamedTypes.DefaultTypes)
     End Function
 
 End Class

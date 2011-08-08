@@ -30,7 +30,7 @@
 
     Public ReadOnly Property IsFunctionDefinition As Boolean
         Get
-            Return _Left.Contains(CompilerTools.ArgumentBracketTypes.Single.OpeningBracket) OrElse _Left.Contains(CompilerTools.ArgumentBracketTypes.Single.ClosingBracket)
+            Return _Left.Contains(CompilerTools.ParameterBracketTypes.Single.OpeningBracket) OrElse _Left.Contains(CompilerTools.ParameterBracketTypes.Single.ClosingBracket)
         End Get
     End Property
 

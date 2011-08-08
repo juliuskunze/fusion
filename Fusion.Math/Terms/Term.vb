@@ -106,10 +106,7 @@
             If Not _CharIsInBrackets(i) AndAlso _Term.Chars(i) = "^"c Then Return Expression.Power(Me.BeforeIndexExpression(i, type:=NamedType.Real), Me.AfterIndexExpression(i, type:=NamedType.Real))
         Next
 
-        If _Term.IsValidVariableName Then Throw New InvalidTermException("Constant '" & _Term & "' is not defined in this context.")
-        For functionNameLength = _Term.Length To 1 Step -1
-
-        Next
+        If _Term.IsValidVariableName Then Throw New InvalidTermException(Term:=_Term, message:="Constant '" & _Term & "' is not defined in this context.")
 
         Throw New InvalidTermException(_Term)
     End Function
@@ -143,7 +140,7 @@
         Dim baseExpression = MyBase.TryGetConstantOrParameterExpression
         If baseExpression IsNot Nothing Then Return baseExpression
 
-        Dim components = CompilerTools.GetArguments(_Term.Trim, argumentBracketTypes:={BracketType.Inequality})
+        Dim components = CompilerTools.GetArgumentsOrParameters(_Term.Trim, bracketTypes:={BracketType.Inequality})
 
         If components.Count <> 3 Then Throw New InvalidTermException(_Term, "The component count of a 3D-vector must be 3.")
 

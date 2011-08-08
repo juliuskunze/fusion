@@ -31,10 +31,4 @@
         End Get
     End Property
 
-    Public Shared ReadOnly Property DefaultTypes As IEnumerable(Of NamedType)
-        Get
-            Return {Real, Vector3D}
-        End Get
-    End Property
-
 End Class

@@ -2,28 +2,39 @@
 
 Public Module CompilerTools
 
-    Private ReadOnly _ArgumentBracketTypes As IEnumerable(Of BracketType) = {BracketType.Round}
+    Private ReadOnly _ParameterBracketTypes As IEnumerable(Of BracketType) = {BracketType.Round}
+    Public ReadOnly Property ParameterBracketTypes As IEnumerable(Of BracketType)
+        Get
+            Return _ParameterBracketTypes
+        End Get
+    End Property
+
+    Private ReadOnly _ArgumentBracketTypes As IEnumerable(Of BracketType) = {BracketType.Curly}
     Public ReadOnly Property ArgumentBracketTypes As IEnumerable(Of BracketType)
         Get
             Return _ArgumentBracketTypes
         End Get
     End Property
 
-    Private ReadOnly _AllowedBracketTypes As IEnumerable(Of BracketType) = {BracketType.Round, BracketType.Inequality}
+    Private ReadOnly _AllowedBracketTypes As IEnumerable(Of BracketType) = {BracketType.Round, BracketType.Curly, BracketType.Inequality}
     Public ReadOnly Property AllowedBracketTypes As IEnumerable(Of BracketType)
         Get
             Return _AllowedBracketTypes
         End Get
     End Property
 
-    Public Function GetArguments(ByVal argumentsInBrackets As String) As IEnumerable(Of String)
-        Return GetArguments(argumentsInBrackets, argumentBracketTypes:=_ArgumentBracketTypes)
+    Public Function GetParameters(ByVal parametersInBrackets As String) As IEnumerable(Of String)
+        Return GetArgumentsOrParameters(parametersInBrackets, bracketTypes:=_ParameterBracketTypes)
     End Function
 
-    Public Function GetArguments(ByVal argumentsInBrackets As String, argumentBracketTypes As IEnumerable(Of BracketType)) As IEnumerable(Of String)
-        If Not argumentsInBrackets.IsInBrackets(bracketTypes:=argumentBracketTypes) Then Throw New ArgumentException("Invalid function call.")
+    Public Function GetArguments(ByVal argumentsInBrackets As String) As IEnumerable(Of String)
+        Return GetArgumentsOrParameters(argumentsInBrackets, bracketTypes:=_ArgumentBracketTypes)
+    End Function
 
-        Dim argumentsText = argumentsInBrackets.Substring(1, argumentsInBrackets.Length - 2)
+    Public Function GetArgumentsOrParameters(ByVal inBrackets As String, bracketTypes As IEnumerable(Of BracketType)) As IEnumerable(Of String)
+        If Not inBrackets.IsInBrackets(bracketTypes:=bracketTypes) Then Throw New ArgumentException("Invalid function call.")
+
+        Dim argumentsText = inBrackets.Substring(1, inBrackets.Length - 2)
         Return SplitIfSeparatorIsNotInBrackets(argumentsText, separator:=","c, bracketTypes:=_AllowedBracketTypes)
     End Function
 
@@ -133,11 +144,11 @@ Public Module CompilerTools
 
     Private ReadOnly _InvalidNameException As New ArgumentException("Invalid name.")
 
-    Public Function GetStartingTypedAndNamedVariable(definition As String, types As IEnumerable(Of NamedType), Optional ByRef out_rest As String = Nothing) As NamedAndTypedObject
+    Public Function GetStartingTypedAndNamedVariable(definition As String, types As NamedTypes, Optional ByRef out_rest As String = Nothing) As NamedAndTypedObject
         Dim trim = definition.TrimStart
 
         Dim typeName = CompilerTools.GetStartingValidVariableName(trim)
-        Dim type = types.Where(Function(t) t.Name = typeName).Single
+        Dim type = types.Parse(typeName)
 
         Dim rest = trim.Substring(startIndex:=typeName.Length).TrimStart
         Dim name = CompilerTools.GetStartingValidVariableName(rest)

@@ -159,6 +159,7 @@
     <Compile Include="Surfaces\TruncatedSurface.vb" />
     <Compile Include="Surfaces\UnitedSurfacedPointSet3D.vb" />
     <Compile Include="Terms\Definitions\FunctionCall.vb" />
+    <Compile Include="Terms\Definitions\NamedTypes.vb" />
     <Compile Include="Terms\NamedAndTypedObject.vb" />
     <Compile Include="Terms\NamedDelegateType.vb" />
     <Compile Include="Terms\NamedParameter.vb" />

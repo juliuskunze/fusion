@@ -15,10 +15,8 @@
         End Get
     End Property
 
-
     Public Sub New(name As String, resultType As NamedType, parameters As IEnumerable(Of NamedParameter))
-        MyBase.New(name:=name,
-                   SystemType:=Nothing)
+        MyBase.New(name:=name, SystemType:=Nothing)
         'GetType(Func(Of )).MakeGenericType(parameters.Select(Function(parameter) parameter.Type.SystemType).Concat({resultType.SystemType}).ToArray)
         _ResultType = resultType
         _Parameters = parameters

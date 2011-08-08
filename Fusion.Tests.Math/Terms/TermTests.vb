@@ -92,7 +92,7 @@ Public Class TermTests
 
     <Test()>
     Public Sub TestParameter()
-        Assert.That(New Term("a+4", Type:=NamedType.Real, userContext:=New TermContext(constants:={}, parameters:={New NamedParameter(name:="a", Type:=NamedType.Real)}, Functions:={}, types:={})).GetDelegate(Of Func(Of Double, Double)).Invoke(5) = 9)
+        Assert.That(New Term("a+4", Type:=NamedType.Real, userContext:=New TermContext(constants:={}, parameters:={New NamedParameter(name:="a", Type:=NamedType.Real)}, Functions:={}, types:=NamedTypes.Empty)).GetDelegate(Of Func(Of Double, Double)).Invoke(5) = 9)
         Assert.That(New Term("x^2 + x", Type:=NamedType.Real, userContext:=New TermContext(constants:={}, parameters:={New NamedParameter(name:="x", Type:=NamedType.Real)}, Functions:={})).GetDelegate(Of Func(Of Double, Double)).Invoke(5) = 30)
         Assert.That(New Term(" a1 ^2 + a1 ", Type:=NamedType.Real, userContext:=New TermContext(constants:={}, parameters:={New NamedParameter(name:="a1", Type:=NamedType.Real)}, Functions:={})).GetDelegate(Of Func(Of Double, Double)).Invoke(5) = 30)
         Assert.That(New Term("a1^2 + a2", Type:=NamedType.Real, userContext:=New TermContext(constants:={}, parameters:={New NamedParameter(name:="a1", Type:=NamedType.Real), New NamedParameter(name:="a2", Type:=NamedType.Real)}, Functions:={})).GetDelegate(Of Func(Of Double, Double, Double)).Invoke(5, 3) = 28)

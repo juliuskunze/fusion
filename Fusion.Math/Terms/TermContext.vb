@@ -1,7 +1,7 @@
 ﻿Public Class TermContext
 
-    Private ReadOnly _Types As IEnumerable(Of NamedType)
-    Public ReadOnly Property Types As IEnumerable(Of NamedType)
+    Private ReadOnly _Types As NamedTypes
+    Public ReadOnly Property Types As NamedTypes
         Get
             Return _Types
         End Get
@@ -20,7 +20,7 @@
             Return _Parameters
         End Get
     End Property
-    
+
     Private ReadOnly _Functions As IEnumerable(Of NamedFUnctionExpression)
     Public ReadOnly Property Functions As IEnumerable(Of NamedFUnctionExpression)
         Get
@@ -31,13 +31,13 @@
     Public Sub New(constants As IEnumerable(Of NamedConstantExpression),
                    parameters As IEnumerable(Of NamedParameter),
                    functions As IEnumerable(Of NamedFunctionExpression))
-        Me.New(constants, parameters, functions, Types:=NamedType.DefaultTypes)
+        Me.New(constants, parameters, functions, Types:=NamedTypes.DefaultTypes)
     End Sub
 
     Public Sub New(constants As IEnumerable(Of NamedConstantExpression),
                     parameters As IEnumerable(Of NamedParameter),
                     functions As IEnumerable(Of NamedFunctionExpression),
-                    types As IEnumerable(Of NamedType))
+                    types As NamedTypes)
         _Constants = constants
         _Parameters = parameters
         _Functions = functions
@@ -46,7 +46,7 @@
 
     Public Shared ReadOnly Property Empty As TermContext
         Get
-            Return New TermContext(Constants:={}, Parameters:={}, Functions:={}, Types:={NamedType.Real})
+            Return New TermContext(Constants:={}, Parameters:={}, Functions:={}, Types:=New NamedTypes({NamedType.Real}))
         End Get
     End Property
 

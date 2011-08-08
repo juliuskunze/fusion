@@ -6,7 +6,7 @@ Public NotInheritable Class RelativiticRayTracerTermContext
 
     Private Shared ReadOnly _Sphere As New NamedType(name:="Sphere", systemType:=GetType(Sphere))
 
-    Private Shared ReadOnly _Types As IEnumerable(Of NamedType) = {_Sphere}
+    Private Shared ReadOnly _Types As NamedTypes = New NamedTypes({_Sphere})
 
     Private Shared ReadOnly _SphereConstructor As New NamedFunctionExpression(New NamedDelegateType(name:="Sphere",
                                                                               resultType:=_Sphere,
