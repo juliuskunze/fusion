@@ -7,11 +7,11 @@
         Dim a = definitions.GetTermContext.Constants.First
         Dim b = definitions.GetTermContext.Constants.Last
 
-        Assert.AreEqual("a", a.Name)
-        Assert.AreEqual(4, CDbl(a.ConstantExpression.Value))
+        Assert.AreEqual("a", a.Instance.Name)
+        Assert.AreEqual(4, CDbl(a.Expression.Value))
 
-        Assert.AreEqual("b", b.Name)
-        Assert.AreEqual(2, CDbl(b.ConstantExpression.Value))
+        Assert.AreEqual("b", b.Instance.Name)
+        Assert.AreEqual(2, CDbl(b.Expression.Value))
     End Sub
 
     <Test()>
@@ -21,10 +21,10 @@
         Dim square = definitions.GetTermContext.Functions.Single
         Dim c = definitions.GetTermContext.Constants.Single
 
-        Assert.AreEqual("c", c.Name)
-        Assert.AreEqual(16, CDbl(c.ConstantExpression.Value))
+        Assert.AreEqual("c", c.Instance.Name)
+        Assert.AreEqual(16, CDbl(c.Expression.Value))
 
-        Assert.AreEqual("square", square.DelegateType.Name)
+        Assert.AreEqual("square", square.Type.Name)
     End Sub
 
     <Test()>

@@ -2,7 +2,7 @@
 
     <Test()>
     Public Sub TestGetArguments()
-        Assert.AreEqual({"3", " f(3, 4)", " <3,4, 5>   "}.ToList, CompilerTools.GetArguments("(3, f(3, 4), <3,4, 5>   )").ToList)
+        Assert.AreEqual({"3", " f(3, 4)", " <3,4, 5>   "}.ToList, CompilerTools.GetArguments("{3, f(3, 4), <3,4, 5>   }").ToList)
     End Sub
 
     <Test()>

@@ -1,9 +1,16 @@
-﻿Public Class NamedFunction
+﻿Public Class FunctionExpression
 
-    Private ReadOnly _DelegateType As NamedDelegateType
-    Public ReadOnly Property DelegateType As NamedDelegateType
+    Private ReadOnly _Name As String
+    Public ReadOnly Property name As String
         Get
-            Return _DelegateType
+            Return _Name
+        End Get
+    End Property
+
+    Private ReadOnly _Type As FunctionType
+    Public ReadOnly Property Type As FunctionType
+        Get
+            Return _Type
         End Get
     End Property
 
@@ -14,13 +21,14 @@
         End Get
     End Property
 
-    Public Sub New(delegateType As NamedDelegateType, expressionBuilder As ExpressionBuilder)
-        _DelegateType = delegateType
+    Public Sub New(name As String, type As FunctionType, expressionBuilder As ExpressionBuilder)
+        _Name = name
+        _Type = type
         _ExpressionBuilder = expressionBuilder
     End Sub
 
-    Public Sub New(DelegateType As NamedDelegateType, lambdaExpression As LambdaExpression)
-        Me.New(DelegateType:=DelegateType, ExpressionBuilder:=GetDynamicFunctionExpressionBuilder(lambdaExpression:=lambdaExpression))
+    Public Sub New(name As String, type As FunctionType, lambdaExpression As LambdaExpression)
+        Me.New(name:=name, Type:=Type, ExpressionBuilder:=GetDynamicFunctionExpressionBuilder(lambdaExpression:=lambdaExpression))
     End Sub
 
     Public Shared Function GetSystemMathFunctionExpressionBuilder(name As String) As ExpressionBuilder
@@ -40,7 +48,6 @@
                    Return unsafeExpressionBuilder(arguments)
                End Function
     End Function
-
 
     Public Delegate Function ExpressionBuilder(arguments As IEnumerable(Of Expression)) As Expression
 

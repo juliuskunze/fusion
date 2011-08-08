@@ -8,17 +8,17 @@
 
     Public Function GetTermContext() As TermContext
         Dim definitions = _Definitions.Split(Microsoft.VisualBasic.ControlChars.Cr)
-        Dim constants = New List(Of NamedConstant)
-        Dim functions = New List(Of NamedFunction)
+        Dim constants = New List(Of ConstExpression)
+        Dim functions = New List(Of FunctionExpression)
 
         For Each definitionString In definitions
             Dim userContext = New TermContext(constants:=constants, parameters:={}, functions:=functions, types:=NamedTypes.DefaultTypes)
 
-            Dim definition = New Definition(definition:=definitionString, userContext:=userContext)
+            Dim definition = New Assignment(definition:=definitionString, userContext:=userContext)
             If definition.IsFunctionDefinition Then
-                functions.Add(New FunctionDefinition(definition:=definitionString, userContext:=userContext).GetNamedFunctionExpression)
+                functions.Add(New FunctionAssignment(definition:=definitionString, userContext:=userContext).GetNamedFunctionExpression)
             Else
-                constants.Add(New ConstantDefinition(definition:=definitionString, userContext:=userContext).GetNamedConstantExpression)
+                constants.Add(New ConstantAssignment(definition:=definitionString, userContext:=userContext).GetNamedConstantExpression)
             End If
         Next
 

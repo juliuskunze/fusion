@@ -1,4 +1,4 @@
-﻿Public Class NamedDelegateType
+﻿Public Class FunctionType
     Inherits NamedType
 
     Private ReadOnly _ResultType As NamedType
@@ -15,8 +15,8 @@
         End Get
     End Property
 
-    Public Sub New(name As String, resultType As NamedType, parameters As IEnumerable(Of NamedParameter))
-        MyBase.New(name:=name, SystemType:=Nothing)
+    Public Sub New(resultType As NamedType, parameters As IEnumerable(Of NamedParameter))
+        MyBase.New(Name:=Nothing, SystemType:=Nothing)
         'GetType(Func(Of )).MakeGenericType(parameters.Select(Function(parameter) parameter.Type.SystemType).Concat({resultType.SystemType}).ToArray)
         _ResultType = resultType
         _Parameters = parameters

@@ -28,11 +28,11 @@
     Public MustOverride Function GetExpression() As Expression
 
     Public Function GetDelegate() As System.Delegate
-        Return Expression.Lambda(body:=Me.GetExpression, parameters:=_Context.Parameters.Select(Function(p) p.ParameterExpression)).Compile
+        Return Expression.Lambda(body:=Me.GetExpression, parameters:=_Context.Parameters.Select(Function(p) p.Expression)).Compile
     End Function
 
     Public Function GetDelegate(Of TDelegate)() As TDelegate
-        Dim lambda = Expression.Lambda(Of TDelegate)(body:=Me.GetExpression, parameters:=_Context.Parameters.Select(Function(p) p.ParameterExpression))
+        Dim lambda = Expression.Lambda(Of TDelegate)(body:=Me.GetExpression, parameters:=_Context.Parameters.Select(Function(p) p.Expression))
 
         Return lambda.Compile
     End Function
@@ -60,17 +60,17 @@
         Dim matchingParameter = matchingParameters.Single
         Me.CheckTypeMatch(type:=matchingParameter.Type)
 
-        Return matchingParameter.ParameterExpression
+        Return matchingParameter.Expression
     End Function
 
     Protected Function TryGetConstantExpression() As Expression
-        Dim matchingConstants = From constant In _Context.Constants Where String.Equals(_TrimmedTerm, constant.Name, StringComparison.OrdinalIgnoreCase)
+        Dim matchingConstants = From constant In _Context.Constants Where String.Equals(_TrimmedTerm, constant.Instance.Name, StringComparison.OrdinalIgnoreCase)
         If Not matchingConstants.Any Then Return Nothing
 
         Dim matchingConstant = matchingConstants.Single
-        Me.CheckTypeMatch(type:=matchingConstant.Type)
+        Me.CheckTypeMatch(type:=matchingConstant.Instance.Type)
 
-        Return matchingConstant.ConstantExpression
+        Return matchingConstant.Expression
     End Function
 
     Protected Function TryGetFunctionCall() As FunctionCall

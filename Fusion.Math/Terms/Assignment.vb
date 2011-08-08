@@ -1,4 +1,4 @@
-﻿Public Class Definition
+﻿Public Class Assignment
 
     Protected ReadOnly _Left As String
     Public ReadOnly Property Left As String
@@ -30,7 +30,7 @@
 
     Public ReadOnly Property IsFunctionDefinition As Boolean
         Get
-            Return _Left.Contains(CompilerTools.ParameterBracketTypes.Single.OpeningBracket) OrElse _Left.Contains(CompilerTools.ParameterBracketTypes.Single.ClosingBracket)
+            Return Signature.IsConstantSignatureDefinition(_Left)
         End Get
     End Property
 
