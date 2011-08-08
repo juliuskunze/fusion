@@ -5,10 +5,10 @@
         MyBase.New(definition, userContext)
     End Sub
 
-    Public Function GetNamedFunctionExpression() As NamedFunctionExpression
+    Public Function GetNamedFunctionExpression() As NamedFunction
         Dim rest As String = Nothing
         Dim namedFunction = CompilerTools.GetStartingTypedAndNamedVariable(definition:=_Left, types:=_UserContext.Types, out_rest:=rest)
-        
+
         Dim parameters = CompilerTools.GetParameters(parametersInBrackets:=rest.Trim).Select(Function(parameterText)
                                                                                                  Dim parameterRest As String = Nothing
                                                                                                  Dim parameter = CompilerTools.GetStartingTypedAndNamedVariable(definition:=parameterText, types:=_UserContext.Types, out_rest:=parameterRest)
@@ -20,7 +20,7 @@
         Dim term = New Term(term:=_Term, userContext:=_UserContext.Merge(New TermContext(constants:={}, parameters:=parameters, Functions:={}, types:=NamedTypes.Empty)), Type:=namedFunction.Type)
         Dim lambdaExpression = Expression.Lambda(body:=term.GetExpression, parameters:=parameters.Select(Function(p) p.ParameterExpression))
 
-        Return New NamedFunctionExpression(New NamedDelegateType(name:=namedFunction.Name, resultType:=namedFunction.Type, parameters:=parameters), lambdaExpression:=lambdaExpression)
+        Return New NamedFunction(New NamedDelegateType(name:=namedFunction.Name, resultType:=namedFunction.Type, parameters:=parameters), lambdaExpression:=lambdaExpression)
     End Function
 
     Private _NamedDelegateType As NamedDelegateType

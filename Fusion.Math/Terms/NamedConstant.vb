@@ -1,4 +1,4 @@
-Public Class NamedConstantExpression
+Public Class NamedConstant
     Inherits NamedAndTypedObject
 
     Private ReadOnly _ConstantExpression As ConstantExpression

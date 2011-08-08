@@ -1,4 +1,4 @@
-﻿Public Class NamedFunctionExpression
+﻿Public Class NamedFunction
 
     Private ReadOnly _DelegateType As NamedDelegateType
     Public ReadOnly Property DelegateType As NamedDelegateType
@@ -20,7 +20,7 @@
     End Sub
 
     Public Sub New(DelegateType As NamedDelegateType, lambdaExpression As LambdaExpression)
-        Me.New(delegateType:=DelegateType, ExpressionBuilder:=GetDynamicFunctionExpressionBuilder(lambdaExpression:=lambdaExpression))
+        Me.New(DelegateType:=DelegateType, ExpressionBuilder:=GetDynamicFunctionExpressionBuilder(lambdaExpression:=lambdaExpression))
     End Sub
 
     Public Shared Function GetSystemMathFunctionExpressionBuilder(name As String) As ExpressionBuilder

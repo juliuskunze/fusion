@@ -5,17 +5,12 @@
         MyBase.New(definition:=definition, userContext:=userContext)
     End Sub
 
-    Public Function GetNamedConstantExpression() As NamedConstantExpression
-        Dim typeName = CompilerTools.GetStartingValidVariableName(_Left.TrimStart)
-        Dim type = _UserContext.Types.Parse(typeName)
+    Public Function GetNamedConstantExpression() As NamedConstant
+        Dim signatureDefinition = ConstantSignatureDefinition.FromText(definition:=_Left, types:=_UserContext.Types)
 
-        Dim rest = _Left.Substring(startIndex:=typeName.Length)
-        Dim constantName = CompilerTools.GetStartingValidVariableName(rest.TrimStart)
-        'If Not constantName.IsValidVariableName Then Throw New ArgumentException("""" & _Left & """ is not a valid constant name.")
-        
-        Dim term = New Term(term:=_Term, type:=type, userContext:=_UserContext)
+        Dim term = New Term(term:=_Term, Type:=signatureDefinition.Type, userContext:=_UserContext)
 
-        Return New NamedConstantExpression(name:=constantName, type:=type, value:=term.GetDelegate.DynamicInvoke({}))
+        Return New NamedConstant(name:=signatureDefinition.Name, Type:=signatureDefinition.Type, value:=term.GetDelegate.DynamicInvoke({}))
     End Function
 
 End Class

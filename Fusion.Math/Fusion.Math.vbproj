@@ -99,6 +99,7 @@
     <Compile Include="Terms\CharExtensions.vb" />
     <Compile Include="Terms\Definitions\BracketType.vb" />
     <Compile Include="Terms\Definitions\CompilerTools.vb" />
+    <Compile Include="Terms\Definitions\ConstantSignatureDefinition.vb" />
     <Compile Include="Terms\Definitions\Definition.vb" />
     <Compile Include="Terms\Definitions\ConstantDefinition.vb" />
     <Compile Include="Terms\Definitions\Definitions.vb" />
@@ -159,15 +160,16 @@
     <Compile Include="Surfaces\TruncatedSurface.vb" />
     <Compile Include="Surfaces\UnitedSurfacedPointSet3D.vb" />
     <Compile Include="Terms\Definitions\FunctionCall.vb" />
+    <Compile Include="Terms\Definitions\FunctionSignatureDefinition.vb" />
     <Compile Include="Terms\Definitions\NamedTypes.vb" />
     <Compile Include="Terms\NamedAndTypedObject.vb" />
     <Compile Include="Terms\NamedDelegateType.vb" />
     <Compile Include="Terms\NamedParameter.vb" />
     <Compile Include="Terms\NamedType.vb" />
     <Compile Include="Terms\InvalidTermException.vb" />
-    <Compile Include="Terms\NamedConstantExpression.vb" />
+    <Compile Include="Terms\NamedConstant.vb" />
     <Compile Include="Terms\Definitions\FunctionDefinition.vb" />
-    <Compile Include="Terms\NamedFunctionExpression.vb" />
+    <Compile Include="Terms\NamedFunction.vb" />
     <Compile Include="Terms\TermContext.vb" />
     <Compile Include="Terms\Term.vb" />
     <Compile Include="Terms\TermBase.vb" />

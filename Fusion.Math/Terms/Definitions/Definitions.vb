@@ -8,8 +8,8 @@
 
     Public Function GetTermContext() As TermContext
         Dim definitions = _Definitions.Split(Microsoft.VisualBasic.ControlChars.Cr)
-        Dim constants = New List(Of NamedConstantExpression)
-        Dim functions = New List(Of NamedFunctionExpression)
+        Dim constants = New List(Of NamedConstant)
+        Dim functions = New List(Of NamedFunction)
 
         For Each definitionString In definitions
             Dim userContext = New TermContext(constants:=constants, parameters:={}, functions:=functions, types:=NamedTypes.DefaultTypes)

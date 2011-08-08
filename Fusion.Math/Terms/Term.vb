@@ -152,7 +152,7 @@
            yExpression.Type <> GetType(Double) OrElse
            zExpression.Type <> GetType(Double) Then Throw New InvalidTermException(_Term, message:="The components of a vector must be real numbers.")
 
-        Return NamedFunctionExpression.GetFunctionExpressionBuilder(Of Vector3DConstructor)(lambdaExpression:=Function(x, y, z) New Vector3D(x, y, z)).Invoke(arguments:={xExpression, yExpression, zExpression})
+        Return NamedFunction.GetFunctionExpressionBuilder(Of Vector3DConstructor)(lambdaExpression:=Function(x, y, z) New Vector3D(x, y, z)).Invoke(arguments:={xExpression, yExpression, zExpression})
     End Function
 
     Private Delegate Function Vector3DConstructor(x As Double, y As Double, z As Double) As Vector3D

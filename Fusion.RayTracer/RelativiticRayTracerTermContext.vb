@@ -8,13 +8,13 @@ Public NotInheritable Class RelativiticRayTracerTermContext
 
     Private Shared ReadOnly _Types As NamedTypes = New NamedTypes({_Sphere})
 
-    Private Shared ReadOnly _SphereConstructor As New NamedFunctionExpression(New NamedDelegateType(name:="Sphere",
+    Private Shared ReadOnly _SphereConstructor As New NamedFunction(New NamedDelegateType(name:="Sphere",
                                                                               resultType:=_Sphere,
                                                                               parameters:={New NamedParameter(name:="center", Type:=NamedType.Vector3D),
                                                                                            New NamedParameter(name:="radius", Type:=NamedType.Real)}),
                                                                               LambdaExpression:=CType(Function(center As Vector3D, radius As Double) New Sphere(center:=center, radius:=radius), Expression(Of Func(Of Vector3D, Double, Sphere))))
 
-    Private Shared ReadOnly _Functions As IEnumerable(Of NamedFunctionExpression) = {_SphereConstructor}
+    Private Shared ReadOnly _Functions As IEnumerable(Of NamedFunction) = {_SphereConstructor}
 
     Private Shared ReadOnly _Get As New TermContext(Constants:={},
                                                     parameters:={},
