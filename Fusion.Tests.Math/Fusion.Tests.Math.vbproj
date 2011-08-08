@@ -115,7 +115,6 @@
     <Compile Include="Terms\Definitions\FunctionDefinitionTests.vb" />
     <Compile Include="Terms\Definitions\ObjectTermTests.vb" />
     <Compile Include="Terms\TermTests.vb" />
-    <Compile Include="Terms\Vector3DTermTests.vb" />
     <Compile Include="Vector2DTests.vb" />
     <Compile Include="Vector3DTermTests.vb" />
   </ItemGroup>

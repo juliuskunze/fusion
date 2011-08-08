@@ -13,7 +13,7 @@
         Dim constantName = CompilerTools.GetStartingValidVariableName(rest.TrimStart)
         'If Not constantName.IsValidVariableName Then Throw New ArgumentException("""" & _Left & """ is not a valid constant name.")
         
-        Dim term = New Term(term:=_Term, userContext:=_UserContext)
+        Dim term = New Term(term:=_Term, type:=type, userContext:=_UserContext)
 
         Return New NamedConstantExpression(name:=constantName, type:=type, value:=term.GetDelegate.DynamicInvoke({}))
     End Function

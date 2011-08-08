@@ -6,20 +6,21 @@
     End Sub
 
     Public Function GetNamedFunctionExpression() As NamedFunctionExpression
-        Dim typeName = CompilerTools.GetStartingValidVariableName(_Left.TrimStart)
-        Dim type = _UserContext.Types.Where(Function(t) t.Name = typeName).Single
+        Dim rest As String = Nothing
+        Dim namedFunction = CompilerTools.GetStartingTypedAndNamedVariable(definition:=_Left, types:=_UserContext.Types, out_rest:=rest)
+        Dim parameters = CompilerTools.GetArguments(argumentsInBrackets:=rest.TrimEnd).Select(Function(parameterText)
+                                                                                                  Dim parameterRest As String = Nothing
+                                                                                                  Dim parameter = CompilerTools.GetStartingTypedAndNamedVariable(definition:=parameterText, types:=_UserContext.Types, out_rest:=parameterRest)
+                                                                                                  If parameterRest <> "" Then Throw New ArgumentException("End of statement expected.")
+                                                                                                  Return New NamedParameter(parameter.Name, parameter.Type)
+                                                                                              End Function).ToArray
 
-        Dim rest = _Left.Substring(startIndex:=typeName.Length).Trim
-        Dim functionName = CompilerTools.GetStartingValidVariableName(rest)
-        Dim rest2 = rest.Substring(startIndex:=functionName.Length)
-        Dim parameters = CompilerTools.GetArguments(argumentsInBrackets:=rest2.TrimStart).Select(Function(name) Expression.Parameter(type:=GetType(Double), name:=name)).ToArray
 
 
+        Dim term = New Term(term:=_Term, userContext:=_UserContext.Merge(New TermContext(constants:={}, parameters:=parameters, Functions:={}, types:={})), type:=namedFunction.Type)
+        Dim lambdaExpression = Expression.Lambda(body:=term.GetExpression, parameters:=parameters.Select(Function(p) p.ParameterExpression))
 
-        Dim term = New Term(term:=_Term, userContext:=_UserContext.Merge(New TermContext(constants:={}, parameters:=parameters, Functions:={}, types:={})))
-        Dim lambdaExpression = Expression.Lambda(body:=term.GetExpression, parameters:=parameters)
-
-        Return New NamedFunctionExpression(name:=functionName, type:=type, lambdaExpression:=lambdaExpression)
+        Return New NamedFunctionExpression(name:=namedFunction.Name, Type:=namedFunction.Type, parameters:=parameters, lambdaExpression:=lambdaExpression)
     End Function
 
 End Class

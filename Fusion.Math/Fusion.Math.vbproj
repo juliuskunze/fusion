@@ -159,6 +159,8 @@
     <Compile Include="Surfaces\TruncatedSurface.vb" />
     <Compile Include="Surfaces\UnitedSurfacedPointSet3D.vb" />
     <Compile Include="Terms\Definitions\FunctionCall.vb" />
+    <Compile Include="Terms\NamedAndTypedObject.vb" />
+    <Compile Include="Terms\NamedParameter.vb" />
     <Compile Include="Terms\NamedType.vb" />
     <Compile Include="Terms\InvalidTermException.vb" />
     <Compile Include="Terms\NamedConstantExpression.vb" />
@@ -168,7 +170,6 @@
     <Compile Include="Terms\Term.vb" />
     <Compile Include="Terms\TermBase.vb" />
     <Compile Include="Terms\TermDefinition.vb" />
-    <Compile Include="Terms\Vector3DTerm.vb" />
     <Compile Include="Vector2D.vb" />
     <Compile Include="Vector2DRoughComparer.vb" />
     <Compile Include="Vector3D.vb" />

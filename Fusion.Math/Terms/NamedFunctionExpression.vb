@@ -1,16 +1,10 @@
 ﻿Public Class NamedFunctionExpression
+    Inherits NamedAndTypedObject
 
-    Private ReadOnly _Type As NamedType
-    Public ReadOnly Property Type As NamedType
+    Private ReadOnly _Parameters As IEnumerable(Of NamedParameter)
+    Public ReadOnly Property Parameters As IEnumerable(Of NamedParameter)
         Get
-            Return _Type
-        End Get
-    End Property
-
-    Private ReadOnly _Name As String
-    Public ReadOnly Property Name As String
-        Get
-            Return _Name
+            Return _Parameters
         End Get
     End Property
 
@@ -21,14 +15,14 @@
         End Get
     End Property
 
-    Public Sub New(name As String, type As NamedType, expressionBuilder As ExpressionBuilder)
-        _Name = name
-        _Type = type
+    Public Sub New(name As String, type As NamedType, parameters As IEnumerable(Of NamedParameter), expressionBuilder As ExpressionBuilder)
+        MyBase.New(name:=name, type:=type)
+        _Parameters = parameters
         _ExpressionBuilder = expressionBuilder
     End Sub
 
-    Public Sub New(name As String, type As NamedType, lambdaExpression As LambdaExpression)
-        Me.New(name:=name, type:=type, ExpressionBuilder:=GetDynamicFunctionExpressionBuilder(lambdaExpression:=lambdaExpression))
+    Public Sub New(name As String, type As NamedType, parameters As IEnumerable(Of NamedParameter), lambdaExpression As LambdaExpression)
+        Me.New(name:=name, type:=type, parameters:=parameters, ExpressionBuilder:=GetDynamicFunctionExpressionBuilder(lambdaExpression:=lambdaExpression))
     End Sub
 
     Public Shared Function GetSystemMathFunctionExpressionBuilder(name As String) As ExpressionBuilder
@@ -45,11 +39,7 @@
 
     Private Shared Function GetSafeExpressionBuilder(unsafeExpressionBuilder As ExpressionBuilder) As ExpressionBuilder
         Return Function(arguments)
-                   Try
-                       Return unsafeExpressionBuilder(arguments)
-                   Catch ex As InvalidOperationException
-                       Throw New ArgumentException("Wrong argument count.")
-                   End Try
+                   Return unsafeExpressionBuilder(arguments)
                End Function
     End Function
 

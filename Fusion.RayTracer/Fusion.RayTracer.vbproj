@@ -120,6 +120,7 @@
     <Compile Include="RayChanger.vb" />
     <Compile Include="RayTraceDrawer.vb" />
     <Compile Include="RecursiveRayTracer.vb" />
+    <Compile Include="RelativiticRayTracerTermContext.vb" />
     <Compile Include="Relativity\RelativisticRayTracerWithoutDopplerEffect.vb" />
     <Compile Include="Relativity\RelativisticRayTracerBase.vb" />
     <Compile Include="Relativity\RelativisticTransformation.vb" />

@@ -16,9 +16,12 @@ Public Module CompilerTools
         End Get
     End Property
 
-
     Public Function GetArguments(ByVal argumentsInBrackets As String) As IEnumerable(Of String)
-        If Not argumentsInBrackets.IsInBrackets(bracketTypes:=_ArgumentBracketTypes) Then Throw New ArgumentException("Invalid function call.")
+        Return GetArguments(argumentsInBrackets, argumentBracketTypes:=_ArgumentBracketTypes)
+    End Function
+
+    Public Function GetArguments(ByVal argumentsInBrackets As String, argumentBracketTypes As IEnumerable(Of BracketType)) As IEnumerable(Of String)
+        If Not argumentsInBrackets.IsInBrackets(bracketTypes:=argumentBracketTypes) Then Throw New ArgumentException("Invalid function call.")
 
         Dim argumentsText = argumentsInBrackets.Substring(1, argumentsInBrackets.Length - 2)
         Return SplitIfSeparatorIsNotInBrackets(argumentsText, separator:=","c, bracketTypes:=_AllowedBracketTypes)
@@ -46,7 +49,7 @@ Public Module CompilerTools
         If Not s.First.IsValidVariableStartChar Then Throw _InvalidNameException
 
         Dim nameLength = 0
-        Do While nameLength < s.Length - 1 AndAlso s(nameLength).IsValidVariableChar
+        Do While nameLength < s.Length AndAlso s(nameLength).IsValidVariableChar
             nameLength += 1
         Loop
 
@@ -129,5 +132,19 @@ Public Module CompilerTools
     End Function
 
     Private ReadOnly _InvalidNameException As New ArgumentException("Invalid name.")
+
+    Public Function GetStartingTypedAndNamedVariable(definition As String, types As IEnumerable(Of NamedType), Optional ByRef out_rest As String = Nothing) As NamedAndTypedObject
+        Dim trim = definition.TrimStart
+
+        Dim typeName = CompilerTools.GetStartingValidVariableName(trim)
+        Dim type = types.Where(Function(t) t.Name = typeName).Single
+
+        Dim rest = trim.Substring(startIndex:=typeName.Length).TrimStart
+        Dim name = CompilerTools.GetStartingValidVariableName(rest)
+
+        out_rest = rest.Substring(startIndex:=name.Length).TrimStart
+
+        Return New NamedAndTypedObject(name:=name, type:=type)
+    End Function
 
 End Module

@@ -16,7 +16,7 @@
 
     <Test()>
     Public Sub TestFunction()
-        Dim definitions = New Definitions("Real square(x) = x^2" & Microsoft.VisualBasic.ControlChars.Cr & "Real c = square(4)")
+        Dim definitions = New Definitions("Real square(Real x) = x^2" & Microsoft.VisualBasic.ControlChars.Cr & "Real c = square(4)")
 
         Dim square = definitions.GetTermContext.Functions.Single
         Dim c = definitions.GetTermContext.Constants.Single
