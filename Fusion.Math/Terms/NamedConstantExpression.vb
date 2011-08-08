@@ -1,14 +1,16 @@
 Public Class NamedConstantExpression
-    Inherits NamedFunctionExpression
+    Inherits NamedAndTypedObject
 
+    Private ReadOnly _ConstantExpression As ConstantExpression
     Public ReadOnly Property ConstantExpression As ConstantExpression
         Get
-            Return CType(MyBase.Expression(arguments:=New Expression() {}), ConstantExpression)
+            Return _ConstantExpression
         End Get
     End Property
 
     Public Sub New(name As String, type As NamedType, value As Object)
-        MyBase.New(name:=name, type:=type, Parameters:={}, ExpressionBuilder:=Function(arguments) Expressions.Expression.Constant(value:=value, type:=value.GetType))
+        MyBase.New(name:=name, type:=type)
+        _ConstantExpression = Expressions.Expression.Constant(value:=value, type:=type.SystemType)
     End Sub
 
 End Class

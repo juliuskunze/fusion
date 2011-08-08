@@ -110,7 +110,7 @@ Public Module CompilerTools
             End If
         Next
 
-        If bracketDepth > 0 Then Throw New InvalidTermException(s, message:="Missing ')'.")
+        If bracketDepth > 0 Then Throw New InvalidTermException(s, message:="')' expected.")
 
         Return _CharIsInBrackets
     End Function
@@ -142,7 +142,7 @@ Public Module CompilerTools
         Dim rest = trim.Substring(startIndex:=typeName.Length).TrimStart
         Dim name = CompilerTools.GetStartingValidVariableName(rest)
 
-        out_rest = rest.Substring(startIndex:=name.Length).TrimStart
+        out_rest = rest.Substring(startIndex:=name.Length)
 
         Return New NamedAndTypedObject(name:=name, type:=type)
     End Function

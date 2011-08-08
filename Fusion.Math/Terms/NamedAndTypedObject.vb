@@ -1,14 +1,14 @@
 ﻿Public Class NamedAndTypedObject
 
 
-    Private ReadOnly _Name As String
+    Protected ReadOnly _Name As String
     Public ReadOnly Property Name As String
         Get
             Return _Name
         End Get
     End Property
 
-    Private ReadOnly _Type As NamedType
+    Protected ReadOnly _Type As NamedType
     Public ReadOnly Property Type As NamedType
         Get
             Return _Type

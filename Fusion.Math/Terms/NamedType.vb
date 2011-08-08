@@ -7,16 +7,16 @@
         End Get
     End Property
 
-    Private ReadOnly _Type As Type
-    Public ReadOnly Property Type As Type
+    Private ReadOnly _SystemType As Type
+    Public ReadOnly Property SystemType As Type
         Get
-            Return _Type
+            Return _SystemType
         End Get
     End Property
 
-    Public Sub New(name As String, type As System.Type)
+    Public Sub New(name As String, systemType As System.Type)
         _Name = name
-        _Type = type
+        _SystemType = systemType
     End Sub
 
     Public Shared ReadOnly Property Real() As NamedType

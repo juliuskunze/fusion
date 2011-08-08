@@ -82,7 +82,7 @@
     End Function
 
     Protected Sub CheckTypeMatch(type As NamedType)
-        If Not _Type.Type.IsAssignableFrom(type.Type) Then Throw New InvalidTermException(Term:=_Term, message:="Type '" & type.Name & "' is not compatible to type '" & _Type.Name & "'.")
+        If Not _Type.SystemType.IsAssignableFrom(type.SystemType) Then Throw New InvalidTermException(Term:=_Term, message:="Type '" & type.Name & "' is not compatible to type '" & _Type.Name & "'.")
     End Sub
 
 End Class

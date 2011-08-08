@@ -24,7 +24,7 @@
         Assert.AreEqual("c", c.Name)
         Assert.AreEqual(16, CDbl(c.ConstantExpression.Value))
 
-        Assert.AreEqual("square", square.Name)
+        Assert.AreEqual("square", square.DelegateType.Name)
     End Sub
 
     <Test()>

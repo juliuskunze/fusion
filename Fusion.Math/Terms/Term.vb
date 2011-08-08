@@ -38,10 +38,10 @@
 
         Dim functionCall = Me.TryGetFunctionCall
         If functionCall IsNot Nothing Then
-            Dim matchingFunctions = From functionExpression In _Context.Functions Where functionCall.FunctionName.Equals(functionExpression.Name, StringComparison.OrdinalIgnoreCase)
+            Dim matchingFunctions = From functionExpression In _Context.Functions Where functionCall.FunctionName.Equals(functionExpression.DelegateType.Name, StringComparison.OrdinalIgnoreCase)
             If Not matchingFunctions.Any Then Throw New ArgumentException("Function '" & functionCall.FunctionName & "' is not defined in this context.")
             Dim matchingFunction = matchingFunctions.Single
-            Dim parameters = matchingFunction.Parameters
+            Dim parameters = matchingFunction.DelegateType.Parameters
             Dim argumentStrings = functionCall.Arguments
             If parameters.Count <> argumentStrings.Count Then Throw New ArgumentException("Wrong argument count.")
 
@@ -155,7 +155,7 @@
            yExpression.Type <> GetType(Double) OrElse
            zExpression.Type <> GetType(Double) Then Throw New InvalidTermException(_Term, message:="The components of a vector must be real numbers.")
 
-        Return NamedConstantExpression.GetFunctionExpressionBuilder(Of Vector3DConstructor)(lambdaExpression:=Function(x, y, z) New Vector3D(x, y, z)).Invoke(arguments:={xExpression, yExpression, zExpression})
+        Return NamedFunctionExpression.GetFunctionExpressionBuilder(Of Vector3DConstructor)(lambdaExpression:=Function(x, y, z) New Vector3D(x, y, z)).Invoke(arguments:={xExpression, yExpression, zExpression})
     End Function
 
     Private Delegate Function Vector3DConstructor(x As Double, y As Double, z As Double) As Vector3D

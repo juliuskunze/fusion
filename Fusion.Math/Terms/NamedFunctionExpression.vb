@@ -1,10 +1,9 @@
 ﻿Public Class NamedFunctionExpression
-    Inherits NamedAndTypedObject
 
-    Private ReadOnly _Parameters As IEnumerable(Of NamedParameter)
-    Public ReadOnly Property Parameters As IEnumerable(Of NamedParameter)
+    Private ReadOnly _DelegateType As NamedDelegateType
+    Public ReadOnly Property DelegateType As NamedDelegateType
         Get
-            Return _Parameters
+            Return _DelegateType
         End Get
     End Property
 
@@ -15,14 +14,13 @@
         End Get
     End Property
 
-    Public Sub New(name As String, type As NamedType, parameters As IEnumerable(Of NamedParameter), expressionBuilder As ExpressionBuilder)
-        MyBase.New(name:=name, type:=type)
-        _Parameters = parameters
+    Public Sub New(delegateType As NamedDelegateType, expressionBuilder As ExpressionBuilder)
+        _DelegateType = delegateType
         _ExpressionBuilder = expressionBuilder
     End Sub
 
-    Public Sub New(name As String, type As NamedType, parameters As IEnumerable(Of NamedParameter), lambdaExpression As LambdaExpression)
-        Me.New(name:=name, type:=type, parameters:=parameters, ExpressionBuilder:=GetDynamicFunctionExpressionBuilder(lambdaExpression:=lambdaExpression))
+    Public Sub New(DelegateType As NamedDelegateType, lambdaExpression As LambdaExpression)
+        Me.New(delegateType:=DelegateType, ExpressionBuilder:=GetDynamicFunctionExpressionBuilder(lambdaExpression:=lambdaExpression))
     End Sub
 
     Public Shared Function GetSystemMathFunctionExpressionBuilder(name As String) As ExpressionBuilder

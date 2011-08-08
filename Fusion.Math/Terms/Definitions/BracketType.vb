@@ -19,6 +19,10 @@
         _ClosingBracket = closingBracket
     End Sub
 
+    Public Function InBrackets(s As String) As String
+        Return Me.OpeningBracket & s & Me.ClosingBracket
+    End Function
+
     Private Shared ReadOnly _Round As New BracketType("("c, ")"c)
     Public Shared ReadOnly Property Round As BracketType
         Get

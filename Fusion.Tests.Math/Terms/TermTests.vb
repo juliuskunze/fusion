@@ -100,7 +100,7 @@ Public Class TermTests
 
     <Test()>
     Public Sub TestFunction()
-        Dim namedMethodExpression = New NamedFunctionExpression(name:="square", Type:=NamedType.Real, parameters:={New NamedParameter(name:="x", Type:=NamedType.Real)}, ExpressionBuilder:=NamedFunctionExpression.GetFunctionExpressionBuilder(Of Func(Of Double, Double))(lambdaExpression:=Function(x As Double) x ^ 2))
+        Dim namedMethodExpression = New NamedFunctionExpression(New NamedDelegateType("square", NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), ExpressionBuilder:=NamedFunctionExpression.GetFunctionExpressionBuilder(Of Func(Of Double, Double))(lambdaExpression:=Function(x As Double) x ^ 2))
         Dim term = New Term("square(2*x)", Type:=NamedType.Real, userContext:=New TermContext(constants:={}, parameters:={New NamedParameter(name:="x", Type:=NamedType.Real)}, Functions:={namedMethodExpression}))
         Dim d = term.GetDelegate(Of Func(Of Double, Double))()
         Assert.That(d(5) = 100)

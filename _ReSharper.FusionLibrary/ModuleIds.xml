@@ -19,4 +19,5 @@
   <Module PersistentId="nunit.framework, Version=2.5.5.10112, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77" ModuleId="nunit.framework" />
   <Module PersistentId="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" ModuleId="System.Core" />
   <Module PersistentId="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" ModuleId="System.Core_1" />
+  <Module PersistentId="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" ModuleId="mscorlib_1" />
 </Modules>

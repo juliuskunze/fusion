@@ -160,6 +160,7 @@
     <Compile Include="Surfaces\UnitedSurfacedPointSet3D.vb" />
     <Compile Include="Terms\Definitions\FunctionCall.vb" />
     <Compile Include="Terms\NamedAndTypedObject.vb" />
+    <Compile Include="Terms\NamedDelegateType.vb" />
     <Compile Include="Terms\NamedParameter.vb" />
     <Compile Include="Terms\NamedType.vb" />
     <Compile Include="Terms\InvalidTermException.vb" />
