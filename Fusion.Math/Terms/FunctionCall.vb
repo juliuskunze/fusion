@@ -14,11 +14,11 @@
         End Get
     End Property
 
-    Public Sub New(functionCallText As String)
-        Dim trimmedFunctionCallText = functionCallText.Trim
+    Public Sub New(text As String)
+        Dim trimmedText = text.Trim
 
-        _FunctionName = trimmedFunctionCallText.GetStartingValidVariableName
-        _Arguments = CompilerTools.GetArguments(argumentsInBrackets:=trimmedFunctionCallText.Substring(startIndex:=_FunctionName.Length, length:=functionCallText.Length - _FunctionName.Length).Trim)
+        _FunctionName = trimmedText.GetStartingValidVariableName
+        _Arguments = CompilerTools.GetArguments(argumentsInBrackets:=trimmedText.Substring(startIndex:=_FunctionName.Length, length:=trimmedText.Length - _FunctionName.Length).Trim)
     End Sub
 
 End Class

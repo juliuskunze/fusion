@@ -144,8 +144,8 @@ Public Module CompilerTools
 
     Private ReadOnly _InvalidNameException As New ArgumentException("Invalid name.")
 
-    Public Function GetStartingTypedAndNamedVariable(definition As String, types As NamedTypes, Optional ByRef out_rest As String = Nothing) As TypeAndName
-        Dim trim = definition.TrimStart
+    Public Function GetStartingTypedAndNamedVariable(text As String, types As NamedTypes, Optional ByRef out_rest As String = Nothing) As TypeAndName
+        Dim trim = text.TrimStart
 
         Dim typeName = CompilerTools.GetStartingValidVariableName(trim)
         Dim type = types.Parse(typeName)

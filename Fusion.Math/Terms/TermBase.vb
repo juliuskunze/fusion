@@ -6,10 +6,13 @@
     Protected ReadOnly _Type As NamedType
 
     Public Sub New(term As String, context As TermContext, type As NamedType)
+        If Not context.Types.Contains(NamedType.Real) Then Throw New InvalidOperationException("Type Real must be defined in this context.")
+        If Not context.Types.Contains(NamedType.Vector3D) Then Throw New InvalidOperationException("Type Vector3D must be defined in this context.")
+
         _Term = term
         _TrimmedTerm = term.Trim
         _Context = context
-        _Type = Type
+        _Type = type
     End Sub
 
     Public Function TryGetConstantOrParameterExpression() As Expression
@@ -64,18 +67,18 @@
     End Function
 
     Protected Function TryGetConstantExpression() As Expression
-        Dim matchingConstants = From constant In _Context.Constants Where String.Equals(_TrimmedTerm, constant.Instance.Name, StringComparison.OrdinalIgnoreCase)
+        Dim matchingConstants = From constant In _Context.Constants Where String.Equals(_TrimmedTerm, constant.Signature.Name, StringComparison.OrdinalIgnoreCase)
         If Not matchingConstants.Any Then Return Nothing
 
         Dim matchingConstant = matchingConstants.Single
-        Me.CheckTypeMatch(type:=matchingConstant.Instance.Type)
+        Me.CheckTypeMatch(type:=matchingConstant.Signature.Type)
 
         Return matchingConstant.Expression
     End Function
 
     Protected Function TryGetFunctionCall() As FunctionCall
         Try
-            Return New FunctionCall(functionCallText:=_Term)
+            Return New FunctionCall(text:=_Term)
         Catch ex As ArgumentException
             Return Nothing
         End Try

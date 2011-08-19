@@ -6,7 +6,7 @@ Public Class ConstantTerm(Of TResult)
     Inherits Term
 
     Public Sub New(term As String)
-        MyBase.New(term:=term, Type:=New NamedType(name:="", systemType:=GetType(TResult)), userContext:=New TermContext(constants:={}, parameters:={}, Functions:={}))
+        MyBase.New(term:=term, Type:=New NamedType(name:="", systemType:=GetType(TResult)), context:=TermContext.Default)
     End Sub
 
     Public Function GetResult() As TResult

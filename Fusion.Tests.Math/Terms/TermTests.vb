@@ -75,14 +75,14 @@ Public Class TermTests
 
     <Test()>
     Public Sub TestCos()
-        Assert.That(New ConstantTerm(Of Double)("Cos(0)").GetResult = 1)
-        Assert.That(New ConstantTerm(Of Double)("Cos(pi)").GetResult = -1)
-        Assert.That(New ConstantTerm(Of Double)("Cos(pi/2)").GetResult < 10 ^ -15)
+        Assert.That(New ConstantTerm(Of Double)("Cos{0}").GetResult = 1)
+        Assert.That(New ConstantTerm(Of Double)("Cos{pi}").GetResult = -1)
+        Assert.That(New ConstantTerm(Of Double)("Cos{pi/2}").GetResult < 10 ^ -15)
     End Sub
 
     <Test()>
     Public Sub TestExp()
-        Assert.That(New ConstantTerm(Of Double)("exp(1)").GetResult = System.Math.E)
+        Assert.That(New ConstantTerm(Of Double)("exp{1}").GetResult = System.Math.E)
     End Sub
 
     <Test()>
@@ -92,16 +92,16 @@ Public Class TermTests
 
     <Test()>
     Public Sub TestParameter()
-        Assert.That(New Term("a+4", Type:=NamedType.Real, userContext:=New TermContext(constants:={}, parameters:={New NamedParameter(name:="a", Type:=NamedType.Real)}, Functions:={}, types:=NamedTypes.Empty)).GetDelegate(Of Func(Of Double, Double)).Invoke(5) = 9)
-        Assert.That(New Term("x^2 + x", Type:=NamedType.Real, userContext:=New TermContext(constants:={}, parameters:={New NamedParameter(name:="x", Type:=NamedType.Real)}, Functions:={})).GetDelegate(Of Func(Of Double, Double)).Invoke(5) = 30)
-        Assert.That(New Term(" a1 ^2 + a1 ", Type:=NamedType.Real, userContext:=New TermContext(constants:={}, parameters:={New NamedParameter(name:="a1", Type:=NamedType.Real)}, Functions:={})).GetDelegate(Of Func(Of Double, Double)).Invoke(5) = 30)
-        Assert.That(New Term("a1^2 + a2", Type:=NamedType.Real, userContext:=New TermContext(constants:={}, parameters:={New NamedParameter(name:="a1", Type:=NamedType.Real), New NamedParameter(name:="a2", Type:=NamedType.Real)}, Functions:={})).GetDelegate(Of Func(Of Double, Double, Double)).Invoke(5, 3) = 28)
+        Assert.That(New Term("a+4", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(parameters:={New NamedParameter(name:="a", Type:=NamedType.Real)}))).GetDelegate(Of Func(Of Double, Double)).Invoke(5) = 9)
+        Assert.That(New Term("x^2 + x", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(parameters:={New NamedParameter(name:="x", Type:=NamedType.Real)}))).GetDelegate(Of Func(Of Double, Double)).Invoke(5) = 30)
+        Assert.That(New Term(" a1 ^2 + a1 ", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(parameters:={New NamedParameter(name:="a1", Type:=NamedType.Real)}))).GetDelegate(Of Func(Of Double, Double)).Invoke(5) = 30)
+        Assert.That(New Term("a1^2 + a2", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(parameters:={New NamedParameter(name:="a1", Type:=NamedType.Real), New NamedParameter(name:="a2", Type:=NamedType.Real)}))).GetDelegate(Of Func(Of Double, Double, Double)).Invoke(5, 3) = 28)
     End Sub
 
     <Test()>
     Public Sub TestFunction()
-        Dim namedMethodExpression = New FunctionExpression("square", New FunctionType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), ExpressionBuilder:=FunctionExpression.GetFunctionExpressionBuilder(Of Func(Of Double, Double))(lambdaExpression:=Function(x As Double) x ^ 2))
-        Dim term = New Term("square(2*x)", Type:=NamedType.Real, userContext:=New TermContext(constants:={}, parameters:={New NamedParameter(name:="x", Type:=NamedType.Real)}, Functions:={namedMethodExpression}))
+        Dim namedMethodExpression = New FunctionInstance("square", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), ExpressionBuilder:=FunctionInstance.GetFunctionExpressionBuilder(Of Func(Of Double, Double))(lambdaExpression:=Function(x As Double) x ^ 2))
+        Dim term = New Term("square{2*x}", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(parameters:={New NamedParameter(name:="x", Type:=NamedType.Real)}, Functions:={namedMethodExpression})))
         Dim d = term.GetDelegate(Of Func(Of Double, Double))()
         Assert.That(d(5) = 100)
     End Sub
@@ -120,20 +120,18 @@ Public Class TermTests
 
     <Test()>
     Public Sub TestFunctionNotDefined()
-        Dim term = New Term("square(1)", Type:=NamedType.Real, userContext:=TermContext.Empty)
+        Dim term = New Term("square{1}", Type:=NamedType.Real, context:=TermContext.Default)
         Try
             term.GetDelegate()
             Assert.Fail()
         Catch ex As ArgumentException
-            Assert.That(ex.Message.Contains("Function 'square' is not defined in this context"))
+            Assert.That(ex.Message = "Function 'square' is not defined in this context.")
         End Try
     End Sub
 
     <Test()>
     Public Sub TestVector3DWithConstant()
-        Assert.That(New Term(Term:="<1,2,a>", Type:=NamedType.Vector3D, userContext:=New TermContext(constants:={},
-                                                                                                     parameters:={New NamedParameter(name:="a", Type:=NamedType.Real)},
-                                                                                                     Functions:={})).GetDelegate(Of Func(Of Double, Vector3D)).Invoke(3.0) = New Vector3D(1, 2, 3))
+        Assert.That(New Term(Term:="<1,2,a>", Type:=NamedType.Vector3D, context:=TermContext.Default.Merge(New TermContext(parameters:={New NamedParameter(name:="a", Type:=NamedType.Real)}))).GetDelegate(Of Func(Of Double, Vector3D)).Invoke(3.0) = New Vector3D(1, 2, 3))
     End Sub
 
 

@@ -1,9 +1,9 @@
 ﻿Public Class Assignment
 
-    Protected ReadOnly _Left As String
-    Public ReadOnly Property Left As String
+    Protected ReadOnly _Declaration As String
+    Public ReadOnly Property Declaration As String
         Get
-            Return _Left
+            Return _Declaration
         End Get
     End Property
 
@@ -13,24 +13,23 @@
             Return _Term
         End Get
     End Property
+    
+    Protected ReadOnly _Context As TermContext
 
-
-    Protected ReadOnly _UserContext As TermContext
-
-    Public Sub New(definition As String, userContext As TermContext)
+    Public Sub New(definition As String, context As TermContext)
         Dim parts = definition.SplitIfSeparatorIsNotInBrackets(separator:="="c, bracketTypes:=CompilerTools.AllowedBracketTypes)
 
         If parts.Count <> 2 Then Throw New InvalidTermException("Definition invalid.")
 
-        _Left = parts.First
+        _Declaration = parts.First
         _Term = parts.Last
 
-        _UserContext = userContext
+        _Context = context
     End Sub
 
-    Public ReadOnly Property IsFunctionDefinition As Boolean
+    Public ReadOnly Property IsFunctionAssignment As Boolean
         Get
-            Return Signature.IsConstantSignatureDefinition(_Left)
+            Return Signature.IsConstantSignatureDefinition(_Declaration)
         End Get
     End Property
 

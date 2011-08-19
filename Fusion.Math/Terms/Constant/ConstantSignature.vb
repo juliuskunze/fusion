@@ -1,4 +1,4 @@
-﻿Public Class ConstantDeclaration
+﻿Public Class ConstantSignature
 
     Private ReadOnly _Name As String
     Public ReadOnly Property Name As String
@@ -19,12 +19,12 @@
         _Type = type
     End Sub
 
-    Shared Function FromText(definition As String, types As NamedTypes) As ConstantDeclaration
+    Shared Function FromText(text As String, typeContext As NamedTypes) As ConstantSignature
         Dim rest As String = Nothing
-        Dim typeAndName = CompilerTools.GetStartingTypedAndNamedVariable(definition:=definition, types:=types, out_rest:=rest)
+        Dim typeAndName = CompilerTools.GetStartingTypedAndNamedVariable(text:=text, types:=typeContext, out_rest:=rest)
         If rest.Trim <> "" Then Throw New ArgumentException("End of constant definition expected.")
 
-        Return New ConstantDeclaration(Name:=typeAndName.Name, Type:=typeAndName.Type)
+        Return New ConstantSignature(Name:=typeAndName.Name, Type:=typeAndName.Type)
     End Function
 
 End Class

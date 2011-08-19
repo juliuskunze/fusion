@@ -2,30 +2,30 @@
 
     <Test()>
     Public Sub TestFunction()
-        Dim e = New FunctionAssignment("Real f(Real x) = x", userContext:=TermContext.Empty).GetNamedFunctionExpression
+        Dim e = New FunctionAssignment("Real f(Real x) = x", context:=TermContext.Default).GetFunctionInstance
 
-        Assert.That(e.Type.Name = "f")
+        Assert.That(e.Name = "f")
 
-        Dim t = New Term("f{3}", Type:=NamedType.Real, userContext:=New TermContext(constants:={}, parameters:={}, Functions:={e}))
+        Dim t = New Term("f{3}", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(Functions:={e})))
         Assert.That(t.GetDelegate(Of Func(Of Double)).Invoke = 3)
     End Sub
 
     <Test()>
     Public Sub TestMultiParameters()
-        Dim definition = New FunctionAssignment("  Real product(    Real x, Real y) = x*y", userContext:=TermContext.Empty).GetNamedFunctionExpression
+        Dim definition = New FunctionAssignment("  Real product(    Real x, Real y) = x*y", context:=TermContext.Default).GetFunctionInstance
 
-        Dim t = New Term("Product {4 , 2}", Type:=NamedType.Real, userContext:=New TermContext(constants:={}, parameters:={}, Functions:={definition}))
+        Dim t = New Term("Product {4 , 2}", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(Functions:={definition})))
 
-        Assert.AreEqual("product", definition.Type.Name)
+        Assert.AreEqual("product", definition.Name)
         Assert.AreEqual(8, t.GetDelegate(Of Func(Of Double)).Invoke)
     End Sub
 
     <Test()>
     Public Sub TestWrongArgumentCount()
-        Dim definition = New FunctionAssignment("Real product(Real x,Real y) = x*y", userContext:=TermContext.Empty).GetNamedFunctionExpression
+        Dim definition = New FunctionAssignment("Real product(Real x,Real y) = x*y", context:=TermContext.Default).GetFunctionInstance
 
         Try
-            Dim t = New Term("product {4}", Type:=NamedType.Real, userContext:=New TermContext(constants:={}, parameters:={}, Functions:={definition})).GetDelegate
+            Dim t = New Term("product {4}", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(Functions:={definition}))).GetDelegate
             Assert.Fail()
         Catch ex As ArgumentException
             Assert.That(ex.Message.Contains("Wrong argument count"))
@@ -34,10 +34,10 @@
 
     <Test()>
     Public Sub TestWrongArgumentType()
-        Dim definition = New FunctionAssignment("Real product(Real x,Real y) = x*y", userContext:=TermContext.Empty).GetNamedFunctionExpression
+        Dim definition = New FunctionAssignment("Real product(Real x,Real y) = x*y", context:=TermContext.Default).GetFunctionInstance
 
         Try
-            Dim t = New Term("product {4, <4,3,3>}", Type:=NamedType.Real, userContext:=New TermContext(constants:={}, parameters:={}, Functions:={definition})).GetDelegate
+            Dim t = New Term("product {4, <4,3,3>}", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(Functions:={definition}))).GetDelegate
             Assert.Fail()
         Catch ex As ArgumentException
             Assert.AreEqual(ex.Message, "Type 'Vector' is not compatible to type 'Real'.")
@@ -46,18 +46,23 @@
 
     <Test()>
     Public Sub TestNestedFunctions()
-        Dim product = New FunctionAssignment("Real product(Real x,Real y) = x*y", userContext:=TermContext.Empty).GetNamedFunctionExpression
-        Dim quotient = New FunctionAssignment("Real quotient(Real x,Real y) = x/y", userContext:=TermContext.Empty).GetNamedFunctionExpression
+        Dim product = New FunctionAssignment("Real product(Real x,Real y) = x*y", context:=TermContext.Default).GetFunctionInstance
+        Dim quotient = New FunctionAssignment("Real quotient(Real x,Real y) = x/y", context:=TermContext.Default).GetFunctionInstance
 
-        Assert.AreEqual(New Term("product{4, quotient{1, 4}}", Type:=NamedType.Real, userContext:=New TermContext(constants:={}, parameters:={}, Functions:={product, quotient})).GetDelegate(Of Func(Of Double)).Invoke, 1)
+        Assert.AreEqual(New Term("product{4, quotient{1, 4}}", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(Functions:={product, quotient}))).GetDelegate(Of Func(Of Double)).Invoke, 1)
     End Sub
 
     <Test()>
     Public Sub TestDelegateAsParameter()
-        Dim exampleWavelengthFunction = New FunctionAssignment("Real i(Real wavelength) = 2*i)", userContext:=TermContext.Empty).GetNamedFunctionExpression
-        Dim calculate = New FunctionAssignment("Real intensityAt1(Real intensityFunction(Real wavelength)) = intensityFunction{1}", userContext:=New TermContext(constants:={}, parameters:={}, Functions:={exampleWavelengthFunction}, types:=NamedTypes.Empty)).GetNamedFunctionExpression
+        Dim wavelengthDelegateType = NamedType.NamedDelegateTypeFromText("delegate Real IntensityFunction(Real wavelength)", typeContext:=NamedTypes.Default)
+        Dim context = TermContext.Default.Merge(New TermContext(types:=New NamedTypes({wavelengthDelegateType})))
 
-        Assert.AreEqual(New Term("intensityAt1{i}", Type:=NamedType.Real, userContext:=New TermContext(constants:={}, parameters:={}, Functions:={exampleWavelengthFunction, calculate})).GetDelegate(Of Func(Of Double)).Invoke, 2)
+        Dim exampleWavelengthFunction = New FunctionAssignment("Real Intensity(Real wavelength) = 2*wavelength", context:=context).GetFunctionInstance
+        Dim context2 = context.Merge(New TermContext(Functions:={exampleWavelengthFunction}))
+
+        Dim calculate = New FunctionAssignment("Real IntensityAt1(IntensityFunction intensityFunction) = intensityFunction{1}", context:=context2).GetFunctionInstance
+
+        Assert.AreEqual(New Term("intensityAt1{Intensity}", Type:=NamedType.Real, context:=context2.Merge(New TermContext(Functions:={exampleWavelengthFunction, calculate}))).GetDelegate(Of Func(Of Double)).Invoke, 2)
     End Sub
 
 End Class

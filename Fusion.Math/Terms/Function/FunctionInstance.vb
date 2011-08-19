@@ -1,14 +1,14 @@
-﻿Public Class FunctionExpression
+﻿Public Class FunctionInstance
 
     Private ReadOnly _Name As String
-    Public ReadOnly Property name As String
+    Public ReadOnly Property Name As String
         Get
             Return _Name
         End Get
     End Property
 
-    Private ReadOnly _Type As FunctionType
-    Public ReadOnly Property Type As FunctionType
+    Private ReadOnly _Type As DelegateType
+    Public ReadOnly Property Type As DelegateType
         Get
             Return _Type
         End Get
@@ -21,13 +21,13 @@
         End Get
     End Property
 
-    Public Sub New(name As String, type As FunctionType, expressionBuilder As ExpressionBuilder)
+    Public Sub New(name As String, type As DelegateType, expressionBuilder As ExpressionBuilder)
         _Name = name
         _Type = type
         _ExpressionBuilder = expressionBuilder
     End Sub
 
-    Public Sub New(name As String, type As FunctionType, lambdaExpression As LambdaExpression)
+    Public Sub New(name As String, type As DelegateType, lambdaExpression As LambdaExpression)
         Me.New(name:=name, Type:=Type, ExpressionBuilder:=GetDynamicFunctionExpressionBuilder(lambdaExpression:=lambdaExpression))
     End Sub
 

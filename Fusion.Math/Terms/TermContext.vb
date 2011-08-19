@@ -7,8 +7,8 @@
         End Get
     End Property
 
-    Private ReadOnly _Constants As IEnumerable(Of ConstExpression)
-    Public ReadOnly Property Constants As IEnumerable(Of ConstExpression)
+    Private ReadOnly _Constants As IEnumerable(Of ConstantInstance)
+    Public ReadOnly Property Constants As IEnumerable(Of ConstantInstance)
         Get
             Return _Constants
         End Get
@@ -21,54 +21,43 @@
         End Get
     End Property
 
-    Private ReadOnly _Functions As IEnumerable(Of FunctionExpression)
-    Public ReadOnly Property Functions As IEnumerable(Of FunctionExpression)
+    Private ReadOnly _Functions As IEnumerable(Of FunctionInstance)
+    Public ReadOnly Property Functions As IEnumerable(Of FunctionInstance)
         Get
             Return _Functions
         End Get
     End Property
 
-    Public Sub New(constants As IEnumerable(Of ConstExpression),
-                   parameters As IEnumerable(Of NamedParameter),
-                   functions As IEnumerable(Of FunctionExpression))
-        Me.New(constants, parameters, functions, Types:=NamedTypes.DefaultTypes)
+    Public Sub New(Optional constants As IEnumerable(Of ConstantInstance) = Nothing,
+                   Optional parameters As IEnumerable(Of NamedParameter) = Nothing,
+                   Optional functions As IEnumerable(Of FunctionInstance) = Nothing,
+                   Optional types As NamedTypes = Nothing)
+        _Constants = If(constants Is Nothing, Enumerable.Empty(Of ConstantInstance), constants)
+        _Parameters = If(parameters Is Nothing, Enumerable.Empty(Of NamedParameter), parameters)
+        _Functions = If(functions Is Nothing, Enumerable.Empty(Of FunctionInstance), functions)
+        _Types = If(types Is Nothing, NamedTypes.Empty, types)
     End Sub
 
-    Public Sub New(constants As IEnumerable(Of ConstExpression),
-                    parameters As IEnumerable(Of NamedParameter),
-                    functions As IEnumerable(Of FunctionExpression),
-                    types As NamedTypes)
-        _Constants = constants
-        _Parameters = parameters
-        _Functions = functions
-        _Types = types
-    End Sub
-
-    Public Shared ReadOnly Property Empty As TermContext
+    Public Shared ReadOnly Property [Default] As TermContext
         Get
-            Return New TermContext(Constants:={}, Parameters:={}, Functions:={}, Types:=New NamedTypes({NamedType.Real}))
-        End Get
-    End Property
-
-    Public Shared ReadOnly Property DefaultContext As TermContext
-        Get
-            Return New TermContext(Constants:={New ConstExpression(New ConstantDeclaration("Pi", NamedType.Real), System.Math.PI),
-                                               New ConstExpression(New ConstantDeclaration("E", NamedType.Real), System.Math.E)},
-                                   Parameters:={},
-                                   Functions:={New FunctionExpression("Sqrt", New FunctionType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), FunctionExpression.GetSystemMathFunctionExpressionBuilder(name:="Sqrt")),
-                                               New FunctionExpression("Exp", New FunctionType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), FunctionExpression.GetSystemMathFunctionExpressionBuilder(name:="Exp")),
-                                               New FunctionExpression("Sin", New FunctionType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), FunctionExpression.GetSystemMathFunctionExpressionBuilder(name:="Sin")),
-                                               New FunctionExpression("Cos", New FunctionType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), FunctionExpression.GetSystemMathFunctionExpressionBuilder(name:="Cos")),
-                                               New FunctionExpression("Tan", New FunctionType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), FunctionExpression.GetSystemMathFunctionExpressionBuilder(name:="Tan")),
-                                               New FunctionExpression("Asin", New FunctionType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), FunctionExpression.GetSystemMathFunctionExpressionBuilder(name:="Asin")),
-                                               New FunctionExpression("Acos", New FunctionType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), FunctionExpression.GetSystemMathFunctionExpressionBuilder(name:="Acos"))})
+            Return New TermContext(Constants:={New ConstantInstance(New ConstantSignature("Pi", NamedType.Real), System.Math.PI),
+                                               New ConstantInstance(New ConstantSignature("E", NamedType.Real), System.Math.E)},
+                                   Functions:={New FunctionInstance("Sqrt", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), FunctionInstance.GetSystemMathFunctionExpressionBuilder(name:="Sqrt")),
+                                               New FunctionInstance("Exp", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), FunctionInstance.GetSystemMathFunctionExpressionBuilder(name:="Exp")),
+                                               New FunctionInstance("Sin", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), FunctionInstance.GetSystemMathFunctionExpressionBuilder(name:="Sin")),
+                                               New FunctionInstance("Cos", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), FunctionInstance.GetSystemMathFunctionExpressionBuilder(name:="Cos")),
+                                               New FunctionInstance("Tan", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), FunctionInstance.GetSystemMathFunctionExpressionBuilder(name:="Tan")),
+                                               New FunctionInstance("Asin", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), FunctionInstance.GetSystemMathFunctionExpressionBuilder(name:="Asin")),
+                                               New FunctionInstance("Acos", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), FunctionInstance.GetSystemMathFunctionExpressionBuilder(name:="Acos"))},
+                                   Types:=NamedTypes.Default)
         End Get
     End Property
 
     Public Function Merge(second As TermContext) As TermContext
         Return New TermContext(Constants:=_Constants.Concat(second._Constants),
                                Functions:=_Functions.Concat(second._Functions),
-                               Parameters:=_Parameters.Concat(second._Parameters))
+                               Parameters:=_Parameters.Concat(second._Parameters),
+                               Types:=_Types.Merge(second.Types))
     End Function
 
 End Class

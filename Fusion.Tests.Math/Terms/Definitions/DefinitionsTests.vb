@@ -2,34 +2,23 @@
 
     <Test()>
     Public Sub TestConstant()
-        Dim definitions = New Definitions("Real a = 4" & Microsoft.VisualBasic.ControlChars.Cr & "Real b = a/2")
-        Assert.AreEqual(2, definitions.GetTermContext.Constants.Count)
-        Dim a = definitions.GetTermContext.Constants.First
-        Dim b = definitions.GetTermContext.Constants.Last
-
-        Assert.AreEqual("a", a.Instance.Name)
-        Assert.AreEqual(4, CDbl(a.Expression.Value))
-
-        Assert.AreEqual("b", b.Instance.Name)
-        Assert.AreEqual(2, CDbl(b.Expression.Value))
+        Dim definitions = New Definitions("Real a = 4" & Microsoft.VisualBasic.ControlChars.Cr & "Real b = a/2", baseContext:=TermContext.Default)
+        Assert.AreEqual(4, definitions.GetTermContext.Constants.Count)
+        definitions.GetTermContext.Constants.Where(Function(i) i.Signature.Name = "a" AndAlso CDbl(i.Expression.Value) = 4).Single()
+        definitions.GetTermContext.Constants.Where(Function(i) i.Signature.Name = "b" AndAlso CDbl(i.Expression.Value) = 2).Single()
     End Sub
 
     <Test()>
     Public Sub TestFunction()
-        Dim definitions = New Definitions("Real square(Real x) = x^2" & Microsoft.VisualBasic.ControlChars.Cr & "Real c = square{4}")
+        Dim definitions = New Definitions("Real square(Real x) = x^2" & Microsoft.VisualBasic.ControlChars.Cr & "Real c = square{4}", baseContext:=TermContext.Default)
 
-        Dim square = definitions.GetTermContext.Functions.Single
-        Dim c = definitions.GetTermContext.Constants.Single
-
-        Assert.AreEqual("c", c.Instance.Name)
-        Assert.AreEqual(16, CDbl(c.Expression.Value))
-
-        Assert.AreEqual("square", square.Type.Name)
+        definitions.GetTermContext.Functions.Where(Function(i) i.Name = "square").Single()
+        definitions.GetTermContext.Constants.Where(Function(i) i.Signature.Name = "c" AndAlso CDbl(i.Expression.Value) = 16).Single()
     End Sub
 
     <Test()>
     Public Sub TestConstantNotDefined()
-        Dim definitions = New Definitions("Real a = b" & Microsoft.VisualBasic.ControlChars.Cr & "Real b = a")
+        Dim definitions = New Definitions("Real a = b" & Microsoft.VisualBasic.ControlChars.Cr & "Real b = a", baseContext:=TermContext.Default)
         Try
             definitions.GetTermContext()
             Assert.Fail()

@@ -1,19 +1,22 @@
 ﻿Public Class NamedTypes
-
-    Private ReadOnly _Types As IEnumerable(Of NamedType)
+    Inherits List(Of NamedType)
 
     Public Sub New(types As IEnumerable(Of NamedType))
-        _Types = types
+        MyBase.New(types)
     End Sub
 
     Public Function Parse(name As String) As NamedType
-        Return _Types.Where(Function(type) type.Name = name).Single
+        Dim matchingTypes = Me.Where(Function(type) type.Name = name).ToArray
+
+        If Not matchingTypes.Any Then Throw New ArgumentException(String.Format("Type '{0}' is not defined.", name))
+
+        Return matchingTypes.Single
     End Function
 
-    Private Shared ReadOnly _DefaultTypes As NamedTypes = New NamedTypes(types:={NamedType.Real, NamedType.Vector3D})
-    Public Shared ReadOnly Property DefaultTypes As NamedTypes
+    Private Shared ReadOnly _Default As NamedTypes = New NamedTypes(types:={NamedType.Real, NamedType.Vector3D})
+    Public Shared ReadOnly Property [Default] As NamedTypes
         Get
-            Return _DefaultTypes
+            Return _Default
         End Get
     End Property
 
@@ -23,5 +26,9 @@
             Return _Empty
         End Get
     End Property
+
+    Public Function Merge(second As NamedTypes) As NamedTypes
+        Return New NamedTypes(Me.Concat(second))
+    End Function
 
 End Class
