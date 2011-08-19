@@ -112,7 +112,7 @@
     <Compile Include="Terms\CompilerToolsTests.vb" />
     <Compile Include="Terms\Definitions\DefinitionsTests.vb" />
     <Compile Include="Terms\Definitions\ConstantDefinitionTests.vb" />
-    <Compile Include="Terms\Definitions\FunctionDefinitionTests.vb" />
+    <Compile Include="Terms\Definitions\FunctionAssignmentTests.vb" />
     <Compile Include="Terms\Definitions\ObjectTermTests.vb" />
     <Compile Include="Terms\NamedTypeTests.vb" />
     <Compile Include="Terms\TermTests.vb" />

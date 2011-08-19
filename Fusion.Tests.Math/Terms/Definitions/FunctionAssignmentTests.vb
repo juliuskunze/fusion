@@ -1,4 +1,4 @@
-﻿Public Class FunctionDefinitionTests
+﻿Public Class FunctionAssignmentTests
 
     <Test()>
     Public Sub TestFunction()
@@ -54,15 +54,15 @@
 
     <Test()>
     Public Sub TestDelegateAsParameter()
-        Dim wavelengthDelegateType = NamedType.NamedDelegateTypeFromText("delegate Real IntensityFunction(Real wavelength)", typeContext:=NamedTypes.Default)
-        Dim context = TermContext.Default.Merge(New TermContext(types:=New NamedTypes({wavelengthDelegateType})))
+        Dim intensityDelegate = NamedType.NamedDelegateTypeFromText("delegate Real IntensityDelegate(Real wavelength)", typeContext:=NamedTypes.Default)
+        Dim context = TermContext.Default.Merge(New TermContext(types:=New NamedTypes({intensityDelegate})))
 
-        Dim exampleWavelengthFunction = New FunctionAssignment("Real Intensity(Real wavelength) = 2*wavelength", context:=context).GetFunctionInstance
-        Dim context2 = context.Merge(New TermContext(Functions:={exampleWavelengthFunction}))
+        Dim intensity = New FunctionAssignment("Real Intensity(Real wavelength) = 2*wavelength", context:=context).GetFunctionInstance
+        Dim context2 = context.Merge(New TermContext(Functions:={intensity}))
 
-        Dim calculate = New FunctionAssignment("Real IntensityAt1(IntensityFunction intensityFunction) = intensityFunction{1}", context:=context2).GetFunctionInstance
+        Dim calculate = New FunctionAssignment("Real IntensityAt1(IntensityDelegate intensityDelegate) = intensityDelegate{1}", context:=context2).GetFunctionInstance
 
-        Assert.AreEqual(New Term("intensityAt1{Intensity}", Type:=NamedType.Real, context:=context2.Merge(New TermContext(Functions:={exampleWavelengthFunction, calculate}))).GetDelegate(Of Func(Of Double)).Invoke, 2)
+        Assert.AreEqual(New Term("intensityAt1{Intensity}", Type:=NamedType.Real, context:=context2.Merge(New TermContext(Functions:={intensity, calculate}))).GetDelegate(Of Func(Of Double)).Invoke, 2)
     End Sub
 
 End Class

@@ -27,7 +27,7 @@
         Dim rest As String = Nothing
         Dim typeAndName = CompilerTools.GetStartingTypedAndNamedVariable(text:=text, types:=typeContext, out_rest:=rest)
 
-        Dim parameters = CompilerTools.GetParameters(parametersInBrackets:=rest.Trim).Select(Function(parameterText) NamedParameter.FromText(definition:=parameterText, typeContext:=typeContext)).ToArray
+        Dim parameters = CompilerTools.GetParameters(parametersInBrackets:=rest.Trim).Select(Function(parameterText) NamedParameter.FromText(text:=parameterText, typeContext:=typeContext)).ToArray
 
         Return New FunctionSignature(Name:=typeAndName.Name, DelegateType:=New DelegateType(ResultType:=typeAndName.Type, parameters:=parameters))
     End Function

@@ -22,8 +22,8 @@
         End If
     End Sub
 
-    Public Shared Function FromText(definition As String, typeContext As NamedTypes) As NamedParameter
-        Dim signature = ConstantSignature.FromText(text:=definition, typeContext:=typeContext)
+    Public Shared Function FromText(text As String, typeContext As NamedTypes) As NamedParameter
+        Dim signature = ConstantSignature.FromText(text:=text, typeContext:=typeContext)
         Return New NamedParameter(Name:=signature.Name, Type:=signature.Type)
     End Function
 
