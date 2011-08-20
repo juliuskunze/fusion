@@ -14,9 +14,15 @@
         Return namedType
     End Function
    
-
     Private Shared Sub ThrowTypeNotInDictionaryException(type As Type)
         Throw New InvalidOperationException("'" & type.Name & "' is not contained in type typeNamedTypeDictionary.")
     End Sub
+
+    Private Shared ReadOnly _Default As New TypeNamedTypeDictionary(NamedTypes.Default)
+    Public Shared ReadOnly Property [Default] As TypeNamedTypeDictionary
+        Get
+            Return _Default
+        End Get
+    End Property
 
 End Class

@@ -38,24 +38,21 @@
         _Types = If(types Is Nothing, NamedTypes.Empty, types)
     End Sub
 
-
-    Private Shared ReadOnly _DefaultTypeNamedTypeDictionary As New TypeNamedTypeDictionary(NamedTypes.Default)
-
-    Private Shared ReadOnly _Default As New TermContext(Constants:={New ConstantInstance(Of Double)("Pi", System.Math.PI, _DefaultTypeNamedTypeDictionary),
-                                                                    New ConstantInstance(Of Double)("E", System.Math.E, _DefaultTypeNamedTypeDictionary)
+    Private Shared ReadOnly _Default As New TermContext(Constants:={New ConstantInstance(Of Double)("Pi", System.Math.PI, TypeNamedTypeDictionary.Default),
+                                                                    New ConstantInstance(Of Double)("E", System.Math.E, TypeNamedTypeDictionary.Default)
                                                                    },
-                                                        Functions:={New FunctionInstance(Of Func(Of Double, Double))("Sqrt", Function(x) System.Math.Sqrt(x), _DefaultTypeNamedTypeDictionary),
-                                                                    New FunctionInstance(Of Func(Of Double, Double))("Exp", Function(x) System.Math.Exp(x), _DefaultTypeNamedTypeDictionary),
-                                                                    New FunctionInstance(Of Func(Of Double, Double))("Sin", Function(x) System.Math.Sin(x), _DefaultTypeNamedTypeDictionary),
-                                                                    New FunctionInstance(Of Func(Of Double, Double))("Cos", Function(x) System.Math.Cos(x), _DefaultTypeNamedTypeDictionary),
-                                                                    New FunctionInstance(Of Func(Of Double, Double))("Tan", Function(x) System.Math.Tan(x), _DefaultTypeNamedTypeDictionary),
-                                                                    New FunctionInstance(Of Func(Of Double, Double))("Asin", Function(x) System.Math.Asin(x), _DefaultTypeNamedTypeDictionary),
-                                                                    New FunctionInstance(Of Func(Of Double, Double))("Acos", Function(x) System.Math.Acos(x), _DefaultTypeNamedTypeDictionary),
-                                                                    New FunctionInstance(Of Func(Of Double, Double))("Abs", Function(x) System.Math.Abs(x), _DefaultTypeNamedTypeDictionary),
-                                                                    New FunctionInstance(Of Func(Of Double, Double, Double))("Max", Function(a, b) System.Math.Max(a, b), _DefaultTypeNamedTypeDictionary),
-                                                                    New FunctionInstance(Of Func(Of Double, Double, Double))("Min", Function(a, b) System.Math.Min(a, b), _DefaultTypeNamedTypeDictionary)
-                                              },
-                                   Types:=NamedTypes.Default)
+                                                        Functions:={New FunctionInstance(Of Func(Of Double, Double))("Sqrt", Function(x) System.Math.Sqrt(x), TypeNamedTypeDictionary.Default),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Exp", Function(x) System.Math.Exp(x), TypeNamedTypeDictionary.Default),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Sin", Function(x) System.Math.Sin(x), TypeNamedTypeDictionary.Default),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Cos", Function(x) System.Math.Cos(x), TypeNamedTypeDictionary.Default),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Tan", Function(x) System.Math.Tan(x), TypeNamedTypeDictionary.Default),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Asin", Function(x) System.Math.Asin(x), TypeNamedTypeDictionary.Default),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Acos", Function(x) System.Math.Acos(x), TypeNamedTypeDictionary.Default),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Abs", Function(x) System.Math.Abs(x), TypeNamedTypeDictionary.Default),
+                                                                    New FunctionInstance(Of Func(Of Double, Double, Double))("Max", Function(a, b) System.Math.Max(a, b), TypeNamedTypeDictionary.Default),
+                                                                    New FunctionInstance(Of Func(Of Double, Double, Double))("Min", Function(a, b) System.Math.Min(a, b), TypeNamedTypeDictionary.Default)
+                                                                   },
+                                                        Types:=NamedTypes.Default)
 
     Public Shared ReadOnly Property [Default] As TermContext
         Get
