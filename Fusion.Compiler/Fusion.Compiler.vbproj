@@ -7,10 +7,10 @@
     </ProductVersion>
     <SchemaVersion>
     </SchemaVersion>
-    <ProjectGuid>{C5DA66D5-A01A-4EF1-A721-A4BB823FCEEB}</ProjectGuid>
+    <ProjectGuid>{82EE6FFE-ECDD-4C2B-AE0D-9FBD0676FC32}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Fusion.Tests.Math</RootNamespace>
-    <AssemblyName>Fusion.Tests.Math</AssemblyName>
+    <RootNamespace>Fusion.Compiler</RootNamespace>
+    <AssemblyName>Fusion.Compiler</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
@@ -20,11 +20,9 @@
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\BuildOutput\Tests\bin\debug\</OutputPath>
-    <DocumentationFile>Fusion.Tests.Math.xml</DocumentationFile>
-    <NoWarn>
-    </NoWarn>
-    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Fusion.Compiler.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,10 +30,8 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>Fusion.Tests.Math.xml</DocumentationFile>
-    <NoWarn>
-    </NoWarn>
-    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <DocumentationFile>Fusion.Compiler.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -50,31 +46,25 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework">
-      <HintPath>C:\Program Files\NUnit\NUnit-2.5.5.10112\bin\net-2.0\framework\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Drawing" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
   </ItemGroup>
   <ItemGroup>
     <Import Include="Fusion.Math" />
-    <Import Include="NUnit.Framework" />
     <Import Include="System" />
     <Import Include="System.Collections" />
     <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
     <Import Include="System.Diagnostics" />
-    <Import Include="System.Drawing" />
     <Import Include="System.Linq" />
     <Import Include="System.Linq.Expressions" />
-    <Import Include="System.Math" />
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EnumerableExtensionsTests\ConcatenatedSortedEnumeratorTests.vb" />
-    <Compile Include="EnumerableExtensionsTests\LingExtensionsTests.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -90,27 +80,30 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="QaudraticEquationSolverTests.vb" />
-    <Compile Include="SurfaceTests\AntiCylinderTests.vb" />
-    <Compile Include="SurfaceTests\AntiSphereTests.vb" />
-    <Compile Include="SurfaceTests\BoxTests.vb" />
-    <Compile Include="SurfaceTests\CylinderTests.vb" />
-    <Compile Include="SurfaceTests\InfiniteAntiCylinderTests.vb" />
-    <Compile Include="SurfaceTests\InfiniteCylinderTests.vb" />
-    <Compile Include="SurfaceTests\IntersectedSurfaceTests.vb" />
-    <Compile Include="SurfaceTests\PlaneTests.vb" />
-    <Compile Include="SurfaceTests\RectangleTests.vb" />
-    <Compile Include="SurfaceTests\SphereTests.vb" />
-    <Compile Include="SurfaceTests\SurfaceTests.vb" />
-    <Compile Include="SurfaceTests\TranslatedSurfaceTests.vb" />
-    <Compile Include="SurfaceTests\TriangleTests.vb" />
-    <Compile Include="SurfaceTests\TruncatedSurfaceTests.vb" />
-    <Compile Include="FunctionsTests.vb" />
-    <Compile Include="LinearMapTests.vb" />
-    <Compile Include="MatrixTests.vb" />
-    <Compile Include="SquareMatrixTests.vb" />
-    <Compile Include="Vector2DTests.vb" />
-    <Compile Include="Vector3DTermTests.vb" />
+    <Compile Include="Terms\Assignment.vb" />
+    <Compile Include="Terms\BracketType.vb" />
+    <Compile Include="Terms\CharExtensions.vb" />
+    <Compile Include="Terms\CompilerTools.vb" />
+    <Compile Include="Terms\ConstantTerm.vb" />
+    <Compile Include="Terms\Constant\ConstantAssignment.vb" />
+    <Compile Include="Terms\Constant\ConstantInstance.vb" />
+    <Compile Include="Terms\Constant\ConstantSignature.vb" />
+    <Compile Include="Terms\Definitions.vb" />
+    <Compile Include="Terms\DelegateType.vb" />
+    <Compile Include="Terms\FunctionCall.vb" />
+    <Compile Include="Terms\Function\FunctionAssignment.vb" />
+    <Compile Include="Terms\Function\FunctionInstance.vb" />
+    <Compile Include="Terms\Function\FunctionSignature.vb" />
+    <Compile Include="Terms\InvalidTermException.vb" />
+    <Compile Include="Terms\NamedParameter.vb" />
+    <Compile Include="Terms\NamedType.vb" />
+    <Compile Include="Terms\NamedTypes.vb" />
+    <Compile Include="Terms\Signature.vb" />
+    <Compile Include="Terms\Term.vb" />
+    <Compile Include="Terms\TermBase.vb" />
+    <Compile Include="Terms\TermContext.vb" />
+    <Compile Include="Terms\TermDefinition.vb" />
+    <Compile Include="Terms\TypeAndName.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -137,7 +130,6 @@
       <Name>Fusion.Math</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

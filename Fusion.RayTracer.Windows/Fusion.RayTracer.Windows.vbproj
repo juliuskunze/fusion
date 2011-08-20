@@ -104,6 +104,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Import Include="Fusion.Compiler" />
     <Import Include="Fusion.Math" />
     <Import Include="Fusion.Physics" />
     <Import Include="Fusion.RayTracer" />
@@ -175,6 +176,10 @@
     <Resource Include="Images\YellowLarge.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Fusion.Compiler\Fusion.Compiler.vbproj">
+      <Project>{82EE6FFE-ECDD-4C2B-AE0D-9FBD0676FC32}</Project>
+      <Name>Fusion.Compiler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Fusion.Math\Fusion.Math.vbproj">
       <Project>{F6034AE4-65A7-49CB-9756-C13EDFA258E6}</Project>
       <Name>Fusion.Math</Name>

@@ -21,11 +21,6 @@ Fusion.Math
  The triangle is only visible when the vertices are counter-clockwise.
  </summary>
 	<remarks></remarks>
-</member><member name="T:Fusion.Math.ConstantTerm`1">
-	<summary>
- A term that contains no user defined constants, parameters and functions.
- </summary>
-	<remarks></remarks>
 </member><member name="T:Fusion.Math.ConcatenatedSortedEnumerator`1">
 	<summary>
  Concatenates ascending sorted enumerators to one ascending sorted enumerator.

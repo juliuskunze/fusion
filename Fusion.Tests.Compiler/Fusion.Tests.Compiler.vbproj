@@ -7,10 +7,10 @@
     </ProductVersion>
     <SchemaVersion>
     </SchemaVersion>
-    <ProjectGuid>{85E3D12F-55C2-41DF-BC93-3E718C0BEE0E}</ProjectGuid>
+    <ProjectGuid>{BEE2D0AE-80F8-4603-A3D9-2FD9DB7649C9}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Fusion.RayTracer</RootNamespace>
-    <AssemblyName>Fusion.RayTracer</AssemblyName>
+    <RootNamespace>Fusion.Tests.Compiler</RootNamespace>
+    <AssemblyName>Fusion.Tests.Compiler</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
@@ -21,7 +21,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>Fusion.RayTracer.xml</DocumentationFile>
+    <DocumentationFile>Fusion.Tests.Compiler.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -30,7 +30,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>Fusion.RayTracer.xml</DocumentationFile>
+    <DocumentationFile>Fusion.Tests.Compiler.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -46,9 +46,11 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>C:\Program Files\NUnit\NUnit-2.5.5.10112\bin\net-2.0\framework\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -57,52 +59,17 @@
   <ItemGroup>
     <Import Include="Fusion.Compiler" />
     <Import Include="Fusion.Math" />
-    <Import Include="Fusion.Physics" />
-    <Import Include="Fusion.Visualization" />
+    <Import Include="NUnit.Framework" />
     <Import Include="System" />
+    <Import Include="System.Collections" />
     <Import Include="System.Collections.Generic" />
     <Import Include="System.Data" />
     <Import Include="System.Diagnostics" />
-    <Import Include="System.Drawing" />
     <Import Include="System.Linq" />
-    <Import Include="System.Math" />
+    <Import Include="System.Linq.Expressions" />
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ColorConversion\RgbLightToColorConverter.vb" />
-    <Compile Include="Examples\LensVideo.vb" />
-    <Compile Include="Examples\RayTracingExamples.vb" />
-    <Compile Include="IRayTracer.vb" />
-    <Compile Include="ColorConversion\ILightToColorConverter.vb" />
-    <Compile Include="Light\RadianceSpectrum\BlackBodyRadianceSpectrum.vb" />
-    <Compile Include="Light\RadianceSpectrum\RadianceSpectrum.vb" />
-    <Compile Include="Light\ILight.vb" />
-    <Compile Include="Light\RadianceSpectrum\IRadianceSpectrum.vb" />
-    <Compile Include="Light\Remission\BlackRemission.vb" />
-    <Compile Include="Light\Remission\RgbLightRemission.vb" />
-    <Compile Include="Light\Remission\FullRemission.vb" />
-    <Compile Include="Light\Remission\IRemission.vb" />
-    <Compile Include="Light\Remission\ScaledRemission.vb" />
-    <Compile Include="Light\RgbLight.vb" />
-    <Compile Include="Light\Source\DirectionalLightSource.vb" />
-    <Compile Include="Light\Source\ILightSource.vb" />
-    <Compile Include="Light\Source\IPointLightSource.vb" />
-    <Compile Include="Light\Source\LightSources.vb" />
-    <Compile Include="Light\Source\LinearPointLightSource.vb" />
-    <Compile Include="Light\Source\PointLightSource.vb" />
-    <Compile Include="Light\Source\ShadedLightSources.vb" />
-    <Compile Include="Light\Source\UndirectionalLightSource.vb" />
-    <Compile Include="MaterialSurfaces\ColorfulSphere.vb" />
-    <Compile Include="MaterialSurfaces\Materials2D.vb" />
-    <Compile Include="MaterialSurfaces\MultiMaterialBox.vb" />
-    <Compile Include="MaterialSurfaces\RadianceSpectrumMaterials2D.vb" />
-    <Compile Include="MaterialSurfaces\RgbLightMaterials2D.vb" />
-    <Compile Include="MaterialSurfaces\IMaterialSurface.vb" />
-    <Compile Include="MaterialSurfaces\Material2D.vb" />
-    <Compile Include="MaterialSurfaces\MaterialSurfacePoint.vb" />
-    <Compile Include="MaterialSurfaces\MaterialSurfaces.vb" />
-    <Compile Include="MaterialSurfaces\SingleMaterialSurface.vb" />
-    <Compile Include="MaterialSurfaces\SquaredMaterialSurface.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -118,20 +85,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="RayChanger.vb" />
-    <Compile Include="RayTraceDrawer.vb" />
-    <Compile Include="RecursiveRayTracer.vb" />
-    <Compile Include="RelativiticRayTracerTermContext.vb" />
-    <Compile Include="Relativity\RelativisticRayTracerWithoutDopplerEffect.vb" />
-    <Compile Include="Relativity\RelativisticRayTracerBase.vb" />
-    <Compile Include="Relativity\RelativisticTransformation.vb" />
-    <Compile Include="Relativity\RelativisticRayTracer.vb" />
-    <Compile Include="ScatteringRayTracer.vb" />
-    <Compile Include="ColorConversion\RadianceSpectrumToColorConverter.vb" />
-    <Compile Include="Video\IRayTraceVideo.vb" />
-    <Compile Include="Video\IViewCourse.vb" />
-    <Compile Include="Video\LinearViewCourse.vb" />
-    <Compile Include="Video\ViewCourseVideo.vb" />
+    <Compile Include="CompilerToolsTests.vb" />
+    <Compile Include="Definitions\ConstantDefinitionTests.vb" />
+    <Compile Include="Definitions\DefinitionsTests.vb" />
+    <Compile Include="Definitions\FunctionAssignmentTests.vb" />
+    <Compile Include="Definitions\ObjectTermTests.vb" />
+    <Compile Include="NamedTypeTests.vb" />
+    <Compile Include="TermTests.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -161,19 +121,6 @@
       <Project>{F6034AE4-65A7-49CB-9756-C13EDFA258E6}</Project>
       <Name>Fusion.Math</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Fusion.Physics\Fusion.Physics.vbproj">
-      <Project>{74A8E394-FD08-418B-BBBE-B9FD54589B2E}</Project>
-      <Name>Fusion.Physics</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Fusion.Visualization\Fusion.Visualization.vbproj">
-      <Project>{999FDCC5-C7B2-4F1E-B559-919752F9BC03}</Project>
-      <Name>Fusion.Visualization</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Data\2000pixel spectrum sRGB %28380nm to 710nm%29.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
