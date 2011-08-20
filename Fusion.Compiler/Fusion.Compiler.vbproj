@@ -80,30 +80,30 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Terms\Assignment.vb" />
-    <Compile Include="Terms\BracketType.vb" />
-    <Compile Include="Terms\CharExtensions.vb" />
-    <Compile Include="Terms\CompilerTools.vb" />
-    <Compile Include="Terms\ConstantTerm.vb" />
-    <Compile Include="Terms\Constant\ConstantAssignment.vb" />
-    <Compile Include="Terms\Constant\ConstantInstance.vb" />
-    <Compile Include="Terms\Constant\ConstantSignature.vb" />
-    <Compile Include="Terms\Definitions.vb" />
-    <Compile Include="Terms\DelegateType.vb" />
-    <Compile Include="Terms\FunctionCall.vb" />
-    <Compile Include="Terms\Function\FunctionAssignment.vb" />
-    <Compile Include="Terms\Function\FunctionInstance.vb" />
-    <Compile Include="Terms\Function\FunctionSignature.vb" />
-    <Compile Include="Terms\InvalidTermException.vb" />
-    <Compile Include="Terms\NamedParameter.vb" />
-    <Compile Include="Terms\NamedType.vb" />
-    <Compile Include="Terms\NamedTypes.vb" />
-    <Compile Include="Terms\Signature.vb" />
-    <Compile Include="Terms\Term.vb" />
-    <Compile Include="Terms\TermBase.vb" />
-    <Compile Include="Terms\TermContext.vb" />
-    <Compile Include="Terms\TermDefinition.vb" />
-    <Compile Include="Terms\TypeAndName.vb" />
+    <Compile Include="Assignment.vb" />
+    <Compile Include="BracketType.vb" />
+    <Compile Include="CharExtensions.vb" />
+    <Compile Include="CompilerTools.vb" />
+    <Compile Include="ConstantTerm.vb" />
+    <Compile Include="Constant\ConstantAssignment.vb" />
+    <Compile Include="Constant\ConstantInstance.vb" />
+    <Compile Include="Constant\ConstantSignature.vb" />
+    <Compile Include="Definitions.vb" />
+    <Compile Include="DelegateType.vb" />
+    <Compile Include="FunctionCall.vb" />
+    <Compile Include="Function\FunctionAssignment.vb" />
+    <Compile Include="Function\FunctionInstance.vb" />
+    <Compile Include="Function\FunctionSignature.vb" />
+    <Compile Include="InvalidTermException.vb" />
+    <Compile Include="NamedParameter.vb" />
+    <Compile Include="NamedType.vb" />
+    <Compile Include="NamedTypes.vb" />
+    <Compile Include="Signature.vb" />
+    <Compile Include="Term.vb" />
+    <Compile Include="TermBase.vb" />
+    <Compile Include="TermContext.vb" />
+    <Compile Include="TermDefinition.vb" />
+    <Compile Include="TypeAndName.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
