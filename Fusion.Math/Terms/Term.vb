@@ -34,16 +34,15 @@
             Dim argumentStrings = functionCall.Arguments
 
             Dim parameters = FunctionInstance.DelegateType.Parameters
+            If parameters.Count <> argumentStrings.Count Then Throw New ArgumentException("Wrong argument count.")
 
             Dim arguments = New List(Of Expression)
             For parameterIndex = 0 To parameters.Count - 1
                 Dim parameter = parameters(parameterIndex)
-                Dim argument = argumentStrings(parameterIndex)
+                Dim argumentString = argumentStrings(parameterIndex)
 
-                arguments.Add(Me.SubstringExpression(argument, type:=parameter.Type))
+                arguments.Add(Me.SubstringExpression(argumentString, type:=parameter.Type))
             Next
-
-            If parameters.Count <> argumentStrings.Count Then Throw New ArgumentException("Wrong argument count.")
 
             Return FunctionInstance.ExpressionBuilder.Invoke(arguments:=arguments)
         End If
