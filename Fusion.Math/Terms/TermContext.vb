@@ -42,13 +42,13 @@
         Get
             Return New TermContext(Constants:={New ConstantInstance(New ConstantSignature("Pi", NamedType.Real), System.Math.PI),
                                                New ConstantInstance(New ConstantSignature("E", NamedType.Real), System.Math.E)},
-                                   Functions:={New FunctionInstance("Sqrt", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), FunctionInstance.GetSystemMathFunctionExpressionBuilder(name:="Sqrt")),
-                                               New FunctionInstance("Exp", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), FunctionInstance.GetSystemMathFunctionExpressionBuilder(name:="Exp")),
-                                               New FunctionInstance("Sin", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), FunctionInstance.GetSystemMathFunctionExpressionBuilder(name:="Sin")),
-                                               New FunctionInstance("Cos", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), FunctionInstance.GetSystemMathFunctionExpressionBuilder(name:="Cos")),
-                                               New FunctionInstance("Tan", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), FunctionInstance.GetSystemMathFunctionExpressionBuilder(name:="Tan")),
-                                               New FunctionInstance("Asin", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), FunctionInstance.GetSystemMathFunctionExpressionBuilder(name:="Asin")),
-                                               New FunctionInstance("Acos", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), FunctionInstance.GetSystemMathFunctionExpressionBuilder(name:="Acos"))},
+                                   Functions:={FunctionInstance.NewFromLambda(Of Func(Of Double, Double))("Sqrt", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), Function(x) System.Math.Sqrt(x)),
+                                               FunctionInstance.NewFromLambda(Of Func(Of Double, Double))("Exp", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), Function(x) System.Math.Exp(x)),
+                                               FunctionInstance.NewFromLambda(Of Func(Of Double, Double))("Sin", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), Function(x) System.Math.Sin(x)),
+                                               FunctionInstance.NewFromLambda(Of Func(Of Double, Double))("Cos", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), Function(x) System.Math.Cos(x)),
+                                               FunctionInstance.NewFromLambda(Of Func(Of Double, Double))("Tan", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), Function(x) System.Math.Tan(x)),
+                                               FunctionInstance.NewFromLambda(Of Func(Of Double, Double))("Asin", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), Function(x) System.Math.Asin(x)),
+                                               FunctionInstance.NewFromLambda(Of Func(Of Double, Double))("Acos", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), Function(x) System.Math.Acos(x))},
                                    Types:=NamedTypes.Default)
         End Get
     End Property
@@ -58,6 +58,37 @@
                                Functions:=_Functions.Concat(second._Functions),
                                Parameters:=_Parameters.Concat(second._Parameters),
                                Types:=_Types.Merge(second.Types))
+    End Function
+
+    Public Function ParseFunction(ByVal name As String) As FunctionInstance
+        Dim matchingParameters =
+                From parameter In Me.Parameters
+                Where parameter.Type.IsDelegate AndAlso name.Equals(parameter.Name, StringComparison.OrdinalIgnoreCase)
+                Select parameter.ToFunctionInstance
+
+        Dim matchingFunctions =
+                From functionInstance In Me.Functions
+                Where name.Equals(functionInstance.Name, StringComparison.OrdinalIgnoreCase)
+
+        Dim matchingFunctionsAndParameters = matchingFunctions.Concat(matchingParameters)
+
+        If Not matchingFunctionsAndParameters.Any Then Throw New ArgumentException("Function '" & name & "' is not defined in this context.")
+
+        Return matchingFunctionsAndParameters.Single
+    End Function
+
+    Public Function TryParseConstant(name As String) As ConstantInstance
+        Dim matchingConstants = From constant In Me.Constants Where String.Equals(name, constant.Signature.Name, StringComparison.OrdinalIgnoreCase)
+        If Not matchingConstants.Any Then Return Nothing
+
+        Return matchingConstants.Single
+    End Function
+
+    Public Function TryParseParameter(name As String) As NamedParameter
+        Dim matchingParameters = From parameter In Me.Parameters Where String.Equals(name, parameter.Name, StringComparison.OrdinalIgnoreCase)
+        If Not matchingParameters.Any Then Return Nothing
+
+        Return matchingParameters.Single
     End Function
 
 End Class

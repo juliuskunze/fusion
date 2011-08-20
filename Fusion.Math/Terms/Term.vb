@@ -11,6 +11,8 @@
         Dim baseExpression = MyBase.TryGetConstantOrParameterExpression
         If baseExpression IsNot Nothing Then Return baseExpression
 
+        If _Type.IsDelegate Then Return _Context.ParseFunction(_TrimmedTerm).InvokableExpression
+
         Dim parsedDouble As Double
         If Double.TryParse(_TrimmedTerm, result:=parsedDouble) AndAlso Not _TrimmedTerm.StartsWith("("c) Then
             Me.CheckTypeMatch(type:=NamedType.Real)
@@ -28,20 +30,22 @@
 
         Dim functionCall = Me.TryGetFunctionCall
         If functionCall IsNot Nothing Then
-            Dim matchingFunctions = From functionInstance In _Context.Functions Where functionCall.FunctionName.Equals(functionInstance.Name, StringComparison.OrdinalIgnoreCase)
-            If Not matchingFunctions.Any Then Throw New ArgumentException("Function '" & functionCall.FunctionName & "' is not defined in this context.")
-            Dim matchingFunction = matchingFunctions.Single
-            Dim parameters = matchingFunction.Type.Parameters
+            Dim functionInstance = _Context.ParseFunction(functionCall.FunctionName)
             Dim argumentStrings = functionCall.Arguments
-            If parameters.Count <> argumentStrings.Count Then Throw New ArgumentException("Wrong argument count.")
+
+            Dim parameters = FunctionInstance.DelegateType.Parameters
 
             Dim arguments = New List(Of Expression)
             For parameterIndex = 0 To parameters.Count - 1
                 Dim parameter = parameters(parameterIndex)
                 Dim argument = argumentStrings(parameterIndex)
+
                 arguments.Add(Me.SubstringExpression(argument, type:=parameter.Type))
             Next
-            Return matchingFunction.Expression(arguments:=arguments)
+
+            If parameters.Count <> argumentStrings.Count Then Throw New ArgumentException("Wrong argument count.")
+
+            Return FunctionInstance.ExpressionBuilder.Invoke(arguments:=arguments)
         End If
 
         Select Case _TrimmedTerm.Chars(0)
@@ -101,7 +105,6 @@
         Throw New InvalidTermException(_TrimmedTerm)
     End Function
 
-
     Private ReadOnly Property BeforeIndexExpression(index As Integer, type As NamedType) As Expression
         Get
             Return Me.SubstringExpression(0, index, type)
@@ -142,7 +145,7 @@
            yExpression.Type <> GetType(Double) OrElse
            zExpression.Type <> GetType(Double) Then Throw New InvalidTermException(_Term, message:="The components of a vector must be real numbers.")
 
-        Return FunctionInstance.GetFunctionExpressionBuilder(Of Vector3DConstructor)(lambdaExpression:=Function(x, y, z) New Vector3D(x, y, z)).Invoke(arguments:={xExpression, yExpression, zExpression})
+        Return FunctionInstance.GetFunctionCallExpressionBuilder(Of Vector3DConstructor)(lambdaExpression:=Function(x, y, z) New Vector3D(x, y, z)).Invoke(arguments:={xExpression, yExpression, zExpression})
     End Function
 
     Private Delegate Function Vector3DConstructor(x As Double, y As Double, z As Double) As Vector3D

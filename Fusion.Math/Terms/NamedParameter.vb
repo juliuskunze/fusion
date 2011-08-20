@@ -17,10 +17,14 @@
     Public Sub New(name As String, type As NamedType)
         _Name = name
         _Type = type
-        If Not type.IsDelegateType Then
-            _Expression = Expressions.Expression.Parameter(type:=type.SystemType, name:=name)
-        End If
+        _Expression = Expressions.Expression.Parameter(type:=type.SystemType, name:=name)
     End Sub
+
+    Public Function ToFunctionInstance() As FunctionInstance
+        If Not _Type.IsDelegate Then Throw New InvalidOperationException("Parameter must be a delegate.")
+
+        Return New FunctionInstance(Name:=_Name, delegateType:=_Type.Delegate, invokableExpression:=_Expression)
+    End Function
 
     Public Shared Function FromText(text As String, typeContext As NamedTypes) As NamedParameter
         Dim signature = ConstantSignature.FromText(text:=text, typeContext:=typeContext)

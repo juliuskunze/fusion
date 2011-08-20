@@ -28,6 +28,24 @@
         Return Nothing
     End Function
 
+    Private Function TryGetConstantExpression() As Expression
+        Dim matchingConstant = _Context.TryParseConstant(_TrimmedTerm)
+        If matchingConstant Is Nothing Then Return Nothing
+
+        Me.CheckTypeMatch(type:=matchingConstant.Signature.Type)
+
+        Return matchingConstant.Expression
+    End Function
+
+    Private Function TryGetParameterExpression() As Expression
+        Dim matchingParameter = _Context.TryParseParameter(_TrimmedTerm)
+        If matchingParameter Is Nothing Then Return Nothing
+
+        Me.CheckTypeMatch(type:=matchingParameter.Type)
+
+        Return matchingParameter.Expression
+    End Function
+
     Public MustOverride Function GetExpression() As Expression
 
     Public Function GetDelegate() As System.Delegate
@@ -56,26 +74,6 @@
         End Try
     End Function
 
-    Protected Function TryGetParameterExpression() As Expression
-        Dim matchingParameters = From parameter In _Context.Parameters Where String.Equals(_TrimmedTerm, parameter.Name, StringComparison.OrdinalIgnoreCase)
-        If Not matchingParameters.Any Then Return Nothing
-
-        Dim matchingParameter = matchingParameters.Single
-        Me.CheckTypeMatch(type:=matchingParameter.Type)
-
-        Return matchingParameter.Expression
-    End Function
-
-    Protected Function TryGetConstantExpression() As Expression
-        Dim matchingConstants = From constant In _Context.Constants Where String.Equals(_TrimmedTerm, constant.Signature.Name, StringComparison.OrdinalIgnoreCase)
-        If Not matchingConstants.Any Then Return Nothing
-
-        Dim matchingConstant = matchingConstants.Single
-        Me.CheckTypeMatch(type:=matchingConstant.Signature.Type)
-
-        Return matchingConstant.Expression
-    End Function
-
     Protected Function TryGetFunctionCall() As FunctionCall
         Try
             Return New FunctionCall(text:=_Term)
@@ -86,6 +84,10 @@
 
     Protected Sub CheckTypeMatch(type As NamedType)
         If Not _Type.SystemType.IsAssignableFrom(type.SystemType) Then Throw New InvalidTermException(Term:=_Term, message:="Type '" & type.Name & "' is not compatible to type '" & _Type.Name & "'.")
+    End Sub
+
+    Private Sub CheckDelegateTypeMatch(delegateType As DelegateType)
+        _Type.Delegate.CheckIsAssignableFrom(delegateType)
     End Sub
 
 End Class

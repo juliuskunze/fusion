@@ -60,9 +60,14 @@
         Dim intensity = New FunctionAssignment("Real Intensity(Real wavelength) = 2*wavelength", context:=context).GetFunctionInstance
         Dim context2 = context.Merge(New TermContext(Functions:={intensity}))
 
-        Dim calculate = New FunctionAssignment("Real IntensityAt1(IntensityDelegate intensityDelegate) = intensityDelegate{1}", context:=context2).GetFunctionInstance
+        Dim calculate = New FunctionAssignment("Real IntensityAt1(IntensityDelegate intensityDelegateInstance) = intensityDelegateInstance{1}", context:=context2).GetFunctionInstance
 
-        Assert.AreEqual(New Term("intensityAt1{Intensity}", Type:=NamedType.Real, context:=context2.Merge(New TermContext(Functions:={intensity, calculate}))).GetDelegate(Of Func(Of Double)).Invoke, 2)
+        Assert.AreEqual(New Term("intensityAt1{Intensity}", Type:=NamedType.Real, context:=context2.Merge(New TermContext(Functions:={calculate}))).GetDelegate(Of Func(Of Double)).Invoke, 2)
+    End Sub
+
+    <Test()>
+    Public Sub Test()
+        Dim c As Expression(Of Action(Of Func(Of Double, Double))) = Sub(parameterFunction) parameterFunction.Invoke(4)
     End Sub
 
 End Class

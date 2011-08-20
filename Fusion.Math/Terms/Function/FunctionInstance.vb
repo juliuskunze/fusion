@@ -7,48 +7,54 @@
         End Get
     End Property
 
-    Private ReadOnly _Type As DelegateType
-    Public ReadOnly Property Type As DelegateType
+    Private ReadOnly _DelegateType As DelegateType
+    Public ReadOnly Property DelegateType As DelegateType
         Get
-            Return _Type
+            Return _DelegateType
         End Get
     End Property
 
-    Private ReadOnly _ExpressionBuilder As ExpressionBuilder
+    Private ReadOnly _ExpressionBuilder As FunctionCallExpressionBuilder
+    Public ReadOnly Property ExpressionBuilder As FunctionCallExpressionBuilder
+        Get
+            Return _ExpressionBuilder
+        End Get
+    End Property
+
     Public ReadOnly Property Expression(arguments As IEnumerable(Of Expression)) As Expression
         Get
             Return _ExpressionBuilder(arguments)
         End Get
     End Property
 
-    Public Sub New(name As String, type As DelegateType, expressionBuilder As ExpressionBuilder)
+    Private ReadOnly _InvokableExpression As Expression
+    Public ReadOnly Property InvokableExpression As Expression
+        Get
+            Return _InvokableExpression
+        End Get
+    End Property
+
+    Public Sub New(name As String, delegateType As DelegateType, invokableExpression As Expression)
         _Name = name
-        _Type = type
-        _ExpressionBuilder = expressionBuilder
+        _DelegateType = DelegateType
+        _InvokableExpression = invokableExpression
+        _ExpressionBuilder = GetDynamicFunctionCallExpressionBuilder(invokableExpression:=invokableExpression)
     End Sub
 
-    Public Sub New(name As String, type As DelegateType, lambdaExpression As LambdaExpression)
-        Me.New(name:=name, Type:=Type, ExpressionBuilder:=GetDynamicFunctionExpressionBuilder(lambdaExpression:=lambdaExpression))
-    End Sub
-
-    Public Shared Function GetSystemMathFunctionExpressionBuilder(name As String) As ExpressionBuilder
-        Return GetSafeExpressionBuilder(unsafeExpressionBuilder:=Function(arguments) Expressions.Expression.Call(method:=GetType(System.Math).GetMethod(name:=name), arguments:=arguments))
+    Public Shared Function NewFromLambda(Of TDelegate)(name As String,
+                                                       type As DelegateType,
+                                                       lambdaExpression As Expressions.Expression(Of TDelegate)) As FunctionInstance
+        Return New FunctionInstance(name:=name, DelegateType:=type, InvokableExpression:=lambdaExpression)
     End Function
 
-    Public Shared Function GetFunctionExpressionBuilder(Of TDelegate)(lambdaExpression As Expression(Of TDelegate)) As ExpressionBuilder
-        Return GetDynamicFunctionExpressionBuilder(lambdaExpression:=lambdaExpression)
+    Friend Shared Function GetFunctionCallExpressionBuilder(Of TDelegate)(lambdaExpression As Expression(Of TDelegate)) As FunctionCallExpressionBuilder
+        Return GetDynamicFunctionCallExpressionBuilder(InvokableExpression:=lambdaExpression)
     End Function
 
-    Private Shared Function GetDynamicFunctionExpressionBuilder(lambdaExpression As Expression) As ExpressionBuilder
-        Return GetSafeExpressionBuilder(unsafeExpressionBuilder:=Function(arguments) Expressions.Expression.Invoke(expression:=lambdaExpression, arguments:=arguments))
+    Friend Shared Function GetDynamicFunctionCallExpressionBuilder(invokableExpression As Expression) As FunctionCallExpressionBuilder
+        Return Function(arguments) Expressions.Expression.Invoke(expression:=InvokableExpression, arguments:=arguments)
     End Function
-
-    Private Shared Function GetSafeExpressionBuilder(unsafeExpressionBuilder As ExpressionBuilder) As ExpressionBuilder
-        Return Function(arguments)
-                   Return unsafeExpressionBuilder(arguments)
-               End Function
-    End Function
-
-    Public Delegate Function ExpressionBuilder(arguments As IEnumerable(Of Expression)) As Expression
 
 End Class
+
+Public Delegate Function FunctionCallExpressionBuilder(arguments As IEnumerable(Of Expression)) As Expression

@@ -4,11 +4,11 @@
     Public Sub NamedDelegateTypeFromText()
         Dim delegateType = NamedType.NamedDelegateTypeFromText("delegate Real WaveLengthFunction(Real wavelength)", typeContext:=NamedTypes.Default)
 
-        Assert.That(delegateType.IsDelegateType)
-        Assert.AreSame(delegateType.DelegateType.ResultType, NamedType.Real)
+        Assert.That(delegateType.IsDelegate)
+        Assert.AreSame(delegateType.Delegate.ResultType, NamedType.Real)
         Assert.AreEqual(delegateType.Name, "WaveLengthFunction")
 
-        Dim parameter = delegateType.DelegateType.Parameters.Single
+        Dim parameter = delegateType.Delegate.Parameters.Single
 
         Assert.AreSame(parameter.Type, NamedType.Real)
         Assert.AreEqual(parameter.Name, "wavelength")

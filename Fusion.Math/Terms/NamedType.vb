@@ -10,45 +10,49 @@
     Private ReadOnly _SystemType As Type
     Public ReadOnly Property SystemType As Type
         Get
-            If _IsDelegateType Then Throw New InvalidOperationException("The type must be a non delegate type.")
+            '!!!If _IsDelegateType Then Throw New InvalidOperationException("The type must be a non delegate type.")
+            If Me.IsDelegate Then
+                Return _Delegate.SystemType
+            Else
+                Return _SystemType
+            End If
 
-            Return _SystemType
         End Get
     End Property
 
-    Private ReadOnly _DelegateType As DelegateType
-    Public ReadOnly Property DelegateType As DelegateType
+    Private ReadOnly _Delegate As DelegateType
+    Public ReadOnly Property [Delegate] As DelegateType
         Get
-            If Not _IsDelegateType Then Throw New InvalidOperationException("The type must be a delegate type.")
+            If Not _IsDelegate Then Throw New InvalidOperationException("The type must be a delegate type.")
 
-            Return _DelegateType
+            Return _Delegate
         End Get
     End Property
 
-    Private ReadOnly _IsDelegateType As Boolean
-    Public ReadOnly Property IsDelegateType As Boolean
+    Private ReadOnly _IsDelegate As Boolean
+    Public ReadOnly Property IsDelegate As Boolean
         Get
-            Return _IsDelegateType
+            Return _IsDelegate
         End Get
     End Property
 
     Public Sub New(name As String, systemType As System.Type)
-        _IsDelegateType = False
+        _IsDelegate = False
         _Name = name
         _SystemType = systemType
     End Sub
 
-    Public Sub New(name As String, delegateType As DelegateType)
-        _IsDelegateType = True
+    Public Sub New(name As String, [delegate] As DelegateType)
+        _IsDelegate = True
         _Name = name
-        _DelegateType = delegateType
+        _Delegate = [delegate]
     End Sub
 
     Public Sub CheckIsAssignableFrom(other As NamedType)
-        If _IsDelegateType Then
-            If Not other.IsDelegateType Then Me.ThrowNotAssignableFromException(other.Name)
+        If _IsDelegate Then
+            If Not other.IsDelegate Then Me.ThrowNotAssignableFromException(other.Name)
 
-            Me.DelegateType.CheckIsAssignableFrom(other.DelegateType)
+            Me.Delegate.CheckIsAssignableFrom(other.Delegate)
         Else
             If Not Me.SystemType.IsAssignableFrom(other.SystemType) Then Me.ThrowNotAssignableFromException(other.Name)
         End If
