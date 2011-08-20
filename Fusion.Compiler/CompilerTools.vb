@@ -31,8 +31,12 @@ Public Module CompilerTools
         Return GetArgumentsOrParameters(argumentsInBrackets, bracketTypes:=_ArgumentBracketTypes)
     End Function
 
+    Public Function GetTypeArguments(ByVal typeArgumentsInBrackets As String) As IEnumerable(Of String)
+        Return GetArgumentsOrParameters(typeArgumentsInBrackets, bracketTypes:={_TypeArgumentBracketTypes})
+    End Function
+
     Public Function GetArgumentsOrParameters(ByVal inBrackets As String, bracketTypes As IEnumerable(Of BracketType)) As IEnumerable(Of String)
-        If Not inBrackets.IsInBrackets(bracketTypes:=bracketTypes) Then Throw New ArgumentException("Invalid function call.")
+        If Not inBrackets.IsInBrackets(bracketTypes:=bracketTypes) Then Throw New ArgumentException("Invalid argument enumeration: '" & inBrackets & "'.")
 
         Dim argumentsText = inBrackets.Substring(1, inBrackets.Length - 2)
         Return SplitIfSeparatorIsNotInBrackets(argumentsText, separator:=","c, bracketTypes:=_AllowedBracketTypes)
@@ -69,6 +73,31 @@ Public Module CompilerTools
         If Not name.IsValidVariableName Then Throw _InvalidNameException
 
         Return name
+    End Function
+
+    Private ReadOnly _TypeArgumentBracketTypes As BracketType = BracketType.Inequality
+
+    <Extension()>
+    Public Function GetStartingType(s As String, types As NamedTypes, Optional ByRef out_rest As String = Nothing) As NamedType
+        Dim typeNameWithoutParameters = s.GetStartingValidVariableName()
+        out_rest = s.Substring(startIndex:=typeNameWithoutParameters.Count).Trim
+
+        If out_rest.First <> _TypeArgumentBracketTypes.OpeningBracket Then Return types.Parse(typeNameWithoutParameters)
+
+        Dim charIsInBracketsArray = out_rest.GetCharIsInBracketsArray({_TypeArgumentBracketTypes})
+
+        Dim charsInBracketsCount = charIsInBracketsArray.Count
+        For index = 0 To charIsInBracketsArray.Count - 1
+            If Not charIsInBracketsArray(index) Then
+                charsInBracketsCount = index
+                Exit For
+            End If
+        Next
+
+        Dim argumentStrings = CompilerTools.GetTypeArguments(typeArgumentsInBrackets:=out_rest.Substring(0, charsInBracketsCount))
+        out_rest = out_rest.Substring(startIndex:=charsInBracketsCount)
+
+        Return types.Parse(typeNameWithoutParameters).MakeGenericType(argumentStrings.Select(Function(argumentString) types.Parse(argumentString)))
     End Function
 
     <Extension()>
@@ -147,11 +176,11 @@ Public Module CompilerTools
     Public Function GetStartingTypedAndNamedVariable(text As String, types As NamedTypes, Optional ByRef out_rest As String = Nothing) As TypeAndName
         Dim trim = text.TrimStart
 
-        Dim typeName = CompilerTools.GetStartingValidVariableName(trim)
-        Dim type = types.Parse(typeName)
+        Dim rest As String = Nothing
+        Dim type = CompilerTools.GetStartingType(trim, types:=types, out_rest:=rest)
 
-        Dim rest = trim.Substring(startIndex:=typeName.Length).TrimStart
-        Dim name = CompilerTools.GetStartingValidVariableName(rest)
+        Dim rest2 = rest.TrimStart
+        Dim name = CompilerTools.GetStartingValidVariableName(rest2)
 
         out_rest = rest.Substring(startIndex:=name.Length)
 

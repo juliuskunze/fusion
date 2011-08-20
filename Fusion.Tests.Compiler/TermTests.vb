@@ -144,5 +144,13 @@ Public Class TermTests
         Assert.That(New Term(Term:="<1,2,a>", Type:=NamedType.Vector3D, context:=TermContext.Default.Merge(New TermContext(parameters:={New NamedParameter(name:="a", Type:=NamedType.Real)}))).GetDelegate(Of Func(Of Double, Vector3D)).Invoke(3.0) = New Vector3D(1, 2, 3))
     End Sub
 
+    <Test()>
+    Public Sub TestCollection()
+        Dim sequence = New Term(Term:="{3, 4}", Type:=New NamedType(name:="Collection<Real>", systemType:=GetType(IEnumerable(Of Double))), context:=TermContext.Default).GetDelegate(Of Func(Of IEnumerable(Of Double))).Invoke()
+
+        Assert.That(sequence.Count = 2)
+        Assert.AreEqual(sequence.First, 3)
+        Assert.AreEqual(sequence.Last, 4)
+    End Sub
 
 End Class

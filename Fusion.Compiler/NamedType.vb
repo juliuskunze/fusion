@@ -10,13 +10,11 @@
     Private ReadOnly _SystemType As Type
     Public ReadOnly Property SystemType As Type
         Get
-            '!!!If _IsDelegateType Then Throw New InvalidOperationException("The type must be a non delegate type.")
             If Me.IsDelegate Then
                 Return _Delegate.SystemType
             Else
                 Return _SystemType
             End If
-
         End Get
     End Property
 
@@ -36,11 +34,30 @@
         End Get
     End Property
 
+    Private ReadOnly _TypeArguments As IEnumerable(Of NamedType)
+    Public ReadOnly Property TypeArguments As IEnumerable(Of NamedType)
+        Get
+            Return _TypeArguments
+        End Get
+    End Property
+
     Public Sub New(name As String, systemType As System.Type)
+        Me.New(name:=name, systemType:=systemType, TypeArguments:={})
+    End Sub
+
+    Private Sub New(name As String, systemType As System.Type, typeArguments As IEnumerable(Of NamedType))
         _IsDelegate = False
         _Name = name
         _SystemType = systemType
+        _TypeArguments = typeArguments
     End Sub
+
+    Public Function MakeGenericType(typeArguments As IEnumerable(Of NamedType)) As NamedType
+        If _TypeArguments.Any Then Throw New InvalidOperationException("Only types that have not already generic arguments can get new type arguments.")
+        If _SystemType.GetGenericArguments.Count <> typeArguments.Count Then Throw New ArgumentException(String.Format("Wrong type argument count for type '{0}'.", _Name))
+
+        Return New NamedType(_Name, _SystemType.MakeGenericType((From namedType In typeArguments Select namedType.SystemType).ToArray), typeArguments)
+    End Function
 
     Public Sub New(name As String, [delegate] As DelegateType)
         _IsDelegate = True
@@ -84,6 +101,13 @@
     Public Shared ReadOnly Property Vector3D() As NamedType
         Get
             Return _Vector3D
+        End Get
+    End Property
+
+    Private Shared ReadOnly _Collection As New NamedType("Collection", GetType(IEnumerable(Of )))
+    Public Shared ReadOnly Property Collection() As NamedType
+        Get
+            Return _Collection
         End Get
     End Property
 
