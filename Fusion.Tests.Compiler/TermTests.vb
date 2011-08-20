@@ -86,6 +86,16 @@ Public Class TermTests
     End Sub
 
     <Test()>
+    Public Sub TestMax()
+        Assert.That(New ConstantTerm(Of Double)("Max{1, 3}").GetResult = 3)
+    End Sub
+
+    <Test()>
+    Public Sub TestMin()
+        Assert.That(New ConstantTerm(Of Double)("Min{1, 3}").GetResult = 1)
+    End Sub
+
+    <Test()>
     Public Sub TestVector3D()
         Assert.That(New ConstantTerm(Of Vector3D)("<3,4,4>").GetResult = New Vector3D(3, 4, 4))
     End Sub
@@ -100,7 +110,7 @@ Public Class TermTests
 
     <Test()>
     Public Sub TestFunction()
-        Dim namedMethodExpression = FunctionInstance.NewFromLambda(Of Func(Of Double, Double))("square", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), lambdaExpression:=Function(x As Double) x ^ 2)
+        Dim namedMethodExpression = New FunctionInstance(Of Func(Of Double, Double))("square", Function(x As Double) x ^ 2, TypeNamedTypeDictionary:=New TypeNamedTypeDictionary(NamedTypes.Default))
         Dim term = New Term("square{2*x}", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(parameters:={New NamedParameter(name:="x", Type:=NamedType.Real)}, Functions:={namedMethodExpression})))
         Dim d = term.GetDelegate(Of Func(Of Double, Double))()
         Assert.That(d(5) = 100)

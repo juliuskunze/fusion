@@ -38,18 +38,28 @@
         _Types = If(types Is Nothing, NamedTypes.Empty, types)
     End Sub
 
+
+    Private Shared ReadOnly _DefaultTypeNamedTypeDictionary As New TypeNamedTypeDictionary(NamedTypes.Default)
+
+    Private Shared ReadOnly _Default As New TermContext(Constants:={New ConstantInstance(Of Double)("Pi", System.Math.PI, _DefaultTypeNamedTypeDictionary),
+                                                                    New ConstantInstance(Of Double)("E", System.Math.E, _DefaultTypeNamedTypeDictionary)
+                                                                   },
+                                                        Functions:={New FunctionInstance(Of Func(Of Double, Double))("Sqrt", Function(x) System.Math.Sqrt(x), _DefaultTypeNamedTypeDictionary),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Exp", Function(x) System.Math.Exp(x), _DefaultTypeNamedTypeDictionary),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Sin", Function(x) System.Math.Sin(x), _DefaultTypeNamedTypeDictionary),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Cos", Function(x) System.Math.Cos(x), _DefaultTypeNamedTypeDictionary),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Tan", Function(x) System.Math.Tan(x), _DefaultTypeNamedTypeDictionary),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Asin", Function(x) System.Math.Asin(x), _DefaultTypeNamedTypeDictionary),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Acos", Function(x) System.Math.Acos(x), _DefaultTypeNamedTypeDictionary),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Abs", Function(x) System.Math.Abs(x), _DefaultTypeNamedTypeDictionary),
+                                                                    New FunctionInstance(Of Func(Of Double, Double, Double))("Max", Function(a, b) System.Math.Max(a, b), _DefaultTypeNamedTypeDictionary),
+                                                                    New FunctionInstance(Of Func(Of Double, Double, Double))("Min", Function(a, b) System.Math.Min(a, b), _DefaultTypeNamedTypeDictionary)
+                                              },
+                                   Types:=NamedTypes.Default)
+
     Public Shared ReadOnly Property [Default] As TermContext
         Get
-            Return New TermContext(Constants:={New ConstantInstance(New ConstantSignature("Pi", NamedType.Real), System.Math.PI),
-                                               New ConstantInstance(New ConstantSignature("E", NamedType.Real), System.Math.E)},
-                                   Functions:={FunctionInstance.NewFromLambda(Of Func(Of Double, Double))("Sqrt", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), Function(x) System.Math.Sqrt(x)),
-                                               FunctionInstance.NewFromLambda(Of Func(Of Double, Double))("Exp", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), Function(x) System.Math.Exp(x)),
-                                               FunctionInstance.NewFromLambda(Of Func(Of Double, Double))("Sin", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), Function(x) System.Math.Sin(x)),
-                                               FunctionInstance.NewFromLambda(Of Func(Of Double, Double))("Cos", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), Function(x) System.Math.Cos(x)),
-                                               FunctionInstance.NewFromLambda(Of Func(Of Double, Double))("Tan", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), Function(x) System.Math.Tan(x)),
-                                               FunctionInstance.NewFromLambda(Of Func(Of Double, Double))("Asin", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), Function(x) System.Math.Asin(x)),
-                                               FunctionInstance.NewFromLambda(Of Func(Of Double, Double))("Acos", New DelegateType(NamedType.Real, {New NamedParameter(name:="x", Type:=NamedType.Real)}), Function(x) System.Math.Acos(x))},
-                                   Types:=NamedTypes.Default)
+            Return _Default
         End Get
     End Property
 

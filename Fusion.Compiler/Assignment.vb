@@ -29,8 +29,12 @@
 
     Public ReadOnly Property IsFunctionAssignment As Boolean
         Get
-            Return Signature.IsConstantSignatureDefinition(_Declaration)
+            Return IsConstantSignatureDefinition(_Declaration)
         End Get
     End Property
+
+    Private Shared Function IsConstantSignatureDefinition(definition As String) As Boolean
+        Return definition.Contains(CompilerTools.ParameterBracketTypes.Single.OpeningBracket) OrElse definition.Contains(CompilerTools.ParameterBracketTypes.Single.ClosingBracket)
+    End Function
 
 End Class

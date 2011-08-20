@@ -14,16 +14,16 @@
         End Get
     End Property
 
-    Private ReadOnly _ExpressionBuilder As FunctionCallExpressionBuilder
-    Public ReadOnly Property ExpressionBuilder As FunctionCallExpressionBuilder
+    Private ReadOnly _CallExpressionBuilder As FunctionCallExpressionBuilder
+    Public ReadOnly Property CallExpressionBuilder As FunctionCallExpressionBuilder
         Get
-            Return _ExpressionBuilder
+            Return _CallExpressionBuilder
         End Get
     End Property
 
-    Public ReadOnly Property Expression(arguments As IEnumerable(Of Expression)) As Expression
+    Public ReadOnly Property CallExpression(arguments As IEnumerable(Of Expression)) As Expression
         Get
-            Return _ExpressionBuilder(arguments)
+            Return _CallExpressionBuilder.Run(arguments)
         End Get
     End Property
 
@@ -36,25 +36,38 @@
 
     Public Sub New(name As String, delegateType As DelegateType, invokableExpression As Expression)
         _Name = name
-        _DelegateType = DelegateType
+        _DelegateType = delegateType
         _InvokableExpression = invokableExpression
-        _ExpressionBuilder = GetDynamicFunctionCallExpressionBuilder(invokableExpression:=invokableExpression)
+        _CallExpressionBuilder = New FunctionCallExpressionBuilder(invokableExpression:=invokableExpression)
     End Sub
-
-    Public Shared Function NewFromLambda(Of TDelegate)(name As String,
-                                                       type As DelegateType,
-                                                       lambdaExpression As Expressions.Expression(Of TDelegate)) As FunctionInstance
-        Return New FunctionInstance(name:=name, DelegateType:=type, InvokableExpression:=lambdaExpression)
-    End Function
-
-    Friend Shared Function GetFunctionCallExpressionBuilder(Of TDelegate)(lambdaExpression As Expression(Of TDelegate)) As FunctionCallExpressionBuilder
-        Return GetDynamicFunctionCallExpressionBuilder(InvokableExpression:=lambdaExpression)
-    End Function
-
-    Friend Shared Function GetDynamicFunctionCallExpressionBuilder(invokableExpression As Expression) As FunctionCallExpressionBuilder
-        Return Function(arguments) Expressions.Expression.Invoke(expression:=InvokableExpression, arguments:=arguments)
-    End Function
 
 End Class
 
-Public Delegate Function FunctionCallExpressionBuilder(arguments As IEnumerable(Of Expression)) As Expression
+Public Class FunctionInstance(Of TDelegate)
+    Inherits FunctionInstance
+
+    Public Sub New(name As String,
+                   lambdaExpression As Expressions.Expression(Of TDelegate),
+                   typeNamedTypeDictionary As TypeNamedTypeDictionary)
+        Me.New(name:=name, Type:=GetDelegateType(lambdaExpression, typeNamedTypeDictionary), lambdaExpression:=lambdaExpression)
+    End Sub
+
+    Public Sub New(name As String,
+                   type As DelegateType,
+                   lambdaExpression As Expressions.Expression(Of TDelegate))
+        MyBase.New(name:=name, DelegateType:=type, InvokableExpression:=lambdaExpression)
+    End Sub
+
+    Private Shared Function GetDelegateType(ByVal lambdaExpression As Expression(Of TDelegate), ByVal typeNamedTypeDictionary As TypeNamedTypeDictionary) As DelegateType
+        Dim namedResultType = typeNamedTypeDictionary.GetNamedType(lambdaExpression.ReturnType)
+
+        Dim namedParameters = lambdaExpression.Parameters.Select(Function(parameterExpression)
+                                                                     Dim namedType = typeNamedTypeDictionary.GetNamedType(parameterExpression.Type)
+
+                                                                     Return New NamedParameter(Name:=parameterExpression.Name, Type:=namedType)
+                                                                 End Function)
+
+        Return New DelegateType(resultType:=namedResultType, parameters:=namedParameters)
+    End Function
+
+End Class

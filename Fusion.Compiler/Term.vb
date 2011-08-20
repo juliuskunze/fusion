@@ -44,7 +44,7 @@
                 arguments.Add(Me.SubstringExpression(argumentString, type:=parameter.Type))
             Next
 
-            Return FunctionInstance.ExpressionBuilder.Invoke(arguments:=arguments)
+            Return functionInstance.CallExpressionBuilder.Run(arguments:=arguments)
         End If
 
         Select Case _TrimmedTerm.Chars(0)
@@ -144,7 +144,7 @@
            yExpression.Type <> GetType(Double) OrElse
            zExpression.Type <> GetType(Double) Then Throw New InvalidTermException(_Term, message:="The components of a vector must be real numbers.")
 
-        Return FunctionInstance.GetFunctionCallExpressionBuilder(Of Vector3DConstructor)(lambdaExpression:=Function(x, y, z) New Vector3D(x, y, z)).Invoke(arguments:={xExpression, yExpression, zExpression})
+        Return New FunctionCallExpressionBuilder(Of Vector3DConstructor)(LambdaExpression:=Function(x, y, z) New Vector3D(x, y, z)).Run(arguments:={xExpression, yExpression, zExpression})
     End Function
 
     Private Delegate Function Vector3DConstructor(x As Double, y As Double, z As Double) As Vector3D

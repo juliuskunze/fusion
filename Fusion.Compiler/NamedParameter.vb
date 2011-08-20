@@ -23,7 +23,7 @@
     Public Function ToFunctionInstance() As FunctionInstance
         If Not _Type.IsDelegate Then Throw New InvalidOperationException("Parameter must be a delegate.")
 
-        Return New FunctionInstance(Name:=_Name, delegateType:=_Type.Delegate, invokableExpression:=_Expression)
+        Return New FunctionInstance(Name:=_Name, DelegateType:=_Type.Delegate, invokableExpression:=_Expression)
     End Function
 
     Public Shared Function FromText(text As String, typeContext As NamedTypes) As NamedParameter

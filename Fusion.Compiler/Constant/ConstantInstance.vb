@@ -20,3 +20,12 @@ Public Class ConstantInstance
     End Sub
 
 End Class
+
+Public Class ConstantInstance(Of T)
+    Inherits ConstantInstance
+
+    Public Sub New(name As String, value As T, typeNamedTypeDictionary As TypeNamedTypeDictionary)
+        MyBase.New(New ConstantSignature(name:=name, Type:=typeNamedTypeDictionary.GetNamedType(GetType(T))), value:=value)
+    End Sub
+
+End Class
