@@ -91,6 +91,13 @@
         Throw New ArgumentException(String.Format("Type '{0}' is not assignable to type '{1}'.", otherName, Me.Name))
     End Function
 
+    Private Shared ReadOnly _Boolean As New NamedType("Boolean", GetType(Boolean))
+    Public Shared ReadOnly Property [Boolean] As NamedType
+        Get
+            Return _Boolean
+        End Get
+    End Property
+
     Private Shared ReadOnly _Real As New NamedType("Real", GetType(Double))
     Public Shared ReadOnly Property Real() As NamedType
         Get

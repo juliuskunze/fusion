@@ -106,8 +106,7 @@
                         <Label Grid.Row="3">Errors:</Label>
                         
                         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="4">
-                            <ListBox Name="_SceneDescriptionCompileErrorListBox">
-                            </ListBox>
+                            <TextBox Name="_ErrorTextBox"></TextBox>
                         </ScrollViewer>
                     </Grid>
                 </TabItem>

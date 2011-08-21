@@ -77,9 +77,9 @@ Public Module CompilerTools
     End Function
 
     <Extension()>
-    Public Function GetStartingValidVariableName(s As String) As String
-        If s.Length = 0 Then Throw _InvalidNameException
-        If Not s.First.IsValidVariableStartChar Then Throw _InvalidNameException
+    Public Function GetStartingIdentifier(s As String) As String
+        If s.Length = 0 Then Throw _IdentifierExpectedException
+        If Not s.First.IsValidVariableStartChar Then Throw _IdentifierExpectedException
 
         Dim nameLength = 0
         Do While nameLength < s.Length AndAlso s(nameLength).IsValidVariableChar
@@ -88,14 +88,14 @@ Public Module CompilerTools
 
         Dim name = s.Substring(0, length:=nameLength)
 
-        If Not name.IsValidVariableName Then Throw _InvalidNameException
+        If Not name.IsValidVariableName Then Throw _IdentifierExpectedException
 
         Return name
     End Function
 
     <Extension()>
     Public Function GetStartingType(s As String, types As NamedTypes, Optional ByRef out_rest As String = Nothing) As NamedType
-        Dim typeNameWithoutParameters = s.GetStartingValidVariableName()
+        Dim typeNameWithoutParameters = s.GetStartingIdentifier()
         out_rest = s.Substring(startIndex:=typeNameWithoutParameters.Count).Trim
 
         If out_rest.First <> _TypeArgumentBracketType.OpeningBracket Then Return types.Parse(typeNameWithoutParameters)
@@ -182,7 +182,7 @@ Public Module CompilerTools
         Return charIsInBracketsArray.All(Function(inBrackets) inBrackets)
     End Function
 
-    Private ReadOnly _InvalidNameException As New ArgumentException("Invalid name.")
+    Private ReadOnly _IdentifierExpectedException As New ArgumentException("Identifier expected.")
 
     Public Function GetStartingTypedAndNamedVariable(text As String, types As NamedTypes, Optional ByRef out_rest As String = Nothing) As TypeAndName
         Dim trim = text.TrimStart
@@ -191,14 +191,14 @@ Public Module CompilerTools
         Dim type = CompilerTools.GetStartingType(trim, types:=types, out_rest:=rest)
 
         Dim rest2 = rest.TrimStart
-        Dim name = CompilerTools.GetStartingValidVariableName(rest2)
+        Dim name = CompilerTools.GetStartingIdentifier(rest2)
 
         out_rest = rest.Substring(startIndex:=name.Length)
 
         Return New TypeAndName(name:=name, type:=type)
     End Function
 
-    Public Function VariableNameEquals(a As String, b As String) As Boolean
+    Public Function IdentifierEquals(a As String, b As String) As Boolean
         Return String.Equals(a, b, StringComparison.OrdinalIgnoreCase)
     End Function
 

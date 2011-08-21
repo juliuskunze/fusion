@@ -6,7 +6,9 @@
 
     Private WithEvents _RenderBackgroundWorker As ComponentModel.BackgroundWorker
 
+    Private Shared ReadOnly _BaseContext As New RelativisticRayTracerTermContext
     Private _Compiler As RelativisticRayTracerDrawerCompiler
+
 
     Private Event SceneChanged()
 
@@ -45,11 +47,13 @@
         If Not _HeightTermBox.HasResult Then Return False
         If Not _RadiancePerWhiteTermBox.HasResult Then Return False
 
-        _Compiler = New RelativisticRayTracerDrawerCompiler(pictureSize:=New System.Drawing.Size(_WidthTermBox.Result.Value, _HeightTermBox.Result.Value),
-                                                            descriptionText:=_SceneDescriptionTextBox.Text,
-                                                            radiancePerWhite:=_RadiancePerWhiteTermBox.Result.Value)
-        _RayTraceDrawer = _Compiler.Compile
-        _SceneDescriptionCompileErrorListBox.ItemsSource = _Compiler.Errors
+        _Compiler = New RelativisticRayTracerDrawerCompiler(TextBox:=_SceneDescriptionTextBox, baseContext:=_BaseContext, TypeNamedTypeDictionary:=RelativisticRayTracerTermContext.TypeDictionary)
+        Try
+            _RayTraceDrawer = _Compiler.GetResult
+        Catch ex As Exception
+            _ErrorTextBox.Text = ex.Message
+        End Try
+
 
         Return True
     End Function

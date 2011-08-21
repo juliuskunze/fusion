@@ -153,4 +153,48 @@ Public Class TermTests
         Assert.AreEqual(sequence.Last, 4)
     End Sub
 
+    <Test()>
+    Public Sub TestBooleanEquals()
+        Assert.That(New Term(Term:="3 = 3", Type:=NamedType.Boolean, context:=TermContext.Default).GetDelegate(Of Func(Of Boolean)).Invoke())
+        Assert.That(Not New Term(Term:="3 = 2", Type:=NamedType.Boolean, context:=TermContext.Default).GetDelegate(Of Func(Of Boolean)).Invoke())
+    End Sub
+
+    <Test()>
+    Public Sub TestBooleanNotEquals()
+        Assert.That(Not New Term(Term:="3 <> 3", Type:=NamedType.Boolean, context:=TermContext.Default).GetDelegate(Of Func(Of Boolean)).Invoke())
+        Assert.That(New Term(Term:="3 <> 2", Type:=NamedType.Boolean, context:=TermContext.Default).GetDelegate(Of Func(Of Boolean)).Invoke())
+    End Sub
+
+    <Test()>
+    Public Sub TestBooleanCompare()
+        Assert.That(Not New Term(Term:="3 > 3", Type:=NamedType.Boolean, context:=TermContext.Default).GetDelegate(Of Func(Of Boolean)).Invoke())
+        Assert.That(New Term(Term:="3 > 2", Type:=NamedType.Boolean, context:=TermContext.Default).GetDelegate(Of Func(Of Boolean)).Invoke())
+        Assert.That(New Term(Term:="3 >= 2", Type:=NamedType.Boolean, context:=TermContext.Default).GetDelegate(Of Func(Of Boolean)).Invoke())
+        Assert.That(New Term(Term:="3 >= 3", Type:=NamedType.Boolean, context:=TermContext.Default).GetDelegate(Of Func(Of Boolean)).Invoke())
+        Assert.That(Not New Term(Term:="3 < 3", Type:=NamedType.Boolean, context:=TermContext.Default).GetDelegate(Of Func(Of Boolean)).Invoke())
+        Assert.That(New Term(Term:="3 <= 3", Type:=NamedType.Boolean, context:=TermContext.Default).GetDelegate(Of Func(Of Boolean)).Invoke())
+    End Sub
+
+    <Test()>
+    Public Sub TestCases()
+        Dim result = New Term(Term:="cases{2 > 1 : 3 , else : 4}", Type:=NamedType.Real, context:=TermContext.Default).GetDelegate(Of Func(Of Double)).Invoke()
+
+        Assert.AreEqual(result, 3)
+
+        Dim result2 = New Term(Term:="cases{1 > 2 : 3 , else : 4}", Type:=NamedType.Real, context:=TermContext.Default).GetDelegate(Of Func(Of Double)).Invoke()
+
+        Assert.AreEqual(result2, 4)
+    End Sub
+
+    <Test()>
+    Public Sub TestMultipleCases()
+        Dim result = New Term(Term:="cases{1 > 2 : 3 , 1 > 2 : 4, else : 5}", Type:=NamedType.Real, context:=TermContext.Default).GetDelegate(Of Func(Of Double)).Invoke()
+
+        Assert.AreEqual(result, 5)
+
+        Dim result2 = New Term(Term:="cases{1 > 2 : 3 , 2 > 2 : 1, else : 5}", Type:=NamedType.Real, context:=TermContext.Default).GetDelegate(Of Func(Of Double)).Invoke()
+
+        Assert.AreEqual(result, 4)
+    End Sub
+
 End Class

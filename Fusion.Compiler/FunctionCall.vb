@@ -17,7 +17,7 @@
     Public Sub New(text As String)
         Dim trimmedText = text.Trim
 
-        _FunctionName = trimmedText.GetStartingValidVariableName
+        _FunctionName = trimmedText.GetStartingIdentifier
         _Arguments = CompilerTools.GetArguments(argumentsInBrackets:=trimmedText.Substring(startIndex:=_FunctionName.Length, length:=trimmedText.Length - _FunctionName.Length).Trim)
     End Sub
 

@@ -12,8 +12,8 @@
 
     <Test()>
     Public Sub TestGetStartingValidVariableName()
-        Assert.AreEqual("a", CompilerTools.GetStartingValidVariableName("a"))
-        Assert.Throws(Of ArgumentException)(Sub() CompilerTools.GetStartingValidVariableName("'a"))
+        Assert.AreEqual("a", CompilerTools.GetStartingIdentifier("a"))
+        Assert.Throws(Of ArgumentException)(Sub() CompilerTools.GetStartingIdentifier("'a"))
     End Sub
 
     <Test()>

@@ -13,7 +13,7 @@
         Return matchingTypes.Single
     End Function
 
-    Private Shared ReadOnly _Default As NamedTypes = New NamedTypes(types:={NamedType.Real, NamedType.Vector3D, NamedType.Collection})
+    Private Shared ReadOnly _Default As NamedTypes = New NamedTypes(types:={NamedType.Boolean, NamedType.Real, NamedType.Vector3D, NamedType.Collection})
     Public Shared ReadOnly Property [Default] As NamedTypes
         Get
             Return _Default

@@ -13,10 +13,10 @@
 
     Private ReadOnly _Definitions As IEnumerable(Of String)
 
-    Public Sub New(text As String, baseContext As TermContext, resultType As NamedType)
+    Public Sub New(text As String, baseContext As TermContext, typeNamedTypeDictionary As TypeNamedTypeDictionary)
         _Text = text
         _BaseContext = baseContext
-        _ResultType = resultType
+        _ResultType = typeNamedTypeDictionary.GetNamedType(GetType(TResult))
         _Definitions = _Text.Split(";"c)
     End Sub
 
@@ -41,7 +41,7 @@
         Dim context = Me.GetTermContext
 
         Dim returnStatement = _Definitions(_Definitions.Count - 2)
-        If _Definitions.Last <> "" Then Throw New ArgumentException("Missing ';' in return statement.")
+        If _Definitions.Last <> "" Then Throw New ArgumentException("Missing ';' after return statement.")
 
         Dim returnTerm = New Term(Term:=GetReturnTerm(returnStatement), Type:=_ResultType, context:=context)
 
@@ -52,8 +52,9 @@
         Const returnKeyword = "return"
 
         Dim trim = returnStatement.Trim
-        If Not CompilerTools.VariableNameEquals(CompilerTools.GetStartingValidVariableName(trim), returnKeyword) Then Throw New ArgumentException("Missing return statement.")
+        If Not CompilerTools.IdentifierEquals(trim.GetStartingIdentifier, returnKeyword) Then Throw New ArgumentException("Missing return statement.")
 
         Return trim.Substring(startIndex:=returnKeyword.Count)
     End Function
+
 End Class

@@ -2,9 +2,7 @@
     Inherits Dictionary(Of Type, NamedType)
 
     Public Sub New(namedTypes As IEnumerable(Of NamedType))
-        For Each namedType In namedTypes
-            Me.Add(namedType.SystemType, namedType)
-        Next
+        MyBase.New(namedTypes.ToDictionary(Of Type)(Function(namedType) namedType.SystemType))
     End Sub
 
     Public Function GetNamedType(type As Type) As NamedType

@@ -78,6 +78,7 @@
     <Compile Include="Controls\IntegerTermBox.vb" />
     <Compile Include="Controls\ValidatingTextBox.vb" />
     <Compile Include="Controls\Vector3DBox.vb" />
+    <Compile Include="RelativisticRayTracerTermContext.vb" />
     <Compile Include="RelativisticRayTracerDrawerCompiler.vb" />
     <Compile Include="SimpleBitmap.vb" />
     <Compile Include="Controls\TermBox.vb" />

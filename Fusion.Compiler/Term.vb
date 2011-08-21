@@ -124,7 +124,7 @@
                 Return argumentString
             Case 2
                 Dim parameterName = parts.First.Trim
-                If Not CompilerTools.VariableNameEquals(parameter.Name, parameterName) Then Throw New InvalidTermException(_TrimmedTerm, String.Format("Wrong parameter name: '{0}'; '{1}' expected.", parameterName, parameter.Name))
+                If Not CompilerTools.IdentifierEquals(parameter.Name, parameterName) Then Throw New InvalidTermException(_TrimmedTerm, String.Format("Wrong parameter name: '{0}'; '{1}' expected.", parameterName, parameter.Name))
                 Return parts.Last
             Case Else
                 Throw New InvalidTermException(_Term, String.Format("Invalid argument expression: '{0}'.", argumentString))
