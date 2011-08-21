@@ -8,6 +8,7 @@
     Public Sub New(term As String, context As TermContext, type As NamedType)
         If Not context.Types.Contains(NamedType.Real) Then Throw New InvalidOperationException("Type Real must be defined in this context.")
         If Not context.Types.Contains(NamedType.Vector3D) Then Throw New InvalidOperationException("Type Vector3D must be defined in this context.")
+        If Not context.Types.Contains(NamedType.Collection) Then Throw New InvalidOperationException("Type Collection must be defined in this context.")
 
         _Term = term
         _TrimmedTerm = term.Trim

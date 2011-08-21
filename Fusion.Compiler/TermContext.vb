@@ -85,14 +85,14 @@
     End Function
 
     Public Function TryParseConstant(name As String) As ConstantInstance
-        Dim matchingConstants = From constant In Me.Constants Where String.Equals(name, constant.Signature.Name, StringComparison.OrdinalIgnoreCase)
+        Dim matchingConstants = From constant In Me.Constants Where CompilerTools.VariableNameEquals(name, constant.Signature.Name)
         If Not matchingConstants.Any Then Return Nothing
 
         Return matchingConstants.Single
     End Function
 
     Public Function TryParseParameter(name As String) As NamedParameter
-        Dim matchingParameters = From parameter In Me.Parameters Where String.Equals(name, parameter.Name, StringComparison.OrdinalIgnoreCase)
+        Dim matchingParameters = From parameter In Me.Parameters Where CompilerTools.VariableNameEquals(name, parameter.Name)
         If Not matchingParameters.Any Then Return Nothing
 
         Return matchingParameters.Single

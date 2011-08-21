@@ -2,37 +2,55 @@
 
 Public Module CompilerTools
 
-    Private ReadOnly _ParameterBracketTypes As IEnumerable(Of BracketType) = {BracketType.Round}
-    Public ReadOnly Property ParameterBracketTypes As IEnumerable(Of BracketType)
+    Private ReadOnly _ParameterBracketType As BracketType = BracketType.Round
+    Public ReadOnly Property ParameterBracketType As BracketType
         Get
-            Return _ParameterBracketTypes
+            Return _ParameterBracketType
         End Get
     End Property
 
-    Private ReadOnly _ArgumentBracketTypes As IEnumerable(Of BracketType) = {BracketType.Curly}
-    Public ReadOnly Property ArgumentBracketTypes As IEnumerable(Of BracketType)
+    Private ReadOnly _ArgumentBracketType As BracketType = BracketType.Curly
+    Public ReadOnly Property ArgumentBracketType As BracketType
         Get
-            Return _ArgumentBracketTypes
+            Return _ArgumentBracketType
         End Get
     End Property
 
-    Private ReadOnly _AllowedBracketTypes As IEnumerable(Of BracketType) = {BracketType.Round, BracketType.Curly, BracketType.Inequality}
+    Public ReadOnly _AllowedBracketTypes As IEnumerable(Of BracketType) = {BracketType.Round, BracketType.Curly, BracketType.Inequality}
     Public ReadOnly Property AllowedBracketTypes As IEnumerable(Of BracketType)
         Get
             Return _AllowedBracketTypes
         End Get
     End Property
 
+    Private ReadOnly _TypeArgumentBracketType As BracketType = BracketType.Inequality
+    Public ReadOnly Property TypeArgumentBracketType As BracketType
+        Get
+            Return _TypeArgumentBracketType
+        End Get
+    End Property
+
+    Private ReadOnly _CollectionArgumentBracketType As BracketType = BracketType.Curly
+    Public ReadOnly Property CollectionArgumentBracketType As BracketType
+        Get
+            Return _CollectionArgumentBracketType
+        End Get
+    End Property
+
     Public Function GetParameters(ByVal parametersInBrackets As String) As IEnumerable(Of String)
-        Return GetArgumentsOrParameters(parametersInBrackets, bracketTypes:=_ParameterBracketTypes)
+        Return GetArgumentsOrParameters(parametersInBrackets, bracketTypes:={_ParameterBracketType})
     End Function
 
     Public Function GetArguments(ByVal argumentsInBrackets As String) As IEnumerable(Of String)
-        Return GetArgumentsOrParameters(argumentsInBrackets, bracketTypes:=_ArgumentBracketTypes)
+        Return GetArgumentsOrParameters(argumentsInBrackets, bracketTypes:={_ArgumentBracketType})
     End Function
 
     Public Function GetTypeArguments(ByVal typeArgumentsInBrackets As String) As IEnumerable(Of String)
-        Return GetArgumentsOrParameters(typeArgumentsInBrackets, bracketTypes:={_TypeArgumentBracketTypes})
+        Return GetArgumentsOrParameters(typeArgumentsInBrackets, bracketTypes:={_TypeArgumentBracketType})
+    End Function
+
+    Public Function GetCollectionArguments(ByVal collectionArgumentsInBrackets As String) As IEnumerable(Of String)
+        Return GetArgumentsOrParameters(collectionArgumentsInBrackets, bracketTypes:={_CollectionArgumentBracketType})
     End Function
 
     Public Function GetArgumentsOrParameters(ByVal inBrackets As String, bracketTypes As IEnumerable(Of BracketType)) As IEnumerable(Of String)
@@ -75,16 +93,14 @@ Public Module CompilerTools
         Return name
     End Function
 
-    Private ReadOnly _TypeArgumentBracketTypes As BracketType = BracketType.Inequality
-
     <Extension()>
     Public Function GetStartingType(s As String, types As NamedTypes, Optional ByRef out_rest As String = Nothing) As NamedType
         Dim typeNameWithoutParameters = s.GetStartingValidVariableName()
         out_rest = s.Substring(startIndex:=typeNameWithoutParameters.Count).Trim
 
-        If out_rest.First <> _TypeArgumentBracketTypes.OpeningBracket Then Return types.Parse(typeNameWithoutParameters)
+        If out_rest.First <> _TypeArgumentBracketType.OpeningBracket Then Return types.Parse(typeNameWithoutParameters)
 
-        Dim charIsInBracketsArray = out_rest.GetCharIsInBracketsArray({_TypeArgumentBracketTypes})
+        Dim charIsInBracketsArray = out_rest.GetCharIsInBracketsArray({_TypeArgumentBracketType})
 
         Dim charsInBracketsCount = charIsInBracketsArray.Count
         For index = 0 To charIsInBracketsArray.Count - 1
@@ -98,11 +114,6 @@ Public Module CompilerTools
         out_rest = out_rest.Substring(startIndex:=charsInBracketsCount)
 
         Return types.Parse(typeNameWithoutParameters).MakeGenericType(argumentStrings.Select(Function(argumentString) types.Parse(argumentString)))
-    End Function
-
-    <Extension()>
-    Public Function WithoutBlanks(s As String) As String
-        Return New String((s.Where(Function(c) Not Char.IsWhiteSpace(c))).ToArray)
     End Function
 
     <Extension()>
@@ -185,6 +196,10 @@ Public Module CompilerTools
         out_rest = rest.Substring(startIndex:=name.Length)
 
         Return New TypeAndName(name:=name, type:=type)
+    End Function
+
+    Public Function VariableNameEquals(a As String, b As String) As Boolean
+        Return String.Equals(a, b, StringComparison.OrdinalIgnoreCase)
     End Function
 
 End Module

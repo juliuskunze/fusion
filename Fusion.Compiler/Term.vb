@@ -11,18 +11,29 @@
         Dim baseExpression = MyBase.TryGetConstantOrParameterExpression
         If baseExpression IsNot Nothing Then Return baseExpression
 
-        If _Type.IsDelegate Then Return _Context.ParseFunction(_TrimmedTerm).InvokableExpression
-
         Dim parsedDouble As Double
         If Double.TryParse(_TrimmedTerm, result:=parsedDouble) AndAlso Not _TrimmedTerm.StartsWith("("c) Then
             Me.CheckTypeMatch(type:=NamedType.Real)
             Return Expression.Constant(type:=GetType(Double), value:=parsedDouble)
         End If
 
-        If _TrimmedTerm.IsInBrackets(bracketTypes:={BracketType.Inequality}) Then
+        If _TrimmedTerm.IsInBrackets({BracketType.Inequality}) Then
             Me.CheckTypeMatch(type:=NamedType.Vector3D)
             Return Me.GetVector3DExpression
         End If
+
+        If _TrimmedTerm.IsInBrackets({CompilerTools.CollectionArgumentBracketType}) Then
+            Dim elementType = _Type.TypeArguments.Single
+
+            Me.CheckTypeMatch(type:=NamedType.Collection.MakeGenericType(typeArguments:=_Type.TypeArguments))
+            Dim collectionArgumentStrings = CompilerTools.GetCollectionArguments(_TrimmedTerm)
+            Dim arguments = collectionArgumentStrings.Select(Function(argumentString) New Term(Term:=argumentString, Type:=elementType, context:=_Context).GetExpression)
+
+            Return Expression.NewArrayInit(type:=_Type.TypeArguments.Single.SystemType,
+                                           initializers:=arguments)
+        End If
+
+        If _Type.IsDelegate Then Return _Context.ParseFunction(_TrimmedTerm).InvokableExpression
 
         _CharIsInBrackets = _TrimmedTerm.GetCharIsInBracketsArray
 
@@ -32,8 +43,8 @@
         If functionCall IsNot Nothing Then
             Dim functionInstance = _Context.ParseFunction(functionCall.FunctionName)
             Dim argumentStrings = functionCall.Arguments
-
-            Dim parameters = FunctionInstance.DelegateType.Parameters
+            
+            Dim parameters = functionInstance.DelegateType.Parameters
             If parameters.Count <> argumentStrings.Count Then Throw New ArgumentException("Wrong argument count.")
 
             Dim arguments = New List(Of Expression)
@@ -41,7 +52,10 @@
                 Dim parameter = parameters(parameterIndex)
                 Dim argumentString = argumentStrings(parameterIndex)
 
-                arguments.Add(Me.SubstringExpression(argumentString, type:=parameter.Type))
+                Dim parts = argumentString.SplitIfSeparatorIsNotInBrackets(":"c, bracketTypes:=CompilerTools.AllowedBracketTypes)
+                Dim argumentTerm = GetArgumentTerm(argumentString, parts, parameter)
+
+                arguments.Add(Me.SubstringExpression(argumentTerm, type:=parameter.Type))
             Next
 
             Return functionInstance.CallExpressionBuilder.Run(arguments:=arguments)
@@ -99,9 +113,22 @@
             If Not _CharIsInBrackets(i) AndAlso _TrimmedTerm.Chars(i) = "^"c Then Return Expression.Power(Me.BeforeIndexExpression(i, type:=NamedType.Real), Me.AfterIndexExpression(i, type:=NamedType.Real))
         Next
 
-        If _TrimmedTerm.IsValidVariableName Then Throw New InvalidTermException(Term:=_TrimmedTerm, message:="Constant '" & _TrimmedTerm & "' is not defined in this context.")
+        If _TrimmedTerm.IsValidVariableName Then Throw New InvalidTermException(Term:=_TrimmedTerm, message:="'" & _TrimmedTerm & "' is not defined in this context.")
 
         Throw New InvalidTermException(_TrimmedTerm)
+    End Function
+
+    Private Function GetArgumentTerm(ByVal argumentString As String, ByVal parts As IEnumerable(Of String), ByVal parameter As NamedParameter) As String
+        Select Case parts.Count
+            Case 1
+                Return argumentString
+            Case 2
+                Dim parameterName = parts.First.Trim
+                If Not CompilerTools.VariableNameEquals(parameter.Name, parameterName) Then Throw New InvalidTermException(_TrimmedTerm, String.Format("Wrong parameter name: '{0}'; '{1}' expected.", parameterName, parameter.Name))
+                Return parts.Last
+            Case Else
+                Throw New InvalidTermException(_Term, String.Format("Invalid argument expression: '{0}'.", argumentString))
+        End Select
     End Function
 
     Private ReadOnly Property BeforeIndexExpression(index As Integer, type As NamedType) As Expression

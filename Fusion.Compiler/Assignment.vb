@@ -34,7 +34,7 @@
     End Property
 
     Private Shared Function IsConstantSignatureDefinition(definition As String) As Boolean
-        Return definition.Contains(CompilerTools.ParameterBracketTypes.Single.OpeningBracket) OrElse definition.Contains(CompilerTools.ParameterBracketTypes.Single.ClosingBracket)
+        Return definition.Contains(CompilerTools.ParameterBracketType.OpeningBracket) OrElse definition.Contains(CompilerTools.ParameterBracketType.ClosingBracket)
     End Function
 
 End Class

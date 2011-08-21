@@ -1,4 +1,4 @@
-Public Class ConstantDefinitionTests
+Public Class ConstantAssignmentTests
 
     <Test()>
     Public Sub Test()

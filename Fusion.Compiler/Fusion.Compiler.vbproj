@@ -93,7 +93,7 @@
     <Compile Include="Constant\ConstantAssignment.vb" />
     <Compile Include="Constant\ConstantInstance.vb" />
     <Compile Include="Constant\ConstantSignature.vb" />
-    <Compile Include="Definitions.vb" />
+    <Compile Include="Compiler.vb" />
     <Compile Include="DelegateType.vb" />
     <Compile Include="FunctionCall.vb" />
     <Compile Include="Function\FunctionAssignment.vb" />

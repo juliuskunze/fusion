@@ -43,6 +43,7 @@
 
     Public Sub New(name As String, systemType As System.Type)
         Me.New(name:=name, systemType:=systemType, TypeArguments:={})
+        If systemType.GetGenericArguments.Where(Function(argument) Not argument.IsGenericParameter).Any Then Throw New ArgumentException("No type arguments allowed, use MakeGenericType.")
     End Sub
 
     Private Sub New(name As String, systemType As System.Type, typeArguments As IEnumerable(Of NamedType))
@@ -75,12 +76,12 @@
         End If
     End Sub
 
-    Private Const _KeyWord = "delegate"
-
     Public Shared Function NamedDelegateTypeFromText(text As String, typeContext As NamedTypes) As NamedType
+        Const delegateKeyword = "delegate"
+
         Dim trimmed = text.Trim
-        If Not trimmed.StartsWith(_KeyWord, StringComparison.OrdinalIgnoreCase) Then Throw New ArgumentException("text", "Invalid delegate declaration.")
-        Dim rest = trimmed.Substring(startIndex:=_KeyWord.Count)
+        If Not trimmed.StartsWith(delegateKeyword, StringComparison.OrdinalIgnoreCase) Then Throw New ArgumentException("text", "Invalid delegate declaration.")
+        Dim rest = trimmed.Substring(startIndex:=delegateKeyword.Count)
         Dim signature = FunctionSignature.FromText(text:=rest, typeContext:=typeContext)
 
         Return signature.AsNamedDelegateType

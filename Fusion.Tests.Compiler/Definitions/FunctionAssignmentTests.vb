@@ -11,6 +11,25 @@
     End Sub
 
     <Test()>
+    Public Sub TestNamedParameter()
+        Dim e = New FunctionAssignment("Real f(Real x) = x", context:=TermContext.Default).GetFunctionInstance
+
+        Assert.That(e.Name = "f")
+
+        Dim context = TermContext.Default.Merge(New TermContext(Functions:={e}))
+
+        Dim t = New Term("f{x : 3}", Type:=NamedType.Real, context:=context)
+        Assert.That(t.GetDelegate(Of Func(Of Double)).Invoke = 3)
+
+        Try
+            Dim t2 = New Term("f{y : 3}", Type:=NamedType.Real, context:=context).GetDelegate(Of Func(Of Double))()
+            Assert.Fail()
+        Catch ex As InvalidTermException
+            Assert.AreEqual(ex.Message, "Wrong parameter name: 'y'; 'x' expected.")
+        End Try
+    End Sub
+
+    <Test()>
     Public Sub TestMultiParameters()
         Dim definition = New FunctionAssignment("  Real product(    Real x, Real y) = x*y", context:=TermContext.Default).GetFunctionInstance
 
@@ -63,11 +82,6 @@
         Dim calculate = New FunctionAssignment("Real IntensityAt1(IntensityDelegate intensityDelegateInstance) = intensityDelegateInstance{1}", context:=context2).GetFunctionInstance
 
         Assert.AreEqual(New Term("intensityAt1{Intensity}", Type:=NamedType.Real, context:=context2.Merge(New TermContext(Functions:={calculate}))).GetDelegate(Of Func(Of Double)).Invoke, 2)
-    End Sub
-
-    <Test()>
-    Public Sub Test()
-        Dim c As Expression(Of Action(Of Func(Of Double, Double))) = Sub(parameterFunction) parameterFunction.Invoke(4)
     End Sub
 
 End Class
