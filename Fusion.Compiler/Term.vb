@@ -17,7 +17,7 @@
             Return Expression.Constant(type:=GetType(Double), value:=parsedDouble)
         End If
 
-        If _TrimmedTerm.IsInBrackets({BracketType.Inequality}) Then
+        If _TrimmedTerm.IsInBrackets({CompilerTools.VectorBracketType}) Then
             Me.CheckTypeMatch(type:=NamedType.Vector3D)
             Return Me.GetVector3DExpression
         End If
@@ -41,9 +41,14 @@
 
         Dim functionCall = Me.TryGetFunctionCall
         If functionCall IsNot Nothing Then
-            Dim functionInstance = _Context.ParseFunction(functionCall.FunctionName)
             Dim argumentStrings = functionCall.Arguments
-            
+
+            If CompilerTools.IdentifierEquals(functionCall.FunctionName, Keywords.Cases) Then
+                Return Me.GetCasesExpression(argumentStrings)
+            End If
+
+            Dim functionInstance = _Context.ParseFunction(functionCall.FunctionName)
+
             Dim parameters = functionInstance.DelegateType.Parameters
             If parameters.Count <> argumentStrings.Count Then Throw New ArgumentException("Wrong argument count.")
 
@@ -118,6 +123,33 @@
         Throw New InvalidTermException(_TrimmedTerm)
     End Function
 
+    Private Function GetCasesExpression(ByVal argumentStrings As IEnumerable(Of String)) As Expression
+        Dim casesExpression As Expression = Nothing
+
+        For index = argumentStrings.Count - 1 To 0 Step -1
+            Dim argumentString = argumentStrings(index)
+            Dim parts = argumentString.SplitIfSeparatorIsNotInBrackets(":"c, bracketTypes:=CompilerTools.AllowedBracketTypes)
+            If parts.Count <> 2 Then Throw New InvalidTermException(_Term, String.Format("Invalid case: '{0}'.", argumentString))
+
+            Dim conditionPart = parts.First
+            Dim termPart = parts.Last
+
+            Dim termExpression = New Term(parts.Last, _Type, _Context).GetExpression
+
+            If index = argumentStrings.Count - 1 Then
+                If Not CompilerTools.IdentifierEquals(conditionPart.Trim, Keywords.Else) Then Throw New InvalidTermException(_Term, "Last case must be case else.")
+                casesExpression = termExpression
+                Continue For
+            End If
+
+            Dim conditionExpression = New Term(conditionPart, NamedType.Boolean, _Context).GetExpression
+
+            casesExpression = Expression.Condition(conditionExpression, ifTrue:=termExpression, ifFalse:=casesExpression)
+        Next
+
+        Return casesExpression
+    End Function
+
     Private Function GetArgumentTerm(ByVal argumentString As String, ByVal parts As IEnumerable(Of String), ByVal parameter As NamedParameter) As String
         Select Case parts.Count
             Case 1
@@ -156,10 +188,7 @@
     End Property
 
     Private Function GetVector3DExpression() As System.Linq.Expressions.Expression
-        Dim baseExpression = MyBase.TryGetConstantOrParameterExpression
-        If baseExpression IsNot Nothing Then Return baseExpression
-
-        Dim components = CompilerTools.GetArgumentsOrParameters(_TrimmedTerm.Trim, bracketTypes:={BracketType.Inequality})
+        Dim components = CompilerTools.GetArguments(_TrimmedTerm.Trim, bracketTypes:={CompilerTools.VectorBracketType})
 
         If components.Count <> 3 Then Throw New InvalidTermException(_Term, "The component count of a 3D-vector must be 3.")
 

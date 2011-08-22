@@ -56,7 +56,7 @@
         Dim definition = New FunctionAssignment("Real product(Real x,Real y) = x*y", context:=TermContext.Default).GetFunctionInstance
 
         Try
-            Dim t = New Term("product {4, <4,3,3>}", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(Functions:={definition}))).GetDelegate
+            Dim t = New Term("product {4, [4,3,3]}", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(Functions:={definition}))).GetDelegate
             Assert.Fail()
         Catch ex As ArgumentException
             Assert.AreEqual(ex.Message, "Type 'Vector' is not compatible to type 'Real'.")

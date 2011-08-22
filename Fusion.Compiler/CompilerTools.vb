@@ -16,14 +16,14 @@ Public Module CompilerTools
         End Get
     End Property
 
-    Public ReadOnly _AllowedBracketTypes As IEnumerable(Of BracketType) = {BracketType.Round, BracketType.Curly, BracketType.Inequality}
+    Public ReadOnly _AllowedBracketTypes As IEnumerable(Of BracketType) = {BracketType.Round, BracketType.Square, BracketType.Curly}
     Public ReadOnly Property AllowedBracketTypes As IEnumerable(Of BracketType)
         Get
             Return _AllowedBracketTypes
         End Get
     End Property
 
-    Private ReadOnly _TypeArgumentBracketType As BracketType = BracketType.Inequality
+    Private ReadOnly _TypeArgumentBracketType As BracketType = BracketType.Square
     Public ReadOnly Property TypeArgumentBracketType As BracketType
         Get
             Return _TypeArgumentBracketType
@@ -37,26 +37,33 @@ Public Module CompilerTools
         End Get
     End Property
 
+    Private ReadOnly _VectorBracketType As BracketType = BracketType.Square
+    Public ReadOnly Property VectorBracketType As BracketType
+        Get
+            Return _VectorBracketType
+        End Get
+    End Property
+
     Public Function GetParameters(ByVal parametersInBrackets As String) As IEnumerable(Of String)
-        Return GetArgumentsOrParameters(parametersInBrackets, bracketTypes:={_ParameterBracketType})
+        Return GetArguments(parametersInBrackets, bracketTypes:={_ParameterBracketType})
     End Function
 
     Public Function GetArguments(ByVal argumentsInBrackets As String) As IEnumerable(Of String)
-        Return GetArgumentsOrParameters(argumentsInBrackets, bracketTypes:={_ArgumentBracketType})
+        Return GetArguments(argumentsInBrackets, bracketTypes:={_ArgumentBracketType})
     End Function
 
     Public Function GetTypeArguments(ByVal typeArgumentsInBrackets As String) As IEnumerable(Of String)
-        Return GetArgumentsOrParameters(typeArgumentsInBrackets, bracketTypes:={_TypeArgumentBracketType})
+        Return GetArguments(typeArgumentsInBrackets, bracketTypes:={_TypeArgumentBracketType})
     End Function
 
     Public Function GetCollectionArguments(ByVal collectionArgumentsInBrackets As String) As IEnumerable(Of String)
-        Return GetArgumentsOrParameters(collectionArgumentsInBrackets, bracketTypes:={_CollectionArgumentBracketType})
+        Return GetArguments(collectionArgumentsInBrackets, bracketTypes:={_CollectionArgumentBracketType})
     End Function
 
-    Public Function GetArgumentsOrParameters(ByVal inBrackets As String, bracketTypes As IEnumerable(Of BracketType)) As IEnumerable(Of String)
-        If Not inBrackets.IsInBrackets(bracketTypes:=bracketTypes) Then Throw New ArgumentException("Invalid argument enumeration: '" & inBrackets & "'.")
+    Public Function GetArguments(ByVal argumentsInBrackets As String, bracketTypes As IEnumerable(Of BracketType)) As IEnumerable(Of String)
+        If Not argumentsInBrackets.IsInBrackets(bracketTypes:=bracketTypes) Then Throw New ArgumentException("Invalid argument enumeration: '" & argumentsInBrackets & "'.")
 
-        Dim argumentsText = inBrackets.Substring(1, inBrackets.Length - 2)
+        Dim argumentsText = argumentsInBrackets.Substring(1, argumentsInBrackets.Length - 2)
         Return SplitIfSeparatorIsNotInBrackets(argumentsText, separator:=","c, bracketTypes:=_AllowedBracketTypes)
     End Function
 

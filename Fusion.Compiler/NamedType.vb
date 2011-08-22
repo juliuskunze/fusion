@@ -77,11 +77,9 @@
     End Sub
 
     Public Shared Function NamedDelegateTypeFromText(text As String, typeContext As NamedTypes) As NamedType
-        Const delegateKeyword = "delegate"
-
         Dim trimmed = text.Trim
-        If Not trimmed.StartsWith(delegateKeyword, StringComparison.OrdinalIgnoreCase) Then Throw New ArgumentException("text", "Invalid delegate declaration.")
-        Dim rest = trimmed.Substring(startIndex:=delegateKeyword.Count)
+        If Not trimmed.StartsWith(Keywords.Delegate, StringComparison.OrdinalIgnoreCase) Then Throw New ArgumentException("text", "Invalid delegate declaration.")
+        Dim rest = trimmed.Substring(startIndex:=Keywords.Delegate.Count)
         Dim signature = FunctionSignature.FromText(text:=rest, typeContext:=typeContext)
 
         Return signature.AsNamedDelegateType

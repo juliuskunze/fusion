@@ -97,7 +97,7 @@ Public Class TermTests
 
     <Test()>
     Public Sub TestVector3D()
-        Assert.That(New ConstantTerm(Of Vector3D)("<3,4,4>").GetResult = New Vector3D(3, 4, 4))
+        Assert.That(New ConstantTerm(Of Vector3D)("[3,4,4]").GetResult = New Vector3D(3, 4, 4))
     End Sub
 
     <Test()>
@@ -141,7 +141,7 @@ Public Class TermTests
 
     <Test()>
     Public Sub TestVector3DWithConstant()
-        Assert.That(New Term(Term:="<1,2,a>", Type:=NamedType.Vector3D, context:=TermContext.Default.Merge(New TermContext(parameters:={New NamedParameter(name:="a", Type:=NamedType.Real)}))).GetDelegate(Of Func(Of Double, Vector3D)).Invoke(3.0) = New Vector3D(1, 2, 3))
+        Assert.That(New Term(Term:="[1,2,a]", Type:=NamedType.Vector3D, context:=TermContext.Default.Merge(New TermContext(parameters:={New NamedParameter(name:="a", Type:=NamedType.Real)}))).GetDelegate(Of Func(Of Double, Vector3D)).Invoke(3.0) = New Vector3D(1, 2, 3))
     End Sub
 
     <Test()>
@@ -198,20 +198,20 @@ Public Class TermTests
 
         Assert.AreEqual(result, 3)
 
-        Dim result2 = New Term(Term:="cases{1 > 2 : 3 , else : 4}", Type:=NamedType.Real, context:=TermContext.Default).GetDelegate(Of Func(Of Double)).Invoke()
+        Dim result2 = New Term(Term:="cases{False : 3 , else : 4}", Type:=NamedType.Real, context:=TermContext.Default).GetDelegate(Of Func(Of Double)).Invoke()
 
         Assert.AreEqual(result2, 4)
     End Sub
 
     <Test()>
     Public Sub TestMultipleCases()
-        Dim result = New Term(Term:="cases{1 > 2 : 3 , 1 > 2 : 4, else : 5}", Type:=NamedType.Real, context:=TermContext.Default).GetDelegate(Of Func(Of Double)).Invoke()
+        Dim result = New Term(Term:="cases{False : 3 , False : 4, else : 5}", Type:=NamedType.Real, context:=TermContext.Default).GetDelegate(Of Func(Of Double)).Invoke()
 
         Assert.AreEqual(result, 5)
 
-        Dim result2 = New Term(Term:="cases{1 > 2 : 3 , 2 > 2 : 1, else : 5}", Type:=NamedType.Real, context:=TermContext.Default).GetDelegate(Of Func(Of Double)).Invoke()
+        Dim result2 = New Term(Term:="cases{False : 3 , True : 4, else : 5}", Type:=NamedType.Real, context:=TermContext.Default).GetDelegate(Of Func(Of Double)).Invoke()
 
-        Assert.AreEqual(result, 4)
+        Assert.AreEqual(result2, 4)
     End Sub
 
 End Class
