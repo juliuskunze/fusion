@@ -154,6 +154,12 @@ Public Class TermTests
     End Sub
 
     <Test()>
+    Public Sub TestTrueFalse()
+        Assert.That(New Term(Term:="True", Type:=NamedType.Boolean, context:=TermContext.Default).GetDelegate(Of Func(Of Boolean)).Invoke())
+        Assert.That(Not New Term(Term:="False", Type:=NamedType.Boolean, context:=TermContext.Default).GetDelegate(Of Func(Of Boolean)).Invoke())
+    End Sub
+
+    <Test()>
     Public Sub TestBooleanEquals()
         Assert.That(New Term(Term:="3 = 3", Type:=NamedType.Boolean, context:=TermContext.Default).GetDelegate(Of Func(Of Boolean)).Invoke())
         Assert.That(Not New Term(Term:="3 = 2", Type:=NamedType.Boolean, context:=TermContext.Default).GetDelegate(Of Func(Of Boolean)).Invoke())
@@ -176,8 +182,19 @@ Public Class TermTests
     End Sub
 
     <Test()>
+    Public Sub TestAndOrNot()
+        Assert.That(Not New Term(Term:="!True", Type:=NamedType.Boolean, context:=TermContext.Default).GetDelegate(Of Func(Of Boolean)).Invoke())
+        Assert.That(New Term(Term:="True | False", Type:=NamedType.Boolean, context:=TermContext.Default).GetDelegate(Of Func(Of Boolean)).Invoke())
+        Assert.That(New Term(Term:="!True | True", Type:=NamedType.Boolean, context:=TermContext.Default).GetDelegate(Of Func(Of Boolean)).Invoke())
+        Assert.That(Not New Term(Term:="True & False", Type:=NamedType.Boolean, context:=TermContext.Default).GetDelegate(Of Func(Of Boolean)).Invoke())
+        Assert.That(New Term(Term:="False & False | True", Type:=NamedType.Boolean, context:=TermContext.Default).GetDelegate(Of Func(Of Boolean)).Invoke())
+
+        Assert.That(New Term(Term:="3 > 2 | 3 <= 2", Type:=NamedType.Boolean, context:=TermContext.Default).GetDelegate(Of Func(Of Boolean)).Invoke())
+    End Sub
+    
+    <Test()>
     Public Sub TestCases()
-        Dim result = New Term(Term:="cases{2 > 1 : 3 , else : 4}", Type:=NamedType.Real, context:=TermContext.Default).GetDelegate(Of Func(Of Double)).Invoke()
+        Dim result = New Term(Term:="cases{True : 3 , else : 4}", Type:=NamedType.Real, context:=TermContext.Default).GetDelegate(Of Func(Of Double)).Invoke()
 
         Assert.AreEqual(result, 3)
 

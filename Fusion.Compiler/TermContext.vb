@@ -38,7 +38,9 @@
         _Types = If(types Is Nothing, NamedTypes.Empty, types)
     End Sub
 
-    Private Shared ReadOnly _Default As New TermContext(Constants:={New ConstantInstance(Of Double)("Pi", System.Math.PI, TypeNamedTypeDictionary.Default),
+    Private Shared ReadOnly _Default As New TermContext(Constants:={New ConstantInstance(Of Boolean)("True", True, TypeNamedTypeDictionary.Default),
+                                                                    New ConstantInstance(Of Boolean)("False", False, TypeNamedTypeDictionary.Default),
+                                                                    New ConstantInstance(Of Double)("Pi", System.Math.PI, TypeNamedTypeDictionary.Default),
                                                                     New ConstantInstance(Of Double)("E", System.Math.E, TypeNamedTypeDictionary.Default)
                                                                    },
                                                         Functions:={New FunctionInstance(Of Func(Of Double, Double))("Sqrt", Function(x) System.Math.Sqrt(x), TypeNamedTypeDictionary.Default),
