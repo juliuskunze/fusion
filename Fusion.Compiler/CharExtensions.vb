@@ -3,12 +3,12 @@
 Public Module CharExtensions
 
     <Extension()>
-    Public Function IsValidVariableStartChar(c As Char) As Boolean
+    Public Function IsIdentifierStartChar(c As Char) As Boolean
         Return Char.IsLetter(c)
     End Function
 
     <Extension()>
-    Public Function IsValidVariableChar(c As Char) As Boolean
+    Public Function IsIdentifierChar(c As Char) As Boolean
         Return Char.IsLetterOrDigit(c)
     End Function
 

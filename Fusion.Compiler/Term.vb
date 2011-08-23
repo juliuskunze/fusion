@@ -22,7 +22,7 @@
             Return Me.GetVector3DExpression
         End If
 
-        If _TrimmedTerm.IsInBrackets({CompilerTools.CollectionArgumentBracketType}) Then
+        If _TrimmedTerm.IsInBrackets({CompilerTools.CollectionBracketType}) Then
             Dim elementType = _Type.TypeArguments.Single
 
             Me.CheckTypeMatch(type:=NamedType.Collection.MakeGenericType(typeArguments:=_Type.TypeArguments))
@@ -66,61 +66,102 @@
             Return functionInstance.CallExpressionBuilder.Run(arguments:=arguments)
         End If
 
+        Dim orExpression = Me.TryGetBinaryOperatorExpression("|"c, Function(e1, e2) Expression.OrElse(e1, e2))
+        If orExpression IsNot Nothing Then Return orExpression
+
+        Dim andExpression = Me.TryGetBinaryOperatorExpression("&"c, Function(e1, e2) Expression.AndAlso(e1, e2))
+        If andExpression IsNot Nothing Then Return andExpression
+
+        Dim notEqualExpression = Me.TryGetBinaryOperatorExpression("<>", Function(e1, e2) Expression.NotEqual(e1, e2))
+        If notEqualExpression IsNot Nothing Then Return notEqualExpression
+
+        Dim greaterThanOrEqualExpression = Me.TryGetBinaryOperatorExpression(">=", Function(e1, e2) Expression.GreaterThanOrEqual(e1, e2))
+        If greaterThanOrEqualExpression IsNot Nothing Then Return greaterThanOrEqualExpression
+
+        Dim greaterThanExpression = Me.TryGetBinaryOperatorExpression(">"c, Function(e1, e2) Expression.GreaterThan(e1, e2))
+        If greaterThanExpression IsNot Nothing Then Return greaterThanExpression
+
+        Dim lessThanOrEqualExpression = Me.TryGetBinaryOperatorExpression("<=", Function(e1, e2) Expression.LessThanOrEqual(e1, e2))
+        If lessThanOrEqualExpression IsNot Nothing Then Return lessThanOrEqualExpression
+
+        Dim lessThanExpression = Me.TryGetBinaryOperatorExpression("<"c, Function(e1, e2) Expression.LessThan(e1, e2))
+        If lessThanExpression IsNot Nothing Then Return lessThanExpression
+
+        Dim equalExpression = Me.TryGetBinaryOperatorExpression("="c, Function(e1, e2) Expression.Equal(e1, e2))
+        If equalExpression IsNot Nothing Then Return equalExpression
+
         Select Case _TrimmedTerm.Chars(0)
             Case "+"c, "-"c
-                Dim minusCountAtStart = 0
-                Dim notSignIndex As Integer
-                For i = 0 To _TrimmedTerm.Length - 1
-                    Select Case _TrimmedTerm(i)
-                        Case "+"c
-                        Case "-"c
-                            minusCountAtStart -= 1
-                        Case Else
-                            notSignIndex = i
-                            Exit For
-                    End Select
-                Next
-
-                Dim termIsPositve = (minusCountAtStart Mod 2 = 0)
-
-                If termIsPositve Then
-                    Return SubstringExpression(startIndex:=notSignIndex, length:=_TrimmedTerm.Length - notSignIndex, type:=NamedType.Real)
+                Dim firstNotSignIndex As Integer
+                If MinusCountAtStartIsEven(out_firstNotSignIndex:=firstNotSignIndex) Then
+                    Return SubstringExpression(startIndex:=firstNotSignIndex, length:=_TrimmedTerm.Length - firstNotSignIndex, type:=NamedType.Real)
                 Else
-                    For i = notSignIndex To _TrimmedTerm.Length - 1
-                        If Not _CharIsInBrackets(i) AndAlso _TrimmedTerm.Chars(i) = "+"c Then Return Expression.Add(Expression.Negate(Me.SubstringExpression(startIndex:=notSignIndex, length:=i - notSignIndex, type:=NamedType.Real)), AfterIndexExpression(i, type:=NamedType.Real))
-                    Next
+                    Dim negateAndAddExpression = Me.TryGetBinaryOperatorExpression("+"c, Function(e1, e2) Expression.Add(Expression.Negate(e1), e2), startIndex:=firstNotSignIndex)
+                    If negateAndAddExpression IsNot Nothing Then Return negateAndAddExpression
 
-                    For i = notSignIndex To _TrimmedTerm.Length - 1
-                        If Not _CharIsInBrackets(i) AndAlso _TrimmedTerm.Chars(i) = "-"c Then Return Expression.Subtract(Expression.Negate(Me.SubstringExpression(startIndex:=notSignIndex, length:=i - notSignIndex, type:=NamedType.Real)), AfterIndexExpression(i, type:=NamedType.Real))
-                    Next
+                    Dim negateAndSubtractExpression = Me.TryGetBinaryOperatorExpression("-"c, Function(e1, e2) Expression.Subtract(Expression.Negate(e1), e2), startIndex:=firstNotSignIndex)
+                    If negateAndSubtractExpression IsNot Nothing Then Return negateAndSubtractExpression
 
-                    Return Expression.NegateChecked(Me.SubstringExpression(startIndex:=notSignIndex, length:=_TrimmedTerm.Length - notSignIndex, type:=NamedType.Real))
+                    Return Expression.Negate(Me.SubstringExpression(startIndex:=firstNotSignIndex, length:=_TrimmedTerm.Length - firstNotSignIndex, type:=NamedType.Real))
                 End If
         End Select
 
-        For i = 0 To _TrimmedTerm.Length - 1
-            If Not _CharIsInBrackets(i) AndAlso _TrimmedTerm.Chars(i) = "+"c Then Return Expression.Add(Me.BeforeIndexExpression(i, type:=NamedType.Real), Me.AfterIndexExpression(i, type:=NamedType.Real))
-        Next
+        Dim addExpression = Me.TryGetBinaryOperatorExpression("+"c, Function(e1, e2) Expression.Add(e1, e2))
+        If addExpression IsNot Nothing Then Return addExpression
 
-        For i = 0 To _TrimmedTerm.Length - 1
-            If Not _CharIsInBrackets(i) AndAlso _TrimmedTerm.Chars(i) = "-"c Then Return Expression.Subtract(Me.BeforeIndexExpression(i, type:=NamedType.Real), Me.AfterIndexExpression(i, type:=NamedType.Real))
-        Next
+        Dim subtractExpression = Me.TryGetBinaryOperatorExpression("-"c, Function(e1, e2) Expression.Subtract(e1, e2))
+        If subtractExpression IsNot Nothing Then Return subtractExpression
 
-        For i = 0 To _TrimmedTerm.Length - 1
-            If Not _CharIsInBrackets(i) AndAlso _TrimmedTerm.Chars(i) = "*"c Then Return Expression.Multiply(Me.BeforeIndexExpression(i, type:=NamedType.Real), Me.AfterIndexExpression(i, type:=NamedType.Real))
-        Next
+        Dim multiplyExpression = Me.TryGetBinaryOperatorExpression("*"c, Function(e1, e2) Expression.Multiply(e1, e2))
+        If multiplyExpression IsNot Nothing Then Return multiplyExpression
 
-        For i = 0 To _TrimmedTerm.Length - 1
-            If Not _CharIsInBrackets(i) AndAlso _TrimmedTerm.Chars(i) = "/"c Then Return Expression.Divide(Me.BeforeIndexExpression(i, type:=NamedType.Real), Me.AfterIndexExpression(i, type:=NamedType.Real))
-        Next
+        Dim divideExpression = Me.TryGetBinaryOperatorExpression("/"c, Function(e1, e2) Expression.Divide(e1, e2))
+        If divideExpression IsNot Nothing Then Return divideExpression
 
-        For i = 0 To _TrimmedTerm.Length - 1
-            If Not _CharIsInBrackets(i) AndAlso _TrimmedTerm.Chars(i) = "^"c Then Return Expression.Power(Me.BeforeIndexExpression(i, type:=NamedType.Real), Me.AfterIndexExpression(i, type:=NamedType.Real))
-        Next
+        Dim powerExpression = Me.TryGetBinaryOperatorExpression("^"c, Function(e1, e2) Expression.Power(e1, e2))
+        If powerExpression IsNot Nothing Then Return powerExpression
+
+        If _TrimmedTerm.Chars(0) = "!" Then
+            Return Expression.Not(Me.SubstringExpression(startIndex:=1, length:=_TrimmedTerm.Length - 1, type:=NamedType.Boolean))
+        End If
 
         If _TrimmedTerm.IsValidVariableName Then Throw New InvalidTermException(Term:=_TrimmedTerm, message:="'" & _TrimmedTerm & "' is not defined in this context.")
 
         Throw New InvalidTermException(_TrimmedTerm)
+    End Function
+
+    Private Function MinusCountAtStartIsEven(ByRef out_firstNotSignIndex As Integer) As Boolean
+        Dim i As Integer
+
+        Dim minusCountAtStart = 0
+        For i = 0 To _TrimmedTerm.Length - 1
+            Select Case _TrimmedTerm(i)
+                Case "+"c
+                Case "-"c
+                    minusCountAtStart -= 1
+                Case Else
+                    out_firstNotSignIndex = i
+                    Exit For
+            End Select
+        Next
+
+        Return (minusCountAtStart Mod 2 = 0)
+    End Function
+
+    Private Function TryGetBinaryOperatorExpression(ByVal operatorChar As Char, ByVal binaryOperatorExpression As Func(Of Expression, Expression, Expression), Optional startIndex As Integer = 0) As Expression
+        For i = startIndex To _TrimmedTerm.Length - 1
+            If Not _CharIsInBrackets(i) AndAlso _TrimmedTerm.Chars(i) = operatorChar Then Return binaryOperatorExpression(Me.BeforeIndexExpression(i, type:=_Type, startIndex:=startIndex), Me.AfterIndexExpression(i, type:=_Type))
+        Next
+
+        Return Nothing
+    End Function
+
+    Private Function TryGetBinaryOperatorExpression(operatorString As String, binaryOperatorExpression As Func(Of Expression, Expression, Expression)) As Expression
+        For i = 0 To _TrimmedTerm.Length - operatorString.Length
+            If Not _CharIsInBrackets(i) AndAlso _TrimmedTerm.Substring(i, operatorString.Length) = operatorString Then Return binaryOperatorExpression(Me.BeforeIndexExpression(i, type:=NamedType.Real), Me.AfterIndexExpression(i + operatorString.Length - 1, type:=NamedType.Real))
+        Next
+
+        Return Nothing
     End Function
 
     Private Function GetCasesExpression(ByVal argumentStrings As IEnumerable(Of String)) As Expression
@@ -163,9 +204,9 @@
         End Select
     End Function
 
-    Private ReadOnly Property BeforeIndexExpression(index As Integer, type As NamedType) As Expression
+    Private ReadOnly Property BeforeIndexExpression(index As Integer, type As NamedType, Optional startIndex As Integer = 0) As Expression
         Get
-            Return Me.SubstringExpression(0, index, type)
+            Return Me.SubstringExpression(startIndex:=startIndex, length:=index - startIndex, type:=type)
         End Get
     End Property
 

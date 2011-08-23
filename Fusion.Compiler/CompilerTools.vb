@@ -30,10 +30,10 @@ Public Module CompilerTools
         End Get
     End Property
 
-    Private ReadOnly _CollectionArgumentBracketType As BracketType = BracketType.Curly
-    Public ReadOnly Property CollectionArgumentBracketType As BracketType
+    Private ReadOnly _CollectionBracketType As BracketType = BracketType.Curly
+    Public ReadOnly Property CollectionBracketType As BracketType
         Get
-            Return _CollectionArgumentBracketType
+            Return _CollectionBracketType
         End Get
     End Property
 
@@ -57,7 +57,7 @@ Public Module CompilerTools
     End Function
 
     Public Function GetCollectionArguments(ByVal collectionArgumentsInBrackets As String) As IEnumerable(Of String)
-        Return GetArguments(collectionArgumentsInBrackets, bracketTypes:={_CollectionArgumentBracketType})
+        Return GetArguments(collectionArgumentsInBrackets, bracketTypes:={_CollectionBracketType})
     End Function
 
     Public Function GetArguments(ByVal argumentsInBrackets As String, bracketTypes As IEnumerable(Of BracketType)) As IEnumerable(Of String)
@@ -86,10 +86,10 @@ Public Module CompilerTools
     <Extension()>
     Public Function GetStartingIdentifier(s As String) As String
         If s.Length = 0 Then Throw _IdentifierExpectedException
-        If Not s.First.IsValidVariableStartChar Then Throw _IdentifierExpectedException
+        If Not s.First.IsIdentifierStartChar Then Throw _IdentifierExpectedException
 
         Dim nameLength = 0
-        Do While nameLength < s.Length AndAlso s(nameLength).IsValidVariableChar
+        Do While nameLength < s.Length AndAlso s(nameLength).IsIdentifierChar
             nameLength += 1
         Loop
 
@@ -127,7 +127,7 @@ Public Module CompilerTools
     Public Function IsValidVariableName(s As String) As Boolean
         If s = "" Then Return False
 
-        Return s.First.IsValidVariableStartChar AndAlso s.All(Function(c) c.IsValidVariableChar)
+        Return s.First.IsIdentifierStartChar AndAlso s.All(Function(c) c.IsIdentifierChar)
     End Function
 
     <Extension()>

@@ -30,8 +30,8 @@ Public Class TermTests
 
     <Test()>
     Public Sub TestIndependentTerm5()
-        Assert.True(New ConstantTerm(Of Double)("-3+3").GetResult = 0)
-        Assert.True(New ConstantTerm(Of Double)("-3+3-3+3").GetResult = 0)
+        Assert.AreEqual(New ConstantTerm(Of Double)("-3+3").GetResult, 0)
+        Assert.AreEqual(New ConstantTerm(Of Double)("-3+3-3+3").GetResult, 0)
     End Sub
 
     <Test()>
