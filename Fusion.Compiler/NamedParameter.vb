@@ -38,4 +38,8 @@
         End Get
     End Property
 
+    Friend Function ToExpressionWithNamedType() As ExpressionWithNamedType
+        Return Me.Expression.WithNamedType(Me.Type)
+    End Function
+
 End Class

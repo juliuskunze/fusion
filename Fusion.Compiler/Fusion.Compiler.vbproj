@@ -69,6 +69,11 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BinaryOperatorArgumentTypesInformation.vb" />
+    <Compile Include="BinaryOperatorOverload.vb" />
+    <Compile Include="ExpressionExtensions.vb" />
+    <Compile Include="ExpressionWithNamedType.vb" />
+    <Compile Include="NamedBinaryOperator.vb" />
     <Compile Include="Function\FunctionCallExpressionBuilder.vb" />
     <Compile Include="Keywords.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -104,9 +109,9 @@
     <Compile Include="NamedParameter.vb" />
     <Compile Include="NamedType.vb" />
     <Compile Include="NamedTypes.vb" />
+    <Compile Include="TypeInformation.vb" />
     <Compile Include="TypeNamedTypeDictionary.vb" />
     <Compile Include="Term.vb" />
-    <Compile Include="TermBase.vb" />
     <Compile Include="TermContext.vb" />
     <Compile Include="TermDefinition.vb" />
     <Compile Include="TypeAndName.vb" />

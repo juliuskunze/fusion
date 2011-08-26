@@ -22,7 +22,7 @@
 
     Public Sub CheckIsAssignableFrom(other As DelegateType)
         Me.ResultType.CheckIsAssignableFrom(other.ResultType)
-        
+
         For parameterIndex = 0 To Me.Parameters.Count - 1
             Dim parameter = Me.Parameters(parameterIndex)
             Dim otherParameter = other.Parameters(parameterIndex)
@@ -30,6 +30,19 @@
             otherParameter.Type.CheckIsAssignableFrom(parameter.Type)
         Next
     End Sub
+
+    Public Function IsAssignableFrom(other As DelegateType) As Boolean
+        If Not Me.ResultType.IsAssignableFrom(other.ResultType) Then Return False
+
+        For parameterIndex = 0 To Me.Parameters.Count - 1
+            Dim parameter = Me.Parameters(parameterIndex)
+            Dim otherParameter = other.Parameters(parameterIndex)
+
+            If Not otherParameter.Type.IsAssignableFrom(parameter.Type) Then Return False
+        Next
+
+        Return True
+    End Function
 
     Private ReadOnly _SystemType As Type
     Public ReadOnly Property SystemType As Type

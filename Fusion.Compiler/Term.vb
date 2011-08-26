@@ -1,133 +1,264 @@
 ﻿Public Class Term
-    Inherits TermBase
 
+    Private ReadOnly _Term As String
+    Private ReadOnly _TrimmedTerm As String
+    Private ReadOnly _Context As TermContext
+    Private ReadOnly _TypeInformation As TypeInformation
     Private _CharIsInBrackets As Boolean()
 
     Public Sub New(term As String, type As NamedType, context As TermContext)
-        MyBase.New(term:=term, type:=type, context:=context)
+        Me.New(term:=term,
+               TypeInformation:=New TypeInformation(type),
+               context:=context)
     End Sub
 
-    Public Overrides Function GetExpression() As Expression
-        Dim baseExpression = MyBase.TryGetConstantOrParameterExpression
+    Public Sub New(term As String, typeInformation As TypeInformation, context As TermContext)
+        If Not context.Types.Contains(NamedType.Real) Then Throw New InvalidOperationException("Type Real must be defined in this context.")
+        If Not context.Types.Contains(NamedType.Vector3D) Then Throw New InvalidOperationException("Type Vector3D must be defined in this context.")
+        If Not context.Types.Contains(NamedType.Collection) Then Throw New InvalidOperationException("Type Collection must be defined in this context.")
+
+        _Term = term
+        _TrimmedTerm = term.Trim
+        _Context = context
+        _TypeInformation = typeInformation
+    End Sub
+
+    Private Function TryGetConstantOrParameterExpression() As ExpressionWithNamedType
+        If _TrimmedTerm = "" Then Throw New InvalidTermException(_Term, message:="Term must not be empty.")
+        If Not IsValidVariableName(_TrimmedTerm) Then Return Nothing
+
+        Dim constantExpression = Me.TryGetConstantExpression()
+        If constantExpression IsNot Nothing Then Return constantExpression
+
+        Dim parameterExpression = Me.TryGetParameterExpression()
+        If parameterExpression IsNot Nothing Then Return parameterExpression
+
+        Return Nothing
+    End Function
+
+    Private Function TryGetConstantExpression() As ExpressionWithNamedType
+        Dim matchingConstant = _Context.TryParseConstant(_TrimmedTerm)
+        If matchingConstant Is Nothing Then Return Nothing
+
+        Me.CheckTypeMatchIfNotInfer(Type:=matchingConstant.Signature.Type)
+
+        Return matchingConstant.ToExpressionWithNamedType
+    End Function
+
+    Private Function TryGetParameterExpression() As ExpressionWithNamedType
+        Dim matchingParameter = _Context.TryParseParameter(_TrimmedTerm)
+        If matchingParameter Is Nothing Then Return Nothing
+
+        Me.CheckTypeMatchIfNotInfer(Type:=matchingParameter.Type)
+
+        Return matchingParameter.ToExpressionWithNamedType
+    End Function
+
+    Public Function GetDelegate() As System.Delegate
+        Return Expression.Lambda(body:=Me.GetExpression, parameters:=_Context.Parameters.Select(Function(p) p.Expression)).Compile
+    End Function
+
+    Public Function GetDelegate(Of TDelegate)() As TDelegate
+        Dim lambda = Expression.Lambda(Of TDelegate)(body:=Me.GetExpression, parameters:=_Context.Parameters.Select(Function(p) p.Expression))
+
+        Return lambda.Compile
+    End Function
+
+    Public Function TryGetDelegate() As System.Delegate
+        Try
+            Return Me.GetDelegate
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+
+    Public Function TryGetDelegate(Of TDelegate)() As TDelegate
+        Try
+            Return Me.GetDelegate(Of TDelegate)()
+        Catch ex As Exception
+            Return Nothing
+        End Try
+    End Function
+
+    Private Function TryGetFunctionCall() As FunctionCall
+        Try
+            Return New FunctionCall(Text:=_Term)
+        Catch ex As ArgumentException
+            Return Nothing
+        End Try
+    End Function
+
+    Private Sub CheckTypeMatchIfNotInfer(type As NamedType)
+        If _TypeInformation.IsInfer Then Return
+
+        If Not _TypeInformation.Type.SystemType.IsAssignableFrom(type.SystemType) Then Throw New InvalidTermException(Term:=_Term, message:="Type '" & type.Name & "' is not compatible to type '" & _TypeInformation.Type.Name & "'.")
+    End Sub
+
+    Private Sub CheckDelegateTypeMatch(delegateType As DelegateType)
+        If _TypeInformation.IsInfer Then Return
+
+        _TypeInformation.Type.Delegate.CheckIsAssignableFrom(delegateType)
+    End Sub
+
+    Public Function GetExpression() As System.Linq.Expressions.Expression
+        Return Me.GetExpressionWithNamedType.Expression
+    End Function
+
+    Friend Function GetExpressionWithNamedType() As ExpressionWithNamedType
+        Dim baseExpression = Me.TryGetConstantOrParameterExpression
         If baseExpression IsNot Nothing Then Return baseExpression
 
         Dim parsedDouble As Double
         If Double.TryParse(_TrimmedTerm, result:=parsedDouble) AndAlso Not _TrimmedTerm.StartsWith("("c) Then
-            Me.CheckTypeMatch(type:=NamedType.Real)
-            Return Expression.Constant(type:=GetType(Double), value:=parsedDouble)
+            Return Me.GetRealExpression(parsedDouble:=parsedDouble)
         End If
 
         If _TrimmedTerm.IsInBrackets({CompilerTools.VectorBracketType}) Then
-            Me.CheckTypeMatch(type:=NamedType.Vector3D)
             Return Me.GetVector3DExpression
         End If
 
         If _TrimmedTerm.IsInBrackets({CompilerTools.CollectionBracketType}) Then
-            Dim elementType = _Type.TypeArguments.Single
-
-            Me.CheckTypeMatch(type:=NamedType.Collection.MakeGenericType(typeArguments:=_Type.TypeArguments))
-            Dim collectionArgumentStrings = CompilerTools.GetCollectionArguments(_TrimmedTerm)
-            Dim arguments = collectionArgumentStrings.Select(Function(argumentString) New Term(Term:=argumentString, Type:=elementType, context:=_Context).GetExpression)
-
-            Return Expression.NewArrayInit(type:=_Type.TypeArguments.Single.SystemType,
-                                           initializers:=arguments)
+            Return Me.GetCollectionExpression()
         End If
 
-        If _Type.IsDelegate Then Return _Context.ParseFunction(_TrimmedTerm).InvokableExpression
+        If Not _TypeInformation.IsInfer AndAlso _TypeInformation.Type.IsDelegate Then Return _Context.ParseFunction(_TrimmedTerm).InvokableExpression.WithNamedType(_TypeInformation.Type)
 
         _CharIsInBrackets = _TrimmedTerm.GetCharIsInBracketsArray
 
-        If TermIsInBrackets(startIndex:=0, endIndex:=_TrimmedTerm.Length - 1) Then Return Me.SubstringExpression(_TrimmedTerm.Substring(startIndex:=1, length:=_TrimmedTerm.Length - 2), type:=_Type)
+        If Me.TermIsInBrackets(startIndex:=0, endIndex:=_TrimmedTerm.Length - 1) Then Return Me.SubstringExpression(_TrimmedTerm.Substring(startIndex:=1, length:=_TrimmedTerm.Length - 2), typeInformation:=_TypeInformation)
+        Dim functionCallExpression = Me.TryGetFunctionCallExpression()
+        If functionCallExpression IsNot Nothing Then Return functionCallExpression
 
-        Dim functionCall = Me.TryGetFunctionCall
-        If functionCall IsNot Nothing Then
-            Dim argumentStrings = functionCall.Arguments
-
-            If CompilerTools.IdentifierEquals(functionCall.FunctionName, Keywords.Cases) Then
-                Return Me.GetCasesExpression(argumentStrings)
-            End If
-
-            Dim functionInstance = _Context.ParseFunction(functionCall.FunctionName)
-
-            Dim parameters = functionInstance.DelegateType.Parameters
-            If parameters.Count <> argumentStrings.Count Then Throw New ArgumentException("Wrong argument count.")
-
-            Dim arguments = New List(Of Expression)
-            For parameterIndex = 0 To parameters.Count - 1
-                Dim parameter = parameters(parameterIndex)
-                Dim argumentString = argumentStrings(parameterIndex)
-
-                Dim parts = argumentString.SplitIfSeparatorIsNotInBrackets(":"c, bracketTypes:=CompilerTools.AllowedBracketTypes)
-                Dim argumentTerm = GetArgumentTerm(argumentString, parts, parameter)
-
-                arguments.Add(Me.SubstringExpression(argumentTerm, type:=parameter.Type))
-            Next
-
-            Return functionInstance.CallExpressionBuilder.Run(arguments:=arguments)
-        End If
-
-        Dim orExpression = Me.TryGetBinaryOperatorExpression("|"c, Function(e1, e2) Expression.OrElse(e1, e2))
+        Dim orExpression = Me.TryGetBinaryOperatorExpression(NamedBinaryOperator.Or)
         If orExpression IsNot Nothing Then Return orExpression
 
-        Dim andExpression = Me.TryGetBinaryOperatorExpression("&"c, Function(e1, e2) Expression.AndAlso(e1, e2))
+        Dim andExpression = Me.TryGetBinaryOperatorExpression(NamedBinaryOperator.And)
         If andExpression IsNot Nothing Then Return andExpression
 
-        Dim notEqualExpression = Me.TryGetBinaryOperatorExpression("<>", Function(e1, e2) Expression.NotEqual(e1, e2))
+        Dim notEqualExpression = Me.TryGetBinaryOperatorExpression(NamedBinaryOperator.NotEqual)
         If notEqualExpression IsNot Nothing Then Return notEqualExpression
 
-        Dim greaterThanOrEqualExpression = Me.TryGetBinaryOperatorExpression(">=", Function(e1, e2) Expression.GreaterThanOrEqual(e1, e2))
+        Dim greaterThanOrEqualExpression = Me.TryGetBinaryOperatorExpression(NamedBinaryOperator.GreaterThanOrEqual)
         If greaterThanOrEqualExpression IsNot Nothing Then Return greaterThanOrEqualExpression
 
-        Dim greaterThanExpression = Me.TryGetBinaryOperatorExpression(">"c, Function(e1, e2) Expression.GreaterThan(e1, e2))
+        Dim greaterThanExpression = Me.TryGetBinaryOperatorExpression(NamedBinaryOperator.GreaterThan)
         If greaterThanExpression IsNot Nothing Then Return greaterThanExpression
 
-        Dim lessThanOrEqualExpression = Me.TryGetBinaryOperatorExpression("<=", Function(e1, e2) Expression.LessThanOrEqual(e1, e2))
+        Dim lessThanOrEqualExpression = Me.TryGetBinaryOperatorExpression(NamedBinaryOperator.LessThanOrEqual)
         If lessThanOrEqualExpression IsNot Nothing Then Return lessThanOrEqualExpression
 
-        Dim lessThanExpression = Me.TryGetBinaryOperatorExpression("<"c, Function(e1, e2) Expression.LessThan(e1, e2))
+        Dim lessThanExpression = Me.TryGetBinaryOperatorExpression(NamedBinaryOperator.LessThan)
         If lessThanExpression IsNot Nothing Then Return lessThanExpression
 
-        Dim equalExpression = Me.TryGetBinaryOperatorExpression("="c, Function(e1, e2) Expression.Equal(e1, e2))
+        Dim equalExpression = Me.TryGetBinaryOperatorExpression(NamedBinaryOperator.Equal)
         If equalExpression IsNot Nothing Then Return equalExpression
 
         Select Case _TrimmedTerm.Chars(0)
             Case "+"c, "-"c
                 Dim firstNotSignIndex As Integer
                 If MinusCountAtStartIsEven(out_firstNotSignIndex:=firstNotSignIndex) Then
-                    Return SubstringExpression(startIndex:=firstNotSignIndex, length:=_TrimmedTerm.Length - firstNotSignIndex, type:=NamedType.Real)
+                    Return SubstringExpression(startIndex:=firstNotSignIndex, length:=_TrimmedTerm.Length - firstNotSignIndex, typeInformation:=New TypeInformation(NamedType.Real))
                 Else
-                    Dim negateAndAddExpression = Me.TryGetBinaryOperatorExpression("+"c, Function(e1, e2) Expression.Add(Expression.Negate(e1), e2), startIndex:=firstNotSignIndex)
+                    Dim negateAndAddExpression = Me.TryGetBinaryOperatorExpression(NamedBinaryOperator.NegateFirstAndAddSecond, startIndex:=firstNotSignIndex)
                     If negateAndAddExpression IsNot Nothing Then Return negateAndAddExpression
 
-                    Dim negateAndSubtractExpression = Me.TryGetBinaryOperatorExpression("-"c, Function(e1, e2) Expression.Subtract(Expression.Negate(e1), e2), startIndex:=firstNotSignIndex)
+                    Dim negateAndSubtractExpression = Me.TryGetBinaryOperatorExpression(NamedBinaryOperator.NegateFirstAndSubtractSecond, startIndex:=firstNotSignIndex)
                     If negateAndSubtractExpression IsNot Nothing Then Return negateAndSubtractExpression
 
-                    Return Expression.Negate(Me.SubstringExpression(startIndex:=firstNotSignIndex, length:=_TrimmedTerm.Length - firstNotSignIndex, type:=NamedType.Real))
+                    Dim inner = Me.SubstringExpression(startIndex:=firstNotSignIndex, length:=_TrimmedTerm.Length - firstNotSignIndex, typeInformation:=New TypeInformation(NamedType.Real))
+
+                    Return New ExpressionWithNamedType(Expression.Negate(inner.Expression), inner.NamedType)
                 End If
         End Select
 
-        Dim addExpression = Me.TryGetBinaryOperatorExpression("+"c, Function(e1, e2) Expression.Add(e1, e2))
+        Dim addExpression = Me.TryGetBinaryOperatorExpression(NamedBinaryOperator.Add)
         If addExpression IsNot Nothing Then Return addExpression
 
-        Dim subtractExpression = Me.TryGetBinaryOperatorExpression("-"c, Function(e1, e2) Expression.Subtract(e1, e2))
+        Dim subtractExpression = Me.TryGetBinaryOperatorExpression(NamedBinaryOperator.Subtract)
         If subtractExpression IsNot Nothing Then Return subtractExpression
 
-        Dim multiplyExpression = Me.TryGetBinaryOperatorExpression("*"c, Function(e1, e2) Expression.Multiply(e1, e2))
+        Dim multiplyExpression = Me.TryGetBinaryOperatorExpression(NamedBinaryOperator.Multiply)
         If multiplyExpression IsNot Nothing Then Return multiplyExpression
 
-        Dim divideExpression = Me.TryGetBinaryOperatorExpression("/"c, Function(e1, e2) Expression.Divide(e1, e2))
+        Dim divideExpression = Me.TryGetBinaryOperatorExpression(NamedBinaryOperator.Divide)
         If divideExpression IsNot Nothing Then Return divideExpression
 
-        Dim powerExpression = Me.TryGetBinaryOperatorExpression("^"c, Function(e1, e2) Expression.Power(e1, e2))
+        Dim powerExpression = Me.TryGetBinaryOperatorExpression(NamedBinaryOperator.Power)
         If powerExpression IsNot Nothing Then Return powerExpression
 
         If _TrimmedTerm.Chars(0) = "!" Then
-            Return Expression.Not(Me.SubstringExpression(startIndex:=1, length:=_TrimmedTerm.Length - 1, type:=NamedType.Boolean))
+            Dim inner = Me.SubstringExpression(startIndex:=1, length:=_TrimmedTerm.Length - 1, typeInformation:=New TypeInformation(NamedType.Boolean))
+
+            Return New ExpressionWithNamedType(Expression.Not(inner.Expression), inner.NamedType)
         End If
 
         If _TrimmedTerm.IsValidVariableName Then Throw New InvalidTermException(Term:=_TrimmedTerm, message:="'" & _TrimmedTerm & "' is not defined in this context.")
 
         Throw New InvalidTermException(_TrimmedTerm)
+    End Function
+
+    Private Function TryGetFunctionCallExpression() As ExpressionWithNamedType
+        Dim functionCall = Me.TryGetFunctionCall
+        If functionCall Is Nothing Then Return Nothing
+
+        Return Me.GetFunctionCallExpression(functionCall)
+    End Function
+
+    Private Function GetRealExpression(ByVal parsedDouble As Double) As ExpressionWithNamedType
+        Me.CheckTypeMatchIfNotInfer(NamedType.Real)
+        Return Expression.Constant(type:=GetType(Double), value:=parsedDouble).WithNamedType(NamedType.Real)
+    End Function
+
+    Private Function GetFunctionCallExpression(ByVal functionCall As FunctionCall) As ExpressionWithNamedType
+        Dim argumentStrings = functionCall.Arguments
+
+        If CompilerTools.IdentifierEquals(functionCall.FunctionName, Keywords.Cases) Then
+            Return Me.GetCasesExpression(argumentStrings)
+        End If
+
+        Dim functionInstance = _Context.ParseFunction(functionCall.FunctionName)
+
+        Dim parameters = functionInstance.DelegateType.Parameters
+        If parameters.Count <> argumentStrings.Count Then Throw New ArgumentException("Wrong argument count.")
+
+        Dim arguments = New List(Of Expression)
+        For parameterIndex = 0 To parameters.Count - 1
+            Dim parameter = parameters(parameterIndex)
+            Dim argumentString = argumentStrings(parameterIndex)
+
+            Dim parts = argumentString.SplitIfSeparatorIsNotInBrackets(":"c, bracketTypes:=CompilerTools.AllowedBracketTypes)
+            Dim argumentTerm = GetArgumentTerm(argumentString, parts, parameter)
+
+            arguments.Add(Me.SubstringExpression(argumentTerm, typeInformation:=New TypeInformation(parameter.Type)).Expression)
+        Next
+
+        Return New ExpressionWithNamedType(functionInstance.CallExpressionBuilder.Run(arguments:=arguments), _TypeInformation.Type)
+    End Function
+
+    Private Function GetCollectionExpression() As ExpressionWithNamedType
+        Dim collectionArgumentStrings = CompilerTools.GetCollectionArguments(_TrimmedTerm)
+
+        Dim elementTypeInformation As TypeInformation
+        If _TypeInformation.IsInfer Then
+            elementTypeInformation = TypeInformation.Infer
+        Else
+            Dim type = _TypeInformation.Type
+            'TODO: Check collection type match
+            elementTypeInformation = New TypeInformation(type.TypeArguments.Single)
+
+            Me.CheckTypeMatchIfNotInfer(type:=NamedType.Collection.MakeGenericType(typeArguments:=type.TypeArguments))
+        End If
+
+        Dim arguments = collectionArgumentStrings.Select(Function(argumentString) New Term(term:=argumentString, typeInformation:=elementTypeInformation, context:=_Context).GetExpressionWithNamedType)
+
+        Dim resultElementType As NamedType
+        If _TypeInformation.IsInfer Then
+            resultElementType = arguments.First.NamedType
+        Else
+            resultElementType = _TypeInformation.Type.TypeArguments.Single
+        End If
+
+        Return Expression.NewArrayInit(type:=resultElementType.SystemType, initializers:=arguments.Select(Function(argument) argument.Expression)).WithNamedType(NamedType.Collection.MakeGenericType({resultElementType}))
     End Function
 
     Private Function MinusCountAtStartIsEven(ByRef out_firstNotSignIndex As Integer) As Boolean
@@ -148,24 +279,26 @@
         Return (minusCountAtStart Mod 2 = 0)
     End Function
 
-    Private Function TryGetBinaryOperatorExpression(ByVal operatorChar As Char, ByVal binaryOperatorExpression As Func(Of Expression, Expression, Expression), Optional startIndex As Integer = 0) As Expression
-        For i = startIndex To _TrimmedTerm.Length - 1
-            If Not _CharIsInBrackets(i) AndAlso _TrimmedTerm.Chars(i) = operatorChar Then Return binaryOperatorExpression(Me.BeforeIndexExpression(i, type:=_Type, startIndex:=startIndex), Me.AfterIndexExpression(i, type:=_Type))
+    Private Function TryGetBinaryOperatorExpression(namedOperator As NamedBinaryOperator, Optional startIndex As Integer = 0) As ExpressionWithNamedType
+        For i = startIndex To _TrimmedTerm.Length - namedOperator.Name.Length - startIndex
+            If Not _CharIsInBrackets(i) AndAlso
+               _TrimmedTerm.Substring(i, namedOperator.Name.Length) = namedOperator.Name Then
+                Dim argumentTypesInformation = namedOperator.GetArgumentTypesInformation(resultTypeInformation:=_TypeInformation)
+                Dim term1 = Me.BeforeIndexExpression(i, typeInformation:=argumentTypesInformation.Argument1TypeInformation, startIndex:=startIndex)
+                Dim term2 = Me.AfterIndexExpression(i + namedOperator.Name.Length - 1, typeInformation:=argumentTypesInformation.Argument2TypeInformation)
+
+                Dim operatorOverload = namedOperator.ParseOverload(argumentType1:=term1.NamedType, argumentType2:=term2.NamedType, resultTypeInformation:=_TypeInformation)
+
+                Return operatorOverload.GetExpressionWithNamedType(term1.Expression, term2.Expression)
+            End If
         Next
 
         Return Nothing
     End Function
 
-    Private Function TryGetBinaryOperatorExpression(operatorString As String, binaryOperatorExpression As Func(Of Expression, Expression, Expression)) As Expression
-        For i = 0 To _TrimmedTerm.Length - operatorString.Length
-            If Not _CharIsInBrackets(i) AndAlso _TrimmedTerm.Substring(i, operatorString.Length) = operatorString Then Return binaryOperatorExpression(Me.BeforeIndexExpression(i, type:=NamedType.Real), Me.AfterIndexExpression(i + operatorString.Length - 1, type:=NamedType.Real))
-        Next
-
-        Return Nothing
-    End Function
-
-    Private Function GetCasesExpression(ByVal argumentStrings As IEnumerable(Of String)) As Expression
+    Private Function GetCasesExpression(ByVal argumentStrings As IEnumerable(Of String)) As ExpressionWithNamedType
         Dim casesExpression As Expression = Nothing
+        Dim typeOfFirstTerm As NamedType = Nothing
 
         For index = argumentStrings.Count - 1 To 0 Step -1
             Dim argumentString = argumentStrings(index)
@@ -175,20 +308,22 @@
             Dim conditionPart = parts.First
             Dim termPart = parts.Last
 
-            Dim termExpression = New Term(parts.Last, _Type, _Context).GetExpression
+            Dim termExpression = New Term(parts.Last, _TypeInformation, _Context).GetExpressionWithNamedType
+
+            If index = 0 Then typeOfFirstTerm = termExpression.NamedType
 
             If index = argumentStrings.Count - 1 Then
                 If Not CompilerTools.IdentifierEquals(conditionPart.Trim, Keywords.Else) Then Throw New InvalidTermException(_Term, "Last case must be case else.")
-                casesExpression = termExpression
+                casesExpression = termExpression.Expression
                 Continue For
             End If
 
             Dim conditionExpression = New Term(conditionPart, NamedType.Boolean, _Context).GetExpression
 
-            casesExpression = Expression.Condition(conditionExpression, ifTrue:=termExpression, ifFalse:=casesExpression)
+            casesExpression = Expression.Condition(conditionExpression, ifTrue:=termExpression.Expression, ifFalse:=casesExpression)
         Next
 
-        Return casesExpression
+        Return casesExpression.WithNamedType(typeOfFirstTerm)
     End Function
 
     Private Function GetArgumentTerm(ByVal argumentString As String, ByVal parts As IEnumerable(Of String), ByVal parameter As NamedParameter) As String
@@ -204,31 +339,33 @@
         End Select
     End Function
 
-    Private ReadOnly Property BeforeIndexExpression(index As Integer, type As NamedType, Optional startIndex As Integer = 0) As Expression
+    Private ReadOnly Property BeforeIndexExpression(index As Integer, typeInformation As TypeInformation, Optional startIndex As Integer = 0) As ExpressionWithNamedType
         Get
-            Return Me.SubstringExpression(startIndex:=startIndex, length:=index - startIndex, type:=type)
+            Return Me.SubstringExpression(startIndex:=startIndex, length:=index - startIndex, typeInformation:=typeInformation)
         End Get
     End Property
 
-    Private ReadOnly Property AfterIndexExpression(index As Integer, type As NamedType) As Expression
+    Private ReadOnly Property AfterIndexExpression(index As Integer, typeInformation As TypeInformation) As ExpressionWithNamedType
         Get
-            Return Me.SubstringExpression(index + 1, _TrimmedTerm.Length - 1 - index, type)
+            Return Me.SubstringExpression(index + 1, _TrimmedTerm.Length - 1 - index, typeInformation)
         End Get
     End Property
 
-    Private ReadOnly Property SubstringExpression(startIndex As Integer, length As Integer, type As NamedType) As Expression
+    Private ReadOnly Property SubstringExpression(startIndex As Integer, length As Integer, typeInformation As TypeInformation) As ExpressionWithNamedType
         Get
-            Return Me.SubstringExpression(_TrimmedTerm.Substring(startIndex, length), type)
+            Return Me.SubstringExpression(_TrimmedTerm.Substring(startIndex, length), typeInformation)
         End Get
     End Property
 
-    Private ReadOnly Property SubstringExpression(term As String, type As NamedType) As Expression
+    Private ReadOnly Property SubstringExpression(term As String, typeInformation As TypeInformation) As ExpressionWithNamedType
         Get
-            Return New Term(term:=term, type:=type, context:=_Context).GetExpression
+            Return New Term(term:=term, typeInformation:=typeInformation, context:=_Context).GetExpressionWithNamedType
         End Get
     End Property
 
-    Private Function GetVector3DExpression() As System.Linq.Expressions.Expression
+    Private Function GetVector3DExpression() As ExpressionWithNamedType
+        Me.CheckTypeMatchIfNotInfer(NamedType.Vector3D)
+
         Dim components = CompilerTools.GetArguments(_TrimmedTerm.Trim, bracketTypes:={CompilerTools.VectorBracketType})
 
         If components.Count <> 3 Then Throw New InvalidTermException(_Term, "The component count of a 3D-vector must be 3.")
@@ -241,7 +378,9 @@
            yExpression.Type <> GetType(Double) OrElse
            zExpression.Type <> GetType(Double) Then Throw New InvalidTermException(_Term, message:="The components of a vector must be real numbers.")
 
-        Return New FunctionCallExpressionBuilder(Of Vector3DConstructor)(LambdaExpression:=Function(x, y, z) New Vector3D(x, y, z)).Run(arguments:={xExpression, yExpression, zExpression})
+        Dim expression = New FunctionCallExpressionBuilder(Of Vector3DConstructor)(LambdaExpression:=Function(x, y, z) New Vector3D(x, y, z)).Run(arguments:={xExpression, yExpression, zExpression})
+
+        Return expression.WithNamedType(NamedType.Vector3D)
     End Function
 
     Private Delegate Function Vector3DConstructor(x As Double, y As Double, z As Double) As Vector3D

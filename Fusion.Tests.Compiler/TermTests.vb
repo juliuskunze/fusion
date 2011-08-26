@@ -214,4 +214,26 @@ Public Class TermTests
         Assert.AreEqual(result2, 4)
     End Sub
 
+    <Test()>
+    Public Sub TestOperatorResultTypeInvalid()
+        Dim term = New Term("1+2", Type:=NamedType.Boolean, context:=TermContext.Default)
+        Try
+            term.GetDelegate()
+            Assert.Fail()
+        Catch ex As InvalidOperationException
+            Assert.That(ex.Message = "There is no binary operator '+' with return type 'Boolean'.")
+        End Try
+    End Sub
+
+    <Test()>
+    Public Sub TestOperatorArgumentTypeInvalid()
+        Dim term = New Term("True*2", Type:=NamedType.Real, context:=TermContext.Default)
+        Try
+            term.GetDelegate()
+            Assert.Fail()
+        Catch ex As InvalidOperationException
+            Assert.AreEqual("There is no binary operator '*' that accepts argument types 'Boolean' and 'Real'.", ex.Message)
+        End Try
+    End Sub
+
 End Class

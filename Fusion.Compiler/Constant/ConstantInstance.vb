@@ -19,6 +19,10 @@ Public Class ConstantInstance
         _Expression = Expressions.Expression.Constant(value:=value, Type:=signature.Type.SystemType)
     End Sub
 
+    Friend Function ToExpressionWithNamedType() As ExpressionWithNamedType
+        Return Me.Expression.WithNamedType(Me.Signature.Type)
+    End Function
+
 End Class
 
 Public Class ConstantInstance(Of T)

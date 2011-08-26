@@ -67,14 +67,20 @@
     End Sub
 
     Public Sub CheckIsAssignableFrom(other As NamedType)
+        If Not Me.IsAssignableFrom(other) Then Me.ThrowNotAssignableFromException(other.Name)
+    End Sub
+
+    Public Function IsAssignableFrom(other As NamedType) As Boolean
         If _IsDelegate Then
-            If Not other.IsDelegate Then Me.ThrowNotAssignableFromException(other.Name)
+            If Not other.IsDelegate Then Return False
 
             Me.Delegate.CheckIsAssignableFrom(other.Delegate)
         Else
-            If Not Me.SystemType.IsAssignableFrom(other.SystemType) Then Me.ThrowNotAssignableFromException(other.Name)
+            If Not Me.SystemType.IsAssignableFrom(other.SystemType) Then Return False
         End If
-    End Sub
+
+        Return True
+    End Function
 
     Public Shared Function NamedDelegateTypeFromText(text As String, typeContext As NamedTypes) As NamedType
         Dim trimmed = text.Trim
@@ -116,5 +122,6 @@
             Return _Collection
         End Get
     End Property
+
 
 End Class
