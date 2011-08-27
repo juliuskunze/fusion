@@ -1,4 +1,6 @@
 
+*.crc
+*.dat
 *.[Ll]og
 *.aps
 *.BACKUP*
