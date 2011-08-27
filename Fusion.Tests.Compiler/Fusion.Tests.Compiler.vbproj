@@ -86,9 +86,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="CompilerToolsTests.vb" />
-    <Compile Include="Definitions\ConstantAssignmentTests.vb" />
+    <Compile Include="ConstantAssignmentTests.vb" />
     <Compile Include="CompilerTests.vb" />
-    <Compile Include="Definitions\FunctionAssignmentTests.vb" />
+    <Compile Include="FunctionAssignmentTests.vb" />
     <Compile Include="NamedTypeTests.vb" />
     <Compile Include="TermTests.vb" />
   </ItemGroup>
