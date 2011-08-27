@@ -236,4 +236,28 @@ Public Class TermTests
         End Try
     End Sub
 
+    <Test()>
+    Public Sub TestOperatorOverload1()
+        Dim term = New Term("[1,1,1]*2", Type:=NamedType.Vector3D, context:=TermContext.Default)
+        Dim result = term.GetDelegate.DynamicInvoke({})
+
+        Assert.AreEqual(result, New Vector3D(2, 2, 2))
+    End Sub
+
+    <Test()>
+    Public Sub TestOperatorOverload2()
+        Dim term = New Term("2*[1,1,1]", Type:=NamedType.Vector3D, context:=TermContext.Default)
+        Dim result = term.GetDelegate.DynamicInvoke({})
+
+        Assert.AreEqual(result, New Vector3D(2, 2, 2))
+    End Sub
+
+    <Test()>
+    Public Sub TestOperatorOverload3()
+        Dim term = New Term("True = False", Type:=NamedType.Boolean, context:=TermContext.Default)
+        Dim result = term.GetDelegate.DynamicInvoke({})
+
+        Assert.AreEqual(result, False)
+    End Sub
+
 End Class
