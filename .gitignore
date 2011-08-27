@@ -31,8 +31,6 @@
 /HTML/*.xml
 /HTML/*/*
 [Bb]in
-[Dd]ebug*/
-[Rr]elease*/
 [Tt]est[Rr]esult*
 _ReSharper*/
 _test
@@ -47,3 +45,4 @@ Setup/main-cache
 [Ss]ys[Dd]ata/*
 Thumbs.db
 Vorlagen/*
+*/obj/Release/*.vbproj.FileListAbsolute.txt
