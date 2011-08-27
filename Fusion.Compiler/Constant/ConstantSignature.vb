@@ -22,7 +22,7 @@
     Shared Function FromText(text As String, typeContext As NamedTypes) As ConstantSignature
         Dim rest As String = Nothing
         Dim typeAndName = CompilerTools.GetStartingTypedAndNamedVariable(text:=text, types:=typeContext, out_rest:=rest)
-        If rest.Trim <> "" Then Throw New ArgumentException("End of constant definition expected.")
+        If rest.Trim <> "" Then Throw New CompilerException("End of constant definition expected.")
 
         Return New ConstantSignature(Name:=typeAndName.Name, Type:=typeAndName.Type)
     End Function

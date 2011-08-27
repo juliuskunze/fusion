@@ -41,7 +41,7 @@
         Dim context = Me.GetTermContext
 
         Dim returnStatement = _Definitions(_Definitions.Count - 2)
-        If _Definitions.Last <> "" Then Throw New ArgumentException("Missing ';' after return statement.")
+        If _Definitions.Last <> "" Then Throw New CompilerException("Missing ';' after return statement.")
 
         Dim returnTerm = New Term(Term:=GetReturnTerm(returnStatement), Type:=_ResultType, context:=context)
 

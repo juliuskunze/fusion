@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="BinaryOperatorArgumentTypesInformation.vb" />
     <Compile Include="BinaryOperatorOverload.vb" />
+    <Compile Include="CompilerException.vb" />
     <Compile Include="ExpressionExtensions.vb" />
     <Compile Include="ExpressionWithNamedType.vb" />
     <Compile Include="NamedBinaryOperator.vb" />

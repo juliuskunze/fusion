@@ -22,7 +22,7 @@
         Try
             definitions.GetTermContext()
             Assert.Fail()
-        Catch ex As ArgumentException
+        Catch ex As CompilerException
             Assert.AreEqual("'b' is not defined in this context.", ex.Message)
         End Try
     End Sub

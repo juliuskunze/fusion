@@ -21,7 +21,7 @@
     Private ReadOnly _Delegate As DelegateType
     Public ReadOnly Property [Delegate] As DelegateType
         Get
-            If Not _IsDelegate Then Throw New InvalidOperationException("The type must be a delegate type.")
+            If Not _IsDelegate Then Throw New CompilerException("The type must be a delegate type.")
 
             Return _Delegate
         End Get
@@ -43,7 +43,7 @@
 
     Public Sub New(name As String, systemType As System.Type)
         Me.New(name:=name, systemType:=systemType, TypeArguments:={})
-        '!!!If systemType.GetGenericArguments.Where(Function(argument) Not argument.IsGenericParameter).Any Then Throw New ArgumentException("No type arguments allowed, use MakeGenericType.")
+        '!!!If systemType.GetGenericArguments.Where(Function(argument) Not argument.IsGenericParameter).Any Then Throw New CompilerException("No type arguments allowed, use MakeGenericType.")
     End Sub
 
     Private Sub New(name As String, systemType As System.Type, typeArguments As IEnumerable(Of NamedType))
@@ -54,8 +54,8 @@
     End Sub
 
     Public Function MakeGenericType(typeArguments As IEnumerable(Of NamedType)) As NamedType
-        If _TypeArguments.Any Then Throw New InvalidOperationException("Only types that have not already generic arguments can get new type arguments.")
-        If _SystemType.GetGenericArguments.Count <> typeArguments.Count Then Throw New ArgumentException(String.Format("Wrong type argument count for type '{0}'.", _Name))
+        If _TypeArguments.Any Then Throw New CompilerException("Only types that have not already generic arguments can get new type arguments.")
+        If _SystemType.GetGenericArguments.Count <> typeArguments.Count Then Throw New CompilerException(String.Format("Wrong type argument count for type '{0}'.", _Name))
 
         Return New NamedType(_Name, _SystemType.MakeGenericType((From namedType In typeArguments Select namedType.SystemType).ToArray), typeArguments)
     End Function
@@ -84,7 +84,7 @@
 
     Public Shared Function NamedDelegateTypeFromText(text As String, typeContext As NamedTypes) As NamedType
         Dim trimmed = text.Trim
-        If Not trimmed.StartsWith(Keywords.Delegate, StringComparison.OrdinalIgnoreCase) Then Throw New ArgumentException("text", "Invalid delegate declaration.")
+        If Not trimmed.StartsWith(Keywords.Delegate, StringComparison.OrdinalIgnoreCase) Then Throw New CompilerException("Invalid delegate declaration.")
         Dim rest = trimmed.Substring(startIndex:=Keywords.Delegate.Count)
         Dim signature = FunctionSignature.FromText(text:=rest, typeContext:=typeContext)
 
@@ -92,7 +92,7 @@
     End Function
 
     Private Function ThrowNotAssignableFromException(otherName As String) As ArgumentException
-        Throw New ArgumentException(String.Format("Type '{0}' is not assignable to type '{1}'.", otherName, Me.Name))
+        Throw New CompilerException(String.Format("Type '{0}' is not assignable to type '{1}'.", otherName, Me.Name))
     End Function
 
     Private Shared ReadOnly _Boolean As New NamedType("Boolean", GetType(Boolean))

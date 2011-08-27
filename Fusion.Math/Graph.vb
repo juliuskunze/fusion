@@ -32,12 +32,9 @@ Public Class Graph(Of NodeType As Class, EdgeType As IEdge(Of NodeType))
     End Sub
 
     Public Sub AddEdge(edge As EdgeType)
-        If _Nodes.Contains(edge.EndNodes.Node1) AndAlso _
-           _Nodes.Contains(edge.EndNodes.Node2) Then
-            _Edges.Add(edge)
-        Else
-            Throw New ArgumentException("The start or end node of the edge to add was not found.")
-        End If
+        If Not _Nodes.Contains(edge.EndNodes.Node1) OrElse Not _Nodes.Contains(edge.EndNodes.Node2) Then Throw New ArgumentException("The start or end node of the edge to add was not found.")
+
+        _Edges.Add(edge)
     End Sub
 
     Public Sub RemoveEdge(edge As EdgeType)

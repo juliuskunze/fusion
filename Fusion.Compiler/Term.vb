@@ -13,9 +13,9 @@
     End Sub
 
     Public Sub New(term As String, typeInformation As TypeInformation, context As TermContext)
-        If Not context.Types.Contains(NamedType.Real) Then Throw New InvalidOperationException("Type Real must be defined in this context.")
-        If Not context.Types.Contains(NamedType.Vector3D) Then Throw New InvalidOperationException("Type Vector3D must be defined in this context.")
-        If Not context.Types.Contains(NamedType.Collection) Then Throw New InvalidOperationException("Type Collection must be defined in this context.")
+        If Not context.Types.Contains(NamedType.Real) Then Throw New CompilerException("Type Real must be defined in this context.")
+        If Not context.Types.Contains(NamedType.Vector3D) Then Throw New CompilerException("Type Vector3D must be defined in this context.")
+        If Not context.Types.Contains(NamedType.Collection) Then Throw New CompilerException("Type Collection must be defined in this context.")
 
         _Term = term
         _TrimmedTerm = term.Trim
@@ -83,7 +83,7 @@
     Private Function TryGetFunctionCall() As FunctionCall
         Try
             Return New FunctionCall(Text:=_Term)
-        Catch ex As ArgumentException
+        Catch ex As CompilerException
             Return Nothing
         End Try
     End Function
@@ -91,7 +91,7 @@
     Private Sub CheckTypeMatchIfNotInfer(type As NamedType)
         If _TypeInformation.IsInfer Then Return
 
-        If Not _TypeInformation.Type.SystemType.IsAssignableFrom(type.SystemType) Then Throw New InvalidTermException(Term:=_Term, message:="Type '" & type.Name & "' is not compatible to type '" & _TypeInformation.Type.Name & "'.")
+        If Not _TypeInformation.Type.SystemType.IsAssignableFrom(type.SystemType) Then Throw New InvalidTermException(Term:=_Term, message:=String.Format("Type '{0}' is not compatible to type '{1}'.", type.Name, _TypeInformation.Type.Name))
     End Sub
 
     Private Sub CheckDelegateTypeMatch(delegateType As DelegateType)
@@ -192,7 +192,7 @@
             Return New ExpressionWithNamedType(Expression.Not(inner.Expression), inner.NamedType)
         End If
 
-        If _TrimmedTerm.IsValidIdentifier Then Throw New InvalidTermException(Term:=_TrimmedTerm, message:="'" & _TrimmedTerm & "' is not defined in this context.")
+        If _TrimmedTerm.IsValidIdentifier Then Throw New InvalidTermException(Term:=_TrimmedTerm, message:=String.Format("'{0}' is not defined in this context.", _TrimmedTerm))
 
         Throw New InvalidTermException(_TrimmedTerm)
     End Function
@@ -219,7 +219,6 @@
         Dim functionInstance = _Context.ParseFunction(functionCall)
 
         Dim parameters = functionInstance.DelegateType.Parameters
-        If parameters.Count <> argumentStrings.Count Then Throw New ArgumentException("Wrong argument count.")
 
         Dim arguments = New List(Of Expression)
         For parameterIndex = 0 To parameters.Count - 1
@@ -368,7 +367,7 @@
 
         Dim components = CompilerTools.GetArguments(_TrimmedTerm.Trim, bracketTypes:={CompilerTools.VectorBracketType})
 
-        If components.Count <> 3 Then Throw New InvalidTermException(_Term, "The component count of a 3D-vector must be 3.")
+        If components.Count <> 3 Then Throw New InvalidTermException(_TrimmedTerm, "The component count of a 3D-vector must be 3.")
 
         Dim xExpression = New Term(Term:=components(0), context:=_Context, Type:=NamedType.Real).GetExpression
         Dim yExpression = New Term(Term:=components(1), context:=_Context, Type:=NamedType.Real).GetExpression
@@ -376,7 +375,7 @@
 
         If xExpression.Type <> GetType(Double) OrElse
            yExpression.Type <> GetType(Double) OrElse
-           zExpression.Type <> GetType(Double) Then Throw New InvalidTermException(_Term, message:="The components of a vector must be real numbers.")
+           zExpression.Type <> GetType(Double) Then Throw New InvalidTermException(_TrimmedTerm, message:="The components of a vector must be real numbers.")
 
         Dim expression = New FunctionCallExpressionBuilder(Of Vector3DConstructor)(LambdaExpression:=Function(x, y, z) New Vector3D(x, y, z)).Run(arguments:={xExpression, yExpression, zExpression})
 

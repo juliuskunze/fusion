@@ -21,5 +21,5 @@
   <Module PersistentId="Fusion.Math, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" ModuleId="Fusion.Math_1" />
   <Module PersistentId="82EE6FFE-ECDD-4C2B-AE0D-9FBD0676FC32" ModuleId="Fusion.Compiler" />
   <Module PersistentId="BEE2D0AE-80F8-4603-A3D9-2FD9DB7649C9" ModuleId="Fusion.Tests.Compiler" />
-  <Module PersistentId="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" ModuleId="System.Core_1" />
+  <Module PersistentId="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" ModuleId="mscorlib_1" />
 </Modules>

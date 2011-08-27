@@ -44,17 +44,12 @@
     End Sub
 
     Private Function TryCompileRayTracerDrawerAndShowErrors() As Boolean
-        If Not _WidthTermBox.HasResult Then Return False
-        If Not _HeightTermBox.HasResult Then Return False
-        If Not _RadiancePerWhiteTermBox.HasResult Then Return False
-
         _Compiler = New RelativisticRayTracerPictureCompiler(TextBox:=_SceneDescriptionTextBox, baseContext:=_BaseContext, TypeNamedTypeDictionary:=_RelativisticRayTracerTermContextBuilder.TypeDictionary)
         Try
             _RayTracerPicture = _Compiler.GetResult
-        Catch ex As Exception
+        Catch ex As CompilerException
             _ErrorTextBox.Text = ex.Message
         End Try
-
 
         Return True
     End Function

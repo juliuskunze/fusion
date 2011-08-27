@@ -29,7 +29,7 @@
 
             Dim matchingOverloads = _Overloads.Where(Function(overload) neededResultType.IsAssignableFrom(overload.ResultType))
 
-            If Not matchingOverloads.Any Then Throw New InvalidOperationException(String.Format("There is no binary operator '{0}' with return type '{1}'.", Me.Name, neededResultType.Name))
+            If Not matchingOverloads.Any Then Throw New CompilerException(String.Format("There is no binary operator '{0}' with return type '{1}'.", Me.Name, neededResultType.Name))
             If matchingOverloads.Count = 1 Then Return matchingOverloads.Single.ArgumentTypesInformation
 
             Return BinaryOperatorArgumentTypesInformation.Infer
@@ -39,18 +39,18 @@
     Public Function ParseOverload(argumentType1 As NamedType, argumentType2 As NamedType, resultTypeInformation As TypeInformation) As BinaryOperatorOverload
         Dim matchingOverloads = _Overloads.Where(Function(overload) overload.ArgumentType1.IsAssignableFrom(argumentType1) AndAlso overload.ArgumentType2.IsAssignableFrom(argumentType2))
 
-        If Not matchingOverloads.Any Then Throw New InvalidOperationException(String.Format("There is no binary operator '{0}' that accepts argument types '{1}' and '{2}'.", Me.Name, argumentType1.Name, argumentType2.Name))
+        If Not matchingOverloads.Any Then Throw New CompilerException(String.Format("There is no binary operator '{0}' that accepts argument types '{1}' and '{2}'.", Me.Name, argumentType1.Name, argumentType2.Name))
 
         If resultTypeInformation.IsInfer Then
-            If matchingOverloads.Count <> 1 Then Throw New InvalidOperationException(String.Format("There are different operators '{0}' that accepts argument types '{1}' and '{2}'.", Me.Name, argumentType1.Name, argumentType2.Name))
+            If matchingOverloads.Count <> 1 Then Throw New CompilerException(String.Format("There are different operators '{0}' that accepts argument types '{1}' and '{2}'.", Me.Name, argumentType1.Name, argumentType2.Name))
 
             Return matchingOverloads.Single
         Else
             Dim neededResultType = resultTypeInformation.Type
             matchingOverloads = matchingOverloads.Where(Function(overload) resultTypeInformation.Type.IsAssignableFrom(overload.ResultType))
 
-            If Not matchingOverloads.Any Then Throw New InvalidOperationException(String.Format("There is no binary operator '{0}' with return type '{1}' that accepts argument types '{2}' and '{3}'.", Me.Name, neededResultType.Name, argumentType1.Name, argumentType2.Name))
-            If matchingOverloads.Count <> 1 Then Throw New InvalidOperationException(String.Format("Ther are different operators '{0}' with return type '{1}' that accepts argument types '{2}' and '{3}'.", Me.Name, neededResultType.Name, argumentType1.Name, argumentType2.Name))
+            If Not matchingOverloads.Any Then Throw New CompilerException(String.Format("There is no binary operator '{0}' with return type '{1}' that accepts argument types '{2}' and '{3}'.", Me.Name, neededResultType.Name, argumentType1.Name, argumentType2.Name))
+            If matchingOverloads.Count <> 1 Then Throw New CompilerException(String.Format("Ther are different operators '{0}' with return type '{1}' that accepts argument types '{2}' and '{3}'.", Me.Name, neededResultType.Name, argumentType1.Name, argumentType2.Name))
 
             Return matchingOverloads.Single
         End If

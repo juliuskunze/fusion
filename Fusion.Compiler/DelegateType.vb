@@ -98,7 +98,7 @@
             Case 16
                 Return GetType(Func(Of ,,,,,,,,,,,,,,,,))
             Case Else
-                Throw New ArgumentException("Function can not have more than 16 parameters.")
+                Throw New CompilerException("Function can not have more than 16 parameters.")
         End Select
     End Function
 

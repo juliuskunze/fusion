@@ -61,7 +61,7 @@ Public Module CompilerTools
     End Function
 
     Public Function GetArguments(ByVal argumentsInBrackets As String, bracketTypes As IEnumerable(Of BracketType)) As IEnumerable(Of String)
-        If Not argumentsInBrackets.IsInBrackets(bracketTypes:=bracketTypes) Then Throw New ArgumentException("Invalid argument enumeration: '" & argumentsInBrackets & "'.")
+        If Not argumentsInBrackets.IsInBrackets(bracketTypes:=bracketTypes) Then Throw New CompilerException("Invalid argument enumeration: '" & argumentsInBrackets & "'.")
 
         Dim argumentsText = argumentsInBrackets.Substring(1, argumentsInBrackets.Length - 2)
         Return SplitIfSeparatorIsNotInBrackets(argumentsText, separator:=","c, bracketTypes:=_AllowedBracketTypes)
@@ -189,7 +189,7 @@ Public Module CompilerTools
         Return charIsInBracketsArray.All(Function(inBrackets) inBrackets)
     End Function
 
-    Private ReadOnly _IdentifierExpectedException As New ArgumentException("Identifier expected.")
+    Private ReadOnly _IdentifierExpectedException As New CompilerException("Identifier expected.")
 
     Public Function GetStartingTypedAndNamedVariable(text As String, types As NamedTypes, Optional ByRef out_rest As String = Nothing) As TypeAndName
         Dim trim = text.TrimStart

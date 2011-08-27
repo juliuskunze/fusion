@@ -26,7 +26,7 @@
         Try
             delegateType2.CheckIsAssignableFrom(delegateType1)
             Assert.Fail()
-        Catch ex As ArgumentException
+        Catch ex As CompilerException
             Assert.AreEqual("Type 'Object' is not assignable to type 'Real'.", ex.Message)
         End Try
     End Sub

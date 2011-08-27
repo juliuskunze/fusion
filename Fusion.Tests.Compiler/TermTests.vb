@@ -39,31 +39,31 @@ Public Class TermTests
         Try
             Dim value = New ConstantTerm(Of Double)("").GetResult
             Assert.Fail()
-        Catch ex As ArgumentException
+        Catch ex As CompilerException
         End Try
 
         Try
             Dim value = New ConstantTerm(Of Double)("4)").GetResult
             Assert.Fail()
-        Catch ex As ArgumentException
+        Catch ex As CompilerException
         End Try
 
         Try
             Dim value = New ConstantTerm(Of Double)("23+(3+4))").GetResult
             Assert.Fail()
-        Catch ex As ArgumentException
+        Catch ex As CompilerException
         End Try
 
         Try
             Dim value = New ConstantTerm(Of Double)("(((").GetResult
             Assert.Fail()
-        Catch ex As ArgumentException
+        Catch ex As CompilerException
         End Try
 
         Try
             Dim value = New ConstantTerm(Of Double)("2a").GetResult
             Assert.Fail()
-        Catch ex As ArgumentException
+        Catch ex As CompilerException
         End Try
     End Sub
 
@@ -134,7 +134,7 @@ Public Class TermTests
         Try
             term.GetDelegate()
             Assert.Fail()
-        Catch ex As InvalidOperationException
+        Catch ex As CompilerException
             Assert.AreEqual(ex.Message, "Function 'square' not defined in this context.")
         End Try
     End Sub
@@ -220,7 +220,7 @@ Public Class TermTests
         Try
             term.GetDelegate()
             Assert.Fail()
-        Catch ex As InvalidOperationException
+        Catch ex As CompilerException
             Assert.That(ex.Message = "There is no binary operator '+' with return type 'Boolean'.")
         End Try
     End Sub
@@ -231,7 +231,7 @@ Public Class TermTests
         Try
             term.GetDelegate()
             Assert.Fail()
-        Catch ex As InvalidOperationException
+        Catch ex As CompilerException
             Assert.AreEqual("There is no binary operator '*' that accepts argument types 'Boolean' and 'Real'.", ex.Message)
         End Try
     End Sub

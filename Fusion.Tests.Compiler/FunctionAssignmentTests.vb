@@ -46,7 +46,7 @@
         Try
             Dim t = New Term("product {4}", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(Functions:={definition}))).GetDelegate
             Assert.Fail()
-        Catch ex As InvalidOperationException
+        Catch ex As CompilerException
             Assert.AreEqual(ex.Message, "Function 'product' with parameter count 1 not defined in this context.")
         End Try
     End Sub
@@ -58,7 +58,7 @@
         Try
             Dim t = New Term("product {4, [4,3,3]}", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(Functions:={definition}))).GetDelegate
             Assert.Fail()
-        Catch ex As ArgumentException
+        Catch ex As CompilerException
             Assert.AreEqual(ex.Message, "Type 'Vector' is not compatible to type 'Real'.")
         End Try
     End Sub

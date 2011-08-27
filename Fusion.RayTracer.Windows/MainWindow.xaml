@@ -40,59 +40,6 @@
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-
-                                <GroupBox Header="Picture properties">
-                                    <StackPanel>
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition></RowDefinition>
-                                                <RowDefinition></RowDefinition>
-                                            </Grid.RowDefinitions>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                                <ColumnDefinition></ColumnDefinition>
-                                            </Grid.ColumnDefinitions>
-
-                                            <Label>Width</Label>
-                                            <own:IntegerTermBox Grid.Column="1" x:Name="_WidthTermBox">100</own:IntegerTermBox>
-
-                                            <Label Grid.Row="1">Height</Label>
-                                            <own:IntegerTermBox Grid.Row="1" Grid.Column="1" x:Name="_HeightTermBox">100</own:IntegerTermBox>
-                                        </Grid>
-
-                                        <own:TermBox x:Name="_RadiancePerWhiteTermBox" HorizontalAlignment="Stretch">100000</own:TermBox>
-                                    </StackPanel>
-                                </GroupBox>
-                                <GroupBox Header="View properties" Grid.Column="1">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition></RowDefinition>
-                                            <RowDefinition></RowDefinition>
-                                            <RowDefinition></RowDefinition>
-                                            <RowDefinition></RowDefinition>
-                                            <RowDefinition></RowDefinition>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                            <ColumnDefinition></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Label>Observer location</Label>
-                                        <own:Vector3DBox Grid.Column="1" x:Name="_ObserverLocationVector3DBox"></own:Vector3DBox>
-
-                                        <Label Grid.Row="1">Look at</Label>
-                                        <own:Vector3DBox Grid.Row="1" Grid.Column="1" x:Name="_LookAtVector3DBox"></own:Vector3DBox>
-
-                                        <Label Grid.Row="2">Up direction</Label>
-                                        <own:Vector3DBox Grid.Row="2" Grid.Column="1" x:Name="_UpDirectionVector3DBox">(0, 1, 0)</own:Vector3DBox>
-
-                                        <Label Grid.Row="3">Horizontal view angle</Label>
-                                        <own:TermBox Grid.Row="3" Grid.Column="1" x:Name="_HorizontalViewAngleTextBox">Pi/2</own:TermBox>
-
-                                        <Label Grid.Row="4">Observer velocity / c</Label>
-                                        <own:Vector3DBox Grid.Row="4" Grid.Column="1" x:Name="_ObserverVelocityVector3DBox">(0, 0.5, 0)</own:Vector3DBox>
-                                    </Grid>
-                                </GroupBox>
                             </Grid>
 
                         </StackPanel>
@@ -103,7 +50,7 @@
 
                         <GridSplitter HorizontalAlignment="Stretch" Grid.Row="2" Grid.ColumnSpan="1" Height="3"></GridSplitter>
                         
-                        <Label Grid.Row="3">Errors:</Label>
+                        <Label Grid.Row="3">Error:</Label>
                         
                         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="4">
                             <TextBox Name="_ErrorTextBox"></TextBox>

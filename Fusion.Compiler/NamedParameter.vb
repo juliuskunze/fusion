@@ -21,7 +21,7 @@
     End Sub
 
     Public Function ToFunctionInstance() As FunctionInstance
-        If Not _Type.IsDelegate Then Throw New InvalidOperationException("Parameter must be a delegate.")
+        If Not _Type.IsDelegate Then Throw New CompilerException("Parameter must be a delegate.")
 
         Return New FunctionInstance(Name:=_Name, DelegateType:=_Type.Delegate, invokableExpression:=_Expression)
     End Function

@@ -1,5 +1,5 @@
 ﻿Public Class InvalidTermException
-    Inherits ArgumentException
+    Inherits CompilerException
 
     Private ReadOnly _Term As String
     Public ReadOnly Property Term As String
