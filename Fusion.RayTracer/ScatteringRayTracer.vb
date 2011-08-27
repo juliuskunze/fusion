@@ -1,9 +1,9 @@
 Public Class ScatteringRayTracer(Of TLight As {ILight(Of TLight), New})
     Implements IRayTracer(Of TLight)
 
-    Public Sub New(surface As ISurface(Of Material2D(Of TLight)), Optional rayCount As Integer = 1, Optional maxIntersectionCount As Integer = 10)
+    Public Sub New(surface As ISurface(Of Material2D(Of TLight)), Optional rayCountPerPixel As Integer = 1, Optional maxIntersectionCount As Integer = 10)
         Me.Surface = surface
-        Me.RayCount = rayCount
+        Me.RayCount = rayCountPerPixel
         Me.MaxIntersectionCount = maxIntersectionCount
     End Sub
 

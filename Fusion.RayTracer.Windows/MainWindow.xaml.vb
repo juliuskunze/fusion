@@ -1,13 +1,14 @@
 ﻿Public Class MainWindow
 
-    Private WithEvents _RayTraceDrawer As RayTraceDrawer(Of RadianceSpectrum)
+    Private WithEvents _RayTracerPicture As RayTracerPicture(Of RadianceSpectrum)
     Private _ResultBitmap As System.Drawing.Bitmap
     Private _RenderStopwatch As Stopwatch
 
     Private WithEvents _RenderBackgroundWorker As ComponentModel.BackgroundWorker
 
-    Private Shared ReadOnly _BaseContext As New RelativisticRayTracerTermContext
-    Private _Compiler As RelativisticRayTracerDrawerCompiler
+    Private ReadOnly _RelativisticRayTracerTermContextBuilder As New RelativisticRayTracerTermContextBuilder
+    Private ReadOnly _BaseContext As TermContext = _RelativisticRayTracerTermContextBuilder.TermContext
+    Private _Compiler As RelativisticRayTracerPictureCompiler
 
 
     Private Event SceneChanged()
@@ -39,7 +40,7 @@
 
         _RenderStopwatch = Stopwatch.StartNew
 
-        _RenderBackgroundWorker.RunWorkerAsync(_RayTraceDrawer)
+        _RenderBackgroundWorker.RunWorkerAsync(_RayTracerPicture)
     End Sub
 
     Private Function TryCompileRayTracerDrawerAndShowErrors() As Boolean
@@ -47,9 +48,9 @@
         If Not _HeightTermBox.HasResult Then Return False
         If Not _RadiancePerWhiteTermBox.HasResult Then Return False
 
-        _Compiler = New RelativisticRayTracerDrawerCompiler(TextBox:=_SceneDescriptionTextBox, baseContext:=_BaseContext, TypeNamedTypeDictionary:=RelativisticRayTracerTermContext.TypeDictionary)
+        _Compiler = New RelativisticRayTracerPictureCompiler(TextBox:=_SceneDescriptionTextBox, baseContext:=_BaseContext, TypeNamedTypeDictionary:=_RelativisticRayTracerTermContextBuilder.TypeDictionary)
         Try
-            _RayTraceDrawer = _Compiler.GetResult
+            _RayTracerPicture = _Compiler.GetResult
         Catch ex As Exception
             _ErrorTextBox.Text = ex.Message
         End Try
@@ -75,7 +76,7 @@
         If Not Me.TryCompileRayTracerDrawerAndShowErrors() Then Return
         If Not _CalculateTimeOptionsDialog.DialogResult Then Return
 
-        Dim size = _RayTraceDrawer.PictureSize
+        Dim size = _RayTracerPicture.PictureSize
 
         Dim bitmap = New System.Drawing.Bitmap(size.Width, size.Height)
 
@@ -94,7 +95,7 @@
 
             drawTimeStopwatch.Start()
 
-            bitmap.SetPixel(randomX, randomY, _RayTraceDrawer.GetPixelColor(randomX, randomY))
+            bitmap.SetPixel(randomX, randomY, _RayTracerPicture.GetPixelColor(randomX, randomY))
 
             drawTimeStopwatch.Stop()
 
@@ -125,7 +126,7 @@
     End Sub
 
     Private Sub RenderBackgroundWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles _RenderBackgroundWorker.DoWork
-        Dim rayTracerDrawer = CType(e.Argument, RayTraceDrawer(Of RadianceSpectrum))
+        Dim rayTracerDrawer = CType(e.Argument, RayTracerPicture(Of RadianceSpectrum))
 
         Dim resultBitmap = New System.Drawing.Bitmap(rayTracerDrawer.PictureSize.Width, rayTracerDrawer.PictureSize.Height)
 

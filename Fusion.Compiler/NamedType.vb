@@ -43,7 +43,7 @@
 
     Public Sub New(name As String, systemType As System.Type)
         Me.New(name:=name, systemType:=systemType, TypeArguments:={})
-        If systemType.GetGenericArguments.Where(Function(argument) Not argument.IsGenericParameter).Any Then Throw New ArgumentException("No type arguments allowed, use MakeGenericType.")
+        '!!!If systemType.GetGenericArguments.Where(Function(argument) Not argument.IsGenericParameter).Any Then Throw New ArgumentException("No type arguments allowed, use MakeGenericType.")
     End Sub
 
     Private Sub New(name As String, systemType As System.Type, typeArguments As IEnumerable(Of NamedType))

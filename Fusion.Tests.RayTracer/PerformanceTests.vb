@@ -11,7 +11,7 @@ Public Class PerformanceTests
         Assert.Less(neededTime, TimeSpan.FromSeconds(0.8D), message:=neededTime.ToString)
     End Sub
 
-    Public Function IluminationRoom() As RayTraceDrawer(Of RgbLight)
+    Public Function IluminationRoom() As RayTracerPicture(Of RgbLight)
         Dim view = New View3D(observerLocation:=New Vector3D(15, 6, 33),
                               lookAt:=New Vector3D(3, 3, 0),
                               upDirection:=New Vector3D(0, 1, 0),
@@ -116,7 +116,7 @@ Public Class PerformanceTests
         Dim glassCylinderSurface = New Cylinder(startCenter:=glassLocation, endCenter:=glassLocation + New Vector3D(0, glassCylinderHeight, 0), radius:=0.1)
 
 
-        Return New RayTraceDrawer(Of RgbLight)(rayTracer:=rayTracer, pictureSize:=New Size(100, 100), view:=view, lightToColorConverter:=New RgbLightToColorConverter)
+        Return New RayTracerPicture(Of RgbLight)(rayTracer:=rayTracer, pictureSize:=New Size(100, 100), view:=view, lightToColorConverter:=New RgbLightToColorConverter)
     End Function
 
 End Class

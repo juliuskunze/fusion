@@ -41,6 +41,12 @@
         _CallExpressionBuilder = New FunctionCallExpressionBuilder(invokableExpression:=invokableExpression)
     End Sub
 
+    Public Shared Function FromLambdaExpression(Of TDelegate)(name As String,
+                                                              lambdaExpression As Expressions.Expression(Of TDelegate),
+                                                              typeNamedTypeDictionary As TypeNamedTypeDictionary) As FunctionInstance
+        Return New FunctionInstance(Of TDelegate)(name, lambdaExpression, typeNamedTypeDictionary)
+    End Function
+
 End Class
 
 Public Class FunctionInstance(Of TDelegate)

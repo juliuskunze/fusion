@@ -12,7 +12,7 @@
         _VideoSize = videoSize
     End Sub
 
-    Public Function GetRayTracerDrawer(pointOfTime As Double) As RayTraceDrawer(Of RgbLight) Implements IRayTraceVideo.GetRayTracerDrawer
+    Public Function GetRayTracerDrawer(pointOfTime As Double) As RayTracerPicture(Of RgbLight) Implements IRayTraceVideo.GetRayTracerDrawer
         Return New RayTracingExamples(Me.VideoSize).OldExampleBox(glassRefractionIndex:=pointOfTime)
     End Function
 

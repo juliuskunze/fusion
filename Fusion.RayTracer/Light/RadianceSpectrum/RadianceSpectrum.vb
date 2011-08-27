@@ -8,9 +8,7 @@
         End Get
     End Property
 
-    Private Shared ReadOnly _NullFunction As SpectralRadianceFunction = Function(wavelength)
-                                                                            Return 0
-                                                                        End Function
+    Private Shared ReadOnly _NullFunction As SpectralRadianceFunction = Function(wavelength) 0
 
     Public Sub New()
         _Function = _NullFunction

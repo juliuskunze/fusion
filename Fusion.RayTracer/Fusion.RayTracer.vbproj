@@ -119,7 +119,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="RayChanger.vb" />
-    <Compile Include="RayTraceDrawer.vb" />
+    <Compile Include="RayTracerPicture.vb" />
     <Compile Include="RecursiveRayTracer.vb" />
     <Compile Include="RelativiticRayTracerTermContext.vb" />
     <Compile Include="Relativity\RelativisticRayTracerWithoutDopplerEffect.vb" />

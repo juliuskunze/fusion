@@ -1,4 +1,4 @@
-Public Class RayTraceDrawer(Of TLight As {ILight(Of TLight), New})
+Public Class RayTracerPicture(Of TLight As {ILight(Of TLight), New})
 
     Private ReadOnly _LightToColorConverter As ILightToColorConverter(Of TLight)
 

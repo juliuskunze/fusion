@@ -200,7 +200,7 @@ Public Module CompilerTools
         Dim rest2 = rest.TrimStart
         Dim name = CompilerTools.GetStartingIdentifier(rest2)
 
-        out_rest = rest.Substring(startIndex:=name.Length)
+        out_rest = rest2.Substring(startIndex:=name.Length)
 
         Return New TypeAndName(name:=name, type:=type)
     End Function
