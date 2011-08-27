@@ -134,8 +134,8 @@ Public Class TermTests
         Try
             term.GetDelegate()
             Assert.Fail()
-        Catch ex As ArgumentException
-            Assert.That(ex.Message = "Function 'square' is not defined in this context.")
+        Catch ex As InvalidOperationException
+            Assert.AreEqual(ex.Message, "Function 'square' not defined in this context.")
         End Try
     End Sub
 

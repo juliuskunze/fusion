@@ -100,7 +100,7 @@
     Public Shared ReadOnly NotEqual As New NamedBinaryOperator(
         "<>",
         {New BinaryOperatorOverload(NamedType.Boolean, NamedType.Boolean, resultType:=NamedType.Boolean, expressionBuilder:=_NotEqualExpressionBuilder),
-         new BinaryOperatorOverload(NamedType.Real, NamedType.Real, resultType:=NamedType.Boolean, expressionBuilder:=_NotEqualExpressionBuilder),
+         New BinaryOperatorOverload(NamedType.Real, NamedType.Real, resultType:=NamedType.Boolean, expressionBuilder:=_NotEqualExpressionBuilder),
          New BinaryOperatorOverload(NamedType.Vector3D, NamedType.Vector3D, resultType:=NamedType.Boolean, expressionBuilder:=_NotEqualExpressionBuilder)})
 
     Private Shared ReadOnly _EqualExpressionBuilder As BinaryOperatorExpressionBuilder = Function(e1, e2) Expressions.Expression.Equal(e1, e2)

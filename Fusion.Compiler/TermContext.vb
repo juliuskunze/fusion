@@ -28,6 +28,22 @@
         End Get
     End Property
 
+    Private _GroupedFunctions As IEnumerable(Of IGrouping(Of String, FunctionInstance))
+    Public ReadOnly Property GroupedFunctionsAndDelegateParameters As IEnumerable(Of IGrouping(Of String, FunctionInstance))
+        Get
+            If _GroupedFunctions Is Nothing Then
+                Dim delegateParameterFunctions =
+                        From parameter In Me.Parameters
+                        Where parameter.Type.IsDelegate
+                        Select parameter.ToFunctionInstance
+
+                _GroupedFunctions = _Functions.Concat(delegateParameterFunctions).GroupBy(Function(instance) instance.Name).ToArray
+            End If
+
+            Return _GroupedFunctions
+        End Get
+    End Property
+
     Public Sub New(Optional constants As IEnumerable(Of ConstantInstance) = Nothing,
                    Optional parameters As IEnumerable(Of NamedParameter) = Nothing,
                    Optional functions As IEnumerable(Of FunctionInstance) = Nothing,
@@ -69,21 +85,24 @@
                                Types:=_Types.Merge(second.Types))
     End Function
 
-    Public Function ParseFunction(ByVal name As String) As FunctionInstance
-        Dim matchingParameters =
-                From parameter In Me.Parameters
-                Where parameter.Type.IsDelegate AndAlso name.Equals(parameter.Name, StringComparison.OrdinalIgnoreCase)
-                Select parameter.ToFunctionInstance
+    Public Function ParseSingleFunctionWithName(name As String) As FunctionInstance
+        Dim matchingGroup = Me.GetMatchingFunctionGroup(name)
+        If matchingGroup.Count > 1 Then Throw New InvalidOperationException(String.Format("There are multiple definitions for function with name '{0}'.", name))
 
-        Dim matchingFunctions =
-                From functionInstance In Me.Functions
-                Where name.Equals(functionInstance.Name, StringComparison.OrdinalIgnoreCase)
+        Return matchingGroup.Single
+    End Function
 
-        Dim matchingFunctionsAndParameters = matchingFunctions.Concat(matchingParameters)
+    Public Function ParseFunction(functionCall As FunctionCall) As FunctionInstance
+        Dim matchingFunctionGroup = Me.GetMatchingFunctionGroup(functionCall.FunctionName)
+        Dim matchingFunctions = matchingFunctionGroup.Where(Function(instance) instance.DelegateType.Parameters.Count = functionCall.Arguments.Count)
+        If Not matchingFunctions.Any Then Throw New InvalidOperationException(String.Format("Function '{0}' with parameter count {1} not defined in this context.", functionCall.FunctionName, functionCall.Arguments.Count))
+        Return matchingFunctions.Single
+    End Function
 
-        If Not matchingFunctionsAndParameters.Any Then Throw New ArgumentException("Function '" & name & "' is not defined in this context.")
-
-        Return matchingFunctionsAndParameters.Single
+    Private Function GetMatchingFunctionGroup(ByVal functionName As String) As IGrouping(Of String, FunctionInstance)
+        Dim matchingFunctionGroups = Me.GroupedFunctionsAndDelegateParameters.Where(Function(group) CompilerTools.IdentifierEquals(group.Key, functionName))
+        If Not matchingFunctionGroups.Any Then Throw New InvalidOperationException(String.Format("Function '{0}' not defined in this context.", functionName))
+        Return matchingFunctionGroups.Single
     End Function
 
     Public Function TryParseConstant(name As String) As ConstantInstance

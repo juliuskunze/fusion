@@ -101,7 +101,7 @@
     <Compile Include="Constant\ConstantSignature.vb" />
     <Compile Include="Compiler.vb" />
     <Compile Include="DelegateType.vb" />
-    <Compile Include="FunctionCall.vb" />
+    <Compile Include="Function\FunctionCall.vb" />
     <Compile Include="Function\FunctionAssignment.vb" />
     <Compile Include="Function\FunctionInstance.vb" />
     <Compile Include="Function\FunctionSignature.vb" />
@@ -113,7 +113,6 @@
     <Compile Include="TypeNamedTypeDictionary.vb" />
     <Compile Include="Term.vb" />
     <Compile Include="TermContext.vb" />
-    <Compile Include="TermDefinition.vb" />
     <Compile Include="TypeAndName.vb" />
   </ItemGroup>
   <ItemGroup>

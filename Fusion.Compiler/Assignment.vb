@@ -29,7 +29,7 @@
 
     Public ReadOnly Property IsFunctionAssignment As Boolean
         Get
-            Return IsConstantSignatureDefinition(_Declaration)
+            Return Assignment.IsConstantSignatureDefinition(_Declaration)
         End Get
     End Property
 

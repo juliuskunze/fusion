@@ -95,7 +95,7 @@ Public Module CompilerTools
 
         Dim name = s.Substring(0, length:=nameLength)
 
-        If Not name.IsValidVariableName Then Throw _IdentifierExpectedException
+        If Not name.IsValidIdentifier Then Throw _IdentifierExpectedException
 
         Return name
     End Function
@@ -124,14 +124,14 @@ Public Module CompilerTools
     End Function
 
     <Extension()>
-    Public Function IsValidVariableName(s As String) As Boolean
+    Public Function IsValidIdentifier(s As String) As Boolean
         If s = "" Then Return False
 
         Return s.First.IsIdentifierStartChar AndAlso s.All(Function(c) c.IsIdentifierChar)
     End Function
 
     <Extension()>
-    Public Function IsValidVariableStartCharacter(s As String) As Boolean
+    Public Function IsValidIdendifierStartCharacter(s As String) As Boolean
         If s = "" Then Return False
 
         Return Char.IsLetter(s.First) AndAlso s.All(Function(c) Char.IsLetterOrDigit(c))

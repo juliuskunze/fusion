@@ -25,7 +25,7 @@
 
     Private Function TryGetConstantOrParameterExpression() As ExpressionWithNamedType
         If _TrimmedTerm = "" Then Throw New InvalidTermException(_Term, message:="Term must not be empty.")
-        If Not IsValidVariableName(_TrimmedTerm) Then Return Nothing
+        If Not IsValidIdentifier(_TrimmedTerm) Then Return Nothing
 
         Dim constantExpression = Me.TryGetConstantExpression()
         If constantExpression IsNot Nothing Then Return constantExpression
@@ -121,7 +121,7 @@
             Return Me.GetCollectionExpression()
         End If
 
-        If Not _TypeInformation.IsInfer AndAlso _TypeInformation.Type.IsDelegate Then Return _Context.ParseFunction(_TrimmedTerm).InvokableExpression.WithNamedType(_TypeInformation.Type)
+        If Not _TypeInformation.IsInfer AndAlso _TypeInformation.Type.IsDelegate AndAlso _TrimmedTerm.IsValidIdentifier Then Return _Context.ParseSingleFunctionWithName(_TrimmedTerm).InvokableExpression.WithNamedType(_TypeInformation.Type)
 
         _CharIsInBrackets = _TrimmedTerm.GetCharIsInBracketsArray
 
@@ -192,7 +192,7 @@
             Return New ExpressionWithNamedType(Expression.Not(inner.Expression), inner.NamedType)
         End If
 
-        If _TrimmedTerm.IsValidVariableName Then Throw New InvalidTermException(Term:=_TrimmedTerm, message:="'" & _TrimmedTerm & "' is not defined in this context.")
+        If _TrimmedTerm.IsValidIdentifier Then Throw New InvalidTermException(Term:=_TrimmedTerm, message:="'" & _TrimmedTerm & "' is not defined in this context.")
 
         Throw New InvalidTermException(_TrimmedTerm)
     End Function
@@ -216,7 +216,7 @@
             Return Me.GetCasesExpression(argumentStrings)
         End If
 
-        Dim functionInstance = _Context.ParseFunction(functionCall.FunctionName)
+        Dim functionInstance = _Context.ParseFunction(functionCall)
 
         Dim parameters = functionInstance.DelegateType.Parameters
         If parameters.Count <> argumentStrings.Count Then Throw New ArgumentException("Wrong argument count.")

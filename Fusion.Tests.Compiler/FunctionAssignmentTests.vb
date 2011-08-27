@@ -46,8 +46,8 @@
         Try
             Dim t = New Term("product {4}", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(Functions:={definition}))).GetDelegate
             Assert.Fail()
-        Catch ex As ArgumentException
-            Assert.That(ex.Message.Contains("Wrong argument count"))
+        Catch ex As InvalidOperationException
+            Assert.AreEqual(ex.Message, "Function 'product' with parameter count 1 not defined in this context.")
         End Try
     End Sub
 
@@ -82,6 +82,18 @@
         Dim calculate = New FunctionAssignment("Real IntensityAt1(IntensityDelegate intensityDelegateInstance) = intensityDelegateInstance{1}", context:=context2).GetFunctionInstance
 
         Assert.AreEqual(New Term("intensityAt1{Intensity}", Type:=NamedType.Real, context:=context2.Merge(New TermContext(Functions:={calculate}))).GetDelegate(Of Func(Of Double)).Invoke, 2)
+    End Sub
+
+    <Test()>
+    Public Sub TestFunctionOverloadByParmeterCount()
+        Dim product2 = New FunctionAssignment("Real product(Real x, Real y) = x*y", context:=TermContext.Default).GetFunctionInstance
+        Dim product3 = New FunctionAssignment("Real product(Real x, Real y, Real z) = x*y*z", context:=TermContext.Default).GetFunctionInstance
+
+        Dim context = TermContext.Default.Merge(New TermContext(Functions:={product2, product3}))
+
+        Assert.AreEqual(New Term("product{2, 4}", Type:=NamedType.Real, context:=context).GetDelegate(Of Func(Of Double)).Invoke, 8)
+        Assert.AreEqual(New Term("product{2, 4, 8}", Type:=NamedType.Real, context:=context).GetDelegate(Of Func(Of Double)).Invoke, 64)
+        Assert.AreEqual(New Term("product{x : 2, 4,z : 8}", Type:=NamedType.Real, context:=context).GetDelegate(Of Func(Of Double)).Invoke, 64)
     End Sub
 
 End Class
