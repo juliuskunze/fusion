@@ -1,6 +1,5 @@
 ﻿Public Class Term
 
-    Private ReadOnly _Term As String
     Private ReadOnly _TrimmedTerm As String
     Private ReadOnly _Context As TermContext
     Private ReadOnly _TypeInformation As TypeInformation
@@ -17,14 +16,13 @@
         If Not context.Types.Contains(NamedType.Vector3D) Then Throw New CompilerException("Type Vector3D must be defined in this context.")
         If Not context.Types.Contains(NamedType.Collection) Then Throw New CompilerException("Type Collection must be defined in this context.")
 
-        _Term = term
         _TrimmedTerm = term.Trim
         _Context = context
         _TypeInformation = typeInformation
     End Sub
 
     Private Function TryGetConstantOrParameterExpression() As ExpressionWithNamedType
-        If _TrimmedTerm = "" Then Throw New InvalidTermException(_Term, message:="Term must not be empty.")
+        If _TrimmedTerm = "" Then Throw New InvalidTermException(_TrimmedTerm, message:="Expression expected.")
         If Not IsValidIdentifier(_TrimmedTerm) Then Return Nothing
 
         Dim constantExpression = Me.TryGetConstantExpression()
@@ -82,7 +80,7 @@
 
     Private Function TryGetFunctionCall() As FunctionCall
         Try
-            Return New FunctionCall(Text:=_Term)
+            Return New FunctionCall(_TrimmedTerm)
         Catch ex As CompilerException
             Return Nothing
         End Try
@@ -91,7 +89,7 @@
     Private Sub CheckTypeMatchIfNotInfer(type As NamedType)
         If _TypeInformation.IsInfer Then Return
 
-        If Not _TypeInformation.Type.SystemType.IsAssignableFrom(type.SystemType) Then Throw New InvalidTermException(Term:=_Term, message:=String.Format("Type '{0}' is not compatible to type '{1}'.", type.Name, _TypeInformation.Type.Name))
+        If Not _TypeInformation.Type.SystemType.IsAssignableFrom(type.SystemType) Then Throw New InvalidTermException(_TrimmedTerm, message:=String.Format("Type '{0}' is not compatible to type '{1}'.", type.Name, _TypeInformation.Type.Name))
     End Sub
 
     Private Sub CheckDelegateTypeMatch(delegateType As DelegateType)
@@ -302,7 +300,7 @@
         For index = argumentStrings.Count - 1 To 0 Step -1
             Dim argumentString = argumentStrings(index)
             Dim parts = argumentString.SplitIfSeparatorIsNotInBrackets(":"c, bracketTypes:=CompilerTools.AllowedBracketTypes)
-            If parts.Count <> 2 Then Throw New InvalidTermException(_Term, String.Format("Invalid case: '{0}'.", argumentString))
+            If parts.Count <> 2 Then Throw New InvalidTermException(_TrimmedTerm, String.Format("Invalid case: '{0}'.", argumentString))
 
             Dim conditionPart = parts.First
             Dim termPart = parts.Last
@@ -312,7 +310,7 @@
             If index = 0 Then typeOfFirstTerm = termExpression.NamedType
 
             If index = argumentStrings.Count - 1 Then
-                If Not CompilerTools.IdentifierEquals(conditionPart.Trim, Keywords.Else) Then Throw New InvalidTermException(_Term, "Last case must be case else.")
+                If Not CompilerTools.IdentifierEquals(conditionPart.Trim, Keywords.Else) Then Throw New InvalidTermException(_TrimmedTerm, "Last case must be case else.")
                 casesExpression = termExpression.Expression
                 Continue For
             End If
@@ -334,7 +332,7 @@
                 If Not CompilerTools.IdentifierEquals(parameter.Name, parameterName) Then Throw New InvalidTermException(_TrimmedTerm, String.Format("Wrong parameter name: '{0}'; '{1}' expected.", parameterName, parameter.Name))
                 Return parts.Last
             Case Else
-                Throw New InvalidTermException(_Term, String.Format("Invalid argument expression: '{0}'.", argumentString))
+                Throw New InvalidTermException(_TrimmedTerm, String.Format("Invalid argument expression: '{0}'.", argumentString))
         End Select
     End Function
 
