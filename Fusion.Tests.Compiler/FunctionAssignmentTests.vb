@@ -2,9 +2,9 @@
 
     <Test()>
     Public Sub TestFunction()
-        Dim e = New FunctionAssignment("Real f(Real x) = x", context:=TermContext.Default).GetFunctionInstance
+        Dim e = New FunctionAssignment("Real f(Real   x) = x", context:=TermContext.Default).GetFunctionInstance
 
-        Assert.That(e.Name = "f")
+        Assert.AreEqual(e.Signature.ToString, "Real f(Real x)")
 
         Dim t = New Term("f{3}", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(Functions:={e})))
         Assert.That(t.GetDelegate(Of Func(Of Double)).Invoke = 3)
@@ -14,7 +14,7 @@
     Public Sub TestNamedParameter()
         Dim e = New FunctionAssignment("Real f(Real x) = x", context:=TermContext.Default).GetFunctionInstance
 
-        Assert.That(e.Name = "f")
+        Assert.AreEqual(e.Signature.Name, "f")
 
         Dim context = TermContext.Default.Merge(New TermContext(Functions:={e}))
 
@@ -35,7 +35,7 @@
 
         Dim t = New Term("Product {4 , 2}", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(Functions:={definition})))
 
-        Assert.AreEqual("product", definition.Name)
+        Assert.AreEqual("product", definition.Signature.Name)
         Assert.AreEqual(8, t.GetDelegate(Of Func(Of Double)).Invoke)
     End Sub
 
@@ -73,7 +73,7 @@
 
     <Test()>
     Public Sub TestDelegateAsParameter()
-        Dim intensityDelegate = NamedType.NamedDelegateTypeFromText("delegate Real IntensityDelegate(Real wavelength)", typeContext:=NamedTypes.Default)
+        Dim intensityDelegate = NamedType.NamedDelegateTypeFromString("delegate Real IntensityDelegate(Real wavelength)", typeContext:=NamedTypes.Default)
         Dim context = TermContext.Default.Merge(New TermContext(types:=New NamedTypes({intensityDelegate})))
 
         Dim intensity = New FunctionAssignment("Real Intensity(Real wavelength) = 2*wavelength", context:=context).GetFunctionInstance

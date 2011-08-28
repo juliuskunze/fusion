@@ -1,16 +1,9 @@
 ﻿Public Class FunctionInstance
 
-    Private ReadOnly _Name As String
-    Public ReadOnly Property Name As String
+    Private ReadOnly _Signature As FunctionSignature
+    Public ReadOnly Property Signature As FunctionSignature
         Get
-            Return _Name
-        End Get
-    End Property
-
-    Private ReadOnly _DelegateType As DelegateType
-    Public ReadOnly Property DelegateType As DelegateType
-        Get
-            Return _DelegateType
+            Return _Signature
         End Get
     End Property
 
@@ -34,9 +27,8 @@
         End Get
     End Property
 
-    Public Sub New(name As String, delegateType As DelegateType, invokableExpression As Expression)
-        _Name = name
-        _DelegateType = delegateType
+    Public Sub New(signature As FunctionSignature, invokableExpression As Expression)
+        _Signature = signature
         _InvokableExpression = invokableExpression
         _CallExpressionBuilder = New FunctionCallExpressionBuilder(invokableExpression:=invokableExpression)
     End Sub
@@ -55,13 +47,12 @@ Public Class FunctionInstance(Of TDelegate)
     Public Sub New(name As String,
                    lambdaExpression As Expressions.Expression(Of TDelegate),
                    typeNamedTypeDictionary As TypeNamedTypeDictionary)
-        Me.New(name:=name, Type:=GetDelegateType(lambdaExpression, typeNamedTypeDictionary), lambdaExpression:=lambdaExpression)
+        Me.New(Signature:=New FunctionSignature(name:=name, DelegateType:=GetDelegateType(lambdaExpression, typeNamedTypeDictionary)), lambdaExpression:=lambdaExpression)
     End Sub
 
-    Public Sub New(name As String,
-                   type As DelegateType,
+    Public Sub New(signature As FunctionSignature,
                    lambdaExpression As Expressions.Expression(Of TDelegate))
-        MyBase.New(name:=name, DelegateType:=type, InvokableExpression:=lambdaExpression)
+        MyBase.New(signature:=signature, InvokableExpression:=lambdaExpression)
     End Sub
 
     Private Shared Function GetDelegateType(ByVal lambdaExpression As Expression(Of TDelegate), ByVal typeNamedTypeDictionary As TypeNamedTypeDictionary) As DelegateType

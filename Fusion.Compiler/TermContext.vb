@@ -37,7 +37,7 @@
                         Where parameter.Type.IsDelegate
                         Select parameter.ToFunctionInstance
 
-                _GroupedFunctions = _Functions.Concat(delegateParameterFunctions).GroupBy(Function(instance) instance.Name).ToArray
+                _GroupedFunctions = _Functions.Concat(delegateParameterFunctions).GroupBy(Function(instance) instance.Signature.Name).ToArray
             End If
 
             Return _GroupedFunctions
@@ -94,7 +94,7 @@
 
     Public Function ParseFunction(functionCall As FunctionCall) As FunctionInstance
         Dim matchingFunctionGroup = Me.GetMatchingFunctionGroup(functionCall.FunctionName)
-        Dim matchingFunctions = matchingFunctionGroup.Where(Function(instance) instance.DelegateType.Parameters.Count = functionCall.Arguments.Count)
+        Dim matchingFunctions = matchingFunctionGroup.Where(Function(instance) instance.Signature.DelegateType.Parameters.Count = functionCall.Arguments.Count)
         If Not matchingFunctions.Any Then Throw New CompilerException(String.Format("Function '{0}' with parameter count {1} not defined in this context.", functionCall.FunctionName, functionCall.Arguments.Count))
         Return matchingFunctions.Single
     End Function

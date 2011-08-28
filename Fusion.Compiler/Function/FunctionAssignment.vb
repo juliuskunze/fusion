@@ -6,7 +6,7 @@
     End Sub
 
     Public Function GetFunctionInstance() As FunctionInstance
-        Dim signature = FunctionSignature.FromText(text:=_Declaration, typeContext:=_Context.Types)
+        Dim signature = FunctionSignature.FromString(s:=_Declaration, typeContext:=_Context.Types)
 
         Dim parameterExpressions = From parameter In signature.DelegateType.Parameters Select parameter.Expression
 
@@ -16,7 +16,7 @@
         
         Dim lambdaExpression = Expression.Lambda(body:=term.GetExpression, parameters:=parameterExpressions)
 
-        Return New FunctionInstance(name:=signature.Name, delegateType:=signature.DelegateType, invokableExpression:=lambdaExpression)
+        Return New FunctionInstance(signature:=signature, invokableExpression:=lambdaExpression)
     End Function
 
 End Class

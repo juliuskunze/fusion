@@ -1,7 +1,8 @@
 ﻿Public Class ConstantSignature
+    Implements ISignature
 
     Private ReadOnly _Name As String
-    Public ReadOnly Property Name As String
+    Public ReadOnly Property Name As String Implements ISignature.Name
         Get
             Return _Name
         End Get
@@ -25,6 +26,10 @@
         If rest.Trim <> "" Then Throw New CompilerException("End of constant definition expected.")
 
         Return New ConstantSignature(Name:=typeAndName.Name, Type:=typeAndName.Type)
+    End Function
+
+    Public Overrides Function ToString() As String Implements ISignature.GetSignatureString
+        Return Me.Type.Name & " " & Me.Name
     End Function
 
 End Class

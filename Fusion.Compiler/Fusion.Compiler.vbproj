@@ -75,6 +75,9 @@
     <Compile Include="CompilerResult.vb" />
     <Compile Include="ExpressionExtensions.vb" />
     <Compile Include="ExpressionWithNamedType.vb" />
+    <Compile Include="IntelliSense\IntelliSense.vb" />
+    <Compile Include="IntelliSense\IntelliSenseItem.vb" />
+    <Compile Include="ISignature.vb" />
     <Compile Include="NamedBinaryOperator.vb" />
     <Compile Include="Function\FunctionCallExpressionBuilder.vb" />
     <Compile Include="Keywords.vb" />

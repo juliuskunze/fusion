@@ -1,7 +1,8 @@
 ﻿Public Class NamedParameter
-
+    Implements ISignature
+    
     Protected ReadOnly _Name As String
-    Public ReadOnly Property Name As String
+    Public ReadOnly Property Name As String Implements ISignature.Name
         Get
             Return _Name
         End Get
@@ -23,7 +24,7 @@
     Public Function ToFunctionInstance() As FunctionInstance
         If Not _Type.IsDelegate Then Throw New CompilerException("Parameter must be a delegate.")
 
-        Return New FunctionInstance(Name:=_Name, DelegateType:=_Type.Delegate, invokableExpression:=_Expression)
+        Return New FunctionInstance(signature:=New FunctionSignature(Name:=_Name, DelegateType:=_Type.Delegate), invokableExpression:=_Expression)
     End Function
 
     Public Shared Function FromText(text As String, typeContext As NamedTypes) As NamedParameter
@@ -40,6 +41,10 @@
 
     Friend Function ToExpressionWithNamedType() As ExpressionWithNamedType
         Return Me.Expression.WithNamedType(Me.Type)
+    End Function
+
+    Public Function GetSignatureString() As String Implements ISignature.GetSignatureString
+        Return Me.Type.Name & " " & Me.Name
     End Function
 
 End Class

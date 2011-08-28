@@ -1,7 +1,8 @@
 ﻿Public Class NamedType
+    Implements ISignature
 
     Private ReadOnly _Name As String
-    Public ReadOnly Property Name As String
+    Public ReadOnly Property Name As String Implements ISignature.Name
         Get
             Return _Name
         End Get
@@ -82,11 +83,11 @@
         Return True
     End Function
 
-    Public Shared Function NamedDelegateTypeFromText(text As String, typeContext As NamedTypes) As NamedType
-        Dim trimmed = text.Trim
+    Public Shared Function NamedDelegateTypeFromString(s As String, typeContext As NamedTypes) As NamedType
+        Dim trimmed = s.Trim
         If Not trimmed.StartsWith(Keywords.Delegate, StringComparison.OrdinalIgnoreCase) Then Throw New CompilerException("Invalid delegate declaration.")
         Dim rest = trimmed.Substring(startIndex:=Keywords.Delegate.Count)
-        Dim signature = FunctionSignature.FromText(text:=rest, typeContext:=typeContext)
+        Dim signature = FunctionSignature.FromString(s:=rest, typeContext:=typeContext)
 
         Return signature.AsNamedDelegateType
     End Function
@@ -123,5 +124,12 @@
         End Get
     End Property
 
+    Public Function GetSignatureString() As String Implements ISignature.GetSignatureString
+        If Me.IsDelegate Then
+            Return Me.Delegate.ResultType.GetSignatureString & " " & Me.Name & String.Join(", ", Me.Delegate.Parameters.Select(Function(parameter) parameter.ToString)).InBrackets(CompilerTools.ParameterBracketType)
+        Else
+            Return Me.Name & If(Me.TypeArguments.Any, String.Join(", ", Me.TypeArguments.ToString).InBrackets(CompilerTools.TypeArgumentBracketType), "")
+        End If
+    End Function
 
 End Class

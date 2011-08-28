@@ -1,7 +1,8 @@
 ﻿Public Class FunctionSignature
+    Implements ISignature
 
     Protected ReadOnly _Name As String
-    Public ReadOnly Property Name As String
+    Public ReadOnly Property Name As String Implements ISignature.Name
         Get
             Return _Name
         End Get
@@ -23,13 +24,17 @@
         _DelegateType = delegateType
     End Sub
 
-    Public Shared Function FromText(text As String, typeContext As NamedTypes) As FunctionSignature
+    Public Shared Function FromString(s As String, typeContext As NamedTypes) As FunctionSignature
         Dim rest As String = Nothing
-        Dim typeAndName = CompilerTools.GetStartingTypedAndNamedVariable(text:=text, types:=typeContext, out_rest:=rest)
+        Dim typeAndName = CompilerTools.GetStartingTypedAndNamedVariable(text:=s, types:=typeContext, out_rest:=rest)
 
         Dim parameters = CompilerTools.GetParameters(parametersInBrackets:=rest.Trim).Select(Function(parameterText) NamedParameter.FromText(text:=parameterText, typeContext:=typeContext)).ToArray
 
         Return New FunctionSignature(Name:=typeAndName.Name, DelegateType:=New DelegateType(ResultType:=typeAndName.Type, parameters:=parameters))
+    End Function
+
+    Public Overrides Function ToString() As String Implements ISignature.GetSignatureString
+        Return Me.DelegateType.ResultType.Name & " " & Me.Name & String.Join(", ", Me.DelegateType.Parameters.Select(Function(parameter) parameter.GetSignatureString)).InBrackets
     End Function
 
 End Class

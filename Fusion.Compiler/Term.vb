@@ -216,7 +216,7 @@
 
         Dim functionInstance = _Context.ParseFunction(functionCall)
 
-        Dim parameters = functionInstance.DelegateType.Parameters
+        Dim parameters = functionInstance.Signature.DelegateType.Parameters
 
         Dim arguments = New List(Of Expression)
         For parameterIndex = 0 To parameters.Count - 1

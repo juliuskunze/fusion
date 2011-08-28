@@ -2,8 +2,8 @@ Public Class RecursiveRayTracer(Of TLight As {ILight(Of TLight), New})
     Implements IRayTracer(Of TLight)
 
     Public Sub New(surface As ISurface(Of Material2D(Of TLight)),
-                    unshadedLightSource As ILightSource(Of TLight),
-                    shadedPointLightSources As List(Of IPointLightSource(Of TLight)),
+                   unshadedLightSource As ILightSource(Of TLight),
+                   shadedPointLightSources As List(Of IPointLightSource(Of TLight)),
                    Optional maxIntersectionCount As Integer = 10)
         Me.Surface = surface
         Me.LightSource = unshadedLightSource

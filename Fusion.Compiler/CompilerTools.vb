@@ -209,4 +209,14 @@ Public Module CompilerTools
         Return String.Equals(a, b, StringComparison.OrdinalIgnoreCase)
     End Function
 
+    <Extension()>
+    Public Function InBrackets(s As String) As String
+        Return s.InBrackets(BracketType.Round)
+    End Function
+
+    <Extension()>
+    Public Function InBrackets(s As String, bracketType As BracketType) As String
+        Return bracketType.Round.OpeningBracket & s & bracketType.Round.ClosingBracket
+    End Function
+
 End Module

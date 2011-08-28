@@ -110,14 +110,15 @@ Public Class TermTests
 
     <Test()>
     Public Sub TestFunction()
-        Dim namedMethodExpression = New FunctionInstance(Of Func(Of Double, Double))("square", Function(x As Double) x ^ 2, TypeNamedTypeDictionary:=New TypeNamedTypeDictionary(NamedTypes.Default))
-        Dim term = New Term("square{2*x}", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(parameters:={New NamedParameter(name:="x", Type:=NamedType.Real)}, Functions:={namedMethodExpression})))
+        Dim functionInstance = New FunctionInstance(Of Func(Of Double, Double))("square", Function(x As Double) x ^ 2, TypeNamedTypeDictionary:=New TypeNamedTypeDictionary(NamedTypes.Default))
+        Dim term = New Term("square{2*x}", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(parameters:={New NamedParameter(name:="x", Type:=NamedType.Real)}, Functions:={functionInstance})))
         Dim d = term.GetDelegate(Of Func(Of Double, Double))()
         Assert.That(d(5) = 100)
+        Assert.AreEqual(functionInstance.Signature.ToString, "Real square(Real x)")
     End Sub
 
     <Test()>
-    Public Sub TestCore()
+    Public Sub TestLinqExpressions()
         Dim f As Expressions.Expression(Of Func(Of Double, Double)) = Function(a As Double) a + 4
         Assert.That(f.Compile()(5) = 9)
 

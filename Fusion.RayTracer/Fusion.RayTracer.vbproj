@@ -72,7 +72,7 @@
     <Compile Include="ColorConversion\RgbLightToColorConverter.vb" />
     <Compile Include="Examples\LensVideo.vb" />
     <Compile Include="Examples\RayTracingExamples.vb" />
-    <Compile Include="IRayTracer.vb" />
+    <Compile Include="RayTracer\IRayTracer.vb" />
     <Compile Include="ColorConversion\ILightToColorConverter.vb" />
     <Compile Include="Light\RadianceSpectrum\BlackBodyRadianceSpectrum.vb" />
     <Compile Include="Light\RadianceSpectrum\RadianceSpectrum.vb" />
@@ -119,14 +119,13 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="RayChanger.vb" />
-    <Compile Include="RayTracerPicture.vb" />
-    <Compile Include="RecursiveRayTracer.vb" />
-    <Compile Include="RelativiticRayTracerTermContext.vb" />
+    <Compile Include="RayTracer\RayTracerPicture.vb" />
+    <Compile Include="RayTracer\RecursiveRayTracer.vb" />
     <Compile Include="Relativity\RelativisticRayTracerWithoutDopplerEffect.vb" />
     <Compile Include="Relativity\RelativisticRayTracerBase.vb" />
     <Compile Include="Relativity\RelativisticTransformation.vb" />
     <Compile Include="Relativity\RelativisticRayTracer.vb" />
-    <Compile Include="ScatteringRayTracer.vb" />
+    <Compile Include="RayTracer\ScatteringRayTracer.vb" />
     <Compile Include="ColorConversion\RadianceSpectrumToColorConverter.vb" />
     <Compile Include="Video\IRayTraceVideo.vb" />
     <Compile Include="Video\IViewCourse.vb" />

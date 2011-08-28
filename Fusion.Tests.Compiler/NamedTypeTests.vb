@@ -2,7 +2,7 @@
 
     <Test()>
     Public Sub NamedDelegateTypeFromText()
-        Dim delegateType = NamedType.NamedDelegateTypeFromText("delegate Real WaveLengthFunction(Real wavelength)", typeContext:=NamedTypes.Default)
+        Dim delegateType = NamedType.NamedDelegateTypeFromString("delegate Real WaveLengthFunction(Real wavelength)", typeContext:=NamedTypes.Default)
 
         Assert.That(delegateType.IsDelegate)
         Assert.AreSame(delegateType.Delegate.ResultType, NamedType.Real)
@@ -18,8 +18,8 @@
     Public Sub IsAssignableFrom()
         Dim typeContext = New NamedTypes(NamedTypes.Default.Concat({New NamedType(name:="Object", systemType:=GetType(Object))}))
 
-        Dim delegateType1 = NamedType.NamedDelegateTypeFromText("delegate Object DelegateType1(Real x)", typeContext:=typeContext)
-        Dim delegateType2 = NamedType.NamedDelegateTypeFromText("delegate Real DelegateType2(Object x)", typeContext:=typeContext)
+        Dim delegateType1 = NamedType.NamedDelegateTypeFromString("delegate Object DelegateType1(Real x)", typeContext:=typeContext)
+        Dim delegateType2 = NamedType.NamedDelegateTypeFromString("delegate Real DelegateType2(Object x)", typeContext:=typeContext)
 
         delegateType1.CheckIsAssignableFrom(delegateType2)
 
