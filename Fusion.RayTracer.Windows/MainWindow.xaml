@@ -45,7 +45,15 @@
                         </StackPanel>
                         
                         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
-                            <TextBox Margin="0" AcceptsReturn="True" Name="_SceneDescriptionTextBox"></TextBox>
+                            <own:AutoCompleteTextBox ToolTipService.Placement="Bottom" Margin="0" AcceptsReturn="True" x:Name="_SceneDescriptionTextBox">
+                                <TextBox.ToolTip>
+                                    <ListBox>
+                                        <ListBoxItem>
+                                            aere
+                                        </ListBoxItem>
+                                    </ListBox>
+                                </TextBox.ToolTip>
+                            </own:AutoCompleteTextBox>
                         </ScrollViewer>
 
                         <GridSplitter HorizontalAlignment="Stretch" Grid.Row="2" Grid.ColumnSpan="1" Height="3"></GridSplitter>

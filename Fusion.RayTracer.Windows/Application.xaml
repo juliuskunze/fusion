@@ -18,6 +18,22 @@
         <Style TargetType="ProgressBar" BasedOn="{StaticResource DefaultControlStyle}"></Style>
         <Style TargetType="ScrollViewer" BasedOn="{StaticResource DefaultControlStyle}"></Style>
         <Style TargetType="GroupBox" BasedOn="{StaticResource DefaultControlStyle}"></Style>
-        
+
+        <Style x:Key="autoCompleteTextBox" TargetType="{x:Type TextBox}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                        <Grid x:Name="root">
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                            <Popup x:Name="PART_Popup" AllowsTransparency="true" Placement="Bottom" IsOpen="False">
+                                <!-- PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"-->
+                                <ListBox x:Name="PART_ItemList" SnapsToDevicePixels ="{TemplateBinding SnapsToDevicePixels}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" KeyboardNavigation.DirectionalNavigation="Contained" />
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Application.Resources>
 </Application>

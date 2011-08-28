@@ -68,6 +68,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AutoCompleteTextBox.xaml.vb">
+      <DependentUpon>AutoCompleteTextBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CalculateTimeOptionsDialog.xaml.vb">
       <DependentUpon>CalculateTimeOptionsDialog.xaml</DependentUpon>
     </Compile>
@@ -83,6 +86,10 @@
     <Compile Include="SimpleBitmap.vb" />
     <Compile Include="Controls\TermBox.vb" />
     <Compile Include="WindowExtensions.vb" />
+    <Page Include="AutoCompleteTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CalculateTimeOptionsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

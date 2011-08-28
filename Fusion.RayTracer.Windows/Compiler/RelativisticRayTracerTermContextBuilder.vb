@@ -52,7 +52,7 @@
             Return _TermContext
         End Get
     End Property
-
+    
     Public Sub New()
         _TermContext = New TermContext(Constants:=_Constants, Functions:=_Functions, types:=_NamedTypes)
     End Sub

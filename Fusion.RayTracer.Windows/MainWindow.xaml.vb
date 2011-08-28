@@ -192,6 +192,11 @@
     End Sub
 
     Private Sub SceneDescriptionTextBox_TextChanged(sender As System.Object, e As System.Windows.Controls.TextChangedEventArgs) Handles _SceneDescriptionTextBox.TextChanged
+        _SceneDescriptionTextBox.Popup.IsOpen = True
+        _SceneDescriptionTextBox.Popup.VerticalOffset = -(_SceneDescriptionTextBox.ActualHeight - _SceneDescriptionTextBox.GetRectFromCharacterIndex(charIndex:=_SceneDescriptionTextBox.SelectionStart).Bottom)
+        _SceneDescriptionTextBox.Popup.HorizontalOffset = _SceneDescriptionTextBox.GetRectFromCharacterIndex(charIndex:=_SceneDescriptionTextBox.SelectionStart).Left
+        _SceneDescriptionTextBox.ItemList.ItemsSource = {1, 2, 3}
+
         RaiseEvent SceneChanged()
     End Sub
 
