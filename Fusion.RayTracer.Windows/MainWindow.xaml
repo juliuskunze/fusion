@@ -41,19 +41,10 @@
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                             </Grid>
-
                         </StackPanel>
                         
                         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
-                            <own:AutoCompleteTextBox ToolTipService.Placement="Bottom" Margin="0" AcceptsReturn="True" x:Name="_SceneDescriptionTextBox">
-                                <TextBox.ToolTip>
-                                    <ListBox>
-                                        <ListBoxItem>
-                                            aere
-                                        </ListBoxItem>
-                                    </ListBox>
-                                </TextBox.ToolTip>
-                            </own:AutoCompleteTextBox>
+                            <own:AutoCompleteTextBox ToolTipService.Placement="Bottom" Margin="0" AcceptsReturn="True" x:Name="_SceneDescriptionTextBox"></own:AutoCompleteTextBox>
                         </ScrollViewer>
 
                         <GridSplitter HorizontalAlignment="Stretch" Grid.Row="2" Grid.ColumnSpan="1" Height="3"></GridSplitter>

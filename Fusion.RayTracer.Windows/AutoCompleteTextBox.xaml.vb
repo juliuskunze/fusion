@@ -1,7 +1,7 @@
 ﻿Imports System.Windows.Controls.Primitives
 
 Public Class AutoCompleteTextBox
-    Inherits TextBox
+    Inherits RichTextBox
 
     Private _Loaded As Boolean
 
@@ -40,6 +40,7 @@ Public Class AutoCompleteTextBox
         AddHandler Me.PreviewKeyDown, AddressOf AutoCompleteTextBox_PreviewKeyDown
         AddHandler Me.ItemList.PreviewMouseDown, AddressOf ItemList_PreviewMouseDown
         AddHandler Me.ItemList.KeyDown, AddressOf ItemList_KeyDown
+        AddHandler Me.ItemList.SelectionChanged, AddressOf ItemList_SelectionChanged
     End Sub
 
     Private Sub AutoCompleteTextBox_PreviewKeyDown(sender As Object, e As KeyEventArgs)
@@ -62,8 +63,6 @@ Public Class AutoCompleteTextBox
         If Not TypeOf e.OriginalSource Is ListBoxItem Then Return
 
         'Dim tb As ListBoxItem = TryCast(e.OriginalSource, ListBoxItem)
-        'Dim text = TryCast(tb.Content, String)
-        'Me.Text = text
 
         If Not {Key.Tab, Key.Enter}.Contains(e.Key) Then Return
 
@@ -71,32 +70,29 @@ Public Class AutoCompleteTextBox
     End Sub
 
     Private Sub ItemList_PreviewMouseDown(sender As Object, e As MouseButtonEventArgs)
-
         If e.LeftButton <> MouseButtonState.Pressed Then Return
 
-        Dim toolTip = New ToolTip
-        toolTip.Content = "yo"
-        toolTip.Placement = PlacementMode.Bottom
-        toolTip.IsOpen = True
-
-        Dim tb As TextBlock = TryCast(e.OriginalSource, TextBlock)
+        Dim tb = TryCast(e.OriginalSource, TextBlock)
         If tb Is Nothing Then Return
-        tb.ToolTip = toolTip
 
         If e.ClickCount = 2 Then
             Me.ClosePopupAndUpdateSource()
+            e.Handled = True
         End If
-        e.Handled = True
     End Sub
 
     Private Sub ClosePopupAndUpdateSource()
         Me.Popup.IsOpen = False
 
-        Dim selected = CStr(Me.ItemList.SelectedItem)
+        Dim selected = CStr(DirectCast(Me.ItemList.SelectedItem, ListBoxItem).Content)
 
-        Me.Text &= selected
+        Me.AppendText(selected)
 
-        Me.SelectionStart = Me.Text.Length
+        Me.Selection.Select(Me.Document.ContentEnd, Me.Document.ContentEnd)
+    End Sub
+
+    Private Sub ItemList_SelectionChanged(sender As Object, e As SelectionChangedEventArgs)
+        CType(CType(e.AddedItems(0), ListBoxItem).ToolTip, ToolTip).IsOpen = True
     End Sub
 
 End Class

@@ -1,4 +1,6 @@
-﻿Public Class MainWindow
+﻿Imports System.Windows.Controls.Primitives
+
+Public Class MainWindow
 
     Private WithEvents _RayTracerPicture As RayTracerPicture(Of RadianceSpectrum)
     Private _ResultBitmap As System.Drawing.Bitmap
@@ -44,11 +46,11 @@
     End Sub
 
     Private Function TryCompileRayTracerDrawerAndShowErrors() As Boolean
-        _Compiler = New RelativisticRayTracerPictureCompiler(TextBox:=_SceneDescriptionTextBox, baseContext:=_BaseContext, TypeNamedTypeDictionary:=_RelativisticRayTracerTermContextBuilder.TypeDictionary)
+        _Compiler = New RelativisticRayTracerPictureCompiler(RichTextBox:=_SceneDescriptionTextBox, baseContext:=_BaseContext, TypeNamedTypeDictionary:=_RelativisticRayTracerTermContextBuilder.TypeDictionary)
         Try
             Dim compilerResult = _Compiler.GetResult
 
-            _SceneDescriptionTextBox.Text = compilerResult.CorrectedText
+            _SceneDescriptionTextBox.Document = New FlowDocument(New Paragraph(New Run(compilerResult.CorrectedText)))
 
             _RayTracerPicture = compilerResult.Result
         Catch ex As CompilerException
@@ -193,9 +195,25 @@
 
     Private Sub SceneDescriptionTextBox_TextChanged(sender As System.Object, e As System.Windows.Controls.TextChangedEventArgs) Handles _SceneDescriptionTextBox.TextChanged
         _SceneDescriptionTextBox.Popup.IsOpen = True
-        _SceneDescriptionTextBox.Popup.VerticalOffset = -(_SceneDescriptionTextBox.ActualHeight - _SceneDescriptionTextBox.GetRectFromCharacterIndex(charIndex:=_SceneDescriptionTextBox.SelectionStart).Bottom)
-        _SceneDescriptionTextBox.Popup.HorizontalOffset = _SceneDescriptionTextBox.GetRectFromCharacterIndex(charIndex:=_SceneDescriptionTextBox.SelectionStart).Left
-        _SceneDescriptionTextBox.ItemList.ItemsSource = {1, 2, 3}
+        Dim currentCharRect = _SceneDescriptionTextBox.Selection.Start.GetCharacterRect(LogicalDirection.Forward)
+
+        _SceneDescriptionTextBox.Popup.VerticalOffset = -(_SceneDescriptionTextBox.ActualHeight - currentCharRect.Bottom)
+        _SceneDescriptionTextBox.Popup.HorizontalOffset = currentCharRect.Left
+
+        Dim listBoxItems = New List(Of ListBoxItem)
+        For i = 0 To 3
+            Dim listBoxItem = New ListBoxItem
+            listBoxItem.Content = i
+
+            Dim tooltip = New ToolTip
+            tooltip.Content = "yo"
+            tooltip.PlacementTarget = listBoxItem
+            tooltip.Placement = Controls.Primitives.PlacementMode.Right
+            tooltip.HorizontalOffset = 5
+            
+            listBoxItems.Add(listBoxItem)
+        Next
+        _SceneDescriptionTextBox.ItemList.ItemsSource = listBoxItems
 
         RaiseEvent SceneChanged()
     End Sub
@@ -232,6 +250,8 @@
 
     Private Sub CompileSceneButton_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles _CompileSceneButton.Click
         Me.TryCompileAndAdaptVisibilities()
+
+        _SceneDescriptionTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Underline)
     End Sub
 
 End Class
