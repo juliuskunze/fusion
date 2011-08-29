@@ -50,7 +50,10 @@ Public Class MainWindow
         Try
             Dim compilerResult = _Compiler.GetResult
 
-            _SceneDescriptionTextBox.Document = New FlowDocument(New Paragraph(New Run(compilerResult.CorrectedText)))
+            Dim document = New FlowDocument(New Paragraph(New Run(compilerResult.CorrectedText)))
+            document.IsOptimalParagraphEnabled = False
+
+            _SceneDescriptionTextBox.Document = document
 
             _RayTracerPicture = compilerResult.Result
         Catch ex As CompilerException
@@ -215,7 +218,7 @@ Public Class MainWindow
 
             listBoxItems.Add(listBoxItem)
         Next
-        _SceneDescriptionTextBox.ItemList.ItemsSource = listBoxItems
+        _SceneDescriptionTextBox.ListBox.ItemsSource = listBoxItems
 
         RaiseEvent SceneChanged()
     End Sub
@@ -253,7 +256,29 @@ Public Class MainWindow
     Private Sub CompileSceneButton_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles _CompileSceneButton.Click
         Me.TryCompileAndAdaptVisibilities()
 
-        _SceneDescriptionTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Underline)
+        Dim pen = New Pen
+
+        Dim a = New TextDecorationCollection({New TextDecoration With {.Pen = CreateErrorPen()}})
+        _SceneDescriptionTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, a)
     End Sub
+
+    Private Shared Function CreateErrorPen() As Pen
+        Dim geometry = New StreamGeometry()
+        Using context = geometry.Open
+            context.BeginFigure(New Point(0.0, 0.0), False, False)
+            context.PolyLineTo({New Point(0.75, 0.75), New Point(1.5, 0.0), New Point(2.25, 0.75), New Point(3.0, 0.0)}, True, True)
+        End Using
+
+        Dim brushPattern = New GeometryDrawing() With {.Pen = New Pen(Brushes.Blue, 0.2), .Geometry = geometry}
+
+
+        Dim brush = New DrawingBrush(brushPattern) With {.TileMode = TileMode.Tile, .Viewport = New Rect(0.0, 1.5, 9.0, 3.0), .ViewportUnits = BrushMappingMode.Absolute}
+
+        Dim pen = New Pen(brush, 3.0)
+        pen.Freeze()
+
+        Return pen
+    End Function
+
 
 End Class

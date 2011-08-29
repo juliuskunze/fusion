@@ -11,9 +11,9 @@ Public Class AutoCompleteTextBox
         End Get
     End Property
 
-    Public ReadOnly Property ItemList() As ListBox
+    Public ReadOnly Property ListBox() As ListBox
         Get
-            Return TryCast(Me.Template.FindName("PART_ItemList", Me), ListBox)
+            Return TryCast(Me.Template.FindName("PART_ItemListBox", Me), ListBox)
         End Get
     End Property
 
@@ -25,7 +25,7 @@ Public Class AutoCompleteTextBox
 
     Public ReadOnly Property TextBoxView() As UIElement
         Get
-            For Each o In LogicalTreeHelper.GetChildren(Host)
+            For Each o In LogicalTreeHelper.GetChildren(Me.Host)
                 Return TryCast(o, UIElement)
             Next
 
@@ -35,44 +35,47 @@ Public Class AutoCompleteTextBox
 
     Public Overrides Sub OnApplyTemplate()
         MyBase.OnApplyTemplate()
-        _loaded = True
         AddHandler Me.KeyDown, AddressOf AutoCompleteTextBox_PreviewKeyDown
         AddHandler Me.PreviewKeyDown, AddressOf AutoCompleteTextBox_PreviewKeyDown
-        AddHandler Me.ItemList.PreviewMouseDown, AddressOf ItemList_PreviewMouseDown
-        AddHandler Me.ItemList.KeyDown, AddressOf ItemList_KeyDown
-        AddHandler Me.ItemList.SelectionChanged, AddressOf ItemList_SelectionChanged
+        AddHandler Me.ListBox.PreviewMouseDown, AddressOf ItemListBox_PreviewMouseDown
+        AddHandler Me.ListBox.KeyDown, AddressOf ItemListBox_KeyDown
+        AddHandler Me.ListBox.SelectionChanged, AddressOf ItemList_SelectionChanged
+        _Loaded = True
     End Sub
 
     Private Sub AutoCompleteTextBox_PreviewKeyDown(sender As Object, e As KeyEventArgs)
-        If e.Key <> Key.Down OrElse ItemList.Items.Count <= 0 OrElse (TypeOf e.OriginalSource Is ListBoxItem) Then Return
+        If TypeOf e.OriginalSource Is ListBoxItem Then Return
 
-        Me.ItemList.Focus()
-        Me.ItemList.SelectedIndex = 0
-        Dim listboxItem = TryCast(ItemList.ItemContainerGenerator.ContainerFromIndex(ItemList.SelectedIndex), ListBoxItem)
+        If e.Key <> Key.Down OrElse Me.ListBox.Items.Count = 0 Then Return
+
+        Me.ListBox.Focus()
+        Me.ListBox.SelectedIndex = 0
+        Dim listboxItem = TryCast(ListBox.ItemContainerGenerator.ContainerFromIndex(ListBox.SelectedIndex), ListBoxItem)
         listboxItem.Focus()
         e.Handled = True
     End Sub
 
     Private Sub AutoCompleteTextBox_KeyDown(sender As Object, e As KeyEventArgs)
         Select Case e.Key
+            Case Key.Escape
+                Me.ClosePopup()
+                e.Handled = True
+        End Select
+    End Sub
+
+    Private Sub ItemListBox_KeyDown(sender As Object, e As KeyEventArgs)
+        If Not TypeOf e.OriginalSource Is ListBoxItem Then Return
+
+        Select Case e.Key
             Case Key.Tab, Key.Enter
                 Me.ClosePopupAndUpdateSource()
             Case Key.Escape
                 Me.ClosePopup()
+                e.Handled = True
         End Select
     End Sub
 
-    Private Sub ItemList_KeyDown(sender As Object, e As KeyEventArgs)
-        If Not TypeOf e.OriginalSource Is ListBoxItem Then Return
-
-        'Dim tb As ListBoxItem = TryCast(e.OriginalSource, ListBoxItem)
-
-        If Not {Key.Tab, Key.Enter}.Contains(e.Key) Then Return
-
-        Me.ClosePopupAndUpdateSource()
-    End Sub
-
-    Private Sub ItemList_PreviewMouseDown(sender As Object, e As MouseButtonEventArgs)
+    Private Sub ItemListBox_PreviewMouseDown(sender As Object, e As MouseButtonEventArgs)
         If e.LeftButton <> MouseButtonState.Pressed Then Return
 
         Dim tb = TryCast(e.OriginalSource, TextBlock)
@@ -86,7 +89,7 @@ Public Class AutoCompleteTextBox
 
     Private Sub ClosePopupAndUpdateSource()
         Me.ClosePopup()
-        Dim selected = CStr(DirectCast(Me.ItemList.SelectedItem, ListBoxItem).Content)
+        Dim selected = CStr(DirectCast(Me.ListBox.SelectedItem, ListBoxItem).Content)
 
         Me.AppendText(selected)
 
@@ -95,7 +98,7 @@ Public Class AutoCompleteTextBox
 
     Private Sub ClosePopup()
         Me.Popup.IsOpen = False
-        For Each listBoxItemObj In Me.ItemList.Items
+        For Each listBoxItemObj In Me.ListBox.Items
             Dim listBoxItem = CType(listBoxItemObj, ListBoxItem)
             Dim toolTip = CType(listBoxItem.ToolTip, ToolTip)
             toolTip.IsOpen = False
@@ -103,7 +106,7 @@ Public Class AutoCompleteTextBox
     End Sub
 
     Private Sub ItemList_SelectionChanged(sender As Object, e As SelectionChangedEventArgs)
-        For Each listBoxItemObj In Me.ItemList.Items
+        For Each listBoxItemObj In Me.ListBox.Items
             Dim listBoxItem = CType(listBoxItemObj, ListBoxItem)
             Dim toolTip = CType(listBoxItem.ToolTip, ToolTip)
             toolTip.IsOpen = listBoxItem.IsSelected
