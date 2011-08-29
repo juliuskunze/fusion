@@ -210,7 +210,9 @@ Public Class MainWindow
             tooltip.PlacementTarget = listBoxItem
             tooltip.Placement = Controls.Primitives.PlacementMode.Right
             tooltip.HorizontalOffset = 5
-            
+
+            listBoxItem.ToolTip = tooltip
+
             listBoxItems.Add(listBoxItem)
         Next
         _SceneDescriptionTextBox.ItemList.ItemsSource = listBoxItems

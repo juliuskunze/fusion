@@ -54,9 +54,12 @@ Public Class AutoCompleteTextBox
     End Sub
 
     Private Sub AutoCompleteTextBox_KeyDown(sender As Object, e As KeyEventArgs)
-        If Not {Key.Tab, Key.Enter}.Contains(e.Key) Then Return
-
-        Me.ClosePopupAndUpdateSource()
+        Select Case e.Key
+            Case Key.Tab, Key.Enter
+                Me.ClosePopupAndUpdateSource()
+            Case Key.Escape
+                Me.ClosePopup()
+        End Select
     End Sub
 
     Private Sub ItemList_KeyDown(sender As Object, e As KeyEventArgs)
@@ -82,8 +85,7 @@ Public Class AutoCompleteTextBox
     End Sub
 
     Private Sub ClosePopupAndUpdateSource()
-        Me.Popup.IsOpen = False
-
+        Me.ClosePopup()
         Dim selected = CStr(DirectCast(Me.ItemList.SelectedItem, ListBoxItem).Content)
 
         Me.AppendText(selected)
@@ -91,8 +93,22 @@ Public Class AutoCompleteTextBox
         Me.Selection.Select(Me.Document.ContentEnd, Me.Document.ContentEnd)
     End Sub
 
+    Private Sub ClosePopup()
+        Me.Popup.IsOpen = False
+        For Each listBoxItemObj In Me.ItemList.Items
+            Dim listBoxItem = CType(listBoxItemObj, ListBoxItem)
+            Dim toolTip = CType(listBoxItem.ToolTip, ToolTip)
+            toolTip.IsOpen = False
+        Next
+    End Sub
+
     Private Sub ItemList_SelectionChanged(sender As Object, e As SelectionChangedEventArgs)
-        CType(CType(e.AddedItems(0), ListBoxItem).ToolTip, ToolTip).IsOpen = True
+        For Each listBoxItemObj In Me.ItemList.Items
+            Dim listBoxItem = CType(listBoxItemObj, ListBoxItem)
+            Dim toolTip = CType(listBoxItem.ToolTip, ToolTip)
+            toolTip.IsOpen = listBoxItem.IsSelected
+        Next
+
     End Sub
 
 End Class
