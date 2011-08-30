@@ -85,9 +85,9 @@
                                Types:=_Types.Merge(second.Types))
     End Function
 
-    Public Function ParseSingleFunctionWithName(name As String) As FunctionInstance
+    Public Function ParseSingleFunctionWithName(name As LocatedString) As FunctionInstance
         Dim matchingGroup = Me.GetMatchingFunctionGroup(name)
-        If matchingGroup.Count > 1 Then Throw New CompilerException(String.Format("There are multiple definitions for function with name '{0}'.", name))
+        If matchingGroup.Count > 1 Then Throw New LocatedCompilerException(name, String.Format("There are multiple definitions for function with name '{0}'.", name))
 
         Return matchingGroup.Single
     End Function
@@ -95,13 +95,13 @@
     Public Function ParseFunction(functionCall As FunctionCall) As FunctionInstance
         Dim matchingFunctionGroup = Me.GetMatchingFunctionGroup(functionCall.FunctionName)
         Dim matchingFunctions = matchingFunctionGroup.Where(Function(instance) instance.Signature.DelegateType.Parameters.Count = functionCall.Arguments.Count)
-        If Not matchingFunctions.Any Then Throw New CompilerException(String.Format("Function '{0}' with parameter count {1} not defined in this context.", functionCall.FunctionName, functionCall.Arguments.Count))
+        If Not matchingFunctions.Any Then Throw New LocatedCompilerException(functionCall.LocatedString, String.Format("Function '{0}' with parameter count {1} not defined in this context.", functionCall.FunctionName, functionCall.Arguments.Count))
         Return matchingFunctions.Single
     End Function
 
-    Private Function GetMatchingFunctionGroup(ByVal functionName As String) As IGrouping(Of String, FunctionInstance)
-        Dim matchingFunctionGroups = Me.GroupedFunctionsAndDelegateParameters.Where(Function(group) CompilerTools.IdentifierEquals(group.Key, functionName))
-        If Not matchingFunctionGroups.Any Then Throw New CompilerException(String.Format("Function '{0}' not defined in this context.", functionName))
+    Private Function GetMatchingFunctionGroup(ByVal functionName As LocatedString) As IGrouping(Of String, FunctionInstance)
+        Dim matchingFunctionGroups = Me.GroupedFunctionsAndDelegateParameters.Where(Function(group) CompilerTools.IdentifierEquals(group.Key, functionName.ToString))
+        If Not matchingFunctionGroups.Any Then Throw New LocatedCompilerException(functionName, String.Format("Function '{0}' not defined in this context.", functionName))
         Return matchingFunctionGroups.Single
     End Function
 

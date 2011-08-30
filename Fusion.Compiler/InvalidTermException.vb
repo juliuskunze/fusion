@@ -1,21 +1,12 @@
 ﻿Public Class InvalidTermException
-    Inherits CompilerException
+    Inherits LocatedCompilerException
 
-    Private ReadOnly _Term As String
-    Public ReadOnly Property Term As String
-        Get
-            Return _Term
-        End Get
-    End Property
-
-    Public Sub New(term As String)
-        MyBase.New(Message:="The term is invalid: " & term)
-        _Term = term
+    Public Sub New(term As LocatedString, message As String)
+        MyBase.New(locatedString:=term, message:=message)
     End Sub
 
-    Public Sub New(term As String, message As String)
-        MyBase.New(message:=message)
-        _Term = term
+    Public Sub New(term As LocatedString)
+        MyBase.New(locatedString:=term, Message:="The term is invalid: " & term.ToString)
     End Sub
 
 End Class

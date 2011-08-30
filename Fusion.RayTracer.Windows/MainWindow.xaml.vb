@@ -56,7 +56,7 @@ Public Class MainWindow
             _SceneDescriptionTextBox.Document = document
 
             _RayTracerPicture = compilerResult.Result
-        Catch ex As CompilerException
+        Catch ex As LocatedCompilerException
             _ErrorTextBox.Text = ex.Message
             Return False
         End Try
@@ -256,13 +256,10 @@ Public Class MainWindow
     Private Sub CompileSceneButton_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles _CompileSceneButton.Click
         Me.TryCompileAndAdaptVisibilities()
 
-        Dim pen = New Pen
-
-        Dim a = New TextDecorationCollection({New TextDecoration With {.Pen = CreateErrorPen()}})
-        _SceneDescriptionTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, a)
+        _SceneDescriptionTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, CreateErrorTextDecorations)
     End Sub
 
-    Private Shared Function CreateErrorPen() As Pen
+    Private Shared Function CreateErrorTextDecorations() As TextDecorationCollection
         Dim geometry = New StreamGeometry()
         Using context = geometry.Open
             context.BeginFigure(New Point(0.0, 0.0), False, False)
@@ -277,7 +274,12 @@ Public Class MainWindow
         Dim pen = New Pen(brush, 3.0)
         pen.Freeze()
 
-        Return pen
+        Dim textDecoration = New TextDecoration With {.Pen = pen}
+
+        Dim collection = New TextDecorationCollection({textDecoration})
+        collection.Freeze()
+
+        Return collection
     End Function
 
 

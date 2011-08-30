@@ -2,27 +2,27 @@
 
     <Test()>
     Public Sub TestGetArguments()
-        Assert.AreEqual({"3", " f(3, 4)", " [3,4, 5]   "}.ToList, CompilerTools.GetArguments("{3, f(3, 4), [3,4, 5]   }").ToList)
+        Assert.AreEqual({"3", " f(3, 4)", " [3,4, 5]   "}.ToList, CompilerTools.GetArguments("{3, f(3, 4), [3,4, 5]   }".ToAnalized.ToLocated).Select(Function(located) located.ToString).ToList)
     End Sub
 
     <Test()>
     Public Sub TestSplitIfSeparatorIsNotInBrackets()
-        Assert.AreEqual({"3", " f(3, 4)", " [3,4, 5]   "}.ToList, CompilerTools.SplitIfSeparatorIsNotInBrackets("3, f(3, 4), [3,4, 5]   ", ","c, bracketTypes:=CompilerTools.AllowedBracketTypes).ToList)
+        Assert.AreEqual({"3", " f(3, 4)", " [3,4, 5]   "}.ToList, CompilerTools.SplitIfSeparatorIsNotInBrackets("3, f(3, 4), [3,4, 5]   ".ToAnalized.ToLocated, ","c, bracketTypes:=CompilerTools.AllowedBracketTypes).Select(Function(located) located.ToString).ToList)
     End Sub
 
     <Test()>
     Public Sub TestGetStartingValidVariableName()
-        Assert.AreEqual("a", CompilerTools.GetStartingIdentifier("a"))
-        Assert.Throws(Of CompilerException)(Sub() CompilerTools.GetStartingIdentifier("'a"))
+        Assert.AreEqual("a", CompilerTools.GetStartingIdentifier("a".ToAnalized.ToLocated).ToString)
+        Assert.Throws(Of LocatedCompilerException)(Sub() CompilerTools.GetStartingIdentifier("'a".ToAnalized.ToLocated))
     End Sub
 
     <Test()>
     Public Sub TestGetStartingType()
-        Dim rest As String = Nothing
-        Dim type = CompilerTools.GetStartingType("Collection[Real]", types:=NamedTypes.Default, out_rest:=rest)
+        Dim rest As LocatedString = Nothing
+        Dim type = CompilerTools.GetStartingType("Collection[Real]".ToAnalized.ToLocated, types:=NamedTypes.Default, out_rest:=rest)
         Dim argument = type.TypeArguments.Single
 
-        Assert.AreEqual(rest, "")
+        Assert.AreEqual(rest.ToString, "")
 
         Assert.AreEqual(type.SystemType, GetType(IEnumerable(Of Double)))
         Assert.AreEqual(argument.SystemType, GetType(Double))
@@ -32,15 +32,15 @@
 
     <Test()>
     Public Sub TestGetStartingTypedAndNamedVariable()
-        Dim t = CompilerTools.GetStartingTypedAndNamedVariable("Real a", types:=New NamedTypes({NamedType.Real}))
+        Dim t = CompilerTools.GetStartingTypedAndNamedVariable("Real a".ToAnalized.ToLocated, types:=New NamedTypes({NamedType.Real}))
         Assert.AreEqual("a", t.Name)
         Assert.AreEqual(NamedType.Real, t.Type)
 
-        Dim rest = ""
-        Dim t2 = CompilerTools.GetStartingTypedAndNamedVariable("Vector b (3,4)", types:=New NamedTypes({NamedType.Vector3D}), out_rest:=rest)
+        Dim rest As LocatedString = Nothing
+        Dim t2 = CompilerTools.GetStartingTypedAndNamedVariable("Vector b (3,4)".ToAnalized.ToLocated, types:=New NamedTypes({NamedType.Vector3D}), out_rest:=rest)
         Assert.AreEqual("b", t2.Name)
         Assert.AreEqual(NamedType.Vector3D, t2.Type)
-        Assert.AreEqual(" (3,4)", rest)
+        Assert.AreEqual(" (3,4)", rest.ToString)
     End Sub
 
 End Class

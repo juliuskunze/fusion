@@ -39,31 +39,31 @@ Public Class TermTests
         Try
             Dim value = New ConstantTerm(Of Double)("").GetResult
             Assert.Fail()
-        Catch ex As CompilerException
+        Catch ex As LocatedCompilerException
         End Try
 
         Try
             Dim value = New ConstantTerm(Of Double)("4)").GetResult
             Assert.Fail()
-        Catch ex As CompilerException
+        Catch ex As LocatedCompilerException
         End Try
 
         Try
             Dim value = New ConstantTerm(Of Double)("23+(3+4))").GetResult
             Assert.Fail()
-        Catch ex As CompilerException
+        Catch ex As LocatedCompilerException
         End Try
 
         Try
             Dim value = New ConstantTerm(Of Double)("(((").GetResult
             Assert.Fail()
-        Catch ex As CompilerException
+        Catch ex As LocatedCompilerException
         End Try
 
         Try
             Dim value = New ConstantTerm(Of Double)("2a").GetResult
             Assert.Fail()
-        Catch ex As CompilerException
+        Catch ex As LocatedCompilerException
         End Try
     End Sub
 
@@ -135,7 +135,7 @@ Public Class TermTests
         Try
             term.GetDelegate()
             Assert.Fail()
-        Catch ex As CompilerException
+        Catch ex As LocatedCompilerException
             Assert.AreEqual(ex.Message, "Function 'square' not defined in this context.")
         End Try
     End Sub
@@ -192,7 +192,7 @@ Public Class TermTests
 
         Assert.That(New Term(Term:="3 > 2 | 3 <= 2", Type:=NamedType.Boolean, context:=TermContext.Default).GetDelegate(Of Func(Of Boolean)).Invoke())
     End Sub
-    
+
     <Test()>
     Public Sub TestCases()
         Dim result = New Term(Term:="cases{True : 3 , else : 4}", Type:=NamedType.Real, context:=TermContext.Default).GetDelegate(Of Func(Of Double)).Invoke()
@@ -221,7 +221,7 @@ Public Class TermTests
         Try
             term.GetDelegate()
             Assert.Fail()
-        Catch ex As CompilerException
+        Catch ex As LocatedCompilerException
             Assert.That(ex.Message = "There is no binary operator '+' with return type 'Boolean'.")
         End Try
     End Sub
@@ -232,7 +232,7 @@ Public Class TermTests
         Try
             term.GetDelegate()
             Assert.Fail()
-        Catch ex As CompilerException
+        Catch ex As LocatedCompilerException
             Assert.AreEqual("There is no binary operator '*' that accepts argument types 'Boolean' and 'Real'.", ex.Message)
         End Try
     End Sub

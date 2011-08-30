@@ -24,8 +24,8 @@
         _DelegateType = delegateType
     End Sub
 
-    Public Shared Function FromString(s As String, typeContext As NamedTypes) As FunctionSignature
-        Dim rest As String = Nothing
+    Public Shared Function FromString(s As LocatedString, typeContext As NamedTypes) As FunctionSignature
+        Dim rest As LocatedString = Nothing
         Dim typeAndName = CompilerTools.GetStartingTypedAndNamedVariable(text:=s, types:=typeContext, out_rest:=rest)
 
         Dim parameters = CompilerTools.GetParameters(parametersInBrackets:=rest.Trim).Select(Function(parameterText) NamedParameter.FromText(text:=parameterText, typeContext:=typeContext)).ToArray

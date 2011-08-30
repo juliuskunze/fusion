@@ -1,14 +1,14 @@
 ﻿Public Class Assignment
 
-    Protected ReadOnly _Declaration As String
-    Public ReadOnly Property Declaration As String
+    Protected ReadOnly _Declaration As LocatedString
+    Public ReadOnly Property Declaration As LocatedString
         Get
             Return _Declaration
         End Get
     End Property
 
-    Protected ReadOnly _Term As String
-    Public ReadOnly Property Term As String
+    Protected ReadOnly _Term As LocatedString
+    Public ReadOnly Property Term As LocatedString
         Get
             Return _Term
         End Get
@@ -16,10 +16,10 @@
     
     Protected ReadOnly _Context As TermContext
 
-    Public Sub New(definition As String, context As TermContext)
+    Public Sub New(definition As LocatedString, context As TermContext)
         Dim parts = definition.SplitIfSeparatorIsNotInBrackets(separator:="="c, bracketTypes:=CompilerTools.AllowedBracketTypes)
 
-        If parts.Count <> 2 Then Throw New InvalidTermException("Definition invalid.")
+        If parts.Count <> 2 Then Throw New InvalidTermException(definition, "Definition invalid.")
 
         _Declaration = parts.First
         _Term = parts.Last
@@ -29,7 +29,7 @@
 
     Public ReadOnly Property IsFunctionAssignment As Boolean
         Get
-            Return Assignment.IsConstantSignatureDefinition(_Declaration)
+            Return Assignment.IsConstantSignatureDefinition(_Declaration.ToString)
         End Get
     End Property
 

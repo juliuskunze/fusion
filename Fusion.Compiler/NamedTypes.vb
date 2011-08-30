@@ -5,10 +5,10 @@
         MyBase.New(types)
     End Sub
 
-    Public Function Parse(name As String) As NamedType
-        Dim matchingTypes = Me.Where(Function(type) type.Name = name).ToArray
+    Public Function Parse(name As LocatedString) As NamedType
+        Dim matchingTypes = Me.Where(Function(type) type.Name = name.ToString).ToArray
 
-        If Not matchingTypes.Any Then Throw New CompilerException(String.Format("Type '{0}' is not defined.", name))
+        If Not matchingTypes.Any Then Throw New LocatedCompilerException(name, message:=String.Format("Type '{0}' is not defined.", name))
 
         Return matchingTypes.Single
     End Function

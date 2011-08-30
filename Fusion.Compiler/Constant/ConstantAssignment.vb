@@ -1,7 +1,7 @@
 ﻿Public Class ConstantAssignment
     Inherits Assignment
 
-    Public Sub New(definition As String, context As TermContext)
+    Public Sub New(definition As LocatedString, context As TermContext)
         MyBase.New(definition:=definition, context:=context)
     End Sub
 

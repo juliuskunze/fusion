@@ -22,7 +22,7 @@
     Private ReadOnly _Delegate As DelegateType
     Public ReadOnly Property [Delegate] As DelegateType
         Get
-            If Not _IsDelegate Then Throw New CompilerException("The type must be a delegate type.")
+            If Not _IsDelegate Then Throw New InvalidOperationException("The type must be a delegate type.")
 
             Return _Delegate
         End Get
@@ -83,9 +83,9 @@
         Return True
     End Function
 
-    Public Shared Function NamedDelegateTypeFromString(s As String, typeContext As NamedTypes) As NamedType
+    Public Shared Function NamedDelegateTypeFromString(s As LocatedString, typeContext As NamedTypes) As NamedType
         Dim trimmed = s.Trim
-        If Not trimmed.StartsWith(Keywords.Delegate, StringComparison.OrdinalIgnoreCase) Then Throw New CompilerException("Invalid delegate declaration.")
+        If Not trimmed.ToString.StartsWith(Keywords.Delegate, StringComparison.OrdinalIgnoreCase) Then Throw New LocatedCompilerException(s, "Invalid delegate declaration.")
         Dim rest = trimmed.Substring(startIndex:=Keywords.Delegate.Count)
         Dim signature = FunctionSignature.FromString(s:=rest, typeContext:=typeContext)
 

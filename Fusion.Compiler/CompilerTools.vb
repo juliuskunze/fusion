@@ -16,7 +16,7 @@ Public Module CompilerTools
         End Get
     End Property
 
-    Public ReadOnly _AllowedBracketTypes As IEnumerable(Of BracketType) = {BracketType.Round, BracketType.Square, BracketType.Curly}
+    Private ReadOnly _AllowedBracketTypes As IEnumerable(Of BracketType) = {BracketType.Round, BracketType.Square, BracketType.Curly}
     Public ReadOnly Property AllowedBracketTypes As IEnumerable(Of BracketType)
         Get
             Return _AllowedBracketTypes
@@ -44,38 +44,38 @@ Public Module CompilerTools
         End Get
     End Property
 
-    Public Function GetParameters(ByVal parametersInBrackets As String) As IEnumerable(Of String)
-        Return GetArguments(parametersInBrackets, bracketTypes:={_ParameterBracketType})
+    Public Function GetParameters(ByVal parametersInBrackets As LocatedString) As IEnumerable(Of LocatedString)
+        Return GetArguments(parametersInBrackets, bracketType:=_ParameterBracketType)
     End Function
 
-    Public Function GetArguments(ByVal argumentsInBrackets As String) As IEnumerable(Of String)
-        Return GetArguments(argumentsInBrackets, bracketTypes:={_ArgumentBracketType})
+    Public Function GetArguments(ByVal argumentsInBrackets As LocatedString) As IEnumerable(Of LocatedString)
+        Return GetArguments(argumentsInBrackets, bracketType:=_ArgumentBracketType)
     End Function
 
-    Public Function GetTypeArguments(ByVal typeArgumentsInBrackets As String) As IEnumerable(Of String)
-        Return GetArguments(typeArgumentsInBrackets, bracketTypes:={_TypeArgumentBracketType})
+    Public Function GetTypeArguments(ByVal typeArgumentsInBrackets As LocatedString) As IEnumerable(Of LocatedString)
+        Return GetArguments(typeArgumentsInBrackets, bracketType:=_TypeArgumentBracketType)
     End Function
 
-    Public Function GetCollectionArguments(ByVal collectionArgumentsInBrackets As String) As IEnumerable(Of String)
-        Return GetArguments(collectionArgumentsInBrackets, bracketTypes:={_CollectionBracketType})
+    Public Function GetCollectionArguments(ByVal collectionArgumentsInBrackets As LocatedString) As IEnumerable(Of LocatedString)
+        Return GetArguments(collectionArgumentsInBrackets, bracketType:=_CollectionBracketType)
     End Function
 
-    Public Function GetArguments(ByVal argumentsInBrackets As String, bracketTypes As IEnumerable(Of BracketType)) As IEnumerable(Of String)
-        If Not argumentsInBrackets.IsInBrackets(bracketTypes:=bracketTypes) Then Throw New CompilerException("Invalid argument enumeration: '" & argumentsInBrackets & "'.")
+    Public Function GetArguments(ByVal argumentsInBrackets As LocatedString, bracketType As BracketType) As IEnumerable(Of LocatedString)
+        If Not argumentsInBrackets.IsInBrackets(bracketType:=bracketType) Then Throw New LocatedCompilerException(argumentsInBrackets, String.Format("Invalid argument enumeration: '{0}'.", argumentsInBrackets.ToString))
 
         Dim argumentsText = argumentsInBrackets.Substring(1, argumentsInBrackets.Length - 2)
         Return SplitIfSeparatorIsNotInBrackets(argumentsText, separator:=","c, bracketTypes:=_AllowedBracketTypes)
     End Function
 
     <Extension()>
-    Public Function SplitIfSeparatorIsNotInBrackets(s As String, separator As Char, bracketTypes As IEnumerable(Of BracketType)) As IEnumerable(Of String)
+    Public Function SplitIfSeparatorIsNotInBrackets(s As LocatedString, separator As Char, bracketTypes As IEnumerable(Of BracketType)) As IEnumerable(Of LocatedString)
         Dim inBracketsArray = s.GetCharIsInBracketsArray(bracketTypes:=_AllowedBracketTypes)
-        Dim arguments = New List(Of String)
+        Dim arguments = New List(Of LocatedString)
 
         Dim lastSplitCharIndex = -1
         For splitCharIndex = 0 To s.Length
             If splitCharIndex = s.Length OrElse
-               (s(splitCharIndex) = separator AndAlso Not inBracketsArray(splitCharIndex)) Then
+               (s.ToString(splitCharIndex) = separator AndAlso Not inBracketsArray(splitCharIndex)) Then
                 arguments.Add(s.Substring(startIndex:=lastSplitCharIndex + 1, length:=splitCharIndex - lastSplitCharIndex - 1))
                 lastSplitCharIndex = splitCharIndex
             End If
@@ -84,30 +84,26 @@ Public Module CompilerTools
     End Function
 
     <Extension()>
-    Public Function GetStartingIdentifier(s As String) As String
-        If s.Length = 0 Then Throw _IdentifierExpectedException
-        If Not s.First.IsIdentifierStartChar Then Throw _IdentifierExpectedException
+    Public Function GetStartingIdentifier(s As LocatedString) As LocatedString
+        If s.Length = 0 Then Throw New LocatedCompilerException(s, _IdentifierExpectedExceptionMessage)
+        If Not s.ToString.First.IsIdentifierStartChar Then Throw New LocatedCompilerException(s.Substring(0, 1), _IdentifierExpectedExceptionMessage)
 
         Dim nameLength = 0
-        Do While nameLength < s.Length AndAlso s(nameLength).IsIdentifierChar
+        Do While nameLength < s.Length AndAlso s.Chars(nameLength).IsIdentifierChar
             nameLength += 1
         Loop
 
-        Dim name = s.Substring(0, length:=nameLength)
-
-        If Not name.IsValidIdentifier Then Throw _IdentifierExpectedException
-
-        Return name
+        Return s.Substring(0, length:=nameLength)
     End Function
 
     <Extension()>
-    Public Function GetStartingType(s As String, types As NamedTypes, Optional ByRef out_rest As String = Nothing) As NamedType
+    Public Function GetStartingType(s As LocatedString, types As NamedTypes, Optional ByRef out_rest As LocatedString = Nothing) As NamedType
         Dim typeNameWithoutParameters = s.GetStartingIdentifier()
-        out_rest = s.Substring(startIndex:=typeNameWithoutParameters.Count).Trim
+        out_rest = s.Substring(startIndex:=typeNameWithoutParameters.ToString.Count).Trim
 
-        If out_rest.First <> _TypeArgumentBracketType.OpeningBracket Then Return types.Parse(typeNameWithoutParameters)
+        If out_rest.ToString.First <> _TypeArgumentBracketType.OpeningBracket Then Return types.Parse(typeNameWithoutParameters)
 
-        Dim charIsInBracketsArray = out_rest.GetCharIsInBracketsArray({_TypeArgumentBracketType})
+        Dim charIsInBracketsArray = out_rest.GetCharIsInBracketsArray(_TypeArgumentBracketType)
 
         Dim charsInBracketsCount = charIsInBracketsArray.Count
         For index = 0 To charIsInBracketsArray.Count - 1
@@ -120,7 +116,14 @@ Public Module CompilerTools
         Dim argumentStrings = CompilerTools.GetTypeArguments(typeArgumentsInBrackets:=out_rest.Substring(0, charsInBracketsCount))
         out_rest = out_rest.Substring(startIndex:=charsInBracketsCount)
 
-        Return types.Parse(typeNameWithoutParameters).MakeGenericType(argumentStrings.Select(Function(argumentString) types.Parse(argumentString)))
+        Dim type = types.Parse(typeNameWithoutParameters)
+        Dim typeArguments = argumentStrings.Select(Function(argumentString) types.Parse(argumentString))
+
+        Try
+            Return type.MakeGenericType(typeArguments)
+        Catch ex As CompilerException
+            Throw ex.Locate(locatedString:=s)
+        End Try
     End Function
 
     <Extension()>
@@ -138,12 +141,17 @@ Public Module CompilerTools
     End Function
 
     <Extension()>
-    Public Function GetCharIsInBracketsArray(s As String) As Boolean()
-        Return s.GetCharIsInBracketsArray(bracketTypes:={BracketType.Round})
+    Public Function GetCharIsInBracketsArray(s As LocatedString) As Boolean()
+        Return s.GetCharIsInBracketsArray(BracketType:=BracketType.Round)
     End Function
 
     <Extension()>
-    Public Function GetCharIsInBracketsArray(s As String, bracketTypes As IEnumerable(Of BracketType)) As Boolean()
+    Public Function GetCharIsInBracketsArray(s As LocatedString, bracketType As BracketType) As Boolean()
+        Return s.GetCharIsInBracketsArray(bracketTypes:={bracketType})
+    End Function
+
+    <Extension()>
+    Public Function GetCharIsInBracketsArray(s As LocatedString, bracketTypes As IEnumerable(Of BracketType)) As Boolean()
         Dim _CharIsInBrackets(s.Length - 1) As Boolean
         Dim bracketDepth = 0
         Dim openedBracketTypes = New Stack(Of BracketType)
@@ -174,27 +182,32 @@ Public Module CompilerTools
     End Function
 
     <Extension()>
-    Public Function IsInBrackets(s As String) As Boolean
-        Return s.IsInBrackets(bracketTypes:={BracketType.Round})
+    Public Function IsInBrackets(s As LocatedString) As Boolean
+        Return s.IsInBrackets(bracketType:=BracketType.Round)
     End Function
 
     <Extension()>
-    Public Function IsInBrackets(s As String, bracketTypes As IEnumerable(Of BracketType)) As Boolean
-        If s.Count < 2 Then Return False
-        If Not bracketTypes.Select(Function(bracketType) bracketType.OpeningBracket).Contains(s.First) Then Return False
-        If Not bracketTypes.Select(Function(bracketType) bracketType.ClosingBracket).Contains(s.Last) Then Return False
+    Public Function IsInBrackets(s As LocatedString, bracketType As BracketType) As Boolean
+        Return s.IsInBrackets(bracketTypes:={bracketType})
+    End Function
+
+    <Extension()>
+    Public Function IsInBrackets(s As LocatedString, bracketTypes As IEnumerable(Of BracketType)) As Boolean
+        If s.ToString.Count < 2 Then Return False
+        If Not bracketTypes.Select(Function(bracketType) bracketType.OpeningBracket).Contains(s.ToString.First) Then Return False
+        If Not bracketTypes.Select(Function(bracketType) bracketType.ClosingBracket).Contains(s.ToString.Last) Then Return False
 
         Dim charIsInBracketsArray = s.GetCharIsInBracketsArray(bracketTypes:=bracketTypes)
 
         Return charIsInBracketsArray.All(Function(inBrackets) inBrackets)
     End Function
 
-    Private ReadOnly _IdentifierExpectedException As New CompilerException("Identifier expected.")
+    Private Const _IdentifierExpectedExceptionMessage = "Identifier expected."
 
-    Public Function GetStartingTypedAndNamedVariable(text As String, types As NamedTypes, Optional ByRef out_rest As String = Nothing) As TypeAndName
+    Public Function GetStartingTypedAndNamedVariable(text As LocatedString, types As NamedTypes, Optional ByRef out_rest As LocatedString = Nothing) As TypeAndName
         Dim trim = text.TrimStart
 
-        Dim rest As String = Nothing
+        Dim rest As LocatedString = Nothing
         Dim type = CompilerTools.GetStartingType(trim, types:=types, out_rest:=rest)
 
         Dim rest2 = rest.TrimStart
@@ -202,7 +215,7 @@ Public Module CompilerTools
 
         out_rest = rest2.Substring(startIndex:=name.Length)
 
-        Return New TypeAndName(name:=name, type:=type)
+        Return New TypeAndName(name:=name.ToString, type:=type)
     End Function
 
     Public Function IdentifierEquals(a As String, b As String) As Boolean
@@ -217,6 +230,11 @@ Public Module CompilerTools
     <Extension()>
     Public Function InBrackets(s As String, bracketType As BracketType) As String
         Return bracketType.Round.OpeningBracket & s & bracketType.Round.ClosingBracket
+    End Function
+
+    <Extension()>
+    Public Function ToAnalized(s As String) As AnalizedString
+        Return New AnalizedString(s)
     End Function
 
 End Module

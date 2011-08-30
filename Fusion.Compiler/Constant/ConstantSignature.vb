@@ -20,10 +20,10 @@
         _Type = type
     End Sub
 
-    Shared Function FromText(text As String, typeContext As NamedTypes) As ConstantSignature
-        Dim rest As String = Nothing
+    Shared Function FromText(text As LocatedString, typeContext As NamedTypes) As ConstantSignature
+        Dim rest As LocatedString = Nothing
         Dim typeAndName = CompilerTools.GetStartingTypedAndNamedVariable(text:=text, types:=typeContext, out_rest:=rest)
-        If rest.Trim <> "" Then Throw New CompilerException("End of constant definition expected.")
+        If rest.Trim.ToString <> "" Then Throw New LocatedCompilerException(rest.Trim, "End of constant definition expected.")
 
         Return New ConstantSignature(Name:=typeAndName.Name, Type:=typeAndName.Type)
     End Function

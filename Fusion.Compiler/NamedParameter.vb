@@ -22,12 +22,12 @@
     End Sub
 
     Public Function ToFunctionInstance() As FunctionInstance
-        If Not _Type.IsDelegate Then Throw New CompilerException("Parameter must be a delegate.")
+        If Not _Type.IsDelegate Then Throw New InvalidOperationException("Parameter must be a delegate.")
 
         Return New FunctionInstance(signature:=New FunctionSignature(Name:=_Name, DelegateType:=_Type.Delegate), invokableExpression:=_Expression)
     End Function
 
-    Public Shared Function FromText(text As String, typeContext As NamedTypes) As NamedParameter
+    Public Shared Function FromText(text As LocatedString, typeContext As NamedTypes) As NamedParameter
         Dim signature = ConstantSignature.FromText(text:=text, typeContext:=typeContext)
         Return New NamedParameter(Name:=signature.Name, Type:=signature.Type)
     End Function

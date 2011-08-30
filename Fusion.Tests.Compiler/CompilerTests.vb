@@ -19,7 +19,7 @@
         Try
             definitions.GetResult()
             Assert.Fail()
-        Catch ex As CompilerException
+        Catch ex As LocatedCompilerException
             Assert.AreEqual("'b' is not defined in this context.", ex.Message)
         End Try
     End Sub
@@ -30,8 +30,8 @@
         Try
             definitions.GetResult()
             Assert.Fail()
-        Catch ex As CompilerException
-            Assert.AreEqual("Missing return statement.", ex.Message)
+        Catch ex As LocatedCompilerException
+            Assert.AreEqual("Identifier expected.", ex.Message)
         End Try
     End Sub
 

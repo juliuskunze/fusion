@@ -1,6 +1,6 @@
 ﻿Public Class Compiler(Of TResult)
 
-    Private _Text As String
+    Private _LocatedString As LocatedString
 
     Private ReadOnly _BaseContext As TermContext
     Public ReadOnly Property BaseContext As TermContext
@@ -11,20 +11,20 @@
 
     Private ReadOnly _ResultType As NamedType
 
-    Private _Instructions As String()
+    Private _Instructions As IEnumerable(Of LocatedString)
 
     Public Sub New(text As String, baseContext As TermContext, typeNamedTypeDictionary As TypeNamedTypeDictionary)
-        _Text = text
+        _LocatedString = text.ToAnalized.ToLocated
         _BaseContext = baseContext
         _ResultType = typeNamedTypeDictionary.GetNamedType(GetType(TResult))
-        _Instructions = _Text.Split(";"c)
+        _Instructions = _LocatedString.Split({";"c})
     End Sub
 
     Public Function GetCorrectedText() As String
-        Return _Text.TrimEnd({" "c, Microsoft.VisualBasic.ControlChars.Tab, ";"c})
+        Return _LocatedString.TrimEnd({" "c, Microsoft.VisualBasic.ControlChars.Tab, ";"c}).ToString
     End Function
 
-    Public Function GetTermContext(definitionStrings As IEnumerable(Of String)) As TermContext
+    Public Function GetTermContext(definitionStrings As IEnumerable(Of LocatedString)) As TermContext
         Dim context = _BaseContext
 
         For Each definitionString In definitionStrings
@@ -40,13 +40,13 @@
     End Function
 
     Public Function GetResult() As CompilerResult(Of TResult)
-        Dim lastNotNullInstruction = ""
+        Dim lastNotNullInstruction = _LocatedString
         Dim lastNotNullInstructionIndex = 0
 
         For instructionIndex = _Instructions.Count - 1 To 0 Step -1
             Dim instruction = _Instructions(instructionIndex)
 
-            If Not String.IsNullOrWhiteSpace(instruction) Then
+            If Not String.IsNullOrWhiteSpace(instruction.ToString) Then
                 lastNotNullInstruction = instruction
                 lastNotNullInstructionIndex = instructionIndex
                 Exit For
@@ -55,31 +55,33 @@
 
         Dim returnTermString = GetReturnTerm(lastNotNullInstruction)
 
-        Dim definitionStrings = New List(Of String)
+        Dim definitionStrings = New List(Of LocatedString)
         For index = 0 To lastNotNullInstructionIndex - 1
             definitionStrings.Add(_Instructions(index))
         Next
 
         Dim context = Me.GetTermContext(definitionStrings:=definitionStrings)
 
-        Dim returnTerm = New Term(Term:=returnTermString, Type:=_ResultType, context:=context)
-        
+        Dim returnTerm = New Term(Term:=returnTermString, TypeInformation:=New TypeInformation(_ResultType), context:=context)
+
         Return New CompilerResult(Of TResult)(result:=returnTerm.GetDelegate(Of Func(Of TResult)).Invoke, correctedText:=Me.GetCorrectedText)
     End Function
 
-    Private Shared Function GetReturnTerm(returnStatement As String) As String
+    Private Const _MissingReturnStatementExceptionMessage = "Missing return statement."
+
+    Private Shared Function GetReturnTerm(returnStatement As LocatedString) As LocatedString
         Const returnKeyword = "return"
 
-        If String.IsNullOrWhiteSpace(returnStatement) Then ThrowMissingReturnStatementException()
+        If String.IsNullOrWhiteSpace(returnStatement.ToString) Then ThrowMissingReturnStatementException()
 
         Dim trim = returnStatement.Trim
-        If Not CompilerTools.IdentifierEquals(trim.GetStartingIdentifier, returnKeyword) Then ThrowMissingReturnStatementException()
+        If Not CompilerTools.IdentifierEquals(trim.GetStartingIdentifier.ToString, returnKeyword) Then Throw New LocatedCompilerException(trim, "Return statement expected.")
 
         Return trim.Substring(startIndex:=returnKeyword.Count)
     End Function
 
     Private Shared Sub ThrowMissingReturnStatementException()
-        Throw New CompilerException("Missing return statement.")
+
     End Sub
 
 End Class
