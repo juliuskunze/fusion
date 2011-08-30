@@ -45,20 +45,42 @@ Public Class MainWindow
         _RenderBackgroundWorker.RunWorkerAsync(_RayTracerPicture)
     End Sub
 
+    Private _ApplyingTextDecorations As Boolean
+
     Private Function TryCompileRayTracerDrawerAndShowErrors() As Boolean
         _Compiler = New RelativisticRayTracerPictureCompiler(RichTextBox:=_SceneDescriptionTextBox, baseContext:=_BaseContext, TypeNamedTypeDictionary:=_RelativisticRayTracerTermContextBuilder.TypeDictionary)
         Try
             Dim compilerResult = _Compiler.GetResult
 
-            Dim document = New FlowDocument(New Paragraph(New Run(compilerResult.CorrectedText)))
-            document.IsOptimalParagraphEnabled = False
+            'Dim document = New FlowDocument(New Paragraph(New Run(compilerResult.CorrectedText)))
+            'document.IsOptimalParagraphEnabled = False
 
-            _SceneDescriptionTextBox.Document = document
+            '_SceneDescriptionTextBox.Document = document
 
             _RayTracerPicture = compilerResult.Result
         Catch ex As LocatedCompilerException
             _ErrorTextBox.Text = ex.Message
+
+            Dim startTextPointer = _SceneDescriptionTextBox.Document.ContentStart
+            Dim endTextPointer = _SceneDescriptionTextBox.Document.ContentEnd
+            Dim errorStartTextPointer = startTextPointer.GetPositionAtOffset(ex.LocatedString.StartIndex)
+            Dim errorEndTextPointer = errorStartTextPointer.GetPositionAtOffset(ex.LocatedString.Length)
+
+            Dim beforeError = New TextRange(startTextPointer, errorStartTextPointer)
+            Dim errorRange = New TextRange(errorStartTextPointer, errorEndTextPointer)
+            Dim afterError = New TextRange(errorEndTextPointer, endTextPointer)
+
+            _ApplyingTextDecorations = True
+
+            beforeError.ApplyPropertyValue(Inline.TextDecorationsProperty, _NormalTextDecorations)
+            errorRange.ApplyPropertyValue(Inline.TextDecorationsProperty, _ErrorTextDecorations)
+            afterError.ApplyPropertyValue(Inline.TextDecorationsProperty, _NormalTextDecorations)
+
+            _ApplyingTextDecorations = False
+
             Return False
+        Catch ex As CompilerException
+            _ErrorTextBox.Text = ex.Message
         End Try
 
         Return True
@@ -197,7 +219,10 @@ Public Class MainWindow
     End Sub
 
     Private Sub SceneDescriptionTextBox_TextChanged(sender As System.Object, e As System.Windows.Controls.TextChangedEventArgs) Handles _SceneDescriptionTextBox.TextChanged
+        If _ApplyingTextDecorations Then Return
+
         _SceneDescriptionTextBox.Popup.IsOpen = True
+
         Dim currentCharRect = _SceneDescriptionTextBox.Selection.Start.GetCharacterRect(LogicalDirection.Forward)
 
         _SceneDescriptionTextBox.Popup.VerticalOffset = -(_SceneDescriptionTextBox.ActualHeight - currentCharRect.Bottom)
@@ -255,10 +280,9 @@ Public Class MainWindow
 
     Private Sub CompileSceneButton_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles _CompileSceneButton.Click
         Me.TryCompileAndAdaptVisibilities()
-
-        _SceneDescriptionTextBox.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, CreateErrorTextDecorations)
     End Sub
 
+    Private Shared ReadOnly _ErrorTextDecorations As TextDecorationCollection = CreateErrorTextDecorations()
     Private Shared Function CreateErrorTextDecorations() As TextDecorationCollection
         Dim geometry = New StreamGeometry()
         Using context = geometry.Open
@@ -282,5 +306,12 @@ Public Class MainWindow
         Return collection
     End Function
 
+    Private Shared ReadOnly _NormalTextDecorations As TextDecorationCollection = CreateNormalTextDecorations()
+    Private Shared Function CreateNormalTextDecorations() As TextDecorationCollection
+        Dim collection = New TextDecorationCollection({})
+        collection.Freeze()
+
+        Return collection
+    End Function
 
 End Class

@@ -18,6 +18,12 @@
         End Get
     End Property
 
+    Public ReadOnly Property EndIndex As Integer
+        Get
+            Return _StartIndex + _Length
+        End Get
+    End Property
+
     Private ReadOnly _String As String
 
     Public Sub New(containingAnalizedString As AnalizedString, startIndex As Integer, length As Integer)
