@@ -83,6 +83,7 @@
     <Compile Include="Controls\Vector3DBox.vb" />
     <Compile Include="Compiler\RelativisticRayTracerTermContextBuilder.vb" />
     <Compile Include="Compiler\RelativisticRayTracerPictureCompiler.vb" />
+    <Compile Include="RichTextBoxExtensions.vb" />
     <Compile Include="SimpleBitmap.vb" />
     <Compile Include="Controls\TermBox.vb" />
     <Compile Include="WindowExtensions.vb" />

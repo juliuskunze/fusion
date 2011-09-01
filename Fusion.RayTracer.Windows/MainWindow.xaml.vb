@@ -60,23 +60,7 @@ Public Class MainWindow
             _RayTracerPicture = compilerResult.Result
         Catch ex As LocatedCompilerException
             _ErrorTextBox.Text = ex.Message
-
-            Dim startTextPointer = _SceneDescriptionTextBox.Document.ContentStart
-            Dim endTextPointer = _SceneDescriptionTextBox.Document.ContentEnd
-            Dim errorStartTextPointer = startTextPointer.GetPositionAtOffset(ex.LocatedString.StartIndex)
-            Dim errorEndTextPointer = errorStartTextPointer.GetPositionAtOffset(ex.LocatedString.Length)
-
-            Dim beforeError = New TextRange(startTextPointer, errorStartTextPointer)
-            Dim errorRange = New TextRange(errorStartTextPointer, errorEndTextPointer)
-            Dim afterError = New TextRange(errorEndTextPointer, endTextPointer)
-
-            _ApplyingTextDecorations = True
-
-            beforeError.ApplyPropertyValue(Inline.TextDecorationsProperty, _NormalTextDecorations)
-            errorRange.ApplyPropertyValue(Inline.TextDecorationsProperty, _ErrorTextDecorations)
-            afterError.ApplyPropertyValue(Inline.TextDecorationsProperty, _NormalTextDecorations)
-
-            _ApplyingTextDecorations = False
+            UnderlineError(ex.LocatedString)
 
             Return False
         Catch ex As CompilerException
@@ -85,6 +69,72 @@ Public Class MainWindow
 
         Return True
     End Function
+
+    Private Sub UnderlineError(ByVal locatedString As LocatedString)
+        _ApplyingTextDecorations = True
+
+        Dim document = _SceneDescriptionTextBox.Document
+
+
+        Dim startTextPointer = document.ContentStart
+        Dim endTextPointer = document.ContentEnd
+        Dim navigator = startTextPointer
+        
+        Dim runsText = ""
+
+
+        Dim contexts = New List(Of TextPointerContext)
+
+        Dim neededPosition = 0
+        Dim realPosition = 0
+        Do While navigator.CompareTo(document.ContentEnd) < 0
+            If navigator.GetPointerContext(LogicalDirection.Forward) = TextPointerContext.Text Then
+                neededPosition += 1
+            End If
+
+            realPosition += 1
+            navigator = startTextPointer.GetPositionAtOffset(realPosition)
+        Loop
+
+        'If System.Math.Abs(neededPosition - _SceneDescriptionTextBox.Text.TrimEnd.Count) > 1 Then Throw New Exception
+
+        'Dim inlines = From paragraph In _
+
+        Do While navigator.CompareTo(document.ContentEnd) < 0
+            Dim context = navigator.GetPointerContext(LogicalDirection.Backward)
+            contexts.Add(context)
+
+            Dim run = TryCast(navigator.Parent, Run)
+            If run IsNot Nothing AndAlso context = TextPointerContext.ElementStart Then
+                ' ToDo: Parse run text
+                Dim runText = run.Text
+                runsText &= runText
+                'position += runText.Last
+            End If
+
+            Dim lineBreak = TryCast(navigator.Parent, LineBreak)
+            If lineBreak IsNot Nothing Then
+                Stop
+            End If
+
+            navigator = navigator.GetNextContextPosition(LogicalDirection.Forward)
+        Loop
+
+        ' If runsText.Trim <> _SceneDescriptionTextBox.Text.Trim Then Throw New Exception
+
+        Dim errorStartTextPointer = startTextPointer.GetPositionAtOffset(locatedString.StartIndex)
+        Dim errorEndTextPointer = errorStartTextPointer.GetPositionAtOffset(locatedString.Length)
+
+        Dim beforeError = New TextRange(startTextPointer, errorStartTextPointer)
+        Dim errorRange = New TextRange(errorStartTextPointer, errorEndTextPointer)
+        Dim afterError = New TextRange(errorEndTextPointer, endTextPointer)
+
+        beforeError.ApplyPropertyValue(Inline.TextDecorationsProperty, _NormalTextDecorations)
+        errorRange.ApplyPropertyValue(Inline.TextDecorationsProperty, _ErrorTextDecorations)
+        afterError.ApplyPropertyValue(Inline.TextDecorationsProperty, _ErrorTextDecorations)
+
+        _ApplyingTextDecorations = False
+    End Sub
 
     Private Sub SaveButton_Click(sender As System.Object, e As System.EventArgs) Handles _SaveButton.Click
         If _SavePictureDialog.ShowDialog Then
