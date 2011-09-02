@@ -14,10 +14,10 @@
         End Get
     End Property
 
-    Public Sub New(expression As Expression, namedType As NamedType)
-        If Not namedType.IsDelegate AndAlso Not namedType.TypeArguments.Any AndAlso expression.Type IsNot namedType.SystemType Then Throw New ArgumentException("Expression type does not match with named type.")
+    Public Sub New(expression As Expression, expressionType As NamedType)
+        If Not expressionType.IsDelegate AndAlso Not expressionType.TypeArguments.Any AndAlso expression.Type IsNot expressionType.SystemType Then Throw New CompilerException("Expression type does not match with named type.")
         _Expression = expression
-        _NamedType = namedType
+        _NamedType = NamedType
     End Sub
 
 End Class

@@ -1,6 +1,6 @@
 ﻿Public Class Compiler(Of TResult)
 
-    Private _LocatedString As LocatedString
+    Protected _LocatedString As LocatedString
 
     Private ReadOnly _BaseContext As TermContext
     Public ReadOnly Property BaseContext As TermContext
@@ -20,10 +20,6 @@
         _Instructions = _LocatedString.Split({";"c})
     End Sub
 
-    Public Function GetCorrectedText() As String
-        Return _LocatedString.TrimEnd({" "c, Microsoft.VisualBasic.ControlChars.Tab, ";"c}).ToString
-    End Function
-
     Public Function GetTermContext(definitionStrings As IEnumerable(Of LocatedString)) As TermContext
         Dim context = _BaseContext
 
@@ -39,7 +35,7 @@
         Return context
     End Function
 
-    Public Function GetResult() As CompilerResult(Of TResult)
+    Public Function GetResult() As TResult
         Dim lastNotNullInstruction = _LocatedString
         Dim lastNotNullInstructionIndex = 0
 
@@ -64,7 +60,7 @@
 
         Dim returnTerm = New Term(Term:=returnTermString, TypeInformation:=New TypeInformation(_ResultType), context:=context)
 
-        Return New CompilerResult(Of TResult)(result:=returnTerm.GetDelegate(Of Func(Of TResult)).Invoke, correctedText:=Me.GetCorrectedText)
+        Return returnTerm.GetDelegate(Of Func(Of TResult)).Invoke
     End Function
 
     Private Const _MissingReturnStatementExceptionMessage = "Missing return statement."

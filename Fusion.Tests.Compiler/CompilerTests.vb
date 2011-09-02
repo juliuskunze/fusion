@@ -3,14 +3,14 @@
     <Test()>
     Public Sub TestConstant()
         Dim definition = New Compiler(Of Double)("Real a = 4; Real b = a/2; return b;", baseContext:=TermContext.Default, TypeNamedTypeDictionary:=TypeNamedTypeDictionary.Default)
-        Assert.AreEqual(2, definition.GetResult.Result)
+        Assert.AreEqual(2, definition.GetResult)
     End Sub
 
     <Test()>
     Public Sub TestFunction()
         Dim definition = New Compiler(Of Double)("Real square(Real x) = x^2; Real c = square{4}; return c;", baseContext:=TermContext.Default, TypeNamedTypeDictionary:=TypeNamedTypeDictionary.Default)
 
-        Assert.AreEqual(definition.GetResult.Result, 16)
+        Assert.AreEqual(definition.GetResult, 16)
     End Sub
 
     <Test()>

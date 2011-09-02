@@ -55,7 +55,7 @@
         Dim matchingConstant = _Context.TryParseConstant(_LocatedString.ToString)
         If matchingConstant Is Nothing Then Return Nothing
 
-        Me.CheckTypeMatchIfNotInfer(type:=matchingConstant.Signature.Type)
+        _TypeInformation.CheckIsAssignableFrom(type:=matchingConstant.Signature.Type)
 
         Return matchingConstant.ToExpressionWithNamedType
     End Function
@@ -64,7 +64,7 @@
         Dim matchingParameter = _Context.TryParseParameter(_LocatedString.ToString)
         If matchingParameter Is Nothing Then Return Nothing
 
-        Me.CheckTypeMatchIfNotInfer(type:=matchingParameter.Type)
+        _TypeInformation.CheckIsAssignableFrom(type:=matchingParameter.Type)
 
         Return matchingParameter.ToExpressionWithNamedType
     End Function
@@ -102,12 +102,6 @@
             Return Nothing
         End Try
     End Function
-
-    Private Sub CheckTypeMatchIfNotInfer(type As NamedType)
-        If _TypeInformation.IsInfer Then Return
-
-        If Not _TypeInformation.Type.SystemType.IsAssignableFrom(type.SystemType) Then Throw New InvalidTermException(_LocatedString, message:=String.Format("Type '{0}' is not compatible to type '{1}'.", type.Name, _TypeInformation.Type.Name))
-    End Sub
 
     Private Sub CheckDelegateTypeMatch(delegateType As DelegateType)
         If _TypeInformation.IsInfer Then Return
@@ -220,7 +214,7 @@
     End Function
 
     Private Function GetRealExpression(ByVal parsedDouble As Double) As ExpressionWithNamedType
-        Me.CheckTypeMatchIfNotInfer(NamedType.Real)
+        _TypeInformation.CheckIsAssignableFrom(NamedType.Real)
         Return Expression.Constant(type:=GetType(Double), value:=parsedDouble).WithNamedType(NamedType.Real)
     End Function
 
@@ -260,7 +254,7 @@
             'TODO: Check collection type match
             elementTypeInformation = New TypeInformation(type.TypeArguments.Single)
 
-            Me.CheckTypeMatchIfNotInfer(type:=NamedType.Collection.MakeGenericType(typeArguments:=type.TypeArguments))
+            _TypeInformation.CheckIsAssignableFrom(type:=NamedType.Collection.MakeGenericType(typeArguments:=type.TypeArguments))
         End If
 
         Dim arguments = collectionArgumentStrings.Select(Function(argumentString) New Term(Term:=argumentString, TypeInformation:=elementTypeInformation, context:=_Context).GetExpressionWithNamedType)
@@ -391,7 +385,7 @@
     End Property
 
     Private Function GetVector3DExpression() As ExpressionWithNamedType
-        Me.CheckTypeMatchIfNotInfer(NamedType.Vector3D)
+        _TypeInformation.CheckIsAssignableFrom(NamedType.Vector3D)
 
         Dim components = CompilerTools.GetArguments(_LocatedString.Trim, BracketType:=CompilerTools.VectorBracketType)
 

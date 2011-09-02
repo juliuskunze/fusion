@@ -37,6 +37,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Fusion.Compiler", "Fusion.C
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Fusion.Tests.Compiler", "Fusion.Tests.Compiler\Fusion.Tests.Compiler.vbproj", "{BEE2D0AE-80F8-4603-A3D9-2FD9DB7649C9}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Fusion.Tests.RayTracer.Windows", "Fusion.Tests.RayTracer.Windows\Fusion.Tests.RayTracer.Windows.vbproj", "{7E5FC190-D350-4335-AEE1-15A1ED6B9A0A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -227,6 +229,16 @@ Global
 		{BEE2D0AE-80F8-4603-A3D9-2FD9DB7649C9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{BEE2D0AE-80F8-4603-A3D9-2FD9DB7649C9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{BEE2D0AE-80F8-4603-A3D9-2FD9DB7649C9}.Release|x86.ActiveCfg = Release|Any CPU
+		{7E5FC190-D350-4335-AEE1-15A1ED6B9A0A}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{7E5FC190-D350-4335-AEE1-15A1ED6B9A0A}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{7E5FC190-D350-4335-AEE1-15A1ED6B9A0A}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{7E5FC190-D350-4335-AEE1-15A1ED6B9A0A}.Debug|x86.ActiveCfg = Debug|x86
+		{7E5FC190-D350-4335-AEE1-15A1ED6B9A0A}.Debug|x86.Build.0 = Debug|x86
+		{7E5FC190-D350-4335-AEE1-15A1ED6B9A0A}.Release|Any CPU.ActiveCfg = Release|x86
+		{7E5FC190-D350-4335-AEE1-15A1ED6B9A0A}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{7E5FC190-D350-4335-AEE1-15A1ED6B9A0A}.Release|Mixed Platforms.Build.0 = Release|x86
+		{7E5FC190-D350-4335-AEE1-15A1ED6B9A0A}.Release|x86.ActiveCfg = Release|x86
+		{7E5FC190-D350-4335-AEE1-15A1ED6B9A0A}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

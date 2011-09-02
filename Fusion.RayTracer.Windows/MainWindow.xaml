@@ -42,10 +42,19 @@
                                 </Grid.ColumnDefinitions>
                             </Grid>
                         </StackPanel>
-                        
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
-                            <own:AutoCompleteTextBox ToolTipService.Placement="Bottom" Margin="0" AcceptsReturn="True" x:Name="_SceneDescriptionTextBox"></own:AutoCompleteTextBox>
-                        </ScrollViewer>
+                        <RichTextBox Grid.Row="1" Margin="0" AcceptsReturn="True" Name="_SceneDescriptionTextBox" Background="#FFFFFF">
+                                <RichTextBox.Resources>
+                                    <Style TargetType="{x:Type Paragraph}">
+                                        <Setter Property="Margin" Value="0"/>
+                                    </Style>
+                                </RichTextBox.Resources>
+                                <FlowDocument PageWidth="10000">
+                                    
+                                </FlowDocument>
+                            </RichTextBox>
+                        <Popup Name="_AutoCompletitionPopup" AllowsTransparency="true" Placement="Bottom" IsOpen="False">
+                            <ListBox Name="_AutoCompletitionListBox" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" KeyboardNavigation.DirectionalNavigation="Contained"></ListBox>
+                        </Popup>
 
                         <GridSplitter HorizontalAlignment="Stretch" Grid.Row="2" Grid.ColumnSpan="1" Height="3"></GridSplitter>
                         

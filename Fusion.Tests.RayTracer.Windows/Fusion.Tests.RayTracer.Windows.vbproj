@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{7FDFF364-EE99-408F-A031-BAC91FA5F324}</ProjectGuid>
+    <ProjectGuid>{7E5FC190-D350-4335-AEE1-15A1ED6B9A0A}</ProjectGuid>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Fusion.RayTracer.Windows</RootNamespace>
-    <AssemblyName>Fusion.RayTracer.Windows</AssemblyName>
+    <RootNamespace>Fusion.Tests.RayTracer.Windows</RootNamespace>
+    <AssemblyName>Fusion.Tests.RayTracer.Windows</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <MyType>Custom</MyType>
@@ -20,7 +20,7 @@
     <DefineTrace>true</DefineTrace>
     <IncrementalBuild>true</IncrementalBuild>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>Fusion.RayTracer.Windows.xml</DocumentationFile>
+    <DocumentationFile>Fusion.Tests.RayTracer.Windows.xml</DocumentationFile>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42314</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
@@ -32,7 +32,7 @@
     <IncrementalBuild>false</IncrementalBuild>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>Fusion.RayTracer.Windows.xml</DocumentationFile>
+    <DocumentationFile>Fusion.Tests.RayTracer.Windows.xml</DocumentationFile>
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42314</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -48,9 +48,10 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="nunit.framework">
+      <HintPath>C:\Program Files\NUnit\NUnit-2.5.5.10112\bin\net-2.0\framework\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System" />
@@ -68,26 +69,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CalculateTimeOptionsDialog.xaml.vb">
-      <DependentUpon>CalculateTimeOptionsDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ColorWindow.xaml.vb">
-      <DependentUpon>ColorWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ColorExtensions.vb" />
-    <Compile Include="Compiler\TextOnlyDocument.vb" />
-    <Compile Include="Controls\IntegerTermBox.vb" />
-    <Compile Include="Controls\ValidatingTextBox.vb" />
-    <Compile Include="Controls\Vector3DBox.vb" />
-    <Compile Include="Compiler\RelativisticRayTracerTermContextBuilder.vb" />
-    <Compile Include="Compiler\RelativisticRayTracerPictureCompiler.vb" />
-    <Compile Include="SimpleBitmap.vb" />
-    <Compile Include="Controls\TermBox.vb" />
-    <Compile Include="WindowExtensions.vb" />
-    <Page Include="CalculateTimeOptionsDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Compile Include="TextOnlyDocumentTest.vb" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -100,21 +82,13 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ColorWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Import Include="Fusion.Compiler" />
-    <Import Include="Fusion.Math" />
-    <Import Include="Fusion.Physics" />
-    <Import Include="Fusion.RayTracer" />
-    <Import Include="Fusion.Visualization" />
-    <Import Include="Microsoft.Win32" />
-    <Import Include="Microsoft.Windows.Controls.Ribbon" />
+    <Import Include="Fusion.RayTracer.Windows" />
+    <Import Include="NUnit.Framework" />
     <Import Include="System.Linq" />
     <Import Include="System.Xml.Linq" />
+    <Import Include="Microsoft.VisualBasic" />
     <Import Include="System" />
     <Import Include="System.Collections" />
     <Import Include="System.Collections.Generic" />
@@ -159,44 +133,9 @@
     <AppDesigner Include="My Project\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Blue.png" />
-    <Resource Include="Images\BlueLarge.png" />
-    <Resource Include="Images\Brown.png" />
-    <Resource Include="Images\BrownLarge.png" />
-    <Resource Include="Images\Fluent.ico" />
-    <Resource Include="Images\Gray.png" />
-    <Resource Include="Images\GrayLarge.png" />
-    <Resource Include="Images\Green.png" />
-    <Resource Include="Images\GreenLarge.png" />
-    <Resource Include="Images\Orange.png" />
-    <Resource Include="Images\OrangeLarge.png" />
-    <Resource Include="Images\Pink.png" />
-    <Resource Include="Images\PinkLarge.png" />
-    <Resource Include="Images\Red.png" />
-    <Resource Include="Images\RedLarge.png" />
-    <Resource Include="Images\Yellow.png" />
-    <Resource Include="Images\YellowLarge.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Fusion.Compiler\Fusion.Compiler.vbproj">
-      <Project>{82EE6FFE-ECDD-4C2B-AE0D-9FBD0676FC32}</Project>
-      <Name>Fusion.Compiler</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Fusion.Math\Fusion.Math.vbproj">
-      <Project>{F6034AE4-65A7-49CB-9756-C13EDFA258E6}</Project>
-      <Name>Fusion.Math</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Fusion.Physics\Fusion.Physics.vbproj">
-      <Project>{74A8E394-FD08-418B-BBBE-B9FD54589B2E}</Project>
-      <Name>Fusion.Physics</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Fusion.RayTracer\Fusion.RayTracer.vbproj">
-      <Project>{85E3D12F-55C2-41DF-BC93-3E718C0BEE0E}</Project>
-      <Name>Fusion.RayTracer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Fusion.Visualization\Fusion.Visualization.vbproj">
-      <Project>{999FDCC5-C7B2-4F1E-B559-919752F9BC03}</Project>
-      <Name>Fusion.Visualization</Name>
+    <ProjectReference Include="..\Fusion.RayTracer.Windows\Fusion.RayTracer.Windows.vbproj">
+      <Project>{7FDFF364-EE99-408F-A031-BAC91FA5F324}</Project>
+      <Name>Fusion.RayTracer.Windows</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

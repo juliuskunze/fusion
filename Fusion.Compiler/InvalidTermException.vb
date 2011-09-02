@@ -6,7 +6,7 @@
     End Sub
 
     Public Sub New(term As LocatedString)
-        MyBase.New(locatedString:=term, Message:="The term is invalid: " & term.ToString)
+        MyBase.New(LocatedString:=term, Message:=String.Format("The term is invalid: '{0}'", term.ToString))
     End Sub
 
 End Class

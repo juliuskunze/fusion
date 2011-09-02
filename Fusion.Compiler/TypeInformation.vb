@@ -31,4 +31,10 @@
         End Get
     End Property
 
+    Public Sub CheckIsAssignableFrom(type As NamedType)
+        If Me.IsInfer Then Return
+
+        Me.Type.CheckIsAssignableFrom(type)
+    End Sub
+
 End Class

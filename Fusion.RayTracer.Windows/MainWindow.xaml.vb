@@ -12,10 +12,9 @@ Public Class MainWindow
     Private ReadOnly _BaseContext As TermContext = _RelativisticRayTracerTermContextBuilder.TermContext
     Private _Compiler As RelativisticRayTracerPictureCompiler
 
-
-    Private Event SceneChanged()
-
     Private ReadOnly _SavePictureDialog As New SaveFileDialog
+
+    Private _ApplyingTextDecorations As Boolean
 
     Public Sub New()
         System.Threading.Thread.CurrentThread.CurrentCulture = New System.Globalization.CultureInfo("en-US")
@@ -30,10 +29,22 @@ Public Class MainWindow
         _SavePictureDialog.Filter = "Portable Network Graphics|*.png|Bitmap|*.bmp"
         _SavePictureDialog.FileName = "ray tracing picture"
         _SavePictureDialog.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.Desktop
+
+        AddHandler Me.KeyDown, AddressOf AutoCompleteTextBox_PreviewKeyDown
+        AddHandler Me.PreviewKeyDown, AddressOf AutoCompleteTextBox_PreviewKeyDown
+        AddHandler _AutoCompletitionListBox.PreviewMouseDown, AddressOf ItemListBox_PreviewMouseDown
+        AddHandler _AutoCompletitionListBox.KeyDown, AddressOf ItemListBox_KeyDown
+        AddHandler _AutoCompletitionListBox.SelectionChanged, AddressOf ItemList_SelectionChanged
+        _Loaded = True
+
+        _SceneDescriptionTextBox.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
+        _SceneDescriptionTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Visible
+
+        _AutoCompletitionPopup.PlacementTarget = _SceneDescriptionTextBox
     End Sub
 
     Private Sub RenderButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _RenderButton.Click
-        If Not Me.TryCompileRayTracerDrawerAndShowErrors Then Return
+        If Not Me.TryCompileAndShowErrors Then Return
 
         _RenderButton.Visibility = Visibility.Collapsed
         _RenderCancelButton.Visibility = Visibility.Visible
@@ -45,96 +56,24 @@ Public Class MainWindow
         _RenderBackgroundWorker.RunWorkerAsync(_RayTracerPicture)
     End Sub
 
-    Private _ApplyingTextDecorations As Boolean
-
-    Private Function TryCompileRayTracerDrawerAndShowErrors() As Boolean
+    Private Function TryCompileAndShowErrors() As Boolean
         _Compiler = New RelativisticRayTracerPictureCompiler(RichTextBox:=_SceneDescriptionTextBox, baseContext:=_BaseContext, TypeNamedTypeDictionary:=_RelativisticRayTracerTermContextBuilder.TypeDictionary)
-        Try
-            Dim compilerResult = _Compiler.GetResult
 
-            'Dim document = New FlowDocument(New Paragraph(New Run(compilerResult.CorrectedText)))
-            'document.IsOptimalParagraphEnabled = False
-
-            '_SceneDescriptionTextBox.Document = document
-
-            _RayTracerPicture = compilerResult.Result
-        Catch ex As LocatedCompilerException
-            _ErrorTextBox.Text = ex.Message
-            UnderlineError(ex.LocatedString)
-
-            Return False
-        Catch ex As CompilerException
-            _ErrorTextBox.Text = ex.Message
-        End Try
-
-        Return True
-    End Function
-
-    Private Sub UnderlineError(ByVal locatedString As LocatedString)
         _ApplyingTextDecorations = True
-
-        Dim document = _SceneDescriptionTextBox.Document
-
-
-        Dim startTextPointer = document.ContentStart
-        Dim endTextPointer = document.ContentEnd
-        Dim navigator = startTextPointer
-        
-        Dim runsText = ""
-
-
-        Dim contexts = New List(Of TextPointerContext)
-
-        Dim neededPosition = 0
-        Dim realPosition = 0
-        Do While navigator.CompareTo(document.ContentEnd) < 0
-            If navigator.GetPointerContext(LogicalDirection.Forward) = TextPointerContext.Text Then
-                neededPosition += 1
-            End If
-
-            realPosition += 1
-            navigator = startTextPointer.GetPositionAtOffset(realPosition)
-        Loop
-
-        'If System.Math.Abs(neededPosition - _SceneDescriptionTextBox.Text.TrimEnd.Count) > 1 Then Throw New Exception
-
-        'Dim inlines = From paragraph In _
-
-        Do While navigator.CompareTo(document.ContentEnd) < 0
-            Dim context = navigator.GetPointerContext(LogicalDirection.Backward)
-            contexts.Add(context)
-
-            Dim run = TryCast(navigator.Parent, Run)
-            If run IsNot Nothing AndAlso context = TextPointerContext.ElementStart Then
-                ' ToDo: Parse run text
-                Dim runText = run.Text
-                runsText &= runText
-                'position += runText.Last
-            End If
-
-            Dim lineBreak = TryCast(navigator.Parent, LineBreak)
-            If lineBreak IsNot Nothing Then
-                Stop
-            End If
-
-            navigator = navigator.GetNextContextPosition(LogicalDirection.Forward)
-        Loop
-
-        ' If runsText.Trim <> _SceneDescriptionTextBox.Text.Trim Then Throw New Exception
-
-        Dim errorStartTextPointer = startTextPointer.GetPositionAtOffset(locatedString.StartIndex)
-        Dim errorEndTextPointer = errorStartTextPointer.GetPositionAtOffset(locatedString.Length)
-
-        Dim beforeError = New TextRange(startTextPointer, errorStartTextPointer)
-        Dim errorRange = New TextRange(errorStartTextPointer, errorEndTextPointer)
-        Dim afterError = New TextRange(errorEndTextPointer, endTextPointer)
-
-        beforeError.ApplyPropertyValue(Inline.TextDecorationsProperty, _NormalTextDecorations)
-        errorRange.ApplyPropertyValue(Inline.TextDecorationsProperty, _ErrorTextDecorations)
-        afterError.ApplyPropertyValue(Inline.TextDecorationsProperty, _ErrorTextDecorations)
-
+        Dim compilerResult = _Compiler.CompileAndShowErrors
         _ApplyingTextDecorations = False
-    End Sub
+
+        'Dim document = New FlowDocument(New Paragraph(New Run(compilerResult.CorrectedText)))
+        '_SceneDescriptionTextBox.Document = document
+
+        If compilerResult.WasCompilationSuccessful Then
+            _RayTracerPicture = compilerResult.Result
+        Else
+            _ErrorTextBox.Text = compilerResult.ErrorMessage
+        End If
+
+        Return compilerResult.WasCompilationSuccessful
+    End Function
 
     Private Sub SaveButton_Click(sender As System.Object, e As System.EventArgs) Handles _SaveButton.Click
         If _SavePictureDialog.ShowDialog Then
@@ -150,7 +89,7 @@ Public Class MainWindow
     End Sub
 
     Private Sub CalculateNeededTimeButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _CalculateNeededTimeButton.Click
-        If Not Me.TryCompileRayTracerDrawerAndShowErrors() Then Return
+        If Not Me.TryCompileAndShowErrors() Then Return
         If Not _CalculateTimeOptionsDialog.DialogResult Then Return
 
         Dim size = _RayTracerPicture.PictureSize
@@ -269,14 +208,17 @@ Public Class MainWindow
     End Sub
 
     Private Sub SceneDescriptionTextBox_TextChanged(sender As System.Object, e As System.Windows.Controls.TextChangedEventArgs) Handles _SceneDescriptionTextBox.TextChanged
+        If Not _Loaded Then Return
         If _ApplyingTextDecorations Then Return
 
-        _SceneDescriptionTextBox.Popup.IsOpen = True
+        Me.TryCompileAndAdaptVisibilities()
+
+        _AutoCompletitionPopup.IsOpen = True
 
         Dim currentCharRect = _SceneDescriptionTextBox.Selection.Start.GetCharacterRect(LogicalDirection.Forward)
 
-        _SceneDescriptionTextBox.Popup.VerticalOffset = -(_SceneDescriptionTextBox.ActualHeight - currentCharRect.Bottom)
-        _SceneDescriptionTextBox.Popup.HorizontalOffset = currentCharRect.Left
+        _AutoCompletitionPopup.VerticalOffset = -(_SceneDescriptionTextBox.ActualHeight - currentCharRect.Bottom)
+        _AutoCompletitionPopup.HorizontalOffset = currentCharRect.Left
 
         Dim listBoxItems = New List(Of ListBoxItem)
         For i = 0 To 3
@@ -293,17 +235,11 @@ Public Class MainWindow
 
             listBoxItems.Add(listBoxItem)
         Next
-        _SceneDescriptionTextBox.ListBox.ItemsSource = listBoxItems
-
-        RaiseEvent SceneChanged()
-    End Sub
-
-    Private Sub MainWindow_SceneChanged() Handles Me.SceneChanged
-        Me.TryCompileAndAdaptVisibilities()
+        _AutoCompletitionListBox.ItemsSource = listBoxItems
     End Sub
 
     Private Sub TryCompileAndAdaptVisibilities()
-        Me.RenderingTabItemsVisible = Me.TryCompileRayTracerDrawerAndShowErrors()
+        Me.RenderingTabItemsVisible = Me.TryCompileAndShowErrors()
     End Sub
 
     Private Property RenderingTabItemsVisible As Boolean
@@ -332,36 +268,74 @@ Public Class MainWindow
         Me.TryCompileAndAdaptVisibilities()
     End Sub
 
-    Private Shared ReadOnly _ErrorTextDecorations As TextDecorationCollection = CreateErrorTextDecorations()
-    Private Shared Function CreateErrorTextDecorations() As TextDecorationCollection
-        Dim geometry = New StreamGeometry()
-        Using context = geometry.Open
-            context.BeginFigure(New Point(0.0, 0.0), False, False)
-            context.PolyLineTo({New Point(0.75, 0.75), New Point(1.5, 0.0), New Point(2.25, 0.75), New Point(3.0, 0.0)}, True, True)
-        End Using
+    Private _Loaded As Boolean
 
-        Dim brushPattern = New GeometryDrawing() With {.Pen = New Pen(Brushes.Blue, 0.2), .Geometry = geometry}
+    Private Sub AutoCompleteTextBox_PreviewKeyDown(sender As Object, e As KeyEventArgs)
+        If TypeOf e.OriginalSource Is ListBoxItem Then Return
 
+        If e.Key <> Key.Down OrElse _AutoCompletitionListBox.Items.Count = 0 Then Return
 
-        Dim brush = New DrawingBrush(brushPattern) With {.TileMode = TileMode.Tile, .Viewport = New Rect(0.0, 1.5, 9.0, 3.0), .ViewportUnits = BrushMappingMode.Absolute}
+        _AutoCompletitionListBox.Focus()
+        _AutoCompletitionListBox.SelectedIndex = 0
+        Dim listboxItem = TryCast(_AutoCompletitionListBox.ItemContainerGenerator.ContainerFromIndex(_AutoCompletitionListBox.SelectedIndex), ListBoxItem)
+        listboxItem.Focus()
+        e.Handled = True
+    End Sub
 
-        Dim pen = New Pen(brush, 3.0)
-        pen.Freeze()
+    Private Sub AutoCompleteTextBox_KeyDown(sender As Object, e As KeyEventArgs)
+        Select Case e.Key
+            Case Key.Escape
+                Me.ClosePopup()
+                e.Handled = True
+        End Select
+    End Sub
 
-        Dim textDecoration = New TextDecoration With {.Pen = pen}
+    Private Sub ItemListBox_KeyDown(sender As Object, e As KeyEventArgs)
+        If Not TypeOf e.OriginalSource Is ListBoxItem Then Return
 
-        Dim collection = New TextDecorationCollection({textDecoration})
-        collection.Freeze()
+        Select Case e.Key
+            Case Key.Tab, Key.Enter
+                Me.ClosePopupAndUpdateSource()
+            Case Key.Escape
+                Me.ClosePopup()
+                e.Handled = True
+        End Select
+    End Sub
 
-        Return collection
-    End Function
+    Private Sub ItemListBox_PreviewMouseDown(sender As Object, e As MouseButtonEventArgs)
+        If e.LeftButton <> MouseButtonState.Pressed Then Return
 
-    Private Shared ReadOnly _NormalTextDecorations As TextDecorationCollection = CreateNormalTextDecorations()
-    Private Shared Function CreateNormalTextDecorations() As TextDecorationCollection
-        Dim collection = New TextDecorationCollection({})
-        collection.Freeze()
+        Dim tb = TryCast(e.OriginalSource, TextBlock)
+        If tb Is Nothing Then Return
 
-        Return collection
-    End Function
+        If e.ClickCount = 2 Then
+            Me.ClosePopupAndUpdateSource()
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub ClosePopupAndUpdateSource()
+        Me.ClosePopup()
+        Dim selected = CStr(DirectCast(_AutoCompletitionListBox.SelectedItem, ListBoxItem).Content)
+
+        _SceneDescriptionTextBox.AppendText(selected)
+    End Sub
+
+    Private Sub ClosePopup()
+        _AutoCompletitionPopup.IsOpen = False
+        For Each listBoxItemObj In _AutoCompletitionListBox.Items
+            Dim listBoxItem = CType(listBoxItemObj, ListBoxItem)
+            Dim toolTip = CType(listBoxItem.ToolTip, ToolTip)
+            toolTip.IsOpen = False
+        Next
+    End Sub
+
+    Private Sub ItemList_SelectionChanged(sender As Object, e As SelectionChangedEventArgs)
+        For Each listBoxItemObj In _AutoCompletitionListBox.Items
+            Dim listBoxItem = CType(listBoxItemObj, ListBoxItem)
+            Dim toolTip = CType(listBoxItem.ToolTip, ToolTip)
+            toolTip.IsOpen = listBoxItem.IsSelected
+        Next
+    End Sub
 
 End Class
