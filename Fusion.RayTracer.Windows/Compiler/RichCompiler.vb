@@ -5,6 +5,7 @@ Public Class RichCompiler(Of TResult)
     Public Property TypeNamedTypeDictionary As TypeNamedTypeDictionary
     Private WithEvents _RichTextBox As RichTextBox
     Private ReadOnly _AutoCompletePopup As Popup
+    Private ReadOnly _AutoCompleteListBox As ListBox
     Private ReadOnly _BaseContext As TermContext
 
     Private _ApplyingTextDecorations As Boolean
@@ -17,6 +18,7 @@ Public Class RichCompiler(Of TResult)
         _RichTextBox = richTextBox
         _TypeNamedTypeDictionary = typeNamedTypeDictionary
         _AutoCompletePopup = autoCompletePopup
+        _AutoCompleteListBox = autoCompleteListBox
         _BaseContext = baseContext
 
         Dim pasteCommandBinding = New CommandBinding(ApplicationCommands.Paste, AddressOf OnPaste, AddressOf OnCanExecutePaste)
@@ -51,10 +53,14 @@ Public Class RichCompiler(Of TResult)
 
         Dim compiler = New Compiler(Of TResult)(Text:=textOnlyDocument.Text, baseContext:=_BaseContext, TypeNamedTypeDictionary:=TypeNamedTypeDictionary, cursorPosition:=textOnlyDocument.GetIndex(_RichTextBox.Selection.Start))
 
+        Dim richCompilerResult As RichCompilerResult(Of TResult) = Nothing
+        Dim intelliSense As IntelliSense = Nothing
+
         Try
             Dim compilerResult = compiler.GetResult
 
-            RaiseEvent Compiled(Me, New CompilerResultEventArgs(Of TResult)(New RichCompilerResult(Of TResult)(compilerResult.Result)))
+            intelliSense = compilerResult.IntelliSense
+            richCompilerResult = New RichCompilerResult(Of TResult)(compilerResult.Result)
         Catch ex As CompilerExceptionWithCursorTermContext
             Dim locatedEx = TryCast(ex.InnerCompilerExcpetion, LocatedCompilerException)
             If locatedEx IsNot Nothing Then
@@ -63,8 +69,23 @@ Public Class RichCompiler(Of TResult)
                 RemoveTextDecorations()
             End If
 
-            RaiseEvent Compiled(Me, New CompilerResultEventArgs(Of TResult)(New RichCompilerResult(Of TResult)(ex.InnerCompilerExcpetion.Message)))
+            intelliSense = New IntelliSense(TermContext:=ex.CursorTermContext, filter:=CompilerTools.GetSurroundingIdentifier(textOnlyDocument.Text, textOnlyDocument.GetIndex(_RichTextBox.Selection.Start)))
+            richCompilerResult = New RichCompilerResult(Of TResult)(ex.InnerCompilerExcpetion.Message)
+        Finally
+            _AutoCompletePopup.IsOpen = True
+
+            Dim currentCharRect = _RichTextBox.Selection.Start.GetCharacterRect(LogicalDirection.Forward)
+
+            _AutoCompletePopup.VerticalOffset = -(_RichTextBox.ActualHeight - currentCharRect.Bottom)
+            _AutoCompletePopup.HorizontalOffset = currentCharRect.Left
+
+            _AutoCompleteListBox.ItemsSource = intelliSense.GetExpressionItems.Select(Function(intelliSenseItem) intelliSenseItem.ToListBoxItem).ToArray
+
+            RaiseEvent Compiled(Me, New CompilerResultEventArgs(Of TResult)(richCompilerResult))
         End Try
+
+
+        
     End Sub
 
     Private Sub UnderlineError(ByVal locatedString As LocatedString, textOnlyDocument As TextOnlyDocument)
@@ -109,7 +130,8 @@ Public Class RichCompiler(Of TResult)
         Dim brushPattern = New GeometryDrawing With {.Pen = New Pen(Brushes.Blue, 0.2), .Geometry = geometry}
 
 
-        Dim brush = New DrawingBrush(brushPattern) With {.TileMode = TileMode.Tile, .Viewport = New Rect(0, 0.7, 9, 3), .ViewportUnits = BrushMappingMode.Absolute}
+        'y = 0.7 for default font
+        Dim brush = New DrawingBrush(brushPattern) With {.TileMode = TileMode.Tile, .Viewport = New Rect(0, -1, 9, 3), .ViewportUnits = BrushMappingMode.Absolute}
 
         Dim pen = New Pen(brush, 3.0)
         pen.Freeze()

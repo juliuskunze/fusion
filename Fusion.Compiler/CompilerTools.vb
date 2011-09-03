@@ -237,4 +237,54 @@ Public Module CompilerTools
         Return New AnalizedString(s)
     End Function
 
+    Public Function GetSurroundingIdentifier(s As String, index As Integer) As String
+        If index < 0 OrElse index > s.Length Then Throw New ArgumentOutOfRangeException("index")
+
+        Dim startIndex = 0
+        Dim endIndex = s.Length
+
+        If s = "" Then Return ""
+
+        If index = 0 Then
+            For i = 0 To s.Length - 1
+                If Not s(i).IsIdentifierChar Then
+                    endIndex = i
+                    Exit For
+                End If
+            Next
+
+            If Not s(startIndex).IsIdentifierStartChar Then Return ""
+        ElseIf index = s.Length OrElse Not s(index).IsIdentifierChar Then
+            endIndex = index
+
+            For i = index - 1 To 0 Step -1
+                If Not s(i).IsIdentifierChar Then
+                    startIndex = i + 1
+                    Exit For
+                End If
+            Next
+
+
+        Else
+
+            For i = index To 0 Step -1
+                If Not s(i).IsIdentifierChar Then
+                    startIndex = i + 1
+                    Exit For
+                End If
+            Next
+
+            For i = index + 1 To s.Length - 1
+                If Not s(i).IsIdentifierChar Then
+                    endIndex = i
+                    Exit For
+                End If
+            Next
+        End If
+
+        If startIndex < s.Length - 1 AndAlso Not s(startIndex).IsIdentifierStartChar Then Return ""
+
+        Return s.Substring(startIndex:=startIndex, length:=endIndex - startIndex)
+    End Function
+
 End Module

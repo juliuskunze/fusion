@@ -7,16 +7,16 @@
         End Get
     End Property
 
-    Private ReadOnly _CursorTermContext As TermContext
-    Public ReadOnly Property CursorTermContext As TermContext
+    Private ReadOnly _IntelliSense As IntelliSense
+    Public ReadOnly Property IntelliSense As IntelliSense
         Get
-            Return _CursorTermContext
+            Return _IntelliSense
         End Get
     End Property
 
-    Public Sub New(result As TResult, cursorTermContext As TermContext)
+    Public Sub New(result As TResult, intelliSense As IntelliSense)
         _Result = result
-        _CursorTermContext = cursorTermContext
+        _IntelliSense = intelliSense
     End Sub
 
 End Class

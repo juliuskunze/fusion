@@ -41,7 +41,7 @@
                                 </Grid.ColumnDefinitions>
                             </Grid>
                         </StackPanel>
-                        <RichTextBox Grid.Row="1" Margin="0" AcceptsReturn="True" Name="_SceneDescriptionTextBox" Background="#FFFFFF">
+                        <RichTextBox FontFamily="Consolas" Grid.Row="1" Margin="0" AcceptsReturn="True" Name="_SceneDescriptionTextBox" Background="#FFFFFF">
                             <RichTextBox.LayoutTransform>
                                 <ScaleTransform ScaleX="5" ScaleY="5"/>
                             </RichTextBox.LayoutTransform>

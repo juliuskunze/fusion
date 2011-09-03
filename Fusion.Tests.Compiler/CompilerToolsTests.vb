@@ -43,4 +43,15 @@
         Assert.AreEqual(" (3,4)", rest.ToString)
     End Sub
 
+    <Test()>
+    Public Sub TestGetSurroundingIdentifier()
+        Assert.AreEqual(CompilerTools.GetSurroundingIdentifier("A B ABC2", index:=6), "ABC2")
+        Assert.AreEqual(CompilerTools.GetSurroundingIdentifier("A B ABC2 ", index:=6), "ABC2")
+        Assert.AreEqual(CompilerTools.GetSurroundingIdentifier("AB2 ", index:=1), "AB2")
+        Assert.AreEqual(CompilerTools.GetSurroundingIdentifier("A", index:=1), "A")
+        Assert.AreEqual(CompilerTools.GetSurroundingIdentifier("A ", index:=1), "A")
+        Assert.AreEqual(CompilerTools.GetSurroundingIdentifier("A", index:=0), "A")
+        Assert.AreEqual(CompilerTools.GetSurroundingIdentifier(" A", index:=1), "A")
+    End Sub
+
 End Class

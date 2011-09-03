@@ -286,6 +286,8 @@
             End Select
         Next
 
+        out_firstNotSignIndex = _LocatedString.Length
+
         Return (minusCountAtStart Mod 2 = 0)
     End Function
 

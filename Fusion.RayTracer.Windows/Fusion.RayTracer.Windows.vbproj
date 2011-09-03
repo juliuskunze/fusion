@@ -83,8 +83,6 @@
     <Compile Include="Controls\Vector3DBox.vb" />
     <Compile Include="Compiler\RelativisticRayTracerTermContextBuilder.vb" />
     <Compile Include="Compiler\RichCompiler.vb" />
-    <Compile Include="Compiler\IntelliSense\IntelliSense.vb" />
-    <Compile Include="Compiler\IntelliSense\IntelliSenseItem.vb" />
     <Compile Include="SimpleBitmap.vb" />
     <Compile Include="Controls\TermBox.vb" />
     <Compile Include="WindowExtensions.vb" />

@@ -37,7 +37,8 @@
                 If Not instruction.Trim.ToString.Any Then Continue For
 
                 If IsReturnTerm(instruction) Then
-                    Return New CompilerResult(Of TResult)(New Term(Term:=GetReturnTerm(instruction), TypeInformation:=New TypeInformation(_ResultType), context:=context).GetDelegate(Of Func(Of TResult)).Invoke, cursorTermContext:=cursorTermContext)
+                    Dim surroundingIdentifier = CompilerTools.GetSurroundingIdentifier(_LocatedString.ContainingAnalizedString.Text, index:=_CursorPosition)
+                    Return New CompilerResult(Of TResult)(New Term(Term:=GetReturnTerm(instruction), TypeInformation:=New TypeInformation(_ResultType), context:=context).GetDelegate(Of Func(Of TResult)).Invoke, IntelliSense:=New IntelliSense(cursorTermContext, surroundingIdentifier))
                 End If
 
                 Dim definition = New Assignment(definition:=instruction, context:=context)
