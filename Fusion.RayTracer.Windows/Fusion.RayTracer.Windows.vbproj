@@ -75,6 +75,7 @@
       <DependentUpon>ColorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ColorExtensions.vb" />
+    <Compile Include="CompilerResultEventArgs.vb" />
     <Compile Include="Compiler\RichCompilerResult.vb" />
     <Compile Include="Compiler\TextOnlyDocument.vb" />
     <Compile Include="Controls\IntegerTermBox.vb" />

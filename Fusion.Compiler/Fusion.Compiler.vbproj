@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnalizedString.vb" />
+    <Compile Include="CompilerExceptionWithCursorTermContext.vb" />
     <Compile Include="CompilerResult.vb" />
     <Compile Include="LocatedString.vb" />
     <Compile Include="BinaryOperatorArgumentTypesInformation.vb" />

@@ -16,11 +16,6 @@
     Public Sub New(text As String, allowedBracketTypes As IEnumerable(Of BracketType))
         _Text = text
         _AllowedBracketTypes = allowedBracketTypes
-        Me.Analize()
-    End Sub
-
-    Private Sub Analize()
-
     End Sub
 
     Public Function ToLocated() As LocatedString
@@ -29,6 +24,10 @@
 
     Public Overrides Function ToString() As String
         Return _Text
+    End Function
+
+    Public Function SurroundingIdentifier() As String
+
     End Function
 
 End Class

@@ -97,7 +97,11 @@
     End Sub
 
     Public Function GetIndex(textPointer As TextPointer) As Integer
-        Dim run = CType(textPointer.Parent, Run)
+        Dim parent = textPointer.Parent
+
+        If TypeOf parent Is FlowDocument Then Return 0
+
+        Dim run = CType(parent, Run)
 
         Dim position = run.ContentStart.GetOffsetToPosition(textPointer)
 

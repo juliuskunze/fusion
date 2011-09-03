@@ -23,25 +23,35 @@
         _Instructions = _LocatedString.Split({";"c})
     End Sub
 
-    Public Function GetResult() As TResult
+    Public Function GetResult() As CompilerResult(Of TResult)
         Dim context = _BaseContext
 
-        For Each instruction In _Instructions
-            If Not instruction.Trim.ToString.Any Then Continue For
+        Dim cursorTermContext = context
 
-            If IsReturnTerm(instruction) Then
-                Return New Term(Term:=GetReturnTerm(instruction), TypeInformation:=New TypeInformation(_ResultType), context:=context).GetDelegate(Of Func(Of TResult)).Invoke
-            End If
+        Try
+            For Each instruction In _Instructions
+                If instruction.Contains(_CursorPosition) Then
+                    cursorTermContext = context
+                End If
 
-            Dim definition = New Assignment(definition:=instruction, context:=context)
-            If definition.IsFunctionAssignment Then
-                context = context.Merge(New TermContext(Functions:={New FunctionAssignment(definition:=instruction, context:=context).GetFunctionInstance}))
-            Else
-                context = context.Merge(New TermContext(constants:={New ConstantAssignment(definition:=instruction, context:=context).GetNamedConstantExpression}))
-            End If
-        Next
+                If Not instruction.Trim.ToString.Any Then Continue For
 
-        Throw New CompilerException("Missing return statement.")
+                If IsReturnTerm(instruction) Then
+                    Return New CompilerResult(Of TResult)(New Term(Term:=GetReturnTerm(instruction), TypeInformation:=New TypeInformation(_ResultType), context:=context).GetDelegate(Of Func(Of TResult)).Invoke, cursorTermContext:=cursorTermContext)
+                End If
+
+                Dim definition = New Assignment(definition:=instruction, context:=context)
+                If definition.IsFunctionAssignment Then
+                    context = context.Merge(New TermContext(Functions:={New FunctionAssignment(definition:=instruction, context:=context).GetFunctionInstance}))
+                Else
+                    context = context.Merge(New TermContext(constants:={New ConstantAssignment(definition:=instruction, context:=context).GetNamedConstantExpression}))
+                End If
+            Next
+        Catch ex As CompilerException
+            Throw ex.WithCursorTermContext(cursorTermContext)
+        End Try
+
+        Throw New CompilerException("Missing return statement.").WithCursorTermContext(cursorTermContext)
     End Function
 
     Const _ReturnKeyword = "return"

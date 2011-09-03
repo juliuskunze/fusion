@@ -101,7 +101,7 @@ Public Module CompilerTools
         Dim typeNameWithoutParameters = s.GetStartingIdentifier()
         out_rest = s.Substring(startIndex:=typeNameWithoutParameters.ToString.Count).Trim
 
-        If out_rest.ToString.First <> _TypeArgumentBracketType.OpeningBracket Then Return types.Parse(typeNameWithoutParameters)
+        If out_rest.ToString.Any AndAlso out_rest.ToString.First <> _TypeArgumentBracketType.OpeningBracket Then Return types.Parse(typeNameWithoutParameters)
 
         Dim charIsInBracketsArray = out_rest.GetCharIsInBracketsArray(_TypeArgumentBracketType)
 

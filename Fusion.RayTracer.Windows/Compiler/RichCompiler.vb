@@ -1,35 +1,78 @@
-﻿Public Class RichCompiler(Of TResult)
-    Inherits Compiler(Of TResult)
+﻿Imports System.Windows.Controls.Primitives
 
-    Private ReadOnly _TextOnlyDocument As TextOnlyDocument
-    Private ReadOnly _RichTextBox As RichTextBox
+Public Class RichCompiler(Of TResult)
 
-    Public Sub New(richTextBox As RichTextBox, baseContext As TermContext, typeNamedTypeDictionary As TypeNamedTypeDictionary)
-        Me.New(TextOnlyDocument:=New TextOnlyDocument(richTextBox.Document), richTextBox:=richTextBox, baseContext:=baseContext, typeNamedTypeDictionary:=typeNamedTypeDictionary)
+    Public Property TypeNamedTypeDictionary As TypeNamedTypeDictionary
+    Private WithEvents _RichTextBox As RichTextBox
+    Private ReadOnly _AutoCompletePopup As Popup
+    Private ReadOnly _BaseContext As TermContext
 
-    End Sub
+    Private _ApplyingTextDecorations As Boolean
 
-    Private Sub New(textOnlyDocument As TextOnlyDocument, richTextBox As RichTextBox, baseContext As TermContext, typeNamedTypeDictionary As TypeNamedTypeDictionary)
-        MyBase.New(Text:=textOnlyDocument.Text, baseContext:=baseContext, typeNamedTypeDictionary:=typeNamedTypeDictionary, cursorPosition:=textOnlyDocument.GetIndex(richTextBox.Selection.Start))
-        _TextOnlyDocument = textOnlyDocument
+    Public Sub New(richTextBox As RichTextBox,
+                   autoCompletePopup As Popup,
+                   autoCompleteListBox As ListBox,
+                   baseContext As TermContext,
+                   typeNamedTypeDictionary As TypeNamedTypeDictionary)
         _RichTextBox = richTextBox
+        _TypeNamedTypeDictionary = typeNamedTypeDictionary
+        _AutoCompletePopup = autoCompletePopup
+        _BaseContext = baseContext
+
+        Dim pasteCommandBinding = New CommandBinding(ApplicationCommands.Paste, AddressOf OnPaste, AddressOf OnCanExecutePaste)
+        _RichTextBox.CommandBindings.Add(pasteCommandBinding)
     End Sub
 
-    Public Function CompileAndShowErrors() As RichCompilerResult(Of TResult)
+    Private Sub OnPaste(sender As Object, e As ExecutedRoutedEventArgs)
+        If sender IsNot _RichTextBox Then Return
+
+        Dim dataObject = Clipboard.GetDataObject
+        If dataObject Is Nothing Then Return
+
+        Dim clipboardString = CType(dataObject.GetData(GetType(String)), String)
+
+        e.Handled = True
+
+        If clipboardString IsNot Nothing Then
+            Clipboard.SetDataObject(clipboardString, True)
+
+            _RichTextBox.Paste()
+            _RichTextBox.InvalidateVisual()
+        End If
+    End Sub
+
+    Private Sub OnCanExecutePaste(target As Object, e As CanExecuteRoutedEventArgs)
+        e.CanExecute = target Is _RichTextBox
+    End Sub
+
+
+    Public Sub Compile()
+        Dim textOnlyDocument = New TextOnlyDocument(_RichTextBox.Document)
+
+        Dim compiler = New Compiler(Of TResult)(Text:=textOnlyDocument.Text, baseContext:=_BaseContext, TypeNamedTypeDictionary:=TypeNamedTypeDictionary, cursorPosition:=textOnlyDocument.GetIndex(_RichTextBox.Selection.Start))
+
         Try
-            Return New RichCompilerResult(Of TResult)(MyBase.GetResult)
-        Catch ex As CompilerException
-            Dim locatedEx = TryCast(ex, LocatedCompilerException)
-            If locatedEx IsNot Nothing Then UnderlineError(locatedEx.LocatedString)
+            Dim compilerResult = compiler.GetResult
 
-            Return New RichCompilerResult(Of TResult)(ex.Message)
+            RaiseEvent Compiled(Me, New CompilerResultEventArgs(Of TResult)(New RichCompilerResult(Of TResult)(compilerResult.Result)))
+        Catch ex As CompilerExceptionWithCursorTermContext
+            Dim locatedEx = TryCast(ex.InnerCompilerExcpetion, LocatedCompilerException)
+            If locatedEx IsNot Nothing Then
+                UnderlineError(locatedEx.LocatedString, textOnlyDocument)
+            Else
+                RemoveTextDecorations()
+            End If
+
+            RaiseEvent Compiled(Me, New CompilerResultEventArgs(Of TResult)(New RichCompilerResult(Of TResult)(ex.InnerCompilerExcpetion.Message)))
         End Try
-    End Function
+    End Sub
 
-    Private Sub UnderlineError(ByVal locatedString As LocatedString)
+    Private Sub UnderlineError(ByVal locatedString As LocatedString, textOnlyDocument As TextOnlyDocument)
+        _ApplyingTextDecorations = True
+
         Dim length = If(locatedString.Length > 0, locatedString.Length, If(locatedString.ContainingAnalizedString.ToLocated.Contains(locatedString.EndIndex + 1), 1, 0))
 
-        Dim errorLocation = _TextOnlyDocument.GetTextRange(startIndex:=locatedString.StartIndex, length:=length)
+        Dim errorLocation = textOnlyDocument.GetTextRange(startIndex:=locatedString.StartIndex, length:=length)
         Dim startTextPointer = _RichTextBox.Document.ContentStart
         Dim endTextPointer = _RichTextBox.Document.ContentEnd
 
@@ -40,11 +83,18 @@
         beforeError.ApplyPropertyValue(Inline.TextDecorationsProperty, _NormalTextDecorations)
         errorRange.ApplyPropertyValue(Inline.TextDecorationsProperty, _ErrorTextDecorations)
         afterError.ApplyPropertyValue(Inline.TextDecorationsProperty, _NormalTextDecorations)
+
+        _ApplyingTextDecorations = False
     End Sub
 
-    Public Function GetCorrectedText() As String
-        Return _LocatedString.TrimEnd({" "c, Microsoft.VisualBasic.ControlChars.Tab, ";"c}).ToString
-    End Function
+    Private Sub RemoveTextDecorations()
+        Dim documentRange = New TextRange(_RichTextBox.Document.ContentStart, _RichTextBox.Document.ContentEnd)
+        documentRange.ApplyPropertyValue(Inline.TextDecorationsProperty, _NormalTextDecorations)
+    End Sub
+
+    '!!!Public Function GetCorrectedText() As String
+    '    Return MyBase..TrimEnd({" "c, Microsoft.VisualBasic.ControlChars.Tab, ";"c}).ToString
+    'End Function
 
     Private Shared ReadOnly _ErrorTextDecorations As TextDecorationCollection = CreateErrorTextDecorations()
     Private Shared Function CreateErrorTextDecorations() As TextDecorationCollection
@@ -79,5 +129,13 @@
 
         Return collection
     End Function
+
+    Private Sub RichTextBox_TextChanged(sender As System.Object, e As System.Windows.Controls.TextChangedEventArgs) Handles _RichTextBox.TextChanged
+        If _ApplyingTextDecorations Then Return
+
+        Me.Compile()
+    End Sub
+
+    Public Event Compiled(sender As Object, e As CompilerResultEventArgs(Of TResult))
 
 End Class

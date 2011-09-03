@@ -10,11 +10,9 @@ Public Class MainWindow
 
     Private ReadOnly _RelativisticRayTracerTermContextBuilder As New RelativisticRayTracerTermContextBuilder
     Private ReadOnly _BaseContext As TermContext = _RelativisticRayTracerTermContextBuilder.TermContext
-    Private _Compiler As RichCompiler(Of RayTracerPicture(Of RadianceSpectrum))
+    Private WithEvents _Compiler As RichCompiler(Of RayTracerPicture(Of RadianceSpectrum))
 
     Private ReadOnly _SavePictureDialog As New SaveFileDialog
-
-    Private _ApplyingTextDecorations As Boolean
 
     Public Sub New()
         System.Threading.Thread.CurrentThread.CurrentCulture = New System.Globalization.CultureInfo("en-US")
@@ -36,10 +34,11 @@ Public Class MainWindow
         AddHandler _AutoCompletitionListBox.KeyDown, AddressOf ItemListBox_KeyDown
         AddHandler _AutoCompletitionListBox.SelectionChanged, AddressOf ItemList_SelectionChanged
 
-        Dim pasteCommandBinding = New CommandBinding(ApplicationCommands.Paste, AddressOf OnPaste, AddressOf OnCanExecutePaste)
-        _SceneDescriptionTextBox.CommandBindings.Add(pasteCommandBinding)
-
-        _Loaded = True
+        _Compiler = New RichCompiler(Of RayTracerPicture(Of RadianceSpectrum))(RichTextBox:=_SceneDescriptionTextBox,
+                                                                               autoCompletePopup:=_AutoCompletitionPopup,
+                                                                               autoCompleteListBox:=_AutoCompletitionListBox,
+                                                                               baseContext:=_BaseContext,
+                                                                               TypeNamedTypeDictionary:=_RelativisticRayTracerTermContextBuilder.TypeDictionary)
 
         _SceneDescriptionTextBox.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
         _SceneDescriptionTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Visible
@@ -47,31 +46,7 @@ Public Class MainWindow
         _AutoCompletitionPopup.PlacementTarget = _SceneDescriptionTextBox
     End Sub
 
-    Private Sub OnPaste(sender As Object, e As ExecutedRoutedEventArgs)
-        If sender IsNot _SceneDescriptionTextBox Then Return
-
-        Dim dataObject = Clipboard.GetDataObject
-        If dataObject Is Nothing Then Return
-        
-        Dim clipboardString = CType(dataObject.GetData(GetType(String)), String)
-
-        e.Handled = True
-
-        If clipboardString IsNot Nothing Then
-            Clipboard.SetDataObject(clipboardString, True)
-
-            _SceneDescriptionTextBox.Paste()
-            _SceneDescriptionTextBox.InvalidateVisual()
-        End If
-    End Sub
-
-    Private Sub OnCanExecutePaste(target As Object, e As CanExecuteRoutedEventArgs)
-        e.CanExecute = True
-    End Sub
-
     Private Sub RenderButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _RenderButton.Click
-        If Not Me.TryCompileAndShowErrors Then Return
-
         _RenderButton.Visibility = Visibility.Collapsed
         _RenderCancelButton.Visibility = Visibility.Visible
         _RenderProgressBar.Visibility = Visibility.Visible
@@ -82,33 +57,15 @@ Public Class MainWindow
         _RenderBackgroundWorker.RunWorkerAsync(_RayTracerPicture)
     End Sub
 
-    Private Function TryCompileAndShowErrors() As Boolean
-        _Compiler = New RichCompiler(Of RayTracerPicture(Of RadianceSpectrum))(RichTextBox:=_SceneDescriptionTextBox, baseContext:=_BaseContext, TypeNamedTypeDictionary:=_RelativisticRayTracerTermContextBuilder.TypeDictionary)
-
-        _ApplyingTextDecorations = True
-        Dim compilerResult = _Compiler.CompileAndShowErrors
-        '_SceneDescriptionTextBox.Popup.IsOpen = True
-
-        'Dim currentCharRect = _SceneDescriptionTextBox.Selection.Start.GetCharacterRect(LogicalDirection.Forward)
-
-        '_SceneDescriptionTextBox.Popup.VerticalOffset = -(_SceneDescriptionTextBox.ActualHeight - currentCharRect.Bottom)
-        '_SceneDescriptionTextBox.Popup.HorizontalOffset = currentCharRect.Left
-
-        '_SceneDescriptionTextBox.ListBox.ItemsSource = listBoxItems
-
-        _ApplyingTextDecorations = False
-
-        'Dim document = New FlowDocument(New Paragraph(New Run(compilerResult.CorrectedText)))
-        '_SceneDescriptionTextBox.Document = document
-
-        If compilerResult.WasCompilationSuccessful Then
-            _RayTracerPicture = compilerResult.Result
+    Private Sub Compiler_Compiled(sender As Object, e As CompilerResultEventArgs(Of RayTracerPicture(Of RadianceSpectrum))) Handles _Compiler.Compiled
+        If e.CompilerResult.WasCompilationSuccessful Then
+            _RayTracerPicture = e.CompilerResult.Result
         Else
-            _ErrorTextBox.Text = compilerResult.ErrorMessage
+            _ErrorTextBox.Text = e.CompilerResult.ErrorMessage
         End If
 
-        Return compilerResult.WasCompilationSuccessful
-    End Function
+        Me.RenderingTabItemsVisible = e.CompilerResult.WasCompilationSuccessful
+    End Sub
 
     Private Sub SaveButton_Click(sender As System.Object, e As System.EventArgs) Handles _SaveButton.Click
         If _SavePictureDialog.ShowDialog Then
@@ -124,7 +81,6 @@ Public Class MainWindow
     End Sub
 
     Private Sub CalculateNeededTimeButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _CalculateNeededTimeButton.Click
-        If Not Me.TryCompileAndShowErrors() Then Return
         If Not _CalculateTimeOptionsDialog.DialogResult Then Return
 
         Dim size = _RayTracerPicture.PictureSize
@@ -242,17 +198,6 @@ Public Class MainWindow
         Application.Current.Shutdown()
     End Sub
 
-    Private Sub SceneDescriptionTextBox_TextChanged(sender As System.Object, e As System.Windows.Controls.TextChangedEventArgs) Handles _SceneDescriptionTextBox.TextChanged
-        If Not _Loaded Then Return
-        If _ApplyingTextDecorations Then Return
-
-        Me.TryCompileAndAdaptVisibilities()
-    End Sub
-
-    Private Sub TryCompileAndAdaptVisibilities()
-        Me.RenderingTabItemsVisible = Me.TryCompileAndShowErrors()
-    End Sub
-
     Private Property RenderingTabItemsVisible As Boolean
         Get
             Return _RenderingTabItem.Visibility = Visibility.Visible
@@ -276,7 +221,7 @@ Public Class MainWindow
     End Property
 
     Private Sub CompileSceneButton_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles _CompileSceneButton.Click
-        Me.TryCompileAndAdaptVisibilities()
+        _Compiler.Compile()
     End Sub
 
     Private _Loaded As Boolean
@@ -348,5 +293,14 @@ Public Class MainWindow
             toolTip.IsOpen = listBoxItem.IsSelected
         Next
     End Sub
+
+    '_SceneDescriptionTextBox.Popup.IsOpen = True
+
+    'Dim currentCharRect = _SceneDescriptionTextBox.Selection.Start.GetCharacterRect(LogicalDirection.Forward)
+
+    '_SceneDescriptionTextBox.Popup.VerticalOffset = -(_SceneDescriptionTextBox.ActualHeight - currentCharRect.Bottom)
+    '_SceneDescriptionTextBox.Popup.HorizontalOffset = currentCharRect.Left
+
+    '_SceneDescriptionTextBox.ListBox.ItemsSource = listBoxItems
 
 End Class

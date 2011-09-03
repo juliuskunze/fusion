@@ -1,7 +1,7 @@
 ﻿Public Class CompilerResult(Of TResult)
 
     Private ReadOnly _Result As TResult
-    Public ReadOnly Property result As TResult
+    Public ReadOnly Property Result As TResult
         Get
             Return _Result
         End Get
