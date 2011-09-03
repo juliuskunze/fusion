@@ -61,6 +61,15 @@ Public Class MainWindow
 
         _ApplyingTextDecorations = True
         Dim compilerResult = _Compiler.CompileAndShowErrors
+        '_SceneDescriptionTextBox.Popup.IsOpen = True
+
+        'Dim currentCharRect = _SceneDescriptionTextBox.Selection.Start.GetCharacterRect(LogicalDirection.Forward)
+
+        '_SceneDescriptionTextBox.Popup.VerticalOffset = -(_SceneDescriptionTextBox.ActualHeight - currentCharRect.Bottom)
+        '_SceneDescriptionTextBox.Popup.HorizontalOffset = currentCharRect.Left
+
+        '_SceneDescriptionTextBox.ListBox.ItemsSource = listBoxItems
+
         _ApplyingTextDecorations = False
 
         'Dim document = New FlowDocument(New Paragraph(New Run(compilerResult.CorrectedText)))
