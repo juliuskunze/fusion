@@ -24,5 +24,19 @@
         Assert.AreEqual(New TextOnlyDocument(document).GetTextRange(4, 2).Text, "C3")
     End Sub
 
+    <Test()>
+    Public Sub Test3()
+        Dim document = New FlowDocument
+
+        document.Blocks.Add(New Paragraph())
+        document.Blocks.Add(New Paragraph(New Run("Test")))
+
+        Assert.AreEqual(New TextOnlyDocument(document).GetTextRange(1, 4).Text, "Test")
+    End Sub
+
+    <Test()>
+    Public Sub Test4()
+        Assert.AreEqual(String.Join("B", {"", ""}), "B")
+    End Sub
 
 End Class

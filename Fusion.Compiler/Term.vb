@@ -55,7 +55,7 @@
         Dim matchingConstant = _Context.TryParseConstant(_LocatedString.ToString)
         If matchingConstant Is Nothing Then Return Nothing
 
-        _TypeInformation.CheckIsAssignableFrom(type:=matchingConstant.Signature.Type)
+        Me.CheckTypeMatch(matchingConstant.Signature.Type)
 
         Return matchingConstant.ToExpressionWithNamedType
     End Function
@@ -64,10 +64,18 @@
         Dim matchingParameter = _Context.TryParseParameter(_LocatedString.ToString)
         If matchingParameter Is Nothing Then Return Nothing
 
-        _TypeInformation.CheckIsAssignableFrom(type:=matchingParameter.Type)
+        Me.CheckTypeMatch(matchingParameter.Type)
 
         Return matchingParameter.ToExpressionWithNamedType
     End Function
+
+    Private Sub CheckTypeMatch(type As NamedType)
+        Try
+            _TypeInformation.CheckIsAssignableFrom(type:=type)
+        Catch ex As CompilerException
+            Throw ex.Locate(_LocatedString)
+        End Try
+    End Sub
 
     Public Function GetDelegate() As System.Delegate
         Return Expression.Lambda(body:=Me.GetExpression, parameters:=_Context.Parameters.Select(Function(p) p.Expression)).Compile
@@ -102,12 +110,6 @@
             Return Nothing
         End Try
     End Function
-
-    Private Sub CheckDelegateTypeMatch(delegateType As DelegateType)
-        If _TypeInformation.IsInfer Then Return
-
-        _TypeInformation.Type.Delegate.CheckIsAssignableFrom(delegateType)
-    End Sub
 
     Public Function GetExpression() As System.Linq.Expressions.Expression
         Return Me.GetExpressionWithNamedType.Expression
@@ -214,7 +216,7 @@
     End Function
 
     Private Function GetRealExpression(ByVal parsedDouble As Double) As ExpressionWithNamedType
-        _TypeInformation.CheckIsAssignableFrom(NamedType.Real)
+        Me.CheckTypeMatch(NamedType.Real)
         Return Expression.Constant(type:=GetType(Double), value:=parsedDouble).WithNamedType(NamedType.Real)
     End Function
 
@@ -254,7 +256,7 @@
             'TODO: Check collection type match
             elementTypeInformation = New TypeInformation(type.TypeArguments.Single)
 
-            _TypeInformation.CheckIsAssignableFrom(type:=NamedType.Collection.MakeGenericType(typeArguments:=type.TypeArguments))
+            Me.CheckTypeMatch(NamedType.Collection.MakeGenericType(typeArguments:=type.TypeArguments))
         End If
 
         Dim arguments = collectionArgumentStrings.Select(Function(argumentString) New Term(Term:=argumentString, TypeInformation:=elementTypeInformation, context:=_Context).GetExpressionWithNamedType)
@@ -385,7 +387,7 @@
     End Property
 
     Private Function GetVector3DExpression() As ExpressionWithNamedType
-        _TypeInformation.CheckIsAssignableFrom(NamedType.Vector3D)
+        Me.CheckTypeMatch(NamedType.Vector3D)
 
         Dim components = CompilerTools.GetArguments(_LocatedString.Trim, BracketType:=CompilerTools.VectorBracketType)
 

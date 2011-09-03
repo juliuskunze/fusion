@@ -3,6 +3,11 @@
     Private Shared ReadOnly _WhiteSpaceTrimCondition As Func(Of Char, Boolean) = Function(c) Char.IsWhiteSpace(c)
 
     Private ReadOnly _ContainingAnalizedString As AnalizedString
+    Public ReadOnly Property ContainingAnalizedString As AnalizedString
+        Get
+            Return _ContainingAnalizedString
+        End Get
+    End Property
 
     Private ReadOnly _StartIndex As Integer
     Public ReadOnly Property StartIndex As Integer

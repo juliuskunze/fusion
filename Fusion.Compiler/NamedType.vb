@@ -75,7 +75,7 @@
         If _IsDelegate Then
             If Not other.IsDelegate Then Return False
 
-            Me.Delegate.CheckIsAssignableFrom(other.Delegate)
+            If Not Me.Delegate.IsAssignableFrom(other.Delegate) Then Return False
         Else
             If Not Me.SystemType.IsAssignableFrom(other.SystemType) Then Return False
         End If
@@ -92,7 +92,7 @@
         Return signature.AsNamedDelegateType
     End Function
 
-    Private Function ThrowNotAssignableFromException(otherName As String) As ArgumentException
+    Private Function ThrowNotAssignableFromException(otherName As String) As CompilerException
         Throw New CompilerException(String.Format("Type '{0}' is not assignable to type '{1}'.", otherName, Me.Name))
     End Function
 

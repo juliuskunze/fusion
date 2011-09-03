@@ -59,12 +59,13 @@
                 index += inlineLength
             Next
 
-            index += 1
+            index += 2 ' Microsoft.VisualBasic.ControlChars.NewLine.Count
         Next
 
-        ' no paragraphs or runs -->
-        If startPointer Is Nothing Then startPointer = _Document.ContentStart
-        If endPointer Is Nothing Then endPointer = _Document.ContentEnd
+        If Not _Document.Blocks.Any OrElse Not _Document.Blocks.OfType(Of Paragraph).Any(Function(paragraph) paragraph.Inlines.Any) Then
+            If startPointer Is Nothing Then startPointer = _Document.ContentStart
+            If endPointer Is Nothing Then endPointer = _Document.ContentEnd
+        End If
 
         Return New TextRange(startPointer, endPointer)
     End Function
