@@ -1,4 +1,4 @@
-﻿Public Class TextOnlyDocumentTest
+﻿Public Class TextOnlyDocumentTests
 
     <Test()>
     Public Sub Test()
@@ -31,7 +31,7 @@
         document.Blocks.Add(New Paragraph())
         document.Blocks.Add(New Paragraph(New Run("Test")))
 
-        Assert.AreEqual(New TextOnlyDocument(document).GetTextRange(1, 4).Text, "Test")
+        Assert.AreEqual(New TextOnlyDocument(document).GetTextRange(2, 4).Text, "Test")
     End Sub
 
     <Test()>

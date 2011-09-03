@@ -1,5 +1,8 @@
 ﻿Public Class TextOnlyDocument
 
+    Private Shared ReadOnly _LineBreak As String = Microsoft.VisualBasic.ControlChars.NewLine
+    Private Shared ReadOnly _LineBreakLength As Integer = _LineBreak.Count
+
     Private ReadOnly _Text As String
     Public ReadOnly Property Text As String
         Get
@@ -15,7 +18,7 @@
     End Sub
 
     Private Shared Function DocumentToString(document As FlowDocument) As String
-        Return String.Join(Microsoft.VisualBasic.ControlChars.NewLine, document.Blocks.Select(Function(block) BlockToString(block)))
+        Return String.Join(_LineBreak, document.Blocks.Select(Function(block) BlockToString(block)))
     End Function
 
     Private Shared Function BlockToString(block As Block) As String
@@ -29,7 +32,7 @@
         If run IsNot Nothing Then Return run.Text
 
         Dim lineBreak = TryCast(inline, Run)
-        If lineBreak IsNot Nothing Then Return Microsoft.VisualBasic.ControlChars.NewLine
+        If lineBreak IsNot Nothing Then Return _LineBreak
 
         Throw New InvalidOperationException("Only text expected.")
     End Function
@@ -59,7 +62,7 @@
                 index += inlineLength
             Next
 
-            index += 2 ' Microsoft.VisualBasic.ControlChars.NewLine.Count
+            index += _LineBreakLength
         Next
 
         If Not _Document.Blocks.Any OrElse Not _Document.Blocks.OfType(Of Paragraph).Any(Function(paragraph) paragraph.Inlines.Any) Then
@@ -75,7 +78,7 @@
         If run IsNot Nothing Then Return run.Text.Count
 
         Dim lineBreak = TryCast(inline, LineBreak)
-        If lineBreak IsNot Nothing Then Return 1
+        If lineBreak IsNot Nothing Then Return _LineBreakLength
 
         Throw New InvalidOperationException("Only text expected.")
     End Function

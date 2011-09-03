@@ -212,30 +212,6 @@ Public Class MainWindow
         If _ApplyingTextDecorations Then Return
 
         Me.TryCompileAndAdaptVisibilities()
-
-        _AutoCompletitionPopup.IsOpen = True
-
-        Dim currentCharRect = _SceneDescriptionTextBox.Selection.Start.GetCharacterRect(LogicalDirection.Forward)
-
-        _AutoCompletitionPopup.VerticalOffset = -(_SceneDescriptionTextBox.ActualHeight - currentCharRect.Bottom)
-        _AutoCompletitionPopup.HorizontalOffset = currentCharRect.Left
-
-        Dim listBoxItems = New List(Of ListBoxItem)
-        For i = 0 To 3
-            Dim listBoxItem = New ListBoxItem
-            listBoxItem.Content = i
-
-            Dim tooltip = New ToolTip
-            tooltip.Content = "yo"
-            tooltip.PlacementTarget = listBoxItem
-            tooltip.Placement = Controls.Primitives.PlacementMode.Right
-            tooltip.HorizontalOffset = 5
-
-            listBoxItem.ToolTip = tooltip
-
-            listBoxItems.Add(listBoxItem)
-        Next
-        _AutoCompletitionListBox.ItemsSource = listBoxItems
     End Sub
 
     Private Sub TryCompileAndAdaptVisibilities()

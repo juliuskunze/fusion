@@ -14,14 +14,14 @@
         _RichTextBox = richTextBox
     End Sub
 
-    Public Function CompileAndShowErrors() As CompilerResult(Of RayTracerPicture(Of RadianceSpectrum))
+    Public Function CompileAndShowErrors() As RichCompilerResult(Of RayTracerPicture(Of RadianceSpectrum))
         Try
-            Return New CompilerResult(Of RayTracerPicture(Of RadianceSpectrum))(MyBase.GetResult)
+            Return New RichCompilerResult(Of RayTracerPicture(Of RadianceSpectrum))(MyBase.GetResult)
         Catch ex As CompilerException
             Dim locatedEx = TryCast(ex, LocatedCompilerException)
             If locatedEx IsNot Nothing Then UnderlineError(locatedEx.LocatedString)
 
-            Return New CompilerResult(Of RayTracerPicture(Of RadianceSpectrum))(ex.Message)
+            Return New RichCompilerResult(Of RayTracerPicture(Of RadianceSpectrum))(ex.Message)
         End Try
     End Function
 
