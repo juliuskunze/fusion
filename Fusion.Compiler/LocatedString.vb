@@ -106,6 +106,10 @@
         Return New LocatedString(_ContainingAnalizedString, startIndex:=_StartIndex + startIndex, length:=length)
     End Function
 
+    Public Function Contains(index As Integer) As Boolean
+        Return _StartIndex <= index AndAlso index < Me.EndIndex
+    End Function
+
     Public Function Split(separatorChars As IEnumerable(Of Char)) As IEnumerable(Of LocatedString)
         Dim strings = New List(Of LocatedString)
         Dim lastSplitCharIndex = -1

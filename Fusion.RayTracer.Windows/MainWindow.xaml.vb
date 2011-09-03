@@ -10,7 +10,7 @@ Public Class MainWindow
 
     Private ReadOnly _RelativisticRayTracerTermContextBuilder As New RelativisticRayTracerTermContextBuilder
     Private ReadOnly _BaseContext As TermContext = _RelativisticRayTracerTermContextBuilder.TermContext
-    Private _Compiler As RelativisticRayTracerPictureCompiler
+    Private _Compiler As RichCompiler(Of RayTracerPicture(Of RadianceSpectrum))
 
     Private ReadOnly _SavePictureDialog As New SaveFileDialog
 
@@ -35,12 +35,38 @@ Public Class MainWindow
         AddHandler _AutoCompletitionListBox.PreviewMouseDown, AddressOf ItemListBox_PreviewMouseDown
         AddHandler _AutoCompletitionListBox.KeyDown, AddressOf ItemListBox_KeyDown
         AddHandler _AutoCompletitionListBox.SelectionChanged, AddressOf ItemList_SelectionChanged
+
+        Dim pasteCommandBinding = New CommandBinding(ApplicationCommands.Paste, AddressOf OnPaste, AddressOf OnCanExecutePaste)
+        _SceneDescriptionTextBox.CommandBindings.Add(pasteCommandBinding)
+
         _Loaded = True
 
         _SceneDescriptionTextBox.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
         _SceneDescriptionTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Visible
 
         _AutoCompletitionPopup.PlacementTarget = _SceneDescriptionTextBox
+    End Sub
+
+    Private Sub OnPaste(sender As Object, e As ExecutedRoutedEventArgs)
+        If sender IsNot _SceneDescriptionTextBox Then Return
+
+        Dim dataObject = Clipboard.GetDataObject
+        If dataObject Is Nothing Then Return
+        
+        Dim clipboardString = CType(dataObject.GetData(GetType(String)), String)
+
+        e.Handled = True
+
+        If clipboardString IsNot Nothing Then
+            Clipboard.SetDataObject(clipboardString, True)
+
+            _SceneDescriptionTextBox.Paste()
+            _SceneDescriptionTextBox.InvalidateVisual()
+        End If
+    End Sub
+
+    Private Sub OnCanExecutePaste(target As Object, e As CanExecuteRoutedEventArgs)
+        e.CanExecute = True
     End Sub
 
     Private Sub RenderButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _RenderButton.Click
@@ -57,7 +83,7 @@ Public Class MainWindow
     End Sub
 
     Private Function TryCompileAndShowErrors() As Boolean
-        _Compiler = New RelativisticRayTracerPictureCompiler(RichTextBox:=_SceneDescriptionTextBox, baseContext:=_BaseContext, TypeNamedTypeDictionary:=_RelativisticRayTracerTermContextBuilder.TypeDictionary)
+        _Compiler = New RichCompiler(Of RayTracerPicture(Of RadianceSpectrum))(RichTextBox:=_SceneDescriptionTextBox, baseContext:=_BaseContext, TypeNamedTypeDictionary:=_RelativisticRayTracerTermContextBuilder.TypeDictionary)
 
         _ApplyingTextDecorations = True
         Dim compilerResult = _Compiler.CompileAndShowErrors

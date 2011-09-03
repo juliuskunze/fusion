@@ -19,7 +19,7 @@
     Public Sub New(definition As LocatedString, context As TermContext)
         Dim parts = definition.SplitIfSeparatorIsNotInBrackets(separator:="="c, bracketTypes:=CompilerTools.AllowedBracketTypes)
 
-        If parts.Count <> 2 Then Throw New InvalidTermException(definition, "Definition invalid.")
+        If parts.Count <> 2 Then Throw New InvalidTermException(definition, "Definition expected.")
 
         _Declaration = parts.First
         _Term = parts.Last

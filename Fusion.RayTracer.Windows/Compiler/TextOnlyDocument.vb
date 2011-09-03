@@ -1,6 +1,6 @@
 ﻿Public Class TextOnlyDocument
 
-    Private Shared ReadOnly _LineBreak As String = Microsoft.VisualBasic.ControlChars.NewLine
+    Private Shared ReadOnly _LineBreak As String = Microsoft.VisualBasic.ControlChars.Cr
     Private Shared ReadOnly _LineBreakLength As Integer = _LineBreak.Count
 
     Private ReadOnly _Text As String
@@ -14,20 +14,20 @@
 
     Public Sub New(document As FlowDocument)
         _Document = document
-        _Text = DocumentToString(document)
+        _Text = GetString(document)
     End Sub
 
-    Private Shared Function DocumentToString(document As FlowDocument) As String
-        Return String.Join(_LineBreak, document.Blocks.Select(Function(block) BlockToString(block)))
+    Private Shared Function GetString(document As FlowDocument) As String
+        Return String.Join(_LineBreak, document.Blocks.Select(Function(block) GetString(block)))
     End Function
 
-    Private Shared Function BlockToString(block As Block) As String
+    Private Shared Function GetString(block As Block) As String
         If Not TypeOf block Is Paragraph Then Throw New InvalidOperationException("Only text expected.")
 
-        Return String.Concat(CType(block, Paragraph).Inlines.Select(Function(inline) InlineToString(inline)))
+        Return String.Concat(CType(block, Paragraph).Inlines.Select(Function(inline) GetString(inline)))
     End Function
 
-    Private Shared Function InlineToString(inline As Inline) As String
+    Private Shared Function GetString(inline As Inline) As String
         Dim run = TryCast(inline, Run)
         If run IsNot Nothing Then Return run.Text
 
@@ -37,6 +37,28 @@
         Throw New InvalidOperationException("Only text expected.")
     End Function
 
+    Private Shared Function GetLength(block As Block) As Integer
+        If Not TypeOf block Is Paragraph Then Throw New InvalidOperationException("Only text expected.")
+
+        Return CType(block, Paragraph).Inlines.Select(Function(inline) GetLength(inline)).Sum
+
+        Throw New InvalidOperationException("Only text expected.")
+    End Function
+
+    Private Shared Function GetLength(inline As Inline) As Integer
+        Dim run = TryCast(inline, Run)
+        If run IsNot Nothing Then Return run.Text.Count
+
+        Dim lineBreak = TryCast(inline, LineBreak)
+        If lineBreak IsNot Nothing Then Return _LineBreakLength
+
+        Throw New InvalidOperationException("Only text expected.")
+    End Function
+
+    Public Function GetTextPointer(index As Integer) As TextPointer
+        Return GetTextRange(startIndex:=index, length:=0).Start
+    End Function
+
     Public Function GetTextRange(startIndex As Integer, length As Integer) As TextRange
         If startIndex < 0 Then Throw New ArgumentOutOfRangeException("startIndex")
         If length < 0 Then Throw New ArgumentOutOfRangeException("length")
@@ -44,25 +66,20 @@
 
         Dim endIndex = startIndex + length
 
-        Dim index = 0
+        Dim inlineStartIndex = 0
         Dim startPointer As TextPointer = Nothing
         Dim endPointer As TextPointer = Nothing
         For Each paragraph In _Document.Blocks.OfType(Of Paragraph)()
             For Each inline In paragraph.Inlines
-                Dim inlineLength = GetInlineLength(inline)
+                Dim inlineLength = GetLength(inline)
 
-                If startPointer Is Nothing AndAlso index <= startIndex AndAlso startIndex <= index + inlineLength Then
-                    startPointer = inline.ContentStart.GetPositionAtOffset(startIndex - index)
-                End If
+                SetTextPointerIfIsInRangeAndNothing(inline, inlineStartIndex, inlineLength, startPointer, startIndex)
+                SetTextPointerIfIsInRangeAndNothing(inline, inlineStartIndex, inlineLength, endPointer, endIndex)
 
-                If endPointer Is Nothing AndAlso index <= endIndex AndAlso endIndex <= index + inlineLength Then
-                    endPointer = inline.ContentStart.GetPositionAtOffset(endIndex - index)
-                End If
-
-                index += inlineLength
+                inlineStartIndex += inlineLength
             Next
 
-            index += _LineBreakLength
+            inlineStartIndex += _LineBreakLength
         Next
 
         If Not _Document.Blocks.Any OrElse Not _Document.Blocks.OfType(Of Paragraph).Any(Function(paragraph) paragraph.Inlines.Any) Then
@@ -73,14 +90,32 @@
         Return New TextRange(startPointer, endPointer)
     End Function
 
-    Private Shared Function GetInlineLength(inline As Inline) As Integer
-        Dim run = TryCast(inline, Run)
-        If run IsNot Nothing Then Return run.Text.Count
+    Private Sub SetTextPointerIfIsInRangeAndNothing(ByVal inline As Inline, ByVal inlineStartIndex As Integer, ByVal inlineLength As Integer, ByRef textPointer As TextPointer, ByVal targetIndex As Integer)
+        If textPointer Is Nothing AndAlso inlineStartIndex <= targetIndex AndAlso targetIndex <= inlineStartIndex + inlineLength Then
+            textPointer = inline.ContentStart.GetPositionAtOffset(targetIndex - inlineStartIndex)
+        End If
+    End Sub
 
-        Dim lineBreak = TryCast(inline, LineBreak)
-        If lineBreak IsNot Nothing Then Return _LineBreakLength
+    Public Function GetIndex(textPointer As TextPointer) As Integer
+        Dim run = CType(textPointer.Parent, Run)
 
-        Throw New InvalidOperationException("Only text expected.")
+        Dim position = run.ContentStart.GetOffsetToPosition(textPointer)
+
+        Dim inline = run.PreviousInline
+        Do While inline IsNot Nothing
+            position += GetLength(inline)
+
+            inline = inline.PreviousInline
+        Loop
+
+        Dim block = CType(run.Parent, Block).PreviousBlock
+        Do While block IsNot Nothing
+            position += GetLength(block) + _LineBreakLength
+
+            block = block.PreviousBlock
+        Loop
+
+        Return position
     End Function
 
 End Class

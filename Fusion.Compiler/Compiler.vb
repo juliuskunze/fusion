@@ -9,13 +9,16 @@
         End Get
     End Property
 
+    Private ReadOnly _CursorPosition As Integer
+
     Private ReadOnly _ResultType As NamedType
 
     Private _Instructions As IEnumerable(Of LocatedString)
 
-    Public Sub New(text As String, baseContext As TermContext, typeNamedTypeDictionary As TypeNamedTypeDictionary)
+    Public Sub New(text As String, baseContext As TermContext, typeNamedTypeDictionary As TypeNamedTypeDictionary, Optional cursorPosition As Integer = 0)
         _LocatedString = text.ToAnalized.ToLocated
         _BaseContext = baseContext
+        _CursorPosition = cursorPosition
         _ResultType = typeNamedTypeDictionary.GetNamedType(GetType(TResult))
         _Instructions = _LocatedString.Split({";"c})
     End Sub
@@ -24,6 +27,8 @@
         Dim context = _BaseContext
 
         For Each instruction In _Instructions
+            If Not instruction.Trim.ToString.Any Then Continue For
+
             If IsReturnTerm(instruction) Then
                 Return New Term(Term:=GetReturnTerm(instruction), TypeInformation:=New TypeInformation(_ResultType), context:=context).GetDelegate(Of Func(Of TResult)).Invoke
             End If
