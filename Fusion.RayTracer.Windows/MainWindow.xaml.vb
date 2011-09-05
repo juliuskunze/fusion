@@ -12,38 +12,27 @@ Public Class MainWindow
     Private ReadOnly _BaseContext As TermContext = _RelativisticRayTracerTermContextBuilder.TermContext
     Private WithEvents _Compiler As RichCompiler(Of RayTracerPicture(Of RadianceSpectrum))
 
-    Private ReadOnly _SavePictureDialog As New SaveFileDialog
+    Private ReadOnly _SavePictureDialog As SaveFileDialog
 
     Public Sub New()
         System.Threading.Thread.CurrentThread.CurrentCulture = New System.Globalization.CultureInfo("en-US")
 
         Me.InitializeComponent()
 
-        _RenderBackgroundWorker = New ComponentModel.BackgroundWorker
-        _RenderBackgroundWorker.WorkerReportsProgress = True
-        _RenderBackgroundWorker.WorkerSupportsCancellation = True
+        _RenderBackgroundWorker = New ComponentModel.BackgroundWorker With {.WorkerReportsProgress = True, .WorkerSupportsCancellation = True}
 
-        _SavePictureDialog.DefaultExt = ".png"
-        _SavePictureDialog.Filter = "Portable Network Graphics|*.png|Bitmap|*.bmp"
-        _SavePictureDialog.FileName = "ray tracing picture"
-        _SavePictureDialog.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.Desktop
-
-        AddHandler Me.KeyDown, AddressOf AutoCompleteTextBox_PreviewKeyDown
-        AddHandler Me.PreviewKeyDown, AddressOf AutoCompleteTextBox_PreviewKeyDown
-        AddHandler _AutoCompletitionListBox.PreviewMouseDown, AddressOf ItemListBox_PreviewMouseDown
-        AddHandler _AutoCompletitionListBox.KeyDown, AddressOf ItemListBox_KeyDown
-        AddHandler _AutoCompletitionListBox.SelectionChanged, AddressOf ItemList_SelectionChanged
+        _SavePictureDialog = New SaveFileDialog With {
+            .DefaultExt = ".png",
+            .Filter = "Portable Network Graphics|*.png|Bitmap|*.bmp",
+            .FileName = "ray tracing picture",
+            .InitialDirectory = My.Computer.FileSystem.SpecialDirectories.Desktop}
 
         _Compiler = New RichCompiler(Of RayTracerPicture(Of RadianceSpectrum))(RichTextBox:=_SceneDescriptionTextBox,
-                                                                               autoCompletePopup:=_AutoCompletitionPopup,
-                                                                               autoCompleteListBox:=_AutoCompletitionListBox,
+                                                                               autoCompletePopup:=_AutoCompletePopup,
+                                                                               autoCompleteListBox:=_AutoCompleteListBox,
                                                                                baseContext:=_BaseContext,
                                                                                TypeNamedTypeDictionary:=_RelativisticRayTracerTermContextBuilder.TypeDictionary)
 
-        _SceneDescriptionTextBox.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
-        _SceneDescriptionTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Visible
-
-        _AutoCompletitionPopup.PlacementTarget = _SceneDescriptionTextBox
     End Sub
 
     Private Sub RenderButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _RenderButton.Click
@@ -222,76 +211,6 @@ Public Class MainWindow
 
     Private Sub CompileSceneButton_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles _CompileSceneButton.Click
         _Compiler.Compile()
-    End Sub
-
-    Private _Loaded As Boolean
-
-    Private Sub AutoCompleteTextBox_PreviewKeyDown(sender As Object, e As KeyEventArgs)
-        If TypeOf e.OriginalSource Is ListBoxItem Then Return
-
-        If e.Key <> Key.Down OrElse _AutoCompletitionListBox.Items.Count = 0 Then Return
-
-        _AutoCompletitionListBox.Focus()
-        _AutoCompletitionListBox.SelectedIndex = 0
-        Dim listboxItem = TryCast(_AutoCompletitionListBox.ItemContainerGenerator.ContainerFromIndex(_AutoCompletitionListBox.SelectedIndex), ListBoxItem)
-        listboxItem.Focus()
-        e.Handled = True
-    End Sub
-
-    Private Sub AutoCompleteTextBox_KeyDown(sender As Object, e As KeyEventArgs)
-        Select Case e.Key
-            Case Key.Escape
-                Me.ClosePopup()
-                e.Handled = True
-        End Select
-    End Sub
-
-    Private Sub ItemListBox_KeyDown(sender As Object, e As KeyEventArgs)
-        If Not TypeOf e.OriginalSource Is ListBoxItem Then Return
-
-        Select Case e.Key
-            Case Key.Tab, Key.Enter
-                Me.ClosePopupAndUpdateSource()
-            Case Key.Escape
-                Me.ClosePopup()
-                e.Handled = True
-        End Select
-    End Sub
-
-    Private Sub ItemListBox_PreviewMouseDown(sender As Object, e As MouseButtonEventArgs)
-        If e.LeftButton <> MouseButtonState.Pressed Then Return
-
-        Dim tb = TryCast(e.OriginalSource, TextBlock)
-        If tb Is Nothing Then Return
-
-        If e.ClickCount = 2 Then
-            Me.ClosePopupAndUpdateSource()
-            e.Handled = True
-        End If
-    End Sub
-
-    Private Sub ClosePopupAndUpdateSource()
-        Me.ClosePopup()
-        Dim selected = CStr(DirectCast(_AutoCompletitionListBox.SelectedItem, ListBoxItem).Content)
-
-        _SceneDescriptionTextBox.AppendText(selected)
-    End Sub
-
-    Private Sub ClosePopup()
-        _AutoCompletitionPopup.IsOpen = False
-        For Each listBoxItemObj In _AutoCompletitionListBox.Items
-            Dim listBoxItem = CType(listBoxItemObj, ListBoxItem)
-            Dim toolTip = CType(listBoxItem.ToolTip, ToolTip)
-            toolTip.IsOpen = False
-        Next
-    End Sub
-
-    Private Sub ItemList_SelectionChanged(sender As Object, e As SelectionChangedEventArgs)
-        For Each listBoxItemObj In _AutoCompletitionListBox.Items
-            Dim listBoxItem = CType(listBoxItemObj, ListBoxItem)
-            Dim toolTip = CType(listBoxItem.ToolTip, ToolTip)
-            toolTip.IsOpen = listBoxItem.IsSelected
-        Next
     End Sub
 
 End Class

@@ -9,8 +9,8 @@
         Return New LocatedCompilerException(locatedString, Me.Message)
     End Function
 
-    Public Function WithCursorTermContext(cursorTermContext As TermContext) As CompilerExceptionWithCursorTermContext
-        Return New CompilerExceptionWithCursorTermContext(Me, cursorTermContext)
+    Public Function WithIntelliSense(intelliSense As IntelliSense) As CompilerExceptionWithIntelliSense
+        Return New CompilerExceptionWithIntelliSense(Me, intelliSense)
     End Function
 
 End Class

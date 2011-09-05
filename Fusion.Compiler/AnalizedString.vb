@@ -26,8 +26,4 @@
         Return _Text
     End Function
 
-    Public Function SurroundingIdentifier() As String
-
-    End Function
-
 End Class

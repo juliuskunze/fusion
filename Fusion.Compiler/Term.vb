@@ -253,7 +253,7 @@
             elementTypeInformation = TypeInformation.Infer
         Else
             Dim type = _TypeInformation.Type
-            'TODO: Check collection type match
+
             elementTypeInformation = New TypeInformation(type.TypeArguments.Single)
 
             Me.CheckTypeMatch(NamedType.Collection.MakeGenericType(typeArguments:=type.TypeArguments))
@@ -272,7 +272,7 @@
     End Function
 
     Private Function MinusCountAtStartIsEven(ByRef out_firstNotSignIndex As Integer) As Boolean
-        Dim i As Integer
+        out_firstNotSignIndex = _LocatedString.Length
 
         Dim minusCountAtStart = 0
         For i = 0 To _LocatedString.Length - 1
@@ -285,8 +285,6 @@
                     Exit For
             End Select
         Next
-
-        out_firstNotSignIndex = _LocatedString.Length
 
         Return (minusCountAtStart Mod 2 = 0)
     End Function

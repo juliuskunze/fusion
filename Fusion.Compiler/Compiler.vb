@@ -11,34 +11,40 @@
 
     Private ReadOnly _CursorPosition As Integer
 
+    Private ReadOnly _CurrentIdentifier As LocatedString
+    Private ReadOnly Property CurrentIdentifier As LocatedString
+        Get
+            Return _CurrentIdentifier
+        End Get
+    End Property
+
     Private ReadOnly _ResultType As NamedType
 
     Private _Instructions As IEnumerable(Of LocatedString)
 
-    Public Sub New(text As String, baseContext As TermContext, typeNamedTypeDictionary As TypeNamedTypeDictionary, Optional cursorPosition As Integer = 0)
-        _LocatedString = text.ToAnalized.ToLocated
+    Public Sub New(locatedString As LocatedString, baseContext As TermContext, typeNamedTypeDictionary As TypeNamedTypeDictionary, Optional cursorPosition As Integer = 0)
+        _LocatedString = locatedString
         _BaseContext = baseContext
         _CursorPosition = cursorPosition
         _ResultType = typeNamedTypeDictionary.GetNamedType(GetType(TResult))
         _Instructions = _LocatedString.Split({";"c})
+        _CurrentIdentifier = _LocatedString.GetSurroundingIdentifier(_CursorPosition)
     End Sub
 
-    Public Function GetResult() As CompilerResult(Of TResult)
+    Public Function Compile() As CompilerResult(Of TResult)
         Dim context = _BaseContext
-
         Dim cursorTermContext = context
 
         Try
             For Each instruction In _Instructions
-                If instruction.Contains(_CursorPosition) Then
+                If instruction.ContainsPointer(_CursorPosition) Then
                     cursorTermContext = context
                 End If
 
                 If Not instruction.Trim.ToString.Any Then Continue For
 
                 If IsReturnTerm(instruction) Then
-                    Dim surroundingIdentifier = CompilerTools.GetSurroundingIdentifier(_LocatedString.ContainingAnalizedString.Text, index:=_CursorPosition)
-                    Return New CompilerResult(Of TResult)(New Term(Term:=GetReturnTerm(instruction), TypeInformation:=New TypeInformation(_ResultType), context:=context).GetDelegate(Of Func(Of TResult)).Invoke, IntelliSense:=New IntelliSense(cursorTermContext, surroundingIdentifier))
+                    Return New CompilerResult(Of TResult)(New Term(Term:=GetReturnTerm(instruction), TypeInformation:=New TypeInformation(_ResultType), context:=context).GetDelegate(Of Func(Of TResult)).Invoke, IntelliSense:=Me.GetIntelliSense(cursorTermContext))
                 End If
 
                 Dim definition = New Assignment(definition:=instruction, context:=context)
@@ -49,10 +55,14 @@
                 End If
             Next
         Catch ex As CompilerException
-            Throw ex.WithCursorTermContext(cursorTermContext)
+            Throw ex.WithIntelliSense(GetIntelliSense(cursorTermContext))
         End Try
 
-        Throw New CompilerException("Missing return statement.").WithCursorTermContext(cursorTermContext)
+        Throw New CompilerException("Missing return statement.").WithIntelliSense(GetIntelliSense(cursorTermContext))
+    End Function
+
+    Private Function GetIntelliSense(cursorTermContext As TermContext) As IntelliSense
+        Return New IntelliSense(TermContext:=cursorTermContext, filter:=_CurrentIdentifier.ToString)
     End Function
 
     Const _ReturnKeyword = "return"

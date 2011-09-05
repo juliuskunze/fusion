@@ -4,11 +4,18 @@ Public Class RichCompiler(Of TResult)
 
     Public Property TypeNamedTypeDictionary As TypeNamedTypeDictionary
     Private WithEvents _RichTextBox As RichTextBox
-    Private ReadOnly _AutoCompletePopup As Popup
-    Private ReadOnly _AutoCompleteListBox As ListBox
+    Private WithEvents _AutoCompletePopup As Popup
+    Private WithEvents _AutoCompleteListBox As ListBox
     Private ReadOnly _BaseContext As TermContext
 
     Private _ApplyingTextDecorations As Boolean
+
+    Private _TextOnlyDocument As TextOnlyDocument
+    Private _LocatedString As LocatedString
+    Private _CursorTextPointer As TextPointer
+    Private _CurrentIdentifier As LocatedString
+
+    Private _CurrentToolTip As ToolTip
 
     Public Sub New(richTextBox As RichTextBox,
                    autoCompletePopup As Popup,
@@ -21,8 +28,22 @@ Public Class RichCompiler(Of TResult)
         _AutoCompleteListBox = autoCompleteListBox
         _BaseContext = baseContext
 
+        _AutoCompletePopup.PlacementTarget = _RichTextBox
+
+        _RichTextBox.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
+        _RichTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Visible
+
         Dim pasteCommandBinding = New CommandBinding(ApplicationCommands.Paste, AddressOf OnPaste, AddressOf OnCanExecutePaste)
         _RichTextBox.CommandBindings.Add(pasteCommandBinding)
+
+        Me.UpdateOnTextChanged()
+    End Sub
+
+    Private Sub UpdateOnTextChanged()
+        _TextOnlyDocument = New TextOnlyDocument(_RichTextBox.Document)
+        _LocatedString = _TextOnlyDocument.Text.ToLocated
+        _CursorTextPointer = _RichTextBox.Selection.Start
+        _CurrentIdentifier = _LocatedString.GetSurroundingIdentifier(_TextOnlyDocument.GetIndex(_CursorTextPointer))
     End Sub
 
     Private Sub OnPaste(sender As Object, e As ExecutedRoutedEventArgs)
@@ -49,49 +70,53 @@ Public Class RichCompiler(Of TResult)
 
 
     Public Sub Compile()
-        Dim textOnlyDocument = New TextOnlyDocument(_RichTextBox.Document)
+        Dim filter = _CurrentIdentifier
 
-        Dim compiler = New Compiler(Of TResult)(Text:=textOnlyDocument.Text, baseContext:=_BaseContext, TypeNamedTypeDictionary:=TypeNamedTypeDictionary, cursorPosition:=textOnlyDocument.GetIndex(_RichTextBox.Selection.Start))
+        Dim compiler = New Compiler(Of TResult)(LocatedString:=_LocatedString, baseContext:=_BaseContext, TypeNamedTypeDictionary:=TypeNamedTypeDictionary, CursorPosition:=_TextOnlyDocument.GetIndex(_CursorTextPointer))
 
-        Dim richCompilerResult As RichCompilerResult(Of TResult) = Nothing
         Dim intelliSense As IntelliSense = Nothing
+        Dim richCompilerResult As RichCompilerResult(Of TResult) = Nothing
 
         Try
-            Dim compilerResult = compiler.GetResult
+            Dim compilerResult = compiler.Compile
 
             intelliSense = compilerResult.IntelliSense
             richCompilerResult = New RichCompilerResult(Of TResult)(compilerResult.Result)
-        Catch ex As CompilerExceptionWithCursorTermContext
+        Catch ex As CompilerExceptionWithIntelliSense
             Dim locatedEx = TryCast(ex.InnerCompilerExcpetion, LocatedCompilerException)
             If locatedEx IsNot Nothing Then
-                UnderlineError(locatedEx.LocatedString, textOnlyDocument)
+                Me.UnderlineError(locatedEx.LocatedString, _TextOnlyDocument)
             Else
-                RemoveTextDecorations()
+                Me.RemoveTextDecorations()
             End If
 
-            intelliSense = New IntelliSense(TermContext:=ex.CursorTermContext, filter:=CompilerTools.GetSurroundingIdentifier(textOnlyDocument.Text, textOnlyDocument.GetIndex(_RichTextBox.Selection.Start)))
+            intelliSense = ex.IntelliSense
             richCompilerResult = New RichCompilerResult(Of TResult)(ex.InnerCompilerExcpetion.Message)
         Finally
-            _AutoCompletePopup.IsOpen = True
+            Dim currentIdentifierStartCharRectangle = _TextOnlyDocument.GetTextPointer(_CurrentIdentifier.StartIndex).GetCharacterRect(LogicalDirection.Forward)
 
-            Dim currentCharRect = _RichTextBox.Selection.Start.GetCharacterRect(LogicalDirection.Forward)
+            _AutoCompletePopup.VerticalOffset = -(_RichTextBox.ActualHeight - currentIdentifierStartCharRectangle.Bottom)
+            _AutoCompletePopup.HorizontalOffset = currentIdentifierStartCharRectangle.Left
 
-            _AutoCompletePopup.VerticalOffset = -(_RichTextBox.ActualHeight - currentCharRect.Bottom)
-            _AutoCompletePopup.HorizontalOffset = currentCharRect.Left
+            Dim items = intelliSense.GetExpressionItems.Select(Function(intelliSenseItem) intelliSenseItem.ToListBoxItem)
 
-            _AutoCompleteListBox.ItemsSource = intelliSense.GetExpressionItems.Select(Function(intelliSenseItem) intelliSenseItem.ToListBoxItem).ToArray
+            _AutoCompleteListBox.ItemsSource = items
+
+            If items.Any Then
+                Me.ReopenAutoCompletePopup()
+                _AutoCompleteListBox.SelectedIndex = 0
+            Else
+                Me.CloseAutoCompletePopup()
+            End If
 
             RaiseEvent Compiled(Me, New CompilerResultEventArgs(Of TResult)(richCompilerResult))
         End Try
-
-
-        
     End Sub
 
     Private Sub UnderlineError(ByVal locatedString As LocatedString, textOnlyDocument As TextOnlyDocument)
         _ApplyingTextDecorations = True
 
-        Dim length = If(locatedString.Length > 0, locatedString.Length, If(locatedString.ContainingAnalizedString.ToLocated.Contains(locatedString.EndIndex + 1), 1, 0))
+        Dim length = If(locatedString.Length > 0, locatedString.Length, If(locatedString.ContainingAnalizedString.ToLocated.ContainsCharIndex(locatedString.EndIndex + 1), 1, 0))
 
         Dim errorLocation = textOnlyDocument.GetTextRange(startIndex:=locatedString.StartIndex, length:=length)
         Dim startTextPointer = _RichTextBox.Document.ContentStart
@@ -155,9 +180,115 @@ Public Class RichCompiler(Of TResult)
     Private Sub RichTextBox_TextChanged(sender As System.Object, e As System.Windows.Controls.TextChangedEventArgs) Handles _RichTextBox.TextChanged
         If _ApplyingTextDecorations Then Return
 
+        Me.UpdateOnTextChanged()
+
         Me.Compile()
     End Sub
 
     Public Event Compiled(sender As Object, e As CompilerResultEventArgs(Of TResult))
+
+    Private Sub RichTextBox_PreviewKeyDown(sender As Object, e As KeyEventArgs) Handles _RichTextBox.PreviewKeyDown
+        If _AutoCompletePopup.IsOpen Then
+            Select Case e.Key
+                Case Key.Down
+                    If _AutoCompleteListBox.SelectedIndex < _AutoCompleteListBox.Items.Count - 1 Then _AutoCompleteListBox.SelectedIndex += 1
+                    'Dim listboxItem = TryCast(_AutoCompleteListBox.ItemContainerGenerator.ContainerFromIndex(_AutoCompleteListBox.SelectedIndex), ListBoxItem)
+                    e.Handled = True
+                Case Key.Up
+                    If _AutoCompleteListBox.SelectedIndex > 0 Then _AutoCompleteListBox.SelectedIndex -= 1
+
+                    e.Handled = True
+                Case Key.Escape
+                    Me.CloseAutoCompletePopup()
+
+                    e.Handled = True
+
+                Case Key.Tab
+                    Me.ClosePopupAndUpdateSource()
+
+                    e.Handled = True
+            End Select
+        Else
+            Select Case e.Key
+                Case Key.Tab
+                    Me.InsertText(New String(" "c, 4))
+
+                    e.Handled = True
+            End Select
+        End If
+
+
+    End Sub
+
+    Private Sub AutoCompleteListBox_GotFocus(sender As Object, e As System.Windows.RoutedEventArgs) Handles _AutoCompleteListBox.GotFocus
+        _RichTextBox.Focus()
+
+        Dim listBoxItem = TryCast(e.OriginalSource, ListBoxItem)
+        listBoxItem.IsSelected = True
+    End Sub
+
+    Private Sub AutoCompleteListBox_PreviewMouseDown(sender As Object, e As MouseButtonEventArgs) Handles _AutoCompleteListBox.PreviewMouseDown
+        If e.LeftButton <> MouseButtonState.Pressed AndAlso e.RightButton <> MouseButtonState.Pressed Then Return
+
+        Dim tb = TryCast(e.OriginalSource, TextBlock)
+        If tb Is Nothing Then Return
+
+        If e.ClickCount = 2 Then
+            Me.ClosePopupAndUpdateSource()
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub ClosePopupAndUpdateSource()
+        Me.CloseAutoCompletePopup()
+
+        Me.InsertText(CStr(DirectCast(_AutoCompleteListBox.SelectedItem, ListBoxItem).Content))
+    End Sub
+
+    Private Sub InsertText(ByVal text As String)
+        Dim clipboardCopy = Clipboard.GetDataObject.GetData(GetType(String))
+
+        Clipboard.SetDataObject(text)
+
+        Dim rangeToReplace = _TextOnlyDocument.GetTextRange(_CurrentIdentifier)
+        _RichTextBox.Selection.Select(rangeToReplace.Start, rangeToReplace.End)
+
+        _RichTextBox.Paste()
+
+        Clipboard.SetDataObject(clipboardCopy)
+    End Sub
+
+    Private Sub ReopenAutoCompletePopup()
+        Me.CloseAutoCompletePopup()
+        _AutoCompletePopup.IsOpen = True
+    End Sub
+
+    Private Sub CloseAutoCompletePopup()
+        'For Each listBoxItemObj In _AutoCompleteListBox.Items
+        '    Dim listBoxItem = CType(listBoxItemObj, ListBoxItem)
+        '    Dim toolTip = CType(listBoxItem.ToolTip, ToolTip)
+        '    toolTip.IsOpen = False
+        'Next
+        If _CurrentToolTip IsNot Nothing Then
+            _CurrentToolTip.IsOpen = False
+        End If
+
+        _AutoCompletePopup.IsOpen = False
+    End Sub
+
+    Private Sub AutoCompleteListBox_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles _AutoCompleteListBox.SelectionChanged
+        If _CurrentToolTip IsNot Nothing Then
+            _CurrentToolTip.IsOpen = False
+        End If
+        _CurrentToolTip = DirectCast(DirectCast(e.AddedItems(0), ListBoxItem).ToolTip, ToolTip)
+        _CurrentToolTip.IsOpen = True
+
+        'For Each listBoxItemObj In _AutoCompleteListBox.Items
+        '    Dim listBoxItem = CType(listBoxItemObj, ListBoxItem)
+        '    Dim toolTip = CType(listBoxItem.ToolTip, ToolTip)
+
+        '    toolTip.IsOpen = listBoxItem.IsSelected
+        'Next
+    End Sub
 
 End Class

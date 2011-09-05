@@ -2,7 +2,7 @@
 
     <Test()>
     Public Sub Test()
-        Dim container = "0123456".ToAnalized.ToLocated
+        Dim container = "0123456".ToLocated
         Assert.AreEqual(container.StartIndex, 0)
         Assert.AreEqual(container.ToString, "0123456")
         Assert.AreEqual(container.Substring(startIndex:=2, length:=3).ToString, "234")
@@ -48,7 +48,7 @@
 
     <Test()>
     Public Sub TestSplit()
-        Dim s = "A;B;".ToAnalized.ToLocated
+        Dim s = "A;B;".ToLocated
         Assert.AreEqual({"A", "B", ""}.ToList, s.Split({";"c}).Select(Function(subString) subString.ToString))
 
     End Sub

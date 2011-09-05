@@ -20,8 +20,8 @@
 
         document.Blocks.Add(block2)
 
-        Assert.AreEqual(New TextOnlyDocument(document).GetTextRange(3, 2).Text, "B2")
-        Assert.AreEqual(New TextOnlyDocument(document).GetTextRange(5, 2).Text, "C3")
+        Assert.AreEqual(New TextOnlyDocument(document).GetTextRange(2, 2).Text, "B2")
+        Assert.AreEqual(New TextOnlyDocument(document).GetTextRange(4, 2).Text, "C3")
     End Sub
 
     <Test()>
@@ -31,7 +31,7 @@
         document.Blocks.Add(New Paragraph())
         document.Blocks.Add(New Paragraph(New Run("Test")))
 
-        Assert.AreEqual(New TextOnlyDocument(document).GetTextRange(2, 4).Text, "Test")
+        Assert.AreEqual(New TextOnlyDocument(document).GetTextRange(1, 4).Text, "Test")
     End Sub
 
     <Test()>
@@ -45,7 +45,7 @@
 
         Dim textOnlyDocument = New TextOnlyDocument(document)
 
-        Assert.AreEqual(textOnlyDocument.GetIndex(textPointer), 4)
+        Assert.AreEqual(textOnlyDocument.GetIndex(textPointer), 3)
     End Sub
 
 End Class

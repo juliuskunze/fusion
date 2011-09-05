@@ -122,4 +122,8 @@
         Return position
     End Function
 
+    Public Function GetTextRange(locatedString As LocatedString) As TextRange
+        Return Me.GetTextRange(locatedString.StartIndex, locatedString.Length)
+    End Function
+
 End Class

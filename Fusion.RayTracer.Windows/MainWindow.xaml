@@ -50,12 +50,10 @@
                                         <Setter Property="Margin" Value="0"/>
                                     </Style>
                                 </RichTextBox.Resources>
-                                <FlowDocument PageWidth="10000">
-                                    
-                                </FlowDocument>
+                                <FlowDocument PageWidth="10000"></FlowDocument>
                             </RichTextBox>
-                        <Popup Name="_AutoCompletitionPopup" AllowsTransparency="True" Placement="Bottom" IsOpen="False">
-                            <ListBox Name="_AutoCompletitionListBox" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" KeyboardNavigation.DirectionalNavigation="Contained"></ListBox>
+                        <Popup ToolTipService.BetweenShowDelay="1" Name="_AutoCompletePopup" AllowsTransparency="True" Placement="Bottom" IsOpen="False">
+                            <ListBox Name="_AutoCompleteListBox" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" KeyboardNavigation.DirectionalNavigation="Contained"></ListBox>
                         </Popup>
 
                         <GridSplitter HorizontalAlignment="Stretch" Grid.Row="2" Grid.ColumnSpan="1" Height="3"></GridSplitter>

@@ -2,7 +2,7 @@
 
     <Test()>
     Public Sub TestFunction()
-        Dim e = New FunctionAssignment("Real f(Real   x) = x".ToAnalized.ToLocated, context:=TermContext.Default).GetFunctionInstance
+        Dim e = New FunctionAssignment("Real f(Real   x) = x".ToLocated, context:=TermContext.Default).GetFunctionInstance
 
         Assert.AreEqual(e.Signature.ToString, "Real f(Real x)")
 
@@ -12,7 +12,7 @@
 
     <Test()>
     Public Sub TestNamedParameter()
-        Dim e = New FunctionAssignment("Real f(Real x) = x".ToAnalized.ToLocated, context:=TermContext.Default).GetFunctionInstance
+        Dim e = New FunctionAssignment("Real f(Real x) = x".ToLocated, context:=TermContext.Default).GetFunctionInstance
 
         Assert.AreEqual(e.Signature.Name, "f")
 
@@ -31,7 +31,7 @@
 
     <Test()>
     Public Sub TestMultiParameters()
-        Dim definition = New FunctionAssignment("  Real product(    Real x, Real y) = x*y".ToAnalized.ToLocated, context:=TermContext.Default).GetFunctionInstance
+        Dim definition = New FunctionAssignment("  Real product(    Real x, Real y) = x*y".ToLocated, context:=TermContext.Default).GetFunctionInstance
 
         Dim t = New Term("Product {4 , 2}", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(Functions:={definition})))
 
@@ -41,7 +41,7 @@
 
     <Test()>
     Public Sub TestWrongArgumentCount()
-        Dim definition = New FunctionAssignment("Real product(Real x,Real y) = x*y".ToAnalized.ToLocated, context:=TermContext.Default).GetFunctionInstance
+        Dim definition = New FunctionAssignment("Real product(Real x,Real y) = x*y".ToLocated, context:=TermContext.Default).GetFunctionInstance
 
         Try
             Dim t = New Term("product {4}", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(Functions:={definition}))).GetDelegate
@@ -53,41 +53,41 @@
 
     <Test()>
     Public Sub TestWrongArgumentType()
-        Dim definition = New FunctionAssignment("Real product(Real x,Real y) = x*y".ToAnalized.ToLocated, context:=TermContext.Default).GetFunctionInstance
+        Dim assignment = New FunctionAssignment("Real product(Real x,Real y) = x*y".ToLocated, context:=TermContext.Default).GetFunctionInstance
 
         Try
-            Dim t = New Term("product {4, [4,3,3]}", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(Functions:={definition}))).GetDelegate
+            Dim t = New Term("product {4, [4,3,3]}", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(Functions:={assignment}))).GetDelegate
             Assert.Fail()
         Catch ex As LocatedCompilerException
-            Assert.AreEqual(ex.Message, "Type 'Vector' is not compatible to type 'Real'.")
+            Assert.AreEqual(ex.Message, "Type 'Vector' is not assignable to type 'Real'.")
         End Try
     End Sub
 
     <Test()>
     Public Sub TestNestedFunctions()
-        Dim product = New FunctionAssignment("Real product(Real x,Real y) = x*y".ToAnalized.ToLocated, context:=TermContext.Default).GetFunctionInstance
-        Dim quotient = New FunctionAssignment("Real quotient(Real x,Real y) = x/y".ToAnalized.ToLocated, context:=TermContext.Default).GetFunctionInstance
+        Dim product = New FunctionAssignment("Real product(Real x,Real y) = x*y".ToLocated, context:=TermContext.Default).GetFunctionInstance
+        Dim quotient = New FunctionAssignment("Real quotient(Real x,Real y) = x/y".ToLocated, context:=TermContext.Default).GetFunctionInstance
 
         Assert.AreEqual(New Term("product{4, quotient{1, 4}}", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(Functions:={product, quotient}))).GetDelegate(Of Func(Of Double)).Invoke, 1)
     End Sub
 
     <Test()>
     Public Sub TestDelegateAsParameter()
-        Dim intensityDelegate = NamedType.NamedDelegateTypeFromString("delegate Real IntensityDelegate(Real wavelength)".ToAnalized.ToLocated, typeContext:=NamedTypes.Default)
+        Dim intensityDelegate = NamedType.NamedDelegateTypeFromString("delegate Real IntensityDelegate(Real wavelength)".ToLocated, typeContext:=NamedTypes.Default)
         Dim context = TermContext.Default.Merge(New TermContext(types:=New NamedTypes({intensityDelegate})))
 
-        Dim intensity = New FunctionAssignment("Real Intensity(Real wavelength) = 2*wavelength".ToAnalized.ToLocated, context:=context).GetFunctionInstance
+        Dim intensity = New FunctionAssignment("Real Intensity(Real wavelength) = 2*wavelength".ToLocated, context:=context).GetFunctionInstance
         Dim context2 = context.Merge(New TermContext(Functions:={intensity}))
 
-        Dim calculate = New FunctionAssignment("Real IntensityAt1(IntensityDelegate intensityDelegateInstance) = intensityDelegateInstance{1}".ToAnalized.ToLocated, context:=context2).GetFunctionInstance
+        Dim calculate = New FunctionAssignment("Real IntensityAt1(IntensityDelegate intensityDelegateInstance) = intensityDelegateInstance{1}".ToLocated, context:=context2).GetFunctionInstance
 
         Assert.AreEqual(New Term("intensityAt1{Intensity}", Type:=NamedType.Real, context:=context2.Merge(New TermContext(Functions:={calculate}))).GetDelegate(Of Func(Of Double)).Invoke, 2)
     End Sub
 
     <Test()>
     Public Sub TestFunctionOverloadByParmeterCount()
-        Dim product2 = New FunctionAssignment("Real product(Real x, Real y) = x*y".ToAnalized.ToLocated, context:=TermContext.Default).GetFunctionInstance
-        Dim product3 = New FunctionAssignment("Real product(Real x, Real y, Real z) = x*y*z".ToAnalized.ToLocated, context:=TermContext.Default).GetFunctionInstance
+        Dim product2 = New FunctionAssignment("Real product(Real x, Real y) = x*y".ToLocated, context:=TermContext.Default).GetFunctionInstance
+        Dim product3 = New FunctionAssignment("Real product(Real x, Real y, Real z) = x*y*z".ToLocated, context:=TermContext.Default).GetFunctionInstance
 
         Dim context = TermContext.Default.Merge(New TermContext(Functions:={product2, product3}))
 

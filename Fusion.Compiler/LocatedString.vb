@@ -88,7 +88,7 @@
         Return Me.TrimEnd(_WhiteSpaceTrimCondition).TrimStart(_WhiteSpaceTrimCondition)
     End Function
 
-    Public ReadOnly Property Chars(index As Integer) As Char
+    Default Public ReadOnly Property Chars(index As Integer) As Char
         Get
             Return _ContainingAnalizedString.Text(_StartIndex + index)
         End Get
@@ -106,8 +106,12 @@
         Return New LocatedString(_ContainingAnalizedString, startIndex:=_StartIndex + startIndex, length:=length)
     End Function
 
-    Public Function Contains(index As Integer) As Boolean
+    Public Function ContainsCharIndex(index As Integer) As Boolean
         Return _StartIndex <= index AndAlso index < Me.EndIndex
+    End Function
+
+    Public Function ContainsPointer(pointer As Integer) As Boolean
+        Return _StartIndex <= pointer AndAlso pointer <= Me.EndIndex
     End Function
 
     Public Function Split(separatorChars As IEnumerable(Of Char)) As IEnumerable(Of LocatedString)

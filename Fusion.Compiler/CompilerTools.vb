@@ -237,13 +237,19 @@ Public Module CompilerTools
         Return New AnalizedString(s)
     End Function
 
-    Public Function GetSurroundingIdentifier(s As String, index As Integer) As String
+    <Extension()>
+    Public Function ToLocated(s As String) As LocatedString
+        Return s.ToAnalized.ToLocated
+    End Function
+
+    <Extension()>
+    Public Function GetSurroundingIdentifier(s As LocatedString, index As Integer) As LocatedString
         If index < 0 OrElse index > s.Length Then Throw New ArgumentOutOfRangeException("index")
 
         Dim startIndex = 0
         Dim endIndex = s.Length
 
-        If s = "" Then Return ""
+        If s.ToString = "" Then Return s.Substring(startIndex:=index, length:=0)
 
         If index = 0 Then
             For i = 0 To s.Length - 1
@@ -253,7 +259,7 @@ Public Module CompilerTools
                 End If
             Next
 
-            If Not s(startIndex).IsIdentifierStartChar Then Return ""
+            If Not s(startIndex).IsIdentifierStartChar Then Return s.Substring(startIndex:=index, length:=0)
         ElseIf index = s.Length OrElse Not s(index).IsIdentifierChar Then
             endIndex = index
 
@@ -282,7 +288,7 @@ Public Module CompilerTools
             Next
         End If
 
-        If startIndex < s.Length - 1 AndAlso Not s(startIndex).IsIdentifierStartChar Then Return ""
+        If startIndex < s.Length - 1 AndAlso Not s(startIndex).IsIdentifierStartChar Then Return s.Substring(startIndex:=index, length:=0)
 
         Return s.Substring(startIndex:=startIndex, length:=endIndex - startIndex)
     End Function
