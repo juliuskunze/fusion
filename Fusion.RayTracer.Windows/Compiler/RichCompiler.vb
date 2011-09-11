@@ -109,13 +109,23 @@ Public Class RichCompiler(Of TResult)
             _AutoCompletePopup.VerticalOffset = -(_RichTextBox.ActualHeight - currentIdentifierStartCharRectangle.Bottom)
             _AutoCompletePopup.HorizontalOffset = currentIdentifierStartCharRectangle.Left
 
-            Dim items = intelliSense.GetItems.Select(Function(intelliSenseItem) intelliSenseItem.ToListBoxItem)
+            Dim intelliSenseItems = intelliSense.GetItems
+            Dim listBoxItems = intelliSenseItems.Select(Function(intelliSenseItem) intelliSenseItem.ToListBoxItem)
 
-            _AutoCompleteListBox.ItemsSource = items
+            _AutoCompleteListBox.ItemsSource = listBoxItems
 
-            If items.Any Then
+            If intelliSenseItems.Any Then
                 Me.ReopenAutoCompletePopup()
+
                 _AutoCompleteListBox.SelectedIndex = 0
+
+                For i = 0 To intelliSenseItems.Count - 1
+                    Dim intelliSenseItem = intelliSenseItems(i)
+                    If intelliSenseItem.Name.StartsWith(intelliSense.Filter) Then
+                        _AutoCompleteListBox.SelectedIndex = i
+                        Exit For
+                    End If
+                Next
             Else
                 Me.CloseAutoCompletePopup()
             End If

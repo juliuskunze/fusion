@@ -2,6 +2,11 @@
 
     Private ReadOnly _TermContext As TermContext
     Private ReadOnly _Filter As String
+    Public ReadOnly Property Filter As String
+        Get
+            Return _Filter
+        End Get
+    End Property
 
     Public ReadOnly Property IsEmpty As Boolean
         Get
@@ -23,7 +28,7 @@
         If Me.IsEmpty Then Me.ThrowIsEmptyException()
 
         Dim constants = _TermContext.Constants.Select(Function(constant) New IntelliSenseItem(signature:=constant.Signature))
-        Dim parameters = _TermContext.Parameters.Select(Function(constant) New IntelliSenseItem(signature:=constant.Signature))
+        Dim parameters = _TermContext.Parameters.Select(Function(parameter) New IntelliSenseItem(signature:=parameter.Signature))
         Dim functions = _TermContext.GroupedFunctionsAndDelegateParameters.Select(Function(functionGroup) New IntelliSenseItem(functionGroup:=functionGroup))
         Dim types = _TermContext.Types.Select(Function(type) New IntelliSenseItem(signature:=type))
 

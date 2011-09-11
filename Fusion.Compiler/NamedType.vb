@@ -126,7 +126,7 @@
 
     Public Function GetSignatureString() As String Implements ISignature.GetSignatureString
         If Me.IsDelegate Then
-            Return "Type " & Me.Delegate.ResultType.GetSignatureString & " " & Me.Name & String.Join(", ", Me.Delegate.Parameters.Select(Function(parameter) parameter.ToString)).InBrackets(CompilerTools.ParameterBracketType)
+            Return Me.Delegate.ResultType.GetSignatureString & " " & Me.Name & String.Join(", ", Me.Delegate.Parameters.Select(Function(parameter) parameter.Signature.ToString)).InBrackets(CompilerTools.ParameterBracketType)
         Else
             Return "Type " & Me.Name & If(Me.TypeArguments.Any, String.Join(", ", Me.TypeArguments.ToString).InBrackets(CompilerTools.TypeArgumentBracketType), "")
         End If
