@@ -2,25 +2,26 @@
 
 Public Class MainWindow
 
-    Private WithEvents _RayTracerPicture As RayTracerPicture(Of RadianceSpectrum)
-    Private _ResultBitmap As System.Drawing.Bitmap
-    Private _RenderStopwatch As Stopwatch
+    Private ReadOnly _SaveDescriptionDialog As SaveFileDialog
+    Private ReadOnly _OpenDescriptionDialog As OpenFileDialog
 
+    Private WithEvents _PictureCompiler As RichCompiler(Of RayTracerPicture(Of RadianceSpectrum))
+    Private WithEvents _Picture As RayTracerPicture(Of RadianceSpectrum)
+    Private _ResultBitmap As System.Drawing.Bitmap
+
+    Private WithEvents _VideoCompiler As RichCompiler(Of RayTracerVideo(Of RadianceSpectrum))
+    Private WithEvents _Video As RayTracerVideo(Of RadianceSpectrum)
+
+    Private _RenderStopwatch As Stopwatch
     Private WithEvents _RenderBackgroundWorker As ComponentModel.BackgroundWorker
 
     Private Shared ReadOnly _RelativisticRayTracerTermContextBuilder As New RelativisticRayTracerTermContextBuilder
     Private Shared ReadOnly _BaseContext As TermContext = _RelativisticRayTracerTermContextBuilder.TermContext
 
-    Private WithEvents _PictureCompiler As RichCompiler(Of RayTracerPicture(Of RadianceSpectrum))
-    Private WithEvents _VideoCompiler As RichCompiler(Of RayTracerVideo(Of RadianceSpectrum))
-
     Private Shared ReadOnly _DefaultInitialDirectory As String = My.Computer.FileSystem.SpecialDirectories.Desktop
 
     Private ReadOnly _SavePictureDialog As SaveFileDialog
     Private ReadOnly _SaveVideoDialog As SaveFileDialog
-
-    Private ReadOnly _SaveDescriptionDialog As SaveFileDialog
-    Private ReadOnly _OpenDescriptionDialog As OpenFileDialog
 
     Private ReadOnly _OpenVideoDirectoryDialog As System.Windows.Forms.FolderBrowserDialog
 
@@ -82,12 +83,20 @@ Public Class MainWindow
 
         _RenderStopwatch = Stopwatch.StartNew
 
-        _RenderBackgroundWorker.RunWorkerAsync(_RayTracerPicture)
+        _RenderBackgroundWorker.RunWorkerAsync(_Picture)
     End Sub
 
     Private Sub Compiler_Compiled(sender As Object, e As CompilerResultEventArgs(Of RayTracerPicture(Of RadianceSpectrum))) Handles _PictureCompiler.Compiled
+        OnCompiled(e, out_result:=_Picture)
+    End Sub
+
+    Private Sub Compiler_Compiled(sender As Object, e As CompilerResultEventArgs(Of RayTracerVideo(Of RadianceSpectrum))) Handles _VideoCompiler.Compiled
+        OnCompiled(e, out_result:=_Video)
+    End Sub
+
+    Private Sub OnCompiled(Of TResult)(ByVal e As CompilerResultEventArgs(Of TResult), ByRef out_result As TResult)
         If e.CompilerResult.WasCompilationSuccessful Then
-            _RayTracerPicture = e.CompilerResult.Result
+            out_result = e.CompilerResult.Result
         Else
             _ErrorTextBox.Text = e.CompilerResult.ErrorMessage
         End If
@@ -111,7 +120,7 @@ Public Class MainWindow
     Private Sub CalculateNeededTimeButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _CalculateNeededTimeButton.Click
         If Not _CalculateTimeOptionsDialog.DialogResult Then Return
 
-        Dim size = _RayTracerPicture.PictureSize
+        Dim size = _Picture.PictureSize
 
         Dim bitmap = New System.Drawing.Bitmap(size.Width, size.Height)
 
@@ -130,7 +139,7 @@ Public Class MainWindow
 
             drawTimeStopwatch.Start()
 
-            bitmap.SetPixel(randomX, randomY, _RayTracerPicture.GetPixelColor(randomX, randomY))
+            bitmap.SetPixel(randomX, randomY, _Picture.GetPixelColor(randomX, randomY))
 
             drawTimeStopwatch.Stop()
 
@@ -232,13 +241,13 @@ Public Class MainWindow
 
     Private Property RenderingTabItemsVisible As Boolean
         Get
-            Return _RenderingTabItem.Visibility = Visibility.Visible
+            Return _PictureRenderingTabItem.Visibility = Visibility.Visible
         End Get
         Set(value As Boolean)
             If value Then
-                _RenderingTabItem.Visibility = Visibility.Visible
+                _PictureRenderingTabItem.Visibility = Visibility.Visible
             Else
-                _RenderingTabItem.Visibility = Visibility.Collapsed
+                _PictureRenderingTabItem.Visibility = Visibility.Collapsed
             End If
         End Set
     End Property
@@ -258,18 +267,6 @@ Public Class MainWindow
         _PictureCompiler.Compile()
     End Sub
 
-    Private Sub CompilePictureMenuItem_Checked(sender As Object, e As System.Windows.RoutedEventArgs) Handles _CompilePictureMenuItem.Checked
-        If Not MyBase.IsLoaded Then Return
-
-        Me.Mode = CompileMode.Picture
-    End Sub
-
-    Private Sub CompileVideoMenuItem_Checked(sender As Object, e As System.Windows.RoutedEventArgs) Handles _CompileVideoMenuItem.Checked
-        If Not MyBase.IsLoaded Then Return
-
-        Me.Mode = CompileMode.Video
-    End Sub
-
     Private Enum CompileMode
         Picture
         Video
@@ -283,7 +280,7 @@ Public Class MainWindow
             _CompilePictureMenuItem.IsChecked = (value = CompileMode.Picture)
             _CompileVideoMenuItem.IsChecked = (value = CompileMode.Video)
 
-            Select value
+            Select Case value
                 Case CompileMode.Picture
                     _PictureCompiler = Me.GetCompiler(Of RayTracerPicture(Of RadianceSpectrum))()
                 Case CompileMode.Video
@@ -395,6 +392,16 @@ Public Class MainWindow
 
             Me.Mode = mode
         End If
+    End Sub
+
+    Private Sub CompilePictureMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _CompilePictureMenuItem.Click
+        e.Handled = True
+        Me.Mode = CompileMode.Picture
+    End Sub
+
+    Private Sub CompileVideoMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _CompileVideoMenuItem.Click
+        e.Handled = True
+        Me.Mode = CompileMode.Video
     End Sub
 
 End Class

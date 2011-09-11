@@ -9,7 +9,7 @@ Public Module CompilerTools
         End Get
     End Property
 
-    Private ReadOnly _ArgumentBracketType As BracketType = BracketType.Curly
+    Private ReadOnly _ArgumentBracketType As BracketType = BracketType.Round
     Public ReadOnly Property ArgumentBracketType As BracketType
         Get
             Return _ArgumentBracketType

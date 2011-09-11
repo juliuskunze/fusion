@@ -32,7 +32,6 @@ Public Class RichCompiler(Of TResult)
         _BaseContext = baseContext
 
         _AutoCompletePopup.PlacementTarget = _RichTextBox
-
         _RichTextBox.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
         _RichTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Visible
 
@@ -110,7 +109,7 @@ Public Class RichCompiler(Of TResult)
             _AutoCompletePopup.VerticalOffset = -(_RichTextBox.ActualHeight - currentIdentifierStartCharRectangle.Bottom)
             _AutoCompletePopup.HorizontalOffset = currentIdentifierStartCharRectangle.Left
 
-            Dim items = intelliSense.GetExpressionItems.Select(Function(intelliSenseItem) intelliSenseItem.ToListBoxItem)
+            Dim items = intelliSense.GetItems.Select(Function(intelliSenseItem) intelliSenseItem.ToListBoxItem)
 
             _AutoCompleteListBox.ItemsSource = items
 

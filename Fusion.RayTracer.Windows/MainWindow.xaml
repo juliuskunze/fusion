@@ -19,18 +19,18 @@
         </r:Ribbon>
         
         <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <Grid.ColumnDefinitions> 
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TabControl>
                 <TabItem Header="Scene description" >
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="120"></RowDefinition>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="120" />
                         </Grid.RowDefinitions>
                         
                         <StackPanel>
@@ -92,7 +92,7 @@
                         </Grid>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Rendering" IsEnabled="True" Name="_RenderingTabItem" Visibility="Collapsed">
+                <TabItem Header="Picture rendering" IsEnabled="True" Name="_PictureRenderingTabItem" Visibility="Collapsed">
                     
                     <StackPanel>
                         <GroupBox Header="Time calculation" Name="_RenderingTimeCalculationGroupBox">

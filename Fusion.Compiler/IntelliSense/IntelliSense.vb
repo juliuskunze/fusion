@@ -19,18 +19,27 @@
         _Filter = filter
     End Sub
 
-    Public Function GetExpressionItems() As IEnumerable(Of IntelliSenseItem)
-        If Me.IsEmpty Then Throw New InvalidOperationException("IntelliSense is empty.")
+    Public Function GetItems() As IEnumerable(Of IntelliSenseItem)
+        If Me.IsEmpty Then Me.ThrowIsEmptyException()
 
-        Return _TermContext.Constants.Where(Function(constant) constant.Signature.Name.Contains(_Filter)).Select(Function(constant) New IntelliSenseItem(signature:=constant.Signature)).Concat(
-               _TermContext.GroupedFunctionsAndDelegateParameters.Where(Function(group) group.Key.Contains(_Filter)).Select(Function(functionGroup) New IntelliSenseItem(functionGroup:=functionGroup))).OrderBy(Function(item) item.Name)
+        Dim constants = _TermContext.Constants.Select(Function(constant) New IntelliSenseItem(signature:=constant.Signature))
+        Dim parameters = _TermContext.Parameters.Select(Function(constant) New IntelliSenseItem(signature:=constant.Signature))
+        Dim functions = _TermContext.GroupedFunctionsAndDelegateParameters.Select(Function(functionGroup) New IntelliSenseItem(functionGroup:=functionGroup))
+        Dim types = _TermContext.Types.Select(Function(type) New IntelliSenseItem(signature:=type))
+
+        Dim all = constants.Concat(parameters).Concat(functions).Concat(types)
+
+        Return all.Where(Function(item) Me.SatisfiesFilter(item.Name)).OrderBy(Function(item) item.Name)
     End Function
 
-    Public Function GetTypeItems() As IEnumerable(Of IntelliSenseItem)
-        If Me.IsEmpty Then Throw New InvalidOperationException("IntelliSense is empty.")
-
-        Return _TermContext.Types.Select(Function(type) New IntelliSenseItem(signature:=type))
+    Private Function SatisfiesFilter(name As String) As Boolean
+        Return name.Contains(_Filter)
     End Function
+
+    Private Sub ThrowIsEmptyException()
+        Throw New InvalidOperationException("IntelliSense is empty.")
+    End Sub
+
 
     Private Shared ReadOnly _Empty As New IntelliSense
     Public Shared ReadOnly Property Empty As IntelliSense
