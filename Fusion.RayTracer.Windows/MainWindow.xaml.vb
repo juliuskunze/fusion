@@ -64,6 +64,7 @@ Public Class MainWindow
         Dim compiler = New RichCompiler(Of TResult)(RichTextBox:=_SceneDescriptionTextBox,
                                                     autoCompletePopup:=_AutoCompletePopup,
                                                     autoCompleteListBox:=_AutoCompleteListBox,
+                                                    autoCompleteScrollViewer:=_AutoCompleteScrollViewer,
                                                     baseContext:=_BaseContext,
                                                     TypeNamedTypeDictionary:=_RelativisticRayTracerTermContextBuilder.TypeDictionary)
 

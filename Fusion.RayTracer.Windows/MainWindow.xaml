@@ -62,11 +62,21 @@
                                 </RichTextBox.Resources>
                             <FlowDocument PageWidth="10000"></FlowDocument>
                             </RichTextBox>
-                        <Popup ToolTipService.BetweenShowDelay="1" Name="_AutoCompletePopup" AllowsTransparency="True" Placement="Bottom" IsOpen="False">
-                            <ListBox Name="_AutoCompleteListBox" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" KeyboardNavigation.DirectionalNavigation="Contained"></ListBox>
+                        <Popup Name="_AutoCompletePopup" AllowsTransparency="True" Placement="Bottom" IsOpen="False">
+                            <Border  BorderThickness="1" BorderBrush="Gray">
+                                <ScrollViewer Margin="0" Name="_AutoCompleteScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" MaxHeight="100">
+                                    <ListBox BorderThickness="0" Name="_AutoCompleteListBox" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" KeyboardNavigation.DirectionalNavigation="Contained">
+                                        <ListBox.Resources>
+                                            <Style TargetType="ListBoxItem">
+                                                <Setter Property="ToolTipService.IsEnabled" Value="False"></Setter>
+                                            </Style>
+                                        </ListBox.Resources>
+                                    </ListBox>
+                                </ScrollViewer>
+                            </Border>
                         </Popup>
 
-                        <GridSplitter HorizontalAlignment="Stretch" Grid.Row="2" Grid.ColumnSpan="1" Height="3"></GridSplitter>
+                        <GridSplitter HorizontalAlignment="Stretch" Grid.Row="2" Grid.ColumnSpan="1" Height="3" />
                         
                         <Grid Grid.Row="3">
                             <Grid.RowDefinitions>

@@ -30,12 +30,12 @@
     Public Function ToListBoxItem() As ListBoxItem
         Dim listBoxItem = New ListBoxItem
         listBoxItem.Content = _Name
-
+        
         Dim tooltip = New ToolTip
         tooltip.Content = _ToolTipText
         tooltip.PlacementTarget = listBoxItem
+
         tooltip.Placement = Controls.Primitives.PlacementMode.Right
-        tooltip.HorizontalOffset = 5
 
         listBoxItem.ToolTip = tooltip
 

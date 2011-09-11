@@ -23,7 +23,7 @@
         If Me.IsEmpty Then Throw New InvalidOperationException("IntelliSense is empty.")
 
         Return _TermContext.Constants.Where(Function(constant) constant.Signature.Name.Contains(_Filter)).Select(Function(constant) New IntelliSenseItem(signature:=constant.Signature)).Concat(
-               _TermContext.GroupedFunctionsAndDelegateParameters.Where(Function(group) group.Key.Contains(_Filter)).Select(Function(functionGroup) New IntelliSenseItem(functionGroup:=functionGroup)))
+               _TermContext.GroupedFunctionsAndDelegateParameters.Where(Function(group) group.Key.Contains(_Filter)).Select(Function(functionGroup) New IntelliSenseItem(functionGroup:=functionGroup))).OrderBy(Function(item) item.Name)
     End Function
 
     Public Function GetTypeItems() As IEnumerable(Of IntelliSenseItem)

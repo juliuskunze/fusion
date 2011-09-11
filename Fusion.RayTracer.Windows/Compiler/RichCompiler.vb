@@ -6,6 +6,7 @@ Public Class RichCompiler(Of TResult)
     Private WithEvents _RichTextBox As RichTextBox
     Private WithEvents _AutoCompletePopup As Popup
     Private WithEvents _AutoCompleteListBox As ListBox
+    Private WithEvents _AutoCompleteScrollViewer As ScrollViewer
     Private ReadOnly _BaseContext As TermContext
 
     Private _ApplyingTextDecorations As Boolean
@@ -20,12 +21,14 @@ Public Class RichCompiler(Of TResult)
     Public Sub New(richTextBox As RichTextBox,
                    autoCompletePopup As Popup,
                    autoCompleteListBox As ListBox,
+                   autoCompleteScrollViewer As ScrollViewer,
                    baseContext As TermContext,
                    typeNamedTypeDictionary As TypeNamedTypeDictionary)
         _RichTextBox = richTextBox
         _TypeNamedTypeDictionary = typeNamedTypeDictionary
         _AutoCompletePopup = autoCompletePopup
         _AutoCompleteListBox = autoCompleteListBox
+        _AutoCompleteScrollViewer = autoCompleteScrollViewer
         _BaseContext = baseContext
 
         _AutoCompletePopup.PlacementTarget = _RichTextBox
@@ -35,7 +38,7 @@ Public Class RichCompiler(Of TResult)
 
         Dim pasteCommandBinding = New CommandBinding(ApplicationCommands.Paste, AddressOf OnPaste, AddressOf OnCanExecutePaste)
         _RichTextBox.CommandBindings.Add(pasteCommandBinding)
-
+        
         Me.UpdateOnTextChanged()
     End Sub
 
@@ -199,7 +202,7 @@ Public Class RichCompiler(Of TResult)
             Select Case e.Key
                 Case Key.Down
                     If _AutoCompleteListBox.SelectedIndex < _AutoCompleteListBox.Items.Count - 1 Then _AutoCompleteListBox.SelectedIndex += 1
-                    'Dim listboxItem = TryCast(_AutoCompleteListBox.ItemContainerGenerator.ContainerFromIndex(_AutoCompleteListBox.SelectedIndex), ListBoxItem)
+
                     e.Handled = True
                 Case Key.Up
                     If _AutoCompleteListBox.SelectedIndex > 0 Then _AutoCompleteListBox.SelectedIndex -= 1
@@ -209,7 +212,6 @@ Public Class RichCompiler(Of TResult)
                     Me.CloseAutoCompletePopup()
 
                     e.Handled = True
-
                 Case Key.Tab
                     Me.CloseAutoCompletePopupAndUpdateSource()
 
@@ -233,6 +235,8 @@ Public Class RichCompiler(Of TResult)
         Dim listBoxItem = TryCast(e.OriginalSource, ListBoxItem)
         listBoxItem.IsSelected = True
     End Sub
+
+
 
     Private Sub AutoCompleteListBox_PreviewMouseDown(sender As Object, e As MouseButtonEventArgs) Handles _AutoCompleteListBox.PreviewMouseDown
         If e.LeftButton <> MouseButtonState.Pressed AndAlso e.RightButton <> MouseButtonState.Pressed Then Return
@@ -272,25 +276,49 @@ Public Class RichCompiler(Of TResult)
     End Sub
 
     Private Sub CloseAutoCompletePopup()
-        If _CurrentToolTip IsNot Nothing Then
-            _CurrentToolTip.IsOpen = False
-        End If
+        Me.CloseCurrentToolTipIfNotNull()
 
         _AutoCompletePopup.IsOpen = False
     End Sub
+
+    Private Sub CloseCurrentToolTipIfNotNull()
+        If _CurrentToolTip Is Nothing Then Return
+
+        _CurrentToolTip.IsOpen = False
+    End Sub
+
+    Private Sub ReopenCurrentToolTipIfNotNull()
+        If _CurrentToolTip Is Nothing Then Return
+
+        _CurrentToolTip.IsOpen = False
+        Me.OpenCurrentToolTip()
+    End Sub
+
 
     Public Sub Deactivate()
         Me.CloseAutoCompletePopup()
     End Sub
 
     Private Sub AutoCompleteListBox_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles _AutoCompleteListBox.SelectionChanged
-        If _CurrentToolTip IsNot Nothing Then
-            _CurrentToolTip.IsOpen = False
-        End If
+        Me.CloseCurrentToolTipIfNotNull()
 
-        If e.AddedItems.Count <> 1 Then Return
-        _CurrentToolTip = DirectCast(DirectCast(e.AddedItems(0), ListBoxItem).ToolTip, ToolTip)
+        Dim selectedItem = CType(_AutoCompleteListBox.SelectedItem, ListBoxItem)
+        If selectedItem Is Nothing Then Return
+
+        selectedItem.BringIntoView()
+        _CurrentToolTip = DirectCast(selectedItem.ToolTip, ToolTip)
+
+        Me.OpenCurrentToolTip()
+    End Sub
+
+    Private Sub OpenCurrentToolTip()
+        _CurrentToolTip.HorizontalOffset = If(_AutoCompleteScrollViewer.ComputedVerticalScrollBarVisibility = Visibility.Visible, 22, 5)
+
         _CurrentToolTip.IsOpen = True
+    End Sub
+
+    Private Sub AutoCompleteScrollViewer_ScrollChanged(sender As Object, e As System.Windows.Controls.ScrollChangedEventArgs) Handles _AutoCompleteScrollViewer.ScrollChanged
+        Me.ReopenCurrentToolTipIfNotNull()
     End Sub
 
 End Class

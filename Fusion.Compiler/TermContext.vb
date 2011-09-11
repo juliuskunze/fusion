@@ -54,12 +54,12 @@
         _Types = If(types Is Nothing, NamedTypes.Empty, types)
     End Sub
 
-    Private Shared ReadOnly _Default As New TermContext(Constants:={New ConstantInstance(Of Boolean)("True", True, TypeNamedTypeDictionary.Default),
-                                                                    New ConstantInstance(Of Boolean)("False", False, TypeNamedTypeDictionary.Default),
-                                                                    New ConstantInstance(Of Double)("Pi", System.Math.PI, TypeNamedTypeDictionary.Default),
-                                                                    New ConstantInstance(Of Double)("E", System.Math.E, TypeNamedTypeDictionary.Default)
+    Private Shared ReadOnly _Default As New TermContext(Constants:={New ConstantInstance(Of Boolean)("true", True, TypeNamedTypeDictionary.Default),
+                                                                    New ConstantInstance(Of Boolean)("false", False, TypeNamedTypeDictionary.Default),
+                                                                    New ConstantInstance(Of Double)("pi", System.Math.PI, TypeNamedTypeDictionary.Default),
+                                                                    New ConstantInstance(Of Double)("e", System.Math.E, TypeNamedTypeDictionary.Default)
                                                                    },
-                                                        Functions:={New FunctionInstance(Of Func(Of Double, Double))("Sqrt", Function(x) System.Math.Sqrt(x), TypeNamedTypeDictionary.Default),
+                                                        Functions:={New FunctionInstance(Of Func(Of Double, Double))("Sqrt", Function(x As Double) System.Math.Sqrt(x), TypeNamedTypeDictionary.Default),
                                                                     New FunctionInstance(Of Func(Of Double, Double))("Exp", Function(x) System.Math.Exp(x), TypeNamedTypeDictionary.Default),
                                                                     New FunctionInstance(Of Func(Of Double, Double))("Sin", Function(x) System.Math.Sin(x), TypeNamedTypeDictionary.Default),
                                                                     New FunctionInstance(Of Func(Of Double, Double))("Cos", Function(x) System.Math.Cos(x), TypeNamedTypeDictionary.Default),
