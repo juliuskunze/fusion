@@ -34,7 +34,11 @@
     End Function
 
     Public Overrides Function ToString() As String Implements ISignature.GetSignatureString
-        Return Me.DelegateType.ResultType.Name & " " & Me.Name & String.Join(", ", Me.DelegateType.Parameters.Select(Function(parameter) parameter.GetSignatureString)).InBrackets
+        Return Me.DelegateType.ResultType.Name & " " & Me.Name & String.Join(", ", Me.DelegateType.Parameters.Select(Function(parameter) parameter.Signature.ToString)).InBrackets
     End Function
+
+    Public Sub CheckForConflicts(other As FunctionSignature)
+        If Me.Name = other.Name AndAlso Me.DelegateType.Parameters.Count = other.DelegateType.Parameters.Count Then Throw New CompilerException(String.Format("Function '{0}' with parameter count {1} is already defined.", other.Name, other.DelegateType.Parameters.Count))
+    End Sub
 
 End Class

@@ -1,35 +1,29 @@
 ﻿Public Class NamedParameter
-    Implements ISignature
-    
-    Protected ReadOnly _Name As String
-    Public ReadOnly Property Name As String Implements ISignature.Name
-        Get
-            Return _Name
-        End Get
-    End Property
 
-    Protected ReadOnly _Type As NamedType
-    Public ReadOnly Property Type As NamedType
+    Private ReadOnly _Signature As ConstantSignature
+    Public ReadOnly Property Signature As ConstantSignature
         Get
-            Return _Type
+            Return _Signature
         End Get
     End Property
 
     Public Sub New(name As String, type As NamedType)
-        _Name = name
-        _Type = type
-        _Expression = Expressions.Expression.Parameter(type:=type.SystemType, name:=name)
+        Me.New(New ConstantSignature(name, type))
+    End Sub
+
+    Public Sub New(signature As ConstantSignature)
+        _Signature = signature
+        _Expression = Expressions.Expression.Parameter(type:=signature.Type.SystemType, name:=signature.Name)
     End Sub
 
     Public Function ToFunctionInstance() As FunctionInstance
-        If Not _Type.IsDelegate Then Throw New InvalidOperationException("Parameter must be a delegate.")
+        If Not _Signature.Type.IsDelegate Then Throw New InvalidOperationException("Parameter must be a delegate.")
 
-        Return New FunctionInstance(signature:=New FunctionSignature(Name:=_Name, DelegateType:=_Type.Delegate), invokableExpression:=_Expression)
+        Return New FunctionInstance(Signature:=New FunctionSignature(Name:=_Signature.Name, DelegateType:=_Signature.Type.Delegate), invokableExpression:=_Expression)
     End Function
 
     Public Shared Function FromText(text As LocatedString, typeContext As NamedTypes) As NamedParameter
-        Dim signature = ConstantSignature.FromText(text:=text, typeContext:=typeContext)
-        Return New NamedParameter(Name:=signature.Name, Type:=signature.Type)
+        Return New NamedParameter(ConstantSignature.FromText(text:=text, typeContext:=typeContext))
     End Function
 
     Private ReadOnly _Expression As ParameterExpression
@@ -40,11 +34,7 @@
     End Property
 
     Friend Function ToExpressionWithNamedType() As ExpressionWithNamedType
-        Return Me.Expression.WithNamedType(Me.Type)
-    End Function
-
-    Public Function GetSignatureString() As String Implements ISignature.GetSignatureString
-        Return Me.Type.Name & " " & Me.Name
+        Return Me.Expression.WithNamedType(Me.Signature.Type)
     End Function
 
 End Class

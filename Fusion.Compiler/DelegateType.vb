@@ -27,7 +27,7 @@
             Dim parameter = Me.Parameters(parameterIndex)
             Dim otherParameter = other.Parameters(parameterIndex)
 
-            otherParameter.Type.CheckIsAssignableFrom(parameter.Type)
+            otherParameter.Signature.Type.CheckIsAssignableFrom(parameter.Signature.Type)
         Next
     End Sub
 
@@ -38,7 +38,7 @@
             Dim parameter = Me.Parameters(parameterIndex)
             Dim otherParameter = other.Parameters(parameterIndex)
 
-            If Not otherParameter.Type.IsAssignableFrom(parameter.Type) Then Return False
+            If Not otherParameter.Signature.Type.IsAssignableFrom(parameter.Signature.Type) Then Return False
         Next
 
         Return True
@@ -53,7 +53,7 @@
 
     Private Function GetSystemType() As Type
         Dim resultType = Me.ResultType.SystemType
-        Dim parameterTypes = Me.Parameters.Select(Function(parameter) parameter.Type.SystemType)
+        Dim parameterTypes = Me.Parameters.Select(Function(parameter) parameter.Signature.Type.SystemType)
         Return GetDelegateFunctionType(parameterTypes, resultType)
     End Function
     

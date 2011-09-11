@@ -132,4 +132,8 @@
         End If
     End Function
 
+    Public Sub CheckForSignatureConflicts(other As NamedType)
+        If CompilerTools.IdentifierEquals(Me.Name, other.Name) Then Throw New CompilerException(String.Format("Type '{0}' is already defined.", other.Name))
+    End Sub
+
 End Class

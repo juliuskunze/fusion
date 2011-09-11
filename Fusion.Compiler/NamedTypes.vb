@@ -28,6 +28,12 @@
     End Property
 
     Public Function Merge(second As NamedTypes) As NamedTypes
+        For Each newType In second
+            For Each type In Me
+                newType.CheckForSignatureConflicts(type)
+            Next
+        Next
+
         Return New NamedTypes(Me.Concat(second))
     End Function
 

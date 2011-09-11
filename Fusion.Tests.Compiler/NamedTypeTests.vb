@@ -10,8 +10,8 @@
 
         Dim parameter = delegateType.Delegate.Parameters.Single
 
-        Assert.AreSame(parameter.Type, NamedType.Real)
-        Assert.AreEqual(parameter.Name, "wavelength")
+        Assert.AreSame(parameter.Signature.Type, NamedType.Real)
+        Assert.AreEqual(parameter.Signature.Name, "wavelength")
     End Sub
 
     <Test()>

@@ -64,7 +64,7 @@
         Dim matchingParameter = _Context.TryParseParameter(_LocatedString.ToString)
         If matchingParameter Is Nothing Then Return Nothing
 
-        Me.CheckTypeMatch(matchingParameter.Type)
+        Me.CheckTypeMatch(matchingParameter.Signature.Type)
 
         Return matchingParameter.ToExpressionWithNamedType
     End Function
@@ -239,7 +239,7 @@
             Dim parts = argumentString.SplitIfSeparatorIsNotInBrackets(":"c, bracketTypes:=CompilerTools.AllowedBracketTypes)
             Dim argumentTerm = GetArgumentTerm(argumentString, parts, parameter)
 
-            arguments.Add(Me.SubstringExpression(argumentTerm, typeInformation:=New TypeInformation(parameter.Type)).Expression)
+            arguments.Add(Me.SubstringExpression(argumentTerm, typeInformation:=New TypeInformation(parameter.Signature.Type)).Expression)
         Next
 
         Return New ExpressionWithNamedType(functionInstance.CallExpressionBuilder.Run(arguments:=arguments), _TypeInformation.Type)
@@ -355,7 +355,7 @@
                 Return argumentString
             Case 2
                 Dim parameterName = parts.First.Trim
-                If Not CompilerTools.IdentifierEquals(parameter.Name, parameterName.ToString) Then Throw New InvalidTermException(parameterName, String.Format("Wrong parameter name: '{0}'; '{1}' expected.", parameterName, parameter.Name))
+                If Not CompilerTools.IdentifierEquals(parameter.Signature.Name, parameterName.ToString) Then Throw New InvalidTermException(parameterName, String.Format("Wrong parameter name: '{0}'; '{1}' expected.", parameterName, parameter.Signature.Name))
                 Return parts.Last
             Case Else
                 Throw New InvalidTermException(_LocatedString, String.Format("Invalid argument expression: '{0}'.", argumentString))

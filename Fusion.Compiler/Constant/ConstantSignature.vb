@@ -32,4 +32,8 @@
         Return Me.Type.Name & " " & Me.Name
     End Function
 
+    Public Sub CheckForConflicts(other As ConstantSignature)
+        If CompilerTools.IdentifierEquals(Me.Name, other.Name) Then Throw New CompilerException(String.Format("Constant '{0}' is already defined.", other.Name))
+    End Sub
+
 End Class

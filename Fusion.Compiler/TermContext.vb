@@ -34,7 +34,7 @@
             If _GroupedFunctions Is Nothing Then
                 Dim delegateParameterFunctions =
                         From parameter In Me.Parameters
-                        Where parameter.Type.IsDelegate
+                        Where parameter.Signature.Type.IsDelegate
                         Select parameter.ToFunctionInstance
 
                 _GroupedFunctions = _Functions.Concat(delegateParameterFunctions).GroupBy(Function(instance) instance.Signature.Name).ToArray
@@ -79,6 +79,18 @@
     End Property
 
     Public Function Merge(second As TermContext) As TermContext
+        For Each newConstantSignature In second._Constants.Select(Function(c) c.Signature).Concat(second._Parameters.Select(Function(p) p.Signature))
+            For Each constantSignature In _Constants.Select(Function(c) c.Signature).Concat(_Parameters.Select(Function(p) p.Signature))
+                newConstantSignature.CheckForConflicts(constantSignature)
+            Next
+        Next
+
+        For Each newFunctionSignature In second._Functions.Select(Function(f) f.Signature)
+            For Each functionSignature In _Functions.Select(Function(f) f.Signature)
+                newFunctionSignature.CheckForConflicts(functionSignature)
+            Next
+        Next
+
         Return New TermContext(Constants:=_Constants.Concat(second._Constants),
                                Functions:=_Functions.Concat(second._Functions),
                                Parameters:=_Parameters.Concat(second._Parameters),
@@ -113,7 +125,7 @@
     End Function
 
     Public Function TryParseParameter(name As String) As NamedParameter
-        Dim matchingParameters = From parameter In Me.Parameters Where CompilerTools.IdentifierEquals(name, parameter.Name)
+        Dim matchingParameters = From parameter In Me.Parameters Where CompilerTools.IdentifierEquals(name, parameter.Signature.Name)
         If Not matchingParameters.Any Then Return Nothing
 
         Return matchingParameters.Single
