@@ -63,7 +63,7 @@ Namespace My
         <Global.Microsoft.VisualBasic.MyGroupCollection("System.Windows.Window", "Create__Instance__", "Dispose__Instance__", "My.MyWpfExtenstionModule.Windows")> _
         Friend NotInheritable Class MyWindows
             <Global.System.Diagnostics.DebuggerHidden()> _
-            Private Shared Function Create__Instance__(Of T As {New, Global.System.Windows.Window})(ByVal Instance As T) As T
+            Private Shared Function Create__Instance__(Of T As {New, Global.System.Windows.Window})( Instance As T) As T
                 If Instance Is Nothing Then
                     If s_WindowBeingCreated IsNot Nothing Then
                         If s_WindowBeingCreated.ContainsKey(GetType(T)) = True Then
@@ -90,7 +90,7 @@ Namespace My
                 MyBase.New()
             End Sub
             <Global.System.ThreadStatic()> Private Shared s_WindowBeingCreated As Global.System.Collections.Hashtable
-            <Global.System.ComponentModel.EditorBrowsable(Global.System.ComponentModel.EditorBrowsableState.Never)> Public Overrides Function Equals(ByVal o As Object) As Boolean
+            <Global.System.ComponentModel.EditorBrowsable(Global.System.ComponentModel.EditorBrowsableState.Never)> Public Overrides Function Equals( o As Object) As Boolean
                 Return MyBase.Equals(o)
             End Function
             <Global.System.ComponentModel.EditorBrowsable(Global.System.ComponentModel.EditorBrowsableState.Never)> Public Overrides Function GetHashCode() As Integer

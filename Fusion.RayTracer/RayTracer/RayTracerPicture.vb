@@ -20,9 +20,9 @@ Public Class RayTracerPicture(Of TLight As {ILight(Of TLight), New})
     Public Property RayTracer As IRayTracer(Of TLight)
 
     Public Sub New(rayTracer As IRayTracer(Of TLight),
-                pictureSize As Size,
-                view As View3D,
-                lightToColorConverter As ILightToColorConverter(Of TLight))
+                   pictureSize As Size,
+                   view As View3D,
+                   lightToColorConverter As ILightToColorConverter(Of TLight))
 
         If pictureSize = New Size Then Throw New ArgumentNullException("pictureSize")
 

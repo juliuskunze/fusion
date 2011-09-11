@@ -68,8 +68,7 @@ Public Class RichCompiler(Of TResult)
         e.CanExecute = target Is _RichTextBox
     End Sub
 
-
-    Public Sub Compile()
+    Public Sub Compile(Optional textChanged As Boolean = False)
         Dim filter = _CurrentIdentifier
 
         Dim compiler = New Compiler(Of TResult)(LocatedString:=_LocatedString, baseContext:=_BaseContext, TypeNamedTypeDictionary:=TypeNamedTypeDictionary, CursorPosition:=_TextOnlyDocument.GetIndex(_CursorTextPointer))
@@ -78,7 +77,7 @@ Public Class RichCompiler(Of TResult)
         Dim richCompilerResult As RichCompilerResult(Of TResult) = Nothing
 
         Try
-            Dim compilerResult = compiler.Compile
+            Dim compilerResult = compiler.Compile(textChanged:=textChanged)
 
             intelliSense = compilerResult.IntelliSense
             richCompilerResult = New RichCompilerResult(Of TResult)(compilerResult.Result)
@@ -93,6 +92,16 @@ Public Class RichCompiler(Of TResult)
             intelliSense = ex.IntelliSense
             richCompilerResult = New RichCompilerResult(Of TResult)(ex.InnerCompilerExcpetion.Message)
         Finally
+            Me.ShowIntelliSense(intelliSense)
+
+            RaiseEvent Compiled(Me, New CompilerResultEventArgs(Of TResult)(richCompilerResult))
+        End Try
+    End Sub
+
+    Private Sub ShowIntelliSense(intelliSense As IntelliSense)
+        If intelliSense.IsEmpty Then
+            Me.CloseAutoCompletePopup()
+        Else
             Dim currentIdentifierStartCharRectangle = _TextOnlyDocument.GetTextPointer(_CurrentIdentifier.StartIndex).GetCharacterRect(LogicalDirection.Forward)
 
             _AutoCompletePopup.VerticalOffset = -(_RichTextBox.ActualHeight - currentIdentifierStartCharRectangle.Bottom)
@@ -108,12 +117,10 @@ Public Class RichCompiler(Of TResult)
             Else
                 Me.CloseAutoCompletePopup()
             End If
-
-            RaiseEvent Compiled(Me, New CompilerResultEventArgs(Of TResult)(richCompilerResult))
-        End Try
+        End If
     End Sub
 
-    Private Sub UnderlineError(ByVal locatedString As LocatedString, textOnlyDocument As TextOnlyDocument)
+    Private Sub UnderlineError(locatedString As LocatedString, textOnlyDocument As TextOnlyDocument)
         _ApplyingTextDecorations = True
 
         Dim length = If(locatedString.Length > 0, locatedString.Length, If(locatedString.ContainingAnalizedString.ToLocated.ContainsCharIndex(locatedString.EndIndex + 1), 1, 0))
@@ -182,7 +189,7 @@ Public Class RichCompiler(Of TResult)
 
         Me.UpdateOnTextChanged()
 
-        Me.Compile()
+        Me.Compile(textChanged:=True)
     End Sub
 
     Public Event Compiled(sender As Object, e As CompilerResultEventArgs(Of TResult))
@@ -204,7 +211,7 @@ Public Class RichCompiler(Of TResult)
                     e.Handled = True
 
                 Case Key.Tab
-                    Me.ClosePopupAndUpdateSource()
+                    Me.CloseAutoCompletePopupAndUpdateSource()
 
                     e.Handled = True
             End Select
@@ -234,18 +241,18 @@ Public Class RichCompiler(Of TResult)
         If tb Is Nothing Then Return
 
         If e.ClickCount = 2 Then
-            Me.ClosePopupAndUpdateSource()
+            Me.CloseAutoCompletePopupAndUpdateSource()
             e.Handled = True
         End If
     End Sub
 
-    Private Sub ClosePopupAndUpdateSource()
+    Private Sub CloseAutoCompletePopupAndUpdateSource()
         Me.CloseAutoCompletePopup()
 
         Me.InsertText(CStr(DirectCast(_AutoCompleteListBox.SelectedItem, ListBoxItem).Content))
     End Sub
 
-    Private Sub InsertText(ByVal text As String)
+    Private Sub InsertText(text As String)
         Dim clipboardCopy = Clipboard.GetDataObject.GetData(GetType(String))
 
         Clipboard.SetDataObject(text)
@@ -255,7 +262,8 @@ Public Class RichCompiler(Of TResult)
 
         _RichTextBox.Paste()
 
-        Clipboard.SetDataObject(clipboardCopy)
+
+        Clipboard.SetDataObject(If(clipboardCopy Is Nothing, "", clipboardCopy))
     End Sub
 
     Private Sub ReopenAutoCompletePopup()
@@ -264,11 +272,6 @@ Public Class RichCompiler(Of TResult)
     End Sub
 
     Private Sub CloseAutoCompletePopup()
-        'For Each listBoxItemObj In _AutoCompleteListBox.Items
-        '    Dim listBoxItem = CType(listBoxItemObj, ListBoxItem)
-        '    Dim toolTip = CType(listBoxItem.ToolTip, ToolTip)
-        '    toolTip.IsOpen = False
-        'Next
         If _CurrentToolTip IsNot Nothing Then
             _CurrentToolTip.IsOpen = False
         End If
@@ -276,19 +279,18 @@ Public Class RichCompiler(Of TResult)
         _AutoCompletePopup.IsOpen = False
     End Sub
 
+    Public Sub Deactivate()
+        Me.CloseAutoCompletePopup()
+    End Sub
+
     Private Sub AutoCompleteListBox_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles _AutoCompleteListBox.SelectionChanged
         If _CurrentToolTip IsNot Nothing Then
             _CurrentToolTip.IsOpen = False
         End If
+
+        If e.AddedItems.Count <> 1 Then Return
         _CurrentToolTip = DirectCast(DirectCast(e.AddedItems(0), ListBoxItem).ToolTip, ToolTip)
         _CurrentToolTip.IsOpen = True
-
-        'For Each listBoxItemObj In _AutoCompleteListBox.Items
-        '    Dim listBoxItem = CType(listBoxItemObj, ListBoxItem)
-        '    Dim toolTip = CType(listBoxItem.ToolTip, ToolTip)
-
-        '    toolTip.IsOpen = listBoxItem.IsSelected
-        'Next
     End Sub
 
 End Class

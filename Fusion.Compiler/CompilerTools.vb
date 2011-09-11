@@ -44,23 +44,23 @@ Public Module CompilerTools
         End Get
     End Property
 
-    Public Function GetParameters(ByVal parametersInBrackets As LocatedString) As IEnumerable(Of LocatedString)
+    Public Function GetParameters(parametersInBrackets As LocatedString) As IEnumerable(Of LocatedString)
         Return GetArguments(parametersInBrackets, bracketType:=_ParameterBracketType)
     End Function
 
-    Public Function GetArguments(ByVal argumentsInBrackets As LocatedString) As IEnumerable(Of LocatedString)
+    Public Function GetArguments(argumentsInBrackets As LocatedString) As IEnumerable(Of LocatedString)
         Return GetArguments(argumentsInBrackets, bracketType:=_ArgumentBracketType)
     End Function
 
-    Public Function GetTypeArguments(ByVal typeArgumentsInBrackets As LocatedString) As IEnumerable(Of LocatedString)
+    Public Function GetTypeArguments(typeArgumentsInBrackets As LocatedString) As IEnumerable(Of LocatedString)
         Return GetArguments(typeArgumentsInBrackets, bracketType:=_TypeArgumentBracketType)
     End Function
 
-    Public Function GetCollectionArguments(ByVal collectionArgumentsInBrackets As LocatedString) As IEnumerable(Of LocatedString)
+    Public Function GetCollectionArguments(collectionArgumentsInBrackets As LocatedString) As IEnumerable(Of LocatedString)
         Return GetArguments(collectionArgumentsInBrackets, bracketType:=_CollectionBracketType)
     End Function
 
-    Public Function GetArguments(ByVal argumentsInBrackets As LocatedString, bracketType As BracketType) As IEnumerable(Of LocatedString)
+    Public Function GetArguments(argumentsInBrackets As LocatedString, bracketType As BracketType) As IEnumerable(Of LocatedString)
         If Not argumentsInBrackets.IsInBrackets(bracketType:=bracketType) Then Throw New LocatedCompilerException(argumentsInBrackets, String.Format("Invalid argument enumeration: '{0}'.", argumentsInBrackets.ToString))
 
         Dim argumentsText = argumentsInBrackets.Substring(1, argumentsInBrackets.Length - 2)

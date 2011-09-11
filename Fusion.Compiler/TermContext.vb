@@ -99,7 +99,7 @@
         Return matchingFunctions.Single
     End Function
 
-    Private Function GetMatchingFunctionGroup(ByVal functionName As LocatedString) As IGrouping(Of String, FunctionInstance)
+    Private Function GetMatchingFunctionGroup( functionName As LocatedString) As IGrouping(Of String, FunctionInstance)
         Dim matchingFunctionGroups = Me.GroupedFunctionsAndDelegateParameters.Where(Function(group) CompilerTools.IdentifierEquals(group.Key, functionName.ToString))
         If Not matchingFunctionGroups.Any Then Throw New LocatedCompilerException(functionName, String.Format("Function '{0}' not defined in this context.", functionName))
         Return matchingFunctionGroups.Single

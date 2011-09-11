@@ -1,10 +1,13 @@
 ﻿Public Class RelativisticRayTracerTermContextBuilder
 
+    Private ReadOnly _RayTracerPictureType As New NamedType("RayTracerPicture", GetType(RayTracerPicture(Of RadianceSpectrum)))
+    Private ReadOnly _RayTracerVideoType As New NamedType("RayTracerVideo", GetType(RayTracerVideo(Of RadianceSpectrum)))
+
     Private ReadOnly _SpectralRadianceFunctionDelegateType As New NamedType("SpectralRadianceFunction", New DelegateType(NamedType.Real, Parameters:={New NamedParameter("wavelength", NamedType.Real)}))
+    Private ReadOnly _PictureFunctionDelegateType As New NamedType("PictureFunction", New DelegateType(_RayTracerPictureType, Parameters:={New NamedParameter("time", NamedType.Real)}))
 
     Private ReadOnly _SpecialTypes As New NamedTypes({New NamedType("Plane", GetType(Plane)),
                                                       New NamedType("Sphere", GetType(Sphere)),
-                                                      New NamedType("SpectralRadianceFunction", GetType(SpectralRadianceFunction)),
                                                       New NamedType("Remission", GetType(IRemission(Of RadianceSpectrum))),
                                                       New NamedType("Material", GetType(Material2D(Of RadianceSpectrum))),
                                                       New NamedType("Surface", GetType(ISurface(Of Material2D(Of RadianceSpectrum)))),
@@ -12,8 +15,10 @@
                                                       New NamedType("View", GetType(View3D)),
                                                       New NamedType("RadianceSpectrumToRgbColorConverter", GetType(ILightToColorConverter(Of RadianceSpectrum))),
                                                       New NamedType("RayTracer", GetType(IRayTracer(Of RadianceSpectrum))),
-                                                      New NamedType("RayTracerPicture", GetType(RayTracerPicture(Of RadianceSpectrum))),
-                                                      _SpectralRadianceFunctionDelegateType})
+                                                      _RayTracerPictureType,
+                                                      _RayTracerVideoType,
+                                                      _SpectralRadianceFunctionDelegateType,
+                                                      _PictureFunctionDelegateType})
     Private ReadOnly _NamedTypes As NamedTypes = NamedTypes.Default.Merge(_SpecialTypes)
     Private ReadOnly _TypeDictionary As New TypeNamedTypeDictionary(_NamedTypes)
 
@@ -44,7 +49,8 @@
                                                                        FunctionInstance.FromLambdaExpression("View", Function(observerLocation As Vector3D, lookAt As Vector3D, upDirection As Vector3D, horizontalViewAngle As Double) New View3D(observerLocation:=observerLocation, lookAt:=lookAt, upDirection:=upDirection, horizontalViewAngle:=horizontalViewAngle), _TypeDictionary),
                                                                        FunctionInstance.FromLambdaExpression("ScatteringRayTracer", Function(surface As ISurface(Of Material2D(Of RadianceSpectrum)), rayCountPerPixel As Double, maxIntersectionCount As Double) CType(New ScatteringRayTracer(Of RadianceSpectrum)(surface:=surface, rayCountPerPixel:=CInt(rayCountPerPixel), maxIntersectionCount:=CInt(maxIntersectionCount)), IRayTracer(Of RadianceSpectrum)), _TypeDictionary),
                                                                        FunctionInstance.FromLambdaExpression("RelativisticRayTracer", Function(classicRayTracer As IRayTracer(Of RadianceSpectrum), observerVelocity As Vector3D, ignoreGeometryEffect As Boolean, ignoreDopplerEffect As Boolean, ignoreSearchlightEffect As Boolean) CType(New RelativisticRayTracer(classicRayTracer:=classicRayTracer, observerVelocity:=observerVelocity, ignoreGeometryEffect:=ignoreGeometryEffect, ignoreDopplerEffect:=ignoreDopplerEffect, ignoreSearchlightEffect:=ignoreSearchlightEffect), IRayTracer(Of RadianceSpectrum)), _TypeDictionary),
-                                                                       FunctionInstance.FromLambdaExpression("RayTracerPicture", Function(rayTracer As IRayTracer(Of RadianceSpectrum), pictureSize As System.Drawing.Size, view As View3D, radianceSpectrumToRgbColorConverter As ILightToColorConverter(Of RadianceSpectrum)) New RayTracerPicture(Of RadianceSpectrum)(rayTracer:=rayTracer, pictureSize:=pictureSize, view:=view, lightToColorConverter:=radianceSpectrumToRgbColorConverter), _TypeDictionary)}
+                                                                       FunctionInstance.FromLambdaExpression("RayTracerPicture", Function(rayTracer As IRayTracer(Of RadianceSpectrum), pictureSize As System.Drawing.Size, view As View3D, radianceSpectrumToRgbColorConverter As ILightToColorConverter(Of RadianceSpectrum)) New RayTracerPicture(Of RadianceSpectrum)(rayTracer:=rayTracer, pictureSize:=pictureSize, view:=view, lightToColorConverter:=radianceSpectrumToRgbColorConverter), _TypeDictionary),
+                                                                       FunctionInstance.FromLambdaExpression("RayTracerVideo", Function(pictureFunction As Func(Of Double, RayTracerPicture(Of RadianceSpectrum)), framesPerSecond As Double, startTime As Double, endTime As Double, timeStep As Double) New RayTracerVideo(Of RadianceSpectrum)(pictureFunction:=pictureFunction, framesPerSecond:=framesPerSecond, startTime:=startTime, endTime:=endTime, timeStep:=timeStep), _TypeDictionary)}
 
     Private ReadOnly _TermContext As TermContext
     Public ReadOnly Property TermContext As TermContext

@@ -49,8 +49,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Splicer">
+      <HintPath>..\foreign sources\splicer-release-binary-1.0.0.0\Splicer.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System" />
@@ -85,6 +89,7 @@
     <Compile Include="Compiler\RichCompiler.vb" />
     <Compile Include="SimpleBitmap.vb" />
     <Compile Include="Controls\TermBox.vb" />
+    <Compile Include="VideoRenderer.vb" />
     <Compile Include="WindowExtensions.vb" />
     <Page Include="CalculateTimeOptionsDialog.xaml">
       <SubType>Designer</SubType>

@@ -15,8 +15,9 @@
         </Grid.RowDefinitions>
         
         <r:Ribbon Grid.Row="0">
-            
+           
         </r:Ribbon>
+        
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
@@ -33,7 +34,19 @@
                         </Grid.RowDefinitions>
                         
                         <StackPanel>
-                            <Button Name="_CompileSceneButton">Compile scene</Button>
+                            <Menu>
+                                <MenuItem Header="File">
+                                    <MenuItem Name="_SaveDescriptionMenuItem" Header="Save..." InputGestureText="Strg+S"></MenuItem>
+                                    <MenuItem Name="_SaveDescriptionAsMenuItem" Header="Save as..." InputGestureText="Strg+S"></MenuItem>
+                                    <MenuItem Name="_OpenDescriptionMenuItem" Header="Open..." InputGestureText="Strg+O"></MenuItem>
+                                </MenuItem>
+                                <MenuItem Header="Compile">
+                                    <MenuItem Name="_CompileMenuItem" Header="Compile" InputGestureText="F5"></MenuItem>
+                                    <Separator></Separator>
+                                    <MenuItem Name="_CompilePictureMenuItem" Header="Compile picture" IsCheckable="True" IsChecked="True"></MenuItem>
+                                    <MenuItem Name="_CompileVideoMenuItem" Header="Compile video" IsCheckable="True"></MenuItem>
+                                </MenuItem>
+                            </Menu>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -42,15 +55,12 @@
                             </Grid>
                         </StackPanel>
                         <RichTextBox FontFamily="Consolas" Grid.Row="1" Margin="0" AcceptsReturn="True" Name="_SceneDescriptionTextBox" Background="#FFFFFF">
-                            <RichTextBox.LayoutTransform>
-                                <ScaleTransform ScaleX="5" ScaleY="5"/>
-                            </RichTextBox.LayoutTransform>
                             <RichTextBox.Resources>
                                     <Style TargetType="{x:Type Paragraph}">
                                         <Setter Property="Margin" Value="0"/>
                                     </Style>
                                 </RichTextBox.Resources>
-                                <FlowDocument PageWidth="10000"></FlowDocument>
+                            <FlowDocument PageWidth="10000"></FlowDocument>
                             </RichTextBox>
                         <Popup ToolTipService.BetweenShowDelay="1" Name="_AutoCompletePopup" AllowsTransparency="True" Placement="Bottom" IsOpen="False">
                             <ListBox Name="_AutoCompleteListBox" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" KeyboardNavigation.DirectionalNavigation="Contained"></ListBox>
@@ -105,7 +115,7 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Button Name="_SaveButton">Save...</Button>
+                        <Button Name="_SavePictureButton">Save...</Button>
                         <Image Grid.Row="1" Name="_ResultImage" Stretch="None" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="NearestNeighbor"></Image>
                     </Grid>
                 </TabItem>

@@ -9,7 +9,7 @@
         MyBase.New(GetDictionary(keyValuePairs))
     End Sub
 
-    Private Shared Function GetDictionary(ByVal keyValuePairs As IEnumerable(Of KeyValuePair(Of Type, NamedType))) As Dictionary(Of Type, NamedType)
+    Private Shared Function GetDictionary( keyValuePairs As IEnumerable(Of KeyValuePair(Of Type, NamedType))) As Dictionary(Of Type, NamedType)
         Dim keyValuePair As KeyValuePair(Of Type, NamedType)
 
         Dim dictionary = New Dictionary(Of Type, NamedType)

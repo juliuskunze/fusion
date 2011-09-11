@@ -57,7 +57,7 @@
         Return GetDelegateFunctionType(parameterTypes, resultType)
     End Function
     
-    Private Shared Function GetDelegateFunctionType(ByVal parameterTypes As IEnumerable(Of Type), ByVal resultType As Type) As Type
+    Private Shared Function GetDelegateFunctionType( parameterTypes As IEnumerable(Of Type),  resultType As Type) As Type
         Return GetDelegateFunctionType(parameterCount:=parameterTypes.Count).MakeGenericType(parameterTypes.Concat({resultType}).ToArray)
     End Function
 

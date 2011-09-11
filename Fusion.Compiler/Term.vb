@@ -215,12 +215,12 @@
         Return Me.GetFunctionCallExpression(functionCall)
     End Function
 
-    Private Function GetRealExpression(ByVal parsedDouble As Double) As ExpressionWithNamedType
+    Private Function GetRealExpression(parsedDouble As Double) As ExpressionWithNamedType
         Me.CheckTypeMatch(NamedType.Real)
         Return Expression.Constant(type:=GetType(Double), value:=parsedDouble).WithNamedType(NamedType.Real)
     End Function
 
-    Private Function GetFunctionCallExpression(ByVal functionCall As FunctionCall) As ExpressionWithNamedType
+    Private Function GetFunctionCallExpression(functionCall As FunctionCall) As ExpressionWithNamedType
         Dim argumentStrings = functionCall.Arguments
 
         If CompilerTools.IdentifierEquals(functionCall.FunctionName.ToString, Keywords.Cases) Then
@@ -319,7 +319,7 @@
         Return Nothing
     End Function
 
-    Private Function GetCasesExpression(ByVal argumentStrings As IEnumerable(Of LocatedString)) As ExpressionWithNamedType
+    Private Function GetCasesExpression(argumentStrings As IEnumerable(Of LocatedString)) As ExpressionWithNamedType
         Dim casesExpression As Expression = Nothing
         Dim typeOfFirstTerm As NamedType = Nothing
 
@@ -349,7 +349,7 @@
         Return casesExpression.WithNamedType(typeOfFirstTerm)
     End Function
 
-    Private Function GetArgumentTerm(ByVal argumentString As LocatedString, ByVal parts As IEnumerable(Of LocatedString), ByVal parameter As NamedParameter) As LocatedString
+    Private Function GetArgumentTerm(argumentString As LocatedString, parts As IEnumerable(Of LocatedString), parameter As NamedParameter) As LocatedString
         Select Case parts.Count
             Case 1
                 Return argumentString

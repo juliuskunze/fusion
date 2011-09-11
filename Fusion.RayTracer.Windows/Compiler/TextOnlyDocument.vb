@@ -1,7 +1,7 @@
 ﻿Public Class TextOnlyDocument
 
-    Private Shared ReadOnly _LineBreak As String = Microsoft.VisualBasic.ControlChars.Cr
-    Private Shared ReadOnly _LineBreakLength As Integer = _LineBreak.Count
+    Private Shared ReadOnly _LineBreak As Char = Microsoft.VisualBasic.ControlChars.Cr
+    Private Shared ReadOnly _LineBreakLength As Integer = _LineBreak.ToString.Count
 
     Private ReadOnly _Text As String
     Public ReadOnly Property Text As String
@@ -90,7 +90,7 @@
         Return New TextRange(startPointer, endPointer)
     End Function
 
-    Private Sub SetTextPointerIfIsInRangeAndNothing(ByVal inline As Inline, ByVal inlineStartIndex As Integer, ByVal inlineLength As Integer, ByRef textPointer As TextPointer, ByVal targetIndex As Integer)
+    Private Sub SetTextPointerIfIsInRangeAndNothing( inline As Inline,  inlineStartIndex As Integer,  inlineLength As Integer, ByRef textPointer As TextPointer,  targetIndex As Integer)
         If textPointer Is Nothing AndAlso inlineStartIndex <= targetIndex AndAlso targetIndex <= inlineStartIndex + inlineLength Then
             textPointer = inline.ContentStart.GetPositionAtOffset(targetIndex - inlineStartIndex)
         End If
@@ -126,4 +126,13 @@
         Return Me.GetTextRange(locatedString.StartIndex, locatedString.Length)
     End Function
 
+    Public Shared Function GetDocumentFromText(text As String) As FlowDocument
+        Dim document = New FlowDocument
+
+        For Each line In text.Split(_LineBreak)
+            document.Blocks.Add(New Paragraph(New Run(line)))
+        Next
+
+        Return document
+    End Function
 End Class
