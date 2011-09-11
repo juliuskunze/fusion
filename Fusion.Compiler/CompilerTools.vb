@@ -62,14 +62,17 @@ Public Module CompilerTools
 
     Public Function GetArguments(argumentsInBrackets As LocatedString, bracketType As BracketType) As IEnumerable(Of LocatedString)
         If Not argumentsInBrackets.IsInBrackets(bracketType:=bracketType) Then Throw New LocatedCompilerException(argumentsInBrackets, String.Format("Invalid argument enumeration: '{0}'.", argumentsInBrackets.ToString))
-
+        
         Dim argumentsText = argumentsInBrackets.Substring(1, argumentsInBrackets.Length - 2)
+        
         Return SplitIfSeparatorIsNotInBrackets(argumentsText, separator:=","c, bracketTypes:=_AllowedBracketTypes)
     End Function
 
     <Extension()>
     Public Function SplitIfSeparatorIsNotInBrackets(s As LocatedString, separator As Char, bracketTypes As IEnumerable(Of BracketType)) As IEnumerable(Of LocatedString)
         Dim inBracketsArray = s.GetCharIsInBracketsArray(bracketTypes:=_AllowedBracketTypes)
+
+
         Dim arguments = New List(Of LocatedString)
 
         Dim lastSplitCharIndex = -1
@@ -80,6 +83,9 @@ Public Module CompilerTools
                 lastSplitCharIndex = splitCharIndex
             End If
         Next
+
+        If arguments.Count = 1 AndAlso String.IsNullOrWhiteSpace(arguments.First.ToString) Then Return Enumerable.Empty(Of LocatedString)()
+
         Return arguments
     End Function
 

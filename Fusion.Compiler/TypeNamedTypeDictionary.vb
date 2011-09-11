@@ -9,7 +9,7 @@
         MyBase.New(GetDictionary(keyValuePairs))
     End Sub
 
-    Private Shared Function GetDictionary( keyValuePairs As IEnumerable(Of KeyValuePair(Of Type, NamedType))) As Dictionary(Of Type, NamedType)
+    Private Shared Function GetDictionary(keyValuePairs As IEnumerable(Of KeyValuePair(Of Type, NamedType))) As Dictionary(Of Type, NamedType)
         Dim keyValuePair As KeyValuePair(Of Type, NamedType)
 
         Dim dictionary = New Dictionary(Of Type, NamedType)
@@ -25,11 +25,21 @@
 
     Public Function GetNamedType(type As Type) As NamedType
         Dim namedType As NamedType = Nothing
-        If Not MyBase.TryGetValue(key:=type, value:=namedType) Then ThrowTypeNotInDictionaryException(type)
+        If Not MyBase.TryGetValue(key:=type, value:=namedType) Then
+            If type.IsGenericType Then
+                Dim generic = type.GetGenericTypeDefinition
+
+                If Not MyBase.TryGetValue(key:=generic, value:=namedType) Then ThrowTypeNotInDictionaryException(type)
+
+                Return namedType.MakeGenericType(type.GetGenericArguments.Select(Function(subType) Me.GetNamedType(subType)))
+            End If
+
+            ThrowTypeNotInDictionaryException(type)
+        End If
 
         Return namedType
     End Function
-   
+
     Private Shared Sub ThrowTypeNotInDictionaryException(type As Type)
         Throw New InvalidOperationException(String.Format("'{0}' is not contained in type typeNamedTypeDictionary.", type.Name))
     End Sub

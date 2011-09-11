@@ -94,7 +94,7 @@
     <Compile Include="Light\Source\UndirectionalLightSource.vb" />
     <Compile Include="MaterialSurfaces\ColorfulSphere.vb" />
     <Compile Include="MaterialSurfaces\Materials2D.vb" />
-    <Compile Include="MaterialSurfaces\MultiMaterialBox.vb" />
+    <Compile Include="MaterialSurfaces\MaterialBox.vb" />
     <Compile Include="MaterialSurfaces\RadianceSpectrumMaterials2D.vb" />
     <Compile Include="MaterialSurfaces\RgbLightMaterials2D.vb" />
     <Compile Include="MaterialSurfaces\IMaterialSurface.vb" />

@@ -38,13 +38,17 @@
     End Function
 
     Private Function SatisfiesFilter(name As String) As Boolean
-        Return name.Contains(_Filter)
+        For i = 0 To name.Length - _Filter.Length
+            If CompilerTools.IdentifierEquals(name.Substring(i, length:=_Filter.Length), _Filter) Then Return True
+        Next
+
+        Return False
+        'Return name.Contains(_Filter)
     End Function
 
     Private Sub ThrowIsEmptyException()
         Throw New InvalidOperationException("IntelliSense is empty.")
     End Sub
-
 
     Private Shared ReadOnly _Empty As New IntelliSense
     Public Shared ReadOnly Property Empty As IntelliSense

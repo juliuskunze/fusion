@@ -46,4 +46,11 @@
         End Try
     End Sub
 
+    <Test()>
+    Public Sub TestEmptyCollection()
+        Dim compiler = New Compiler(Of IEnumerable(Of Double))("return {}".ToLocated, baseContext:=TermContext.Default, TypeNamedTypeDictionary:=TypeNamedTypeDictionary.Default)
+
+        Assert.AreEqual(compiler.Compile.Result, New Double() {})
+    End Sub
+
 End Class

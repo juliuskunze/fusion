@@ -1,4 +1,4 @@
-﻿Public Class MultiMaterialBox(Of TMaterial)
+﻿Public Class MaterialBox(Of TMaterial)
     Implements ISurface(Of TMaterial)
 
     Private ReadOnly _Box As Box

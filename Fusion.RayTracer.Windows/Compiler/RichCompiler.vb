@@ -318,6 +318,8 @@ Public Class RichCompiler(Of TResult)
         _CurrentToolTip = DirectCast(selectedItem.ToolTip, ToolTip)
 
         Me.OpenCurrentToolTip()
+
+        _ShouldReopenToolTip = True
     End Sub
 
     Private Sub OpenCurrentToolTip()
@@ -326,8 +328,14 @@ Public Class RichCompiler(Of TResult)
         _CurrentToolTip.IsOpen = True
     End Sub
 
+    Private _ShouldReopenToolTip As Boolean
+
     Private Sub AutoCompleteScrollViewer_ScrollChanged(sender As Object, e As System.Windows.Controls.ScrollChangedEventArgs) Handles _AutoCompleteScrollViewer.ScrollChanged
-        Me.ReopenCurrentToolTipIfNotNull()
+        If _ShouldReopenToolTip Then
+            _ShouldReopenToolTip = False
+
+            Me.ReopenCurrentToolTipIfNotNull()
+        End If
     End Sub
 
 End Class

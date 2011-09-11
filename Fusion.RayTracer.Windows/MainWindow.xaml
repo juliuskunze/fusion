@@ -63,12 +63,38 @@
                             <FlowDocument PageWidth="10000"></FlowDocument>
                             </RichTextBox>
                         <Popup Name="_AutoCompletePopup" AllowsTransparency="True" Placement="Bottom" IsOpen="False">
-                            <Border  BorderThickness="1" BorderBrush="Gray">
+                            <Border BorderThickness="1" BorderBrush="Gray">
                                 <ScrollViewer Margin="0" Name="_AutoCompleteScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" MaxHeight="100">
-                                    <ListBox BorderThickness="0" Name="_AutoCompleteListBox" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" KeyboardNavigation.DirectionalNavigation="Contained">
+                                    <ListBox ItemContainerStyle="{DynamicResource ContainerStyle}" BorderThickness="0" Margin="0" Name="_AutoCompleteListBox" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" KeyboardNavigation.DirectionalNavigation="Contained">
                                         <ListBox.Resources>
-                                            <Style TargetType="ListBoxItem">
+                                            <DataTemplate x:Key="ItemTemplate">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Border BorderBrush="White" BorderThickness="1" Padding="2,0,2,0">
+                                                        <TextBlock Text="{Binding}" Foreground="Black" />
+                                                    </Border>
+                                                </StackPanel>
+                                            </DataTemplate>
+
+                                            <DataTemplate x:Key="SelectedTemplate">
+                                                <Border Margin="0" BorderBrush="#E5C365" BorderThickness="1" Padding="2,0,2,0">
+                                                    <Border.Background>
+                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                            <GradientStop Color="White" Offset="0" />
+                                                            <GradientStop Color="Moccasin" Offset="1" />
+                                                        </LinearGradientBrush>
+                                                    </Border.Background>
+                                                    <TextBlock Text="{Binding}" Foreground="Black"/>
+                                                </Border>
+                                            </DataTemplate>
+
+                                            <Style TargetType="{x:Type ListBoxItem}" x:Key="ContainerStyle">
                                                 <Setter Property="ToolTipService.IsEnabled" Value="False"></Setter>
+                                                <Setter Property="ContentTemplate" Value="{StaticResource ItemTemplate}" />
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter Property="ContentTemplate" Value="{StaticResource SelectedTemplate}" />
+                                                    </Trigger>
+                                                </Style.Triggers>
                                             </Style>
                                         </ListBox.Resources>
                                     </ListBox>

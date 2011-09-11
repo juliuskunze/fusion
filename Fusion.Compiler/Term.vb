@@ -254,6 +254,7 @@
         Else
             Dim type = _TypeInformation.Type
 
+            'TODO: Check type argument count
             elementTypeInformation = New TypeInformation(type.TypeArguments.Single)
 
             Me.CheckTypeMatch(NamedType.Collection.MakeGenericType(typeArguments:=type.TypeArguments))

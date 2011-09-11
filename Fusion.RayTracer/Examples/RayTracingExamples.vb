@@ -406,13 +406,13 @@ Public Class RayTracingExamples
 
         Dim blackBodyPlane = New SquaredMaterialSurface(Of Material2D(Of RadianceSpectrum))(plane, blackBodyMaterial5000, RadianceSpectrumMaterials2D.Black, squaresXVector:=New Vector3D(1, 0, 0), squaresYVector:=New Vector3D(0, 0, 1), squareLength:=1)
 
-        Dim box = New MultiMaterialBox(Of Material2D(Of RadianceSpectrum))(New Box(New Vector3D(1, -1, 4), New Vector3D(2, 2, 5)),
-                                                                                    lowerXMaterial:=RadianceSpectrumMaterials2D.Black,
-                                                                                    upperXMaterial:=blackBodyMaterial5000,
-                                                                                    lowerYMaterial:=RadianceSpectrumMaterials2D.Black,
-                                                                                    upperYMaterial:=RadianceSpectrumMaterials2D.Black,
-                                                                                    lowerZMaterial:=blackBodyMaterial10000,
-                                                                                    upperZMaterial:=RadianceSpectrumMaterials2D.Black)
+        Dim box = New MaterialBox(Of Material2D(Of RadianceSpectrum))(New Box(New Vector3D(1, -1, 4), New Vector3D(2, 2, 5)),
+                                                                      lowerXMaterial:=RadianceSpectrumMaterials2D.Black,
+                                                                      upperXMaterial:=blackBodyMaterial5000,
+                                                                      lowerYMaterial:=RadianceSpectrumMaterials2D.Black,
+                                                                      upperYMaterial:=RadianceSpectrumMaterials2D.Black,
+                                                                      lowerZMaterial:=blackBodyMaterial10000,
+                                                                      upperZMaterial:=RadianceSpectrumMaterials2D.Black)
 
         Dim classicRayTracer = New RecursiveRayTracer(Of RadianceSpectrum)(surface:=New Surfaces(Of Material2D(Of RadianceSpectrum)) From {blackBodyPlane, box},
                                                                            unshadedLightSource:=New LightSources(Of RadianceSpectrum),
