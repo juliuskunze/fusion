@@ -119,7 +119,7 @@ Public Class RichCompiler(Of TResult)
             Dim identifier = _Compiler.CurrentIdentifierIfDefined
 
             Me.UpdateIntelliSenseFilter()
-
+            
             Dim currentIdentifierStartCharRectangle = _TextOnlyDocument.GetTextPointer(_Compiler.CurrentIdentifierIfDefined.Location.StartIndex).GetCharacterRect(LogicalDirection.Forward)
 
             _AutoCompletePopup.VerticalOffset = -(_RichTextBox.ActualHeight - currentIdentifierStartCharRectangle.Bottom)
@@ -130,7 +130,7 @@ Public Class RichCompiler(Of TResult)
 
             _AutoCompleteListBox.ItemsSource = listBoxItems
 
-            If intelliSenseItems.Any Then
+            If _AutoCompleteListBox.HasItems Then
                 Me.ReopenAutoCompletePopup()
 
                 _AutoCompleteListBox.SelectedIndex = 0
