@@ -19,7 +19,7 @@
     End Sub
 
     Public Function ToLocated() As LocatedString
-        Return New LocatedString(Me, startIndex:=0, length:=_Text.Length)
+        Return New LocatedString(Me, New TextLocation(startIndex:=0, length:=_Text.Length))
     End Function
 
     Public Overrides Function ToString() As String

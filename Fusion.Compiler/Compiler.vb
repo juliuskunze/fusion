@@ -9,7 +9,7 @@
         End Get
     End Property
 
-    Private ReadOnly _CursorPosition As Integer
+    Private ReadOnly _Selection As TextLocation
 
     Private ReadOnly _CurrentIdentifier As LocatedString
     Private ReadOnly Property CurrentIdentifier As LocatedString
@@ -22,13 +22,13 @@
 
     Private _Statements As IEnumerable(Of LocatedString)
 
-    Public Sub New(locatedString As LocatedString, baseContext As TermContext, typeNamedTypeDictionary As TypeNamedTypeDictionary, Optional cursorPosition As Integer = 0)
+    Public Sub New(locatedString As LocatedString, baseContext As TermContext, typeNamedTypeDictionary As TypeNamedTypeDictionary, Optional selection As TextLocation = Nothing)
         _LocatedString = locatedString
         _BaseContext = baseContext
-        _CursorPosition = cursorPosition
+        _Selection = selection
         _ResultType = typeNamedTypeDictionary.GetNamedType(GetType(TResult))
         _Statements = _LocatedString.Split({";"c})
-        _CurrentIdentifier = _LocatedString.GetSurroundingIdentifier(_CursorPosition)
+        _CurrentIdentifier = _LocatedString.TryGetSurroundingIdentifier(selection)
     End Sub
 
     Public Function Compile(Optional textChanged As Boolean = False) As CompilerResult(Of TResult)
@@ -37,7 +37,7 @@
 
         Try
             For Each statement In _Statements
-                If statement.ContainsPointer(_CursorPosition) Then
+                If statement.Location.ContainsRange(_Selection) Then
                     cursorTermContext = context
                 End If
 

@@ -59,7 +59,7 @@
         Return GetTextRange(startIndex:=index, length:=0).Start
     End Function
 
-    Public Function GetTextRange(startIndex As Integer, length As Integer) As TextRange
+    Public Function GetTextRange(startIndex As Integer, length As Integer) As Documents.TextRange
         If startIndex < 0 Then Throw New ArgumentOutOfRangeException("startIndex")
         If length < 0 Then Throw New ArgumentOutOfRangeException("length")
         If startIndex + length > _Text.Count Then Throw New ArgumentOutOfRangeException("startIndex, length")
@@ -87,10 +87,10 @@
             If endPointer Is Nothing Then endPointer = _Document.ContentEnd
         End If
 
-        Return New TextRange(startPointer, endPointer)
+        Return New Documents.TextRange(startPointer, endPointer)
     End Function
 
-    Private Sub SetTextPointerIfIsInRangeAndNothing( inline As Inline,  inlineStartIndex As Integer,  inlineLength As Integer, ByRef textPointer As TextPointer,  targetIndex As Integer)
+    Private Sub SetTextPointerIfIsInRangeAndNothing(inline As Inline, inlineStartIndex As Integer, inlineLength As Integer, ByRef textPointer As TextPointer, targetIndex As Integer)
         If textPointer Is Nothing AndAlso inlineStartIndex <= targetIndex AndAlso targetIndex <= inlineStartIndex + inlineLength Then
             textPointer = inline.ContentStart.GetPositionAtOffset(targetIndex - inlineStartIndex)
         End If
@@ -122,8 +122,8 @@
         Return position
     End Function
 
-    Public Function GetTextRange(locatedString As LocatedString) As TextRange
-        Return Me.GetTextRange(locatedString.StartIndex, locatedString.Length)
+    Public Function GetTextRange(locatedString As LocatedString) As Documents.TextRange
+        Return Me.GetTextRange(locatedString.Location.StartIndex, locatedString.Length)
     End Function
 
     Public Shared Function GetDocumentFromText(text As String) As FlowDocument

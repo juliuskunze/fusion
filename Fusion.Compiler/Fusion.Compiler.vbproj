@@ -122,6 +122,7 @@
     <Compile Include="NamedParameter.vb" />
     <Compile Include="NamedType.vb" />
     <Compile Include="NamedTypes.vb" />
+    <Compile Include="TextLocation.vb" />
     <Compile Include="TypeInformation.vb" />
     <Compile Include="TypeNamedTypeDictionary.vb" />
     <Compile Include="Term.vb" />

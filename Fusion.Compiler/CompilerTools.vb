@@ -249,7 +249,18 @@ Public Module CompilerTools
     End Function
 
     <Extension()>
-    Public Function GetSurroundingIdentifier(s As LocatedString, index As Integer) As LocatedString
+    Public Function TryGetSurroundingIdentifier(s As LocatedString, selection As TextLocation) As LocatedString
+        If selection.Length = 0 Then Return TryGetSurroundingIdentifier(s, selection.StartIndex)
+
+        Dim startIdentifier = TryGetSurroundingIdentifier(s, selection.StartIndex)
+        Dim endIdentifier = TryGetSurroundingIdentifier(s, selection.EndIndex)
+
+        If startIdentifier <> endIdentifier Then Return Nothing
+
+        Return startIdentifier
+    End Function
+
+    Public Function TryGetSurroundingIdentifier(ByVal s As LocatedString, index As Integer) As LocatedString
         If index < 0 OrElse index > s.Length Then Throw New ArgumentOutOfRangeException("index")
 
         Dim startIndex = 0

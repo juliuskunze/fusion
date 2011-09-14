@@ -13,7 +13,7 @@ Public Class RichCompiler(Of TResult)
 
     Private _TextOnlyDocument As TextOnlyDocument
     Private _LocatedString As LocatedString
-    Private _CursorTextPointer As TextPointer
+    Private _Selection As TextLocation
     Private _CurrentIdentifier As LocatedString
 
     Private _CurrentToolTip As ToolTip
@@ -37,16 +37,20 @@ Public Class RichCompiler(Of TResult)
 
         Dim pasteCommandBinding = New CommandBinding(ApplicationCommands.Paste, AddressOf OnPaste, AddressOf OnCanExecutePaste)
         _RichTextBox.CommandBindings.Add(pasteCommandBinding)
-        
+
         Me.UpdateOnTextChanged()
     End Sub
 
     Private Sub UpdateOnTextChanged()
         _TextOnlyDocument = New TextOnlyDocument(_RichTextBox.Document)
         _LocatedString = _TextOnlyDocument.Text.ToLocated
-        _CursorTextPointer = _RichTextBox.Selection.Start
-        _CurrentIdentifier = _LocatedString.GetSurroundingIdentifier(_TextOnlyDocument.GetIndex(_CursorTextPointer))
+        _Selection = Me.SetSelection()
+        _CurrentIdentifier = _LocatedString.TryGetSurroundingIdentifier(_Selection)
     End Sub
+
+    Private Function SetSelection() As TextLocation
+        Return New TextLocation(_TextOnlyDocument.GetIndex(_RichTextBox.Selection.Start), _TextOnlyDocument.GetIndex(_RichTextBox.Selection.End))
+    End Function
 
     Private Sub OnPaste(sender As Object, e As ExecutedRoutedEventArgs)
         If sender IsNot _RichTextBox Then Return
@@ -73,7 +77,10 @@ Public Class RichCompiler(Of TResult)
     Public Sub Compile(Optional textChanged As Boolean = False)
         Dim filter = _CurrentIdentifier
 
-        Dim compiler = New Compiler(Of TResult)(LocatedString:=_LocatedString, baseContext:=_BaseContext, TypeNamedTypeDictionary:=TypeNamedTypeDictionary, CursorPosition:=_TextOnlyDocument.GetIndex(_CursorTextPointer))
+        Dim compiler = New Compiler(Of TResult)(LocatedString:=_LocatedString,
+                                                baseContext:=_BaseContext,
+                                                TypeNamedTypeDictionary:=TypeNamedTypeDictionary,
+                                                selection:=_Selection)
 
         Dim intelliSense As IntelliSense = Nothing
         Dim richCompilerResult As RichCompilerResult(Of TResult) = Nothing
@@ -104,7 +111,7 @@ Public Class RichCompiler(Of TResult)
         If intelliSense.IsEmpty Then
             Me.CloseAutoCompletePopup()
         Else
-            Dim currentIdentifierStartCharRectangle = _TextOnlyDocument.GetTextPointer(_CurrentIdentifier.StartIndex).GetCharacterRect(LogicalDirection.Forward)
+            Dim currentIdentifierStartCharRectangle = _TextOnlyDocument.GetTextPointer(_CurrentIdentifier.Location.StartIndex).GetCharacterRect(LogicalDirection.Forward)
 
             _AutoCompletePopup.VerticalOffset = -(_RichTextBox.ActualHeight - currentIdentifierStartCharRectangle.Bottom)
             _AutoCompletePopup.HorizontalOffset = currentIdentifierStartCharRectangle.Left
@@ -135,15 +142,15 @@ Public Class RichCompiler(Of TResult)
     Private Sub UnderlineError(locatedString As LocatedString, textOnlyDocument As TextOnlyDocument)
         _ApplyingTextDecorations = True
 
-        Dim length = If(locatedString.Length > 0, locatedString.Length, If(locatedString.ContainingAnalizedString.ToLocated.ContainsCharIndex(locatedString.EndIndex + 1), 1, 0))
+        Dim length = If(locatedString.Length > 0, locatedString.Length, If(locatedString.ContainingAnalizedString.ToLocated.Location.ContainsCharIndex(locatedString.Location.EndIndex + 1), 1, 0))
 
-        Dim errorLocation = textOnlyDocument.GetTextRange(startIndex:=locatedString.StartIndex, length:=length)
+        Dim errorLocation = textOnlyDocument.GetTextRange(startIndex:=locatedString.Location.StartIndex, length:=length)
         Dim startTextPointer = _RichTextBox.Document.ContentStart
         Dim endTextPointer = _RichTextBox.Document.ContentEnd
 
-        Dim beforeError = New TextRange(startTextPointer, errorLocation.Start)
-        Dim errorRange = New TextRange(errorLocation.Start, errorLocation.End)
-        Dim afterError = New TextRange(errorLocation.End, endTextPointer)
+        Dim beforeError = New Documents.TextRange(startTextPointer, errorLocation.Start)
+        Dim errorRange = New Documents.TextRange(errorLocation.Start, errorLocation.End)
+        Dim afterError = New Documents.TextRange(errorLocation.End, endTextPointer)
 
         beforeError.ApplyPropertyValue(Inline.TextDecorationsProperty, _NormalTextDecorations)
         errorRange.ApplyPropertyValue(Inline.TextDecorationsProperty, _ErrorTextDecorations)
@@ -153,7 +160,7 @@ Public Class RichCompiler(Of TResult)
     End Sub
 
     Private Sub RemoveTextDecorations()
-        Dim documentRange = New TextRange(_RichTextBox.Document.ContentStart, _RichTextBox.Document.ContentEnd)
+        Dim documentRange = New Documents.TextRange(_RichTextBox.Document.ContentStart, _RichTextBox.Document.ContentEnd)
         documentRange.ApplyPropertyValue(Inline.TextDecorationsProperty, _NormalTextDecorations)
     End Sub
 
@@ -202,10 +209,6 @@ Public Class RichCompiler(Of TResult)
         Me.UpdateOnTextChanged()
 
         Me.Compile(textChanged:=True)
-    End Sub
-
-    Private Sub RichTextBox_KeyDown(sender As System.Object, e As System.Windows.Input.KeyEventArgs) Handles _RichTextBox.KeyDown
-
     End Sub
 
     Public Event Compiled(sender As Object, e As CompilerResultEventArgs(Of TResult))
