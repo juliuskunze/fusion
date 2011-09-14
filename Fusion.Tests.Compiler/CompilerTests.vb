@@ -8,7 +8,7 @@
 
     <Test()>
     Public Sub TestFunction()
-        Dim compiler = New Compiler(Of Double)("Real square(Real x) = x^2; Real c = square{4}; return c;".ToLocated, baseContext:=TermContext.Default, TypeNamedTypeDictionary:=TypeNamedTypeDictionary.Default)
+        Dim compiler = New Compiler(Of Double)("Real square(Real x) = x^2; Real c = square(4); return c;".ToLocated, baseContext:=TermContext.Default, TypeNamedTypeDictionary:=TypeNamedTypeDictionary.Default)
 
         Assert.AreEqual(compiler.Compile.Result, 16)
     End Sub

@@ -204,6 +204,10 @@ Public Class RichCompiler(Of TResult)
         Me.Compile(textChanged:=True)
     End Sub
 
+    Private Sub RichTextBox_KeyDown(sender As System.Object, e As System.Windows.Input.KeyEventArgs) Handles _RichTextBox.KeyDown
+
+    End Sub
+
     Public Event Compiled(sender As Object, e As CompilerResultEventArgs(Of TResult))
 
     Private Sub RichTextBox_PreviewKeyDown(sender As Object, e As KeyEventArgs) Handles _RichTextBox.PreviewKeyDown

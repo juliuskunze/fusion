@@ -235,6 +235,29 @@ Public Class MainWindow
         _PictureCompiler.Deactivate()
     End Sub
 
+    Private Sub MainWindow_KeyDown(sender As Object, e As System.Windows.Input.KeyEventArgs) Handles Me.KeyDown
+        If Keyboard.IsKeyDown(Key.LeftCtrl) OrElse Keyboard.IsKeyDown(Key.RightCtrl) Then
+            Select Case e.Key
+                Case Key.S
+                    Me.SaveDescription()
+                Case Key.O
+                    Me.ShowOpenDescriptionDialog()
+                Case Key.F5
+                    Me.Compile()
+
+            End Select
+        End If
+    End Sub
+
+    Private Sub Compile()
+        Select Case Me.Mode
+            Case CompileMode.Picture
+                _PictureCompiler.Compile()
+            Case CompileMode.Video
+                _VideoCompiler.Compile()
+        End Select
+    End Sub
+
     Private Sub RibbonWindow_Unloaded(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles MyBase.Unloaded
         Application.Current.Shutdown()
     End Sub
@@ -262,8 +285,6 @@ Public Class MainWindow
     End Property
 
     Private Sub CompileMenuItem_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles _CompileMenuItem.Click
-        'Dim a = New VideoRenderer(24, 500, 500)
-
         _PictureCompiler.Compile()
     End Sub
 
@@ -290,24 +311,28 @@ Public Class MainWindow
     End Property
 
     Private Sub SaveDescriptionMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _SaveDescriptionMenuItem.Click
-        If IO.File.Exists(_CurrentFileName) Then
-            Me.SaveDescription(_CurrentFileName)
-        Else
-            Me.SaveDescriptionAs()
-        End If
+        Me.SaveDescription()
     End Sub
 
     Private Sub SaveDescriptionAsMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _SaveDescriptionAsMenuItem.Click
-        Me.SaveDescriptionAs()
+        Me.ShowSaveDescriptionAsDialog()
     End Sub
 
-    Private Sub SaveDescriptionAs()
+    Private Sub ShowSaveDescriptionAsDialog()
         If IO.File.Exists(_CurrentFileName) Then _SaveDescriptionDialog.FileName = _CurrentFileName
 
         _SaveDescriptionDialog.DefaultExt = Me.GetDescriptionFileExtension
 
         If _SaveDescriptionDialog.ShowDialog(owner:=Me) Then
-            Me.SaveDescription(fileName:=_SaveDescriptionDialog.FileName)
+            Me.SaveDescription(_SaveDescriptionDialog.FileName)
+        End If
+    End Sub
+
+    Private Sub SaveDescription()
+        If IO.File.Exists(_CurrentFileName) Then
+            Me.SaveDescription(_CurrentFileName)
+        Else
+            Me.ShowSaveDescriptionAsDialog()
         End If
     End Sub
 
@@ -315,7 +340,6 @@ Public Class MainWindow
         _CurrentFileName = fileName
 
         Dim description = New TextOnlyDocument(_SceneDescriptionTextBox.Document).Text
-
 
         Try
             Using streamWriter = New IO.StreamWriter(fileName)
@@ -362,10 +386,10 @@ Public Class MainWindow
     End Function
 
     Private Sub OpenDescriptionSourceMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _OpenDescriptionMenuItem.Click
-        Me.OpenDescription()
+        Me.ShowOpenDescriptionDialog()
     End Sub
 
-    Private Sub OpenDescription()
+    Private Sub ShowOpenDescriptionDialog()
         If _OpenDescriptionDialog.ShowDialog(owner:=Me) Then
             Dim text As String
 

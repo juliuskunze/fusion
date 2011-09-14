@@ -42,7 +42,14 @@
         End Get
     End Property
 
-    Public Sub New(name As String, systemType As System.Type)
+    Private ReadOnly _TypeParameterCount As Integer
+    Public ReadOnly Property TypeParameterCount As Integer
+        Get
+            Return _TypeParameterCount
+        End Get
+    End Property
+
+    Public Sub New(name As String, systemType As System.Type, Optional typeParameterCount As Integer = 0)
         Me.New(name:=name, systemType:=systemType, TypeArguments:={})
         '!!!If systemType.GetGenericArguments.Where(Function(argument) Not argument.IsGenericParameter).Any Then Throw New CompilerException("No type arguments allowed, use MakeGenericType.")
     End Sub

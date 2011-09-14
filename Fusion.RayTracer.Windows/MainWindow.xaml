@@ -37,7 +37,7 @@
                             <Menu>
                                 <MenuItem Header="File">
                                     <MenuItem Name="_SaveDescriptionMenuItem" Header="Save..." InputGestureText="Strg+S"></MenuItem>
-                                    <MenuItem Name="_SaveDescriptionAsMenuItem" Header="Save as..." InputGestureText="Strg+S"></MenuItem>
+                                    <MenuItem Name="_SaveDescriptionAsMenuItem" Header="Save as..."></MenuItem>
                                     <MenuItem Name="_OpenDescriptionMenuItem" Header="Open..." InputGestureText="Strg+O"></MenuItem>
                                 </MenuItem>
                                 <MenuItem Header="Compile">

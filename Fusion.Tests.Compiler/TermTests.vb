@@ -75,24 +75,24 @@ Public Class TermTests
 
     <Test()>
     Public Sub TestCos()
-        Assert.That(New ConstantTerm(Of Double)("Cos{0}").GetResult = 1)
-        Assert.That(New ConstantTerm(Of Double)("Cos{pi}").GetResult = -1)
-        Assert.That(New ConstantTerm(Of Double)("Cos{pi/2}").GetResult < 10 ^ -15)
+        Assert.That(New ConstantTerm(Of Double)("Cos(0)").GetResult = 1)
+        Assert.That(New ConstantTerm(Of Double)("Cos(pi)").GetResult = -1)
+        Assert.That(New ConstantTerm(Of Double)("Cos(pi/2)").GetResult < 10 ^ -15)
     End Sub
 
     <Test()>
     Public Sub TestExp()
-        Assert.That(New ConstantTerm(Of Double)("exp{1}").GetResult = System.Math.E)
+        Assert.That(New ConstantTerm(Of Double)("exp(1)").GetResult = System.Math.E)
     End Sub
 
     <Test()>
     Public Sub TestMax()
-        Assert.That(New ConstantTerm(Of Double)("Max{1, 3}").GetResult = 3)
+        Assert.That(New ConstantTerm(Of Double)("Max(1, 3)").GetResult = 3)
     End Sub
 
     <Test()>
     Public Sub TestMin()
-        Assert.That(New ConstantTerm(Of Double)("Min{1, 3}").GetResult = 1)
+        Assert.That(New ConstantTerm(Of Double)("Min(1, 3)").GetResult = 1)
     End Sub
 
     <Test()>
@@ -111,7 +111,7 @@ Public Class TermTests
     <Test()>
     Public Sub TestFunction()
         Dim functionInstance = New FunctionInstance(Of Func(Of Double, Double))("square", Function(x As Double) x ^ 2, TypeNamedTypeDictionary:=New TypeNamedTypeDictionary(NamedTypes.Default))
-        Dim term = New Term("square{2*x}", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(parameters:={New NamedParameter(name:="x", Type:=NamedType.Real)}, Functions:={functionInstance})))
+        Dim term = New Term("square(2*x)", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(parameters:={New NamedParameter(name:="x", Type:=NamedType.Real)}, Functions:={functionInstance})))
         Dim d = term.GetDelegate(Of Func(Of Double, Double))()
         Assert.That(d(5) = 100)
         Assert.AreEqual(functionInstance.Signature.ToString, "Real square(Real x)")
@@ -131,7 +131,7 @@ Public Class TermTests
 
     <Test()>
     Public Sub TestFunctionNotDefined()
-        Dim term = New Term("square{1}", Type:=NamedType.Real, context:=TermContext.Default)
+        Dim term = New Term("square(1)", Type:=NamedType.Real, context:=TermContext.Default)
         Try
             term.GetDelegate()
             Assert.Fail()
@@ -195,22 +195,22 @@ Public Class TermTests
 
     <Test()>
     Public Sub TestCases()
-        Dim result = New Term(Term:="cases{True : 3 , else : 4}", Type:=NamedType.Real, context:=TermContext.Default).GetDelegate(Of Func(Of Double)).Invoke()
+        Dim result = New Term(Term:="cases(True : 3 , else : 4)", Type:=NamedType.Real, context:=TermContext.Default).GetDelegate(Of Func(Of Double)).Invoke()
 
         Assert.AreEqual(result, 3)
 
-        Dim result2 = New Term(Term:="cases{False : 3 , else : 4}", Type:=NamedType.Real, context:=TermContext.Default).GetDelegate(Of Func(Of Double)).Invoke()
+        Dim result2 = New Term(Term:="cases(False : 3 , else : 4)", Type:=NamedType.Real, context:=TermContext.Default).GetDelegate(Of Func(Of Double)).Invoke()
 
         Assert.AreEqual(result2, 4)
     End Sub
 
     <Test()>
     Public Sub TestMultipleCases()
-        Dim result = New Term(Term:="cases{False : 3 , False : 4, else : 5}", Type:=NamedType.Real, context:=TermContext.Default).GetDelegate(Of Func(Of Double)).Invoke()
+        Dim result = New Term(Term:="cases(False : 3 , False : 4, else : 5)", Type:=NamedType.Real, context:=TermContext.Default).GetDelegate(Of Func(Of Double)).Invoke()
 
         Assert.AreEqual(result, 5)
 
-        Dim result2 = New Term(Term:="cases{False : 3 , True : 4, else : 5}", Type:=NamedType.Real, context:=TermContext.Default).GetDelegate(Of Func(Of Double)).Invoke()
+        Dim result2 = New Term(Term:="cases(False : 3 , True : 4, else : 5)", Type:=NamedType.Real, context:=TermContext.Default).GetDelegate(Of Func(Of Double)).Invoke()
 
         Assert.AreEqual(result2, 4)
     End Sub
