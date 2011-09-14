@@ -2,21 +2,17 @@
 
 Public Class RichCompiler(Of TResult)
 
-    Public Property TypeNamedTypeDictionary As TypeNamedTypeDictionary
     Private WithEvents _RichTextBox As RichTextBox
     Private WithEvents _AutoCompletePopup As Popup
     Private WithEvents _AutoCompleteListBox As ListBox
     Private WithEvents _AutoCompleteScrollViewer As ScrollViewer
-    Private ReadOnly _BaseContext As TermContext
+    Private _CurrentToolTip As ToolTip
 
     Private _ApplyingTextDecorations As Boolean
 
     Private _TextOnlyDocument As TextOnlyDocument
-    Private _LocatedString As LocatedString
-    Private _Selection As TextLocation
-    Private _CurrentIdentifier As LocatedString
-
-    Private _CurrentToolTip As ToolTip
+    
+    Private _Compiler As Compiler(Of TResult)
 
     Public Sub New(richTextBox As RichTextBox,
                    autoCompletePopup As Popup,
@@ -25,15 +21,16 @@ Public Class RichCompiler(Of TResult)
                    baseContext As TermContext,
                    typeNamedTypeDictionary As TypeNamedTypeDictionary)
         _RichTextBox = richTextBox
-        _TypeNamedTypeDictionary = typeNamedTypeDictionary
         _AutoCompletePopup = autoCompletePopup
         _AutoCompleteListBox = autoCompleteListBox
         _AutoCompleteScrollViewer = autoCompleteScrollViewer
-        _BaseContext = baseContext
 
         _AutoCompletePopup.PlacementTarget = _RichTextBox
         _RichTextBox.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
         _RichTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Visible
+        
+        _Compiler = New Compiler(Of TResult)(baseContext:=baseContext, typeNamedTypeDictionary:=typeNamedTypeDictionary)
+        Me.UpdateOnTextChanged()
 
         Dim pasteCommandBinding = New CommandBinding(ApplicationCommands.Paste, AddressOf OnPaste, AddressOf OnCanExecutePaste)
         _RichTextBox.CommandBindings.Add(pasteCommandBinding)
@@ -43,13 +40,20 @@ Public Class RichCompiler(Of TResult)
 
     Private Sub UpdateOnTextChanged()
         _TextOnlyDocument = New TextOnlyDocument(_RichTextBox.Document)
-        _LocatedString = _TextOnlyDocument.Text.ToLocated
-        _Selection = Me.SetSelection()
-        _CurrentIdentifier = _LocatedString.TryGetSurroundingIdentifier(_Selection)
+        _Compiler.Update(newLocatedString:=Me.GetText,
+                         newSelection:=Me.GetSelection,
+                         textChanged:=True)
     End Sub
 
-    Private Function SetSelection() As TextLocation
-        Return New TextLocation(_TextOnlyDocument.GetIndex(_RichTextBox.Selection.Start), _TextOnlyDocument.GetIndex(_RichTextBox.Selection.End))
+    Private Function GetText() As LocatedString
+        Return _TextOnlyDocument.Text.ToLocated
+    End Function
+
+    Private Function GetSelection() As TextLocation
+        Dim startIndex = _TextOnlyDocument.GetIndex(_RichTextBox.Selection.Start)
+        Dim endIndex = _TextOnlyDocument.GetIndex(_RichTextBox.Selection.End)
+
+        Return New TextLocation(startIndex:=startIndex, length:=startIndex - endIndex)
     End Function
 
     Private Sub OnPaste(sender As Object, e As ExecutedRoutedEventArgs)
@@ -75,18 +79,11 @@ Public Class RichCompiler(Of TResult)
     End Sub
 
     Public Sub Compile(Optional textChanged As Boolean = False)
-        Dim filter = _CurrentIdentifier
-
-        Dim compiler = New Compiler(Of TResult)(LocatedString:=_LocatedString,
-                                                baseContext:=_BaseContext,
-                                                TypeNamedTypeDictionary:=TypeNamedTypeDictionary,
-                                                selection:=_Selection)
-
         Dim intelliSense As IntelliSense = Nothing
         Dim richCompilerResult As RichCompilerResult(Of TResult) = Nothing
 
         Try
-            Dim compilerResult = compiler.Compile(textChanged:=textChanged)
+            Dim compilerResult = _Compiler.Compile
 
             intelliSense = compilerResult.IntelliSense
             richCompilerResult = New RichCompilerResult(Of TResult)(compilerResult.Result)
@@ -107,11 +104,23 @@ Public Class RichCompiler(Of TResult)
         End Try
     End Sub
 
+    Private Sub UpdateIntelliSenseFilter(newFilter As String)
+        _AutoCompleteListBox.Items.Filter = Function(listBoxItem) _Compiler.IntelliSense.PassesFilter(DirectCast(listBoxItem, ListBoxItem).ToString, newFilter)
+    End Sub
+
+    Private Sub UpdateIntelliSenseFilter()
+        Me.UpdateIntelliSenseFilter(newFilter:=_Compiler.GetIntelliSenseFilterName)
+    End Sub
+
     Private Sub ShowIntelliSense(intelliSense As IntelliSense)
         If intelliSense.IsEmpty Then
             Me.CloseAutoCompletePopup()
         Else
-            Dim currentIdentifierStartCharRectangle = _TextOnlyDocument.GetTextPointer(_CurrentIdentifier.Location.StartIndex).GetCharacterRect(LogicalDirection.Forward)
+            Dim identifier = _Compiler.CurrentIdentifierIfDefined
+
+            Me.UpdateIntelliSenseFilter()
+
+            Dim currentIdentifierStartCharRectangle = _TextOnlyDocument.GetTextPointer(_Compiler.CurrentIdentifierIfDefined.Location.StartIndex).GetCharacterRect(LogicalDirection.Forward)
 
             _AutoCompletePopup.VerticalOffset = -(_RichTextBox.ActualHeight - currentIdentifierStartCharRectangle.Bottom)
             _AutoCompletePopup.HorizontalOffset = currentIdentifierStartCharRectangle.Left
@@ -128,7 +137,7 @@ Public Class RichCompiler(Of TResult)
 
                 For i = 0 To intelliSenseItems.Count - 1
                     Dim intelliSenseItem = intelliSenseItems(i)
-                    If intelliSenseItem.Name.StartsWith(intelliSense.Filter) Then
+                    If intelliSenseItem.Name.StartsWith(_Compiler.CurrentIdentifierIfDefined.ToString) Then
                         _AutoCompleteListBox.SelectedIndex = i
                         Exit For
                     End If
@@ -236,7 +245,7 @@ Public Class RichCompiler(Of TResult)
         Else
             Select Case e.Key
                 Case Key.Tab
-                    Me.InsertText(New String(" "c, 4))
+                    Me.AutoCompleteText(New String(" "c, 4))
 
                     e.Handled = True
             End Select
@@ -269,15 +278,15 @@ Public Class RichCompiler(Of TResult)
     Private Sub CloseAutoCompletePopupAndUpdateSource()
         Me.CloseAutoCompletePopup()
 
-        Me.InsertText(CStr(DirectCast(_AutoCompleteListBox.SelectedItem, ListBoxItem).Content))
+        Me.AutoCompleteText(CStr(DirectCast(_AutoCompleteListBox.SelectedItem, ListBoxItem).Content))
     End Sub
 
-    Private Sub InsertText(text As String)
+    Private Sub AutoCompleteText(text As String)
         Dim clipboardCopy = Clipboard.GetDataObject.GetData(GetType(String))
 
         Clipboard.SetDataObject(text)
 
-        Dim rangeToReplace = _TextOnlyDocument.GetTextRange(_CurrentIdentifier)
+        Dim rangeToReplace = _TextOnlyDocument.GetTextRange(_Compiler.CurrentIdentifierIfDefined)
         _RichTextBox.Selection.Select(rangeToReplace.Start, rangeToReplace.End)
 
         _RichTextBox.Paste()

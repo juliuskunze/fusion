@@ -1,12 +1,6 @@
 ﻿Public Class IntelliSense
 
     Private ReadOnly _TermContext As TermContext
-    Private ReadOnly _Filter As String
-    Public ReadOnly Property Filter As String
-        Get
-            Return _Filter
-        End Get
-    End Property
 
     Public ReadOnly Property IsEmpty As Boolean
         Get
@@ -17,11 +11,10 @@
     Private Sub New()
     End Sub
 
-    Public Sub New(termContext As TermContext, filter As String)
+    Public Sub New(termContext As TermContext)
         If termContext Is Nothing Then Throw New ArgumentNullException("termContext")
 
         _TermContext = termContext
-        _Filter = filter
     End Sub
 
     Public Function GetItems() As IEnumerable(Of IntelliSenseItem)
@@ -34,16 +27,19 @@
 
         Dim all = constants.Concat(parameters).Concat(functions).Concat(types)
 
-        Return all.Where(Function(item) Me.SatisfiesFilter(item.Name)).OrderBy(Function(item) item.Name)
+        Return all.OrderBy(Function(item) item.Name)
     End Function
 
-    Private Function SatisfiesFilter(name As String) As Boolean
-        For i = 0 To name.Length - _Filter.Length
-            If CompilerTools.IdentifierEquals(name.Substring(i, length:=_Filter.Length), _Filter) Then Return True
+    Public Function PassesFilter(item As IntelliSenseItem, filter As String) As Boolean
+        Return Me.PassesFilter(item.Name, filter:=filter)
+    End Function
+
+    Public Function PassesFilter(name As String, filter As String) As Boolean
+        For i = 0 To name.Length - filter.Length
+            If CompilerTools.IdentifierEquals(name.Substring(i, length:=filter.Length), filter) Then Return True
         Next
 
         Return False
-        'Return name.Contains(_Filter)
     End Function
 
     Private Sub ThrowIsEmptyException()

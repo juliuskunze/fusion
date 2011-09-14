@@ -85,11 +85,15 @@
     End Function
 
     Public Function Substring(startIndex As Integer) As LocatedString
-        Return Me.Substring(startIndex:=startIndex, length:=_Location.Length - startIndex)
+        Return Me.Substring(_Location.SubLocation(startIndex:=startIndex))
     End Function
 
     Public Function Substring(startIndex As Integer, length As Integer) As LocatedString
-        Return New LocatedString(_ContainingAnalizedString, New TextLocation(startIndex:=startIndex, length:=length))
+        Return Me.Substring(_Location.SubLocation(startIndex:=startIndex, length:=length))
+    End Function
+
+    Private Function Substring(location As TextLocation) As LocatedString
+        Return New LocatedString(_ContainingAnalizedString, location)
     End Function
 
     Public Function Split(separatorChars As IEnumerable(Of Char)) As IEnumerable(Of LocatedString)
@@ -111,6 +115,12 @@
     Public ReadOnly Property Length As Integer
         Get
             Return _Location.Length
+        End Get
+    End Property
+
+    Public ReadOnly Property Any As Boolean
+        Get
+            Return _Location.Length > 0
         End Get
     End Property
 

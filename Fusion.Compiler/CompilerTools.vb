@@ -260,15 +260,15 @@ Public Module CompilerTools
         Return startIdentifier
     End Function
 
-    Public Function TryGetSurroundingIdentifier(ByVal s As LocatedString, index As Integer) As LocatedString
-        If index < 0 OrElse index > s.Length Then Throw New ArgumentOutOfRangeException("index")
+    Public Function TryGetSurroundingIdentifier(ByVal s As LocatedString, pointer As Integer) As LocatedString
+        If pointer < 0 OrElse pointer > s.Length Then Throw New ArgumentOutOfRangeException("pointer")
 
         Dim startIndex = 0
         Dim endIndex = s.Length
 
-        If s.ToString = "" Then Return s.Substring(startIndex:=index, length:=0)
+        If s.ToString = "" Then Return s.Substring(startIndex:=pointer, length:=0)
 
-        If index = 0 Then
+        If pointer = 0 Then
             For i = 0 To s.Length - 1
                 If Not s(i).IsIdentifierChar Then
                     endIndex = i
@@ -276,11 +276,11 @@ Public Module CompilerTools
                 End If
             Next
 
-            If Not s(startIndex).IsIdentifierStartChar Then Return s.Substring(startIndex:=index, length:=0)
-        ElseIf index = s.Length OrElse Not s(index).IsIdentifierChar Then
-            endIndex = index
+            If Not s(startIndex).IsIdentifierStartChar Then Return s.Substring(startIndex:=pointer, length:=0)
+        ElseIf pointer = s.Length OrElse Not s(pointer).IsIdentifierChar Then
+            endIndex = pointer
 
-            For i = index - 1 To 0 Step -1
+            For i = pointer - 1 To 0 Step -1
                 If Not s(i).IsIdentifierChar Then
                     startIndex = i + 1
                     Exit For
@@ -290,14 +290,14 @@ Public Module CompilerTools
 
         Else
 
-            For i = index To 0 Step -1
+            For i = pointer To 0 Step -1
                 If Not s(i).IsIdentifierChar Then
                     startIndex = i + 1
                     Exit For
                 End If
             Next
 
-            For i = index + 1 To s.Length - 1
+            For i = pointer + 1 To s.Length - 1
                 If Not s(i).IsIdentifierChar Then
                     endIndex = i
                     Exit For
@@ -305,7 +305,7 @@ Public Module CompilerTools
             Next
         End If
 
-        If startIndex < s.Length - 1 AndAlso Not s(startIndex).IsIdentifierStartChar Then Return s.Substring(startIndex:=index, length:=0)
+        If startIndex < s.Length - 1 AndAlso Not s(startIndex).IsIdentifierStartChar Then Return s.Substring(startIndex:=pointer, length:=0)
 
         Return s.Substring(startIndex:=startIndex, length:=endIndex - startIndex)
     End Function

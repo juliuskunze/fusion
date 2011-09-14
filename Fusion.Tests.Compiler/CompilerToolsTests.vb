@@ -45,13 +45,13 @@
 
     <Test()>
     Public Sub TestGetSurroundingIdentifier()
-        Assert.AreEqual(CompilerTools.TryGetSurroundingIdentifier("A B ABC2".ToLocated, index:=6).ToString, "ABC2")
-        Assert.AreEqual(CompilerTools.TryGetSurroundingIdentifier("A B ABC2 ".ToLocated, index:=6).ToString, "ABC2")
-        Assert.AreEqual(CompilerTools.TryGetSurroundingIdentifier("AB2 ".ToLocated, index:=1).ToString, "AB2")
-        Assert.AreEqual(CompilerTools.TryGetSurroundingIdentifier("A".ToLocated, index:=1).ToString, "A")
-        Assert.AreEqual(CompilerTools.TryGetSurroundingIdentifier("A ".ToLocated, index:=1).ToString, "A")
-        Assert.AreEqual(CompilerTools.TryGetSurroundingIdentifier("A".ToLocated, index:=0).ToString, "A")
-        Assert.AreEqual(CompilerTools.TryGetSurroundingIdentifier(" A".ToLocated, index:=1).ToString, "A")
+        Assert.AreEqual(CompilerTools.TryGetSurroundingIdentifier("A B ABC2".ToLocated, pointer:=6).ToString, "ABC2")
+        Assert.AreEqual(CompilerTools.TryGetSurroundingIdentifier("A B ABC2 ".ToLocated, pointer:=6).ToString, "ABC2")
+        Assert.AreEqual(CompilerTools.TryGetSurroundingIdentifier("AB2 ".ToLocated, pointer:=1).ToString, "AB2")
+        Assert.AreEqual(CompilerTools.TryGetSurroundingIdentifier("A".ToLocated, pointer:=1).ToString, "A")
+        Assert.AreEqual(CompilerTools.TryGetSurroundingIdentifier("A ".ToLocated, pointer:=1).ToString, "A")
+        Assert.AreEqual(CompilerTools.TryGetSurroundingIdentifier("A".ToLocated, pointer:=0).ToString, "A")
+        Assert.AreEqual(CompilerTools.TryGetSurroundingIdentifier(" A".ToLocated, pointer:=1).ToString, "A")
     End Sub
 
 End Class

@@ -9,42 +9,85 @@
         End Get
     End Property
 
-    Private ReadOnly _Selection As TextLocation
-
-    Private ReadOnly _CurrentIdentifier As LocatedString
-    Private ReadOnly Property CurrentIdentifier As LocatedString
+    Private _CurrentIdentifierIfDefined As LocatedString
+    Public ReadOnly Property CurrentIdentifierIfDefined As LocatedString
         Get
-            Return _CurrentIdentifier
+            Return _CurrentIdentifierIfDefined
         End Get
     End Property
 
     Private ReadOnly _ResultType As NamedType
 
     Private _Statements As IEnumerable(Of LocatedString)
+    Private _Selection As TextLocation
 
-    Public Sub New(locatedString As LocatedString, baseContext As TermContext, typeNamedTypeDictionary As TypeNamedTypeDictionary, Optional selection As TextLocation = Nothing)
-        _LocatedString = locatedString
-        _BaseContext = baseContext
-        _Selection = selection
-        _ResultType = typeNamedTypeDictionary.GetNamedType(GetType(TResult))
+    Private _TermContextAtSelection As TermContext
+
+    Private _TextChanged As Boolean
+
+    Public Sub Update(newLocatedString As LocatedString,
+                      Optional newSelection As TextLocation = Nothing,
+                      Optional textChanged As Boolean = False)
+        _LocatedString = newLocatedString
+        _Selection = newSelection
         _Statements = _LocatedString.Split({";"c})
-        _CurrentIdentifier = _LocatedString.TryGetSurroundingIdentifier(selection)
+        _CurrentIdentifierIfDefined = Me.TryGetCurrentIdentifier()
+
+        Me.UpdateIntelliSense()
     End Sub
 
-    Public Function Compile(Optional textChanged As Boolean = False) As CompilerResult(Of TResult)
+    Private Function TryGetCurrentIdentifier() As LocatedString
+        If _LocatedString Is Nothing OrElse _Selection Is Nothing Then Return Nothing
+
+        Return _LocatedString.TryGetSurroundingIdentifier(_Selection)
+    End Function
+
+    Private Sub UpdateIntelliSense()
+        _IntelliSense = Me.GetIntelliSense
+    End Sub
+
+    Private Function GetIntelliSense() As IntelliSense
+        If _TermContextAtSelection Is Nothing Then Return Compiler.IntelliSense.Empty
+
+        Return New IntelliSense(TermContext:=_TermContextAtSelection)
+    End Function
+
+    Public Function GetIntelliSenseFilterName() As String
+        If _CurrentIdentifierIfDefined Is Nothing Then Return ""
+
+        Return _CurrentIdentifierIfDefined.ToString
+    End Function
+
+    Private _IntelliSense As IntelliSense
+    Public ReadOnly Property IntelliSense(Optional textChanged As Boolean = False) As IntelliSense
+        Get
+            Return _IntelliSense
+        End Get
+    End Property
+
+    Public Sub New(locatedString As LocatedString, baseContext As TermContext, typeNamedTypeDictionary As TypeNamedTypeDictionary)
+        Me.New(baseContext:=baseContext, typeNamedTypeDictionary:=typeNamedTypeDictionary)
+        Me.Update(newLocatedString:=locatedString)
+    End Sub
+
+    Public Sub New(baseContext As TermContext, typeNamedTypeDictionary As TypeNamedTypeDictionary)
+        _BaseContext = baseContext
+        _ResultType = typeNamedTypeDictionary.GetNamedType(GetType(TResult))
+    End Sub
+
+    Public Function Compile() As CompilerResult(Of TResult)
         Dim context = _BaseContext
-        Dim cursorTermContext = context
 
         Try
             For Each statement In _Statements
-                If statement.Location.ContainsRange(_Selection) Then
-                    cursorTermContext = context
+                If _Selection IsNot Nothing AndAlso statement.Location.ContainsRange(_Selection) Then
+                    _TermContextAtSelection = context
                 End If
 
                 If Not statement.Trim.ToString.Any Then Continue For
 
                 If IsReturnStatement(statement) Then
-                    Return New CompilerResult(Of TResult)(New Term(Term:=GetReturnTerm(statement), TypeInformation:=New TypeInformation(_ResultType), context:=context).GetDelegate(Of Func(Of TResult)).Invoke, IntelliSense:=Me.GetIntelliSense(cursorTermContext, textChanged:=textChanged))
+                    Return New CompilerResult(Of TResult)(New Term(Term:=GetReturnTerm(statement), TypeInformation:=New TypeInformation(_ResultType), context:=context).GetDelegate(Of Func(Of TResult)).Invoke, IntelliSense:=_IntelliSense)
                 End If
 
                 If IsDelegateDefinition(statement) Then
@@ -60,14 +103,11 @@
                 End If
             Next
         Catch ex As CompilerException
-            Throw ex.WithIntelliSense(Me.GetIntelliSense(cursorTermContext, textChanged))
+            Me.UpdateIntelliSense()
+            Throw ex.WithIntelliSense(_IntelliSense)
         End Try
 
-        Throw New CompilerException("Missing return statement.").WithIntelliSense(Me.GetIntelliSense(cursorTermContext, textChanged))
-    End Function
-
-    Private Function GetIntelliSense(cursorTermContext As TermContext, textChanged As Boolean) As IntelliSense
-        Return If(textChanged, New IntelliSense(TermContext:=cursorTermContext, filter:=_CurrentIdentifier.ToString), IntelliSense.Empty)
+        Throw New CompilerException("Missing return statement.").WithIntelliSense(_IntelliSense)
     End Function
 
     Const _ReturnKeyword = "return"

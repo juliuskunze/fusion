@@ -26,8 +26,12 @@
     End Property
 
     Public Function SubLocation(startIndex As Integer) As TextLocation
+        Return Me.SubLocation(startIndex:=startIndex, length:=_Length - startIndex)
+    End Function
+
+    Public Function SubLocation(startIndex As Integer, length As Integer) As TextLocation
         Return New TextLocation(startIndex:=Me.StartIndex + startIndex,
-                                Length:=Length)
+                                length:=length)
     End Function
 
     Public Function ContainsCharIndex(index As Integer) As Boolean
