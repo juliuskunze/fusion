@@ -1,0 +1,3 @@
+﻿Class Window
+
+End Class

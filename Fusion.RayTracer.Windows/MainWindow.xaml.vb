@@ -30,6 +30,8 @@ Public Class MainWindow
     Public Sub New()
         System.Threading.Thread.CurrentThread.CurrentCulture = New System.Globalization.CultureInfo("en-US")
 
+        Dim a = FrameworkElementBehaviour.BringIntoView
+
         Me.InitializeComponent()
 
         _RenderBackgroundWorker = New ComponentModel.BackgroundWorker With {.WorkerReportsProgress = True, .WorkerSupportsCancellation = True}
@@ -46,7 +48,7 @@ Public Class MainWindow
             .FileName = "Ray tracer video",
             .InitialDirectory = _DefaultInitialDirectory}
 
-        Dim filter = Me.GetFilter(CompileMode.Picture) & "|" & Me.GetFilter(CompileMode.Video)
+        Dim filter = Me.GetFileExtensionFilter(CompileMode.Picture) & "|" & Me.GetFileExtensionFilter(CompileMode.Video)
 
         _SaveDescriptionDialog = New SaveFileDialog With {
             .FileName = "Ray tracer picture scene description",
@@ -240,11 +242,16 @@ Public Class MainWindow
             Select Case e.Key
                 Case Key.S
                     Me.SaveDescription()
+
+                    e.Handled = True
                 Case Key.O
                     Me.ShowOpenDescriptionDialog()
+
+                    e.Handled = True
                 Case Key.F5
                     Me.Compile()
 
+                    e.Handled = True
             End Select
         End If
     End Sub
@@ -373,11 +380,11 @@ Public Class MainWindow
         End Select
     End Function
 
-    Private Function GetFilter() As String
-        Return Me.GetFilter(Me.Mode)
+    Private Function GetFileExtensionFilter() As String
+        Return Me.GetFileExtensionFilter(Me.Mode)
     End Function
 
-    Private Function GetFilter(mode As CompileMode) As String
+    Private Function GetFileExtensionFilter(mode As CompileMode) As String
         Select Case mode
             Case CompileMode.Picture : Return "Ray tracer picture scene description|*.pic"
             Case CompileMode.Video : Return "Ray tracer video scene description|*.vid"
@@ -391,10 +398,12 @@ Public Class MainWindow
 
     Private Sub ShowOpenDescriptionDialog()
         If _OpenDescriptionDialog.ShowDialog(owner:=Me) Then
+            _CurrentFileName = _OpenDescriptionDialog.FileName
+
             Dim text As String
 
             Try
-                Using streamReader = New IO.StreamReader(_OpenDescriptionDialog.FileName)
+                Using streamReader = New IO.StreamReader(_CurrentFileName)
                     text = streamReader.ReadToEnd()
                 End Using
             Catch ex As IO.IOException
@@ -408,7 +417,7 @@ Public Class MainWindow
 
             Dim mode As CompileMode
             Try
-                mode = Me.GetMode(fileExtension:=IO.Path.GetExtension(_OpenDescriptionDialog.FileName))
+                mode = Me.GetMode(fileExtension:=IO.Path.GetExtension(_CurrentFileName))
             Catch ex As ArgumentOutOfRangeException
                 MessageBox.Show("Unknown file extension.")
                 Return
@@ -428,4 +437,28 @@ Public Class MainWindow
         Me.Mode = CompileMode.Video
     End Sub
 
+End Class
+
+Public Class FrameworkElementBehaviour
+
+    Public Shared Function GetBringIntoView(target As ListBoxItem) As Boolean
+        Return False
+    End Function
+
+    Public Shared Sub SetBringIntoView(target As ListBoxItem, value As Boolean)
+        'target.SetValue(BringIntoView, value)
+    End Sub
+
+    Public Shared ReadOnly BringIntoView As DependencyProperty = DependencyProperty.RegisterAttached(name:="BringIntoView",
+                                                                                                     propertyType:=GetType(Boolean),
+                                                                                                     ownerType:=GetType(ListBoxItem),
+                                                                                                     defaultMetadata:=New UIPropertyMetadata(True, AddressOf OnBringIntoViewChanged))
+
+
+
+
+
+    Private Shared Sub OnBringIntoViewChanged(o As DependencyObject, e As DependencyPropertyChangedEventArgs)
+        'DirectCast(o, ListBoxItem).BringIntoView()
+    End Sub
 End Class

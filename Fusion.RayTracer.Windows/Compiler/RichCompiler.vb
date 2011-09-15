@@ -34,15 +34,12 @@ Public Class RichCompiler(Of TResult)
 
         Dim pasteCommandBinding = New CommandBinding(ApplicationCommands.Paste, AddressOf OnPaste, AddressOf OnCanExecutePaste)
         _RichTextBox.CommandBindings.Add(pasteCommandBinding)
-
-        Me.UpdateOnTextChanged()
     End Sub
 
     Private Sub UpdateOnTextChanged()
         _TextOnlyDocument = New TextOnlyDocument(_RichTextBox.Document)
         _Compiler.Update(newLocatedString:=Me.GetText,
-                         newSelection:=Me.GetSelection,
-                         textChanged:=True)
+                         newSelection:=Me.GetSelection)
     End Sub
 
     Private Function GetText() As LocatedString
@@ -83,7 +80,7 @@ Public Class RichCompiler(Of TResult)
         Dim richCompilerResult As RichCompilerResult(Of TResult) = Nothing
 
         Try
-            Dim compilerResult = _Compiler.Compile
+            Dim compilerResult = _Compiler.Compile(textChanged:=textChanged)
 
             intelliSense = compilerResult.IntelliSense
             richCompilerResult = New RichCompilerResult(Of TResult)(compilerResult.Result)
@@ -104,22 +101,12 @@ Public Class RichCompiler(Of TResult)
         End Try
     End Sub
 
-    Private Sub UpdateIntelliSenseFilter(newFilter As String)
-        _AutoCompleteListBox.Items.Filter = Function(listBoxItem) _Compiler.IntelliSense.PassesFilter(DirectCast(listBoxItem, ListBoxItem).ToString, newFilter)
-    End Sub
-
-    Private Sub UpdateIntelliSenseFilter()
-        Me.UpdateIntelliSenseFilter(newFilter:=_Compiler.GetIntelliSenseFilterName)
-    End Sub
-
     Private Sub ShowIntelliSense(intelliSense As IntelliSense)
         If intelliSense.IsEmpty Then
             Me.CloseAutoCompletePopup()
         Else
             Dim identifier = _Compiler.CurrentIdentifierIfDefined
 
-            Me.UpdateIntelliSenseFilter()
-            
             Dim currentIdentifierStartCharRectangle = _TextOnlyDocument.GetTextPointer(_Compiler.CurrentIdentifierIfDefined.Location.StartIndex).GetCharacterRect(LogicalDirection.Forward)
 
             _AutoCompletePopup.VerticalOffset = -(_RichTextBox.ActualHeight - currentIdentifierStartCharRectangle.Bottom)
@@ -169,8 +156,12 @@ Public Class RichCompiler(Of TResult)
     End Sub
 
     Private Sub RemoveTextDecorations()
+        _ApplyingTextDecorations = True
+
         Dim documentRange = New Documents.TextRange(_RichTextBox.Document.ContentStart, _RichTextBox.Document.ContentEnd)
         documentRange.ApplyPropertyValue(Inline.TextDecorationsProperty, _NormalTextDecorations)
+
+        _ApplyingTextDecorations = False
     End Sub
 
     '!!!Public Function GetCorrectedText() As String

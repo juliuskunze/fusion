@@ -70,7 +70,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="TextOnlyDocumentTests.vb" />
-    <Page Include="MainWindow.xaml">
+    <Page Include="Window.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -78,8 +78,8 @@
       <DependentUpon>Application.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.vb">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Window.xaml.vb">
+      <DependentUpon>Window.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

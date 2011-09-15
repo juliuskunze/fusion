@@ -31,7 +31,7 @@
         Dim run = TryCast(inline, Run)
         If run IsNot Nothing Then Return run.Text
 
-        Dim lineBreak = TryCast(inline, Run)
+        Dim lineBreak = TryCast(inline, LineBreak)
         If lineBreak IsNot Nothing Then Return _LineBreak
 
         Throw New InvalidOperationException("Only text expected.")
@@ -101,9 +101,29 @@
 
         If TypeOf parent Is FlowDocument Then Return 0
 
-        Dim run = CType(parent, Run)
+        Dim position = 0
 
-        Dim position = run.ContentStart.GetOffsetToPosition(textPointer)
+        If TypeOf parent Is Run Then
+            Dim run = DirectCast(parent, Run)
+
+            position += run.ContentStart.GetOffsetToPosition(textPointer)
+            position += GetPositionInParent(run:=run)
+            position += GetPositionInParent(block:=CType(run.Parent, Block))
+
+        ElseIf TypeOf parent Is Block Then
+            Dim block = DirectCast(parent, Block)
+
+            position += GetPositionInParent(block)
+        End If
+
+        
+        Return position
+    End Function
+
+    Private Function GetPositionInParent(ByVal run As Run) As Integer
+        Dim position = 0
+
+
 
         Dim inline = run.PreviousInline
         Do While inline IsNot Nothing
@@ -111,14 +131,18 @@
 
             inline = inline.PreviousInline
         Loop
+        Return position
+    End Function
 
-        Dim block = CType(run.Parent, Block).PreviousBlock
+    Private Function GetPositionInParent(ByVal block As Block) As Integer
+        Dim position = 0
+
+        block = block.PreviousBlock
         Do While block IsNot Nothing
             position += GetLength(block) + _LineBreakLength
 
             block = block.PreviousBlock
         Loop
-
         Return position
     End Function
 
