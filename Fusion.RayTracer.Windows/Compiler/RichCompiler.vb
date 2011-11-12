@@ -14,21 +14,52 @@ Public Class RichCompiler(Of TResult)
     
     Private _Compiler As Compiler(Of TResult)
 
+    Private _AutoCompile As Boolean
+    Public Property AutoCompile As Boolean
+        Get
+            Return _AutoCompile
+        End Get
+        Set(value As Boolean)
+            If value Then
+                Me.ActivateAutoCompile()
+            Else
+                Me.DeactivateAutoCompile()
+            End If
+        End Set
+    End Property
+
+    Public Sub ActivateAutoCompile()
+        _AutoCompile = True
+
+        Me.Compile()
+    End Sub
+
+    Public Sub DeactivateAutoCompile()
+        Me.Unfocus()
+        Me.RemoveUnderline()
+
+        _AutoCompile = False
+    End Sub
+
     Public Sub New(richTextBox As RichTextBox,
                    autoCompletePopup As Popup,
                    autoCompleteListBox As ListBox,
                    autoCompleteScrollViewer As ScrollViewer,
                    baseContext As TermContext,
-                   typeNamedTypeDictionary As TypeNamedTypeDictionary)
+                   typeNamedTypeDictionary As TypeNamedTypeDictionary,
+                   Optional autoCompile As Boolean = True)
         _RichTextBox = richTextBox
         _AutoCompletePopup = autoCompletePopup
         _AutoCompleteListBox = autoCompleteListBox
         _AutoCompleteScrollViewer = autoCompleteScrollViewer
+        _AutoCompile = autoCompile
 
         _AutoCompletePopup.PlacementTarget = _RichTextBox
+        _RichTextBox.Document.PageWidth = 10000
         _RichTextBox.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
         _RichTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Visible
-        
+
+
         _Compiler = New Compiler(Of TResult)(baseContext:=baseContext, typeNamedTypeDictionary:=typeNamedTypeDictionary)
         Me.UpdateOnTextChanged()
 
@@ -89,7 +120,7 @@ Public Class RichCompiler(Of TResult)
             If locatedEx IsNot Nothing Then
                 Me.UnderlineError(locatedEx.LocatedString, _TextOnlyDocument)
             Else
-                Me.RemoveTextDecorations()
+                Me.RemoveUnderline()
             End If
 
             intelliSense = ex.IntelliSense
@@ -158,8 +189,10 @@ Public Class RichCompiler(Of TResult)
         _ApplyingTextDecorations = False
     End Sub
 
-    Private Sub RemoveTextDecorations()
+    Private Sub RemoveUnderline()
         _ApplyingTextDecorations = True
+        '_ApplyingTextDecorations will not be set properly else:
+        System.Threading.Thread.Sleep(1)
 
         Dim documentRange = New Documents.TextRange(_RichTextBox.Document.ContentStart, _RichTextBox.Document.ContentEnd)
         documentRange.ApplyPropertyValue(Inline.TextDecorationsProperty, _NormalTextDecorations)
@@ -208,6 +241,7 @@ Public Class RichCompiler(Of TResult)
 
     Private Sub RichTextBox_TextChanged(sender As System.Object, e As System.Windows.Controls.TextChangedEventArgs) Handles _RichTextBox.TextChanged
         If _ApplyingTextDecorations Then Return
+        If Not _AutoCompile Then Return
 
         Me.UpdateOnTextChanged()
 
@@ -314,7 +348,7 @@ Public Class RichCompiler(Of TResult)
     End Sub
 
 
-    Public Sub Deactivate()
+    Public Sub Unfocus()
         Me.CloseAutoCompletePopup()
     End Sub
 

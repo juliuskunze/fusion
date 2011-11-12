@@ -41,7 +41,8 @@
                                     <MenuItem Name="_OpenDescriptionMenuItem" Header="Open..." InputGestureText="Strg+O"></MenuItem>
                                 </MenuItem>
                                 <MenuItem Header="Compile">
-                                    <MenuItem Name="_CompileMenuItem" Header="Compile" InputGestureText="F5"></MenuItem>
+                                    <MenuItem Name="_AutoCompileMenuItem" Header="Auto Compile" InputGestureText="F4" IsCheckable="True" IsChecked="True"></MenuItem>
+                                    <MenuItem Name="_CompileMenuItem" Header="Compile" InputGestureText="F5" IsEnabled="False"></MenuItem>
                                     <Separator></Separator>
                                     <MenuItem Name="_CompilePictureMenuItem" Header="Compile picture" IsCheckable="True" IsChecked="True"></MenuItem>
                                     <MenuItem Name="_CompileVideoMenuItem" Header="Compile video" IsCheckable="True"></MenuItem>
@@ -56,12 +57,12 @@
                         </StackPanel>
                         <RichTextBox FontFamily="Consolas" Grid.Row="1" Margin="0" AcceptsReturn="True" Name="_SceneDescriptionTextBox" Background="#FFFFFF">
                             <RichTextBox.Resources>
-                                    <Style TargetType="{x:Type Paragraph}">
-                                        <Setter Property="Margin" Value="0"/>
-                                    </Style>
-                                </RichTextBox.Resources>
+                                <Style TargetType="{x:Type Paragraph}">
+                                    <Setter Property="Margin" Value="0"/>
+                                </Style>
+                            </RichTextBox.Resources>
                             <FlowDocument PageWidth="10000"></FlowDocument>
-                            </RichTextBox>
+                        </RichTextBox>
                         <Popup Name="_AutoCompletePopup" AllowsTransparency="True" Placement="Bottom" IsOpen="False">
                             <Border BorderThickness="1" BorderBrush="Gray">
                                 <ScrollViewer Margin="0" Name="_AutoCompleteScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" MaxHeight="100">

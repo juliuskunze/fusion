@@ -62,17 +62,12 @@ Public Class MainWindow
     End Sub
 
     Private Function GetCompiler(Of TResult)() As RichCompiler(Of TResult)
-        Dim compiler = New RichCompiler(Of TResult)(RichTextBox:=_SceneDescriptionTextBox,
-                                                    autoCompletePopup:=_AutoCompletePopup,
-                                                    autoCompleteListBox:=_AutoCompleteListBox,
-                                                    autoCompleteScrollViewer:=_AutoCompleteScrollViewer,
-                                                    baseContext:=_RelativisticRayTracerTermContextBuilder.TermContext,
-                                                    TypeNamedTypeDictionary:=_RelativisticRayTracerTermContextBuilder.TypeDictionary)
-
-        compiler.Compile()
-
-
-        Return compiler
+        Return New RichCompiler(Of TResult)(RichTextBox:=_SceneDescriptionTextBox,
+                                            autoCompletePopup:=_AutoCompletePopup,
+                                            autoCompleteListBox:=_AutoCompleteListBox,
+                                            autoCompleteScrollViewer:=_AutoCompleteScrollViewer,
+                                            baseContext:=_RelativisticRayTracerTermContextBuilder.TermContext,
+                                            TypeNamedTypeDictionary:=_RelativisticRayTracerTermContextBuilder.TypeDictionary)
     End Function
 
     Private Sub RenderButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _RenderButton.Click
@@ -232,7 +227,7 @@ Public Class MainWindow
     End Sub
 
     Private Sub MainWindow_Deactivated(sender As Object, e As EventArgs) Handles Me.Deactivated
-        _PictureCompiler.Deactivate()
+        _PictureCompiler.Unfocus()
     End Sub
 
     Private Sub MainWindow_KeyDown(sender As Object, e As System.Windows.Input.KeyEventArgs) Handles Me.KeyDown
@@ -305,9 +300,13 @@ Public Class MainWindow
             Select Case value
                 Case CompileMode.Picture
                     _PictureCompiler = Me.GetCompiler(Of RayTracerPicture(Of RadianceSpectrum))()
+                    _PictureCompiler.Compile()
                 Case CompileMode.Video
                     _VideoCompiler = Me.GetCompiler(Of RayTracerVideo(Of RadianceSpectrum))()
+                    _VideoCompiler.Compile()
             End Select
+
+
         End Set
     End Property
 
@@ -429,6 +428,19 @@ Public Class MainWindow
     Private Sub CompileVideoMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _CompileVideoMenuItem.Click
         e.Handled = True
         Me.Mode = CompileMode.Video
+    End Sub
+
+    Private Sub _AutoCompileMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _AutoCompileMenuItem.Click
+        Dim autoCompile = _AutoCompileMenuItem.IsChecked
+
+        _CompileMenuItem.IsEnabled = Not autoCompile
+        _ErrorTextBox.IsEnabled = autoCompile
+
+        If Me.Mode = CompileMode.Picture Then
+            _PictureCompiler.AutoCompile = autoCompile
+        Else
+            _VideoCompiler.AutoCompile = autoCompile
+        End If
     End Sub
 
 End Class

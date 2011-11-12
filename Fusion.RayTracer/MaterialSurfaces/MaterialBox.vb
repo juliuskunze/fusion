@@ -20,12 +20,12 @@
     Private ReadOnly _UpperZNormal As New Vector3D(0, 0, 1)
 
     Public Sub New(box As Box,
-                    lowerXMaterial As TMaterial,
-                    upperXMaterial As TMaterial,
-                    lowerYMaterial As TMaterial,
-                    upperYMaterial As TMaterial,
-                    lowerZMaterial As TMaterial,
-                    upperZMaterial As TMaterial)
+                   lowerXMaterial As TMaterial,
+                   upperXMaterial As TMaterial,
+                   lowerYMaterial As TMaterial,
+                   upperYMaterial As TMaterial,
+                   lowerZMaterial As TMaterial,
+                   upperZMaterial As TMaterial)
         _Box = box
 
         _LowerXMaterial = lowerXMaterial

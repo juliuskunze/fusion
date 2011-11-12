@@ -388,8 +388,8 @@ Public Class RayTracingExamples
                               upDirection:=New Vector3D(0, 1, 0),
                               horizontalViewAngle:=PI / 4)
 
-        Dim plane = New Plane(location:=New Vector3D(0, -1, 0),
-                              normal:=New Vector3D(0, 1, 0))
+        Dim ground = New Plane(location:=New Vector3D(0, -1, 0),
+                               normal:=New Vector3D(0, 1, 0))
 
         Dim blackBodyMaterial10000 = RadianceSpectrumMaterials2D.LightSource(sourceLight:=New RadianceSpectrum(New BlackBodyRadianceSpectrum(5000)))
         Dim blackBodyMaterial5000 = RadianceSpectrumMaterials2D.LightSource(sourceLight:=New RadianceSpectrum(New BlackBodyRadianceSpectrum(5000)))
@@ -402,7 +402,7 @@ Public Class RayTracingExamples
                                                                                                                   End Select
                                                                                                               End Function))
 
-        Dim blackBodyPlane = New SquaredMaterialSurface(Of Material2D(Of RadianceSpectrum))(plane, blackBodyMaterial5000, RadianceSpectrumMaterials2D.Black, squareXVector:=New Vector3D(1, 0, 0), squareYVector:=New Vector3D(0, 0, 1))
+        Dim blackBodyPlane = New SquaredMaterialSurface(Of Material2D(Of RadianceSpectrum))(ground, blackBodyMaterial5000, RadianceSpectrumMaterials2D.Black, squareXVector:=New Vector3D(1, 0, 0), squareYVector:=New Vector3D(0, 0, 1))
 
         Dim box = New MaterialBox(Of Material2D(Of RadianceSpectrum))(New Box(New Vector3D(1, -1, 4), New Vector3D(2, 2, 5)),
                                                                       lowerXMaterial:=RadianceSpectrumMaterials2D.Black,
