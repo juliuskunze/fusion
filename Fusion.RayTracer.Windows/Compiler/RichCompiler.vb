@@ -104,35 +104,40 @@ Public Class RichCompiler(Of TResult)
     Private Sub ShowIntelliSense(intelliSense As IntelliSense)
         If intelliSense.IsEmpty Then
             Me.CloseAutoCompletePopup()
-        Else
-            Dim identifier = _Compiler.CurrentIdentifierIfDefined
-
-            Dim currentIdentifierStartCharRectangle = _TextOnlyDocument.GetTextPointer(_Compiler.CurrentIdentifierIfDefined.Location.StartIndex).GetCharacterRect(LogicalDirection.Forward)
-
-            _AutoCompletePopup.VerticalOffset = -(_RichTextBox.ActualHeight - currentIdentifierStartCharRectangle.Bottom)
-            _AutoCompletePopup.HorizontalOffset = currentIdentifierStartCharRectangle.Left
-
-            Dim intelliSenseItems = intelliSense.GetItems
-            Dim listBoxItems = intelliSenseItems.Select(Function(intelliSenseItem) intelliSenseItem.ToListBoxItem)
-
-            _AutoCompleteListBox.ItemsSource = listBoxItems
-
-            If _AutoCompleteListBox.HasItems Then
-                Me.ReopenAutoCompletePopup()
-
-                _AutoCompleteListBox.SelectedIndex = 0
-
-                For i = 0 To intelliSenseItems.Count - 1
-                    Dim intelliSenseItem = intelliSenseItems(i)
-                    If intelliSenseItem.Name.StartsWith(_Compiler.CurrentIdentifierIfDefined.ToString) Then
-                        _AutoCompleteListBox.SelectedIndex = i
-                        Exit For
-                    End If
-                Next
-            Else
-                Me.CloseAutoCompletePopup()
-            End If
+            Return
         End If
+
+        Dim identifier = _Compiler.CurrentIdentifierIfDefined
+
+        Dim currentIdentifierStartCharRectangle = _TextOnlyDocument.GetTextPointer(_Compiler.CurrentIdentifierIfDefined.Location.StartIndex).GetCharacterRect(LogicalDirection.Forward)
+
+        _AutoCompletePopup.VerticalOffset = -(_RichTextBox.ActualHeight - currentIdentifierStartCharRectangle.Bottom)
+        _AutoCompletePopup.HorizontalOffset = currentIdentifierStartCharRectangle.Left
+
+        Dim intelliSenseItems = intelliSense.GetItems
+        Dim listBoxItems = intelliSenseItems.Select(Function(intelliSenseItem) intelliSenseItem.ToListBoxItem)
+
+        _AutoCompleteListBox.ItemsSource = listBoxItems
+
+        If Not _AutoCompleteListBox.HasItems Then
+            Me.CloseAutoCompletePopup()
+            Return
+        End If
+
+        Me.ReopenAutoCompletePopup()
+
+        _AutoCompleteListBox.SelectedIndex = 0
+
+        For i = 0 To intelliSenseItems.Count - 1
+            Dim intelliSenseItem = intelliSenseItems(i)
+            If intelliSenseItem.Name.StartsWith(_Compiler.CurrentIdentifierIfDefined.ToString, StringComparison.InvariantCultureIgnoreCase) Then
+                _AutoCompleteListBox.SelectedIndex = i
+
+                Exit For
+            End If
+        Next
+
+        Me.BringSelectedIntoViewAndReopenTooltip()
     End Sub
 
     Private Sub UnderlineError(locatedString As LocatedString, textOnlyDocument As TextOnlyDocument)
@@ -315,18 +320,19 @@ Public Class RichCompiler(Of TResult)
         Me.CloseAutoCompletePopup()
     End Sub
 
-    Private Sub AutoCompleteListBox_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles _AutoCompleteListBox.SelectionChanged
+    Private Sub BringSelectedIntoViewAndReopenTooltip()
         Me.CloseCurrentToolTipIfNotNull()
 
-        Dim selectedItem = CType(_AutoCompleteListBox.SelectedItem, ListBoxItem)
+        Dim selectedItem = DirectCast(_AutoCompleteListBox.SelectedItem, ListBoxItem)
         If selectedItem Is Nothing Then Return
 
-        selectedItem.BringIntoView()
+        _AutoCompleteListBox.ScrollIntoView(selectedItem)
+
         _CurrentToolTip = DirectCast(selectedItem.ToolTip, ToolTip)
 
         Me.OpenCurrentToolTip()
 
-        _ShouldReopenToolTip = True
+        _ShouldReopenToolTipOnScroll = True
     End Sub
 
     Private Sub OpenCurrentToolTip()
@@ -335,14 +341,18 @@ Public Class RichCompiler(Of TResult)
         _CurrentToolTip.IsOpen = True
     End Sub
 
-    Private _ShouldReopenToolTip As Boolean
+    Private _ShouldReopenToolTipOnScroll As Boolean
 
     Private Sub AutoCompleteScrollViewer_ScrollChanged(sender As Object, e As System.Windows.Controls.ScrollChangedEventArgs) Handles _AutoCompleteScrollViewer.ScrollChanged
-        If _ShouldReopenToolTip Then
-            _ShouldReopenToolTip = False
+        If _ShouldReopenToolTipOnScroll Then
+            _ShouldReopenToolTipOnScroll = False
 
             Me.ReopenCurrentToolTipIfNotNull()
         End If
+    End Sub
+
+    Private Sub _AutoCompleteListBox_SelectionChanged(sender As Object, e As System.Windows.Controls.SelectionChangedEventArgs) Handles _AutoCompleteListBox.SelectionChanged
+        Me.BringSelectedIntoViewAndReopenTooltip()
     End Sub
 
 End Class

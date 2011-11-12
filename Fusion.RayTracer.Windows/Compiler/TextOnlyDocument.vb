@@ -123,8 +123,6 @@
     Private Function GetPositionInParent(ByVal run As Run) As Integer
         Dim position = 0
 
-
-
         Dim inline = run.PreviousInline
         Do While inline IsNot Nothing
             position += GetLength(inline)
