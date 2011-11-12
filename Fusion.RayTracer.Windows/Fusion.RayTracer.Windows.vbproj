@@ -47,6 +47,13 @@
   <PropertyGroup>
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Splicer">
@@ -82,13 +89,9 @@
     <Compile Include="CompilerResultEventArgs.vb" />
     <Compile Include="Compiler\RichCompilerResult.vb" />
     <Compile Include="Compiler\TextOnlyDocument.vb" />
-    <Compile Include="Controls\IntegerTermBox.vb" />
-    <Compile Include="Controls\ValidatingTextBox.vb" />
-    <Compile Include="Controls\Vector3DBox.vb" />
     <Compile Include="Compiler\RelativisticRayTracerTermContextBuilder.vb" />
     <Compile Include="Compiler\RichCompiler.vb" />
     <Compile Include="SimpleBitmap.vb" />
-    <Compile Include="Controls\TermBox.vb" />
     <Compile Include="VideoRenderer.vb" />
     <Compile Include="WindowExtensions.vb" />
     <Page Include="CalculateTimeOptionsDialog.xaml">
@@ -159,6 +162,7 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
     </EmbeddedResource>
+    <None Include="My Project\app.manifest" />
     <None Include="My Project\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>

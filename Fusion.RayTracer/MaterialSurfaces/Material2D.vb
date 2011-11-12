@@ -1,9 +1,9 @@
 ﻿Public Class Material2D(Of TLight)
 
     Public Sub New(sourceLight As TLight,
-                    scatteringRemission As IRemission(Of TLight),
-                    reflectionRemission As IRemission(Of TLight),
-                    transparencyRemission As IRemission(Of TLight),
+                   scatteringRemission As IRemission(Of TLight),
+                   reflectionRemission As IRemission(Of TLight),
+                   transparencyRemission As IRemission(Of TLight),
                    Optional refractionIndexQuotient As Double = 1)
         Me.SourceLight = sourceLight
         Me.ScatteringRemission = scatteringRemission

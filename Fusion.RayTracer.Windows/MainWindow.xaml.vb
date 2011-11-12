@@ -15,10 +15,9 @@ Public Class MainWindow
     Private _RenderStopwatch As Stopwatch
     Private WithEvents _RenderBackgroundWorker As ComponentModel.BackgroundWorker
 
-    Private Shared ReadOnly _RelativisticRayTracerTermContextBuilder As New RelativisticRayTracerTermContextBuilder
-    Private Shared ReadOnly _BaseContext As TermContext = _RelativisticRayTracerTermContextBuilder.TermContext
+    Private ReadOnly _RelativisticRayTracerTermContextBuilder As RelativisticRayTracerTermContextBuilder
 
-    Private Shared ReadOnly _DefaultInitialDirectory As String = My.Computer.FileSystem.SpecialDirectories.Desktop
+    Private ReadOnly _DefaultInitialDirectory As String
 
     Private ReadOnly _SavePictureDialog As SaveFileDialog
     Private ReadOnly _SaveVideoDialog As SaveFileDialog
@@ -27,10 +26,11 @@ Public Class MainWindow
 
     Private _CurrentFileName As String
 
-    Public Sub New()
-        System.Threading.Thread.CurrentThread.CurrentCulture = New System.Globalization.CultureInfo("en-US")
-
+    Public Sub New(relativisticRayTracerTermContextBuilder As RelativisticRayTracerTermContextBuilder)
         Me.InitializeComponent()
+
+        _RelativisticRayTracerTermContextBuilder = relativisticRayTracerTermContextBuilder
+        _DefaultInitialDirectory = My.Computer.FileSystem.SpecialDirectories.Desktop
 
         _RenderBackgroundWorker = New ComponentModel.BackgroundWorker With {.WorkerReportsProgress = True, .WorkerSupportsCancellation = True}
 
@@ -66,7 +66,7 @@ Public Class MainWindow
                                                     autoCompletePopup:=_AutoCompletePopup,
                                                     autoCompleteListBox:=_AutoCompleteListBox,
                                                     autoCompleteScrollViewer:=_AutoCompleteScrollViewer,
-                                                    baseContext:=_BaseContext,
+                                                    baseContext:=_RelativisticRayTracerTermContextBuilder.TermContext,
                                                     TypeNamedTypeDictionary:=_RelativisticRayTracerTermContextBuilder.TypeDictionary)
 
         compiler.Compile()
@@ -261,10 +261,6 @@ Public Class MainWindow
             Case CompileMode.Video
                 _VideoCompiler.Compile()
         End Select
-    End Sub
-
-    Private Sub RibbonWindow_Unloaded(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles MyBase.Unloaded
-        Application.Current.Shutdown()
     End Sub
 
     Private Property RenderingTabItemsVisible As Boolean

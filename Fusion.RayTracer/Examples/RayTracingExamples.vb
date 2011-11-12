@@ -90,9 +90,8 @@ Public Class RayTracingExamples
                                              transparencyRemission:=New BlackRemission(Of RgbLight))
         Dim ground = New SquaredMaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=New Vector3D(0, -1, 0),
                                                           normal:=New Vector3D(0, 1, 0)),
-                                                squaresXVector:=New Vector3D(1, 0, 0),
-                                                squaresYVector:=New Vector3D(0, 0, 1),
-                                                squareLength:=1,
+                                                squareXVector:=New Vector3D(1, 0, 0),
+                                                squareYVector:=New Vector3D(0, 0, 1),
                                                 material1:=groundMaterial1,
                                                 material2:=groundMaterial2)
 
@@ -207,9 +206,8 @@ Public Class RayTracingExamples
         Dim groundRectangle = New Fusion.Math.Rectangle(frontRightDown, origin, backLeftDown)
 
         Dim ground = New SquaredMaterialSurface(Of Material2D(Of RgbLight))(groundRectangle,
-                                        squaresXVector:=New Vector3D(1, 0, 0),
-                                        squaresYVector:=New Vector3D(0, 0, 1),
-                                        squareLength:=1,
+                                        squareXVector:=New Vector3D(1, 0, 0),
+                                        squareYVector:=New Vector3D(0, 0, 1),
                                         material1:=blueGroundMaterial,
                                         material2:=whiteGroundMaterial)
 
@@ -404,7 +402,7 @@ Public Class RayTracingExamples
                                                                                                                   End Select
                                                                                                               End Function))
 
-        Dim blackBodyPlane = New SquaredMaterialSurface(Of Material2D(Of RadianceSpectrum))(plane, blackBodyMaterial5000, RadianceSpectrumMaterials2D.Black, squaresXVector:=New Vector3D(1, 0, 0), squaresYVector:=New Vector3D(0, 0, 1), squareLength:=1)
+        Dim blackBodyPlane = New SquaredMaterialSurface(Of Material2D(Of RadianceSpectrum))(plane, blackBodyMaterial5000, RadianceSpectrumMaterials2D.Black, squareXVector:=New Vector3D(1, 0, 0), squareYVector:=New Vector3D(0, 0, 1))
 
         Dim box = New MaterialBox(Of Material2D(Of RadianceSpectrum))(New Box(New Vector3D(1, -1, 4), New Vector3D(2, 2, 5)),
                                                                       lowerXMaterial:=RadianceSpectrumMaterials2D.Black,
@@ -418,15 +416,16 @@ Public Class RayTracingExamples
                                                                            unshadedLightSource:=New LightSources(Of RadianceSpectrum),
                                                                            shadedPointLightSources:=New List(Of IPointLightSource(Of RadianceSpectrum)))
 
-        Dim relativisticRayTracer = New RelativisticRayTracer(classicRayTracer:=classicRayTracer, observerVelocity:=New Vector3D(0, 0, 0.9 * SpeedOfLight),
+        Dim relativisticRayTracer = New RelativisticRayTracer(classicRayTracer:=classicRayTracer,
+                                                              observerVelocity:=New Vector3D(0, 0, 0.9 * SpeedOfLight),
                                                               ignoreDopplerEffect:=False,
                                                               ignoreSearchlightEffect:=False,
                                                               ignoreGeometryEffect:=False)
 
         Return New RayTracerPicture(Of RadianceSpectrum)(RayTracer:=relativisticRayTracer,
-                                                       PictureSize:=Me.PictureSize,
-                                                       view:=view,
-                                                       lightToColorConverter:=radianceSpectrumToColorConverter)
+                                                         PictureSize:=Me.PictureSize,
+                                                         view:=view,
+                                                         lightToColorConverter:=radianceSpectrumToColorConverter)
     End Function
 
 End Class

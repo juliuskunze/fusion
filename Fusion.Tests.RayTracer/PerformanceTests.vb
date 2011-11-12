@@ -47,19 +47,18 @@ Public Class PerformanceTests
         Dim metal = RgbLightMaterials2D.Reflecting
 
         Dim groundMaterial1 = New Material2D(Of RgbLight)(sourceLight:=RgbLight.Black,
-                             scatteringRemission:=New RgbLightRemission(Color.Blue),
-                             reflectionRemission:=New ScaledRemission(Of RgbLight)(0.5),
-                             transparencyRemission:=New BlackRemission(Of RgbLight))
+                                                          scatteringRemission:=New RgbLightRemission(Color.Blue),
+                                                          reflectionRemission:=New ScaledRemission(Of RgbLight)(0.5),
+                                                          transparencyRemission:=New BlackRemission(Of RgbLight))
         Dim groundMaterial2 = New Material2D(Of RgbLight)(sourceLight:=RgbLight.Black,
-                                             scatteringRemission:=New RgbLightRemission(Color.White),
-                                             reflectionRemission:=New ScaledRemission(Of RgbLight)(0.5),
-                                             transparencyRemission:=New BlackRemission(Of RgbLight))
+                                                          scatteringRemission:=New RgbLightRemission(Color.White),
+                                                          reflectionRemission:=New ScaledRemission(Of RgbLight)(0.5),
+                                                          transparencyRemission:=New BlackRemission(Of RgbLight))
         Dim groundRectangle = New Fusion.Math.Rectangle(frontRightDown, origin, backLeftDown)
 
         Dim ground = New SquaredMaterialSurface(Of Material2D(Of RgbLight))(groundRectangle,
-                                        squaresXVector:=New Vector3D(1, 0, 0),
-                                        squaresYVector:=New Vector3D(0, 0, 1),
-                                        squareLength:=1,
+                                        squareXVector:=New Vector3D(1, 0, 0),
+                                        squareYVector:=New Vector3D(0, 0, 1),
                                         material1:=groundMaterial1,
                                         material2:=groundMaterial2)
 

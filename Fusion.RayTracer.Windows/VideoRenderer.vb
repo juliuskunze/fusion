@@ -19,7 +19,7 @@ Public Class VideoRenderer
                         videoTrack.AddImage(fileName:=pictureFileName, offset:=0, clipEnd:=1 / framesPerSecond)
                     Next
 
-                    Using renderer = New Renderer.AviFileRenderer(timeline, outputFile:=videoOutputFileName)
+                    Using renderer = New Renderer.AviFileRenderer(timeline:=timeline, outputFile:=videoOutputFileName)
                         renderer.Render()
                     End Using
                 End Using

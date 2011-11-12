@@ -6,14 +6,15 @@
     Public Property Material2 As TMaterial
 
     Public Sub New(surface As ISurface,
-                    material1 As TMaterial, material2 As TMaterial,
-                    squaresXVector As Vector3D, squaresYVector As Vector3D,
-                    squareLength As Double)
+                   material1 As TMaterial,
+                   material2 As TMaterial,
+                   squareXVector As Vector3D,
+                   squareYVector As Vector3D)
         Me.Surface = surface
         Me.Material1 = material1
         Me.Material2 = material2
-        Me.SquaresXVector = squaresXVector
-        Me.SquaresYVector = squaresYVector
+        Me.SquaresXVector = squareXVector
+        Me.SquaresYVector = squareYVector
         Me.SquareLength = squareLength
     End Sub
 
