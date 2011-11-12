@@ -97,13 +97,6 @@
                                                 </Style.Triggers>
                                             </Style>
                                         </ListBox.Resources>
-                                        <Style TargetType="ListBoxItem">
-                                            <Style.Triggers>
-                                                <Trigger Property="IsSelected" Value="True">
-                                                    <Setter Property="own:FrameworkElementBehaviour.BringIntoView" Value="True" />
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
                                     </ListBox>
                                 </ScrollViewer>
                             </Border>

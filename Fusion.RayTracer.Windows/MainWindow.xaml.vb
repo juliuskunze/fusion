@@ -30,8 +30,6 @@ Public Class MainWindow
     Public Sub New()
         System.Threading.Thread.CurrentThread.CurrentCulture = New System.Globalization.CultureInfo("en-US")
 
-        Dim a = FrameworkElementBehaviour.BringIntoView
-
         Me.InitializeComponent()
 
         _RenderBackgroundWorker = New ComponentModel.BackgroundWorker With {.WorkerReportsProgress = True, .WorkerSupportsCancellation = True}
@@ -437,28 +435,4 @@ Public Class MainWindow
         Me.Mode = CompileMode.Video
     End Sub
 
-End Class
-
-Public Class FrameworkElementBehaviour
-
-    Public Shared Function GetBringIntoView(target As ListBoxItem) As Boolean
-        Return False
-    End Function
-
-    Public Shared Sub SetBringIntoView(target As ListBoxItem, value As Boolean)
-        'target.SetValue(BringIntoView, value)
-    End Sub
-
-    Public Shared ReadOnly BringIntoView As DependencyProperty = DependencyProperty.RegisterAttached(name:="BringIntoView",
-                                                                                                     propertyType:=GetType(Boolean),
-                                                                                                     ownerType:=GetType(ListBoxItem),
-                                                                                                     defaultMetadata:=New UIPropertyMetadata(True, AddressOf OnBringIntoViewChanged))
-
-
-
-
-
-    Private Shared Sub OnBringIntoViewChanged(o As DependencyObject, e As DependencyPropertyChangedEventArgs)
-        'DirectCast(o, ListBoxItem).BringIntoView()
-    End Sub
 End Class
