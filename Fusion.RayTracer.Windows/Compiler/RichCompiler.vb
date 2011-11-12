@@ -30,8 +30,12 @@ Public Class RichCompiler(Of TResult)
 
     Public Sub ActivateAutoCompile()
         _AutoCompile = True
+        Me.UpdateAndCompile()
+    End Sub
 
-        Me.Compile()
+    Private Sub UpdateAndCompile()
+        Me.UpdateOnTextChanged()
+        Me.Compile(textChanged:=True)
     End Sub
 
     Public Sub DeactivateAutoCompile()
@@ -243,8 +247,11 @@ Public Class RichCompiler(Of TResult)
         If _ApplyingTextDecorations Then Return
         If Not _AutoCompile Then Return
 
-        Me.UpdateOnTextChanged()
+        Me.Update()
+    End Sub
 
+    Private Sub Update()
+        Me.UpdateOnTextChanged()
         Me.Compile(textChanged:=True)
     End Sub
 

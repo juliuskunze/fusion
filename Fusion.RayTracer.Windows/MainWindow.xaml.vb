@@ -241,8 +241,15 @@ Public Class MainWindow
                     Me.ShowOpenDescriptionDialog()
 
                     e.Handled = True
+            End Select
+        Else
+            Select e.Key
                 Case Key.F5
                     Me.Compile()
+
+                    e.Handled = True
+                Case Key.F4
+                    Me.AutoCompile = Not Me.AutoCompile
 
                     e.Handled = True
             End Select
@@ -431,16 +438,23 @@ Public Class MainWindow
     End Sub
 
     Private Sub _AutoCompileMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _AutoCompileMenuItem.Click
-        Dim autoCompile = _AutoCompileMenuItem.IsChecked
-
-        _CompileMenuItem.IsEnabled = Not autoCompile
-        _ErrorTextBox.IsEnabled = autoCompile
-
-        If Me.Mode = CompileMode.Picture Then
-            _PictureCompiler.AutoCompile = autoCompile
-        Else
-            _VideoCompiler.AutoCompile = autoCompile
-        End If
+        Me.AutoCompile = _AutoCompileMenuItem.IsChecked
     End Sub
 
+    Private Property AutoCompile As Boolean
+        Get
+            Return _AutoCompileMenuItem.IsChecked
+        End Get
+        Set(value As Boolean)
+            _CompileMenuItem.IsEnabled = Not value
+            _ErrorTextBox.IsEnabled = value
+            _AutoCompileMenuItem.IsChecked = value
+
+            If Me.Mode = CompileMode.Picture Then
+                _PictureCompiler.AutoCompile = value
+            Else
+                _VideoCompiler.AutoCompile = value
+            End If
+        End Set
+    End Property
 End Class

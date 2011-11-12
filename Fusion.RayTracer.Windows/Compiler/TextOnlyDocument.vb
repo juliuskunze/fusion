@@ -82,7 +82,7 @@
             inlineStartIndex += _LineBreakLength
         Next
 
-        If Not _Document.Blocks.Any OrElse Not _Document.Blocks.OfType(Of Paragraph).Any(Function(paragraph) paragraph.Inlines.Any) Then
+        If Not _Document.Blocks.OfType(Of Paragraph).Any(Function(paragraph) paragraph.Inlines.Any) Then
             If startPointer Is Nothing Then startPointer = _Document.ContentStart
             If endPointer Is Nothing Then endPointer = _Document.ContentEnd
         End If
