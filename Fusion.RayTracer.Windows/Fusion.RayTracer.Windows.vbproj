@@ -166,25 +166,6 @@
     <AppDesigner Include="My Project\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Blue.png" />
-    <Resource Include="Images\BlueLarge.png" />
-    <Resource Include="Images\Brown.png" />
-    <Resource Include="Images\BrownLarge.png" />
-    <Resource Include="Images\Fluent.ico" />
-    <Resource Include="Images\Gray.png" />
-    <Resource Include="Images\GrayLarge.png" />
-    <Resource Include="Images\Green.png" />
-    <Resource Include="Images\GreenLarge.png" />
-    <Resource Include="Images\Orange.png" />
-    <Resource Include="Images\OrangeLarge.png" />
-    <Resource Include="Images\Pink.png" />
-    <Resource Include="Images\PinkLarge.png" />
-    <Resource Include="Images\Red.png" />
-    <Resource Include="Images\RedLarge.png" />
-    <Resource Include="Images\Yellow.png" />
-    <Resource Include="Images\YellowLarge.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Fusion.Compiler\Fusion.Compiler.vbproj">
       <Project>{82EE6FFE-ECDD-4C2B-AE0D-9FBD0676FC32}</Project>
       <Name>Fusion.Compiler</Name>

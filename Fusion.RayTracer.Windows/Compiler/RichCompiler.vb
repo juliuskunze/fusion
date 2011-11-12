@@ -136,8 +136,6 @@ Public Class RichCompiler(Of TResult)
                 Exit For
             End If
         Next
-
-        Me.BringSelectedIntoViewAndReopenTooltip()
     End Sub
 
     Private Sub UnderlineError(locatedString As LocatedString, textOnlyDocument As TextOnlyDocument)

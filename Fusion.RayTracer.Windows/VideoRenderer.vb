@@ -3,23 +3,27 @@ Imports Splicer.Renderer
 Imports Splicer.Timeline
 
 Public Class VideoRenderer
+    Private Sub New()
+    End Sub
 
-    Public Sub New(framesPerSecond As Double, width As Integer, height As Integer)
-        Dim timeline = New DefaultTimeline(framesPerSecond)
-        Dim videoGroup = timeline.AddVideoGroup("main", framesPerSecond, 24, 1000, 1000)
-        Dim videoTrack = videoGroup.AddTrack()
+    Public Shared Sub Run(pictureInputFileNames As IEnumerable(Of String),
+                          videoOutputFileName As String,
+                          framesPerSecond As Double,
+                          width As Integer,
+                          height As Integer)
 
+        Using timeline = New DefaultTimeline(fps:=framesPerSecond)
+            Using videoGroup = timeline.AddVideoGroup("main", fps:=framesPerSecond, bitCount:=24, width:=1000, height:=1000)
+                Using videoTrack = videoGroup.AddTrack
+                    For Each pictureFileName In pictureInputFileNames
+                        videoTrack.AddImage(fileName:=pictureFileName, offset:=0, clipEnd:=1 / framesPerSecond)
+                    Next
 
-        For i = 0 To 29
-            Dim fileName = String.Format("B:\Julius-Ordner\Zeitlos\Programmierung\Fusion.Ry-Bilder\25 g vid2\new.bmp", i.ToString("00"))
-            videoTrack.AddImage(fileName, 0, 1 / framesPerSecond)
-
-            Dim fileName2 = String.Format("B:\Julius-Ordner\Zeitlos\Programmierung\Fusion.Ry-Bilder\25 g vid2\new2.bmp", i.ToString("00"))
-            videoTrack.AddImage(fileName2, 0, 1 / framesPerSecond)
-        Next
-        System.IO.Path.GetTempPath()
-        Using renderer = New Renderer.AviFileRenderer(timeline, outputFile:="B:\Julius-Ordner\Zeitlos\Programmierung\Fusion.Ry-Bilder\25 g vid2\vid.avi")
-            renderer.Render()
+                    Using renderer = New Renderer.AviFileRenderer(timeline, outputFile:=videoOutputFileName)
+                        renderer.Render()
+                    End Using
+                End Using
+            End Using
         End Using
     End Sub
 
