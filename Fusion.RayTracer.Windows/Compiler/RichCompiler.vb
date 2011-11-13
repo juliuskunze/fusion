@@ -35,7 +35,7 @@ Public Class RichCompiler(Of TResult)
 
     Private Sub UpdateAndCompile()
         Me.UpdateOnTextChanged()
-        Me.Compile(textChanged:=True)
+        Me.Compile(ShowIntelliSense:=True)
     End Sub
 
     Public Sub DeactivateAutoCompile()
@@ -110,12 +110,12 @@ Public Class RichCompiler(Of TResult)
         e.CanExecute = target Is _RichTextBox
     End Sub
 
-    Public Sub Compile(Optional textChanged As Boolean = False)
+    Public Sub Compile(Optional showIntelliSense As Boolean = False)
         Dim intelliSense As IntelliSense = Nothing
         Dim richCompilerResult As RichCompilerResult(Of TResult) = Nothing
 
         Try
-            Dim compilerResult = _Compiler.Compile(textChanged:=textChanged)
+            Dim compilerResult = _Compiler.Compile(showIntelliSense:=showIntelliSense)
 
             intelliSense = compilerResult.IntelliSense
             richCompilerResult = New RichCompilerResult(Of TResult)(compilerResult.Result)
@@ -143,6 +143,8 @@ Public Class RichCompiler(Of TResult)
         End If
 
         Dim identifier = _Compiler.CurrentIdentifierIfDefined
+
+        If identifier Is Nothing Then Return
 
         Dim currentIdentifierStartCharRectangle = _TextOnlyDocument.GetTextPointer(_Compiler.CurrentIdentifierIfDefined.Location.StartIndex).GetCharacterRect(LogicalDirection.Forward)
 
@@ -196,7 +198,7 @@ Public Class RichCompiler(Of TResult)
     Private Sub RemoveUnderline()
         _ApplyingTextDecorations = True
         '_ApplyingTextDecorations will not be set properly else:
-        System.Threading.Thread.Sleep(1)
+        Application.DoEvents()
 
         Dim documentRange = New Documents.TextRange(_RichTextBox.Document.ContentStart, _RichTextBox.Document.ContentEnd)
         documentRange.ApplyPropertyValue(Inline.TextDecorationsProperty, _NormalTextDecorations)
@@ -244,15 +246,14 @@ Public Class RichCompiler(Of TResult)
     End Function
 
     Private Sub RichTextBox_TextChanged(sender As System.Object, e As System.Windows.Controls.TextChangedEventArgs) Handles _RichTextBox.TextChanged
+
+
         If _ApplyingTextDecorations Then Return
-        If Not _AutoCompile Then Return
-
-        Me.Update()
-    End Sub
-
-    Private Sub Update()
-        Me.UpdateOnTextChanged()
-        Me.Compile(textChanged:=True)
+        If _AutoCompile Then
+            Me.UpdateAndCompile()
+        Else
+            Me.RemoveUnderline()
+        End If
     End Sub
 
     Public Event Compiled(sender As Object, e As CompilerResultEventArgs(Of TResult))

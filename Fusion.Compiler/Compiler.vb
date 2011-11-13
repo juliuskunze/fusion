@@ -24,14 +24,13 @@
     Private _TermContextAtSelection As TermContext
 
     Public Sub Update(newLocatedString As LocatedString,
-                      Optional newSelection As TextLocation = Nothing,
-                      Optional textChanged As Boolean = False)
+                      Optional newSelection As TextLocation = Nothing)
         _LocatedString = newLocatedString
         _Selection = newSelection
         _Statements = _LocatedString.Split({";"c})
         _CurrentIdentifierIfDefined = Me.TryGetCurrentIdentifier()
 
-        Me.UpdateIntelliSense(textChanged:=textChanged)
+        Me.UpdateIntelliSense(showIntelliSense:=False)
     End Sub
 
     Private Function TryGetCurrentIdentifier() As LocatedString
@@ -40,12 +39,12 @@
         Return _LocatedString.TryGetSurroundingIdentifier(_Selection)
     End Function
 
-    Private Sub UpdateIntelliSense(textChanged As Boolean)
-        _IntelliSense = Me.GetIntelliSense(textChanged:=textChanged)
+    Private Sub UpdateIntelliSense(showIntelliSense As Boolean)
+        _IntelliSense = Me.GetIntelliSense(showIntelliSense:=showIntelliSense)
     End Sub
 
-    Private Function GetIntelliSense(Optional textChanged As Boolean = False) As IntelliSense
-        If Not textChanged Then Return Compiler.IntelliSense.Empty
+    Private Function GetIntelliSense(Optional showIntelliSense As Boolean = False) As IntelliSense
+        If Not showIntelliSense Then Return Compiler.IntelliSense.Empty
         If _TermContextAtSelection Is Nothing Then Return Compiler.IntelliSense.Empty
 
         Return New IntelliSense(TermContext:=_TermContextAtSelection, filter:=Me.GetIntelliSenseFilter)
@@ -74,7 +73,7 @@
         _ResultType = typeNamedTypeDictionary.GetNamedType(GetType(TResult))
     End Sub
 
-    Public Function Compile(Optional textChanged As Boolean = False) As CompilerResult(Of TResult)
+    Public Function Compile(Optional showIntelliSense As Boolean = False) As CompilerResult(Of TResult)
         Dim context = _BaseContext
 
         Try
@@ -102,7 +101,7 @@
                 End If
             Next
         Catch ex As CompilerException
-            Me.UpdateIntelliSense(textChanged:=textChanged)
+            Me.UpdateIntelliSense(showIntelliSense:=showIntelliSense)
             Throw ex.WithIntelliSense(_IntelliSense)
         End Try
 

@@ -1,4 +1,6 @@
-﻿Class Application
+﻿Imports System.Windows.Threading
+
+Class Application
 
     Private WithEvents _MainWindow As MainWindow
 
@@ -14,6 +16,12 @@
 
     Private Sub _MainWindow_Unloaded(sender As Object, e As System.Windows.RoutedEventArgs) Handles _MainWindow.Unloaded
         Me.Shutdown()
+    End Sub
+
+    Public Shared Sub DoEvents()
+        Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Background,
+                                            Sub()
+                                            End Sub)
     End Sub
 
 End Class

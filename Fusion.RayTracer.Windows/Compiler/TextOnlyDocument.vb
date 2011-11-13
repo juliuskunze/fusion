@@ -1,7 +1,7 @@
 ﻿Public Class TextOnlyDocument
 
-    Private Shared ReadOnly _LineBreak As Char = Microsoft.VisualBasic.ControlChars.Cr
-    Private Shared ReadOnly _LineBreakLength As Integer = _LineBreak.ToString.Count
+    Private Shared ReadOnly _LineBreak As String = Microsoft.VisualBasic.ControlChars.CrLf
+    Private Shared ReadOnly _LineBreakLength As Integer = _LineBreak.Count
 
     Private ReadOnly _Text As String
     Public ReadOnly Property Text As String
@@ -79,10 +79,13 @@
                 inlineStartIndex += inlineLength
             Next
 
+            SetTextPointerIfIsInRangeAndNothing(paragraph, inlineStartIndex, _LineBreakLength, startPointer, startIndex)
+            SetTextPointerIfIsInRangeAndNothing(paragraph, inlineStartIndex, _LineBreakLength, endPointer, endIndex)
+
             inlineStartIndex += _LineBreakLength
         Next
 
-        If Not _Document.Blocks.OfType(Of Paragraph).Any(Function(paragraph) paragraph.Inlines.Any) Then
+        If Not _Document.Blocks.Any OrElse Not _Document.Blocks.OfType(Of Paragraph).Any(Function(paragraph) paragraph.Inlines.Any) Then
             If startPointer Is Nothing Then startPointer = _Document.ContentStart
             If endPointer Is Nothing Then endPointer = _Document.ContentEnd
         End If
@@ -90,9 +93,11 @@
         Return New Documents.TextRange(startPointer, endPointer)
     End Function
 
-    Private Sub SetTextPointerIfIsInRangeAndNothing(inline As Inline, inlineStartIndex As Integer, inlineLength As Integer, ByRef textPointer As TextPointer, targetIndex As Integer)
-        If textPointer Is Nothing AndAlso inlineStartIndex <= targetIndex AndAlso targetIndex <= inlineStartIndex + inlineLength Then
-            textPointer = inline.ContentStart.GetPositionAtOffset(targetIndex - inlineStartIndex)
+    Private Sub SetTextPointerIfIsInRangeAndNothing(textElement As TextElement, startIndex As Integer, length As Integer, ByRef textPointer As TextPointer, targetIndex As Integer)
+        If textPointer Is Nothing AndAlso
+           startIndex <= targetIndex AndAlso
+           targetIndex <= startIndex + length Then
+            textPointer = textElement.ContentStart.GetPositionAtOffset(targetIndex - startIndex)
         End If
     End Sub
 
@@ -151,7 +156,7 @@
     Public Shared Function GetDocumentFromText(text As String) As FlowDocument
         Dim document = New FlowDocument
 
-        For Each line In text.Split(_LineBreak)
+        For Each line In text.Split({_LineBreak}, StringSplitOptions.None)
             document.Blocks.Add(New Paragraph(New Run(line)))
         Next
 
