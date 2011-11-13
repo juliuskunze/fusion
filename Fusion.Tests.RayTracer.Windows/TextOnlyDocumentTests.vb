@@ -39,6 +39,18 @@
     End Sub
 
     <Test()>
+    Public Sub GetTextRange_InLineBreak()
+        Dim document = New FlowDocument()
+
+        document.Blocks.Add(New Paragraph(New Run("A")))
+        document.Blocks.Add(New Paragraph(New Run("B")))
+
+        Dim textOnlyDocument = New TextOnlyDocument(document)
+
+        Assert.AreEqual(vbCrLf & "B", textOnlyDocument.GetTextRange(1, 3).Text)
+    End Sub
+
+    <Test()>
     Public Sub TestGetIndex()
         Dim document = New FlowDocument
 
