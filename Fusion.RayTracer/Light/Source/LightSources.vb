@@ -3,7 +3,10 @@ Public Class LightSources(Of TLight As {ILight(Of TLight), New})
     Implements ILightSource(Of TLight)
 
     Public Sub New()
-        MyBase.New()
+    End Sub
+
+    Public Sub New(lightSources As IEnumerable(Of ILightSource(Of TLight)))
+        MyBase.New(lightSources)
     End Sub
 
     Public Function GetLight(surfacePoint As SurfacePoint) As TLight Implements ILightSource(Of TLight).GetLight

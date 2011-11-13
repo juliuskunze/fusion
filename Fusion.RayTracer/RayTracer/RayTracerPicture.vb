@@ -1,6 +1,6 @@
 Public Class RayTracerPicture(Of TLight As {ILight(Of TLight), New})
 
-    Private ReadOnly _LightToColorConverter As ILightToColorConverter(Of TLight)
+    Private ReadOnly _LightToRgbColorConverter As ILightToRgbColorConverter(Of TLight)
 
     Private _PicturSize As Size
     Public Property PictureSize As Size
@@ -22,14 +22,14 @@ Public Class RayTracerPicture(Of TLight As {ILight(Of TLight), New})
     Public Sub New(rayTracer As IRayTracer(Of TLight),
                    pictureSize As Size,
                    view As View3D,
-                   lightToColorConverter As ILightToColorConverter(Of TLight))
+                   lightToRgbColorConverter As ILightToRgbColorConverter(Of TLight))
 
         If pictureSize = New Size Then Throw New ArgumentNullException("pictureSize")
 
         Me.PictureSize = pictureSize
         Me.View = view
         Me.RayTracer = rayTracer
-        _LightToColorConverter = lightToColorConverter
+        _LightToRgbColorConverter = lightToRgbColorConverter
     End Sub
 
     Public Function GetPicture() As Bitmap
@@ -52,7 +52,7 @@ Public Class RayTracerPicture(Of TLight As {ILight(Of TLight), New})
         Dim projectedLocation = _CoordinateSystem.VirtualLocation(pixelLocation:=New Vector2D(bitmapX, bitmapY))
         Dim sightRay = Me.View.SightRay(viewPlaneLocation:=projectedLocation)
 
-        Return _LightToColorConverter.Convert(Me.RayTracer.GetLight(viewRay:=sightRay))
+        Return _LightToRgbColorConverter.Convert(Me.RayTracer.GetLight(viewRay:=sightRay))
     End Function
 
 End Class

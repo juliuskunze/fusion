@@ -35,15 +35,21 @@
         End Try
     End Sub
 
-    <Test()>
-    Public Sub TestCollectionTypeMismatch()
-        Dim compiler = New Compiler(Of Double)("Real a = {1}".ToLocated, baseContext:=TermContext.Default, TypeNamedTypeDictionary:=TypeNamedTypeDictionary.Default)
+    Public Sub TestCollectionTypeMismatch(s As String)
+        Dim compiler = New Compiler(Of Double)(s.ToLocated, baseContext:=TermContext.Default, TypeNamedTypeDictionary:=TypeNamedTypeDictionary.Default)
         Try
             compiler.Compile()
             Assert.Fail()
         Catch ex As CompilerExceptionWithIntelliSense
-            Assert.AreEqual("Type 'Collection[Real]' is not assignable to type 'Real'.", DirectCast(ex.InnerCompilerException, LocatedCompilerException).Message)
+            Assert.AreEqual("Type 'Real' expected.", DirectCast(ex.InnerCompilerException, LocatedCompilerException).Message)
         End Try
+    End Sub
+
+    <Test()>
+    Public Sub TestCollectionTypeMismatch()
+        TestCollectionTypeMismatch("Real a = {}")
+        TestCollectionTypeMismatch("Real a = {1}")
+        TestCollectionTypeMismatch("Real a = {[1,0,0]}")
     End Sub
 
     <Test()>

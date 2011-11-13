@@ -19,7 +19,14 @@
     Private ReadOnly _ResultType As NamedType
 
     Private _Statements As IEnumerable(Of LocatedString)
+
     Private _Selection As TextLocation
+    Public ReadOnly Property Selection As TextLocation
+        Get
+            Return _Selection
+        End Get
+    End Property
+
 
     Private _TermContextAtSelection As TermContext
 

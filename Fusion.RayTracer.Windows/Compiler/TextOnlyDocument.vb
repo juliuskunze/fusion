@@ -160,11 +160,15 @@
     End Function
 
     Public Function GetTextRange(locatedString As LocatedString) As Documents.TextRange
-        Return Me.GetTextRange(locatedString.Location.StartIndex, locatedString.Length)
+        Return Me.GetTextRange(locatedString.Location.StartIndex, locatedString.Location.Length)
+    End Function
+
+    Public Function GetTextRange(location As TextLocation) As Documents.TextRange
+        Return Me.GetTextRange(location.StartIndex, location.Length)
     End Function
 
     Public Shared Function GetDocumentFromText(text As String) As FlowDocument
-        Dim document = New FlowDocument
+        Dim document = New FlowDocument With {.PageWidth = 10000}
 
         For Each line In text.Split({_LineBreak}, StringSplitOptions.None)
             document.Blocks.Add(New Paragraph(New Run(line)))

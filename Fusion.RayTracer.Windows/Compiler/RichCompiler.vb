@@ -9,6 +9,11 @@ Public Class RichCompiler(Of TResult)
     Private _CurrentToolTip As ToolTip
 
     Private _ApplyingTextDecorations As Boolean
+    Public ReadOnly Property ApplyingTextDecorations As Boolean
+        Get
+            Return _ApplyingTextDecorations
+        End Get
+    End Property
 
     Private _TextOnlyDocument As TextOnlyDocument
 
@@ -44,7 +49,6 @@ Public Class RichCompiler(Of TResult)
         _AutoCompile = autoCompile
 
         _AutoCompletePopup.PlacementTarget = _RichTextBox
-        _RichTextBox.Document.PageWidth = 10000
         _RichTextBox.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
         _RichTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Visible
 
@@ -141,7 +145,7 @@ Public Class RichCompiler(Of TResult)
         e.Handled = True
 
         If clipboardString IsNot Nothing Then
-            Clipboard.SetDataObject(clipboardString, True)
+            Clipboard.SetDataObject(clipboardString, copy:=True)
 
             _RichTextBox.Paste()
             _RichTextBox.InvalidateVisual()
@@ -161,6 +165,8 @@ Public Class RichCompiler(Of TResult)
 
             intelliSense = compilerResult.IntelliSense
             richCompilerResult = New RichCompilerResult(Of TResult)(compilerResult.Result)
+
+            Me.RemoveUnderline()
         Catch ex As CompilerExceptionWithIntelliSense
             Dim locatedEx = TryCast(ex.InnerCompilerException, LocatedCompilerException)
             If locatedEx IsNot Nothing Then
@@ -319,7 +325,7 @@ Public Class RichCompiler(Of TResult)
         Else
             Select Case e.Key
                 Case Key.Tab
-                    Me.AutoCompleteText(New String(" "c, 4))
+                    Me.InsertText(New String(" "c, 4), textToReplace:=_Compiler.Selection)
 
                     e.Handled = True
             End Select
@@ -354,15 +360,18 @@ Public Class RichCompiler(Of TResult)
     End Sub
 
     Private Sub AutoCompleteText(text As String)
+        Me.InsertText(text:=text, textToReplace:=_Compiler.CurrentIdentifierIfDefined.Location)
+    End Sub
+
+    Private Sub InsertText(text As String, textToReplace As TextLocation)
         Dim clipboardCopy = Clipboard.GetDataObject.GetData(GetType(String))
 
         Clipboard.SetDataObject(text)
 
-        Dim rangeToReplace = _TextOnlyDocument.GetTextRange(_Compiler.CurrentIdentifierIfDefined)
+        Dim rangeToReplace = _TextOnlyDocument.GetTextRange(textToReplace)
         _RichTextBox.Selection.Select(rangeToReplace.Start, rangeToReplace.End)
 
         _RichTextBox.Paste()
-
 
         Clipboard.SetDataObject(If(clipboardCopy Is Nothing, "", clipboardCopy))
     End Sub

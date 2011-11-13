@@ -70,7 +70,7 @@ Public Class RayTracingExamples
         'Dim rayTracer = New RecursiveRayTracer(surface:=allSurfaces, lightSource:=New LightSources, shadedPointLightSources:=New List(Of IPointLightSource(Of ExactColor)) From {lamp})
         Dim rayTracer = New ScatteringRayTracer(Of RgbLight)(surface:=allSurfaces, rayCountPerPixel:=1, maxIntersectionCount:=7)
 
-        Return New RayTracerPicture(Of RgbLight)(rayTracer, Me.PictureSize, view, New RgbLightToColorConverter)
+        Return New RayTracerPicture(Of RgbLight)(rayTracer, Me.PictureSize, view, New RgbLightToRgbColorConverter)
     End Function
 
     Public Function SquaredSurfaceDrawer() As RayTracerPicture(Of RgbLight)
@@ -133,7 +133,7 @@ Public Class RayTracingExamples
                                                               unshadedLightSource:=lightSources,
                                                               shadedPointLightSources:=shadedLightSources)
 
-        Return New RayTracerPicture(Of RgbLight)(rayTracer:=rayTracer, PictureSize:=Me.PictureSize, view:=view, lightToColorConverter:=New RgbLightToColorConverter)
+        Return New RayTracerPicture(Of RgbLight)(rayTracer:=rayTracer, PictureSize:=Me.PictureSize, view:=view, lightToRgbColorConverter:=New RgbLightToRgbColorConverter)
     End Function
 
     Dim random As Random = New Random()
@@ -161,7 +161,7 @@ Public Class RayTracingExamples
         Dim rayTracer = SecondRoomRayTracer()
         'Dim rayTracer = New ScatteringRayTracer(surface:=surfaces, rayCountPerPixel:=200, maxIntersectionCount:=10)
 
-        Return New RayTracerPicture(Of RgbLight)(rayTracer:=rayTracer, PictureSize:=PictureSize, view:=view, lightToColorConverter:=New RgbLightToColorConverter)
+        Return New RayTracerPicture(Of RgbLight)(rayTracer:=rayTracer, PictureSize:=PictureSize, view:=view, lightToRgbColorConverter:=New RgbLightToRgbColorConverter)
     End Function
 
     Public Function SecondRoomRayTracer() As RelativisticRayTracerBase(Of RgbLight)
@@ -379,10 +379,10 @@ Public Class RayTracingExamples
                                                             shadedPointLightSources:=New List(Of IPointLightSource(Of RgbLight)) From {lamp})
         ', rayCountPerPixel:=400)
 
-        Return New RayTracerPicture(Of RgbLight)(rayTracer, Me.PictureSize, view, lightToColorConverter:=New RgbLightToColorConverter)
+        Return New RayTracerPicture(Of RgbLight)(rayTracer, Me.PictureSize, view, lightToRgbColorConverter:=New RgbLightToRgbColorConverter)
     End Function
 
-    Public Function BlackBodyPlaneRelativistic(radianceSpectrumToColorConverter As ILightToColorConverter(Of RadianceSpectrum)) As RayTracerPicture(Of RadianceSpectrum)
+    Public Function BlackBodyPlaneRelativistic(radianceSpectrumToRgbColorConverter As ILightToRgbColorConverter(Of RadianceSpectrum)) As RayTracerPicture(Of RadianceSpectrum)
         Dim view = New View3D(observerLocation:=New Vector3D,
                               lookAt:=New Vector3D(0, 0, 1),
                               upDirection:=New Vector3D(0, 1, 0),
@@ -414,7 +414,7 @@ Public Class RayTracingExamples
 
         Dim classicRayTracer = New RecursiveRayTracer(Of RadianceSpectrum)(surface:=New Surfaces(Of Material2D(Of RadianceSpectrum)) From {blackBodyPlane, box},
                                                                            unshadedLightSource:=New LightSources(Of RadianceSpectrum),
-                                                                           shadedPointLightSources:=New List(Of IPointLightSource(Of RadianceSpectrum)))
+                                                                           shadedPointLightSources:=Enumerable.Empty(Of IPointLightSource(Of RadianceSpectrum)))
 
         Dim relativisticRayTracer = New RelativisticRayTracer(classicRayTracer:=classicRayTracer,
                                                               observerVelocity:=New Vector3D(0, 0, 0.9 * SpeedOfLight),
@@ -425,7 +425,7 @@ Public Class RayTracingExamples
         Return New RayTracerPicture(Of RadianceSpectrum)(RayTracer:=relativisticRayTracer,
                                                          PictureSize:=Me.PictureSize,
                                                          view:=view,
-                                                         lightToColorConverter:=radianceSpectrumToColorConverter)
+                                                         lightToRgbColorConverter:=radianceSpectrumToRgbColorConverter)
     End Function
 
 End Class

@@ -15,7 +15,7 @@
     Public Sub New(term As String, typeInformation As TypeInformation, context As TermContext)
         If Not context.Types.Contains(NamedType.Real) Then Throw New CompilerException("Type Real must be defined in this context.")
         If Not context.Types.Contains(NamedType.Vector3D) Then Throw New CompilerException("Type Vector3D must be defined in this context.")
-        If Not context.Types.Contains(NamedType.Collection) Then Throw New CompilerException("Type Collection must be defined in this context.")
+        If Not context.Types.Contains(NamedType.Set) Then Throw New CompilerException("Type Set must be defined in this context.")
 
         _LocatedString = New AnalizedString(term, AllowedBracketTypes:=CompilerTools.AllowedBracketTypes).ToLocated.Trim
         _Context = context
@@ -31,7 +31,7 @@
     Public Sub New(term As LocatedString, typeInformation As TypeInformation, context As TermContext)
         If Not context.Types.Contains(NamedType.Real) Then Throw New CompilerException("Type Real must be defined in this context.")
         If Not context.Types.Contains(NamedType.Vector3D) Then Throw New CompilerException("Type Vector3D must be defined in this context.")
-        If Not context.Types.Contains(NamedType.Collection) Then Throw New CompilerException("Type Collection must be defined in this context.")
+        If Not context.Types.Contains(NamedType.Set) Then Throw New CompilerException("Type Set must be defined in this context.")
 
         _LocatedString = term.Trim
         _Context = context
@@ -246,6 +246,13 @@
     End Function
 
     Private Function GetCollectionExpression() As ExpressionWithNamedType
+        If Not _TypeInformation.IsInfer Then
+            Dim systemType = _TypeInformation.Type.SystemType
+
+            If Not systemType.IsGenericType Then ThrowSetNotExpectedException()
+            If _TypeInformation.Type.SystemType.GetGenericTypeDefinition <> NamedType.Set.SystemType Then ThrowSetNotExpectedException()
+        End If
+
         Dim collectionArgumentStrings = CompilerTools.GetCollectionArguments(_LocatedString)
 
         Dim elementTypeInformation As TypeInformation
@@ -254,10 +261,9 @@
         Else
             Dim type = _TypeInformation.Type
 
-            'TODO: Check type argument count
             elementTypeInformation = New TypeInformation(type.TypeArguments.Single)
 
-            Me.CheckTypeMatch(NamedType.Collection.MakeGenericType(typeArguments:=type.TypeArguments))
+            Me.CheckTypeMatch(NamedType.Set.MakeGenericType(typeArguments:=type.TypeArguments))
         End If
 
         Dim arguments = collectionArgumentStrings.Select(Function(argumentString) New Term(Term:=argumentString, TypeInformation:=elementTypeInformation, context:=_Context).GetExpressionWithNamedType)
@@ -269,8 +275,12 @@
             resultElementType = _TypeInformation.Type.TypeArguments.Single
         End If
 
-        Return Expression.NewArrayInit(type:=resultElementType.SystemType, initializers:=arguments.Select(Function(argument) argument.Expression)).WithNamedType(NamedType.Collection.MakeGenericType({resultElementType}))
+        Return Expression.NewArrayInit(type:=resultElementType.SystemType, initializers:=arguments.Select(Function(argument) argument.Expression)).WithNamedType(NamedType.Set.MakeGenericType({resultElementType}))
     End Function
+
+    Private Sub ThrowSetNotExpectedException()
+        Throw New InvalidTermException(_LocatedString, String.Format("Type '{0}' expected.", _TypeInformation.Type.Name))
+    End Sub
 
     Private Function MinusCountAtStartIsEven(ByRef out_firstNotSignIndex As Integer) As Boolean
         out_firstNotSignIndex = _LocatedString.Length

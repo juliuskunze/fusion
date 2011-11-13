@@ -147,7 +147,7 @@ Public Class TermTests
 
     <Test()>
     Public Sub TestCollection()
-        Dim sequence = New Term(Term:="{3, 4}", Type:=NamedType.Collection.MakeGenericType({NamedType.Real}), context:=TermContext.Default).GetDelegate(Of Func(Of IEnumerable(Of Double))).Invoke()
+        Dim sequence = New Term(Term:="{3, 4}", Type:=NamedType.Set.MakeGenericType({NamedType.Real}), context:=TermContext.Default).GetDelegate(Of Func(Of IEnumerable(Of Double))).Invoke()
 
         Assert.That(sequence.Count = 2)
         Assert.AreEqual(sequence.First, 3)

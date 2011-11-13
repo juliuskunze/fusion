@@ -19,14 +19,14 @@
     <Test()>
     Public Sub TestGetStartingType()
         Dim rest As LocatedString = Nothing
-        Dim type = CompilerTools.GetStartingType("Collection[Real]".ToLocated, types:=NamedTypes.Default, out_rest:=rest)
+        Dim type = CompilerTools.GetStartingType("Set[Real]".ToLocated, types:=NamedTypes.Default, out_rest:=rest)
         Dim argument = type.TypeArguments.Single
 
         Assert.AreEqual(rest.ToString, "")
 
         Assert.AreEqual(type.SystemType, GetType(IEnumerable(Of Double)))
         Assert.AreEqual(argument.SystemType, GetType(Double))
-        Assert.AreEqual(type.Name, "Collection")
+        Assert.AreEqual(type.Name, "Set")
         Assert.AreEqual(argument.Name, "Real")
     End Sub
 

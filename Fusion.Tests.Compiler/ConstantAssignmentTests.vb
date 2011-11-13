@@ -28,7 +28,7 @@ Public Class ConstantAssignmentTests
 
     <Test()>
     Public Sub TestCollection()
-        Dim d = New ConstantAssignment(Definition:="Collection[Real] c = {1,2}".ToLocated, context:=TermContext.Default)
+        Dim d = New ConstantAssignment(Definition:="Set[Real] c = {1,2}".ToLocated, context:=TermContext.Default)
 
         Dim e = d.GetNamedConstantExpression
         Assert.AreEqual(e.Signature.Name, "c")

@@ -1,11 +1,11 @@
-﻿Public Class RgbLightToColorConverter
-    Implements ILightToColorConverter(Of RgbLight)
+﻿Public Class RgbLightToRgbColorConverter
+    Implements ILightToRgbColorConverter(Of RgbLight)
 
     ''' <summary>
     ''' Converts an RgbLight into a displayable System.Drawing.Color. 
     ''' If one of the comonents R, G or B is greater that 1, the brightness of the light is scaled so that the greatest component becomes 1.
     ''' </summary>
-    Public Function Convert(light As RgbLight) As System.Drawing.Color Implements ILightToColorConverter(Of RgbLight).Convert
+    Public Function Convert(light As RgbLight) As System.Drawing.Color Implements ILightToRgbColorConverter(Of RgbLight).Convert
         If Max(light.Red, Max(light.Green, light.Blue)) > 1 Then
             Return GetColor(displayableRgbLight:=light / Max(light.Red, Max(light.Green, light.Blue)))
         End If

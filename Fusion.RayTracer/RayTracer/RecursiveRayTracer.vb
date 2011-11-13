@@ -3,24 +3,34 @@ Public Class RecursiveRayTracer(Of TLight As {ILight(Of TLight), New})
 
     Public Sub New(surface As ISurface(Of Material2D(Of TLight)),
                    unshadedLightSource As ILightSource(Of TLight),
-                   shadedPointLightSources As List(Of IPointLightSource(Of TLight)),
+                   shadedPointLightSources As IEnumerable(Of IPointLightSource(Of TLight)),
                    Optional maxIntersectionCount As Integer = 10)
-        Me.Surface = surface
-        Me.LightSource = unshadedLightSource
-        Me.ShadedPointLightSources = shadedPointLightSources
-        Me.MaxIntersectionCount = maxIntersectionCount
+        _Surface = surface
+        _LightSource = unshadedLightSource
+        _ShadedPointLightSources = shadedPointLightSources
+        _MaxIntersectionCount = maxIntersectionCount
+        _BackgroundLight = New TLight
     End Sub
 
-    Public Property Surface As ISurface(Of Material2D(Of TLight))
-    Public Property LightSource As ILightSource(Of TLight)
+    Private ReadOnly _Surface As ISurface(Of Material2D(Of TLight))
+    Public ReadOnly Property Surface As ISurface(Of Material2D(Of TLight))
+        Get
+            Return _Surface
+        End Get
+    End Property
 
-    Public Property ShadedPointLightSources As List(Of IPointLightSource(Of TLight))
+    Private ReadOnly _LightSource As ILightSource(Of TLight)
+    Public ReadOnly Property LightSource As ILightSource(Of TLight)
+        Get
+            Return _LightSource
+        End Get
+    End Property
+
+    Private ReadOnly _ShadedPointLightSources As IEnumerable(Of IPointLightSource(Of TLight))
+    Public ReadOnly Property ShadedPointLightSources As IEnumerable(Of IPointLightSource(Of TLight))
         Get
             Return _ShadedLightSources
         End Get
-        Set(value As List(Of IPointLightSource(Of TLight)))
-            _ShadedLightSources = New ShadedLightSources(Of TLight)(pointLightSources:=value, shadowingSurface:=Me.Surface)
-        End Set
     End Property
 
     Private _ShadedLightSources As ShadedLightSources(Of TLight)
@@ -60,8 +70,19 @@ Public Class RecursiveRayTracer(Of TLight As {ILight(Of TLight), New})
         Return finalLight
     End Function
 
-    Public Property BackgroundLight As New TLight
-    Public Property MaxIntersectionCount As Integer
+    Private ReadOnly _BackgroundLight As TLight
+    Public ReadOnly Property BackgroundLight As TLight
+        Get
+            Return _BackgroundLight
+        End Get
+        End Property
+
+    Private ReadOnly _MaxIntersectionCount As Integer
+    Public ReadOnly Property MaxIntersectionCount As Integer
+        Get
+            Return _MaxIntersectionCount
+        End Get
+    End Property
 
     Public Overridable Function GetLight(viewRay As Ray) As TLight Implements IRayTracer(Of TLight).GetLight
         Return Me.TraceColor(viewRay, intersectionCount:=0)

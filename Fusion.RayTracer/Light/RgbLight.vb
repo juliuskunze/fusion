@@ -27,9 +27,9 @@ Public Structure RgbLight
     End Property
 
     Public Sub New(color As Color)
-        Me.New(Red:=RgbLightToColorConverter.GetComponent(color.R),
-               Green:=RgbLightToColorConverter.GetComponent(color.G),
-               Blue:=RgbLightToColorConverter.GetComponent(color.B))
+        Me.New(Red:=RgbLightToRgbColorConverter.GetComponent(color.R),
+               Green:=RgbLightToRgbColorConverter.GetComponent(color.G),
+               Blue:=RgbLightToRgbColorConverter.GetComponent(color.B))
     End Sub
 
     Public Sub New(red As Double, green As Double, blue As Double)

@@ -97,7 +97,10 @@ Public Class MainWindow
     Private Sub OnCompiled(Of TResult)(ByVal e As CompilerResultEventArgs(Of TResult), ByRef out_result As TResult)
         If e.CompilerResult.WasCompilationSuccessful Then
             out_result = e.CompilerResult.Result
+            _CompileLabel.Content = "Compilation succeded."
+            _ErrorTextBox.Text = ""
         Else
+            _CompileLabel.Content = "Error:"
             _ErrorTextBox.Text = e.CompilerResult.ErrorMessage
         End If
 
@@ -246,6 +249,11 @@ Public Class MainWindow
     Private Sub MainWindow_KeyDown(sender As Object, e As System.Windows.Input.KeyEventArgs) Handles Me.KeyDown
         If Keyboard.IsKeyDown(Key.LeftCtrl) OrElse Keyboard.IsKeyDown(Key.RightCtrl) Then
             Select Case e.Key
+                Case Key.N
+                    Me.TryCloseCurrentDescription()
+
+                    e.Handled = True
+
                 Case Key.S
                     Me.TrySaveOrSaveAs()
 
@@ -334,33 +342,41 @@ Public Class MainWindow
         End Set
     End Property
 
-    Private Sub SaveDescriptionMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _SaveMenuItem.Click
+    Private Sub NewMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _NewMenuItem.Click
+        Me.TryCloseCurrentDescription()
+    End Sub
+
+    Private Sub OpenMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _OpenMenuItem.Click
+        Me.ShowOpenDescriptionDialog()
+    End Sub
+
+    Private Sub SaveMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _SaveMenuItem.Click
         Me.TrySaveOrSaveAs()
     End Sub
 
-    Private Sub SaveDescriptionAsMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _SaveAsMenuItem.Click
-        Me.ShowSaveDescriptionAsDialog()
+    Private Sub SaveAsMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _SaveAsMenuItem.Click
+        Me.ShowSaveAsDialog()
     End Sub
 
-    Private Sub ShowSaveDescriptionAsDialog()
+    Private Sub ShowSaveAsDialog()
         If IO.File.Exists(_CurrentFileName) Then _SaveDescriptionDialog.FileName = _CurrentFileName
 
         _SaveDescriptionDialog.DefaultExt = Me.GetDescriptionFileExtension
 
         If Not _SaveDescriptionDialog.ShowDialog(owner:=Me) Then Return
 
-        Me.SaveDescription(_SaveDescriptionDialog.FileName)
+        Me.Save(_SaveDescriptionDialog.FileName)
     End Sub
 
     Private Sub TrySaveOrSaveAs()
         If IO.File.Exists(_CurrentFileName) Then
-            Me.SaveDescription(_CurrentFileName)
+            Me.Save(_CurrentFileName)
         Else
-            Me.ShowSaveDescriptionAsDialog()
+            Me.ShowSaveAsDialog()
         End If
     End Sub
 
-    Private Sub SaveDescription(fileName As String)
+    Private Sub Save(fileName As String)
         _CurrentFileName = fileName
 
         Dim description = New TextOnlyDocument(_DescriptionTextBox.Document).Text
@@ -374,7 +390,7 @@ Public Class MainWindow
             Return
         End Try
 
-        _ChangedSinceLastSave = False
+        _HasUnsavedChanges = False
     End Sub
 
     Private Function GetDescriptionFileExtension(mode As CompileMode) As String
@@ -412,26 +428,20 @@ Public Class MainWindow
         End Select
     End Function
 
-    Private Sub OpenDescriptionSourceMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _OpenMenuItem.Click
-        Me.ShowOpenDescriptionDialog()
-    End Sub
-
     Private Sub ShowOpenDescriptionDialog()
         If _OpenDescriptionDialog.ShowDialog(owner:=Me) Then
             Me.TryCloseCurrentDescription()
-
-
             Me.TryOpenCurrentFile()
         End If
     End Sub
 
     Private Sub TryOpenCurrentFile()
-        _CurrentFileName = _OpenDescriptionDialog.FileName
+        Dim currentFileName = _OpenDescriptionDialog.FileName
 
         Dim text As String
 
         Try
-            Using streamReader = New IO.StreamReader(_CurrentFileName)
+            Using streamReader = New IO.StreamReader(currentFileName)
                 text = streamReader.ReadToEnd()
             End Using
         Catch ex As IO.IOException
@@ -439,18 +449,18 @@ Public Class MainWindow
             Return
         End Try
 
-        Dim document = TextOnlyDocument.GetDocumentFromText(text:=text)
-
-        _DescriptionTextBox.Document = document
+        Me.LoadDocument(currentFileName:=currentFileName, text:=text)
 
         Dim mode As CompileMode
         Try
-            mode = Me.GetMode(fileExtension:=IO.Path.GetExtension(_CurrentFileName))
+            mode = Me.GetMode(fileExtension:=IO.Path.GetExtension(currentFileName))
         Catch ex As ArgumentOutOfRangeException
             mode = CompileMode.Picture
         End Try
 
         Me.Mode = mode
+
+        _HasUnsavedChanges = False
     End Sub
 
     Private Sub CompilePictureMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _CompilePictureMenuItem.Click
@@ -465,7 +475,7 @@ Public Class MainWindow
         e.Handled = True
     End Sub
 
-    Private Sub _AutoCompileMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _AutoCompileMenuItem.Click
+    Private Sub AutoCompileMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _AutoCompileMenuItem.Click
         Me.AutoCompile = _AutoCompileMenuItem.IsChecked
     End Sub
 
@@ -485,43 +495,58 @@ Public Class MainWindow
             End If
         End Set
     End Property
-
-    Private Sub NewMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _NewMenuItem.Click
-        Me.TryCloseCurrentDescription()
+    
+    Private _HasUnsavedChanges As Boolean
+    
+    Private Sub CreateNewDescription()
+        _HasUnsavedChanges = False
+        Me.LoadDocument(currentFileName:="", text:="")
     End Sub
 
-    Private _ChangedSinceLastSave As Boolean
-
-    Private Sub CreateNewDescription()
-        _ChangedSinceLastSave = False
-        _CurrentFileName = ""
-        _DescriptionTextBox.Document = New FlowDocument With {.PageWidth = 10000}
+    Private Sub LoadDocument(currentFileName As String, text As String)
+        _CurrentFileName = currentFileName
+        _DescriptionTextBox.Document = TextOnlyDocument.GetDocumentFromText(text)
     End Sub
 
     Private Sub TryCloseCurrentDescription()
-        Dim result = MessageBox.Show("Do you want to save the current description?", "Save?", MessageBoxButton.YesNoCancel)
+        If _HasUnsavedChanges Then
+            Dim result = MessageBox.Show("Do you want to save the current description?", "Save?", MessageBoxButton.YesNoCancel)
 
-        Select Case result
-            Case MessageBoxResult.Yes
-                If _CurrentFileName IsNot Nothing Then
-                    Me.SaveDescription(_CurrentFileName)
-                Else
-                    Me.ShowSaveDescriptionAsDialog()
-                End If
-                Me.CreateNewDescription()
+            Select Case result
+                Case MessageBoxResult.Yes
+                    If _CurrentFileName IsNot Nothing Then
+                        Me.Save(_CurrentFileName)
+                    Else
+                        Me.ShowSaveAsDialog()
+                    End If
+                    Me.CreateNewDescription()
 
-            Case MessageBoxResult.No
-                Me.CreateNewDescription()
-            Case MessageBoxResult.Cancel
-            Case Else
-                Throw New ArgumentOutOfRangeException("result")
-        End Select
+                Case MessageBoxResult.No
+                    Me.CreateNewDescription()
+                Case MessageBoxResult.Cancel
+                Case Else
+                    Throw New ArgumentOutOfRangeException("result")
+            End Select
+        Else
+            Me.CreateNewDescription()
+        End If
 
     End Sub
 
     Private Sub SceneDescriptionTextBox_TextChanged(sender As Object, e As System.Windows.Controls.TextChangedEventArgs) Handles _DescriptionTextBox.TextChanged
-        _ChangedSinceLastSave = True
+        If Not Me.IsLoaded OrElse Me.ApplyingTextDecorations Then Return
+
+        _HasUnsavedChanges = True
     End Sub
 
+    Private ReadOnly Property ApplyingTextDecorations As Boolean
+        Get
+            If Me.Mode = CompileMode.Picture Then
+                Return _PictureCompiler.ApplyingTextDecorations
+            Else
+                Return _VideoCompiler.ApplyingTextDecorations
+            End If
+        End Get
+    End Property
 
 End Class

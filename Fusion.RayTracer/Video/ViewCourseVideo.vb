@@ -29,7 +29,7 @@
     End Property
 
     Public Function GetRayTracerDrawer(pointOfTime As Double) As RayTracerPicture(Of RgbLight) Implements IRayTraceVideo.GetRayTracerDrawer
-        Return New RayTracerPicture(Of RgbLight)(Me.RayTracer, Me.VideoSize, Me.CameraViewCourse.GetView(pointOfTime:=pointOfTime), lightToColorConverter:=New RgbLightToColorConverter)
+        Return New RayTracerPicture(Of RgbLight)(Me.RayTracer, Me.VideoSize, Me.CameraViewCourse.GetView(pointOfTime:=pointOfTime), lightToRgbColorConverter:=New RgbLightToRgbColorConverter)
     End Function
 
     Public Sub CreateVideo(directoryPath As String, timeIntervalStart As Double, timeIntervalEnd As Double, timeStep As Double)

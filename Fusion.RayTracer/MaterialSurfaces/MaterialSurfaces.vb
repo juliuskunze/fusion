@@ -2,6 +2,14 @@
     Inherits List(Of ISurface(Of TMaterial))
     Implements ISurface(Of TMaterial)
 
+    Public Sub New()
+    End Sub
+
+    Public Sub New(surfaces As IEnumerable(Of ISurface(Of TMaterial)))
+        MyBase.New(surfaces)
+    End Sub
+
+
     Public Function Intersections(ray As Math.Ray) As System.Collections.Generic.IEnumerable(Of Math.SurfacePoint) Implements Math.ISurface.Intersections
         Return Me.MaterialIntersections(ray)
     End Function

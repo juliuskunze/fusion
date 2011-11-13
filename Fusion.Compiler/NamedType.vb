@@ -124,10 +124,10 @@
         End Get
     End Property
 
-    Private Shared ReadOnly _Collection As New NamedType("Collection", GetType(IEnumerable(Of )))
-    Public Shared ReadOnly Property Collection() As NamedType
+    Private Shared ReadOnly _Set As New NamedType("Set", GetType(IEnumerable(Of )))
+    Public Shared ReadOnly Property [Set]() As NamedType
         Get
-            Return _Collection
+            Return _Set
         End Get
     End Property
 

@@ -36,8 +36,8 @@
                         <StackPanel>
                             <Menu>
                                 <MenuItem Header="File">
-                                    <MenuItem Name="_NewMenuItem" Header="New..." InputGestureText="Strg+N"></MenuItem>
-                                    <MenuItem Name="_SaveMenuItem" Header="Save..." InputGestureText="Strg+S"></MenuItem>
+                                    <MenuItem Name="_NewMenuItem" Header="New" InputGestureText="Strg+N"></MenuItem>
+                                    <MenuItem Name="_SaveMenuItem" Header="Save" InputGestureText="Strg+S"></MenuItem>
                                     <MenuItem Name="_SaveAsMenuItem" Header="Save as..."></MenuItem>
                                     <MenuItem Name="_OpenMenuItem" Header="Open..." InputGestureText="Strg+O"></MenuItem>
                                 </MenuItem>
@@ -112,7 +112,7 @@
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
 
-                            <Label Grid.Row="0">Error:</Label>
+                            <Label Name="_CompileLabel" Grid.Row="0">Error:</Label>
 
                             <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
                                 <TextBox Name="_ErrorTextBox" IsReadOnly="True"></TextBox>
