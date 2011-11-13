@@ -14,6 +14,8 @@ Public Class RichCompiler(Of TResult)
 
     Private _Compiler As Compiler(Of TResult)
 
+    Private _TypeName As String = GetType(TResult).Name
+
     Private _AutoCompile As Boolean
     Public Property AutoCompile As Boolean
         Get
@@ -53,32 +55,40 @@ Public Class RichCompiler(Of TResult)
         Dim pasteCommandBinding = New CommandBinding(ApplicationCommands.Paste, AddressOf OnPaste, AddressOf OnCanExecutePaste)
         _RichTextBox.CommandBindings.Add(pasteCommandBinding)
 
-        Me.AddHandlers()
+        Me.AddHandlersIfNeeded()
     End Sub
 
-    Private Sub AddHandlers()
+    Private Sub AddHandlersIfNeeded()
+        If _HandlersAdded Then Return
+
         AddHandler _AutoCompleteListBox.SelectionChanged, AddressOf _AutoCompleteListBox_SelectionChanged
         AddHandler _AutoCompleteScrollViewer.ScrollChanged, AddressOf AutoCompleteScrollViewer_ScrollChanged
         AddHandler _AutoCompleteListBox.PreviewMouseDown, AddressOf AutoCompleteListBox_PreviewMouseDown
         AddHandler _AutoCompleteListBox.GotFocus, AddressOf AutoCompleteListBox_GotFocus
         AddHandler _RichTextBox.TextChanged, AddressOf RichTextBox_TextChanged
         AddHandler _RichTextBox.PreviewKeyDown, AddressOf RichTextBox_PreviewKeyDown
+
+        _HandlersAdded = True
     End Sub
 
-    Private Sub RemoveHandlers()
+    Private Sub RemoveHandlersIfNeeded()
+        If Not _HandlersAdded Then Return
+
         RemoveHandler _AutoCompleteListBox.SelectionChanged, AddressOf _AutoCompleteListBox_SelectionChanged
         RemoveHandler _AutoCompleteScrollViewer.ScrollChanged, AddressOf AutoCompleteScrollViewer_ScrollChanged
         RemoveHandler _AutoCompleteListBox.PreviewMouseDown, AddressOf AutoCompleteListBox_PreviewMouseDown
         RemoveHandler _AutoCompleteListBox.GotFocus, AddressOf AutoCompleteListBox_GotFocus
         RemoveHandler _RichTextBox.TextChanged, AddressOf RichTextBox_TextChanged
         RemoveHandler _RichTextBox.PreviewKeyDown, AddressOf RichTextBox_PreviewKeyDown
+
+        _HandlersAdded = False
     End Sub
 
     Public Sub ActivateAutoCompile()
         _AutoCompile = True
         Me.UpdateAndCompile()
 
-        Me.AddHandlers()
+        Me.AddHandlersIfNeeded()
     End Sub
 
     Private Sub UpdateAndCompile()
@@ -94,11 +104,13 @@ Public Class RichCompiler(Of TResult)
     End Sub
 
     Public Sub Deactivate()
-        Me.RemoveHandlers()
+        Me.RemoveHandlersIfNeeded()
     End Sub
 
+    Private _HandlersAdded As Boolean
+
     Public Sub Activate()
-        Me.AddHandlers()
+        Me.AddHandlersIfNeeded()
     End Sub
 
     Private Sub UpdateOnTextChanged()

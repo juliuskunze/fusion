@@ -36,9 +36,10 @@
                         <StackPanel>
                             <Menu>
                                 <MenuItem Header="File">
-                                    <MenuItem Name="_SaveDescriptionMenuItem" Header="Save..." InputGestureText="Strg+S"></MenuItem>
-                                    <MenuItem Name="_SaveDescriptionAsMenuItem" Header="Save as..."></MenuItem>
-                                    <MenuItem Name="_OpenDescriptionMenuItem" Header="Open..." InputGestureText="Strg+O"></MenuItem>
+                                    <MenuItem Name="_NewMenuItem" Header="New..." InputGestureText="Strg+N"></MenuItem>
+                                    <MenuItem Name="_SaveMenuItem" Header="Save..." InputGestureText="Strg+S"></MenuItem>
+                                    <MenuItem Name="_SaveAsMenuItem" Header="Save as..."></MenuItem>
+                                    <MenuItem Name="_OpenMenuItem" Header="Open..." InputGestureText="Strg+O"></MenuItem>
                                 </MenuItem>
                                 <MenuItem Header="Compile">
                                     <MenuItem Name="_AutoCompileMenuItem" Header="Auto Compile" InputGestureText="F4" IsCheckable="True" IsChecked="True"></MenuItem>
@@ -55,7 +56,7 @@
                                 </Grid.ColumnDefinitions>
                             </Grid>
                         </StackPanel>
-                        <RichTextBox FontFamily="Consolas" Grid.Row="1" Margin="0" AcceptsReturn="True" Name="_SceneDescriptionTextBox" Background="#FFFFFF">
+                        <RichTextBox FontFamily="Consolas" Grid.Row="1" Margin="0" AcceptsReturn="True" Name="_DescriptionTextBox" Background="#FFFFFF">
                             <RichTextBox.Resources>
                                 <Style TargetType="{x:Type Paragraph}">
                                     <Setter Property="Margin" Value="0"/>
