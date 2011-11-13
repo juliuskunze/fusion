@@ -20,7 +20,7 @@
             compiler.Compile()
             Assert.Fail()
         Catch ex As CompilerExceptionWithIntelliSense
-            Assert.AreEqual("'b' is not defined in this context.", DirectCast(ex.InnerCompilerExcpetion, LocatedCompilerException).Message)
+            Assert.AreEqual("'b' is not defined in this context.", DirectCast(ex.InnerCompilerException, LocatedCompilerException).Message)
         End Try
     End Sub
 
@@ -31,7 +31,7 @@
             compiler.Compile()
             Assert.Fail()
         Catch ex As CompilerExceptionWithIntelliSense
-            Assert.AreEqual("Missing return statement.", ex.InnerCompilerExcpetion.Message)
+            Assert.AreEqual("Missing return statement.", ex.InnerCompilerException.Message)
         End Try
     End Sub
 
@@ -42,7 +42,7 @@
             compiler.Compile()
             Assert.Fail()
         Catch ex As CompilerExceptionWithIntelliSense
-            Assert.AreEqual("Type 'Collection[Real]' is not assignable to type 'Real'.", DirectCast(ex.InnerCompilerExcpetion, LocatedCompilerException).Message)
+            Assert.AreEqual("Type 'Collection[Real]' is not assignable to type 'Real'.", DirectCast(ex.InnerCompilerException, LocatedCompilerException).Message)
         End Try
     End Sub
 

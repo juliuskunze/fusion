@@ -62,29 +62,13 @@
     Public Function GetTextRange(startIndex As Integer, length As Integer) As Documents.TextRange
         If startIndex < 0 Then Throw New ArgumentOutOfRangeException("startIndex")
         If length < 0 Then Throw New ArgumentOutOfRangeException("length")
-        If startIndex + length > _Text.Count Then Throw New ArgumentOutOfRangeException("startIndex, length")
 
         Dim endIndex = startIndex + length
+        If endIndex > _Text.Count Then Throw New ArgumentOutOfRangeException("startIndex, length")
 
-        Dim inlineStartIndex = 0
-        Dim startPointer As TextPointer = Nothing
-        Dim endPointer As TextPointer = Nothing
-        For Each paragraph In _Document.Blocks.OfType(Of Paragraph)()
-            For Each inline In paragraph.Inlines
-                Dim inlineLength = GetLength(inline)
-
-                SetTextPointerIfIsInRangeAndNothing(inline, inlineStartIndex, inlineLength, startPointer, startIndex)
-                SetTextPointerIfIsInRangeAndNothing(inline, inlineStartIndex, inlineLength, endPointer, endIndex)
-
-                inlineStartIndex += inlineLength
-            Next
-
-            SetTextPointerIfIsInRangeAndNothing(paragraph, inlineStartIndex, _LineBreakLength, startPointer, startIndex)
-            SetTextPointerIfIsInRangeAndNothing(paragraph, inlineStartIndex, _LineBreakLength, endPointer, endIndex)
-
-            inlineStartIndex += _LineBreakLength
-        Next
-
+        Dim startPointer = GetPointer(startIndex)
+        Dim endPointer = GetPointer(endIndex)
+        
         If Not _Document.Blocks.Any OrElse Not _Document.Blocks.OfType(Of Paragraph).Any(Function(paragraph) paragraph.Inlines.Any) Then
             If startPointer Is Nothing Then startPointer = _Document.ContentStart
             If endPointer Is Nothing Then endPointer = _Document.ContentEnd
@@ -93,13 +77,39 @@
         Return New Documents.TextRange(startPointer, endPointer)
     End Function
 
-    Private Sub SetTextPointerIfIsInRangeAndNothing(textElement As TextElement, startIndex As Integer, length As Integer, ByRef textPointer As TextPointer, targetIndex As Integer)
-        If textPointer Is Nothing AndAlso
-           startIndex <= targetIndex AndAlso
-           targetIndex <= startIndex + length Then
-            textPointer = textElement.ContentStart.GetPositionAtOffset(targetIndex - startIndex)
-        End If
-    End Sub
+    Private Function GetPointer(index As Integer) As TextPointer
+        Dim paragraph As Paragraph
+        Dim inline As Inline
+
+        Dim elementStartIndex = 0
+        For Each paragraph In _Document.Blocks.OfType(Of Paragraph)()
+            For Each inline In paragraph.Inlines
+                Dim inlineLength = GetLength(inline)
+
+                If IsInRange(targetIndex:=index, elementStartIndex:=elementStartIndex, elementLength:=inlineLength) Then
+                    Return inline.ContentStart.GetPositionAtOffset(index - elementStartIndex)
+                End If
+
+                elementStartIndex += inlineLength
+            Next
+
+            If IsInRange(
+                elementStartIndex:=elementStartIndex,
+                elementLength:=_LineBreakLength,
+                targetIndex:=index) Then
+
+                Return paragraph.ContentEnd
+            End If
+
+            elementStartIndex += _LineBreakLength
+        Next
+
+        Return Nothing
+    End Function
+
+    Private Shared Function IsInRange(targetIndex As Integer, elementStartIndex As Integer, elementLength As Integer) As Boolean
+        Return elementStartIndex <= targetIndex AndAlso targetIndex < elementStartIndex + elementLength
+    End Function
 
     Public Function GetIndex(textPointer As TextPointer) As Integer
         Dim parent = textPointer.Parent

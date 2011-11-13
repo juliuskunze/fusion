@@ -18,10 +18,4 @@ Class Application
         Me.Shutdown()
     End Sub
 
-    Public Shared Sub DoEvents()
-        Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Background,
-                                            Sub()
-                                            End Sub)
-    End Sub
-
 End Class

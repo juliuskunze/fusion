@@ -58,6 +58,9 @@ Public Class MainWindow
 
         _OpenVideoDirectoryDialog = New System.Windows.Forms.FolderBrowserDialog With {.SelectedPath = _DefaultInitialDirectory}
 
+        _PictureCompiler = Me.GetCompiler(Of RayTracerPicture(Of RadianceSpectrum))()
+        _VideoCompiler = Me.GetCompiler(Of RayTracerVideo(Of RadianceSpectrum))()
+
         Me.Mode = CompileMode.Picture
     End Sub
 
@@ -301,19 +304,23 @@ Public Class MainWindow
             Return If(_CompilePictureMenuItem.IsChecked, CompileMode.Picture, CompileMode.Video)
         End Get
         Set(value As CompileMode)
+            Dim changed = Not (
+            (value = CompileMode.Picture AndAlso _CompilePictureMenuItem.IsChecked) OrElse
+            (value = CompileMode.Video AndAlso _CompileVideoMenuItem.IsChecked))
+
             _CompilePictureMenuItem.IsChecked = (value = CompileMode.Picture)
             _CompileVideoMenuItem.IsChecked = (value = CompileMode.Video)
 
             Select Case value
                 Case CompileMode.Picture
-                    _PictureCompiler = Me.GetCompiler(Of RayTracerPicture(Of RadianceSpectrum))()
+                    _VideoCompiler.Deactivate()
+                    _PictureCompiler.Activate()
                     _PictureCompiler.Compile()
                 Case CompileMode.Video
-                    _VideoCompiler = Me.GetCompiler(Of RayTracerVideo(Of RadianceSpectrum))()
+                    _PictureCompiler.Deactivate()
+                    _VideoCompiler.Activate()
                     _VideoCompiler.Compile()
             End Select
-
-
         End Set
     End Property
 

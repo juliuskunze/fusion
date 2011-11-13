@@ -11,7 +11,7 @@ Public Class RichCompiler(Of TResult)
     Private _ApplyingTextDecorations As Boolean
 
     Private _TextOnlyDocument As TextOnlyDocument
-    
+
     Private _Compiler As Compiler(Of TResult)
 
     Private _AutoCompile As Boolean
@@ -27,23 +27,6 @@ Public Class RichCompiler(Of TResult)
             End If
         End Set
     End Property
-
-    Public Sub ActivateAutoCompile()
-        _AutoCompile = True
-        Me.UpdateAndCompile()
-    End Sub
-
-    Private Sub UpdateAndCompile()
-        Me.UpdateOnTextChanged()
-        Me.Compile(ShowIntelliSense:=True)
-    End Sub
-
-    Public Sub DeactivateAutoCompile()
-        Me.Unfocus()
-        Me.RemoveUnderline()
-
-        _AutoCompile = False
-    End Sub
 
     Public Sub New(richTextBox As RichTextBox,
                    autoCompletePopup As Popup,
@@ -69,6 +52,53 @@ Public Class RichCompiler(Of TResult)
 
         Dim pasteCommandBinding = New CommandBinding(ApplicationCommands.Paste, AddressOf OnPaste, AddressOf OnCanExecutePaste)
         _RichTextBox.CommandBindings.Add(pasteCommandBinding)
+
+        Me.AddHandlers()
+    End Sub
+
+    Private Sub AddHandlers()
+        AddHandler _AutoCompleteListBox.SelectionChanged, AddressOf _AutoCompleteListBox_SelectionChanged
+        AddHandler _AutoCompleteScrollViewer.ScrollChanged, AddressOf AutoCompleteScrollViewer_ScrollChanged
+        AddHandler _AutoCompleteListBox.PreviewMouseDown, AddressOf AutoCompleteListBox_PreviewMouseDown
+        AddHandler _AutoCompleteListBox.GotFocus, AddressOf AutoCompleteListBox_GotFocus
+        AddHandler _RichTextBox.TextChanged, AddressOf RichTextBox_TextChanged
+        AddHandler _RichTextBox.PreviewKeyDown, AddressOf RichTextBox_PreviewKeyDown
+    End Sub
+
+    Private Sub RemoveHandlers()
+        RemoveHandler _AutoCompleteListBox.SelectionChanged, AddressOf _AutoCompleteListBox_SelectionChanged
+        RemoveHandler _AutoCompleteScrollViewer.ScrollChanged, AddressOf AutoCompleteScrollViewer_ScrollChanged
+        RemoveHandler _AutoCompleteListBox.PreviewMouseDown, AddressOf AutoCompleteListBox_PreviewMouseDown
+        RemoveHandler _AutoCompleteListBox.GotFocus, AddressOf AutoCompleteListBox_GotFocus
+        RemoveHandler _RichTextBox.TextChanged, AddressOf RichTextBox_TextChanged
+        RemoveHandler _RichTextBox.PreviewKeyDown, AddressOf RichTextBox_PreviewKeyDown
+    End Sub
+
+    Public Sub ActivateAutoCompile()
+        _AutoCompile = True
+        Me.UpdateAndCompile()
+
+        Me.AddHandlers()
+    End Sub
+
+    Private Sub UpdateAndCompile()
+        Me.UpdateOnTextChanged()
+        Me.Compile(showIntelliSense:=True)
+    End Sub
+
+    Public Sub DeactivateAutoCompile()
+        _AutoCompile = False
+
+        Me.Unfocus()
+        Me.RemoveUnderline()
+    End Sub
+
+    Public Sub Deactivate()
+        Me.RemoveHandlers()
+    End Sub
+
+    Public Sub Activate()
+        Me.AddHandlers()
     End Sub
 
     Private Sub UpdateOnTextChanged()
@@ -120,7 +150,7 @@ Public Class RichCompiler(Of TResult)
             intelliSense = compilerResult.IntelliSense
             richCompilerResult = New RichCompilerResult(Of TResult)(compilerResult.Result)
         Catch ex As CompilerExceptionWithIntelliSense
-            Dim locatedEx = TryCast(ex.InnerCompilerExcpetion, LocatedCompilerException)
+            Dim locatedEx = TryCast(ex.InnerCompilerException, LocatedCompilerException)
             If locatedEx IsNot Nothing Then
                 Me.UnderlineError(locatedEx.LocatedString, _TextOnlyDocument)
             Else
@@ -128,7 +158,7 @@ Public Class RichCompiler(Of TResult)
             End If
 
             intelliSense = ex.IntelliSense
-            richCompilerResult = New RichCompilerResult(Of TResult)(ex.InnerCompilerExcpetion.Message)
+            richCompilerResult = New RichCompilerResult(Of TResult)(ex.InnerCompilerException.Message)
         Finally
             Me.ShowIntelliSense(intelliSense)
 
@@ -197,8 +227,6 @@ Public Class RichCompiler(Of TResult)
 
     Private Sub RemoveUnderline()
         _ApplyingTextDecorations = True
-        '_ApplyingTextDecorations will not be set properly else:
-        Application.DoEvents()
 
         Dim documentRange = New Documents.TextRange(_RichTextBox.Document.ContentStart, _RichTextBox.Document.ContentEnd)
         documentRange.ApplyPropertyValue(Inline.TextDecorationsProperty, _NormalTextDecorations)
@@ -245,9 +273,7 @@ Public Class RichCompiler(Of TResult)
         Return collection
     End Function
 
-    Private Sub RichTextBox_TextChanged(sender As System.Object, e As System.Windows.Controls.TextChangedEventArgs) Handles _RichTextBox.TextChanged
-
-
+    Private Sub RichTextBox_TextChanged(sender As System.Object, e As System.Windows.Controls.TextChangedEventArgs)
         If _ApplyingTextDecorations Then Return
         If _AutoCompile Then
             Me.UpdateAndCompile()
@@ -258,7 +284,7 @@ Public Class RichCompiler(Of TResult)
 
     Public Event Compiled(sender As Object, e As CompilerResultEventArgs(Of TResult))
 
-    Private Sub RichTextBox_PreviewKeyDown(sender As Object, e As KeyEventArgs) Handles _RichTextBox.PreviewKeyDown
+    Private Sub RichTextBox_PreviewKeyDown(sender As Object, e As KeyEventArgs)
         If _AutoCompletePopup.IsOpen Then
             Select Case e.Key
                 Case Key.Down
@@ -290,16 +316,14 @@ Public Class RichCompiler(Of TResult)
 
     End Sub
 
-    Private Sub AutoCompleteListBox_GotFocus(sender As Object, e As System.Windows.RoutedEventArgs) Handles _AutoCompleteListBox.GotFocus
+    Private Sub AutoCompleteListBox_GotFocus(sender As Object, e As System.Windows.RoutedEventArgs)
         _RichTextBox.Focus()
 
         Dim listBoxItem = TryCast(e.OriginalSource, ListBoxItem)
         listBoxItem.IsSelected = True
     End Sub
 
-
-
-    Private Sub AutoCompleteListBox_PreviewMouseDown(sender As Object, e As MouseButtonEventArgs) Handles _AutoCompleteListBox.PreviewMouseDown
+    Private Sub AutoCompleteListBox_PreviewMouseDown(sender As Object, e As MouseButtonEventArgs)
         If e.LeftButton <> MouseButtonState.Pressed AndAlso e.RightButton <> MouseButtonState.Pressed Then Return
 
         Dim tb = TryCast(e.OriginalSource, TextBlock)
@@ -383,7 +407,7 @@ Public Class RichCompiler(Of TResult)
 
     Private _ShouldReopenToolTipOnScroll As Boolean
 
-    Private Sub AutoCompleteScrollViewer_ScrollChanged(sender As Object, e As System.Windows.Controls.ScrollChangedEventArgs) Handles _AutoCompleteScrollViewer.ScrollChanged
+    Private Sub AutoCompleteScrollViewer_ScrollChanged(sender As Object, e As System.Windows.Controls.ScrollChangedEventArgs)
         If _ShouldReopenToolTipOnScroll Then
             _ShouldReopenToolTipOnScroll = False
 
@@ -391,7 +415,7 @@ Public Class RichCompiler(Of TResult)
         End If
     End Sub
 
-    Private Sub _AutoCompleteListBox_SelectionChanged(sender As Object, e As System.Windows.Controls.SelectionChangedEventArgs) Handles _AutoCompleteListBox.SelectionChanged
+    Private Sub _AutoCompleteListBox_SelectionChanged(sender As Object, e As System.Windows.Controls.SelectionChangedEventArgs)
         Me.BringSelectedIntoViewAndReopenTooltip()
     End Sub
 

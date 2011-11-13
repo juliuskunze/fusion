@@ -8,7 +8,7 @@
         End Get
     End Property
 
-    Public ReadOnly Property InnerCompilerExcpetion As CompilerException
+    Public ReadOnly Property InnerCompilerException As CompilerException
         Get
             Return CType(MyBase.InnerException, CompilerException)
         End Get

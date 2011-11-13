@@ -20,8 +20,10 @@
 
         document.Blocks.Add(block2)
 
-        Assert.AreEqual(New TextOnlyDocument(document).GetTextRange(2, 2).Text, "B2")
-        Assert.AreEqual(New TextOnlyDocument(document).GetTextRange(4, 2).Text, "C3")
+        Dim textOnlyDocument = New TextOnlyDocument(document)
+
+        Assert.AreEqual("B2", textOnlyDocument.GetTextRange(3, 2).Text)
+        Assert.AreEqual("C3", textOnlyDocument.GetTextRange(5, 2).Text)
     End Sub
 
     <Test()>
@@ -31,7 +33,9 @@
         document.Blocks.Add(New Paragraph())
         document.Blocks.Add(New Paragraph(New Run("Test")))
 
-        Assert.AreEqual(New TextOnlyDocument(document).GetTextRange(1, 4).Text, "Test")
+        Dim textOnlyDocument = New TextOnlyDocument(document)
+
+        Assert.AreEqual(textOnlyDocument.GetTextRange(2, 4).Text, "Test")
     End Sub
 
     <Test()>
@@ -41,11 +45,11 @@
         document.Blocks.Add(New Paragraph())
         document.Blocks.Add(New Paragraph(New Run("Test")))
 
-        Dim textPointer = CType(CType(document.Blocks(1), Paragraph).Inlines(0), Run).ContentStart.GetPositionAtOffset(2)
+        Dim textPointer = DirectCast(DirectCast(document.Blocks(1), Paragraph).Inlines(0), Run).ContentStart.GetPositionAtOffset(2)
 
         Dim textOnlyDocument = New TextOnlyDocument(document)
 
-        Assert.AreEqual(textOnlyDocument.GetIndex(textPointer), 3)
+        Assert.AreEqual(textOnlyDocument.GetIndex(textPointer), 4)
     End Sub
 
 End Class
