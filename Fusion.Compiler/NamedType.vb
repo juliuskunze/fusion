@@ -42,23 +42,23 @@
         End Get
     End Property
 
-    Private ReadOnly _TypeParameterCount As Integer
-    Public ReadOnly Property TypeParameterCount As Integer
-        Get
-            Return _TypeParameterCount
-        End Get
-    End Property
-
-    Public Sub New(name As String, systemType As System.Type, Optional typeParameterCount As Integer = 0)
+    Public Sub New(name As String, systemType As System.Type)
         Me.New(name:=name, systemType:=systemType, TypeArguments:={})
-        '!!!If systemType.GetGenericArguments.Where(Function(argument) Not argument.IsGenericParameter).Any Then Throw New CompilerException("No type arguments allowed, use MakeGenericType.")
     End Sub
 
     Private Sub New(name As String, systemType As System.Type, typeArguments As IEnumerable(Of NamedType))
+        If typeArguments Is Nothing Then Throw New ArgumentNullException("typeArguments")
+
         _IsDelegate = False
         _Name = name
         _SystemType = systemType
         _TypeArguments = typeArguments
+    End Sub
+
+    Public Sub New(name As String, [delegate] As DelegateType)
+        _IsDelegate = True
+        _Name = name
+        _Delegate = [delegate]
     End Sub
 
     Public Function MakeGenericType(typeArguments As IEnumerable(Of NamedType)) As NamedType
@@ -67,12 +67,6 @@
 
         Return New NamedType(_Name, _SystemType.MakeGenericType((From namedType In typeArguments Select namedType.SystemType).ToArray), typeArguments)
     End Function
-
-    Public Sub New(name As String, [delegate] As DelegateType)
-        _IsDelegate = True
-        _Name = name
-        _Delegate = [delegate]
-    End Sub
 
     Public Sub CheckIsAssignableFrom(other As NamedType)
         If Not Me.IsAssignableFrom(other) Then Me.ThrowNotAssignableFromException(other.Name)
@@ -135,9 +129,21 @@
         If Me.IsDelegate Then
             Return Me.Delegate.ResultType.GetSignatureString & " " & Me.Name & String.Join(", ", Me.Delegate.Parameters.Select(Function(parameter) parameter.Signature.ToString)).InBrackets(CompilerTools.ParameterBracketType)
         Else
-            Return "Type " & Me.Name & If(Me.TypeArguments.Any, String.Join(", ", Me.TypeArguments.ToString).InBrackets(CompilerTools.TypeArgumentBracketType), "")
+            Return "Type " & Me.NameWithTypeArguments
         End If
     End Function
+
+    Public ReadOnly Property NameWithTypeArguments As String
+        Get
+            Return If(Me.IsDelegate,
+                      Me.Name,
+                      Me.Name & If(Me.TypeArguments.Any,
+                                   String.Join(", ", Me.TypeArguments.Select(Function(typeArgument) typeArgument.NameWithTypeArguments)).InBrackets(CompilerTools.TypeArgumentBracketType),
+                                   ""
+                                   )
+                      )
+        End Get
+    End Property
 
     Public Sub CheckForSignatureConflicts(other As NamedType)
         If CompilerTools.IdentifierEquals(Me.Name, other.Name) Then Throw New CompilerException(String.Format("Type '{0}' is already defined.", other.Name))

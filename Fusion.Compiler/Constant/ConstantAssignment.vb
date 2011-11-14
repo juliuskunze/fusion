@@ -10,7 +10,7 @@
 
         Dim term = New Term(term:=_Term, Type:=instance.Type, Context:=_Context)
 
-        Return New ConstantInstance(Signature:=instance, value:=term.GetDelegate.DynamicInvoke({}))
+        Return New ConstantInstance(Signature:=instance, value:=term.GetDelegate.DynamicInvoke(Nothing))
     End Function
 
 End Class

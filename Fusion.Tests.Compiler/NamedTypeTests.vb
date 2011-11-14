@@ -39,4 +39,12 @@
         Return Nothing
     End Function
 
+    <Test()>
+    Public Sub NamedWithTypeArguments()
+        Dim setType = New NamedType("Set", GetType(IEnumerable(Of )))
+        Dim stringSetType = setType.MakeGenericType({New NamedType("Text", GetType(String))})
+
+        Assert.AreEqual(expected:="Set[Text]", actual:=stringSetType.NameWithTypeArguments)
+    End Sub
+
 End Class

@@ -29,7 +29,7 @@
     End Function
 
     Public Overrides Function ToString() As String Implements ISignature.GetSignatureString
-        Return Me.Type.Name & " " & Me.Name
+        Return Me.Type.NameWithTypeArguments & " " & Me.Name
     End Function
 
     Public Sub CheckForConflicts(other As ConstantSignature)

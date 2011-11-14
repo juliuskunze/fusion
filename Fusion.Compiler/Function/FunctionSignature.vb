@@ -16,7 +16,7 @@
     End Property
 
     Public Function AsNamedDelegateType() As NamedType
-        Return New NamedType(Name:=_Name, [delegate]:=_DelegateType)
+        Return New NamedType(Name:=_Name, [Delegate]:=_DelegateType)
     End Function
 
     Public Sub New(name As String, delegateType As DelegateType)

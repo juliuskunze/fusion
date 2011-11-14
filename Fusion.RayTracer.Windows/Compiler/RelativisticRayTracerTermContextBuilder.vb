@@ -44,6 +44,9 @@
     Private ReadOnly _Functions As IEnumerable(Of FunctionInstance) =
                          {
                              FunctionInstance.FromLambdaExpression(
+                                 "Peak",
+                                 Function(position As Double, height As Double, width As Double) Peak(position:=position, height:=height, width:=width), _TypeDictionary),
+                             FunctionInstance.FromLambdaExpression(
                                  "Plane",
                                  Function(location As Vector3D, normal As Vector3D) New Plane(location:=location, normal:=normal), _TypeDictionary),
                              FunctionInstance.FromLambdaExpression(
@@ -69,7 +72,7 @@
                                  Function(pictureFunction As Func(Of Double, RayTracerPicture(Of TLight)), framesPerSecond As Double, duration As Double, startTime As Double, timeStep As Double) New RayTracerVideo(Of TLight)(pictureFunction:=pictureFunction, framesPerSecond:=framesPerSecond, duration:=duration, startTime:=startTime, timeStep:=timeStep), _TypeDictionary),
                              FunctionInstance.FromLambdaExpression(
                                  "SingleMaterialSurface",
-                                 Function(surface As ISurface(Of TMaterial), material As TMaterial) DirectCast(New SingleMaterialSurface(Of TMaterial)(surface:=surface, material:=material), ISurface(Of TMaterial)), _TypeDictionary),
+                                 Function(surface As ISurface, material As TMaterial) DirectCast(New SingleMaterialSurface(Of TMaterial)(surface:=surface, material:=material), ISurface(Of TMaterial)), _TypeDictionary),
                              FunctionInstance.FromLambdaExpression(
                                  "BlackbodyRadianceSpectrum",
                                  Function(temperature As Double) New Func(Of Double, Double)(Function(wavelength As Double) New RadianceSpectrum(New BlackBodyRadianceSpectrum(temperature)).Function(wavelength)), _TypeDictionary),
@@ -98,7 +101,7 @@
                                  "LightSources",
                                  Function(lightSources As IEnumerable(Of ILightSource(Of TLight))) DirectCast(New LightSources(Of TLight)(lightSources), ILightSource(Of TLight)), _TypeDictionary)}
 
-    Private ReadOnly _TermContext As TermContext
+        Private ReadOnly _TermContext As TermContext
     Public ReadOnly Property TermContext As TermContext
         Get
             Return _TermContext

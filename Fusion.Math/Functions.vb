@@ -139,4 +139,12 @@
         End If
     End Function
 
+    Public Function Peak(position As Double, height As Double, width As Double) As Func(Of Double, Double)
+        Return Function(x)
+                   If x < position - width / 2 Then Return 0
+                   If x > position + width / 2 Then Return 0
+                   Return height
+               End Function
+    End Function
+
 End Module

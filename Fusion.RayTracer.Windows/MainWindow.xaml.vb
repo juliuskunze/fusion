@@ -97,7 +97,7 @@ Public Class MainWindow
     Private Sub OnCompiled(Of TResult)(ByVal e As CompilerResultEventArgs(Of TResult), ByRef out_result As TResult)
         If e.CompilerResult.WasCompilationSuccessful Then
             out_result = e.CompilerResult.Result
-            _CompileLabel.Content = "Compilation succeded."
+            _CompileLabel.Content = "Compilation succeeded."
             _ErrorTextBox.Text = ""
         Else
             _CompileLabel.Content = "Error:"
@@ -449,7 +449,7 @@ Public Class MainWindow
             Return
         End Try
 
-        Me.LoadDocument(currentFileName:=currentFileName, text:=text)
+        Me.LoadDescription(currentFileName:=currentFileName, text:=text)
 
         Dim mode As CompileMode
         Try
@@ -495,16 +495,18 @@ Public Class MainWindow
             End If
         End Set
     End Property
-    
+
     Private _HasUnsavedChanges As Boolean
-    
+
     Private Sub CreateNewDescription()
         _HasUnsavedChanges = False
-        Me.LoadDocument(currentFileName:="", text:="")
+        Me.LoadDescription(currentFileName:="", text:="")
     End Sub
 
-    Private Sub LoadDocument(currentFileName As String, text As String)
+    Private Sub LoadDescription(currentFileName As String, text As String)
         _CurrentFileName = currentFileName
+        Const titleBase = "Fusion Ray Tracer"
+        Me.Title = If(_CurrentFileName Is Nothing, _CurrentFileName & " - " & titleBase, titleBase)
         _DescriptionTextBox.Document = TextOnlyDocument.GetDocumentFromText(text)
     End Sub
 

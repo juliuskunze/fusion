@@ -235,7 +235,7 @@ Public Module CompilerTools
 
     <Extension()>
     Public Function InBrackets(s As String, bracketType As BracketType) As String
-        Return bracketType.Round.OpeningBracket & s & bracketType.Round.ClosingBracket
+        Return bracketType.OpeningBracket & s & bracketType.ClosingBracket
     End Function
 
     <Extension()>

@@ -65,7 +65,7 @@ Public Class RichCompiler(Of TResult)
     Private Sub AddHandlersIfNeeded()
         If _HandlersAdded Then Return
 
-        AddHandler _AutoCompleteListBox.SelectionChanged, AddressOf _AutoCompleteListBox_SelectionChanged
+        AddHandler _AutoCompleteListBox.SelectionChanged, AddressOf AutoCompleteListBox_SelectionChanged
         AddHandler _AutoCompleteScrollViewer.ScrollChanged, AddressOf AutoCompleteScrollViewer_ScrollChanged
         AddHandler _AutoCompleteListBox.PreviewMouseDown, AddressOf AutoCompleteListBox_PreviewMouseDown
         AddHandler _AutoCompleteListBox.GotFocus, AddressOf AutoCompleteListBox_GotFocus
@@ -78,7 +78,7 @@ Public Class RichCompiler(Of TResult)
     Private Sub RemoveHandlersIfNeeded()
         If Not _HandlersAdded Then Return
 
-        RemoveHandler _AutoCompleteListBox.SelectionChanged, AddressOf _AutoCompleteListBox_SelectionChanged
+        RemoveHandler _AutoCompleteListBox.SelectionChanged, AddressOf AutoCompleteListBox_SelectionChanged
         RemoveHandler _AutoCompleteScrollViewer.ScrollChanged, AddressOf AutoCompleteScrollViewer_ScrollChanged
         RemoveHandler _AutoCompleteListBox.PreviewMouseDown, AddressOf AutoCompleteListBox_PreviewMouseDown
         RemoveHandler _AutoCompleteListBox.GotFocus, AddressOf AutoCompleteListBox_GotFocus
@@ -167,7 +167,7 @@ Public Class RichCompiler(Of TResult)
             richCompilerResult = New RichCompilerResult(Of TResult)(compilerResult.Result)
 
             Me.RemoveUnderline()
-        Catch ex As CompilerExceptionWithIntelliSense
+       Catch ex As CompilerExceptionWithIntelliSense
             Dim locatedEx = TryCast(ex.InnerCompilerException, LocatedCompilerException)
             If locatedEx IsNot Nothing Then
                 Me.UnderlineError(locatedEx.LocatedString, _TextOnlyDocument)
@@ -177,6 +177,17 @@ Public Class RichCompiler(Of TResult)
 
             intelliSense = ex.IntelliSense
             richCompilerResult = New RichCompilerResult(Of TResult)(ex.InnerCompilerException.Message)
+
+        Catch ex As Reflection.TargetInvocationException
+            intelliSense = intelliSense.Empty
+            richCompilerResult = New RichCompilerResult(Of TResult)(ex.InnerException.Message)
+            Me.RemoveUnderline()
+
+        Catch ex As Exception
+            intelliSense = intelliSense.Empty
+            richCompilerResult = New RichCompilerResult(Of TResult)(ex.Message)
+            Me.RemoveUnderline()
+
         Finally
             Me.ShowIntelliSense(intelliSense)
 
@@ -436,8 +447,8 @@ Public Class RichCompiler(Of TResult)
         End If
     End Sub
 
-    Private Sub _AutoCompleteListBox_SelectionChanged(sender As Object, e As System.Windows.Controls.SelectionChangedEventArgs)
+    Private Sub AutoCompleteListBox_SelectionChanged(sender As Object, e As System.Windows.Controls.SelectionChangedEventArgs)
         Me.BringSelectedIntoViewAndReopenTooltip()
     End Sub
-
+    
 End Class
