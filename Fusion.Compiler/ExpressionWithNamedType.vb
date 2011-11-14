@@ -15,7 +15,7 @@
     End Property
 
     Public Sub New(expression As Expression, namedType As NamedType)
-        If Not namedType.IsDelegate AndAlso Not namedType.TypeArguments.Any AndAlso expression.Type IsNot namedType.SystemType Then Throw New CompilerException("Expression type does not match with named type.")
+        If Not namedType.IsDelegate AndAlso Not namedType.TypeArguments.Any AndAlso Not namedType.SystemType.IsAssignableFrom(expression.Type) Then Throw New ArgumentException("Named type is not assignable from expression type.")
         _Expression = expression
         _NamedType = namedType
     End Sub

@@ -15,10 +15,8 @@
         Me.Material2 = material2
         Me.SquaresXVector = squareXVector
         Me.SquaresYVector = squareYVector
-        Me.SquareLength = squareLength
     End Sub
 
-    Public Property SquareLength As Double
 
     Private _NormalizedSquaresXVector As Vector3D
     Public ReadOnly Property NormalizedSquaresXVector As Vector3D
@@ -44,8 +42,8 @@
         End Set
     End Property
 
-    Private Function IsInEvenRow(value As Double) As Boolean
-        Dim rest = value Mod (2 * Me.SquareLength)
+    Private Function IsInEvenRow(value As Double, rowWidth As Double) As Boolean
+        Dim rest = value Mod (2 * rowWidth)
         If rest < 0 Then
             rest += 2
         End If
@@ -67,10 +65,12 @@
     End Function
 
     Private Function Material(surfacePoint As SurfacePoint) As TMaterial
-        Dim xLocation = Me.NormalizedSquaresXVector * surfacePoint.Location
-        Dim yLocation = Me.NormalizedSquaresYVector * surfacePoint.Location
+        Dim xLocation = _NormalizedSquaresXVector.Normalized * surfacePoint.Location
+        Dim yLocation = _NormalizedSquaresYVector.Normalized * surfacePoint.Location
 
-        Dim useMaterial1 As Boolean = IsInEvenRow(xLocation) Xor IsInEvenRow(yLocation)
+        Dim useMaterial1 =
+                IsInEvenRow(xLocation, rowWidth:=_NormalizedSquaresXVector.Length) Xor
+                IsInEvenRow(yLocation, rowWidth:=_NormalizedSquaresYVector.Length)
 
         Dim resultMaterial As TMaterial
         If useMaterial1 Then

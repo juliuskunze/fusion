@@ -24,7 +24,7 @@ Public Class MainWindow
 
     Private ReadOnly _OpenVideoDirectoryDialog As System.Windows.Forms.FolderBrowserDialog
 
-    Private _CurrentFileName As String
+    Private _CurrentFile As IO.FileInfo
 
     Public Sub New(relativisticRayTracerTermContextBuilder As RelativisticRayTracerTermContextBuilder)
         Me.InitializeComponent()
@@ -49,7 +49,7 @@ Public Class MainWindow
         Dim filter = Me.GetFileExtensionFilter(CompileMode.Picture) & "|" & Me.GetFileExtensionFilter(CompileMode.Video)
 
         _SaveDescriptionDialog = New SaveFileDialog With {
-            .FileName = "Ray tracer picture scene description",
+            .Filter = filter,
             .InitialDirectory = _DefaultInitialDirectory}
 
         _OpenDescriptionDialog = New OpenFileDialog With {
@@ -359,30 +359,30 @@ Public Class MainWindow
     End Sub
 
     Private Sub ShowSaveAsDialog()
-        If IO.File.Exists(_CurrentFileName) Then _SaveDescriptionDialog.FileName = _CurrentFileName
-
+        _SaveDescriptionDialog.FileName = If(_CurrentFile Is Nothing, "Ray tracer picture scene description", _CurrentFile.Name)
+        _SaveDescriptionDialog.FilterIndex = Me.GetCurrentFilterIndex()
         _SaveDescriptionDialog.DefaultExt = Me.GetDescriptionFileExtension
 
         If Not _SaveDescriptionDialog.ShowDialog(owner:=Me) Then Return
 
-        Me.Save(_SaveDescriptionDialog.FileName)
+        Me.Save(New IO.FileInfo(_SaveDescriptionDialog.FileName))
     End Sub
 
     Private Sub TrySaveOrSaveAs()
-        If IO.File.Exists(_CurrentFileName) Then
-            Me.Save(_CurrentFileName)
+        If IO.File.Exists(_CurrentFile.FullName) Then
+            Me.Save(_CurrentFile)
         Else
             Me.ShowSaveAsDialog()
         End If
     End Sub
 
-    Private Sub Save(fileName As String)
-        _CurrentFileName = fileName
+    Private Sub Save(targetFile As IO.FileInfo)
+        _CurrentFile = targetFile
 
         Dim description = New TextOnlyDocument(_DescriptionTextBox.Document).Text
 
         Try
-            Using streamWriter = New IO.StreamWriter(fileName)
+            Using streamWriter = New IO.StreamWriter(_CurrentFile.FullName)
                 streamWriter.Write(description)
             End Using
         Catch ex As IO.IOException
@@ -416,7 +416,19 @@ Public Class MainWindow
         End Select
     End Function
 
-    Private Function GetFileExtensionFilter() As String
+    Private Function GetCurrentFilterIndex() As Integer
+        Return GetFilterIndex(Me.Mode)
+    End Function
+
+    Private Shared Function GetFilterIndex(compileMode As CompileMode) As Integer
+        Select Case compileMode
+            Case compileMode.Picture : Return 1
+            Case compileMode.Video : Return 2
+            Case Else : Throw New ArgumentOutOfRangeException
+        End Select
+    End Function
+
+    Private Function GetCurrentFileExtensionFilter() As String
         Return Me.GetFileExtensionFilter(Me.Mode)
     End Function
 
@@ -436,12 +448,12 @@ Public Class MainWindow
     End Sub
 
     Private Sub TryOpenCurrentFile()
-        Dim currentFileName = _OpenDescriptionDialog.FileName
+        Dim currentFile = New IO.FileInfo(_OpenDescriptionDialog.FileName)
 
         Dim text As String
 
         Try
-            Using streamReader = New IO.StreamReader(currentFileName)
+            Using streamReader = New IO.StreamReader(currentFile.FullName)
                 text = streamReader.ReadToEnd()
             End Using
         Catch ex As IO.IOException
@@ -449,11 +461,11 @@ Public Class MainWindow
             Return
         End Try
 
-        Me.LoadDescription(currentFileName:=currentFileName, text:=text)
+        Me.LoadDescription(currentFile:=currentFile, text:=text)
 
         Dim mode As CompileMode
         Try
-            mode = Me.GetMode(fileExtension:=IO.Path.GetExtension(currentFileName))
+            mode = Me.GetMode(fileExtension:=currentFile.Extension)
         Catch ex As ArgumentOutOfRangeException
             mode = CompileMode.Picture
         End Try
@@ -500,13 +512,13 @@ Public Class MainWindow
 
     Private Sub CreateNewDescription()
         _HasUnsavedChanges = False
-        Me.LoadDescription(currentFileName:="", text:="")
+        Me.LoadDescription(currentFile:=Nothing, text:="")
     End Sub
 
-    Private Sub LoadDescription(currentFileName As String, text As String)
-        _CurrentFileName = currentFileName
+    Private Sub LoadDescription(currentFile As IO.FileInfo, text As String)
+        _CurrentFile = currentFile
         Const titleBase = "Fusion Ray Tracer"
-        Me.Title = If(_CurrentFileName Is Nothing, _CurrentFileName & " - " & titleBase, titleBase)
+        Me.Title = If(_CurrentFile Is Nothing, titleBase, _CurrentFile.Name & " - " & titleBase)
         _DescriptionTextBox.Document = TextOnlyDocument.GetDocumentFromText(text)
     End Sub
 
@@ -516,8 +528,8 @@ Public Class MainWindow
 
             Select Case result
                 Case MessageBoxResult.Yes
-                    If _CurrentFileName IsNot Nothing Then
-                        Me.Save(_CurrentFileName)
+                    If _CurrentFile IsNot Nothing Then
+                        Me.Save(_CurrentFile)
                     Else
                         Me.ShowSaveAsDialog()
                     End If

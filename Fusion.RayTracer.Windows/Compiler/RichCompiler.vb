@@ -179,11 +179,13 @@ Public Class RichCompiler(Of TResult)
             richCompilerResult = New RichCompilerResult(Of TResult)(ex.InnerCompilerException.Message)
 
         Catch ex As Reflection.TargetInvocationException
+
             intelliSense = intelliSense.Empty
             richCompilerResult = New RichCompilerResult(Of TResult)(ex.InnerException.Message)
             Me.RemoveUnderline()
 
         Catch ex As Exception
+
             intelliSense = intelliSense.Empty
             richCompilerResult = New RichCompilerResult(Of TResult)(ex.Message)
             Me.RemoveUnderline()
@@ -222,16 +224,19 @@ Public Class RichCompiler(Of TResult)
 
         Me.ReopenAutoCompletePopup()
 
-        _AutoCompleteListBox.SelectedIndex = 0
+        Dim selectedIndex = 0
 
         For i = 0 To intelliSenseItems.Count - 1
             Dim intelliSenseItem = intelliSenseItems(i)
             If intelliSenseItem.Name.StartsWith(_Compiler.CurrentIdentifierIfDefined.ToString, StringComparison.InvariantCultureIgnoreCase) Then
-                _AutoCompleteListBox.SelectedIndex = i
+                selectedIndex = i
 
                 Exit For
             End If
         Next
+
+        _AutoCompleteListBox.SelectedIndex = selectedIndex
+
     End Sub
 
     Private Sub UnderlineError(locatedString As LocatedString, textOnlyDocument As TextOnlyDocument)
