@@ -228,6 +228,7 @@
         End If
 
         Dim functionInstance = _Context.ParseFunction(functionCall)
+        Me.CheckTypeMatch(functionInstance.Signature.DelegateType.ResultType)
 
         Dim parameters = functionInstance.Signature.DelegateType.Parameters
 

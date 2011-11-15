@@ -56,7 +56,7 @@
                                 </Grid.ColumnDefinitions>
                             </Grid>
                         </StackPanel>
-                        <RichTextBox FontFamily="Consolas" Grid.Row="1" Margin="0" AcceptsReturn="True" Name="_DescriptionTextBox" Background="#FFFFFF">
+                        <RichTextBox FontFamily="Consolas" Grid.Row="1" Margin="0" AcceptsReturn="True" Name="_DescriptionBox" Background="#FFFFFF">
                             <RichTextBox.Resources>
                                 <Style TargetType="{x:Type Paragraph}">
                                     <Setter Property="Margin" Value="0"/>
@@ -64,10 +64,10 @@
                             </RichTextBox.Resources>
                             <FlowDocument PageWidth="10000"></FlowDocument>
                         </RichTextBox>
-                        <Popup Name="_AutoCompletePopup" AllowsTransparency="True" Placement="Bottom" IsOpen="False">
+                        <Popup Name="_HelpPopup" AllowsTransparency="True" Placement="Bottom" IsOpen="False">
                             <Border BorderThickness="1" BorderBrush="Gray">
-                                <ScrollViewer Margin="0" Name="_AutoCompleteScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" MaxHeight="100">
-                                    <ListBox ItemContainerStyle="{DynamicResource ContainerStyle}" BorderThickness="0" Margin="0" Name="_AutoCompleteListBox" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" KeyboardNavigation.DirectionalNavigation="Contained">
+                                <ScrollViewer Margin="0" Name="_HelpScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" MaxHeight="100">
+                                    <ListBox ItemContainerStyle="{DynamicResource ContainerStyle}" BorderThickness="0" Margin="0" Name="_HelpListBox" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" KeyboardNavigation.DirectionalNavigation="Contained">
                                         <ListBox.Resources>
                                             <DataTemplate x:Key="ItemTemplate">
                                                 <StackPanel Orientation="Horizontal">

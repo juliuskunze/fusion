@@ -86,11 +86,13 @@
       <DependentUpon>ColorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ColorExtensions.vb" />
+    <Compile Include="CompilerMode.vb" />
     <Compile Include="CompilerResultEventArgs.vb" />
     <Compile Include="Compiler\RichCompilerResult.vb" />
     <Compile Include="Compiler\TextOnlyDocument.vb" />
     <Compile Include="Compiler\RelativisticRayTracerTermContextBuilder.vb" />
     <Compile Include="Compiler\RichCompiler.vb" />
+    <Compile Include="PictureOrVideoCompiler.vb" />
     <Compile Include="SimpleBitmap.vb" />
     <Compile Include="VideoRenderer.vb" />
     <Compile Include="WindowExtensions.vb" />

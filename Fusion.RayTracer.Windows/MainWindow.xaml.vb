@@ -1,21 +1,19 @@
-﻿Imports System.Windows.Controls.Primitives
+﻿Imports System.IO
 
 Public Class MainWindow
 
     Private ReadOnly _SaveDescriptionDialog As SaveFileDialog
     Private ReadOnly _OpenDescriptionDialog As OpenFileDialog
 
-    Private WithEvents _PictureCompiler As RichCompiler(Of RayTracerPicture(Of RadianceSpectrum))
-    Private WithEvents _Picture As RayTracerPicture(Of RadianceSpectrum)
-    Private _ResultBitmap As System.Drawing.Bitmap
+    Private WithEvents _Compiler As PictureOrVideoCompiler
 
-    Private WithEvents _VideoCompiler As RichCompiler(Of RayTracerVideo(Of RadianceSpectrum))
+    Private WithEvents _Picture As RayTracerPicture(Of RadianceSpectrum)
     Private WithEvents _Video As RayTracerVideo(Of RadianceSpectrum)
+
+    Private _ResultBitmap As System.Drawing.Bitmap
 
     Private _RenderStopwatch As Stopwatch
     Private WithEvents _RenderBackgroundWorker As ComponentModel.BackgroundWorker
-
-    Private ReadOnly _RelativisticRayTracerTermContextBuilder As RelativisticRayTracerTermContextBuilder
 
     Private ReadOnly _DefaultInitialDirectory As String
 
@@ -29,7 +27,6 @@ Public Class MainWindow
     Public Sub New(relativisticRayTracerTermContextBuilder As RelativisticRayTracerTermContextBuilder)
         Me.InitializeComponent()
 
-        _RelativisticRayTracerTermContextBuilder = relativisticRayTracerTermContextBuilder
         _DefaultInitialDirectory = My.Computer.FileSystem.SpecialDirectories.Desktop
 
         _RenderBackgroundWorker = New ComponentModel.BackgroundWorker With {.WorkerReportsProgress = True, .WorkerSupportsCancellation = True}
@@ -46,34 +43,30 @@ Public Class MainWindow
             .FileName = "Ray tracer video",
             .InitialDirectory = _DefaultInitialDirectory}
 
-        Dim filter = Me.GetFileExtensionFilter(CompileMode.Picture) & "|" & Me.GetFileExtensionFilter(CompileMode.Video)
+        Dim saveFilter = Me.GetFileExtensionFilter(CompileMode.Picture) & "|" & Me.GetFileExtensionFilter(CompileMode.Video)
+        Dim openFilter = "All Files|*.*|" & saveFilter
 
         _SaveDescriptionDialog = New SaveFileDialog With {
-            .Filter = filter,
+            .Filter = saveFilter,
             .InitialDirectory = _DefaultInitialDirectory}
 
         _OpenDescriptionDialog = New OpenFileDialog With {
-            .Filter = filter,
+            .Filter = openFilter,
             .InitialDirectory = _DefaultInitialDirectory}
 
         _OpenVideoDirectoryDialog = New System.Windows.Forms.FolderBrowserDialog With {.SelectedPath = _DefaultInitialDirectory}
 
         Me.CreateNewDescription()
 
-        _PictureCompiler = Me.GetCompiler(Of RayTracerPicture(Of RadianceSpectrum))()
-        _VideoCompiler = Me.GetCompiler(Of RayTracerVideo(Of RadianceSpectrum))()
+        _Compiler = New PictureOrVideoCompiler(descriptionBox:=_DescriptionBox,
+                                               helpPopup:=_HelpPopup,
+                                               helpListBox:=_HelpListBox,
+                                               helpScrollViewer:=_HelpScrollViewer,
+                                               relativisticRayTracerTermContextBuilder:=relativisticRayTracerTermContextBuilder,
+                                               compilePictureMenuItem:=_CompilePictureMenuItem,
+                                               compileVideoMenuItem:=_CompileVideoMenuItem)
 
-        Me.Mode = CompileMode.Picture
     End Sub
-
-    Private Function GetCompiler(Of TResult)() As RichCompiler(Of TResult)
-        Return New RichCompiler(Of TResult)(RichTextBox:=_DescriptionTextBox,
-                                            autoCompletePopup:=_AutoCompletePopup,
-                                            autoCompleteListBox:=_AutoCompleteListBox,
-                                            autoCompleteScrollViewer:=_AutoCompleteScrollViewer,
-                                            baseContext:=_RelativisticRayTracerTermContextBuilder.TermContext,
-                                            TypeNamedTypeDictionary:=_RelativisticRayTracerTermContextBuilder.TypeDictionary)
-    End Function
 
     Private Sub RenderButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _RenderButton.Click
         _RenderButton.Visibility = Visibility.Collapsed
@@ -86,11 +79,11 @@ Public Class MainWindow
         _RenderBackgroundWorker.RunWorkerAsync(_Picture)
     End Sub
 
-    Private Sub Compiler_Compiled(sender As Object, e As CompilerResultEventArgs(Of RayTracerPicture(Of RadianceSpectrum))) Handles _PictureCompiler.Compiled
+    Private Sub Compiler_Compiled(e As CompilerResultEventArgs(Of RayTracerPicture(Of RadianceSpectrum))) Handles _Compiler.PictureCompiled
         OnCompiled(e, out_result:=_Picture)
     End Sub
 
-    Private Sub Compiler_Compiled(sender As Object, e As CompilerResultEventArgs(Of RayTracerVideo(Of RadianceSpectrum))) Handles _VideoCompiler.Compiled
+    Private Sub Compiler_Compiled(e As CompilerResultEventArgs(Of RayTracerVideo(Of RadianceSpectrum))) Handles _Compiler.VideoCompiled
         OnCompiled(e, out_result:=_Video)
     End Sub
 
@@ -235,15 +228,7 @@ Public Class MainWindow
     End Sub
 
     Private Sub MainWindow_Deactivated(sender As Object, e As EventArgs) Handles Me.Deactivated
-        Me.Unfocus()
-    End Sub
-
-    Private Sub Unfocus()
-        If Me.Mode = CompileMode.Picture Then
-            _PictureCompiler.Unfocus()
-        Else
-            _VideoCompiler.Unfocus()
-        End If
+        _Compiler.Unfocus()
     End Sub
 
     Private Sub MainWindow_KeyDown(sender As Object, e As System.Windows.Input.KeyEventArgs) Handles Me.KeyDown
@@ -266,24 +251,15 @@ Public Class MainWindow
         Else
             Select Case e.Key
                 Case Key.F5
-                    Me.Compile()
+                    _Compiler.Compile()
 
                     e.Handled = True
                 Case Key.F4
-                    Me.AutoCompile = Not Me.AutoCompile
+                    _Compiler.AutoCompile = Not _Compiler.AutoCompile
 
                     e.Handled = True
             End Select
         End If
-    End Sub
-
-    Private Sub Compile()
-        Select Case Me.Mode
-            Case CompileMode.Picture
-                _PictureCompiler.Compile()
-            Case CompileMode.Video
-                _VideoCompiler.Compile()
-        End Select
     End Sub
 
     Private Property RenderingTabItemsVisible As Boolean
@@ -301,46 +277,16 @@ Public Class MainWindow
 
     Private Property IsSceneDescriptionChangeable As Boolean
         Get
-            Return _DescriptionTextBox.IsEnabled
+            Return _DescriptionBox.IsEnabled
         End Get
         Set(value As Boolean)
-            _DescriptionTextBox.IsEnabled = value
+            _DescriptionBox.IsEnabled = value
         End Set
     End Property
 
     Private Sub CompileMenuItem_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles _CompileMenuItem.Click
-        Me.Compile()
+        _Compiler.Compile()
     End Sub
-
-    Private Enum CompileMode
-        Picture
-        Video
-    End Enum
-
-    Private Property Mode As CompileMode
-        Get
-            Return If(_CompilePictureMenuItem.IsChecked, CompileMode.Picture, CompileMode.Video)
-        End Get
-        Set(value As CompileMode)
-            Dim changed = Not (
-            (value = CompileMode.Picture AndAlso _CompilePictureMenuItem.IsChecked) OrElse
-            (value = CompileMode.Video AndAlso _CompileVideoMenuItem.IsChecked))
-
-            _CompilePictureMenuItem.IsChecked = (value = CompileMode.Picture)
-            _CompileVideoMenuItem.IsChecked = (value = CompileMode.Video)
-
-            Select Case value
-                Case CompileMode.Picture
-                    _VideoCompiler.Deactivate()
-                    _PictureCompiler.Activate()
-                    _PictureCompiler.Compile()
-                Case CompileMode.Video
-                    _PictureCompiler.Deactivate()
-                    _VideoCompiler.Activate()
-                    _VideoCompiler.Compile()
-            End Select
-        End Set
-    End Property
 
     Private Sub NewMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _NewMenuItem.Click
         Me.TryCloseCurrentDescription()
@@ -379,7 +325,7 @@ Public Class MainWindow
     Private Sub Save(targetFile As IO.FileInfo)
         _CurrentFile = targetFile
 
-        Dim description = New TextOnlyDocument(_DescriptionTextBox.Document).Text
+        Dim description = New TextOnlyDocument(_DescriptionBox.Document).Text
 
         Try
             Using streamWriter = New IO.StreamWriter(_CurrentFile.FullName)
@@ -405,7 +351,7 @@ Public Class MainWindow
     End Function
 
     Private Function GetDescriptionFileExtension() As String
-        Return Me.GetDescriptionFileExtension(Me.Mode)
+        Return Me.GetDescriptionFileExtension(_Compiler.Mode)
     End Function
 
     Private Function GetMode(fileExtension As String) As CompileMode
@@ -417,7 +363,7 @@ Public Class MainWindow
     End Function
 
     Private Function GetCurrentFilterIndex() As Integer
-        Return GetFilterIndex(Me.Mode)
+        Return GetFilterIndex(_Compiler.Mode)
     End Function
 
     Private Shared Function GetFilterIndex(compileMode As CompileMode) As Integer
@@ -429,31 +375,39 @@ Public Class MainWindow
     End Function
 
     Private Function GetCurrentFileExtensionFilter() As String
-        Return Me.GetFileExtensionFilter(Me.Mode)
+        Return Me.GetFileExtensionFilter(_Compiler.Mode)
     End Function
 
     Private Function GetFileExtensionFilter(mode As CompileMode) As String
         Select Case mode
-            Case CompileMode.Picture : Return "Ray tracer picture scene description|*.pic"
-            Case CompileMode.Video : Return "Ray tracer video scene description|*.vid"
+            Case CompileMode.Picture : Return "Ray tracer picture scene description (*.pic)|*.pic"
+            Case CompileMode.Video : Return "Ray tracer video scene description (*.vid)|*.vid"
             Case Else : Throw New ArgumentOutOfRangeException
         End Select
     End Function
 
     Private Sub ShowOpenDescriptionDialog()
         If _OpenDescriptionDialog.ShowDialog(owner:=Me) Then
-            Me.TryCloseCurrentDescription()
-            Me.TryOpenCurrentFile()
+            If Me.TryCloseCurrentDescription() Then
+                Me.TryOpenFile(f:=New FileInfo(_OpenDescriptionDialog.FileName))
+            End If
         End If
     End Sub
 
-    Private Sub TryOpenCurrentFile()
-        Dim currentFile = New IO.FileInfo(_OpenDescriptionDialog.FileName)
-
+    Private Sub TryOpenFile(f As FileInfo)
         Dim text As String
 
+        Dim mode As CompileMode
         Try
-            Using streamReader = New IO.StreamReader(currentFile.FullName)
+            mode = Me.GetMode(fileExtension:=f.Extension)
+        Catch ex As ArgumentOutOfRangeException
+            mode = CompileMode.Picture
+        End Try
+
+        _Compiler.Mode = mode
+
+        Try
+            Using streamReader = New IO.StreamReader(f.FullName)
                 text = streamReader.ReadToEnd()
             End Using
         Catch ex As IO.IOException
@@ -461,106 +415,78 @@ Public Class MainWindow
             Return
         End Try
 
-        Me.LoadDescription(currentFile:=currentFile, text:=text)
-
-        Dim mode As CompileMode
-        Try
-            mode = Me.GetMode(fileExtension:=currentFile.Extension)
-        Catch ex As ArgumentOutOfRangeException
-            mode = CompileMode.Picture
-        End Try
-
-        Me.Mode = mode
+        Me.LoadDescription(f:=f, text:=text)
 
         _HasUnsavedChanges = False
-    End Sub
-
-    Private Sub CompilePictureMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _CompilePictureMenuItem.Click
-        Me.Mode = CompileMode.Picture
-
-        e.Handled = True
-    End Sub
-
-    Private Sub CompileVideoMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _CompileVideoMenuItem.Click
-        Me.Mode = CompileMode.Video
-
-        e.Handled = True
     End Sub
 
     Private Sub AutoCompileMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _AutoCompileMenuItem.Click
         Me.AutoCompile = _AutoCompileMenuItem.IsChecked
     End Sub
 
-    Private Property AutoCompile As Boolean
-        Get
-            Return _AutoCompileMenuItem.IsChecked
-        End Get
-        Set(value As Boolean)
-            _CompileMenuItem.IsEnabled = Not value
-            _ErrorTextBox.IsEnabled = value
-            _AutoCompileMenuItem.IsChecked = value
-
-            If Me.Mode = CompileMode.Picture Then
-                _PictureCompiler.AutoCompile = value
-            Else
-                _VideoCompiler.AutoCompile = value
-            End If
-        End Set
-    End Property
-
     Private _HasUnsavedChanges As Boolean
 
     Private Sub CreateNewDescription()
         _HasUnsavedChanges = False
-        Me.LoadDescription(currentFile:=Nothing, text:="")
+        Me.LoadDescription(f:=Nothing, text:="")
     End Sub
 
-    Private Sub LoadDescription(currentFile As IO.FileInfo, text As String)
-        _CurrentFile = currentFile
+    Private Sub LoadDescription(f As IO.FileInfo, text As String)
+        _CurrentFile = f
         Const titleBase = "Fusion Ray Tracer"
         Me.Title = If(_CurrentFile Is Nothing, titleBase, _CurrentFile.Name & " - " & titleBase)
-        _DescriptionTextBox.Document = TextOnlyDocument.GetDocumentFromText(text)
+        _DescriptionBox.Document = TextOnlyDocument.GetDocumentFromText(text)
     End Sub
 
-    Private Sub TryCloseCurrentDescription()
-        If _HasUnsavedChanges Then
-            Dim result = MessageBox.Show("Do you want to save the current description?", "Save?", MessageBoxButton.YesNoCancel)
-
-            Select Case result
-                Case MessageBoxResult.Yes
-                    If _CurrentFile IsNot Nothing Then
-                        Me.Save(_CurrentFile)
-                    Else
-                        Me.ShowSaveAsDialog()
-                    End If
-                    Me.CreateNewDescription()
-
-                Case MessageBoxResult.No
-                    Me.CreateNewDescription()
-                Case MessageBoxResult.Cancel
-                Case Else
-                    Throw New ArgumentOutOfRangeException("result")
-            End Select
-        Else
+    Private Function TryCloseCurrentDescription() As Boolean
+        If Not _HasUnsavedChanges Then
             Me.CreateNewDescription()
+            Return True
         End If
 
-    End Sub
+        Dim result = MessageBox.Show("Do you want to save the current description?", "Save?", MessageBoxButton.YesNoCancel)
 
-    Private Sub SceneDescriptionTextBox_TextChanged(sender As Object, e As System.Windows.Controls.TextChangedEventArgs) Handles _DescriptionTextBox.TextChanged
-        If Not Me.IsLoaded OrElse Me.ApplyingTextDecorations Then Return
+        Select Case result
+            Case MessageBoxResult.Yes
+                If _CurrentFile IsNot Nothing Then
+                    Me.Save(_CurrentFile)
+                Else
+                    Me.ShowSaveAsDialog()
+                End If
+                Me.CreateNewDescription()
+                Return True
+
+            Case MessageBoxResult.No
+                Me.CreateNewDescription()
+                Return True
+
+            Case MessageBoxResult.Cancel
+                Return False
+
+            Case Else
+                Throw New ArgumentOutOfRangeException("result")
+        End Select
+    End Function
+
+    Private Sub SceneDescriptionTextBox_TextChanged(sender As Object, e As System.Windows.Controls.TextChangedEventArgs) Handles _DescriptionBox.TextChanged
+        If Not Me.IsLoaded OrElse _Compiler.ApplyingTextDecorations Then Return
 
         _HasUnsavedChanges = True
     End Sub
 
-    Private ReadOnly Property ApplyingTextDecorations As Boolean
+    Private Property AutoCompile As Boolean
         Get
-            If Me.Mode = CompileMode.Picture Then
-                Return _PictureCompiler.ApplyingTextDecorations
-            Else
-                Return _VideoCompiler.ApplyingTextDecorations
-            End If
+            Return _Compiler.AutoCompile
         End Get
+        Set(value As Boolean)
+            _Compiler.AutoCompile = value
+            _CompileMenuItem.IsEnabled = Not value
+            _ErrorTextBox.IsEnabled = value
+            _AutoCompileMenuItem.IsChecked = value
+        End Set
     End Property
+
+
+            
 
 End Class

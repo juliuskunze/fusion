@@ -3,9 +3,9 @@
 Public Class RichCompiler(Of TResult)
 
     Private WithEvents _RichTextBox As RichTextBox
-    Private WithEvents _AutoCompletePopup As Popup
-    Private WithEvents _AutoCompleteListBox As ListBox
-    Private WithEvents _AutoCompleteScrollViewer As ScrollViewer
+    Private WithEvents _HelpPopup As Popup
+    Private WithEvents _HelpListBox As ListBox
+    Private WithEvents _HelpScrollViewer As ScrollViewer
     Private _CurrentToolTip As ToolTip
 
     Private _ApplyingTextDecorations As Boolean
@@ -36,19 +36,19 @@ Public Class RichCompiler(Of TResult)
     End Property
 
     Public Sub New(richTextBox As RichTextBox,
-                   autoCompletePopup As Popup,
-                   autoCompleteListBox As ListBox,
-                   autoCompleteScrollViewer As ScrollViewer,
+                   helpPopup As Popup,
+                   helpListBox As ListBox,
+                   helpScrollViewer As ScrollViewer,
                    baseContext As TermContext,
                    typeNamedTypeDictionary As TypeNamedTypeDictionary,
                    Optional autoCompile As Boolean = True)
         _RichTextBox = richTextBox
-        _AutoCompletePopup = autoCompletePopup
-        _AutoCompleteListBox = autoCompleteListBox
-        _AutoCompleteScrollViewer = autoCompleteScrollViewer
+        _HelpPopup = helpPopup
+        _HelpListBox = helpListBox
+        _HelpScrollViewer = helpScrollViewer
         _AutoCompile = autoCompile
 
-        _AutoCompletePopup.PlacementTarget = _RichTextBox
+        _HelpPopup.PlacementTarget = _RichTextBox
         _RichTextBox.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
         _RichTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Visible
 
@@ -65,10 +65,10 @@ Public Class RichCompiler(Of TResult)
     Private Sub AddHandlersIfNeeded()
         If _HandlersAdded Then Return
 
-        AddHandler _AutoCompleteListBox.SelectionChanged, AddressOf AutoCompleteListBox_SelectionChanged
-        AddHandler _AutoCompleteScrollViewer.ScrollChanged, AddressOf AutoCompleteScrollViewer_ScrollChanged
-        AddHandler _AutoCompleteListBox.PreviewMouseDown, AddressOf AutoCompleteListBox_PreviewMouseDown
-        AddHandler _AutoCompleteListBox.GotFocus, AddressOf AutoCompleteListBox_GotFocus
+        AddHandler _HelpListBox.SelectionChanged, AddressOf AutoCompleteListBox_SelectionChanged
+        AddHandler _HelpScrollViewer.ScrollChanged, AddressOf AutoCompleteScrollViewer_ScrollChanged
+        AddHandler _HelpListBox.PreviewMouseDown, AddressOf AutoCompleteListBox_PreviewMouseDown
+        AddHandler _HelpListBox.GotFocus, AddressOf AutoCompleteListBox_GotFocus
         AddHandler _RichTextBox.TextChanged, AddressOf RichTextBox_TextChanged
         AddHandler _RichTextBox.PreviewKeyDown, AddressOf RichTextBox_PreviewKeyDown
 
@@ -78,10 +78,10 @@ Public Class RichCompiler(Of TResult)
     Private Sub RemoveHandlersIfNeeded()
         If Not _HandlersAdded Then Return
 
-        RemoveHandler _AutoCompleteListBox.SelectionChanged, AddressOf AutoCompleteListBox_SelectionChanged
-        RemoveHandler _AutoCompleteScrollViewer.ScrollChanged, AddressOf AutoCompleteScrollViewer_ScrollChanged
-        RemoveHandler _AutoCompleteListBox.PreviewMouseDown, AddressOf AutoCompleteListBox_PreviewMouseDown
-        RemoveHandler _AutoCompleteListBox.GotFocus, AddressOf AutoCompleteListBox_GotFocus
+        RemoveHandler _HelpListBox.SelectionChanged, AddressOf AutoCompleteListBox_SelectionChanged
+        RemoveHandler _HelpScrollViewer.ScrollChanged, AddressOf AutoCompleteScrollViewer_ScrollChanged
+        RemoveHandler _HelpListBox.PreviewMouseDown, AddressOf AutoCompleteListBox_PreviewMouseDown
+        RemoveHandler _HelpListBox.GotFocus, AddressOf AutoCompleteListBox_GotFocus
         RemoveHandler _RichTextBox.TextChanged, AddressOf RichTextBox_TextChanged
         RemoveHandler _RichTextBox.PreviewKeyDown, AddressOf RichTextBox_PreviewKeyDown
 
@@ -167,7 +167,7 @@ Public Class RichCompiler(Of TResult)
             richCompilerResult = New RichCompilerResult(Of TResult)(compilerResult.Result)
 
             Me.RemoveUnderline()
-       Catch ex As CompilerExceptionWithIntelliSense
+        Catch ex As CompilerExceptionWithIntelliSense
             Dim locatedEx = TryCast(ex.InnerCompilerException, LocatedCompilerException)
             If locatedEx IsNot Nothing Then
                 Me.UnderlineError(locatedEx.LocatedString, _TextOnlyDocument)
@@ -178,17 +178,17 @@ Public Class RichCompiler(Of TResult)
             intelliSense = ex.IntelliSense
             richCompilerResult = New RichCompilerResult(Of TResult)(ex.InnerCompilerException.Message)
 
-        Catch ex As Reflection.TargetInvocationException
+            'Catch ex As Reflection.TargetInvocationException
 
-            intelliSense = intelliSense.Empty
-            richCompilerResult = New RichCompilerResult(Of TResult)(ex.InnerException.Message)
-            Me.RemoveUnderline()
+            '    intelliSense = intelliSense.Empty
+            '    richCompilerResult = New RichCompilerResult(Of TResult)(ex.InnerException.Message)
+            '    Me.RemoveUnderline()
 
-        Catch ex As Exception
+            'Catch ex As Exception
 
-            intelliSense = intelliSense.Empty
-            richCompilerResult = New RichCompilerResult(Of TResult)(ex.Message)
-            Me.RemoveUnderline()
+            '    intelliSense = intelliSense.Empty
+            '    richCompilerResult = New RichCompilerResult(Of TResult)(ex.Message)
+            '    Me.RemoveUnderline()
 
         Finally
             Me.ShowIntelliSense(intelliSense)
@@ -209,15 +209,15 @@ Public Class RichCompiler(Of TResult)
 
         Dim currentIdentifierStartCharRectangle = _TextOnlyDocument.GetTextPointer(_Compiler.CurrentIdentifierIfDefined.Location.StartIndex).GetCharacterRect(LogicalDirection.Forward)
 
-        _AutoCompletePopup.VerticalOffset = -(_RichTextBox.ActualHeight - currentIdentifierStartCharRectangle.Bottom)
-        _AutoCompletePopup.HorizontalOffset = currentIdentifierStartCharRectangle.Left
+        _HelpPopup.VerticalOffset = -(_RichTextBox.ActualHeight - currentIdentifierStartCharRectangle.Bottom)
+        _HelpPopup.HorizontalOffset = currentIdentifierStartCharRectangle.Left
 
         Dim intelliSenseItems = intelliSense.GetItems
         Dim listBoxItems = intelliSenseItems.Select(Function(intelliSenseItem) intelliSenseItem.ToListBoxItem)
 
-        _AutoCompleteListBox.ItemsSource = listBoxItems
+        _HelpListBox.ItemsSource = listBoxItems
 
-        If Not _AutoCompleteListBox.HasItems Then
+        If Not _HelpListBox.HasItems Then
             Me.CloseAutoCompletePopup()
             Return
         End If
@@ -235,7 +235,7 @@ Public Class RichCompiler(Of TResult)
             End If
         Next
 
-        _AutoCompleteListBox.SelectedIndex = selectedIndex
+        _HelpListBox.SelectedIndex = selectedIndex
 
     End Sub
 
@@ -319,14 +319,14 @@ Public Class RichCompiler(Of TResult)
     Public Event Compiled(sender As Object, e As CompilerResultEventArgs(Of TResult))
 
     Private Sub RichTextBox_PreviewKeyDown(sender As Object, e As KeyEventArgs)
-        If _AutoCompletePopup.IsOpen Then
+        If _HelpPopup.IsOpen Then
             Select Case e.Key
                 Case Key.Down
-                    If _AutoCompleteListBox.SelectedIndex < _AutoCompleteListBox.Items.Count - 1 Then _AutoCompleteListBox.SelectedIndex += 1
+                    If _HelpListBox.SelectedIndex < _HelpListBox.Items.Count - 1 Then _HelpListBox.SelectedIndex += 1
 
                     e.Handled = True
                 Case Key.Up
-                    If _AutoCompleteListBox.SelectedIndex > 0 Then _AutoCompleteListBox.SelectedIndex -= 1
+                    If _HelpListBox.SelectedIndex > 0 Then _HelpListBox.SelectedIndex -= 1
 
                     e.Handled = True
                 Case Key.Escape
@@ -372,7 +372,7 @@ Public Class RichCompiler(Of TResult)
     Private Sub CloseAutoCompletePopupAndUpdateSource()
         Me.CloseAutoCompletePopup()
 
-        Me.AutoCompleteText(CStr(DirectCast(_AutoCompleteListBox.SelectedItem, ListBoxItem).Content))
+        Me.AutoCompleteText(CStr(DirectCast(_HelpListBox.SelectedItem, ListBoxItem).Content))
     End Sub
 
     Private Sub AutoCompleteText(text As String)
@@ -394,13 +394,13 @@ Public Class RichCompiler(Of TResult)
 
     Private Sub ReopenAutoCompletePopup()
         Me.CloseAutoCompletePopup()
-        _AutoCompletePopup.IsOpen = True
+        _HelpPopup.IsOpen = True
     End Sub
 
     Private Sub CloseAutoCompletePopup()
         Me.CloseCurrentToolTipIfNotNull()
 
-        _AutoCompletePopup.IsOpen = False
+        _HelpPopup.IsOpen = False
     End Sub
 
     Private Sub CloseCurrentToolTipIfNotNull()
@@ -424,10 +424,10 @@ Public Class RichCompiler(Of TResult)
     Private Sub BringSelectedIntoViewAndReopenTooltip()
         Me.CloseCurrentToolTipIfNotNull()
 
-        Dim selectedItem = DirectCast(_AutoCompleteListBox.SelectedItem, ListBoxItem)
+        Dim selectedItem = DirectCast(_HelpListBox.SelectedItem, ListBoxItem)
         If selectedItem Is Nothing Then Return
 
-        _AutoCompleteListBox.ScrollIntoView(selectedItem)
+        _HelpListBox.ScrollIntoView(selectedItem)
 
         _CurrentToolTip = DirectCast(selectedItem.ToolTip, ToolTip)
 
@@ -437,7 +437,7 @@ Public Class RichCompiler(Of TResult)
     End Sub
 
     Private Sub OpenCurrentToolTip()
-        _CurrentToolTip.HorizontalOffset = If(_AutoCompleteScrollViewer.ComputedVerticalScrollBarVisibility = Visibility.Visible, 22, 5)
+        _CurrentToolTip.HorizontalOffset = If(_HelpScrollViewer.ComputedVerticalScrollBarVisibility = Visibility.Visible, 22, 5)
 
         _CurrentToolTip.IsOpen = True
     End Sub
