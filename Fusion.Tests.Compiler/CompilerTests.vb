@@ -35,7 +35,7 @@
         End Try
     End Sub
 
-    Public Sub TestCollectionTypeMismatch(s As String)
+    Private Sub TestCollectionTypeMismatch(s As String)
         Dim compiler = New Compiler(Of Double)(s.ToLocated, baseContext:=TermContext.Default, TypeNamedTypeDictionary:=TypeNamedTypeDictionary.Default)
         Try
             compiler.Compile()
@@ -57,6 +57,17 @@
         Dim compiler = New Compiler(Of IEnumerable(Of Double))("return {}".ToLocated, baseContext:=TermContext.Default, TypeNamedTypeDictionary:=TypeNamedTypeDictionary.Default)
 
         Assert.AreEqual(compiler.Compile.Result, New Double() {})
+    End Sub
+
+    <Test()>
+    Public Sub Test_MatchingFunctionGroup()
+        Dim sinusFunction2 = FunctionInstance.FromLambdaExpression("Sin", Function(a As Double, b As Double) a + b, TypeNamedTypeDictionary.Default)
+        Dim compiler = New Compiler(Of Double)(baseContext:=TermContext.Default.Merge(New TermContext(Functions:={sinusFunction2})), TypeNamedTypeDictionary:=TypeNamedTypeDictionary.Default)
+
+        compiler.Update("return Sin(1,2)".ToLocated)
+        Dim result = compiler.Compile.Result
+
+        Assert.AreEqual(3, result)
     End Sub
 
 End Class

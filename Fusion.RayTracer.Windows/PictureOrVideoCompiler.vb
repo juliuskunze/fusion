@@ -2,9 +2,6 @@
 
 Public Class PictureOrVideoCompiler
 
-    Private WithEvents _CompilePictureMenuItem As MenuItem
-    Private WithEvents _CompileVideoMenuItem As MenuItem
-
     Private WithEvents _PictureCompiler As RichCompiler(Of RayTracerPicture(Of RadianceSpectrum))
     Private WithEvents _VideoCompiler As RichCompiler(Of RayTracerVideo(Of RadianceSpectrum))
 
@@ -18,45 +15,32 @@ Public Class PictureOrVideoCompiler
                    helpPopup As Popup,
                    helpListBox As ListBox,
                    helpScrollViewer As ScrollViewer,
-                   relativisticRayTracerTermContextBuilder As RelativisticRayTracerTermContextBuilder,
-                   compilePictureMenuItem As MenuItem,
-                   compileVideoMenuItem As MenuItem)
+                   relativisticRayTracerTermContextBuilder As RelativisticRayTracerTermContextBuilder)
         _DescriptionBox = descriptionBox
         _HelpPopup = helpPopup
         _HelpListBox = helpListBox
         _HelpScrollViewer = helpScrollViewer
         _RelativisticRayTracerTermContextBuilder = relativisticRayTracerTermContextBuilder
-        _CompilePictureMenuItem = compilePictureMenuItem
-        _CompileVideoMenuItem = compileVideoMenuItem
 
         _PictureCompiler = Me.GetCompiler(Of RayTracerPicture(Of RadianceSpectrum))()
         _VideoCompiler = Me.GetCompiler(Of RayTracerVideo(Of RadianceSpectrum))()
-        Me.Mode = CompileMode.Picture
     End Sub
 
-
-
+    Private _Mode As CompileMode
     Public Property Mode As CompileMode
         Get
-            Return If(_CompilePictureMenuItem.IsChecked, CompileMode.Picture, CompileMode.Video)
+            Return _Mode
         End Get
         Set(value As CompileMode)
-            Dim changed = Not (
-            (value = CompileMode.Picture AndAlso _CompilePictureMenuItem.IsChecked) OrElse
-            (value = CompileMode.Video AndAlso _CompileVideoMenuItem.IsChecked))
-
-            _CompilePictureMenuItem.IsChecked = (value = CompileMode.Picture)
-            _CompileVideoMenuItem.IsChecked = (value = CompileMode.Video)
+            _Mode = value
 
             Select Case value
                 Case CompileMode.Picture
                     _VideoCompiler.Deactivate()
-                    _PictureCompiler.Activate()
-                    _PictureCompiler.Compile()
+                    _PictureCompiler.ActivateAndCompile()
                 Case CompileMode.Video
                     _PictureCompiler.Deactivate()
-                    _VideoCompiler.Activate()
-                    _VideoCompiler.Compile()
+                    _VideoCompiler.ActivateAndCompile()
             End Select
         End Set
     End Property
@@ -78,7 +62,7 @@ Public Class PictureOrVideoCompiler
                                             baseContext:=_RelativisticRayTracerTermContextBuilder.TermContext,
                                             TypeNamedTypeDictionary:=_RelativisticRayTracerTermContextBuilder.TypeDictionary)
     End Function
-    
+
     Public Sub Unfocus()
         If Me.Mode = CompileMode.Picture Then
             _PictureCompiler.Unfocus()
@@ -108,18 +92,6 @@ Public Class PictureOrVideoCompiler
         RaiseEvent VideoCompiled(e)
     End Sub
 
-    Private Sub _CompileVideoMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _CompileVideoMenuItem.Click
-        Me.Mode = CompileMode.Video
-
-        e.Handled = True
-    End Sub
-
-    Private Sub CompilePictureMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _CompilePictureMenuItem.Click
-        Me.Mode = CompileMode.Picture
-
-        e.Handled = True
-    End Sub
-
     Public ReadOnly Property ApplyingTextDecorations As Boolean
         Get
             If Me.Mode = CompileMode.Picture Then
@@ -131,3 +103,4 @@ Public Class PictureOrVideoCompiler
     End Property
 
 End Class
+

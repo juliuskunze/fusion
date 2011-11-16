@@ -2,15 +2,13 @@
 Imports Splicer.Renderer
 Imports Splicer.Timeline
 
-Public Class VideoRenderer
+Public Class VideoSlicer
     Private Sub New()
     End Sub
 
     Public Shared Sub Run(pictureInputFileNames As IEnumerable(Of String),
                           videoOutputFileName As String,
-                          framesPerSecond As Double,
-                          width As Integer,
-                          height As Integer)
+                          framesPerSecond As Double)
 
         Using timeline = New DefaultTimeline(fps:=framesPerSecond)
             Using videoGroup = timeline.AddVideoGroup("main", fps:=framesPerSecond, bitCount:=24, width:=1000, height:=1000)
@@ -19,7 +17,7 @@ Public Class VideoRenderer
                         videoTrack.AddImage(fileName:=pictureFileName, offset:=0, clipEnd:=1 / framesPerSecond)
                     Next
 
-                    Using renderer = New Renderer.AviFileRenderer(timeline:=timeline, outputFile:=videoOutputFileName)
+                    Using renderer = New Splicer.Renderer.AviFileRenderer(timeline:=timeline, outputFile:=videoOutputFileName)
                         renderer.Render()
                     End Using
                 End Using

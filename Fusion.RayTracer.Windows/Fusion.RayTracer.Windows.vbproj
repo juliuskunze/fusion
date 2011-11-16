@@ -55,7 +55,6 @@
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Splicer">
       <HintPath>..\foreign sources\splicer-release-binary-1.0.0.0\Splicer.dll</HintPath>
     </Reference>
@@ -63,9 +62,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
@@ -79,24 +76,44 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CalculateTimeOptionsDialog.xaml.vb">
-      <DependentUpon>CalculateTimeOptionsDialog.xaml</DependentUpon>
+    <Compile Include="File\DescriptionFileHelper.vb" />
+    <Compile Include="File\FileFilter.vb" />
+    <Compile Include="File\FileFilters.vb" />
+    <Compile Include="File\OpenDescriptionDialog.vb" />
+    <Compile Include="File\OpenFileDialog.vb" />
+    <Compile Include="File\SaveDescriptionDialog.vb" />
+    <Compile Include="File\SavePictureDialog.vb" />
+    <Compile Include="File\SaveVideoDialog.vb" />
+    <Compile Include="Renderer\FrameRenderer.vb" />
+    <Compile Include="Renderer\PictureRenderer.vb" />
+    <Compile Include="Renderer\Renderer.vb" />
+    <Compile Include="Renderer\RenderResultEventArgs.vb" />
+    <Compile Include="Renderer\VideoRenderer.vb" />
+    <Compile Include="RenderTimeEstimation\RenderTimeEstimationOptionsDialog.xaml.vb">
+      <DependentUpon>RenderTimeEstimationOptionsDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="ColorWindow.xaml.vb">
       <DependentUpon>ColorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ColorExtensions.vb" />
-    <Compile Include="CompilerMode.vb" />
-    <Compile Include="CompilerResultEventArgs.vb" />
+    <Compile Include="Compiler\CompilerMode.vb" />
+    <Compile Include="Compiler\CompilerResultEventArgs.vb" />
     <Compile Include="Compiler\RichCompilerResult.vb" />
     <Compile Include="Compiler\TextOnlyDocument.vb" />
     <Compile Include="Compiler\RelativisticRayTracerTermContextBuilder.vb" />
     <Compile Include="Compiler\RichCompiler.vb" />
+    <Compile Include="RenderTimeEstimation\RenderTimeEstimationOptions.vb" />
+    <Compile Include="RenderTimeEstimation\RenderTimeEstimationResult.vb" />
     <Compile Include="PictureOrVideoCompiler.vb" />
+    <Compile Include="RenderTimeEstimation\PictureRenderTimeEstimator.vb" />
+    <Compile Include="RenderTimeEstimation\RenderTimeEstimationMode.vb" />
+    <Compile Include="RenderTimeEstimation\IRenderTimeEstimator.vb" />
+    <Compile Include="File\SaveFileDialog.vb" />
     <Compile Include="SimpleBitmap.vb" />
-    <Compile Include="VideoRenderer.vb" />
+    <Compile Include="VideoSlicer.vb" />
+    <Compile Include="RenderTimeEstimation\VideoRenderTimeEstimator.vb" />
     <Compile Include="WindowExtensions.vb" />
-    <Page Include="CalculateTimeOptionsDialog.xaml">
+    <Page Include="RenderTimeEstimation\RenderTimeEstimationOptionsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -110,7 +127,6 @@
     </Compile>
     <Compile Include="MainWindow.xaml.vb">
       <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
     </Compile>
     <Page Include="ColorWindow.xaml">
       <SubType>Designer</SubType>
@@ -123,8 +139,7 @@
     <Import Include="Fusion.Physics" />
     <Import Include="Fusion.RayTracer" />
     <Import Include="Fusion.Visualization" />
-    <Import Include="Microsoft.Win32" />
-    <Import Include="Microsoft.Windows.Controls.Ribbon" />
+    <Import Include="System.IO" />
     <Import Include="System.Linq" />
     <Import Include="System.Xml.Linq" />
     <Import Include="System" />

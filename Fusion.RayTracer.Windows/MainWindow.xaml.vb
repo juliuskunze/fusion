@@ -1,9 +1,12 @@
 ﻿Imports System.IO
+Imports System.Drawing
 
 Public Class MainWindow
 
-    Private ReadOnly _SaveDescriptionDialog As SaveFileDialog
-    Private ReadOnly _OpenDescriptionDialog As OpenFileDialog
+    Private Const _TitleBase = "Fusion Ray Tracer"
+
+    Private WithEvents _SaveDescriptionDialog As SaveDescriptionDialog
+    Private ReadOnly _OpenDescriptionDialog As OpenDescriptionDialog
 
     Private WithEvents _Compiler As PictureOrVideoCompiler
 
@@ -12,61 +15,37 @@ Public Class MainWindow
 
     Private _ResultBitmap As System.Drawing.Bitmap
 
-    Private _RenderStopwatch As Stopwatch
-    Private WithEvents _RenderBackgroundWorker As ComponentModel.BackgroundWorker
-
-    Private ReadOnly _DefaultInitialDirectory As String
-
-    Private ReadOnly _SavePictureDialog As SaveFileDialog
+    Private ReadOnly _SavePictureDialog As SavePictureDialog
     Private ReadOnly _SaveVideoDialog As SaveFileDialog
 
-    Private ReadOnly _OpenVideoDirectoryDialog As System.Windows.Forms.FolderBrowserDialog
+    Private WithEvents _PictureRenderer As PictureRenderer
+    Private WithEvents _VideoRenderer As VideoRenderer
 
-    Private _CurrentFile As IO.FileInfo
-
-    Public Sub New(relativisticRayTracerTermContextBuilder As RelativisticRayTracerTermContextBuilder)
+    Public Sub New(relativisticRayTracerTermContextBuilder As RelativisticRayTracerTermContextBuilder,
+                   initialDirectory As DirectoryInfo)
         Me.InitializeComponent()
 
-        _DefaultInitialDirectory = My.Computer.FileSystem.SpecialDirectories.Desktop
+        _SavePictureDialog = New SavePictureDialog(Owner:=Me, initalDirectory:=initialDirectory)
+        _SaveVideoDialog = New SaveVideoDialog(Owner:=Me, initialDirectory:=initialDirectory)
+        _SaveDescriptionDialog = New SaveDescriptionDialog(Owner:=Me, initialDirectory:=initialDirectory)
+        _OpenDescriptionDialog = New OpenDescriptionDialog(Owner:=Me, initialDirectory:=initialDirectory)
 
-        _RenderBackgroundWorker = New ComponentModel.BackgroundWorker With {.WorkerReportsProgress = True, .WorkerSupportsCancellation = True}
+        Me.ClearDescription()
 
-        _SavePictureDialog = New SaveFileDialog With {
-            .DefaultExt = ".png",
-            .Filter = "Portable Network Graphics|*.png|Bitmap|*.bmp",
-            .FileName = "Ray tracer picture",
-            .InitialDirectory = _DefaultInitialDirectory}
+        _Compiler = Me.CreatePictureOrVideoCompiler(relativisticRayTracerTermContextBuilder)
+        Me.Mode = CompileMode.Picture
 
-        _SaveVideoDialog = New SaveFileDialog With {
-            .DefaultExt = ".avi",
-            .Filter = "Audio Video Interleave|*.avi",
-            .FileName = "Ray tracer video",
-            .InitialDirectory = _DefaultInitialDirectory}
-
-        Dim saveFilter = Me.GetFileExtensionFilter(CompileMode.Picture) & "|" & Me.GetFileExtensionFilter(CompileMode.Video)
-        Dim openFilter = "All Files|*.*|" & saveFilter
-
-        _SaveDescriptionDialog = New SaveFileDialog With {
-            .Filter = saveFilter,
-            .InitialDirectory = _DefaultInitialDirectory}
-
-        _OpenDescriptionDialog = New OpenFileDialog With {
-            .Filter = openFilter,
-            .InitialDirectory = _DefaultInitialDirectory}
-
-        _OpenVideoDirectoryDialog = New System.Windows.Forms.FolderBrowserDialog With {.SelectedPath = _DefaultInitialDirectory}
-
-        Me.CreateNewDescription()
-
-        _Compiler = New PictureOrVideoCompiler(descriptionBox:=_DescriptionBox,
-                                               helpPopup:=_HelpPopup,
-                                               helpListBox:=_HelpListBox,
-                                               helpScrollViewer:=_HelpScrollViewer,
-                                               relativisticRayTracerTermContextBuilder:=relativisticRayTracerTermContextBuilder,
-                                               compilePictureMenuItem:=_CompilePictureMenuItem,
-                                               compileVideoMenuItem:=_CompileVideoMenuItem)
-
+        AddHandler _CompileVideoMenuItem.Checked, AddressOf _CompileVideoMenuItem_Click
+        AddHandler _CompilePictureMenuItem.Checked, AddressOf _CompilePictureMenuItem_Click
     End Sub
+
+    Private Function CreatePictureOrVideoCompiler(relativisticRayTracerTermContextBuilder As RelativisticRayTracerTermContextBuilder) As PictureOrVideoCompiler
+        Return New PictureOrVideoCompiler(descriptionBox:=_DescriptionBox,
+                                          helpPopup:=_HelpPopup,
+                                          helpListBox:=_HelpListBox,
+                                          helpScrollViewer:=_HelpScrollViewer,
+                                          relativisticRayTracerTermContextBuilder:=relativisticRayTracerTermContextBuilder)
+    End Function
 
     Private Sub RenderButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _RenderButton.Click
         _RenderButton.Visibility = Visibility.Collapsed
@@ -74,13 +53,26 @@ Public Class MainWindow
         _RenderProgressBar.Visibility = Visibility.Visible
         Me.TaskbarItemInfo.ProgressState = Shell.TaskbarItemProgressState.Normal
 
-        _RenderStopwatch = Stopwatch.StartNew
-
-        _RenderBackgroundWorker.RunWorkerAsync(_Picture)
+        If Me.Mode = CompileMode.Picture Then
+            _PictureRenderer = New PictureRenderer(_Picture)
+            _PictureRenderer.RunAsync()
+        Else
+            _VideoRenderer = New VideoRenderer(_Video, outputFile:=Me.VideoOutputFile)
+            _VideoRenderer.RunAsync()
+        End If
     End Sub
+
+    Private ReadOnly Property VideoOutputFile As FileInfo
+        Get
+            Return New FileInfo(_VideoFileBox.Text)
+        End Get
+    End Property
 
     Private Sub Compiler_Compiled(e As CompilerResultEventArgs(Of RayTracerPicture(Of RadianceSpectrum))) Handles _Compiler.PictureCompiled
         OnCompiled(e, out_result:=_Picture)
+        If e.CompilerResult.WasCompilationSuccessful Then
+
+        End If
     End Sub
 
     Private Sub Compiler_Compiled(e As CompilerResultEventArgs(Of RayTracerVideo(Of RadianceSpectrum))) Handles _Compiler.VideoCompiled
@@ -92,136 +84,63 @@ Public Class MainWindow
             out_result = e.CompilerResult.Result
             _CompileLabel.Content = "Compilation succeeded."
             _ErrorTextBox.Text = ""
+            Me.SetRenderTabItemVisibility(True)
         Else
             _CompileLabel.Content = "Error:"
             _ErrorTextBox.Text = e.CompilerResult.ErrorMessage
+            Me.SetRenderTabItemVisibility(False)
         End If
-
-        Me.RenderingTabItemsVisible = e.CompilerResult.WasCompilationSuccessful
     End Sub
 
     Private Sub SaveButton_Click(sender As System.Object, e As System.EventArgs) Handles _SavePictureButton.Click
-        If _SavePictureDialog.ShowDialog Then
-            Select Case _SavePictureDialog.FilterIndex
-                Case 1
-                    _ResultBitmap.Save(_SavePictureDialog.FileName, format:=System.Drawing.Imaging.ImageFormat.Png)
-                Case 2
-                    _ResultBitmap.Save(_SavePictureDialog.FileName, format:=System.Drawing.Imaging.ImageFormat.Bmp)
+        If _SavePictureDialog.Show Then
+            Select Case _SavePictureDialog.File.Extension
+                Case ".png"
+                    _ResultBitmap.Save(_SavePictureDialog.File.FullName, format:=System.Drawing.Imaging.ImageFormat.Png)
+                Case ".bmp"
+                    _ResultBitmap.Save(_SavePictureDialog.File.FullName, format:=System.Drawing.Imaging.ImageFormat.Bmp)
                 Case Else
                     Throw New ArgumentOutOfRangeException("_SaveFileDialog.FilterIndex")
             End Select
         End If
     End Sub
 
-    Private Sub CalculateNeededTimeButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _CalculateNeededTimeButton.Click
+    Private Sub CalculateNeededTimeButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _EstimateRenderTimeButton.Click
         If Not _CalculateTimeOptionsDialog.DialogResult Then Return
 
-        Dim size = _Picture.PictureSize
+        Dim estimator = Me.GetRenderTimeEstimator
+        Dim result = estimator.Run
 
-        Dim bitmap = New System.Drawing.Bitmap(size.Width, size.Height)
-
-        Dim random = New Random
-
-        Dim drawTimeStopwatch = New Stopwatch
-        Dim testedPixelCount = 0
-
-        Dim stopwatch = New Stopwatch
-        stopwatch.Start()
-        Do While If(_CalculateTimeOptionsDialog.Mode = CalculateTimeOptionsDialog.FixMode.Time,
-                    stopwatch.ElapsedMilliseconds / 1000 < _CalculateTimeOptionsDialog.FixTestTime,
-                    testedPixelCount < _CalculateTimeOptionsDialog.FixTestPixelCount)
-            Dim randomX = random.Next(size.Width)
-            Dim randomY = random.Next(size.Height)
-
-            drawTimeStopwatch.Start()
-
-            bitmap.SetPixel(randomX, randomY, _Picture.GetPixelColor(randomX, randomY))
-
-            drawTimeStopwatch.Stop()
-
-            testedPixelCount += 1
-        Loop
-
-        stopwatch.Stop()
-
-        _ResultImage.Source = New SimpleBitmap(bitmap).ToBitmapSource
-
-        'experiment --> 
-        Const factor = 3.4
-        Dim ticksPerPixel = drawTimeStopwatch.ElapsedTicks / testedPixelCount * factor
-
-        Dim timePerPixel = New TimeSpan(CLng(ticksPerPixel))
-        _AverageNeededTimePerPixelLabel.Content = "Time per Pixel: " & timePerPixel.TotalMilliseconds.ToString & "ms"
-
-        Dim picturePixelCount = size.Width * size.Height
-
-        Dim overallTime = New TimeSpan(ticks:=CLng(ticksPerPixel * picturePixelCount))
-        _TotalNeededTimeLabel.Content = "Overall time: " & overallTime.ToString
+        _EstimatedRenderTimePerPixelLabel.Content = "Time per Pixel: " & result.TimePerPixel.TotalMilliseconds.ToString & "ms"
+        _TotalEstimatedTimeLabel.Content = "Overall time: " & result.TotalTime.ToString
     End Sub
 
-    Private _CalculateTimeOptionsDialog As New CalculateTimeOptionsDialog
+    Private Function GetRenderTimeEstimator() As IRenderTimeEstimator
+        If _Compiler.Mode = CompileMode.Picture Then
+            Return New PictureRenderTimeEstimator(_Picture, options:=_CalculateTimeOptionsDialog.Options)
+        Else
+            Return New VideoRenderTimeEstimator(video:=_Video, options:=_CalculateTimeOptionsDialog.Options)
+        End If
+    End Function
 
-    Private Sub CalculateNeededTimeOptionsButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _CalculateNeededTimeOptionsButton.Click
+    Private _CalculateTimeOptionsDialog As New RenderTimeEstimationOptionsDialog
+
+    Private Sub CalculateNeededTimeOptionsButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _EstimateRenderTimeOptionsButton.Click
         _CalculateTimeOptionsDialog.ShowDialog()
     End Sub
 
-    Private Sub RenderBackgroundWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles _RenderBackgroundWorker.DoWork
-        Dim rayTracerDrawer = CType(e.Argument, RayTracerPicture(Of RadianceSpectrum))
-
-        Dim resultBitmap = New System.Drawing.Bitmap(rayTracerDrawer.PictureSize.Width, rayTracerDrawer.PictureSize.Height)
-
-        For bitmapX = 0 To rayTracerDrawer.PictureSize.Width - 1
-            If _RenderBackgroundWorker.CancellationPending Then
-                e.Cancel = True
-                Return
-            End If
-
-            For bitmapY = 0 To rayTracerDrawer.PictureSize.Height - 1
-                rayTracerDrawer.SetPixelColor(resultBitmap, bitmapX, bitmapY)
-            Next
-            _RenderBackgroundWorker.ReportProgress(CInt((bitmapX + 1) / rayTracerDrawer.PictureSize.Width * 100))
-        Next
-
-        e.Result = resultBitmap
-    End Sub
-
-    Private Sub RenderBackgroundWorker_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles _RenderBackgroundWorker.ProgressChanged
-        _RenderProgressBar.Value = e.ProgressPercentage
-    End Sub
-
-    Private Sub RenderBackgroundWorker_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles _RenderBackgroundWorker.RunWorkerCompleted
-        If e.Error IsNot Nothing Then Throw e.Error
-
-        _RenderStopwatch.Stop()
-
-        _RenderProgressBar.Value = 0
-        _RenderProgressBar.Visibility = Visibility.Collapsed
-        _RenderCancelButton.Visibility = Visibility.Collapsed
-        _RenderingTimeCalculationGroupBox.Visibility = Visibility.Collapsed
-
-        _RenderButton.Visibility = Visibility.Visible
-        _ResultTabItem.Visibility = Visibility.Visible
-
-        Me.TaskbarItemInfo.ProgressState = Shell.TaskbarItemProgressState.None
-
-        If e.Cancelled Then
-            Me.RenderingTabItemsVisible = True
-            Return
-        End If
-
-        _ResultBitmap = CType(e.Result, System.Drawing.Bitmap)
-
-        _ResultImage.Source = New SimpleBitmap(_ResultBitmap).ToBitmapSource
-
-        _TotalElapsedTimeLabel.Content = "Total elapsed time: " & _RenderStopwatch.Elapsed.ToString
-        _AverageElapsedTimePerPixelLabel.Content = "Average elapsed time per pixel: " & (_RenderStopwatch.ElapsedMilliseconds / (_ResultBitmap.Size.Width * _ResultBitmap.Size.Height)).ToString & "ms"
-
-        _ResultTabItem.IsSelected = True
-    End Sub
-
     Private Sub RenderCancelButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _RenderCancelButton.Click
-        _RenderBackgroundWorker.CancelAsync()
+        Me.CancelRenderAsync()
     End Sub
+
+    Private Sub CancelRenderAsync()
+        If Me.Mode = CompileMode.Picture Then
+            _PictureRenderer.CancelAsync()
+        Else
+            _VideoRenderer.CancelAsync()
+        End If
+    End Sub
+
 
     Private Sub RenderProgressBar_ValueChanged(sender As Object, e As System.Windows.RoutedPropertyChangedEventArgs(Of Double)) Handles _RenderProgressBar.ValueChanged
         Me.TaskbarItemInfo.ProgressValue = e.NewValue / 100
@@ -240,7 +159,7 @@ Public Class MainWindow
                     e.Handled = True
 
                 Case Key.S
-                    Me.TrySaveOrSaveAs()
+                    Me.TrySaveDescription()
 
                     e.Handled = True
                 Case Key.O
@@ -262,18 +181,19 @@ Public Class MainWindow
         End If
     End Sub
 
-    Private Property RenderingTabItemsVisible As Boolean
-        Get
-            Return _PictureRenderingTabItem.Visibility = Visibility.Visible
-        End Get
-        Set(value As Boolean)
-            If value Then
-                _PictureRenderingTabItem.Visibility = Visibility.Visible
-            Else
-                _PictureRenderingTabItem.Visibility = Visibility.Collapsed
-            End If
-        End Set
-    End Property
+    Private Sub TrySaveDescription()
+        _SaveDescriptionDialog.TrySave(Me.Description)
+    End Sub
+
+    Private Sub SetRenderTabItemVisibility(visible As Boolean)
+        _RenderingTabItem.Visibility = If(visible, Visibility.Visible, Visibility.Collapsed)
+
+        If visible Then
+            _RenderButton.IsEnabled = If(Me.Mode = CompileMode.Picture,
+                                         True,
+                                         Me.IsVideoOutputFileValid)
+        End If
+    End Sub
 
     Private Property IsSceneDescriptionChangeable As Boolean
         Get
@@ -297,127 +217,27 @@ Public Class MainWindow
     End Sub
 
     Private Sub SaveMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _SaveMenuItem.Click
-        Me.TrySaveOrSaveAs()
+        Me.TrySaveDescription()
     End Sub
 
     Private Sub SaveAsMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _SaveAsMenuItem.Click
-        Me.ShowSaveAsDialog()
+        _SaveDescriptionDialog.ShowAndTrySave(description:=Me.Description)
     End Sub
-
-    Private Sub ShowSaveAsDialog()
-        _SaveDescriptionDialog.FileName = If(_CurrentFile Is Nothing, "Ray tracer picture scene description", _CurrentFile.Name)
-        _SaveDescriptionDialog.FilterIndex = Me.GetCurrentFilterIndex()
-        _SaveDescriptionDialog.DefaultExt = Me.GetDescriptionFileExtension
-
-        If Not _SaveDescriptionDialog.ShowDialog(owner:=Me) Then Return
-
-        Me.Save(New IO.FileInfo(_SaveDescriptionDialog.FileName))
-    End Sub
-
-    Private Sub TrySaveOrSaveAs()
-        If IO.File.Exists(_CurrentFile.FullName) Then
-            Me.Save(_CurrentFile)
-        Else
-            Me.ShowSaveAsDialog()
-        End If
-    End Sub
-
-    Private Sub Save(targetFile As IO.FileInfo)
-        _CurrentFile = targetFile
-
-        Dim description = New TextOnlyDocument(_DescriptionBox.Document).Text
-
-        Try
-            Using streamWriter = New IO.StreamWriter(_CurrentFile.FullName)
-                streamWriter.Write(description)
-            End Using
-        Catch ex As IO.IOException
-            MessageBox.Show(ex.Message)
-            Return
-        End Try
-
-        _HasUnsavedChanges = False
-    End Sub
-
-    Private Function GetDescriptionFileExtension(mode As CompileMode) As String
-        Select Case mode
-            Case CompileMode.Picture
-                Return ".pic"
-            Case CompileMode.Video
-                Return ".vid"
-            Case Else
-                Throw New ArgumentOutOfRangeException
-        End Select
-    End Function
-
-    Private Function GetDescriptionFileExtension() As String
-        Return Me.GetDescriptionFileExtension(_Compiler.Mode)
-    End Function
-
-    Private Function GetMode(fileExtension As String) As CompileMode
-        Select Case fileExtension
-            Case ".pic" : Return CompileMode.Picture
-            Case ".vid" : Return CompileMode.Video
-            Case Else : Throw New ArgumentOutOfRangeException
-        End Select
-    End Function
-
-    Private Function GetCurrentFilterIndex() As Integer
-        Return GetFilterIndex(_Compiler.Mode)
-    End Function
-
-    Private Shared Function GetFilterIndex(compileMode As CompileMode) As Integer
-        Select Case compileMode
-            Case compileMode.Picture : Return 1
-            Case compileMode.Video : Return 2
-            Case Else : Throw New ArgumentOutOfRangeException
-        End Select
-    End Function
-
-    Private Function GetCurrentFileExtensionFilter() As String
-        Return Me.GetFileExtensionFilter(_Compiler.Mode)
-    End Function
-
-    Private Function GetFileExtensionFilter(mode As CompileMode) As String
-        Select Case mode
-            Case CompileMode.Picture : Return "Ray tracer picture scene description (*.pic)|*.pic"
-            Case CompileMode.Video : Return "Ray tracer video scene description (*.vid)|*.vid"
-            Case Else : Throw New ArgumentOutOfRangeException
-        End Select
-    End Function
 
     Private Sub ShowOpenDescriptionDialog()
-        If _OpenDescriptionDialog.ShowDialog(owner:=Me) Then
+        If _OpenDescriptionDialog.Show Then
             If Me.TryCloseCurrentDescription() Then
-                Me.TryOpenFile(f:=New FileInfo(_OpenDescriptionDialog.FileName))
+                Dim description = _OpenDescriptionDialog.OpenDescription()
+
+                _SaveDescriptionDialog.File = _OpenDescriptionDialog.File
+                Me.Mode = _OpenDescriptionDialog.Mode
+                _SaveDescriptionDialog.FileAccepted = True
+
+                Me.Title = _SaveDescriptionDialog.File.Name & " - " & _TitleBase
+                _DescriptionBox.Document = TextOnlyDocument.GetDocumentFromText(description)
+                _HasUnsavedChanges = False
             End If
         End If
-    End Sub
-
-    Private Sub TryOpenFile(f As FileInfo)
-        Dim text As String
-
-        Dim mode As CompileMode
-        Try
-            mode = Me.GetMode(fileExtension:=f.Extension)
-        Catch ex As ArgumentOutOfRangeException
-            mode = CompileMode.Picture
-        End Try
-
-        _Compiler.Mode = mode
-
-        Try
-            Using streamReader = New IO.StreamReader(f.FullName)
-                text = streamReader.ReadToEnd()
-            End Using
-        Catch ex As IO.IOException
-            MessageBox.Show(ex.Message)
-            Return
-        End Try
-
-        Me.LoadDescription(f:=f, text:=text)
-
-        _HasUnsavedChanges = False
     End Sub
 
     Private Sub AutoCompileMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _AutoCompileMenuItem.Click
@@ -426,21 +246,17 @@ Public Class MainWindow
 
     Private _HasUnsavedChanges As Boolean
 
-    Private Sub CreateNewDescription()
-        _HasUnsavedChanges = False
-        Me.LoadDescription(f:=Nothing, text:="")
-    End Sub
+    Private Sub ClearDescription()
+        _SaveDescriptionDialog.FileAccepted = False
 
-    Private Sub LoadDescription(f As IO.FileInfo, text As String)
-        _CurrentFile = f
-        Const titleBase = "Fusion Ray Tracer"
-        Me.Title = If(_CurrentFile Is Nothing, titleBase, _CurrentFile.Name & " - " & titleBase)
-        _DescriptionBox.Document = TextOnlyDocument.GetDocumentFromText(text)
+        Me.Title = _TitleBase
+        _DescriptionBox.Document = TextOnlyDocument.GetDocumentFromText("")
+        _HasUnsavedChanges = False
     End Sub
 
     Private Function TryCloseCurrentDescription() As Boolean
         If Not _HasUnsavedChanges Then
-            Me.CreateNewDescription()
+            Me.ClearDescription()
             Return True
         End If
 
@@ -448,16 +264,12 @@ Public Class MainWindow
 
         Select Case result
             Case MessageBoxResult.Yes
-                If _CurrentFile IsNot Nothing Then
-                    Me.Save(_CurrentFile)
-                Else
-                    Me.ShowSaveAsDialog()
-                End If
-                Me.CreateNewDescription()
+                Me.TrySaveDescription()
+                Me.ClearDescription()
                 Return True
 
             Case MessageBoxResult.No
-                Me.CreateNewDescription()
+                Me.ClearDescription()
                 Return True
 
             Case MessageBoxResult.Cancel
@@ -486,7 +298,107 @@ Public Class MainWindow
         End Set
     End Property
 
+    Private Sub _VideoOutputFileChangeButton_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles _ChangeVideoFileButton.Click
+        If Me.IsVideoOutputFileValid Then
+            _SaveVideoDialog.File = Me.VideoOutputFile
+        End If
+        If _SaveVideoDialog.Show Then
+            _VideoFileBox.Text = _SaveVideoDialog.File.FullName
+        End If
+    End Sub
 
-            
+    Private Property Mode As CompileMode
+        Get
+            Return _Compiler.Mode
+        End Get
+        Set(value As CompileMode)
+            _Compiler.Mode = value
+
+            _CompilePictureMenuItem.IsChecked = (value = CompileMode.Picture)
+            _CompileVideoMenuItem.IsChecked = (value = CompileMode.Video)
+
+            _SaveDescriptionDialog.Mode = value
+
+            Dim isVideo = (_Compiler.Mode = CompileMode.Video)
+
+            _VideoFileGrid.Visibility = If(isVideo, Visibility.Visible, Visibility.Collapsed)
+            Me.SetRenderButtonEnabled()
+        End Set
+    End Property
+
+    Private Sub _Renderer_ProgressChanged(e As ComponentModel.ProgressChangedEventArgs) Handles _PictureRenderer.ProgressChanged, _VideoRenderer.ProgressChanged
+        _RenderProgressBar.Value = e.ProgressPercentage
+    End Sub
+
+    Private Sub _PictureRenderer_Completed(e As RenderResultEventArgs(Of System.Drawing.Bitmap)) Handles _PictureRenderer.Completed
+        OnCompleted(e)
+
+        _ResultBitmap = e.Result
+        _ResultImage.Source = New SimpleBitmap(_ResultBitmap).ToBitmapSource
+
+        _AverageElapsedTimePerPixelLabel.Content = "Average elapsed time per pixel: " & (e.ElapsedTime.TotalMilliseconds / (_ResultBitmap.Size.Width * _ResultBitmap.Size.Height)).ToString & "ms"
+
+        _ResultPictureTabItem.IsSelected = True
+    End Sub
+
+    Private Sub _VideoRenderer_Completed(e As RenderResultEventArgs(Of Object)) Handles _VideoRenderer.Completed
+        OnCompleted(e)
+
+        Dim firstPictureSize = _Video.GetPicture(0).PictureSize
+
+        _AverageElapsedTimePerPixelLabel.Content = "Average elapsed time per pixel: " & (e.ElapsedTime.TotalMilliseconds / (_Video.FrameCount * firstPictureSize.Width * firstPictureSize.Height)).ToString & "ms"
+    End Sub
+
+    Private Sub OnCompleted(Of TResult)(e As RenderResultEventArgs(Of TResult))
+        _RenderProgressBar.Value = 0
+        _RenderProgressBar.Visibility = Visibility.Collapsed
+        _RenderCancelButton.Visibility = Visibility.Collapsed
+        _RenderingTimeCalculationGroupBox.Visibility = Visibility.Collapsed
+
+        _RenderButton.Visibility = Visibility.Visible
+        _ResultPictureTabItem.Visibility = Visibility.Visible
+
+        Me.TaskbarItemInfo.ProgressState = Shell.TaskbarItemProgressState.None
+
+        If e.Cancelled Then
+            Me.SetRenderTabItemVisibility(True)
+            Return
+        End If
+
+        _TotalElapsedTimeLabel.Content = "Total elapsed time: " & e.ElapsedTime.ToString
+    End Sub
+
+    Private Function IsVideoOutputFileValid() As Boolean
+        Return _VideoFileBox.Text <> ""
+    End Function
+
+    Private Sub _VideoFileBox_TextChanged(sender As Object, e As System.Windows.Controls.TextChangedEventArgs) Handles _VideoFileBox.TextChanged
+        Me.SetRenderButtonEnabled()
+    End Sub
+
+    Private Sub SetRenderButtonEnabled()
+        If Not Me.Mode = CompileMode.Video Then Return
+
+        _RenderButton.IsEnabled = Me.IsVideoOutputFileValid
+    End Sub
+
+    Private ReadOnly Property Description As String
+        Get
+            Return New TextOnlyDocument(_DescriptionBox.Document).Text
+        End Get
+    End Property
+
+    Private Sub _SaveDescriptionDialog_Saved() Handles _SaveDescriptionDialog.Saved
+        _HasUnsavedChanges = False
+        _OpenDescriptionDialog.File = _SaveDescriptionDialog.File
+    End Sub
+
+    Private Sub _CompileVideoMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs)
+        Me.Mode = CompileMode.Video
+    End Sub
+
+    Private Sub _CompilePictureMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs)
+        Me.Mode = CompileMode.Picture
+    End Sub
 
 End Class

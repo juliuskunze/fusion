@@ -19,8 +19,6 @@ Public Class RichCompiler(Of TResult)
 
     Private _Compiler As Compiler(Of TResult)
 
-    Private _TypeName As String = GetType(TResult).Name
-
     Private _AutoCompile As Boolean
     Public Property AutoCompile As Boolean
         Get
@@ -95,9 +93,9 @@ Public Class RichCompiler(Of TResult)
         Me.AddHandlersIfNeeded()
     End Sub
 
-    Private Sub UpdateAndCompile()
+    Private Sub UpdateAndCompile(Optional showHelp As Boolean = False)
         Me.UpdateOnTextChanged()
-        Me.Compile(showIntelliSense:=True)
+        Me.Compile(showHelp:=showHelp)
     End Sub
 
     Public Sub DeactivateAutoCompile()
@@ -113,8 +111,9 @@ Public Class RichCompiler(Of TResult)
 
     Private _HandlersAdded As Boolean
 
-    Public Sub Activate()
+    Public Sub ActivateAndCompile()
         Me.AddHandlersIfNeeded()
+        Me.UpdateAndCompile()
     End Sub
 
     Private Sub UpdateOnTextChanged()
@@ -156,12 +155,12 @@ Public Class RichCompiler(Of TResult)
         e.CanExecute = target Is _RichTextBox
     End Sub
 
-    Public Sub Compile(Optional showIntelliSense As Boolean = False)
+    Public Sub Compile(Optional showHelp As Boolean = False)
         Dim intelliSense As IntelliSense = Nothing
         Dim richCompilerResult As RichCompilerResult(Of TResult) = Nothing
 
         Try
-            Dim compilerResult = _Compiler.Compile(showIntelliSense:=showIntelliSense)
+            Dim compilerResult = _Compiler.Compile(showIntelliSense:=showHelp)
 
             intelliSense = compilerResult.IntelliSense
             richCompilerResult = New RichCompilerResult(Of TResult)(compilerResult.Result)
@@ -178,17 +177,16 @@ Public Class RichCompiler(Of TResult)
             intelliSense = ex.IntelliSense
             richCompilerResult = New RichCompilerResult(Of TResult)(ex.InnerCompilerException.Message)
 
-            'Catch ex As Reflection.TargetInvocationException
+        Catch ex As Reflection.TargetInvocationException
 
-            '    intelliSense = intelliSense.Empty
-            '    richCompilerResult = New RichCompilerResult(Of TResult)(ex.InnerException.Message)
-            '    Me.RemoveUnderline()
+            intelliSense = intelliSense.Empty
+            richCompilerResult = New RichCompilerResult(Of TResult)(ex.InnerException.Message)
+            Me.RemoveUnderline()
 
-            'Catch ex As Exception
-
-            '    intelliSense = intelliSense.Empty
-            '    richCompilerResult = New RichCompilerResult(Of TResult)(ex.Message)
-            '    Me.RemoveUnderline()
+        Catch ex As Exception
+            intelliSense = intelliSense.Empty
+            richCompilerResult = New RichCompilerResult(Of TResult)(ex.Message)
+            Me.RemoveUnderline()
 
         Finally
             Me.ShowIntelliSense(intelliSense)
@@ -310,7 +308,7 @@ Public Class RichCompiler(Of TResult)
     Private Sub RichTextBox_TextChanged(sender As System.Object, e As System.Windows.Controls.TextChangedEventArgs)
         If _ApplyingTextDecorations Then Return
         If _AutoCompile Then
-            Me.UpdateAndCompile()
+            Me.UpdateAndCompile(showHelp:=True)
         Else
             Me.RemoveUnderline()
         End If

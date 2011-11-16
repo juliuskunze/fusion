@@ -1,4 +1,4 @@
-﻿<Window x:Class="CalculateTimeOptionsDialog"
+﻿<Window x:Class="RenderTimeEstimationOptionsDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Calculate time options" Height="120" Width="300" ResizeMode="CanMinimize">
@@ -15,10 +15,10 @@
         </Grid.ColumnDefinitions>
 
         <RadioButton Name="_FixTimeRadioButton" VerticalAlignment="Center" IsChecked="True">Fix test time (s)</RadioButton>
-        <TextBox Name="_FixTimeTextBox" Grid.Column="1">3</TextBox>
+        <TextBox Name="_MaxTimeBox" Grid.Column="1">3</TextBox>
 
         <RadioButton Name="_FixPixelCountRadioButton" VerticalAlignment="Center" Grid.Row="1">Fix test pixel count</RadioButton>
-        <TextBox Name="_FixPixelCountTextBox" Grid.Row="1" Grid.Column="1">20</TextBox>
+        <TextBox Name="_PixelCountBox" Grid.Row="1" Grid.Column="1">20</TextBox>
 
         <Button Name="_OkButton" Grid.Row="2" Grid.ColumnSpan="2">0k</Button>
     </Grid>

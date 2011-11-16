@@ -37,7 +37,7 @@
                         Where parameter.Signature.Type.IsDelegate
                         Select parameter.ToFunctionInstance
 
-                _GroupedFunctions = _Functions.Concat(delegateParameterFunctions).GroupBy(Function(instance) instance.Signature.Name).ToArray
+                _GroupedFunctions = _Functions.Concat(delegateParameterFunctions).GroupBy(Function(instance) instance.Signature.Name, comparer:=StringComparer.OrdinalIgnoreCase).ToArray
             End If
 
             Return _GroupedFunctions
@@ -111,7 +111,7 @@
         Return matchingFunctions.Single
     End Function
 
-    Private Function GetMatchingFunctionGroup( functionName As LocatedString) As IGrouping(Of String, FunctionInstance)
+    Private Function GetMatchingFunctionGroup(functionName As LocatedString) As IGrouping(Of String, FunctionInstance)
         Dim matchingFunctionGroups = Me.GroupedFunctionsAndDelegateParameters.Where(Function(group) CompilerTools.IdentifierEquals(group.Key, functionName.ToString))
         If Not matchingFunctionGroups.Any Then Throw New LocatedCompilerException(functionName, String.Format("Function '{0}' not defined in this context.", functionName))
         Return matchingFunctionGroups.Single
