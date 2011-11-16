@@ -2,21 +2,16 @@
     Implements ISurfacedPointSet3D
 
     Private _Sphere As Sphere
-    Public Property Center As Vector3D
+    Public ReadOnly Property Center As Vector3D
         Get
             Return _Sphere.Center
         End Get
-        Set(value As Vector3D)
-            _Sphere.Center = value
-        End Set
     End Property
-    Public Property Radius As Double
+
+    Public ReadOnly Property Radius As Double
         Get
             Return _Sphere.Radius
         End Get
-        Set(value As Double)
-            _Sphere.Radius = value
-        End Set
     End Property
 
     Public Sub New(center As Vector3D, radius As Double)

@@ -1,12 +1,10 @@
 ﻿Public Class Surfaces(Of TMaterial)
-    Inherits List(Of ISurface(Of TMaterial))
-    Implements ISurface(Of TMaterial)
-
-    Public Sub New()
-    End Sub
+    Implements ISurface(Of TMaterial), IEnumerable(Of ISurface(Of TMaterial))
+    
+    Private ReadOnly _Surfaces As IEnumerable(Of ISurface(Of TMaterial))
 
     Public Sub New(surfaces As IEnumerable(Of ISurface(Of TMaterial)))
-        MyBase.New(surfaces)
+        _Surfaces = surfaces
     End Sub
 
 
@@ -31,4 +29,11 @@
                MinItem(Function(intersection) (intersection.Location - ray.Origin).LengthSquared)
     End Function
 
+    Public Function GetEnumerator() As System.Collections.Generic.IEnumerator(Of ISurface(Of TMaterial)) Implements System.Collections.Generic.IEnumerable(Of ISurface(Of TMaterial)).GetEnumerator
+        Return _Surfaces.GetEnumerator
+    End Function
+
+    Public Function GetEnumeratorObj() As System.Collections.IEnumerator Implements System.Collections.IEnumerable.GetEnumerator
+        Throw New NotImplementedException
+    End Function
 End Class

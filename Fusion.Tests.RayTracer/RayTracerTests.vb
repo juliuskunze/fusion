@@ -11,7 +11,7 @@ Public Class RayTracerTests
         Dim colorSphere = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Sphere(center:=New Vector3D(3, -3, 0), radius:=1),
                                                          material:=RgbLightMaterials2D.LightSource(sourceLight:=New RgbLight(0, 0, 1)))
 
-        Dim surfaces = New Surfaces(Of Material2D(Of RgbLight)) From {reflectingSphere, colorSphere}
+        Dim surfaces = New Surfaces(Of Material2D(Of RgbLight))({reflectingSphere, colorSphere})
         Dim rayTracer = New ScatteringRayTracer(Of RgbLight)(surfaces)
 
         Dim startRay = New Ray(origin:=New Vector3D(1, 1, 0), direction:=New Vector3D(-1, -1, 0))

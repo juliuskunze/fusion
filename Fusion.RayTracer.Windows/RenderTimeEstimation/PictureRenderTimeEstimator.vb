@@ -12,8 +12,6 @@
     Public Function Run() As RenderTimeEstimationResult Implements IRenderTimeEstimator.Run
         Dim size = _Picture.PictureSize
 
-        Dim bitmap = New System.Drawing.Bitmap(size.Width, size.Height)
-
         Dim random = New Random
 
         Dim drawTimeStopwatch = New Stopwatch
@@ -29,7 +27,7 @@
 
             drawTimeStopwatch.Start()
 
-            bitmap.SetPixel(randomX, randomY, _Picture.GetPixelColor(randomX, randomY))
+            _Picture.GetPixelColor(randomX, randomY)
 
             drawTimeStopwatch.Stop()
 
@@ -44,10 +42,8 @@
 
         Dim timePerPixel = New TimeSpan(CLng(ticksPerPixel))
 
-
-        Dim picturePixelCount = size.Width * size.Height
-
-        Dim totalTime = New TimeSpan(ticks:=CLng(ticksPerPixel * picturePixelCount))
+        Dim totalPixelCount = size.Width * size.Height
+        Dim totalTime = New TimeSpan(ticks:=CLng(ticksPerPixel * totalPixelCount))
 
         Return New RenderTimeEstimationResult(totalTime:=totalTime, timePerPixel:=timePerPixel)
     End Function

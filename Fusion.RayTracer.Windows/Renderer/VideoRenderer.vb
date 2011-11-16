@@ -34,7 +34,7 @@
             Return
         End If
 
-        Dim frame = _Video.GetPicture(index:=index)
+        Dim frame = _Video.GetFrame(index:=index)
         Dim frameRenderer = New FrameRenderer(frame:=frame, outputFile:=Me.GetFrameFile(index:=index))
         frameRenderer.Run()
 

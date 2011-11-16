@@ -45,6 +45,7 @@
         _Duration = duration
         _StartTime = startTime
         _TimeStep = timeStep
+        Dim frames = Enumerable.Range(0, Me.FrameCount).Select(AddressOf Me.GetFrame).ToArray
     End Sub
 
     Public ReadOnly Property FrameCount As Integer
@@ -53,7 +54,7 @@
         End Get
     End Property
 
-    Public Function GetPicture(index As Integer) As RayTracerPicture(Of TLight)
+    Public Function GetFrame(index As Integer) As RayTracerPicture(Of TLight)
         If index < 0 OrElse index >= Me.FrameCount Then Throw New ArgumentOutOfRangeException("index")
 
         Dim time = _StartTime + index * _TimeStep

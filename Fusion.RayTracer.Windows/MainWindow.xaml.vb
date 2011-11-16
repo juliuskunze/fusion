@@ -112,7 +112,7 @@ Public Class MainWindow
         Dim result = estimator.Run
 
         _EstimatedRenderTimePerPixelLabel.Content = "Time per Pixel: " & result.TimePerPixel.TotalMilliseconds.ToString & "ms"
-        _TotalEstimatedTimeLabel.Content = "Overall time: " & result.TotalTime.ToString
+        _TotalEstimatedTimeLabel.Content = "Total time: " & result.TotalTime.ToString
     End Sub
 
     Private Function GetRenderTimeEstimator() As IRenderTimeEstimator
@@ -344,7 +344,7 @@ Public Class MainWindow
     Private Sub _VideoRenderer_Completed(e As RenderResultEventArgs(Of Object)) Handles _VideoRenderer.Completed
         OnCompleted(e)
 
-        Dim firstPictureSize = _Video.GetPicture(0).PictureSize
+        Dim firstPictureSize = _Video.GetFrame(0).PictureSize
 
         _AverageElapsedTimePerPixelLabel.Content = "Average elapsed time per pixel: " & (e.ElapsedTime.TotalMilliseconds / (_Video.FrameCount * firstPictureSize.Width * firstPictureSize.Height)).ToString & "ms"
     End Sub

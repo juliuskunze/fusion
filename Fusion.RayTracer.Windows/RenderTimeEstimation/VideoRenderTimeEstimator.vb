@@ -10,7 +10,9 @@
     End Sub
 
     Public Function Run() As RenderTimeEstimationResult Implements IRenderTimeEstimator.Run
+        Dim random = New Random
 
+        'Return New RenderTimeEstimationResult(totalTime:=totalTime, timePerPixel:=timePerPixel)
     End Function
 
 End Class

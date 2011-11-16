@@ -2,12 +2,25 @@
     Implements ISurfacedPointSet3D
 
     Public Sub New(center As Vector3D, radius As Double)
-        Me.Center = center
-        Me.Radius = radius
+        _Center = center
+        _Radius = radius
+        _RadiusSquared = radius ^ 2
     End Sub
 
-    Public Property Center As Vector3D
-    Public Property Radius As Double
+    Private ReadOnly _Center As Vector3D
+    Public ReadOnly Property Center As Vector3D
+        Get
+            Return _Center
+        End Get
+    End Property
+
+    Private ReadOnly _RadiusSquared As Double
+    Private ReadOnly _Radius As Double
+    Public ReadOnly Property Radius As Double
+        Get
+            Return _Radius
+        End Get
+    End Property
 
     Public Function Intersection(ray As Ray) As SurfacePoint Implements ISurfacedPointSet3D.FirstIntersection
         If Me.Contains(ray.Origin) Then Return Nothing
@@ -28,7 +41,7 @@
         Dim rayLengthQuadraticEquation As New QuadraticEquation(
             quadraticCoefficient:=1,
             linearCoefficient:=2 * ray.NormalizedDirection.DotProduct(relativeRayOrigin),
-            absoluteCoefficient:=relativeRayOrigin.LengthSquared - Me.Radius ^ 2)
+            absoluteCoefficient:=relativeRayOrigin.LengthSquared - _RadiusSquared)
         Return rayLengthQuadraticEquation.Solve.Where(Function(rayLength) rayLength >= 0)
     End Function
 
@@ -42,7 +55,7 @@
     End Function
 
     Public Function Contains(point As Fusion.Math.Vector3D) As Boolean Implements Fusion.Math.IPointSet3D.Contains
-        Return (point - Center).Length <= Me.Radius
+        Return (point - Center).LengthSquared <= _RadiusSquared
     End Function
 
     Public Function Intersections(ray As Ray) As IEnumerable(Of SurfacePoint) Implements ISurface.Intersections

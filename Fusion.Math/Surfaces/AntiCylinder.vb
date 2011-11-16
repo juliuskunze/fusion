@@ -31,7 +31,7 @@
     Private ReadOnly _Surface As ISurface
 
     Public Sub New(cylinder As Cylinder)
-        Me.New(startCenter:=cylinder.StartCenter, endCenter:=cylinder.EndCenter, radius:=cylinder.Radius)
+        Me.New(StartCenter:=cylinder.StartCenter, EndCenter:=cylinder.EndCenter, Radius:=cylinder.Radius)
     End Sub
 
     Public Sub New(startCenter As Vector3D, endCenter As Vector3D, radius As Double)

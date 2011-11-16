@@ -2,37 +2,36 @@
     Implements ISurfacedPointSet3D
 
     Public Sub New(location As Vector3D, normal As Vector3D)
-        Me.Location = location
-        Me.Normal = normal
+        _Location = location
+        _NormalizedNormal = normal.Normalized
     End Sub
 
     Public Sub New(point1 As Vector3D, point2 As Vector3D, point3 As Vector3D)
         Me.New(Location:=point1, Normal:=(point2 - point1).CrossProduct(point3 - point1))
     End Sub
 
-    Public WriteOnly Property Normal As Vector3D
-        Set(value As Vector3D)
-            _NormalizedNormal = value.Normalized
-        End Set
-    End Property
-
-    Private _NormalizedNormal As Vector3D
+    Private ReadOnly _NormalizedNormal As Vector3D
     Public ReadOnly Property NormalizedNormal As Vector3D
         Get
             Return _NormalizedNormal
         End Get
     End Property
 
-    Public Property Location As Vector3D
+    Private ReadOnly _Location As Vector3D
+    Public ReadOnly Property Location As Vector3D
+        Get
+            Return _Location
+        End Get
+    End Property
 
     Public Function Intersection(ray As Ray) As SurfacePoint Implements ISurfacedPointSet3D.FirstIntersection
         Dim relativeRayOrigin = ray.Origin - Me.Location
 
-        Dim signedRelativeRayOriginDistance = relativeRayOrigin * Me.NormalizedNormal
+        Dim signedRelativeRayOriginDistance = relativeRayOrigin * _NormalizedNormal
         Dim rayOriginCorrect = (signedRelativeRayOriginDistance > 0)
         If Not rayOriginCorrect Then Return Nothing
 
-        Dim signedRayDirectionDistance = ray.NormalizedDirection * Me.NormalizedNormal
+        Dim signedRayDirectionDistance = ray.NormalizedDirection * _NormalizedNormal
         Dim rayDirectionCorrect = (signedRayDirectionDistance < 0)
         If Not rayDirectionCorrect Then Return Nothing
 
@@ -40,7 +39,7 @@
         Dim rayOriginToIntersectionDistance = -signedRelativeRayOriginDistance / signedRayDirectionDistance
         Dim intersectionLocation = ray.Origin + ray.NormalizedDirection * rayOriginToIntersectionDistance
 
-        Return New SurfacePoint(Location:=intersectionLocation, Normal:=Me.NormalizedNormal)
+        Return New SurfacePoint(Location:=intersectionLocation, Normal:=_NormalizedNormal)
     End Function
 
     Public Function CoveredHalfSpaceContains(point As Vector3D) As Boolean Implements IPointSet3D.Contains

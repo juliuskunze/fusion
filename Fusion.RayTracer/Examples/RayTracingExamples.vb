@@ -64,8 +64,8 @@ Public Class RayTracingExamples
                                                               material:=glassInside)
 
 
-        Dim allSurfaces = New Surfaces(Of Material2D(Of RgbLight)) From {ground, ceiling, rightWall, leftWall, frontWall, backWall, lampSurface,
-                                                     reflectingSphere, refractingSphere, innerRefractingSphere} ', glassCylinder, antiGlassCylinder}
+        Dim allSurfaces = New Surfaces(Of Material2D(Of RgbLight))({ground, ceiling, rightWall, leftWall, frontWall, backWall, lampSurface,
+                                                     reflectingSphere, refractingSphere, innerRefractingSphere}) ', glassCylinder, antiGlassCylinder}
 
         'Dim rayTracer = New RecursiveRayTracer(surface:=allSurfaces, lightSource:=New LightSources, shadedPointLightSources:=New List(Of IPointLightSource(Of ExactColor)) From {lamp})
         Dim rayTracer = New ScatteringRayTracer(Of RgbLight)(surface:=allSurfaces, rayCountPerPixel:=1, maxIntersectionCount:=7)
@@ -113,7 +113,7 @@ Public Class RayTracingExamples
                                                                                   reflectionRemission:=New FullRemission(Of RgbLight),
                                                                                   transparencyRemission:=New BlackRemission(Of RgbLight)))
 
-        Dim surfaces = New Surfaces(Of Material2D(Of RgbLight)) From {ground, refractingSphere, sphere2, reflectingSphere}
+        Dim surfaces = New Surfaces(Of Material2D(Of RgbLight))({ground, refractingSphere, sphere2, reflectingSphere})
         'Dim surfaces = New MaterialSurfaces
         'For i = 1 To 10
         '    surfaces.Add(Me.RandomSphere)
@@ -287,13 +287,13 @@ Public Class RayTracingExamples
         Dim lampSide = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Surfaces From {lampFront, lampBack,
                                                                                    lampRight, lampLeft},
                                                                 whiteMaterial)
-        Dim surfaces = New Surfaces(Of Material2D(Of RgbLight)) From {ground, redWall, frontWall, greenWall, backWall, ceiling,
+        Dim surfaces = New Surfaces(Of Material2D(Of RgbLight))({ground, redWall, frontWall, greenWall, backWall, ceiling,
                                                                  light, scatteringSphere,
                                                                  glassSphere, glassAntiSphere,
                                                                  metalSphere,
                                                                  glassCylinderSurface, glassAntiCylinderSurface,
                                                                  frontCylinderSurface,
-                                                                 lampSide}
+                                                                 lampSide})
         Dim classicRayTracer = New RecursiveRayTracer(Of RgbLight)(surface:=surfaces,
                                                               unshadedLightSource:=New LightSources(Of RgbLight),
                                                               shadedPointLightSources:=shadedLightSources)
@@ -371,8 +371,8 @@ Public Class RayTracingExamples
         Dim scatteringSphereRadius = 1
         Dim scatteringSphere = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Sphere(New Vector3D(3, scatteringSphereRadius, 13), scatteringSphereRadius), lighterGrayMaterial)
 
-        Dim allSurfaces = New Surfaces(Of Material2D(Of RgbLight)) From {ground, ceiling, rightWall, leftWall, frontWall, backWall, lampSurface,
-                                                     reflectingSphere, refractingSphere, innerRefractingSphere, scatteringSphere}
+        Dim allSurfaces = New Surfaces(Of Material2D(Of RgbLight))({ground, ceiling, rightWall, leftWall, frontWall, backWall, lampSurface,
+                                                     reflectingSphere, refractingSphere, innerRefractingSphere, scatteringSphere})
 
         Dim rayTracer = New RecursiveRayTracer(Of RgbLight)(surface:=allSurfaces,
                                                             unshadedLightSource:=New LightSources(Of RgbLight),
@@ -412,7 +412,7 @@ Public Class RayTracingExamples
                                                                       lowerZMaterial:=blackBodyMaterial10000,
                                                                       upperZMaterial:=RadianceSpectrumMaterials2D.Black)
 
-        Dim classicRayTracer = New RecursiveRayTracer(Of RadianceSpectrum)(surface:=New Surfaces(Of Material2D(Of RadianceSpectrum)) From {blackBodyPlane, box},
+        Dim classicRayTracer = New RecursiveRayTracer(Of RadianceSpectrum)(surface:=New Surfaces(Of Material2D(Of RadianceSpectrum))({blackBodyPlane, box}),
                                                                            unshadedLightSource:=New LightSources(Of RadianceSpectrum),
                                                                            shadedPointLightSources:=Enumerable.Empty(Of IPointLightSource(Of RadianceSpectrum)))
 
