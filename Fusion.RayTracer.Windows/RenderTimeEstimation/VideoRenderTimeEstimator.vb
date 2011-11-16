@@ -10,9 +10,13 @@
     End Sub
 
     Public Function Run() As RenderTimeEstimationResult Implements IRenderTimeEstimator.Run
-        Dim random = New Random
+        If _Video.FrameCount = 0 Then Return New RenderTimeEstimationResult(TimeSpan.Zero, TimeSpan.Zero)
 
-        'Return New RenderTimeEstimationResult(totalTime:=totalTime, timePerPixel:=timePerPixel)
+        Dim firstFrame = _Video.GetFrame(0)
+        Dim estimator = New PictureRenderTimeEstimator(firstFrame, options:=_Options)
+        Dim result = estimator.Run
+
+        Return New RenderTimeEstimationResult(totalTime:=TimeSpan.FromTicks(result.TotalTime.Ticks * _Video.FrameCount), timePerPixel:=result.TimePerPixel)
     End Function
 
 End Class

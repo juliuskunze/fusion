@@ -9,20 +9,13 @@
     <Window.TaskbarItemInfo>
         <TaskbarItemInfo></TaskbarItemInfo>
     </Window.TaskbarItemInfo>
-
-    <Grid>    
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        
-        <Grid Grid.Row="1">
+        <Grid>
             <Grid.ColumnDefinitions> 
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TabControl>
-                <TabItem Header="Scene Description" >
+                <TabItem Header="Scene Description">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -112,7 +105,7 @@
                 </TabItem>
                 <TabItem Header="Rendering" IsEnabled="True" Name="_RenderingTabItem" Visibility="Collapsed">              
                     <StackPanel>
-                        <GroupBox Header="Time Calculation" Name="_RenderingTimeCalculationGroupBox">
+                        <GroupBox Header="Render Time Estimatation" Name="_RenderTimeEstimationGroupBox">
                             <StackPanel>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -120,11 +113,11 @@
                                         <ColumnDefinition Width="*"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
 
-                                    <Button Name="_EstimateRenderTimeButton">Estimate render time</Button>
+                                    <Button Name="_EstimateRenderTimeButton">Estimate Render Time</Button>
                                     <Button Name="_EstimateRenderTimeOptionsButton" Grid.Column="1">Options...</Button>
                                 </Grid>
 
-                                <Label Name="_TotalEstimatedTimeLabel" Visibility="Collapsed">(Estimated total time:)</Label>
+                                <Label Name="_EstimatedTotalTimeLabel" Visibility="Collapsed">(Estimated total time:)</Label>
                                 <Label Name="_EstimatedRenderTimePerPixelLabel" Visibility="Collapsed">(Estimated average time per pixel:)</Label>
                             </StackPanel>
                         </GroupBox>
@@ -148,7 +141,7 @@
                         <Label Name="_AverageElapsedTimePerPixelLabel" Visibility="Collapsed">(Elapsed time per pixel average:)</Label>
                     </StackPanel>
                 </TabItem>
-                <TabItem Header="Result picture" Visibility="Collapsed" Name="_ResultPictureTabItem">
+                <TabItem Header="Result Picture" Visibility="Collapsed" Name="_ResultPictureTabItem">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
@@ -159,7 +152,5 @@
                     </Grid>
                 </TabItem>
             </TabControl>
-           
         </Grid>
-    </Grid>
 </Window>

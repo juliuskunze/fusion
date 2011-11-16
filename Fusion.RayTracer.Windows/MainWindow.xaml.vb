@@ -62,6 +62,14 @@ Public Class MainWindow
         End If
     End Sub
 
+    Private Sub ResetRenderTabs()
+        _RenderTimeEstimationGroupBox.Visibility = Visibility.Visible
+        _EstimatedRenderTimePerPixelLabel.Visibility = Visibility.Visible
+        _EstimatedTotalTimeLabel.Visibility = Visibility.Visible
+        _VideoFileGrid.Visibility = If(Me.Mode = CompileMode.Video, Visibility.Visible, Visibility.Hidden)
+        _RenderButton.IsEnabled = If(Me.Mode = CompileMode.Picture, True, Me.IsVideoOutputFileValid)
+    End Sub
+
     Private ReadOnly Property VideoOutputFile As FileInfo
         Get
             Return New FileInfo(_VideoFileBox.Text)
@@ -70,9 +78,6 @@ Public Class MainWindow
 
     Private Sub Compiler_Compiled(e As CompilerResultEventArgs(Of RayTracerPicture(Of RadianceSpectrum))) Handles _Compiler.PictureCompiled
         OnCompiled(e, out_result:=_Picture)
-        If e.CompilerResult.WasCompilationSuccessful Then
-
-        End If
     End Sub
 
     Private Sub Compiler_Compiled(e As CompilerResultEventArgs(Of RayTracerVideo(Of RadianceSpectrum))) Handles _Compiler.VideoCompiled
@@ -105,28 +110,30 @@ Public Class MainWindow
         End If
     End Sub
 
-    Private Sub CalculateNeededTimeButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _EstimateRenderTimeButton.Click
-        If Not _CalculateTimeOptionsDialog.DialogResult Then Return
+    Private Sub _EstimateRenderTimeButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _EstimateRenderTimeButton.Click
+        If Not _RenderTimeEstimationOptionsDialog.DialogResult Then Return
 
         Dim estimator = Me.GetRenderTimeEstimator
         Dim result = estimator.Run
 
+        _EstimatedRenderTimePerPixelLabel.Visibility = Visibility.Visible
         _EstimatedRenderTimePerPixelLabel.Content = "Time per Pixel: " & result.TimePerPixel.TotalMilliseconds.ToString & "ms"
-        _TotalEstimatedTimeLabel.Content = "Total time: " & result.TotalTime.ToString
+        _EstimatedTotalTimeLabel.Visibility = Visibility.Visible
+        _EstimatedTotalTimeLabel.Content = "Total time: " & result.TotalTime.ToString
     End Sub
 
     Private Function GetRenderTimeEstimator() As IRenderTimeEstimator
         If _Compiler.Mode = CompileMode.Picture Then
-            Return New PictureRenderTimeEstimator(_Picture, options:=_CalculateTimeOptionsDialog.Options)
+            Return New PictureRenderTimeEstimator(_Picture, options:=_RenderTimeEstimationOptionsDialog.Options)
         Else
-            Return New VideoRenderTimeEstimator(video:=_Video, options:=_CalculateTimeOptionsDialog.Options)
+            Return New VideoRenderTimeEstimator(video:=_Video, options:=_RenderTimeEstimationOptionsDialog.Options)
         End If
     End Function
 
-    Private _CalculateTimeOptionsDialog As New RenderTimeEstimationOptionsDialog
+    Private _RenderTimeEstimationOptionsDialog As New RenderTimeEstimationOptionsDialog
 
     Private Sub CalculateNeededTimeOptionsButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _EstimateRenderTimeOptionsButton.Click
-        _CalculateTimeOptionsDialog.ShowDialog()
+        _RenderTimeEstimationOptionsDialog.ShowDialog()
     End Sub
 
     Private Sub RenderCancelButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _RenderCancelButton.Click
@@ -142,7 +149,7 @@ Public Class MainWindow
     End Sub
 
 
-    Private Sub RenderProgressBar_ValueChanged(sender As Object, e As System.Windows.RoutedPropertyChangedEventArgs(Of Double)) Handles _RenderProgressBar.ValueChanged
+    Private Sub RenderProgressBar_ValueChanged(sender As Object, e As RoutedPropertyChangedEventArgs(Of Double)) Handles _RenderProgressBar.ValueChanged
         Me.TaskbarItemInfo.ProgressValue = e.NewValue / 100
     End Sub
 
@@ -150,7 +157,7 @@ Public Class MainWindow
         _Compiler.Unfocus()
     End Sub
 
-    Private Sub MainWindow_KeyDown(sender As Object, e As System.Windows.Input.KeyEventArgs) Handles Me.KeyDown
+    Private Sub MainWindow_KeyDown(sender As Object, e As Input.KeyEventArgs) Handles Me.KeyDown
         If Keyboard.IsKeyDown(Key.LeftCtrl) OrElse Keyboard.IsKeyDown(Key.RightCtrl) Then
             Select Case e.Key
                 Case Key.N
@@ -189,9 +196,7 @@ Public Class MainWindow
         _RenderingTabItem.Visibility = If(visible, Visibility.Visible, Visibility.Collapsed)
 
         If visible Then
-            _RenderButton.IsEnabled = If(Me.Mode = CompileMode.Picture,
-                                         True,
-                                         Me.IsVideoOutputFileValid)
+            Me.ResetRenderTabs()
         End If
     End Sub
 
@@ -204,23 +209,23 @@ Public Class MainWindow
         End Set
     End Property
 
-    Private Sub CompileMenuItem_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles _CompileMenuItem.Click
+    Private Sub CompileMenuItem_Click(sender As System.Object, e As RoutedEventArgs) Handles _CompileMenuItem.Click
         _Compiler.Compile()
     End Sub
 
-    Private Sub NewMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _NewMenuItem.Click
+    Private Sub NewMenuItem_Click(sender As Object, e As RoutedEventArgs) Handles _NewMenuItem.Click
         Me.TryCloseCurrentDescription()
     End Sub
 
-    Private Sub OpenMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _OpenMenuItem.Click
+    Private Sub OpenMenuItem_Click(sender As Object, e As RoutedEventArgs) Handles _OpenMenuItem.Click
         Me.ShowOpenDescriptionDialog()
     End Sub
 
-    Private Sub SaveMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _SaveMenuItem.Click
+    Private Sub SaveMenuItem_Click(sender As Object, e As RoutedEventArgs) Handles _SaveMenuItem.Click
         Me.TrySaveDescription()
     End Sub
 
-    Private Sub SaveAsMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _SaveAsMenuItem.Click
+    Private Sub SaveAsMenuItem_Click(sender As Object, e As RoutedEventArgs) Handles _SaveAsMenuItem.Click
         _SaveDescriptionDialog.ShowAndTrySave(description:=Me.Description)
     End Sub
 
@@ -240,7 +245,7 @@ Public Class MainWindow
         End If
     End Sub
 
-    Private Sub AutoCompileMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _AutoCompileMenuItem.Click
+    Private Sub AutoCompileMenuItem_Click(sender As Object, e As RoutedEventArgs) Handles _AutoCompileMenuItem.Click
         Me.AutoCompile = _AutoCompileMenuItem.IsChecked
     End Sub
 
@@ -280,7 +285,7 @@ Public Class MainWindow
         End Select
     End Function
 
-    Private Sub SceneDescriptionTextBox_TextChanged(sender As Object, e As System.Windows.Controls.TextChangedEventArgs) Handles _DescriptionBox.TextChanged
+    Private Sub SceneDescriptionTextBox_TextChanged(sender As Object, e As Controls.TextChangedEventArgs) Handles _DescriptionBox.TextChanged
         If Not Me.IsLoaded OrElse _Compiler.ApplyingTextDecorations Then Return
 
         _HasUnsavedChanges = True
@@ -298,7 +303,7 @@ Public Class MainWindow
         End Set
     End Property
 
-    Private Sub _VideoOutputFileChangeButton_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles _ChangeVideoFileButton.Click
+    Private Sub _VideoOutputFileChangeButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _ChangeVideoFileButton.Click
         If Me.IsVideoOutputFileValid Then
             _SaveVideoDialog.File = Me.VideoOutputFile
         End If
@@ -353,7 +358,7 @@ Public Class MainWindow
         _RenderProgressBar.Value = 0
         _RenderProgressBar.Visibility = Visibility.Collapsed
         _RenderCancelButton.Visibility = Visibility.Collapsed
-        _RenderingTimeCalculationGroupBox.Visibility = Visibility.Collapsed
+        _RenderTimeEstimationGroupBox.Visibility = Visibility.Collapsed
 
         _RenderButton.Visibility = Visibility.Visible
         _ResultPictureTabItem.Visibility = Visibility.Visible
@@ -372,7 +377,7 @@ Public Class MainWindow
         Return _VideoFileBox.Text <> ""
     End Function
 
-    Private Sub _VideoFileBox_TextChanged(sender As Object, e As System.Windows.Controls.TextChangedEventArgs) Handles _VideoFileBox.TextChanged
+    Private Sub _VideoFileBox_TextChanged(sender As Object, e As Controls.TextChangedEventArgs) Handles _VideoFileBox.TextChanged
         Me.SetRenderButtonEnabled()
     End Sub
 
@@ -393,11 +398,11 @@ Public Class MainWindow
         _OpenDescriptionDialog.File = _SaveDescriptionDialog.File
     End Sub
 
-    Private Sub _CompileVideoMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs)
+    Private Sub _CompileVideoMenuItem_Click(sender As Object, e As RoutedEventArgs)
         Me.Mode = CompileMode.Video
     End Sub
 
-    Private Sub _CompilePictureMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs)
+    Private Sub _CompilePictureMenuItem_Click(sender As Object, e As RoutedEventArgs)
         Me.Mode = CompileMode.Picture
     End Sub
 

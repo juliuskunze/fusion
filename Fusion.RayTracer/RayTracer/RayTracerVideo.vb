@@ -45,7 +45,6 @@
         _Duration = duration
         _StartTime = startTime
         _TimeStep = timeStep
-        Dim frames = Enumerable.Range(0, Me.FrameCount).Select(AddressOf Me.GetFrame).ToArray
     End Sub
 
     Public ReadOnly Property FrameCount As Integer
