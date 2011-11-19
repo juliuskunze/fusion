@@ -1,4 +1,4 @@
-﻿Public Class IntelliSenseItem
+﻿Public Class CompileHelpItem
 
     Private ReadOnly _Name As String
     Public ReadOnly Property Name As String
@@ -30,16 +30,16 @@
     Public Function ToListBoxItem() As ListBoxItem
         Dim listBoxItem = New ListBoxItem
         listBoxItem.Content = _Name
-        
-        Dim tooltip = New ToolTip
-        tooltip.Content = _ToolTipText
-        tooltip.PlacementTarget = listBoxItem
-
-        tooltip.Placement = Controls.Primitives.PlacementMode.Right
-
-        listBoxItem.ToolTip = tooltip
+        listBoxItem.ToolTip = Me.GetTooltip(listBoxItem)
 
         Return listBoxItem
     End Function
 
+    Private Function GetTooltip(listBoxItem As ListBoxItem) As ToolTip
+        Dim tooltip = New ToolTip
+        tooltip.Content = _ToolTipText
+        tooltip.PlacementTarget = listBoxItem
+        tooltip.Placement = Controls.Primitives.PlacementMode.Right
+        Return tooltip
+    End Function
 End Class

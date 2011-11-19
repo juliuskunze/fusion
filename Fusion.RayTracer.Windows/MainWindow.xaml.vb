@@ -30,11 +30,12 @@ Public Class MainWindow
         _SaveDescriptionDialog = New SaveDescriptionDialog(Owner:=Me, initialDirectory:=initialDirectory)
         _OpenDescriptionDialog = New OpenDescriptionDialog(Owner:=Me, initialDirectory:=initialDirectory)
 
-        Me.ClearDescription()
-
         _Compiler = Me.CreatePictureOrVideoCompiler(relativisticRayTracerTermContextBuilder)
+
         Me.Mode = CompileMode.Picture
 
+        Me.InitDescription()
+        
         AddHandler _CompileVideoMenuItem.Checked, AddressOf _CompileVideoMenuItem_Click
         AddHandler _CompilePictureMenuItem.Checked, AddressOf _CompilePictureMenuItem_Click
     End Sub
@@ -84,7 +85,7 @@ Public Class MainWindow
         OnCompiled(e, out_result:=_Video)
     End Sub
 
-    Private Sub OnCompiled(Of TResult)(ByVal e As CompilerResultEventArgs(Of TResult), ByRef out_result As TResult)
+    Private Sub OnCompiled(Of TResult)( e As CompilerResultEventArgs(Of TResult), ByRef out_result As TResult)
         If e.CompilerResult.WasCompilationSuccessful Then
             out_result = e.CompilerResult.Result
             _CompileLabel.Content = "Compilation succeeded."
@@ -148,9 +149,8 @@ Public Class MainWindow
         End If
     End Sub
 
-
     Private Sub RenderProgressBar_ValueChanged(sender As Object, e As RoutedPropertyChangedEventArgs(Of Double)) Handles _RenderProgressBar.ValueChanged
-        Me.TaskbarItemInfo.ProgressValue = e.NewValue / 100
+        Me.TaskbarItemInfo.ProgressValue = e.NewValue
     End Sub
 
     Private Sub MainWindow_Deactivated(sender As Object, e As EventArgs) Handles Me.Deactivated
@@ -161,7 +161,7 @@ Public Class MainWindow
         If Keyboard.IsKeyDown(Key.LeftCtrl) OrElse Keyboard.IsKeyDown(Key.RightCtrl) Then
             Select Case e.Key
                 Case Key.N
-                    Me.TryCloseCurrentDescription()
+                    Me.TryCloseDescription()
 
                     e.Handled = True
 
@@ -214,7 +214,7 @@ Public Class MainWindow
     End Sub
 
     Private Sub NewMenuItem_Click(sender As Object, e As RoutedEventArgs) Handles _NewMenuItem.Click
-        Me.TryCloseCurrentDescription()
+        Me.TryCloseDescription()
     End Sub
 
     Private Sub OpenMenuItem_Click(sender As Object, e As RoutedEventArgs) Handles _OpenMenuItem.Click
@@ -230,19 +230,18 @@ Public Class MainWindow
     End Sub
 
     Private Sub ShowOpenDescriptionDialog()
-        If _OpenDescriptionDialog.Show Then
-            If Me.TryCloseCurrentDescription() Then
-                Dim description = _OpenDescriptionDialog.OpenDescription()
+        If Not _OpenDescriptionDialog.Show Then Return
+        If Not Me.TryCloseDescription Then Return
 
-                _SaveDescriptionDialog.File = _OpenDescriptionDialog.File
-                Me.Mode = _OpenDescriptionDialog.Mode
-                _SaveDescriptionDialog.FileAccepted = True
+        Dim description = _OpenDescriptionDialog.OpenDescription()
 
-                Me.Title = _SaveDescriptionDialog.File.Name & " - " & _TitleBase
-                _DescriptionBox.Document = TextOnlyDocument.GetDocumentFromText(description)
-                _HasUnsavedChanges = False
-            End If
-        End If
+        _SaveDescriptionDialog.File = _OpenDescriptionDialog.File
+        Me.Mode = _OpenDescriptionDialog.Mode
+        _SaveDescriptionDialog.FileAccepted = True
+
+        Me.Title = _SaveDescriptionDialog.File.Name & " - " & _TitleBase
+        _Compiler.LoadDocument(description)
+        _HasUnsavedChanges = False
     End Sub
 
     Private Sub AutoCompileMenuItem_Click(sender As Object, e As RoutedEventArgs) Handles _AutoCompileMenuItem.Click
@@ -252,14 +251,17 @@ Public Class MainWindow
     Private _HasUnsavedChanges As Boolean
 
     Private Sub ClearDescription()
-        _SaveDescriptionDialog.FileAccepted = False
+        _Compiler.LoadDocument(description:="")
+        Me.InitDescription()
+    End Sub
 
+    Private Sub InitDescription()
+        _SaveDescriptionDialog.FileAccepted = False
         Me.Title = _TitleBase
-        _DescriptionBox.Document = TextOnlyDocument.GetDocumentFromText("")
         _HasUnsavedChanges = False
     End Sub
 
-    Private Function TryCloseCurrentDescription() As Boolean
+    Private Function TryCloseDescription() As Boolean
         If Not _HasUnsavedChanges Then
             Me.ClearDescription()
             Return True
@@ -332,7 +334,7 @@ Public Class MainWindow
     End Property
 
     Private Sub _Renderer_ProgressChanged(e As ComponentModel.ProgressChangedEventArgs) Handles _PictureRenderer.ProgressChanged, _VideoRenderer.ProgressChanged
-        _RenderProgressBar.Value = e.ProgressPercentage
+        _RenderProgressBar.Value = e.ProgressPercentage / 100
     End Sub
 
     Private Sub _PictureRenderer_Completed(e As RenderResultEventArgs(Of System.Drawing.Bitmap)) Handles _PictureRenderer.Completed

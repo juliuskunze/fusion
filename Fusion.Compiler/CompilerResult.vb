@@ -7,16 +7,16 @@
         End Get
     End Property
 
-    Private ReadOnly _IntelliSense As IntelliSense
-    Public ReadOnly Property IntelliSense As IntelliSense
+    Private ReadOnly _CompileHelp As CompileHelp
+    Public ReadOnly Property CompileHelp As CompileHelp
         Get
-            Return _IntelliSense
+            Return _CompileHelp
         End Get
     End Property
 
-    Public Sub New(result As TResult, intelliSense As IntelliSense)
+    Public Sub New(result As TResult, compileHelp As CompileHelp)
         _Result = result
-        _IntelliSense = intelliSense
+        _CompileHelp = compileHelp
     End Sub
 
 End Class

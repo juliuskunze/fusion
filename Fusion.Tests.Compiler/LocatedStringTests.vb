@@ -53,4 +53,34 @@
 
     End Sub
 
+    <Test()>
+    Public Sub TestGetSurroundingIdentifier()
+        Assert.AreEqual("A B ABC2".ToLocated.TryGetSurroundingIdentifier(pointer:=6).ToString, "ABC2")
+        Assert.AreEqual("A B ABC2 ".ToLocated.TryGetSurroundingIdentifier(pointer:=6).ToString, "ABC2")
+        Assert.AreEqual("AB2 ".ToLocated.TryGetSurroundingIdentifier(pointer:=1).ToString, "AB2")
+        Assert.AreEqual("A".ToLocated.TryGetSurroundingIdentifier(pointer:=1).ToString, "A")
+        Assert.AreEqual("A ".ToLocated.TryGetSurroundingIdentifier(pointer:=1).ToString, "A")
+        Assert.AreEqual("A".ToLocated.TryGetSurroundingIdentifier(pointer:=0).ToString, "A")
+        Assert.AreEqual(" A".ToLocated.TryGetSurroundingIdentifier(pointer:=1).ToString, "A")
+    End Sub
+
+    <Test()>
+    Public Sub IdentifierBeforeLastOpenedBracket()
+        Dim s = "outer(p, inner(2, 4)".ToLocated
+
+        Assert.AreEqual("inner", s.TryGetIdentifierBeforeLastOpenedBracket(18).ToString)
+        Assert.AreEqual("outer", s.TryGetIdentifierBeforeLastOpenedBracket(7).ToString)
+        Assert.AreEqual("outer", s.TryGetIdentifierBeforeLastOpenedBracket(10).ToString)
+
+        Dim s2 = ".(a)".ToLocated
+
+        Assert.AreEqual(Nothing, s2.TryGetIdentifierBeforeLastOpenedBracket(0))
+        Assert.AreEqual(Nothing, s2.TryGetIdentifierBeforeLastOpenedBracket(s2.Length))
+
+        Dim s3 = "".ToLocated
+
+        Assert.AreEqual(Nothing, s3.TryGetIdentifierBeforeLastOpenedBracket(0))
+        Assert.AreEqual(Nothing, s3.TryGetIdentifierBeforeLastOpenedBracket(s3.Length))
+    End Sub
+
 End Class

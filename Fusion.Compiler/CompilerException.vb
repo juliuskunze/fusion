@@ -9,8 +9,8 @@
         Return New LocatedCompilerException(locatedString, Me.Message)
     End Function
 
-    Public Function WithIntelliSense(intelliSense As IntelliSense) As CompilerExceptionWithIntelliSense
-        Return New CompilerExceptionWithIntelliSense(Me, intelliSense)
+    Public Function WithHelp(compileHelp As CompileHelp) As CompilerExceptionWithHelp
+        Return New CompilerExceptionWithHelp(Me, compileHelp)
     End Function
 
 End Class

@@ -43,15 +43,4 @@
         Assert.AreEqual(" (3,4)", rest.ToString)
     End Sub
 
-    <Test()>
-    Public Sub TestGetSurroundingIdentifier()
-        Assert.AreEqual(CompilerTools.TryGetSurroundingIdentifier("A B ABC2".ToLocated, pointer:=6).ToString, "ABC2")
-        Assert.AreEqual(CompilerTools.TryGetSurroundingIdentifier("A B ABC2 ".ToLocated, pointer:=6).ToString, "ABC2")
-        Assert.AreEqual(CompilerTools.TryGetSurroundingIdentifier("AB2 ".ToLocated, pointer:=1).ToString, "AB2")
-        Assert.AreEqual(CompilerTools.TryGetSurroundingIdentifier("A".ToLocated, pointer:=1).ToString, "A")
-        Assert.AreEqual(CompilerTools.TryGetSurroundingIdentifier("A ".ToLocated, pointer:=1).ToString, "A")
-        Assert.AreEqual(CompilerTools.TryGetSurroundingIdentifier("A".ToLocated, pointer:=0).ToString, "A")
-        Assert.AreEqual(CompilerTools.TryGetSurroundingIdentifier(" A".ToLocated, pointer:=1).ToString, "A")
-    End Sub
-
 End Class

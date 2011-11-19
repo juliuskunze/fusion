@@ -3,10 +3,11 @@
 Public Class RichCompiler(Of TResult)
 
     Private WithEvents _RichTextBox As RichTextBox
-    Private WithEvents _HelpPopup As Popup
+    Private WithEvents _HelpListPopup As Popup
     Private WithEvents _HelpListBox As ListBox
     Private WithEvents _HelpScrollViewer As ScrollViewer
-    Private _CurrentToolTip As ToolTip
+    Private _ItemToolTip As ToolTip
+    Private _OpenedFunctionToolTip As ToolTip
 
     Private _ApplyingTextDecorations As Boolean
     Public ReadOnly Property ApplyingTextDecorations As Boolean
@@ -34,19 +35,19 @@ Public Class RichCompiler(Of TResult)
     End Property
 
     Public Sub New(richTextBox As RichTextBox,
-                   helpPopup As Popup,
+                   helpListPopup As Popup,
                    helpListBox As ListBox,
                    helpScrollViewer As ScrollViewer,
                    baseContext As TermContext,
                    typeNamedTypeDictionary As TypeNamedTypeDictionary,
                    Optional autoCompile As Boolean = True)
         _RichTextBox = richTextBox
-        _HelpPopup = helpPopup
+        _HelpListPopup = helpListPopup
         _HelpListBox = helpListBox
         _HelpScrollViewer = helpScrollViewer
         _AutoCompile = autoCompile
 
-        _HelpPopup.PlacementTarget = _RichTextBox
+        _HelpListPopup.PlacementTarget = _RichTextBox
         _RichTextBox.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
         _RichTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Visible
 
@@ -58,6 +59,13 @@ Public Class RichCompiler(Of TResult)
         _RichTextBox.CommandBindings.Add(pasteCommandBinding)
 
         Me.AddHandlersIfNeeded()
+
+        _OpenedFunctionToolTip = New ToolTip With
+            {
+            .Placement = PlacementMode.Bottom,
+            .PlacementTarget = _RichTextBox,
+            .StaysOpen = True
+            }
     End Sub
 
     Private Sub AddHandlersIfNeeded()
@@ -111,9 +119,9 @@ Public Class RichCompiler(Of TResult)
 
     Private _HandlersAdded As Boolean
 
-    Public Sub ActivateAndCompile()
+    Public Sub ActivateAndCompile(Optional showHelp As Boolean = False)
+        Me.UpdateAndCompile(showHelp:=showHelp)
         Me.AddHandlersIfNeeded()
-        Me.UpdateAndCompile()
     End Sub
 
     Private Sub UpdateOnTextChanged()
@@ -156,17 +164,17 @@ Public Class RichCompiler(Of TResult)
     End Sub
 
     Public Sub Compile(Optional showHelp As Boolean = False)
-        Dim intelliSense As IntelliSense = Nothing
+        Dim compileHelp As CompileHelp = Nothing
         Dim richCompilerResult As RichCompilerResult(Of TResult) = Nothing
 
         Try
-            Dim compilerResult = _Compiler.Compile(showIntelliSense:=showHelp)
+            Dim compilerResult = _Compiler.Compile(withHelp:=showHelp)
 
-            intelliSense = compilerResult.IntelliSense
+            compileHelp = compilerResult.CompileHelp
             richCompilerResult = New RichCompilerResult(Of TResult)(compilerResult.Result)
 
             Me.RemoveUnderline()
-        Catch ex As CompilerExceptionWithIntelliSense
+        Catch ex As CompilerExceptionWithHelp
             Dim locatedEx = TryCast(ex.InnerCompilerException, LocatedCompilerException)
             If locatedEx IsNot Nothing Then
                 Me.UnderlineError(locatedEx.LocatedString, _TextOnlyDocument)
@@ -174,67 +182,88 @@ Public Class RichCompiler(Of TResult)
                 Me.RemoveUnderline()
             End If
 
-            intelliSense = ex.IntelliSense
+            compileHelp = ex.CompileHelp
             richCompilerResult = New RichCompilerResult(Of TResult)(ex.InnerCompilerException.Message)
 
         Catch ex As Reflection.TargetInvocationException
-
-            intelliSense = intelliSense.Empty
+            compileHelp = compileHelp.Empty
             richCompilerResult = New RichCompilerResult(Of TResult)(ex.InnerException.Message)
             Me.RemoveUnderline()
 
         Catch ex As Exception
-            intelliSense = intelliSense.Empty
+            compileHelp = compileHelp.Empty
             richCompilerResult = New RichCompilerResult(Of TResult)(ex.Message)
             Me.RemoveUnderline()
 
         Finally
-            Me.ShowIntelliSense(intelliSense)
+            Me.ShowHelp(compileHelp)
 
             RaiseEvent Compiled(Me, New CompilerResultEventArgs(Of TResult)(richCompilerResult))
         End Try
     End Sub
 
-    Private Sub ShowIntelliSense(intelliSense As IntelliSense)
-        If intelliSense.IsEmpty Then
-            Me.CloseAutoCompletePopup()
+    Private Sub ShowHelp(compileHelp As CompileHelp)
+        If compileHelp.IsEmpty Then
+            Me.CloseHelp()
             Return
         End If
 
-        Dim identifier = _Compiler.CurrentIdentifierIfDefined
+        Me.TryShowOpenedFunctionHelp(compileHelp)
+        Me.TryShowHelpList(compileHelp)
+    End Sub
 
-        If identifier Is Nothing Then Return
+    Private Sub TryShowOpenedFunctionHelp(compileHelp As CompileHelp)
+        Dim help = compileHelp.TryGetInnermostOpenFunctionHelp
+        If help Is Nothing Then
+            Me.CloseFunctionToolTip()
+            Return
+        End If
 
-        Dim currentIdentifierStartCharRectangle = _TextOnlyDocument.GetTextPointer(_Compiler.CurrentIdentifierIfDefined.Location.StartIndex).GetCharacterRect(LogicalDirection.Forward)
+        _OpenedFunctionToolTip.Content = help.ToolTipText
+        _OpenedFunctionToolTip.IsOpen = True
 
-        _HelpPopup.VerticalOffset = -(_RichTextBox.ActualHeight - currentIdentifierStartCharRectangle.Bottom)
-        _HelpPopup.HorizontalOffset = currentIdentifierStartCharRectangle.Left
+        Dim functionStartCharRect = _TextOnlyDocument.GetCharacterRect(index:=compileHelp.InnermostCalledFunction.Location.StartIndex)
+        Dim currentIdentifierStartCharRect = _TextOnlyDocument.GetCharacterRect(_Compiler.CurrentIdentifierIfDefined.Location.StartIndex)
 
-        Dim intelliSenseItems = intelliSense.GetItems
-        Dim listBoxItems = intelliSenseItems.Select(Function(intelliSenseItem) intelliSenseItem.ToListBoxItem)
+        _OpenedFunctionToolTip.VerticalOffset = currentIdentifierStartCharRect.Bottom - _RichTextBox.ActualHeight
+        _OpenedFunctionToolTip.HorizontalOffset = functionStartCharRect.Left
+    End Sub
+
+    Private Sub TryShowHelpList(ByVal compileHelp As CompileHelp)
+        Dim helpItems = compileHelp.GetItems
+        If Not helpItems.Any Then
+            Me.CloseHelpList()
+            Return
+        End If
+
+        Me.ShowHelpList(helpItems)
+    End Sub
+
+    Private Sub ShowHelpList(helpItems As IEnumerable(Of CompileHelpItem))
+        Dim listBoxItems = helpItems.Select(Function(helpItem) helpItem.ToListBoxItem)
 
         _HelpListBox.ItemsSource = listBoxItems
 
-        If Not _HelpListBox.HasItems Then
-            Me.CloseAutoCompletePopup()
-            Return
-        End If
+        Dim currentIdentifierStartCharRect = _TextOnlyDocument.GetCharacterRect(_Compiler.CurrentIdentifierIfDefined.Location.StartIndex)
 
-        Me.ReopenAutoCompletePopup()
+        Dim extraVerticalOffset = If(_OpenedFunctionToolTip.IsOpen, _OpenedFunctionToolTip.ActualHeight, 0)
+        _HelpListPopup.VerticalOffset = currentIdentifierStartCharRect.Bottom - _RichTextBox.ActualHeight + extraVerticalOffset
+        _HelpListPopup.HorizontalOffset = currentIdentifierStartCharRect.Left
+
+        Me.ReopenHelpList()
 
         Dim selectedIndex = 0
 
-        For i = 0 To intelliSenseItems.Count - 1
-            Dim intelliSenseItem = intelliSenseItems(i)
-            If intelliSenseItem.Name.StartsWith(_Compiler.CurrentIdentifierIfDefined.ToString, StringComparison.InvariantCultureIgnoreCase) Then
-                selectedIndex = i
+        For index = 0 To helpItems.Count - 1
+            Dim helpItem = helpItems(index)
+            If helpItem.Name.StartsWith(_Compiler.CurrentIdentifierIfDefined.ToString, StringComparison.InvariantCultureIgnoreCase) Then
+                selectedIndex = index
 
                 Exit For
             End If
         Next
 
         _HelpListBox.SelectedIndex = selectedIndex
-
     End Sub
 
     Private Sub UnderlineError(locatedString As LocatedString, textOnlyDocument As TextOnlyDocument)
@@ -265,10 +294,6 @@ Public Class RichCompiler(Of TResult)
 
         _ApplyingTextDecorations = False
     End Sub
-
-    '!!!Public Function GetCorrectedText() As String
-    '    Return MyBase..TrimEnd({" "c, Microsoft.VisualBasic.ControlChars.Tab, ";"c}).ToString
-    'End Function
 
     Private Shared ReadOnly _ErrorTextDecorations As TextDecorationCollection = CreateErrorTextDecorations()
     Private Shared Function CreateErrorTextDecorations() As TextDecorationCollection
@@ -317,7 +342,7 @@ Public Class RichCompiler(Of TResult)
     Public Event Compiled(sender As Object, e As CompilerResultEventArgs(Of TResult))
 
     Private Sub RichTextBox_PreviewKeyDown(sender As Object, e As KeyEventArgs)
-        If _HelpPopup.IsOpen Then
+        If _HelpListPopup.IsOpen Then
             Select Case e.Key
                 Case Key.Down
                     If _HelpListBox.SelectedIndex < _HelpListBox.Items.Count - 1 Then _HelpListBox.SelectedIndex += 1
@@ -328,13 +353,18 @@ Public Class RichCompiler(Of TResult)
 
                     e.Handled = True
                 Case Key.Escape
-                    Me.CloseAutoCompletePopup()
+                    Me.CloseHelpList()
 
                     e.Handled = True
                 Case Key.Tab
-                    Me.CloseAutoCompletePopupAndUpdateSource()
+                    Me.CloseHelpAndAutoComplete()
 
                     e.Handled = True
+            End Select
+        ElseIf _OpenedFunctionToolTip.IsOpen Then
+            Select Case e.Key
+                Case Key.Escape
+                    Me.CloseFunctionToolTip()
             End Select
         Else
             Select Case e.Key
@@ -362,14 +392,13 @@ Public Class RichCompiler(Of TResult)
         If tb Is Nothing Then Return
 
         If e.ClickCount = 2 Then
-            Me.CloseAutoCompletePopupAndUpdateSource()
+            Me.CloseHelpAndAutoComplete()
             e.Handled = True
         End If
     End Sub
 
-    Private Sub CloseAutoCompletePopupAndUpdateSource()
-        Me.CloseAutoCompletePopup()
-
+    Private Sub CloseHelpAndAutoComplete()
+        Me.CloseHelp()
         Me.AutoCompleteText(CStr(DirectCast(_HelpListBox.SelectedItem, ListBoxItem).Content))
     End Sub
 
@@ -390,61 +419,68 @@ Public Class RichCompiler(Of TResult)
         Clipboard.SetDataObject(If(clipboardCopy Is Nothing, "", clipboardCopy))
     End Sub
 
-    Private Sub ReopenAutoCompletePopup()
-        Me.CloseAutoCompletePopup()
-        _HelpPopup.IsOpen = True
+    Private Sub ReopenHelpList()
+        Me.CloseHelpList()
+        _HelpListPopup.IsOpen = True
     End Sub
 
-    Private Sub CloseAutoCompletePopup()
-        Me.CloseCurrentToolTipIfNotNull()
+    Private Sub CloseHelpList()
+        Me.CloseItemToolTipIfNotNull()
 
-        _HelpPopup.IsOpen = False
+        _HelpListPopup.IsOpen = False
     End Sub
 
-    Private Sub CloseCurrentToolTipIfNotNull()
-        If _CurrentToolTip Is Nothing Then Return
+    Private Sub CloseHelp()
+        Me.CloseHelpList()
+        Me.CloseFunctionToolTip()
+    End Sub
 
-        _CurrentToolTip.IsOpen = False
+    Private Sub CloseFunctionToolTip()
+        _OpenedFunctionToolTip.IsOpen = False
+    End Sub
+
+    Private Sub CloseItemToolTipIfNotNull()
+        If _ItemToolTip Is Nothing Then Return
+
+        _ItemToolTip.IsOpen = False
     End Sub
 
     Private Sub ReopenCurrentToolTipIfNotNull()
-        If _CurrentToolTip Is Nothing Then Return
+        If _ItemToolTip Is Nothing Then Return
 
-        _CurrentToolTip.IsOpen = False
-        Me.OpenCurrentToolTip()
+        _ItemToolTip.IsOpen = False
+        Me.OpenItemToolTip()
     End Sub
 
-
     Public Sub Unfocus()
-        Me.CloseAutoCompletePopup()
+        Me.CloseHelp()
     End Sub
 
     Private Sub BringSelectedIntoViewAndReopenTooltip()
-        Me.CloseCurrentToolTipIfNotNull()
+        Me.CloseItemToolTipIfNotNull()
 
         Dim selectedItem = DirectCast(_HelpListBox.SelectedItem, ListBoxItem)
         If selectedItem Is Nothing Then Return
 
+        _ItemToolTip = DirectCast(selectedItem.ToolTip, ToolTip)
+
+        Me.ReopenCurrentToolTipIfNotNull()
+
+        _ReopenItemToolTipOnScroll = True
+
         _HelpListBox.ScrollIntoView(selectedItem)
-
-        _CurrentToolTip = DirectCast(selectedItem.ToolTip, ToolTip)
-
-        Me.OpenCurrentToolTip()
-
-        _ShouldReopenToolTipOnScroll = True
     End Sub
 
-    Private Sub OpenCurrentToolTip()
-        _CurrentToolTip.HorizontalOffset = If(_HelpScrollViewer.ComputedVerticalScrollBarVisibility = Visibility.Visible, 22, 5)
-
-        _CurrentToolTip.IsOpen = True
+    Private Sub OpenItemToolTip()
+        _ItemToolTip.HorizontalOffset = If(_HelpScrollViewer.ComputedVerticalScrollBarVisibility = Visibility.Visible, 22, 5)
+        _ItemToolTip.IsOpen = True
     End Sub
 
-    Private _ShouldReopenToolTipOnScroll As Boolean
+    Private _ReopenItemToolTipOnScroll As Boolean
 
     Private Sub AutoCompleteScrollViewer_ScrollChanged(sender As Object, e As System.Windows.Controls.ScrollChangedEventArgs)
-        If _ShouldReopenToolTipOnScroll Then
-            _ShouldReopenToolTipOnScroll = False
+        If _ReopenItemToolTipOnScroll Then
+            _ReopenItemToolTipOnScroll = False
 
             Me.ReopenCurrentToolTipIfNotNull()
         End If
@@ -453,5 +489,13 @@ Public Class RichCompiler(Of TResult)
     Private Sub AutoCompleteListBox_SelectionChanged(sender As Object, e As System.Windows.Controls.SelectionChangedEventArgs)
         Me.BringSelectedIntoViewAndReopenTooltip()
     End Sub
-    
+
+    Public Sub LoadDocument(description As String)
+        Me.Deactivate()
+
+        _RichTextBox.Document = TextOnlyDocument.GetDocumentFromText(description)
+
+        Me.ActivateAndCompile(showHelp:=False)
+    End Sub
+
 End Class

@@ -157,37 +157,6 @@ Public Module CompilerTools
     End Function
 
     <Extension()>
-    Public Function GetCharIsInBracketsArray(s As LocatedString, bracketTypes As IEnumerable(Of BracketType)) As Boolean()
-        Dim _CharIsInBrackets(s.Length - 1) As Boolean
-        Dim bracketDepth = 0
-        Dim openedBracketTypes = New Stack(Of BracketType)
-
-        For charIndex = 0 To s.Length - 1
-            Dim character = s.Chars(charIndex)
-            Dim openingBracketType = bracketTypes.Where(Function(bracketType) bracketType.OpeningBracket = character).SingleOrDefault
-            If openingBracketType IsNot Nothing Then
-                openedBracketTypes.Push(openingBracketType)
-                bracketDepth += 1
-            End If
-
-            If bracketDepth > 0 Then
-                _CharIsInBrackets(charIndex) = True
-            End If
-
-            Dim closingBracketType = bracketTypes.Where(Function(bracketType) bracketType.ClosingBracket = character).SingleOrDefault
-            If closingBracketType IsNot Nothing Then
-                If Not openedBracketTypes.Any Then Throw New InvalidTermException(s, message:="End of term expected.")
-                If openedBracketTypes.Pop IsNot closingBracketType Then Throw New InvalidTermException(s, message:="Brackets not matching.")
-                bracketDepth -= 1
-            End If
-        Next
-
-        If bracketDepth > 0 Then Throw New InvalidTermException(s, message:="')' expected.")
-
-        Return _CharIsInBrackets
-    End Function
-
-    <Extension()>
     Public Function IsInBrackets(s As LocatedString) As Boolean
         Return s.IsInBrackets(bracketType:=BracketType.Round)
     End Function
@@ -246,68 +215,6 @@ Public Module CompilerTools
     <Extension()>
     Public Function ToLocated(s As String) As LocatedString
         Return s.ToAnalized.ToLocated
-    End Function
-
-    <Extension()>
-    Public Function TryGetSurroundingIdentifier(s As LocatedString, selection As TextLocation) As LocatedString
-        If selection.Length = 0 Then Return TryGetSurroundingIdentifier(s, selection.StartIndex)
-
-        Dim startIdentifier = TryGetSurroundingIdentifier(s, selection.StartIndex)
-        Dim endIdentifier = TryGetSurroundingIdentifier(s, selection.EndIndex)
-
-        If startIdentifier <> endIdentifier Then Return Nothing
-
-        Return startIdentifier
-    End Function
-
-    Public Function TryGetSurroundingIdentifier(ByVal s As LocatedString, pointer As Integer) As LocatedString
-        If pointer < 0 OrElse pointer > s.Length Then Throw New ArgumentOutOfRangeException("pointer")
-
-        Dim startIndex = 0
-        Dim endIndex = s.Length
-
-        If s.ToString = "" Then Return s.Substring(startIndex:=pointer, length:=0)
-
-        If pointer = 0 Then
-            For i = 0 To s.Length - 1
-                If Not s(i).IsIdentifierChar Then
-                    endIndex = i
-                    Exit For
-                End If
-            Next
-
-            If Not s(startIndex).IsIdentifierStartChar Then Return s.Substring(startIndex:=pointer, length:=0)
-        ElseIf pointer = s.Length OrElse Not s(pointer).IsIdentifierChar Then
-            endIndex = pointer
-
-            For i = pointer - 1 To 0 Step -1
-                If Not s(i).IsIdentifierChar Then
-                    startIndex = i + 1
-                    Exit For
-                End If
-            Next
-
-
-        Else
-
-            For i = pointer To 0 Step -1
-                If Not s(i).IsIdentifierChar Then
-                    startIndex = i + 1
-                    Exit For
-                End If
-            Next
-
-            For i = pointer + 1 To s.Length - 1
-                If Not s(i).IsIdentifierChar Then
-                    endIndex = i
-                    Exit For
-                End If
-            Next
-        End If
-
-        If startIndex < s.Length - 1 AndAlso Not s(startIndex).IsIdentifierStartChar Then Return s.Substring(startIndex:=pointer, length:=0)
-
-        Return s.Substring(startIndex:=startIndex, length:=endIndex - startIndex)
     End Function
 
 End Module

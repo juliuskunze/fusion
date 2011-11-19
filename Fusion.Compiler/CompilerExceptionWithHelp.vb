@@ -1,10 +1,10 @@
-﻿Public Class CompilerExceptionWithIntelliSense
+﻿Public Class CompilerExceptionWithHelp
     Inherits Exception
 
-    Private ReadOnly _IntelliSense As IntelliSense
-    Public ReadOnly Property IntelliSense As IntelliSense
+    Private ReadOnly _CompileHelp As CompileHelp
+    Public ReadOnly Property CompileHelp As CompileHelp
         Get
-            Return _IntelliSense
+            Return _CompileHelp
         End Get
     End Property
 
@@ -14,9 +14,9 @@
         End Get
     End Property
 
-    Public Sub New(compilerExcpetion As CompilerException, intelliSense As IntelliSense)
+    Public Sub New(compilerExcpetion As CompilerException, compileHelp As CompileHelp)
         MyBase.New(Message:="An error occured during compilation.", InnerException:=compilerExcpetion)
-        _IntelliSense = intelliSense
+        _CompileHelp = compileHelp
     End Sub
 
 End Class

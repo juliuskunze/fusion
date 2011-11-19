@@ -28,7 +28,7 @@ Public MustInherit Class Renderer(Of TResult)
         RaiseEvent Completed(New RenderResultEventArgs(Of TResult)(CType(CType(e.Result, Object), TResult), cancelled:=e.Cancelled, ElapsedTime:=Me.ElapsedTime))
     End Sub
 
-    Protected Overridable Sub OnCompleted(ByVal e As RunWorkerCompletedEventArgs)
+    Protected Overridable Sub OnCompleted(e As RunWorkerCompletedEventArgs)
         If e.Error IsNot Nothing Then Throw e.Error
 
         _Stopwatch.Stop()

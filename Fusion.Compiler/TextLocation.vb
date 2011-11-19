@@ -26,7 +26,8 @@
     End Property
 
     Public Function SubLocation(startIndex As Integer) As TextLocation
-        Return Me.SubLocation(startIndex:=startIndex, length:=_Length - startIndex)
+        Return Me.SubLocation(startIndex:=startIndex,
+                              length:=_Length - startIndex)
     End Function
 
     Public Function SubLocation(startIndex As Integer, length As Integer) As TextLocation

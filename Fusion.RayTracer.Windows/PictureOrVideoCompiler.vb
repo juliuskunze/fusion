@@ -56,7 +56,7 @@ Public Class PictureOrVideoCompiler
 
     Private Function GetCompiler(Of TResult)() As RichCompiler(Of TResult)
         Return New RichCompiler(Of TResult)(RichTextBox:=_DescriptionBox,
-                                            helpPopup:=_HelpPopup,
+                                            helpListPopup:=_HelpPopup,
                                             helpListBox:=_HelpListBox,
                                             helpScrollViewer:=_HelpScrollViewer,
                                             baseContext:=_RelativisticRayTracerTermContextBuilder.TermContext,
@@ -101,6 +101,14 @@ Public Class PictureOrVideoCompiler
             End If
         End Get
     End Property
+
+    Public Sub LoadDocument(description As String)
+        If Me.Mode = CompileMode.Picture Then
+            _PictureCompiler.LoadDocument(description:=description)
+        Else
+            _VideoCompiler.LoadDocument(description:=description)
+        End If
+    End Sub
 
 End Class
 

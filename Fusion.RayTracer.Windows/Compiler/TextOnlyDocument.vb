@@ -135,7 +135,7 @@
         Return position
     End Function
 
-    Private Function GetPositionInParent(ByVal run As Run) As Integer
+    Private Function GetPositionInParent( run As Run) As Integer
         Dim position = 0
 
         Dim inline = run.PreviousInline
@@ -147,7 +147,7 @@
         Return position
     End Function
 
-    Private Function GetPositionInParent(ByVal block As Block) As Integer
+    Private Function GetPositionInParent( block As Block) As Integer
         Dim position = 0
 
         block = block.PreviousBlock
@@ -176,4 +176,9 @@
 
         Return document
     End Function
+
+    Public Function GetCharacterRect(index As Integer) As Rect
+        Return Me.GetTextPointer(index:=index).GetCharacterRect(LogicalDirection.Forward)
+    End Function
+
 End Class

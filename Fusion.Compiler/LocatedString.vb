@@ -76,6 +76,8 @@
 
     Default Public ReadOnly Property Chars(index As Integer) As Char
         Get
+            If index < 0 OrElse index >= Me.Length Then Throw New ArgumentOutOfRangeException("index")
+
             Return _ContainingAnalizedString.Text(_Location.StartIndex + index)
         End Get
     End Property
@@ -138,5 +140,132 @@
     Public Shared Operator <>(l1 As LocatedString, l2 As LocatedString) As Boolean
         Return Not l1 = l2
     End Operator
+
+    Public Function GetCharIsInBracketsArray(bracketTypes As IEnumerable(Of BracketType)) As Boolean()
+        Dim _CharIsInBrackets(Me.Length - 1) As Boolean
+        Dim bracketDepth = 0
+        Dim openedBracketTypes = New Stack(Of BracketType)
+
+        For charIndex = 0 To Me.Length - 1
+            Dim character = Me.Chars(charIndex)
+            Dim openingBracketType = bracketTypes.Where(Function(bracketType) bracketType.OpeningBracket = character).SingleOrDefault
+            If openingBracketType IsNot Nothing Then
+                openedBracketTypes.Push(openingBracketType)
+                bracketDepth += 1
+            End If
+
+            If bracketDepth > 0 Then
+                _CharIsInBrackets(charIndex) = True
+            End If
+
+            Dim closingBracketType = bracketTypes.Where(Function(bracketType) bracketType.ClosingBracket = character).SingleOrDefault
+            If closingBracketType IsNot Nothing Then
+                If Not openedBracketTypes.Any Then Throw New InvalidTermException(Me, message:="End of term expected.")
+                If openedBracketTypes.Pop IsNot closingBracketType Then Throw New InvalidTermException(Me, message:="Brackets not matching.")
+                bracketDepth -= 1
+            End If
+        Next
+
+        If bracketDepth > 0 Then Throw New InvalidTermException(Me, message:="')' expected.")
+
+        Return _CharIsInBrackets
+    End Function
+
+    Public Function TryGetIdentifierBeforeLastOpenedBracket(selection As TextLocation) As LocatedString
+        If selection.Length = 0 Then Return Me.TryGetIdentifierBeforeLastOpenedBracket(selection.StartIndex)
+
+        Dim startIdentifier = Me.TryGetIdentifierBeforeLastOpenedBracket(selection.StartIndex)
+        Dim endIdentifier = Me.TryGetIdentifierBeforeLastOpenedBracket(selection.EndIndex)
+
+        If startIdentifier <> endIdentifier Then Return Nothing
+
+        Return startIdentifier
+    End Function
+
+    Public Function TryGetIdentifierBeforeLastOpenedBracket(pointer As Integer) As LocatedString
+        Dim index = Me.GetLastUnclosedOpeningBracketIndexBefore(pointer, bracketType:=BracketType.Round)
+
+        If Not index.HasValue Then Return Nothing
+
+        Return Me.TryGetSurroundingIdentifier(pointer:=index.Value)
+    End Function
+
+    Private Function GetLastUnclosedOpeningBracketIndexBefore(pointer As Integer, bracketType As BracketType) As Nullable(Of Integer)
+        Dim relativeBracketDepth = 0
+
+        If pointer = 0 Then Return Nothing
+
+        For index = pointer - 1 To 0 Step -1
+            Select Case Me.Chars(index)
+                Case bracketType.OpeningBracket
+                    relativeBracketDepth -= 1
+                Case bracketType.ClosingBracket
+                    relativeBracketDepth += 1
+            End Select
+
+            If relativeBracketDepth < 0 Then Return index
+        Next
+    End Function
+
+    Public Function TryGetSurroundingIdentifier(selection As TextLocation) As LocatedString
+        If selection.Length = 0 Then Return Me.TryGetSurroundingIdentifier(selection.StartIndex)
+
+        Dim startIdentifier = Me.TryGetSurroundingIdentifier(selection.StartIndex)
+        Dim endIdentifier = Me.TryGetSurroundingIdentifier(selection.EndIndex)
+
+        If startIdentifier <> endIdentifier Then Return Nothing
+
+        Return startIdentifier
+    End Function
+
+    Public Function TryGetSurroundingIdentifier(pointer As Integer) As LocatedString
+        If pointer < 0 OrElse pointer > Me.Length Then Throw New ArgumentOutOfRangeException("pointer")
+
+        Dim startIndex = 0
+        Dim endIndex = Me.Length
+
+        If Me.ToString = "" Then Return Me.Substring(startIndex:=pointer, length:=0)
+
+        If pointer = 0 Then
+            For i = 0 To Me.Length - 1
+                If Not Me(i).IsIdentifierChar Then
+                    endIndex = i
+                    Exit For
+                End If
+            Next
+
+            If Not Me(startIndex).IsIdentifierStartChar Then Return Me.Substring(startIndex:=pointer, length:=0)
+        ElseIf pointer = Me.Length OrElse Not Me(pointer).IsIdentifierChar Then
+            endIndex = pointer
+
+            For i = pointer - 1 To 0 Step -1
+                If Not Me(i).IsIdentifierChar Then
+                    startIndex = i + 1
+                    Exit For
+                End If
+            Next
+
+
+        Else
+
+            For i = pointer To 0 Step -1
+                If Not Me(i).IsIdentifierChar Then
+                    startIndex = i + 1
+                    Exit For
+                End If
+            Next
+
+            For i = pointer + 1 To Me.Length - 1
+                If Not Me(i).IsIdentifierChar Then
+                    endIndex = i
+                    Exit For
+                End If
+            Next
+        End If
+
+        If startIndex < Me.Length - 1 AndAlso Not Me(startIndex).IsIdentifierStartChar Then Return Me.Substring(startIndex:=pointer, length:=0)
+
+        Return Me.Substring(startIndex:=startIndex, length:=endIndex - startIndex)
+    End Function
 
 End Class

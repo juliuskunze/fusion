@@ -36,8 +36,6 @@
         _Selection = newSelection
         _Statements = _LocatedString.Split({";"c})
         _CurrentIdentifierIfDefined = Me.TryGetCurrentIdentifier()
-
-        Me.UpdateIntelliSense(showIntelliSense:=False)
     End Sub
 
     Private Function TryGetCurrentIdentifier() As LocatedString
@@ -46,29 +44,13 @@
         Return _LocatedString.TryGetSurroundingIdentifier(_Selection)
     End Function
 
-    Private Sub UpdateIntelliSense(showIntelliSense As Boolean)
-        _IntelliSense = Me.GetIntelliSense(showIntelliSense:=showIntelliSense)
-    End Sub
+    Private Function GetHelp(empty As Boolean) As CompileHelp
+        If _TermContextAtSelection Is Nothing Then Return Compiler.CompileHelp.Empty
 
-    Private Function GetIntelliSense(Optional showIntelliSense As Boolean = False) As IntelliSense
-        If Not showIntelliSense Then Return Compiler.IntelliSense.Empty
-        If _TermContextAtSelection Is Nothing Then Return Compiler.IntelliSense.Empty
+        If empty Then Return CompileHelp.Empty
 
-        Return New IntelliSense(TermContext:=_TermContextAtSelection, filter:=Me.GetIntelliSenseFilter)
+        Return New CompileHelp(TermContext:=_TermContextAtSelection, CurrentIdentifierIfDefined:=_CurrentIdentifierIfDefined, innermostCalledFunction:=_LocatedString.TryGetIdentifierBeforeLastOpenedBracket(selection:=_Selection))
     End Function
-
-    Public Function GetIntelliSenseFilter() As String
-        If _CurrentIdentifierIfDefined Is Nothing Then Return ""
-
-        Return _CurrentIdentifierIfDefined.ToString
-    End Function
-
-    Private _IntelliSense As IntelliSense
-    Public ReadOnly Property IntelliSense(Optional textChanged As Boolean = False) As IntelliSense
-        Get
-            Return _IntelliSense
-        End Get
-    End Property
 
     Public Sub New(locatedString As LocatedString, baseContext As TermContext, typeNamedTypeDictionary As TypeNamedTypeDictionary)
         Me.New(baseContext:=baseContext, typeNamedTypeDictionary:=typeNamedTypeDictionary)
@@ -80,8 +62,10 @@
         _ResultType = typeNamedTypeDictionary.GetNamedType(GetType(TResult))
     End Sub
 
-    Public Function Compile(Optional showIntelliSense As Boolean = False) As CompilerResult(Of TResult)
+    Public Function Compile(Optional withHelp As Boolean = False) As CompilerResult(Of TResult)
         Dim context = _BaseContext
+
+        Dim compileHelp = Me.GetHelp(empty:=Not withHelp)
 
         Try
             For Each statement In _Statements
@@ -92,7 +76,7 @@
                 If Not statement.Trim.ToString.Any Then Continue For
 
                 If IsReturnStatement(statement) Then
-                    Return New CompilerResult(Of TResult)(New Term(Term:=GetReturnTerm(statement), TypeInformation:=New TypeInformation(_ResultType), context:=context).GetDelegate(Of Func(Of TResult)).Invoke, IntelliSense:=_IntelliSense)
+                    Return New CompilerResult(Of TResult)(New Term(Term:=GetReturnTerm(statement), TypeInformation:=New TypeInformation(_ResultType), context:=context).GetDelegate(Of Func(Of TResult)).Invoke, compileHelp:=compileHelp)
                 End If
 
                 If IsDelegateDefinition(statement) Then
@@ -108,11 +92,10 @@
                 End If
             Next
         Catch ex As CompilerException
-            Me.UpdateIntelliSense(showIntelliSense:=showIntelliSense)
-            Throw ex.WithIntelliSense(_IntelliSense)
+            Throw ex.WithHelp(compileHelp)
         End Try
 
-        Throw New CompilerException("Missing return statement.").WithIntelliSense(_IntelliSense)
+        Throw New CompilerException("Missing return statement.").WithHelp(compileHelp)
     End Function
 
     Const _ReturnKeyword = "return"

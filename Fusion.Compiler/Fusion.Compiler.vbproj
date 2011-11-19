@@ -74,10 +74,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnalizedString.vb" />
-    <Compile Include="CompilerExceptionWithIntelliSense.vb" />
+    <Compile Include="CompilerExceptionWithHelp.vb" />
     <Compile Include="CompilerResult.vb" />
-    <Compile Include="IntelliSense\IntelliSense.vb" />
-    <Compile Include="IntelliSense\IntelliSenseItem.vb" />
+    <Compile Include="CompileHelp\CompileHelp.vb" />
+    <Compile Include="CompileHelp\CompileHelpItem.vb" />
     <Compile Include="LocatedString.vb" />
     <Compile Include="BinaryOperatorArgumentTypesInformation.vb" />
     <Compile Include="BinaryOperatorOverload.vb" />

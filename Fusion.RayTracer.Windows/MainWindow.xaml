@@ -136,7 +136,7 @@
                         </Grid>
                         <Button Name="_RenderButton" ToolTip="Renders a picture or video based on the compiled scene.">Render</Button>
                         <Button Name="_RenderCancelButton" Visibility="Collapsed">Cancel</Button>
-                        <ProgressBar Name="_RenderProgressBar" Height="25" Maximum="100" Visibility="Collapsed"></ProgressBar>
+                        <ProgressBar Name="_RenderProgressBar" Height="25" Maximum="1" Visibility="Collapsed"></ProgressBar>
                         <Label Name="_TotalElapsedTimeLabel" Visibility="Collapsed">(Elapsed total time:)</Label>
                         <Label Name="_AverageElapsedTimePerPixelLabel" Visibility="Collapsed">(Elapsed time per pixel average:)</Label>
                     </StackPanel>

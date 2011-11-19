@@ -19,7 +19,7 @@
         Try
             compiler.Compile()
             Assert.Fail()
-        Catch ex As CompilerExceptionWithIntelliSense
+        Catch ex As CompilerExceptionWithHelp
             Assert.AreEqual("'b' is not defined in this context.", DirectCast(ex.InnerCompilerException, LocatedCompilerException).Message)
         End Try
     End Sub
@@ -30,7 +30,7 @@
         Try
             compiler.Compile()
             Assert.Fail()
-        Catch ex As CompilerExceptionWithIntelliSense
+        Catch ex As CompilerExceptionWithHelp
             Assert.AreEqual("Missing return statement.", ex.InnerCompilerException.Message)
         End Try
     End Sub
@@ -40,7 +40,7 @@
         Try
             compiler.Compile()
             Assert.Fail()
-        Catch ex As CompilerExceptionWithIntelliSense
+        Catch ex As CompilerExceptionWithHelp
             Assert.AreEqual("Type 'Real' expected.", DirectCast(ex.InnerCompilerException, LocatedCompilerException).Message)
         End Try
     End Sub
