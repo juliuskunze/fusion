@@ -8,6 +8,13 @@
         End Get
     End Property
 
+    Private ReadOnly _Description As String
+    Public ReadOnly Property Description As String Implements ISignature.Description
+        Get
+            Return _Description
+        End Get
+    End Property
+
     Private ReadOnly _Type As NamedType
     Public ReadOnly Property Type As NamedType
         Get
@@ -15,9 +22,10 @@
         End Get
     End Property
 
-    Public Sub New(name As String, type As NamedType)
+    Public Sub New(name As String, type As NamedType, Optional description As String = Nothing)
         _Name = name
         _Type = type
+        _Description = description
     End Sub
 
     Shared Function FromText(text As LocatedString, typeContext As NamedTypes) As ConstantSignature

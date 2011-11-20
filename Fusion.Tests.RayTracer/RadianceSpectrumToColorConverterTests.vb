@@ -2,7 +2,7 @@
 
     Const exampleRadiancePerWhite = 25
 
-    Private _Converter As New RadianceSpectrumToRgbColorConverter(testedWavelengthsCount:=150, spectralRadiancePerWhite:=exampleRadiancePerWhite)
+    Private _Converter As New LinearRadianceSpectrumToRgbColorConverter(testedWavelengthsCount:=150, spectralRadiancePerWhite:=exampleRadiancePerWhite)
 
     <Test()>
     Public Sub TestWhite()

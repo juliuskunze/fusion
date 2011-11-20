@@ -54,21 +54,21 @@
         _Types = If(types Is Nothing, NamedTypes.Empty, types)
     End Sub
 
-    Private Shared ReadOnly _Default As New TermContext(Constants:={New ConstantInstance(Of Boolean)("true", True, TypeNamedTypeDictionary.Default),
-                                                                    New ConstantInstance(Of Boolean)("false", False, TypeNamedTypeDictionary.Default),
-                                                                    New ConstantInstance(Of Double)("pi", System.Math.PI, TypeNamedTypeDictionary.Default),
-                                                                    New ConstantInstance(Of Double)("e", System.Math.E, TypeNamedTypeDictionary.Default)
+    Private Shared ReadOnly _Default As New TermContext(Constants:={New ConstantInstance(Of Boolean)("true", True, TypeNamedTypeDictionary.Default, "A Boolean value that passes a conditional test."),
+                                                                    New ConstantInstance(Of Boolean)("false", False, TypeNamedTypeDictionary.Default, "A Boolean value that fails a conditional test."),
+                                                                    New ConstantInstance(Of Double)("pi", System.Math.PI, TypeNamedTypeDictionary.Default, "= 3.14159..."),
+                                                                    New ConstantInstance(Of Double)("e", System.Math.E, TypeNamedTypeDictionary.Default, "= 2.71828...")
                                                                    },
-                                                        Functions:={New FunctionInstance(Of Func(Of Double, Double))("Sqrt", Function(x As Double) System.Math.Sqrt(x), TypeNamedTypeDictionary.Default),
-                                                                    New FunctionInstance(Of Func(Of Double, Double))("Exp", Function(x) System.Math.Exp(x), TypeNamedTypeDictionary.Default),
-                                                                    New FunctionInstance(Of Func(Of Double, Double))("Sin", Function(x) System.Math.Sin(x), TypeNamedTypeDictionary.Default),
-                                                                    New FunctionInstance(Of Func(Of Double, Double))("Cos", Function(x) System.Math.Cos(x), TypeNamedTypeDictionary.Default),
-                                                                    New FunctionInstance(Of Func(Of Double, Double))("Tan", Function(x) System.Math.Tan(x), TypeNamedTypeDictionary.Default),
-                                                                    New FunctionInstance(Of Func(Of Double, Double))("Asin", Function(x) System.Math.Asin(x), TypeNamedTypeDictionary.Default),
-                                                                    New FunctionInstance(Of Func(Of Double, Double))("Acos", Function(x) System.Math.Acos(x), TypeNamedTypeDictionary.Default),
-                                                                    New FunctionInstance(Of Func(Of Double, Double))("Abs", Function(x) System.Math.Abs(x), TypeNamedTypeDictionary.Default),
-                                                                    New FunctionInstance(Of Func(Of Double, Double, Double))("Max", Function(a, b) System.Math.Max(a, b), TypeNamedTypeDictionary.Default),
-                                                                    New FunctionInstance(Of Func(Of Double, Double, Double))("Min", Function(a, b) System.Math.Min(a, b), TypeNamedTypeDictionary.Default)
+                                                        Functions:={New FunctionInstance(Of Func(Of Double, Double))("Sqrt", Function(x As Double) System.Math.Sqrt(x), TypeNamedTypeDictionary.Default, "The square root of a real number."),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Exp", Function(x) System.Math.Exp(x), TypeNamedTypeDictionary.Default, "E raised to the specified power."),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Sin", Function(x) System.Math.Sin(x), TypeNamedTypeDictionary.Default, "The sine of a specified angle."),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Cos", Function(x) System.Math.Cos(x), TypeNamedTypeDictionary.Default, "The cosine of a specified angle."),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Tan", Function(x) System.Math.Tan(x), TypeNamedTypeDictionary.Default, "The tangent of a specified angle."),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Arcsin", Function(x) System.Math.Asin(x), TypeNamedTypeDictionary.Default, "The arcsine of a specified number."),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Arccos", Function(x) System.Math.Acos(x), TypeNamedTypeDictionary.Default, "The arccosine of a specified number."),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Abs", Function(x) System.Math.Abs(x), TypeNamedTypeDictionary.Default, "The absolute value of the specified number."),
+                                                                    New FunctionInstance(Of Func(Of Double, Double, Double))("Max", Function(a, b) System.Math.Max(a, b), TypeNamedTypeDictionary.Default, "The maximum value of the specified numbers."),
+                                                                    New FunctionInstance(Of Func(Of Double, Double, Double))("Min", Function(a, b) System.Math.Min(a, b), TypeNamedTypeDictionary.Default, "The minimum value of the specified numbers.")
                                                                    },
                                                         Types:=NamedTypes.Default)
 

@@ -88,12 +88,16 @@ Public Class RayTracingExamples
                                              scatteringRemission:=New BlackRemission(Of RgbLight),
                                              reflectionRemission:=New ScaledRemission(Of RgbLight)(0.2),
                                              transparencyRemission:=New BlackRemission(Of RgbLight))
-        Dim ground = New SquaredMaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=New Vector3D(0, -1, 0),
-                                                          normal:=New Vector3D(0, 1, 0)),
-                                                squareXVector:=New Vector3D(1, 0, 0),
-                                                squareYVector:=New Vector3D(0, 0, 1),
-                                                material1:=groundMaterial1,
-                                                material2:=groundMaterial2)
+        Dim ground =
+                New MaterialSurface(Of Material2D(Of RgbLight))(
+                    surface:=New Plane(
+                        Location:=New Vector3D(0, -1, 0),
+                        normal:=New Vector3D(0, 1, 0)),
+                    materialFunction:=MaterialFunctions(Of Material2D(Of RgbLight)).Checkerboard(
+                        xVector:=New Vector3D(1, 0, 0),
+                        yVector:=New Vector3D(0, 0, 1),
+                        material1:=groundMaterial1,
+                        material2:=groundMaterial2))
 
         Dim refractingSphere = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Sphere(center:=New Vector3D(1.5, 0, 1), radius:=1),
                                                          material:=RgbLightMaterials2D.Transparent(scatteringRemission:=New ScaledRemission(Of RgbLight)(0.2),
@@ -205,11 +209,13 @@ Public Class RayTracingExamples
                                              transparencyRemission:=New BlackRemission(Of RgbLight))
         Dim groundRectangle = New Fusion.Math.Rectangle(frontRightDown, origin, backLeftDown)
 
-        Dim ground = New SquaredMaterialSurface(Of Material2D(Of RgbLight))(groundRectangle,
-                                        squareXVector:=New Vector3D(1, 0, 0),
-                                        squareYVector:=New Vector3D(0, 0, 1),
-                                        material1:=blueGroundMaterial,
-                                        material2:=whiteGroundMaterial)
+        Dim ground = New MaterialSurface(Of Material2D(Of RgbLight))(
+            surface:=groundRectangle,
+            materialFunction:=MaterialFunctions(Of Material2D(Of RgbLight)).Checkerboard(
+                xVector:=New Vector3D(1, 0, 0),
+                yVector:=New Vector3D(0, 0, 1),
+                material1:=blueGroundMaterial,
+                material2:=whiteGroundMaterial))
 
         Dim redWallPlane = New Fusion.Math.Rectangle(frontLeftDown, frontLeftUp, backLeftUp)
         Dim redWall = New SingleMaterialSurface(Of Material2D(Of RgbLight))(redWallPlane, redMaterial)
@@ -402,7 +408,13 @@ Public Class RayTracingExamples
                                                                                                                   End Select
                                                                                                               End Function))
 
-        Dim blackBodyPlane = New SquaredMaterialSurface(Of Material2D(Of RadianceSpectrum))(ground, blackBodyMaterial5000, RadianceSpectrumMaterials2D.Black, squareXVector:=New Vector3D(1, 0, 0), squareYVector:=New Vector3D(0, 0, 1))
+        Dim blackBodyPlane = New MaterialSurface(Of Material2D(Of RadianceSpectrum))(
+            surface:=ground,
+            materialFunction:=MaterialFunctions(Of Material2D(Of RadianceSpectrum)).Checkerboard(
+                xVector:=New Vector3D(1, 0, 0),
+                yVector:=New Vector3D(0, 0, 1),
+                material1:=blackBodyMaterial5000,
+                material2:=RadianceSpectrumMaterials2D.Black))
 
         Dim box = New MaterialBox(Of Material2D(Of RadianceSpectrum))(New Box(New Vector3D(1, -1, 4), New Vector3D(2, 2, 5)),
                                                                       lowerXMaterial:=RadianceSpectrumMaterials2D.Black,

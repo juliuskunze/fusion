@@ -35,8 +35,12 @@
 
     Public Shared Function FromLambdaExpression(Of TDelegate)(name As String,
                                                               lambdaExpression As Expressions.Expression(Of TDelegate),
-                                                              typeNamedTypeDictionary As TypeNamedTypeDictionary) As FunctionInstance
-        Return New FunctionInstance(Of TDelegate)(name, lambdaExpression, typeNamedTypeDictionary)
+                                                              typeNamedTypeDictionary As TypeNamedTypeDictionary,
+                                                              Optional description As String = Nothing) As FunctionInstance
+        Return New FunctionInstance(Of TDelegate)(name,
+                                                  lambdaExpression,
+                                                  typeNamedTypeDictionary,
+                                                  description)
     End Function
 
 End Class
@@ -46,8 +50,9 @@ Public Class FunctionInstance(Of TDelegate)
 
     Public Sub New(name As String,
                    lambdaExpression As Expressions.Expression(Of TDelegate),
-                   typeNamedTypeDictionary As TypeNamedTypeDictionary)
-        Me.New(Signature:=New FunctionSignature(name:=name, DelegateType:=GetDelegateType(lambdaExpression, typeNamedTypeDictionary)), lambdaExpression:=lambdaExpression)
+                   typeNamedTypeDictionary As TypeNamedTypeDictionary,
+                   Optional description As String = Nothing)
+        Me.New(Signature:=New FunctionSignature(name:=name, DelegateType:=GetDelegateType(lambdaExpression, typeNamedTypeDictionary), description:=description), lambdaExpression:=lambdaExpression)
     End Sub
 
     Public Sub New(signature As FunctionSignature,
@@ -55,7 +60,9 @@ Public Class FunctionInstance(Of TDelegate)
         MyBase.New(signature:=signature, InvokableExpression:=lambdaExpression)
     End Sub
 
-    Private Shared Function GetDelegateType( lambdaExpression As Expression(Of TDelegate),  typeNamedTypeDictionary As TypeNamedTypeDictionary) As DelegateType
+    Private Shared Function GetDelegateType(lambdaExpression As Expression(Of TDelegate),
+                                            typeNamedTypeDictionary As TypeNamedTypeDictionary,
+                                            Optional description As String = Nothing) As DelegateType
         Dim namedResultType = typeNamedTypeDictionary.GetNamedType(lambdaExpression.ReturnType)
 
         Dim namedParameters = lambdaExpression.Parameters.Select(Function(parameterExpression)

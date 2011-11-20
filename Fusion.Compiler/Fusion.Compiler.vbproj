@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnalizedString.vb" />
+    <Compile Include="CompileHelp\TextToolTip.vb" />
     <Compile Include="CompilerExceptionWithHelp.vb" />
     <Compile Include="CompilerResult.vb" />
     <Compile Include="CompileHelp\CompileHelp.vb" />

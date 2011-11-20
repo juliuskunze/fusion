@@ -1,6 +1,13 @@
 ﻿Public Class NamedType
     Implements ISignature
 
+    Private ReadOnly _Description As String
+    Public ReadOnly Property Description As String Implements ISignature.Description
+        Get
+            Return _Description
+        End Get
+    End Property
+
     Private ReadOnly _Name As String
     Public ReadOnly Property Name As String Implements ISignature.Name
         Get
@@ -42,23 +49,25 @@
         End Get
     End Property
 
-    Public Sub New(name As String, systemType As System.Type)
-        Me.New(name:=name, systemType:=systemType, TypeArguments:={})
+    Public Sub New(name As String, systemType As System.Type, Optional description As String = Nothing)
+        Me.New(name:=name, systemType:=systemType, TypeArguments:={}, description:=description)
     End Sub
 
-    Private Sub New(name As String, systemType As System.Type, typeArguments As IEnumerable(Of NamedType))
+    Private Sub New(name As String, systemType As System.Type, typeArguments As IEnumerable(Of NamedType), Optional description As String = Nothing)
         If typeArguments Is Nothing Then Throw New ArgumentNullException("typeArguments")
 
         _IsDelegate = False
         _Name = name
         _SystemType = systemType
         _TypeArguments = typeArguments
+        _Description = description
     End Sub
 
-    Public Sub New(name As String, [delegate] As DelegateType)
+    Public Sub New(name As String, [delegate] As DelegateType, Optional description As String = Nothing)
         _IsDelegate = True
         _Name = name
         _Delegate = [delegate]
+        _Description = description
     End Sub
 
     Public Function MakeGenericType(typeArguments As IEnumerable(Of NamedType)) As NamedType

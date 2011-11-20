@@ -6,8 +6,8 @@ Public Class RichCompiler(Of TResult)
     Private WithEvents _HelpListPopup As Popup
     Private WithEvents _HelpListBox As ListBox
     Private WithEvents _HelpScrollViewer As ScrollViewer
-    Private _ItemToolTip As ToolTip
-    Private _OpenedFunctionToolTip As ToolTip
+    Private _ItemToolTip As TextToolTip
+    Private _OpenedFunctionToolTip As TextToolTip
 
     Private _ApplyingTextDecorations As Boolean
     Public ReadOnly Property ApplyingTextDecorations As Boolean
@@ -46,11 +46,9 @@ Public Class RichCompiler(Of TResult)
         _HelpListBox = helpListBox
         _HelpScrollViewer = helpScrollViewer
         _AutoCompile = autoCompile
-
         _HelpListPopup.PlacementTarget = _RichTextBox
         _RichTextBox.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
         _RichTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Visible
-
 
         _Compiler = New Compiler(Of TResult)(baseContext:=baseContext, typeNamedTypeDictionary:=typeNamedTypeDictionary)
         Me.UpdateOnTextChanged()
@@ -60,7 +58,7 @@ Public Class RichCompiler(Of TResult)
 
         Me.AddHandlersIfNeeded()
 
-        _OpenedFunctionToolTip = New ToolTip With
+        _OpenedFunctionToolTip = New TextToolTip With
             {
             .Placement = PlacementMode.Bottom,
             .PlacementTarget = _RichTextBox,
@@ -219,7 +217,7 @@ Public Class RichCompiler(Of TResult)
             Return
         End If
 
-        _OpenedFunctionToolTip.Content = help.ToolTipText
+        _OpenedFunctionToolTip.Text = help.ToolTipText
         _OpenedFunctionToolTip.IsOpen = True
 
         Dim functionStartCharRect = _TextOnlyDocument.GetCharacterRect(index:=compileHelp.InnermostCalledFunction.Location.StartIndex)
@@ -462,7 +460,7 @@ Public Class RichCompiler(Of TResult)
         Dim selectedItem = DirectCast(_HelpListBox.SelectedItem, ListBoxItem)
         If selectedItem Is Nothing Then Return
 
-        _ItemToolTip = DirectCast(selectedItem.ToolTip, ToolTip)
+        _ItemToolTip = DirectCast(selectedItem.ToolTip, TextToolTip)
 
         Me.ReopenCurrentToolTipIfNotNull()
 

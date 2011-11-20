@@ -56,11 +56,12 @@ Public Class PerformanceTests
                                                           transparencyRemission:=New BlackRemission(Of RgbLight))
         Dim groundRectangle = New Fusion.Math.Rectangle(frontRightDown, origin, backLeftDown)
 
-        Dim ground = New SquaredMaterialSurface(Of Material2D(Of RgbLight))(groundRectangle,
-                                        squareXVector:=New Vector3D(1, 0, 0),
-                                        squareYVector:=New Vector3D(0, 0, 1),
+        Dim ground = New MaterialSurface(Of Material2D(Of RgbLight))(groundRectangle,
+                                                                     MaterialFunctions(Of Material2D(Of RgbLight)).Checkerboard(
+                                        xVector:=New Vector3D(1, 0, 0),
+                                        yVector:=New Vector3D(0, 0, 1),
                                         material1:=groundMaterial1,
-                                        material2:=groundMaterial2)
+                                        material2:=groundMaterial2))
 
         Dim lightRectangle = New Fusion.Math.Rectangle(vertex1:=New Vector3D(10, 9.5, 10), vertex2:=New Vector3D(5, 9.5, 10),
                                                        vertex3:=New Vector3D(5, 9.5, 5))

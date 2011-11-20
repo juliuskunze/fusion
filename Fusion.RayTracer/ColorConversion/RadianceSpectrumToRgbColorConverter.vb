@@ -1,6 +1,6 @@
 ﻿Imports System.IO
 
-Public Class RadianceSpectrumToRgbColorConverter
+Public Class LinearRadianceSpectrumToRgbColorConverter
     Implements ILightToRgbColorConverter(Of RadianceSpectrum)
 
     Private _RgbLightToColorConverter As New RgbLightToRgbColorConverter
@@ -49,7 +49,7 @@ Public Class RadianceSpectrumToRgbColorConverter
     End Sub
 
     Private Sub NormalizeToWhite()
-        Dim white = Me.GetRgbLight(New RadianceSpectrum(Function(wavelength) 1), testedWavelengthsCount:=_ColorArray.Count)
+        Dim white = Me.ConvertToRgbLight(New RadianceSpectrum(Function(wavelength) 1), testedWavelengthsCount:=_ColorArray.Count)
 
         Me.NormalizeColorData(divisorRed:=white.Red, divisorGreen:=white.Green, divisorBlue:=white.Blue)
     End Sub
@@ -66,7 +66,7 @@ Public Class RadianceSpectrumToRgbColorConverter
         Next
     End Sub
 
-    Public Function GetColor(wavelength As Double) As RgbLight
+    Public Function GetColorPerIntensity(wavelength As Double) As RgbLight
         If wavelength < LowerVisibleWavelengthBound OrElse wavelength > UpperVisibleWavelengthBound Then Return RgbLight.Black
 
         Dim index = CInt((wavelength - LowerVisibleWavelengthBound) / _WavelengthStep)
@@ -74,7 +74,7 @@ Public Class RadianceSpectrumToRgbColorConverter
         Return _ColorArray(index)
     End Function
 
-    Private Function GetRgbLight(radianceSpectrum As IRadianceSpectrum, testedWavelengthsCount As Integer) As RgbLight
+    Private Function ConvertToRgbLight(radianceSpectrum As IRadianceSpectrum, testedWavelengthsCount As Integer) As RgbLight
         Dim rgbLight = New RgbLight
 
         Dim interval = (UpperVisibleWavelengthBound - LowerVisibleWavelengthBound) / (testedWavelengthsCount - 1)
@@ -82,13 +82,17 @@ Public Class RadianceSpectrumToRgbColorConverter
         For index = 0 To testedWavelengthsCount - 1
             Dim wavelength = LowerVisibleWavelengthBound + index * interval
             Dim intensity = radianceSpectrum.GetSpectralRadiance(wavelength)
-            rgbLight += Me.GetColor(wavelength:=wavelength) * intensity
+            rgbLight += Me.GetColorPerIntensity(wavelength:=wavelength) * intensity
         Next
 
         Return rgbLight / testedWavelengthsCount
     End Function
 
+    Public Function ConvertToRgbLight(light As RadianceSpectrum) As RgbLight
+        Return Me.ConvertToRgbLight(radianceSpectrum:=light, testedWavelengthsCount:=_TestedWavelengthsCount)
+    End Function
+
     Public Function Convert(light As RadianceSpectrum) As System.Drawing.Color Implements ILightToRgbColorConverter(Of RadianceSpectrum).Convert
-        Return _RgbLightToColorConverter.Convert(Me.GetRgbLight(radianceSpectrum:=light, testedWavelengthsCount:=_TestedWavelengthsCount))
+        Return _RgbLightToColorConverter.Convert(Me.ConvertToRgbLight(light))
     End Function
 End Class

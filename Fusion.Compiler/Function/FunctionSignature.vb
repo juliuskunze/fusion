@@ -15,13 +15,21 @@
         End Get
     End Property
 
+    Private ReadOnly _Description As String
+    Public ReadOnly Property Description As String Implements ISignature.Description
+        Get
+            Return _Description
+        End Get
+    End Property
+
     Public Function AsNamedDelegateType() As NamedType
         Return New NamedType(Name:=_Name, [Delegate]:=_DelegateType)
     End Function
 
-    Public Sub New(name As String, delegateType As DelegateType)
+    Public Sub New(name As String, delegateType As DelegateType, Optional description As String = Nothing)
         _Name = name
         _DelegateType = delegateType
+        _Description = description
     End Sub
 
     Public Shared Function FromString(s As LocatedString, typeContext As NamedTypes) As FunctionSignature

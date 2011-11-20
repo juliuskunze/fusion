@@ -16,7 +16,7 @@ Public Class ConstantInstance
 
     Public Sub New(signature As ConstantSignature, value As Object)
         _Signature = signature
-        _Expression = Expressions.Expression.Constant(value:=value, Type:=signature.Type.SystemType)
+        _Expression = Expressions.Expression.Constant(value:=value, type:=signature.Type.SystemType)
     End Sub
 
     Friend Function ToExpressionWithNamedType() As ExpressionWithNamedType
@@ -28,8 +28,11 @@ End Class
 Public Class ConstantInstance(Of T)
     Inherits ConstantInstance
 
-    Public Sub New(name As String, value As T, typeNamedTypeDictionary As TypeNamedTypeDictionary)
-        MyBase.New(New ConstantSignature(name:=name, Type:=typeNamedTypeDictionary.GetNamedType(GetType(T))), value:=value)
+    Public Sub New(name As String,
+                   value As T,
+                   typeNamedTypeDictionary As TypeNamedTypeDictionary,
+                   Optional description As String = Nothing)
+        MyBase.New(New ConstantSignature(name:=name, Type:=typeNamedTypeDictionary.GetNamedType(GetType(T)), description:=description), value:=value)
     End Sub
 
 End Class

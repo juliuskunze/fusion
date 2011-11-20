@@ -19,12 +19,16 @@
         _ToolTipText = toolTipText
     End Sub
 
+    Private Shared Function GetSignatureToolTipText(signature As ISignature) As String
+        Return signature.GetSignatureString & If(signature.Description Is Nothing, "", Microsoft.VisualBasic.ControlChars.NewLine & signature.Description)
+    End Function
+
     Public Sub New(signature As ISignature)
-        Me.New(Name:=signature.Name, ToolTipText:=signature.GetSignatureString)
+        Me.New(Name:=signature.Name, ToolTipText:=GetSignatureToolTipText(signature))
     End Sub
 
     Public Sub New(functionGroup As IGrouping(Of String, FunctionInstance))
-        Me.New(Name:=functionGroup.Key, ToolTipText:=String.Join(separator:=Microsoft.VisualBasic.ControlChars.NewLine, values:=functionGroup.Select(Function(instance) instance.Signature.ToString)))
+        Me.New(Name:=functionGroup.Key, ToolTipText:=String.Join(separator:=Microsoft.VisualBasic.ControlChars.NewLine, values:=functionGroup.Select(Function(instance) GetSignatureToolTipText(instance.Signature))))
     End Sub
 
     Public Function ToListBoxItem() As ListBoxItem
@@ -35,9 +39,9 @@
         Return listBoxItem
     End Function
 
-    Private Function GetTooltip(listBoxItem As ListBoxItem) As ToolTip
-        Dim tooltip = New ToolTip
-        tooltip.Content = _ToolTipText
+    Private Function GetTooltip(listBoxItem As ListBoxItem) As TextToolTip
+        Dim tooltip = New TextToolTip
+        tooltip.Text = _ToolTipText
         tooltip.PlacementTarget = listBoxItem
         tooltip.Placement = Controls.Primitives.PlacementMode.Right
         Return tooltip
