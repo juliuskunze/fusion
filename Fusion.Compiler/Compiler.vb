@@ -44,22 +44,22 @@
         Return _LocatedString.TryGetSurroundingIdentifier(_Selection)
     End Function
 
-    Private Function GetHelp(empty As Boolean) As CompileHelp
-        If _TermContextAtSelection Is Nothing Then Return Compiler.CompileHelp.Empty
+    Private Function GetHelp(empty As Boolean) As CompilerHelp
+        If _TermContextAtSelection Is Nothing Then Return Compiler.CompilerHelp.Empty
 
-        If empty Then Return CompileHelp.Empty
+        If empty Then Return CompilerHelp.Empty
 
-        Return New CompileHelp(TermContext:=_TermContextAtSelection, CurrentIdentifierIfDefined:=_CurrentIdentifierIfDefined, innermostCalledFunction:=_LocatedString.TryGetIdentifierBeforeLastOpenedBracket(selection:=_Selection))
+        Return New CompilerHelp(TermContext:=_TermContextAtSelection, CurrentIdentifierIfDefined:=_CurrentIdentifierIfDefined, innermostCalledFunction:=_LocatedString.TryGetIdentifierBeforeLastOpenedBracket(selection:=_Selection))
     End Function
 
-    Public Sub New(locatedString As LocatedString, baseContext As TermContext, typeNamedTypeDictionary As TypeNamedTypeDictionary)
-        Me.New(baseContext:=baseContext, typeNamedTypeDictionary:=typeNamedTypeDictionary)
+    Public Sub New(locatedString As LocatedString, baseContext As TermContext, typeDictionary As TypeDictionary)
+        Me.New(baseContext:=baseContext, typeDictionary:=typeDictionary)
         Me.Update(newLocatedString:=locatedString)
     End Sub
 
-    Public Sub New(baseContext As TermContext, typeNamedTypeDictionary As TypeNamedTypeDictionary)
+    Public Sub New(baseContext As TermContext, typeDictionary As TypeDictionary)
         _BaseContext = baseContext
-        _ResultType = typeNamedTypeDictionary.GetNamedType(GetType(TResult))
+        _ResultType = typeDictionary.GetNamedType(GetType(TResult))
     End Sub
 
     Public Function Compile(Optional withHelp As Boolean = False) As CompilerResult(Of TResult)
@@ -76,16 +76,16 @@
                 If Not statement.Trim.ToString.Any Then Continue For
 
                 If IsReturnStatement(statement) Then
-                    Return New CompilerResult(Of TResult)(New Term(Term:=GetReturnTerm(statement), TypeInformation:=New TypeInformation(_ResultType), context:=context).GetDelegate(Of Func(Of TResult)).Invoke, compileHelp:=compileHelp)
+                    Return New CompilerResult(Of TResult)(New Term(Term:=GetReturnTerm(statement), TypeInformation:=New TypeInformation(_ResultType), context:=context).GetDelegate(Of Func(Of TResult)).Invoke, compilerHelp:=compileHelp)
                 End If
 
-                If IsDelegateDefinition(statement) Then
-                    context = context.Merge(New TermContext(types:=New NamedTypes({FunctionSignature.FromString(GetDelegateString(statement), context.Types).AsNamedDelegateType})))
+                If IsFunctionTypeDefinition(statement) Then
+                    context = context.Merge(New TermContext(types:=New NamedTypes({FunctionSignature.FromString(GetFunctionTypeString(statement), context.Types).AsNamedFunctionType})))
                     Continue For
                 End If
 
                 Dim definition = New Assignment(definition:=statement, context:=context)
-                If definition.IsFunctionAssignment Then
+                If definition.IsFunctionDefinition Then
                     context = context.Merge(New TermContext(Functions:={New FunctionAssignment(definition:=statement, context:=context).GetFunctionInstance}))
                 Else
                     context = context.Merge(New TermContext(constants:={New ConstantAssignment(definition:=statement, context:=context).GetNamedConstantExpression}))
@@ -98,15 +98,12 @@
         Throw New CompilerException("Missing return statement.").WithHelp(compileHelp)
     End Function
 
-    Const _ReturnKeyword = "return"
-    Const _DelegateKeyword = "delegate"
-
     Private Shared Function IsReturnStatement(statement As LocatedString) As Boolean
-        Return StartWithIdentifier(statement, _ReturnKeyword)
+        Return StartWithIdentifier(statement, Keywords.Return)
     End Function
 
-    Private Shared Function IsDelegateDefinition(statement As LocatedString) As Boolean
-        Return StartWithIdentifier(statement, _DelegateKeyword)
+    Private Shared Function IsFunctionTypeDefinition(statement As LocatedString) As Boolean
+        Return StartWithIdentifier(statement, Keywords.FunctionType)
     End Function
 
     Private Shared Function StartWithIdentifier(statement As LocatedString, identifier As String) As Boolean
@@ -118,16 +115,16 @@
 
     Private Shared Function GetReturnTerm(returnStatement As LocatedString) As LocatedString
         Dim trim = returnStatement.Trim
-        If Not CompilerTools.IdentifierEquals(trim.GetStartingIdentifier.ToString, _ReturnKeyword) Then Throw New ArgumentException("Return statement expected.")
+        If Not CompilerTools.IdentifierEquals(trim.GetStartingIdentifier.ToString, Keywords.Return) Then Throw New ArgumentException("Return statement expected.")
 
-        Return trim.Substring(startIndex:=_ReturnKeyword.Count)
+        Return trim.Substring(startIndex:=Keywords.Return.Count)
     End Function
 
-    Private Shared Function GetDelegateString(delegateStatement As LocatedString) As LocatedString
-        Dim trim = delegateStatement.Trim
-        If Not CompilerTools.IdentifierEquals(trim.GetStartingIdentifier.ToString, _DelegateKeyword) Then Throw New ArgumentException("Delegate definition expected.")
+    Private Shared Function GetFunctionTypeString(functionStatement As LocatedString) As LocatedString
+        Dim trim = functionStatement.Trim
+        If Not CompilerTools.IdentifierEquals(trim.GetStartingIdentifier.ToString, Keywords.FunctionType) Then Throw New ArgumentException("Function type definition expected.")
 
-        Return trim.Substring(startIndex:=_DelegateKeyword.Count)
+        Return trim.Substring(startIndex:=Keywords.FunctionType.Count)
     End Function
 
 End Class

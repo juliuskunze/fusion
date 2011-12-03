@@ -9,8 +9,8 @@
         Return New LocatedCompilerException(locatedString, Me.Message)
     End Function
 
-    Public Function WithHelp(compileHelp As CompileHelp) As CompilerExceptionWithHelp
-        Return New CompilerExceptionWithHelp(Me, compileHelp)
+    Public Function WithHelp(compilerHelp As CompilerHelp) As CompilerExceptionWithHelp
+        Return New CompilerExceptionWithHelp(Me, compilerHelp)
     End Function
 
 End Class

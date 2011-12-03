@@ -84,6 +84,9 @@
     <Compile Include="File\SaveDescriptionDialog.vb" />
     <Compile Include="File\SavePictureDialog.vb" />
     <Compile Include="File\SaveVideoDialog.vb" />
+    <Compile Include="HelpWindow.xaml.vb">
+      <DependentUpon>HelpWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Renderer\FrameRenderer.vb" />
     <Compile Include="Renderer\PictureRenderer.vb" />
     <Compile Include="Renderer\Renderer.vb" />
@@ -113,6 +116,10 @@
     <Compile Include="VideoSlicer.vb" />
     <Compile Include="RenderTimeEstimation\VideoRenderTimeEstimator.vb" />
     <Compile Include="WindowExtensions.vb" />
+    <Page Include="HelpWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="RenderTimeEstimation\RenderTimeEstimationOptionsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

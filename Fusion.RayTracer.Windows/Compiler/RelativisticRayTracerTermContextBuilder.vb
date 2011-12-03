@@ -4,35 +4,39 @@
     Private ReadOnly _RayTracerVideoType As New NamedType("RayTracerVideo", GetType(RayTracerVideo(Of TLight)), "A video produced by a ray tracer.")
     Private ReadOnly _MaterialType As New NamedType("Material", GetType(TMaterial), "A material of a 2D surface.")
 
-    Private ReadOnly _SpectralRadianceFunctionDelegateType As New NamedType("RadianceSpectrum", New DelegateType(NamedType.Real, Parameters:={New NamedParameter("wavelength", NamedType.Real)}), "A light spectrum as wavelength spectrum of spectral radiance.")
-    Private ReadOnly _PictureFunctionDelegateType As New NamedType("PictureFunction", New DelegateType(_RayTracerPictureType, Parameters:={New NamedParameter("time", NamedType.Real)}), "A function that returns a picture for each point of time.")
-    Private ReadOnly _MaterialFunctionDelegateType As New NamedType("MaterialFunction", New DelegateType(_MaterialType, Parameters:={New NamedParameter("location", NamedType.Vector3D)}), "A function that returns a material for each location in 3D space.")
+    Private ReadOnly _SpectralRadianceFunctionType As New NamedType("RadianceSpectrum", New FunctionType(NamedType.Real, Parameters:={New NamedParameter("wavelength", NamedType.Real)}), "A light spectrum as wavelength spectrum of spectral radiance.")
+    Private ReadOnly _PictureFunctionType As New NamedType("PictureFunction", New FunctionType(_RayTracerPictureType, Parameters:={New NamedParameter("time", NamedType.Real)}), "A function that returns a picture for each point of time.")
+    Private ReadOnly _MaterialFunctionType As New NamedType("MaterialFunction", New FunctionType(_MaterialType, Parameters:={New NamedParameter("location", NamedType.Vector3D)}), "A function that returns a material for each location in 3D space.")
+    Private ReadOnly _PointSelectorType As New NamedType("PointSelector", New FunctionType(NamedType.Boolean, Parameters:={New NamedParameter("point", NamedType.Vector3D)}), "A function that returns whether a point is in a point set or not.")
 
     Private ReadOnly _NamedTypes As New NamedTypes(
         {
-            New NamedType("Plane", GetType(Plane), "A plane surface in a 3D space."),
-            New NamedType("Sphere", GetType(Sphere), "A sphere surface in a 3D space."),
-            New NamedType("Box", GetType(Box), "A cuboid surface, which faces a parallel to x-, y- or z-axis."),
-            New NamedType("Remission", GetType(IRemission(Of TLight)), "A behaviour how (incoming) light with a specific radiance spectrum gets changed. (For example which wavelengths get absorbed.)"),
-            New NamedType("MaterialSurface", GetType(ISurface(Of TMaterial)), "A surface with a specified surface material for each surface point."),
-            New NamedType("Surface", GetType(ISurface), "A 2D surface in 3D space."),
-            New NamedType("PictureSize", GetType(System.Drawing.Size), "A size of a picture."),
-            New NamedType("View", GetType(View3D), "A camera view into a 3D space."),
-            New NamedType("LightSource", GetType(ILightSource(Of TLight)), description:="A light source that illuminates surfaces in 3D space."),
-            New NamedType("PointLightSource", GetType(IPointLightSource(Of TLight)), "A light source that illuminates surfaces from a point in 3D space."),
+            New NamedType("Plane", GetType(Plane), "Represents a plane surface in a 3D space."),
+            New NamedType("Sphere", GetType(Sphere), "Represents a the outer surface of a sphere in a 3D space."),
+            New NamedType("AntiSphere", GetType(AntiSphere), "Represents a the inner surface of a sphere in a 3D space."),
+            New NamedType("PointSet", GetType(IPointSet3D), "Represents a point set in 3D space."),
+            New NamedType("Box", GetType(Box), "Represents a cuboid surface, which faces a parallel to x-, y- or z-axis."),
+            New NamedType("Remission", GetType(IRemission(Of TLight)), "Represents a behaviour how (incoming) light with a specific radiance spectrum gets changed. (For example which wavelengths get absorbed.)"),
+            New NamedType("MaterialSurface", GetType(ISurface(Of TMaterial)), "Represents a surface with a specified surface material for each surface point."),
+            New NamedType("Surface", GetType(ISurface), "Represents a 2D surface in 3D space."),
+            New NamedType("PictureSize", GetType(System.Drawing.Size), "Represents a size of a picture."),
+            New NamedType("View", GetType(View3D), "Represents a camera view into a 3D space."),
+            New NamedType("LightSource", GetType(ILightSource(Of TLight)), description:="Represents a light source that illuminates surfaces in 3D space."),
+            New NamedType("PointLightSource", GetType(IPointLightSource(Of TLight)), "Represents a light source that illuminates surfaces from a point in 3D space."),
             New NamedType("RayTracer", GetType(IRayTracer(Of TLight)), "Computes a resulting light radiance spectrum for each sight ray in 3D space."),
             New NamedType("LinearRadianceSpectrumToRgbColorConverter", GetType(ILightToRgbColorConverter(Of RadianceSpectrum)), "Converts a radiance spectrum into an rgb color that can be displayed by standard monitors."),
             _MaterialType,
             _RayTracerPictureType,
             _RayTracerVideoType,
-            _SpectralRadianceFunctionDelegateType,
-            _PictureFunctionDelegateType,
-            _MaterialFunctionDelegateType
+            _SpectralRadianceFunctionType,
+            _PictureFunctionType,
+            _MaterialFunctionType,
+            _PointSelectorType
         }
     )
 
-    Protected ReadOnly _TypeDictionary As New TypeNamedTypeDictionary(NamedTypes.Default.Merge(_NamedTypes))
-    Public ReadOnly Property TypeDictionary As TypeNamedTypeDictionary
+    Protected ReadOnly _TypeDictionary As New TypeDictionary(NamedTypes.Default.Merge(_NamedTypes))
+    Public ReadOnly Property TypeDictionary As TypeDictionary
         Get
             Return _TypeDictionary
         End Get
@@ -66,6 +70,18 @@
                                  "Sphere",
                                  Function(center As Vector3D, radius As Double) New Sphere(center:=center, radius:=radius), _TypeDictionary,
                                  "A sphere with the specified center and radius."),
+                             FunctionInstance.FromLambdaExpression(
+                                 "AntiSphere",
+                                 Function(center As Vector3D, radius As Double) New AntiSphere(center:=center, radius:=radius), _TypeDictionary,
+                                 "An anti sphere with the specified center and radius."),
+                             FunctionInstance.FromLambdaExpression(
+                                 "AntiSphere",
+                                 Function(sphere As Sphere) New AntiSphere(sphere:=sphere), _TypeDictionary,
+                                 "The anti sphere equivalent for the specified sphere."),
+                             FunctionInstance.FromLambdaExpression(
+                                 "PointSet",
+                                 Function(pointSelector As Func(Of Vector3D, Boolean)) DirectCast(New PointSet3D(pointSelector:=pointSelector), IPointSet3D), _TypeDictionary,
+                                 "A 3D point set that has a specified point selector function."),
                              FunctionInstance.FromLambdaExpression(
                                  "PictureSize",
                                  Function(width As Double, height As Double) New System.Drawing.Size(CInt(width), CInt(height)), _TypeDictionary,

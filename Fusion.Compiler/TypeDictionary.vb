@@ -1,4 +1,4 @@
-﻿Public Class TypeNamedTypeDictionary
+﻿Public Class TypeDictionary
     Inherits Dictionary(Of Type, NamedType)
 
     Public Sub New(dictionary As IDictionary(Of Type, NamedType))
@@ -41,11 +41,11 @@
     End Function
 
     Private Shared Sub ThrowTypeNotInDictionaryException(type As Type)
-        Throw New InvalidOperationException(String.Format("Type '{0}' is not contained in TypeNamedTypeDictionary.", type.Name))
+        Throw New InvalidOperationException(String.Format("Type '{0}' is not contained in TypeDictionary.", type.Name))
     End Sub
 
-    Private Shared ReadOnly _Default As New TypeNamedTypeDictionary(NamedTypes.Default)
-    Public Shared ReadOnly Property [Default] As TypeNamedTypeDictionary
+    Private Shared ReadOnly _Default As New TypeDictionary(NamedTypes.Default)
+    Public Shared ReadOnly Property [Default] As TypeDictionary
         Get
             Return _Default
         End Get

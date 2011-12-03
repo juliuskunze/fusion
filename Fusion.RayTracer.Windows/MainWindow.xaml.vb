@@ -65,10 +65,21 @@ Public Class MainWindow
 
     Private Sub ResetRenderTabs()
         _RenderTimeEstimationGroupBox.Visibility = Visibility.Visible
-        _EstimatedRenderTimePerPixelLabel.Visibility = Visibility.Visible
-        _EstimatedTotalTimeLabel.Visibility = Visibility.Visible
+        _EstimatedRenderTimePerPixelLabel.Visibility = Visibility.Collapsed
+        _EstimatedTotalTimeLabel.Visibility = Visibility.Collapsed
+
+        Const normalRenderToolTip = "Renders a picture or video based on the compiled scene."
+        Const videoPathInvalidRenderToolTip = "Please select an output path before you render the scene."
+
+        Select Case Me.Mode
+            Case CompileMode.Picture
+            Case Else
+
+        End Select
         _VideoFileGrid.Visibility = If(Me.Mode = CompileMode.Video, Visibility.Visible, Visibility.Hidden)
         _RenderButton.IsEnabled = If(Me.Mode = CompileMode.Picture, True, Me.IsVideoOutputFileValid)
+        _RenderButton.ToolTip = If(Me.Mode = CompileMode.Picture, normalRenderToolTip, If(IsVideoOutputFileValid, normalRenderToolTip, videoPathInvalidRenderToolTip))
+        _VideoRenderedLabel.Visibility = System.Windows.Visibility.Collapsed
     End Sub
 
     Private ReadOnly Property VideoOutputFile As FileInfo
@@ -99,6 +110,14 @@ Public Class MainWindow
     End Sub
 
     Private Sub SaveButton_Click(sender As System.Object, e As System.EventArgs) Handles _SavePictureButton.Click
+        Me.ShowSavePictureDialog()
+    End Sub
+
+    Private Sub ShowSavePictureDialog()
+        If _SaveDescriptionDialog.IsFileAccepted Then
+            _SavePictureDialog.File = New FileInfo(IO.Path.GetFileNameWithoutExtension(_SaveDescriptionDialog.File.Name))
+        End If
+
         If _SavePictureDialog.Show Then
             Select Case _SavePictureDialog.File.Extension
                 Case ".png"
@@ -153,8 +172,12 @@ Public Class MainWindow
         Me.TaskbarItemInfo.ProgressValue = e.NewValue
     End Sub
 
-    Private Sub MainWindow_Deactivated(sender As Object, e As EventArgs) Handles Me.Deactivated
+    Private Sub MainWindow_Deactivated(sender As Object, e As EventArgs) Handles _DescriptionBox.LostFocus
         _Compiler.Unfocus()
+    End Sub
+
+    Private Sub MainWindow_Closing(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles Me.Closing
+        e.Cancel = Not Me.TryCloseDescription()
     End Sub
 
     Private Sub MainWindow_KeyDown(sender As Object, e As Input.KeyEventArgs) Handles Me.KeyDown
@@ -176,14 +199,23 @@ Public Class MainWindow
             End Select
         Else
             Select Case e.Key
-                Case Key.F5
-                    _Compiler.Compile()
+                Case Key.F1
+                    Me.ShowHelpWindow()
+
+                    e.Handled = True
+                Case Key.F2
+                    Me.CompileAndShowHelpMenuItem()
 
                     e.Handled = True
                 Case Key.F4
                     _Compiler.AutoCompile = Not _Compiler.AutoCompile
 
                     e.Handled = True
+                Case Key.F5
+                    _Compiler.Compile()
+
+                    e.Handled = True
+
             End Select
         End If
     End Sub
@@ -237,7 +269,7 @@ Public Class MainWindow
 
         _SaveDescriptionDialog.File = _OpenDescriptionDialog.File
         Me.Mode = _OpenDescriptionDialog.Mode
-        _SaveDescriptionDialog.FileAccepted = True
+        _SaveDescriptionDialog.IsFileAccepted = True
 
         Me.Title = _SaveDescriptionDialog.File.Name & " - " & _TitleBase
         _Compiler.LoadDocument(description)
@@ -256,7 +288,7 @@ Public Class MainWindow
     End Sub
 
     Private Sub InitDescription()
-        _SaveDescriptionDialog.FileAccepted = False
+        _SaveDescriptionDialog.IsFileAccepted = False
         Me.Title = _TitleBase
         _HasUnsavedChanges = False
     End Sub
@@ -338,7 +370,11 @@ Public Class MainWindow
     End Sub
 
     Private Sub _PictureRenderer_Completed(e As RenderResultEventArgs(Of System.Drawing.Bitmap)) Handles _PictureRenderer.Completed
-        OnCompleted(e)
+        OnPictureRendered(e)
+    End Sub
+
+    Private Sub OnPictureRendered(ByVal e As RenderResultEventArgs(Of Bitmap))
+        OnRendered(e)
 
         _ResultBitmap = e.Result
         _ResultImage.Source = New SimpleBitmap(_ResultBitmap).ToBitmapSource
@@ -349,14 +385,19 @@ Public Class MainWindow
     End Sub
 
     Private Sub _VideoRenderer_Completed(e As RenderResultEventArgs(Of Object)) Handles _VideoRenderer.Completed
-        OnCompleted(e)
+        OnVideoRendered(e)
+    End Sub
+
+    Private Sub OnVideoRendered(ByVal e As RenderResultEventArgs(Of Object))
+        OnRendered(e)
 
         Dim firstPictureSize = _Video.GetFrame(0).PictureSize
 
         _AverageElapsedTimePerPixelLabel.Content = "Average elapsed time per pixel: " & (e.ElapsedTime.TotalMilliseconds / (_Video.FrameCount * firstPictureSize.Width * firstPictureSize.Height)).ToString & "ms"
+        _VideoRenderedLabel.Visibility = System.Windows.Visibility.Visible
     End Sub
 
-    Private Sub OnCompleted(Of TResult)(e As RenderResultEventArgs(Of TResult))
+    Private Sub OnRendered(Of TResult)(e As RenderResultEventArgs(Of TResult))
         _RenderProgressBar.Value = 0
         _RenderProgressBar.Visibility = Visibility.Collapsed
         _RenderCancelButton.Visibility = Visibility.Collapsed
@@ -408,4 +449,20 @@ Public Class MainWindow
         Me.Mode = CompileMode.Picture
     End Sub
 
+    Private Sub _GeneralHelpMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _GeneralHelpMenuItem.Click
+        Me.ShowHelpWindow()
+    End Sub
+
+    Private Sub ShowHelpWindow()
+        Dim helpWindow = New HelpWindow
+        helpWindow.Show()
+    End Sub
+
+    Private Sub _CompileAndShowHelpMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _CompileAndShowHelpMenuItem.Click
+        Me.CompileAndShowHelpMenuItem()
+    End Sub
+
+    Private Sub CompileAndShowHelpMenuItem()
+        _Compiler.Compile(showHelp:=True)
+    End Sub
 End Class

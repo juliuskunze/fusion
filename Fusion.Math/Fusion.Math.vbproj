@@ -129,6 +129,7 @@
     <Compile Include="PointSets3D\InversePointSet3D.vb" />
     <Compile Include="PointSets3D\IPointSet3D.vb" />
     <Compile Include="PointSets3D\LinkedPointSets3D.vb" />
+    <Compile Include="PointSets3D\PointSet3D.vb" />
     <Compile Include="QaudraticEquationSolver.vb" />
     <Compile Include="SquareMatrix.vb" />
     <Compile Include="Surfaces\AntiCylinder.vb" />

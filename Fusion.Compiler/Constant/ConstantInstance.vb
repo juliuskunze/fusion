@@ -30,9 +30,9 @@ Public Class ConstantInstance(Of T)
 
     Public Sub New(name As String,
                    value As T,
-                   typeNamedTypeDictionary As TypeNamedTypeDictionary,
+                   typeDictionary As TypeDictionary,
                    Optional description As String = Nothing)
-        MyBase.New(New ConstantSignature(name:=name, Type:=typeNamedTypeDictionary.GetNamedType(GetType(T)), description:=description), value:=value)
+        MyBase.New(New ConstantSignature(name:=name, Type:=typeDictionary.GetNamedType(GetType(T)), description:=description), value:=value)
     End Sub
 
 End Class

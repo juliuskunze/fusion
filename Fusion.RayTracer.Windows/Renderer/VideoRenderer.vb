@@ -16,13 +16,18 @@
     End Sub
 
     Private Sub BackgroundWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles _BackgroundWorker.DoWork
-        For Each index In Enumerable.Range(0, _Video.FrameCount)
-            RenderFrame(index:=index, e:=e)
-        Next
+        Try
+            For Each index In Enumerable.Range(0, _Video.FrameCount)
+                RenderFrame(index:=index, e:=e)
+            Next
 
-        VideoSlicer.Run(pictureInputFileNames:=_FrameFiles.Select(Function(file) file.FullName),
-                        videoOutputFileName:=_OutputFile.FullName,
-                        framesPerSecond:=_Video.FramesPerSecond)
+            VideoSlicer.Run(pictureInputFileNames:=_FrameFiles.Select(Function(file) file.FullName),
+                            videoOutputFileName:=_OutputFile.FullName,
+                            framesPerSecond:=_Video.FramesPerSecond)
+        Catch ex As Exception
+            e.Cancel = True
+            e.Result = ex.Message
+        End Try
 
         e.Result = Nothing
     End Sub

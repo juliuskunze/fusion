@@ -7,16 +7,16 @@
         End Get
     End Property
 
-    Private ReadOnly _CompileHelp As CompileHelp
-    Public ReadOnly Property CompileHelp As CompileHelp
+    Private ReadOnly _CompilerHelp As CompilerHelp
+    Public ReadOnly Property CompilerHelp As CompilerHelp
         Get
-            Return _CompileHelp
+            Return _CompilerHelp
         End Get
     End Property
 
-    Public Sub New(result As TResult, compileHelp As CompileHelp)
+    Public Sub New(result As TResult, compilerHelp As CompilerHelp)
         _Result = result
-        _CompileHelp = compileHelp
+        _CompilerHelp = compilerHelp
     End Sub
 
 End Class

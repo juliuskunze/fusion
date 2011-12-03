@@ -73,8 +73,8 @@
 
     <Test()>
     Public Sub TestDelegateAsParameter()
-        Dim intensityDelegate = NamedType.NamedDelegateTypeFromString("delegate Real IntensityDelegate(Real wavelength)".ToLocated, typeContext:=NamedTypes.Default)
-        Dim context = TermContext.Default.Merge(New TermContext(types:=New NamedTypes({intensityDelegate})))
+        Dim intensityFunctionTry = NamedType.NamedFunctionTypeFromString("FunctionType Real IntensityDelegate(Real wavelength)".ToLocated, typeContext:=NamedTypes.Default)
+        Dim context = TermContext.Default.Merge(New TermContext(types:=New NamedTypes({intensityFunctionTry})))
 
         Dim intensity = New FunctionAssignment("Real Intensity(Real wavelength) = 2*wavelength".ToLocated, context:=context).GetFunctionInstance
         Dim context2 = context.Merge(New TermContext(Functions:={intensity}))

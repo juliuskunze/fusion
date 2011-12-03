@@ -1,10 +1,10 @@
 ﻿Public Class CompilerExceptionWithHelp
     Inherits Exception
 
-    Private ReadOnly _CompileHelp As CompileHelp
-    Public ReadOnly Property CompileHelp As CompileHelp
+    Private ReadOnly _CompilerHelp As CompilerHelp
+    Public ReadOnly Property CompilerHelp As CompilerHelp
         Get
-            Return _CompileHelp
+            Return _CompilerHelp
         End Get
     End Property
 
@@ -14,9 +14,9 @@
         End Get
     End Property
 
-    Public Sub New(compilerExcpetion As CompilerException, compileHelp As CompileHelp)
+    Public Sub New(compilerExcpetion As CompilerException, compilerHelp As CompilerHelp)
         MyBase.New(Message:="An error occured during compilation.", InnerException:=compilerExcpetion)
-        _CompileHelp = compileHelp
+        _CompilerHelp = compilerHelp
     End Sub
 
 End Class

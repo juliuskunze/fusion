@@ -26,20 +26,24 @@
                         
                         <Menu>
                             <MenuItem Header="File">
-                                <MenuItem Name="_NewMenuItem" Header="New" InputGestureText="Strg+N"></MenuItem>
-                                <MenuItem Name="_SaveMenuItem" Header="Save" InputGestureText="Strg+S"></MenuItem>
-                                <MenuItem Name="_SaveAsMenuItem" Header="Save as..."></MenuItem>
-                                <MenuItem Name="_OpenMenuItem" Header="Open..." InputGestureText="Strg+O"></MenuItem>
+                                <MenuItem Name="_NewMenuItem" Header="New" InputGestureText="Strg+N" ToolTip="Close the current scene description and create a new one."></MenuItem>
+                                <MenuItem Name="_SaveMenuItem" Header="Save" InputGestureText="Strg+S" ToolTip="Save the current scene description."></MenuItem>
+                                <MenuItem Name="_SaveAsMenuItem" Header="Save as..." ToolTip="Save the current scene description file as..."></MenuItem>
+                                <MenuItem Name="_OpenMenuItem" Header="Open..." InputGestureText="Strg+O" ToolTip="Open a scene description file..."></MenuItem>
                             </MenuItem>
                             <MenuItem Header="Compile">
-                                <MenuItem Name="_AutoCompileMenuItem" Header="Auto Compile" InputGestureText="F4" IsCheckable="True" IsChecked="True"></MenuItem>
-                                <MenuItem Name="_CompileMenuItem" Header="Compile" InputGestureText="F5" IsEnabled="False"></MenuItem>
+                                <MenuItem Name="_AutoCompileMenuItem" Header="Auto compile" InputGestureText="F4" IsCheckable="True" IsChecked="True" ToolTip="If auto compile is on, the scene will automatically be compiled from the description when it is changed."></MenuItem>
+                                <MenuItem Name="_CompileMenuItem" Header="Compile" InputGestureText="F5" IsEnabled="False" ToolTip="Try to compile a scene from the description and show error if the compilation failed."></MenuItem>
                                 <Separator></Separator>
-                                <MenuItem Name="_CompilePictureMenuItem" Header="Compile picture" IsCheckable="True" IsChecked="True"></MenuItem>
-                                <MenuItem Name="_CompileVideoMenuItem" Header="Compile video" IsCheckable="True"></MenuItem>
-                                </MenuItem>
+                                <MenuItem Name="_CompilePictureMenuItem" Header="Compile picture" IsCheckable="True" IsChecked="True" ToolTip="Compile a ray tracer picture."></MenuItem>
+                                <MenuItem Name="_CompileVideoMenuItem" Header="Compile video" IsCheckable="True" ToolTip="Compile a ray tracer video."></MenuItem>
+                            </MenuItem>
+                            <MenuItem Header="Help">
+                            <MenuItem Name="_GeneralHelpMenuItem" Header="General help" InputGestureText="F1" ToolTip="Show first steps and general help."></MenuItem>
+                                <MenuItem Name="_CompileAndShowHelpMenuItem" Header="Compile and show help popup" InputGestureText="F2" ToolTip="Compile the scene and show the help popup."></MenuItem>
+                            </MenuItem>
                         </Menu>
-                        <RichTextBox FontFamily="Consolas" Grid.Row="1" Margin="0" AcceptsReturn="True" Name="_DescriptionBox" Background="#FFFFFF">
+                        <RichTextBox FontFamily="{DynamicResource CodeFont}" Grid.Row="1" Margin="3" AcceptsReturn="True" Name="_DescriptionBox" Background="#FFFFFF">
                             <RichTextBox.Resources>
                                 <Style TargetType="{x:Type Paragraph}">
                                     <Setter Property="Margin" Value="0"/>
@@ -95,7 +99,7 @@
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
 
-                            <Label Name="_CompileLabel" Grid.Row="0">Error:</Label>
+                        <Label Name="_CompileLabel" Grid.Row="0" ToolTip="Shows the message of the first (top most) error occured during the compilation if there are any.">Error:</Label>
 
                             <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
                                 <TextBox Name="_ErrorTextBox" IsReadOnly="True"></TextBox>
@@ -113,15 +117,14 @@
                                         <ColumnDefinition Width="*"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
 
-                                    <Button Name="_EstimateRenderTimeButton">Estimate Render Time</Button>
-                                    <Button Name="_EstimateRenderTimeOptionsButton" Grid.Column="1">Options...</Button>
+                                    <Button Name="_EstimateRenderTimeButton" ToolTip="Estimates the time of the rendering the current scene description.">Estimate Render Time</Button>
+                                    <Button Name="_EstimateRenderTimeOptionsButton" Grid.Column="1" ToolTip="Changes the options for the render time estimation.">Options...</Button>
                                 </Grid>
 
-                                <Label Name="_EstimatedTotalTimeLabel" Visibility="Collapsed">(Estimated total time:)</Label>
-                                <Label Name="_EstimatedRenderTimePerPixelLabel" Visibility="Collapsed">(Estimated average time per pixel:)</Label>
+                                <Label Name="_EstimatedTotalTimeLabel" Visibility="Collapsed" ToolTip="The estimated total rendering time.">(Estimated total time:)</Label>
+                                <Label Name="_EstimatedRenderTimePerPixelLabel" Visibility="Collapsed"  ToolTip="The estimated average rendering time per pixel.">(Estimated average time per pixel:)</Label>
                             </StackPanel>
                         </GroupBox>
-
                         
                         <Grid Name="_VideoFileGrid">
                             <Grid.ColumnDefinitions>
@@ -134,21 +137,24 @@
                             <TextBox Grid.Column="1" Name="_VideoFileBox" IsReadOnly="True"></TextBox>
                             <Button Grid.Column="2" Name="_ChangeVideoFileButton">Change...</Button>
                         </Grid>
-                        <Button Name="_RenderButton" ToolTip="Renders a picture or video based on the compiled scene.">Render</Button>
-                        <Button Name="_RenderCancelButton" Visibility="Collapsed">Cancel</Button>
-                        <ProgressBar Name="_RenderProgressBar" Height="25" Maximum="1" Visibility="Collapsed"></ProgressBar>
-                        <Label Name="_TotalElapsedTimeLabel" Visibility="Collapsed">(Elapsed total time:)</Label>
-                        <Label Name="_AverageElapsedTimePerPixelLabel" Visibility="Collapsed">(Elapsed time per pixel average:)</Label>
-                    </StackPanel>
+                        <Button Name="_RenderButton">Render</Button>
+                        <Button Name="_RenderCancelButton" Visibility="Collapsed" ToolTip="Cancels the current rendering operation.">Cancel</Button>
+                        <ProgressBar Name="_RenderProgressBar" Height="25" Maximum="1" Visibility="Collapsed" ToolTip="{Binding Source=_RenderProgressBar, Path= Value}"></ProgressBar>
+                        <Label Name="_TotalElapsedTimeLabel" Visibility="Collapsed" ToolTip="The elapsed total rendering time.">(Elapsed total time:)</Label>
+                        <Label Name="_AverageElapsedTimePerPixelLabel" Visibility="Collapsed" ToolTip="The elapsed average rendering time per pixel.">(Elapsed time per pixel average:)</Label>
+                        <Label Name="_VideoRenderedLabel" Visibility="Collapsed">Video successfully rendered.</Label>
+                </StackPanel>
                 </TabItem>
                 <TabItem Header="Result Picture" Visibility="Collapsed" Name="_ResultPictureTabItem">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Button Name="_SavePictureButton">Save...</Button>
-                        <Image Grid.Row="1" Name="_ResultImage" Stretch="Uniform" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="NearestNeighbor"></Image>
+                        <Label>Picture successfully rendered.</Label>
+                        <Button Grid.Row="1" Name="_SavePictureButton" ToolTip="Save the result picture...">Save...</Button>
+                        <Image Grid.Row="2" Name="_ResultImage" Stretch="Uniform" SnapsToDevicePixels="True" RenderOptions.BitmapScalingMode="NearestNeighbor"></Image>
                     </Grid>
                 </TabItem>
             </TabControl>

@@ -2,13 +2,13 @@
 
     <Test()>
     Public Sub NamedDelegateTypeFromText()
-        Dim delegateType = NamedType.NamedDelegateTypeFromString("delegate Real WaveLengthFunction(Real wavelength)".ToLocated, typeContext:=NamedTypes.Default)
+        Dim delegateType = NamedType.NamedFunctionTypeFromString("FunctionType Real WavelengthFunction(Real wavelength)".ToLocated, typeContext:=NamedTypes.Default)
 
-        Assert.That(delegateType.IsDelegate)
-        Assert.AreSame(delegateType.Delegate.ResultType, NamedType.Real)
-        Assert.AreEqual(delegateType.Name, "WaveLengthFunction")
+        Assert.That(delegateType.IsFunctionType)
+        Assert.AreSame(delegateType.[Function].ResultType, NamedType.Real)
+        Assert.AreEqual(delegateType.Name, "WavelengthFunction")
 
-        Dim parameter = delegateType.Delegate.Parameters.Single
+        Dim parameter = delegateType.[Function].Parameters.Single
 
         Assert.AreSame(parameter.Signature.Type, NamedType.Real)
         Assert.AreEqual(parameter.Signature.Name, "wavelength")
@@ -18,8 +18,8 @@
     Public Sub IsAssignableFrom()
         Dim typeContext = New NamedTypes(NamedTypes.Default.Concat({New NamedType(name:="Object", systemType:=GetType(Object))}))
 
-        Dim delegateType1 = NamedType.NamedDelegateTypeFromString("delegate Object DelegateType1(Real x)".ToLocated, typeContext:=typeContext)
-        Dim delegateType2 = NamedType.NamedDelegateTypeFromString("delegate Real DelegateType2(Object x)".ToLocated, typeContext:=typeContext)
+        Dim delegateType1 = NamedType.NamedFunctionTypeFromString("FunctionType Object FunctionType1(Real x)".ToLocated, typeContext:=typeContext)
+        Dim delegateType2 = NamedType.NamedFunctionTypeFromString("FunctionType Real FunctionType2(Object x)".ToLocated, typeContext:=typeContext)
 
         delegateType1.CheckIsAssignableFrom(delegateType2)
 
@@ -27,7 +27,7 @@
             delegateType2.CheckIsAssignableFrom(delegateType1)
             Assert.Fail()
         Catch ex As CompilerException
-            Assert.AreEqual("Type 'DelegateType1' is not assignable to type 'DelegateType2'.", ex.Message)
+            Assert.AreEqual("Type 'FunctionType1' is not assignable to type 'FunctionType2'.", ex.Message)
         End Try
     End Sub
 

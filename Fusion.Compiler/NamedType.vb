@@ -18,27 +18,27 @@
     Private ReadOnly _SystemType As Type
     Public ReadOnly Property SystemType As Type
         Get
-            If Me.IsDelegate Then
-                Return _Delegate.SystemType
+            If Me.IsFunctionType Then
+                Return _Function.SystemType
             Else
                 Return _SystemType
             End If
         End Get
     End Property
 
-    Private ReadOnly _Delegate As DelegateType
-    Public ReadOnly Property [Delegate] As DelegateType
+    Private ReadOnly _Function As FunctionType
+    Public ReadOnly Property [Function] As FunctionType
         Get
-            If Not _IsDelegate Then Throw New InvalidOperationException("The type must be a delegate type.")
+            If Not _IsFunctionType Then Throw New InvalidOperationException("The type must be a function type.")
 
-            Return _Delegate
+            Return _Function
         End Get
     End Property
 
-    Private ReadOnly _IsDelegate As Boolean
-    Public ReadOnly Property IsDelegate As Boolean
+    Private ReadOnly _IsFunctionType As Boolean
+    Public ReadOnly Property IsFunctionType As Boolean
         Get
-            Return _IsDelegate
+            Return _IsFunctionType
         End Get
     End Property
 
@@ -56,17 +56,17 @@
     Private Sub New(name As String, systemType As System.Type, typeArguments As IEnumerable(Of NamedType), Optional description As String = Nothing)
         If typeArguments Is Nothing Then Throw New ArgumentNullException("typeArguments")
 
-        _IsDelegate = False
+        _IsFunctionType = False
         _Name = name
         _SystemType = systemType
         _TypeArguments = typeArguments
         _Description = description
     End Sub
 
-    Public Sub New(name As String, [delegate] As DelegateType, Optional description As String = Nothing)
-        _IsDelegate = True
+    Public Sub New(name As String, [function] As FunctionType, Optional description As String = Nothing)
+        _IsFunctionType = True
         _Name = name
-        _Delegate = [delegate]
+        _Function = [function]
         _Description = description
     End Sub
 
@@ -82,10 +82,10 @@
     End Sub
 
     Public Function IsAssignableFrom(other As NamedType) As Boolean
-        If _IsDelegate Then
-            If Not other.IsDelegate Then Return False
+        If _IsFunctionType Then
+            If Not other.IsFunctionType Then Return False
 
-            If Not Me.Delegate.IsAssignableFrom(other.Delegate) Then Return False
+            If Not Me.[Function].IsAssignableFrom(other.[Function]) Then Return False
         Else
             If Not Me.SystemType.IsAssignableFrom(other.SystemType) Then Return False
         End If
@@ -93,13 +93,13 @@
         Return True
     End Function
 
-    Public Shared Function NamedDelegateTypeFromString(s As LocatedString, typeContext As NamedTypes) As NamedType
+    Public Shared Function NamedFunctionTypeFromString(s As LocatedString, typeContext As NamedTypes) As NamedType
         Dim trimmed = s.Trim
-        If Not trimmed.ToString.StartsWith(Keywords.Delegate, StringComparison.OrdinalIgnoreCase) Then Throw New LocatedCompilerException(s, "Invalid delegate declaration.")
-        Dim rest = trimmed.Substring(startIndex:=Keywords.Delegate.Count)
+        If Not trimmed.ToString.StartsWith(Keywords.FunctionType, StringComparison.OrdinalIgnoreCase) Then Throw New LocatedCompilerException(s, "Invalid function type definition.")
+        Dim rest = trimmed.Substring(startIndex:=Keywords.FunctionType.Count)
         Dim signature = FunctionSignature.FromString(s:=rest, typeContext:=typeContext)
 
-        Return signature.AsNamedDelegateType
+        Return signature.AsNamedFunctionType
     End Function
 
     Private Function ThrowNotAssignableFromException(otherName As String) As CompilerException
@@ -113,21 +113,21 @@
         End Get
     End Property
 
-    Private Shared ReadOnly _Real As New NamedType("Real", GetType(Double))
+    Private Shared ReadOnly _Real As New NamedType("Real", GetType(Double), "Represents a real number.")
     Public Shared ReadOnly Property Real() As NamedType
         Get
             Return _Real
         End Get
     End Property
 
-    Private Shared ReadOnly _Vector3D As New NamedType("Vector", GetType(Vector3D))
+    Private Shared ReadOnly _Vector3D As New NamedType("Vector", GetType(Vector3D), "Represents a 3D vector.")
     Public Shared ReadOnly Property Vector3D() As NamedType
         Get
             Return _Vector3D
         End Get
     End Property
 
-    Private Shared ReadOnly _Set As New NamedType("Set", GetType(IEnumerable(Of )))
+    Private Shared ReadOnly _Set As New NamedType("Set", GetType(IEnumerable(Of )), "Represents a set of elements of a specified type.")
     Public Shared ReadOnly Property [Set]() As NamedType
         Get
             Return _Set
@@ -135,8 +135,8 @@
     End Property
 
     Public Function GetSignatureString() As String Implements ISignature.GetSignatureString
-        If Me.IsDelegate Then
-            Return Me.Delegate.ResultType.GetSignatureString & " " & Me.Name & String.Join(", ", Me.Delegate.Parameters.Select(Function(parameter) parameter.Signature.ToString)).InBrackets(CompilerTools.ParameterBracketType)
+        If Me.IsFunctionType Then
+            Return Me.[Function].ResultType.GetSignatureString & " " & Me.Name & String.Join(", ", Me.[Function].Parameters.Select(Function(parameter) parameter.Signature.ToString)).InBrackets(CompilerTools.ParameterBracketType)
         Else
             Return "Type " & Me.NameWithTypeArguments
         End If
@@ -144,7 +144,7 @@
 
     Public ReadOnly Property NameWithTypeArguments As String
         Get
-            Return If(Me.IsDelegate,
+            Return If(Me.IsFunctionType,
                       Me.Name,
                       Me.Name & If(Me.TypeArguments.Any,
                                    String.Join(", ", Me.TypeArguments.Select(Function(typeArgument) typeArgument.NameWithTypeArguments)).InBrackets(CompilerTools.TypeArgumentBracketType),

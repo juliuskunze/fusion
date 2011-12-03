@@ -1,4 +1,4 @@
-﻿Public Class CompileHelp
+﻿Public Class CompilerHelp
 
     Private ReadOnly _TermContext As TermContext
     Private ReadOnly _CurrentIdentifierIfDefined As LocatedString
@@ -31,22 +31,22 @@
         End Get
     End Property
 
-    Public Function GetItems() As IEnumerable(Of CompileHelpItem)
+    Public Function GetItems() As IEnumerable(Of CompilerHelpItem)
         Me.ThrowExceptionIfIsEmpty()
 
-        If _CurrentIdentifierIfDefined Is Nothing Then Return Enumerable.Empty(Of CompileHelpItem)()
+        If _CurrentIdentifierIfDefined Is Nothing Then Return Enumerable.Empty(Of CompilerHelpItem)()
 
-        Dim constants = _TermContext.Constants.Select(Function(constant) New CompileHelpItem(signature:=constant.Signature))
-        Dim parameters = _TermContext.Parameters.Select(Function(parameter) New CompileHelpItem(signature:=parameter.Signature))
-        Dim functions = _TermContext.GroupedFunctionsAndDelegateParameters.Select(Function(functionGroup) New CompileHelpItem(functionGroup:=functionGroup))
-        Dim types = _TermContext.Types.Select(Function(type) New CompileHelpItem(signature:=type))
-
-        Dim all = constants.Concat(parameters).Concat(functions).Concat(types)
+        Dim constants = _TermContext.Constants.Select(Function(constant) New CompilerHelpItem(signature:=constant.Signature))
+        Dim parameters = _TermContext.Parameters.Select(Function(parameter) New CompilerHelpItem(signature:=parameter.Signature))
+        Dim functions = _TermContext.GroupedFunctionsAndFunctionParameters.Select(Function(functionGroup) New CompilerHelpItem(functionGroup:=functionGroup))
+        Dim types = _TermContext.Types.Select(Function(type) CompilerHelpItem.FromType(type:=type, types:=_TermContext.Types))
+        
+        Dim all = constants.Concat(parameters).Concat(functions).Concat(types).Concat(Compiler.Keywords.HelpItems)
 
         Return all.Where(Function(item) Me.PassesFilter(item)).OrderBy(Function(item) item.Name)
     End Function
 
-    Private Function PassesFilter(item As CompileHelpItem) As Boolean
+    Private Function PassesFilter(item As CompilerHelpItem) As Boolean
         Return Me.PassesFilter(item.Name)
     End Function
 
@@ -60,12 +60,12 @@
 
     Private Sub ThrowExceptionIfIsEmpty()
         If Me.IsEmpty Then
-            Throw New InvalidOperationException("CompileHelp is empty.")
+            Throw New InvalidOperationException("CompilerHelp is empty.")
         End If
     End Sub
 
-    Private Shared ReadOnly _Empty As New CompileHelp
-    Public Shared ReadOnly Property Empty As CompileHelp
+    Private Shared ReadOnly _Empty As New CompilerHelp
+    Public Shared ReadOnly Property Empty As CompilerHelp
         Get
             Return _Empty
         End Get
@@ -77,16 +77,16 @@
         End Get
     End Property
 
-    Public Function TryGetInnermostOpenFunctionHelp() As CompileHelpItem
+    Public Function TryGetInnermostOpenFunctionHelp() As CompilerHelpItem
         Me.ThrowExceptionIfIsEmpty()
 
         If _InnermostCalledFunction Is Nothing Then Return Nothing
 
-        Dim functionGroup = (From x In _TermContext.GroupedFunctionsAndDelegateParameters Where CompilerTools.IdentifierEquals(x.Key, _InnermostCalledFunction.ToString)).SingleOrDefault
+        Dim functionGroup = (From x In _TermContext.GroupedFunctionsAndFunctionParameters Where CompilerTools.IdentifierEquals(x.Key, _InnermostCalledFunction.ToString)).SingleOrDefault
 
         If functionGroup Is Nothing Then Return Nothing
 
-        Return New CompileHelpItem(functionGroup:=functionGroup)
+        Return New CompilerHelpItem(functionGroup:=functionGroup)
     End Function
 
 

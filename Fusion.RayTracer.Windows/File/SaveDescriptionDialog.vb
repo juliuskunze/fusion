@@ -1,7 +1,7 @@
 ﻿Public Class SaveDescriptionDialog
     Inherits SaveFileDialog
 
-    Public Property FileAccepted As Boolean
+    Public Property IsFileAccepted As Boolean
 
     Public Property Mode As CompileMode
 
@@ -48,7 +48,7 @@
     End Property
 
     Public Sub TrySave(description As String)
-        If _FileAccepted Then
+        If _IsFileAccepted Then
             Me.Save(description:=description)
         Else
             Me.ShowAndTrySave(description:=description)
@@ -65,7 +65,7 @@
             Return
         End Try
 
-        Me.FileAccepted = True
+        Me.IsFileAccepted = True
 
         RaiseEvent Saved()
     End Sub

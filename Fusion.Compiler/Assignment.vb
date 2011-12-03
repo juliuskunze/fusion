@@ -1,19 +1,29 @@
-﻿Public Class Assignment
+﻿''' <summary>
+''' Analyzes an assignment like 'Real a = 0'.
+''' </summary>
+''' <remarks></remarks>
+Public Class Assignment
 
-    Protected ReadOnly _Declaration As LocatedString
-    Public ReadOnly Property Declaration As LocatedString
+    Protected ReadOnly _SignatureString As LocatedString
+    ''' <summary>
+    ''' First part of the assignment like 'Real a'.
+    ''' </summary>
+    Public ReadOnly Property SignatureString As LocatedString
         Get
-            Return _Declaration
+            Return _SignatureString
         End Get
     End Property
 
-    Protected ReadOnly _Term As LocatedString
-    Public ReadOnly Property Term As LocatedString
+    Protected ReadOnly _TermString As LocatedString
+    ''' <summary>
+    ''' Last part of the assignment like '0'.
+    ''' </summary>
+    Public ReadOnly Property TermString As LocatedString
         Get
-            Return _Term
+            Return _TermString
         End Get
     End Property
-    
+
     Protected ReadOnly _Context As TermContext
 
     Public Sub New(definition As LocatedString, context As TermContext)
@@ -21,20 +31,20 @@
 
         If parts.Count <> 2 Then Throw New InvalidTermException(definition, "Definition expected.")
 
-        _Declaration = parts.First
-        _Term = parts.Last
+        _SignatureString = parts.First
+        _TermString = parts.Last
 
         _Context = context
     End Sub
 
-    Public ReadOnly Property IsFunctionAssignment As Boolean
+    Public ReadOnly Property IsFunctionDefinition As Boolean
         Get
-            Return Assignment.IsConstantSignatureDefinition(_Declaration.ToString)
+            Return GetIsFunctionDefinition(_SignatureString.ToString)
         End Get
     End Property
 
-    Private Shared Function IsConstantSignatureDefinition(definition As String) As Boolean
-        Return definition.Contains(CompilerTools.ParameterBracketType.OpeningBracket) OrElse definition.Contains(CompilerTools.ParameterBracketType.ClosingBracket)
+    Private Shared Function GetIsFunctionDefinition(signatureString As String) As Boolean
+        Return signatureString.Contains(CompilerTools.ParameterBracketType.OpeningBracket) OrElse signatureString.Contains(CompilerTools.ParameterBracketType.ClosingBracket)
     End Function
 
 End Class

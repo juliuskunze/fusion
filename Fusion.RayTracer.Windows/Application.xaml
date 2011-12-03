@@ -15,6 +15,7 @@ ShutdownMode="OnExplicitShutdown">
         <Style TargetType="ProgressBar" BasedOn="{StaticResource DefaultControlStyle}"></Style>
         <Style TargetType="ScrollViewer" BasedOn="{StaticResource DefaultControlStyle}"></Style>
         <Style TargetType="GroupBox" BasedOn="{StaticResource DefaultControlStyle}"></Style>
-        
-    </Application.Resources>
+
+        <FontFamily x:Key="CodeFont">Consolas</FontFamily>
+   </Application.Resources>
 </Application>

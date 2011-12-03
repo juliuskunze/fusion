@@ -110,7 +110,7 @@ Public Class TermTests
 
     <Test()>
     Public Sub TestFunction()
-        Dim functionInstance = New FunctionInstance(Of Func(Of Double, Double))("square", Function(x As Double) x ^ 2, TypeNamedTypeDictionary:=New TypeNamedTypeDictionary(NamedTypes.Default))
+        Dim functionInstance = New FunctionInstance(Of Func(Of Double, Double))("square", Function(x As Double) x ^ 2, typeDictionary:=New TypeDictionary(NamedTypes.Default))
         Dim term = New Term("square(2*x)", Type:=NamedType.Real, context:=TermContext.Default.Merge(New TermContext(parameters:={New NamedParameter(name:="x", Type:=NamedType.Real)}, Functions:={functionInstance})))
         Dim d = term.GetDelegate(Of Func(Of Double, Double))()
         Assert.That(d(5) = 100)

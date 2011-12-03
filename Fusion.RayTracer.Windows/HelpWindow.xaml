@@ -1,0 +1,159 @@
+﻿<Window x:Class="HelpWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="HelpWindow" Height="358" Width="957">
+    <Grid>
+        <TextBlock>
+            <FlowDocumentScrollViewer>
+                <FlowDocumentScrollViewer.Resources>
+                    <Style TargetType="Paragraph">
+                        <Setter Property="Margin" Value="4"></Setter>
+                    </Style>
+                    <Style x:Key="CodeStyle" TargetType="TextBlock">
+                        <Setter Property="FontFamily" Value="{DynamicResource CodeFont}"></Setter>
+                        <Setter Property="FontSize" Value="17"></Setter>
+                        <Setter Property="Foreground" Value="Black"/>
+                    </Style>
+                    <Style TargetType="TextBlock" x:Key="HeadlineStyle">
+                        <Setter Property="Margin" Value="0,15,0,5"/>
+                        <Setter Property="FontSize" Value="20"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                    </Style>
+                </FlowDocumentScrollViewer.Resources>
+                
+                <FlowDocument FontSize="16" Foreground="#000060">
+                    <Paragraph>
+                        The following examples give an overview over the scene description language.<LineBreak/>
+                        <TextBlock Style="{DynamicResource HeadlineStyle}">
+                            Constants
+                        </TextBlock><LineBreak/>
+                        You can give the real number '1.5' the name 'a' with the following definition:<LineBreak/>
+                        <TextBlock Style="{DynamicResource CodeStyle}">
+                            Real a = 1.5
+                        </TextBlock><LineBreak/>
+                        In the following definitions you can refer to 'a' now. For example, you could define a 3D vector by<LineBreak/>
+                        <TextBlock Style="{DynamicResource CodeStyle}">
+                            Real a = 1.5;<LineBreak/>
+                            Vector v = [2*a,0,a]
+                        </TextBlock><LineBreak/>
+                        The semicolon separates two definitions. 'Real' and 'Vector' are called types and 'a' is called a constant of type 'Real'.<LineBreak/>
+                        
+                        <TextBlock Style="{DynamicResource HeadlineStyle}">
+                            Functions
+                        </TextBlock><LineBreak/>
+                        You can define functions analogous to mathematical functions (in the example f with f(x) = x^2+3*x for all real numbers x):<LineBreak/> 
+                        <TextBlock Style="{DynamicResource CodeStyle}">
+                            Real f(Real x) = x^2+3*x
+                        </TextBlock> <LineBreak/>
+                        The first 'Real' stands for the return type of the function, it returns a real number. 'x' is called a parameter of the function. 'x' has the type 'Real'. In the following definitions you can call this function:<LineBreak/>
+                        <TextBlock Style="{DynamicResource CodeStyle}">
+                            Real f(Real x) = x^2+3*x;<LineBreak/>
+                            Real result = f(4)
+                        </TextBlock> <LineBreak/>
+                        The '4' is called the argument of the function call. The constant 'result' is now 4^2+3*4=28.<LineBreak/>
+                        There are many predefined types, constants and functions. You can explore these in the help popup. For example, you can define a sphere by the following definition:<LineBreak/> 
+                        <TextBlock Style="{DynamicResource CodeStyle}">
+                            Sphere s = Sphere([1,2,3], 1)
+                        </TextBlock> <LineBreak/>
+                        The first 'Sphere' stands for the type of 's' and the second 'Sphere' stands for a function with the two parameters 'center' (of type 'Vector') and 'radius' (of type 'Real'). s is now a sphere with center [1,2,3] and radius 1. To make the definition more readable, you could name the parameters explicitly:<LineBreak/>
+                        <TextBlock Style="{DynamicResource CodeStyle}">
+                            Sphere s = Sphere(center : [1,2,3], radius : 1)
+                        </TextBlock> <LineBreak/>
+                        You can define multiple functions with the same name when they have a different parameter count:<LineBreak/>
+                        <TextBlock Style="{DynamicResource CodeStyle}">
+                            Real Average(Real a, Real b) = (a + b)/2;<LineBreak/>
+                            Real Average(Real a, Real b, Real c) = (a+b+c)/3;<LineBreak/>
+                            Real result1 = Average(1,3);<LineBreak/>
+                            Real result2 = Average(1,3,5);
+                        </TextBlock> <LineBreak/>
+                        (result1 is 2 and result2 is 3 now.)<LineBreak/>
+                        
+                        <TextBlock Style="{DynamicResource HeadlineStyle}">
+                            Types
+                        </TextBlock><LineBreak/>
+                        Types allow the compiler to perform a rude check whether a definition makes sense or not. The following definition of a Sphere would make no sense, because a radius cannot be a vector:<LineBreak/>
+                        <TextBlock Style="{DynamicResource CodeStyle}">
+                            Sphere s = Sphere(center : [1,2,3], radius : [4,5,6])
+                        </TextBlock> <LineBreak/>
+                        That's why there will be a corresponding compiler error.<LineBreak/>
+                        Some types are assignable to others, for example 'Sphere' is assignable to 'Surface', because a sphere is a special surface:
+                        <TextBlock Style="{DynamicResource CodeStyle}">
+                            Surface s = Sphere(center : [1,2,3], radius : [4,5,6])
+                        </TextBlock> <LineBreak/>
+                        In the help popup you can see to which other types a type is assignable.<LineBreak/>
+                        
+                        <TextBlock Style="{DynamicResource HeadlineStyle}">
+                            Real numbers
+                        </TextBlock><LineBreak/>
+                        You can produce real numbers by the following notations:<LineBreak/> 
+                        <TextBlock Style="{DynamicResource CodeStyle}">
+                            Real r1 = 17;<LineBreak/>
+                            Real r2 = 0.045;<LineBreak/>
+                            Real r3 = 1.4e-7
+                        </TextBlock> <LineBreak/>
+                        You can use the usual operator notation for real numbers, e. g.<LineBreak/>
+                        <TextBlock Style="{DynamicResource CodeStyle}">
+                            Real a = ((1+2)*(3-4)/5)^6
+                        </TextBlock> <LineBreak/>
+                        <TextBlock Style="{DynamicResource HeadlineStyle}">
+                            Vectors
+                        </TextBlock><LineBreak/>
+                        You can produce vectors by the following notation:<LineBreak/>
+                        <TextBlock Style="{DynamicResource CodeStyle}">
+                            Real v = [0.5, 3, 4]
+                        </TextBlock> <LineBreak/>
+                        You can use the usual operator notation for vectors, e. g. 
+                        <LineBreak/>
+                        <TextBlock Style="{DynamicResource CodeStyle}">
+                            Vector v1 = [1, 3, 4] + [1, 2, 3];<LineBreak/>
+                            Vector v2 = [1, 3, 4] - [1, 2, 3];<LineBreak/>
+                            Vector v3 = 3 * [1, 2, 3];<LineBreak/>
+                            Vector v4 = [1, 2, 3] / 3
+                        </TextBlock> <LineBreak/>
+                        
+                        <TextBlock Style="{DynamicResource HeadlineStyle}">
+                            Case distinctions
+                        </TextBlock><LineBreak/>
+                        The 'Cases'-keyword supports case distinctions. It returns the assigned specified value of the first specified condition that is true:
+                        <LineBreak/>
+                        <TextBlock Style="{DynamicResource CodeStyle}">
+                            Real Signum(Real x) = Cases(x&gt;0 : 1, x&lt;0 : -1, else : 0)
+                        </TextBlock><LineBreak/>
+                        This expression returns is 1 if x&gt;0, -1 if x&lt;0 and 0 if x=0.<LineBreak/>
+                        
+                        <TextBlock Style="{DynamicResource HeadlineStyle}">
+                            Result
+                        </TextBlock><LineBreak/>
+                        
+                        You can return the total result of the program with the 'Return'-Keyword. (See examples for this.)<LineBreak/>
+                        
+                        <TextBlock Style="{DynamicResource HeadlineStyle}">
+                            Function types
+                        </TextBlock><LineBreak/>
+                        The 'FunctionType'-Keyword defines a function type, which consists of a function's result type and a function's parameter count and their types: <LineBreak/>
+                        <TextBlock Style="{DynamicResource CodeStyle}">
+                            FunctionType Real SimpleFunction(Real a);
+                        </TextBlock><LineBreak/>
+                        Every function, that matches this function signature (has the result type Real and one parameter of type Real) is has the function type 'SimpleFunction' now.
+                        This makes it possible to define parameters of type 'SimpleFunction':
+                        <TextBlock Style="{DynamicResource CodeStyle}">
+                            Real Square(Real a) = a^2;<LineBreak/> 
+                            Real ApplyTwice(SimpleFunction f, Real a) = f(f(a));<LineBreak/> 
+                            Real result = ApplyTwice(square, 3)
+                        </TextBlock><LineBreak/>
+                        (result is (3^2)^2=81 now.)<LineBreak/>
+                        
+                        <TextBlock Style="{DynamicResource HeadlineStyle}">
+                            And now?
+                        </TextBlock><LineBreak/>
+                        You can create complex 3D picture and video scene descriptions by combining these ingredients. 
+                        Parse the help popup for more information about the predefined constants, functions and types. 
+                        The compiler will show you error messages if you do something wrong.
+                        To get some ideas how to start, you can look at the example scene descriptions and change them.
+                        <LineBreak/>
+                    </Paragraph>
+                </FlowDocument>
+            </FlowDocumentScrollViewer>
+        </TextBlock>
+    </Grid>
+</Window>

@@ -39,7 +39,7 @@ Public Class RichCompiler(Of TResult)
                    helpListBox As ListBox,
                    helpScrollViewer As ScrollViewer,
                    baseContext As TermContext,
-                   typeNamedTypeDictionary As TypeNamedTypeDictionary,
+                   typeDictionary As TypeDictionary,
                    Optional autoCompile As Boolean = True)
         _RichTextBox = richTextBox
         _HelpListPopup = helpListPopup
@@ -50,7 +50,7 @@ Public Class RichCompiler(Of TResult)
         _RichTextBox.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible
         _RichTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Visible
 
-        _Compiler = New Compiler(Of TResult)(baseContext:=baseContext, typeNamedTypeDictionary:=typeNamedTypeDictionary)
+        _Compiler = New Compiler(Of TResult)(baseContext:=baseContext, typeDictionary:=typeDictionary)
         Me.UpdateOnTextChanged()
 
         Dim pasteCommandBinding = New CommandBinding(ApplicationCommands.Paste, AddressOf OnPaste, AddressOf OnCanExecutePaste)
@@ -162,13 +162,13 @@ Public Class RichCompiler(Of TResult)
     End Sub
 
     Public Sub Compile(Optional showHelp As Boolean = False)
-        Dim compileHelp As CompileHelp = Nothing
+        Dim compilerHelp As CompilerHelp = Nothing
         Dim richCompilerResult As RichCompilerResult(Of TResult) = Nothing
 
         Try
             Dim compilerResult = _Compiler.Compile(withHelp:=showHelp)
 
-            compileHelp = compilerResult.CompileHelp
+            compilerHelp = compilerResult.CompilerHelp
             richCompilerResult = New RichCompilerResult(Of TResult)(compilerResult.Result)
 
             Me.RemoveUnderline()
@@ -180,38 +180,38 @@ Public Class RichCompiler(Of TResult)
                 Me.RemoveUnderline()
             End If
 
-            compileHelp = ex.CompileHelp
+            compilerHelp = ex.CompilerHelp
             richCompilerResult = New RichCompilerResult(Of TResult)(ex.InnerCompilerException.Message)
 
         Catch ex As Reflection.TargetInvocationException
-            compileHelp = compileHelp.Empty
+            compilerHelp = compilerHelp.Empty
             richCompilerResult = New RichCompilerResult(Of TResult)(ex.InnerException.Message)
             Me.RemoveUnderline()
 
         Catch ex As Exception
-            compileHelp = compileHelp.Empty
+            compilerHelp = compilerHelp.Empty
             richCompilerResult = New RichCompilerResult(Of TResult)(ex.Message)
             Me.RemoveUnderline()
 
         Finally
-            Me.ShowHelp(compileHelp)
+            Me.ShowHelp(compilerHelp)
 
             RaiseEvent Compiled(Me, New CompilerResultEventArgs(Of TResult)(richCompilerResult))
         End Try
     End Sub
 
-    Private Sub ShowHelp(compileHelp As CompileHelp)
-        If compileHelp.IsEmpty Then
+    Private Sub ShowHelp(compilerHelp As CompilerHelp)
+        If compilerHelp.IsEmpty Then
             Me.CloseHelp()
             Return
         End If
 
-        Me.TryShowOpenedFunctionHelp(compileHelp)
-        Me.TryShowHelpList(compileHelp)
+        Me.TryShowOpenedFunctionHelp(compilerHelp)
+        Me.TryShowHelpList(compilerHelp)
     End Sub
 
-    Private Sub TryShowOpenedFunctionHelp(compileHelp As CompileHelp)
-        Dim help = compileHelp.TryGetInnermostOpenFunctionHelp
+    Private Sub TryShowOpenedFunctionHelp(compilerHelp As CompilerHelp)
+        Dim help = compilerHelp.TryGetInnermostOpenFunctionHelp
         If help Is Nothing Then
             Me.CloseFunctionToolTip()
             Return
@@ -220,15 +220,15 @@ Public Class RichCompiler(Of TResult)
         _OpenedFunctionToolTip.Text = help.ToolTipText
         _OpenedFunctionToolTip.IsOpen = True
 
-        Dim functionStartCharRect = _TextOnlyDocument.GetCharacterRect(index:=compileHelp.InnermostCalledFunction.Location.StartIndex)
+        Dim functionStartCharRect = _TextOnlyDocument.GetCharacterRect(index:=compilerHelp.InnermostCalledFunction.Location.StartIndex)
         Dim currentIdentifierStartCharRect = _TextOnlyDocument.GetCharacterRect(_Compiler.CurrentIdentifierIfDefined.Location.StartIndex)
 
         _OpenedFunctionToolTip.VerticalOffset = currentIdentifierStartCharRect.Bottom - _RichTextBox.ActualHeight
         _OpenedFunctionToolTip.HorizontalOffset = functionStartCharRect.Left
     End Sub
 
-    Private Sub TryShowHelpList(ByVal compileHelp As CompileHelp)
-        Dim helpItems = compileHelp.GetItems
+    Private Sub TryShowHelpList(ByVal compilerHelp As CompilerHelp)
+        Dim helpItems = compilerHelp.GetItems
         If Not helpItems.Any Then
             Me.CloseHelpList()
             Return
@@ -237,7 +237,7 @@ Public Class RichCompiler(Of TResult)
         Me.ShowHelpList(helpItems)
     End Sub
 
-    Private Sub ShowHelpList(helpItems As IEnumerable(Of CompileHelpItem))
+    Private Sub ShowHelpList(helpItems As IEnumerable(Of CompilerHelpItem))
         Dim listBoxItems = helpItems.Select(Function(helpItem) helpItem.ToListBoxItem)
 
         _HelpListBox.ItemsSource = listBoxItems
@@ -397,11 +397,12 @@ Public Class RichCompiler(Of TResult)
 
     Private Sub CloseHelpAndAutoComplete()
         Me.CloseHelp()
-        Me.AutoCompleteText(CStr(DirectCast(_HelpListBox.SelectedItem, ListBoxItem).Content))
+        Me.CompleteIdentifierByHelp(CStr(DirectCast(_HelpListBox.SelectedItem, ListBoxItem).Content))
     End Sub
 
-    Private Sub AutoCompleteText(text As String)
+    Private Sub CompleteIdentifierByHelp(text As String)
         Me.InsertText(text:=text, textToReplace:=_Compiler.CurrentIdentifierIfDefined.Location)
+        Me.CloseHelp()
     End Sub
 
     Private Sub InsertText(text As String, textToReplace As TextLocation)

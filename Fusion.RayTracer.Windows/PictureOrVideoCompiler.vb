@@ -45,12 +45,12 @@ Public Class PictureOrVideoCompiler
         End Set
     End Property
 
-    Public Sub Compile()
+    Public Sub Compile(Optional showHelp As Boolean = False)
         Select Case Me.Mode
             Case CompileMode.Picture
-                _PictureCompiler.Compile()
+                _PictureCompiler.Compile(showHelp:=showHelp)
             Case CompileMode.Video
-                _VideoCompiler.Compile()
+                _VideoCompiler.Compile(showHelp:=showHelp)
         End Select
     End Sub
 
@@ -60,7 +60,7 @@ Public Class PictureOrVideoCompiler
                                             helpListBox:=_HelpListBox,
                                             helpScrollViewer:=_HelpScrollViewer,
                                             baseContext:=_RelativisticRayTracerTermContextBuilder.TermContext,
-                                            TypeNamedTypeDictionary:=_RelativisticRayTracerTermContextBuilder.TypeDictionary)
+                                            typeDictionary:=_RelativisticRayTracerTermContextBuilder.TypeDictionary)
     End Function
 
     Public Sub Unfocus()

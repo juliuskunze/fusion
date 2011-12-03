@@ -17,9 +17,9 @@
     End Sub
 
     Public Function ToFunctionInstance() As FunctionInstance
-        If Not _Signature.Type.IsDelegate Then Throw New InvalidOperationException("Parameter must be a delegate.")
+        If Not _Signature.Type.IsFunctionType Then Throw New InvalidOperationException("Function type expected.")
 
-        Return New FunctionInstance(Signature:=New FunctionSignature(Name:=_Signature.Name, DelegateType:=_Signature.Type.Delegate), invokableExpression:=_Expression)
+        Return New FunctionInstance(Signature:=New FunctionSignature(Name:=_Signature.Name, functionType:=_Signature.Type.[Function]), invokableExpression:=_Expression)
     End Function
 
     Public Shared Function FromText(text As LocatedString, typeContext As NamedTypes) As NamedParameter

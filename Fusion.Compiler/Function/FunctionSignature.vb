@@ -8,10 +8,10 @@
         End Get
     End Property
 
-    Private ReadOnly _DelegateType As DelegateType
-    Public ReadOnly Property DelegateType As DelegateType
+    Private ReadOnly _FunctionType As FunctionType
+    Public ReadOnly Property FunctionType As FunctionType
         Get
-            Return _DelegateType
+            Return _FunctionType
         End Get
     End Property
 
@@ -22,13 +22,13 @@
         End Get
     End Property
 
-    Public Function AsNamedDelegateType() As NamedType
-        Return New NamedType(Name:=_Name, [Delegate]:=_DelegateType)
+    Public Function AsNamedFunctionType() As NamedType
+        Return New NamedType(Name:=_Name, [function]:=_FunctionType)
     End Function
 
-    Public Sub New(name As String, delegateType As DelegateType, Optional description As String = Nothing)
+    Public Sub New(name As String, functionType As FunctionType, Optional description As String = Nothing)
         _Name = name
-        _DelegateType = delegateType
+        _FunctionType = functionType
         _Description = description
     End Sub
 
@@ -38,15 +38,15 @@
 
         Dim parameters = CompilerTools.GetParameters(parametersInBrackets:=rest.Trim).Select(Function(parameterText) NamedParameter.FromText(text:=parameterText, typeContext:=typeContext)).ToArray
 
-        Return New FunctionSignature(Name:=typeAndName.Name, DelegateType:=New DelegateType(ResultType:=typeAndName.Type, parameters:=parameters))
+        Return New FunctionSignature(Name:=typeAndName.Name, functionType:=New FunctionType(ResultType:=typeAndName.Type, parameters:=parameters))
     End Function
 
     Public Overrides Function ToString() As String Implements ISignature.GetSignatureString
-        Return Me.DelegateType.ResultType.Name & " " & Me.Name & String.Join(", ", Me.DelegateType.Parameters.Select(Function(parameter) parameter.Signature.ToString)).InBrackets
+        Return Me.FunctionType.ResultType.Name & " " & Me.Name & String.Join(", ", Me.FunctionType.Parameters.Select(Function(parameter) parameter.Signature.ToString)).InBrackets
     End Function
 
     Public Sub CheckForConflicts(other As FunctionSignature)
-        If Me.Name = other.Name AndAlso Me.DelegateType.Parameters.Count = other.DelegateType.Parameters.Count Then Throw New CompilerException(String.Format("Function '{0}' with parameter count {1} is already defined.", other.Name, other.DelegateType.Parameters.Count))
+        If Me.Name = other.Name AndAlso Me.FunctionType.Parameters.Count = other.FunctionType.Parameters.Count Then Throw New CompilerException(String.Format("Function '{0}' with parameter count {1} is already defined.", other.Name, other.FunctionType.Parameters.Count))
     End Sub
 
 End Class

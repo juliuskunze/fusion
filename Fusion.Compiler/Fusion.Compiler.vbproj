@@ -77,8 +77,8 @@
     <Compile Include="CompileHelp\TextToolTip.vb" />
     <Compile Include="CompilerExceptionWithHelp.vb" />
     <Compile Include="CompilerResult.vb" />
-    <Compile Include="CompileHelp\CompileHelp.vb" />
-    <Compile Include="CompileHelp\CompileHelpItem.vb" />
+    <Compile Include="CompileHelp\CompilerHelp.vb" />
+    <Compile Include="CompileHelp\CompilerHelpItem.vb" />
     <Compile Include="LocatedString.vb" />
     <Compile Include="BinaryOperatorArgumentTypesInformation.vb" />
     <Compile Include="BinaryOperatorOverload.vb" />
@@ -114,7 +114,7 @@
     <Compile Include="Constant\ConstantInstance.vb" />
     <Compile Include="Constant\ConstantSignature.vb" />
     <Compile Include="Compiler.vb" />
-    <Compile Include="DelegateType.vb" />
+    <Compile Include="FunctionType.vb" />
     <Compile Include="Function\FunctionCall.vb" />
     <Compile Include="Function\FunctionAssignment.vb" />
     <Compile Include="Function\FunctionInstance.vb" />
@@ -125,7 +125,7 @@
     <Compile Include="NamedTypes.vb" />
     <Compile Include="TextLocation.vb" />
     <Compile Include="TypeInformation.vb" />
-    <Compile Include="TypeNamedTypeDictionary.vb" />
+    <Compile Include="TypeDictionary.vb" />
     <Compile Include="Term.vb" />
     <Compile Include="TermContext.vb" />
     <Compile Include="TypeAndName.vb" />

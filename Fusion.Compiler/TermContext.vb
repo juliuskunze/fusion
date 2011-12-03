@@ -29,15 +29,15 @@
     End Property
 
     Private _GroupedFunctions As IEnumerable(Of IGrouping(Of String, FunctionInstance))
-    Public ReadOnly Property GroupedFunctionsAndDelegateParameters As IEnumerable(Of IGrouping(Of String, FunctionInstance))
+    Public ReadOnly Property GroupedFunctionsAndFunctionParameters As IEnumerable(Of IGrouping(Of String, FunctionInstance))
         Get
             If _GroupedFunctions Is Nothing Then
-                Dim delegateParameterFunctions =
+                Dim parameterFunctions =
                         From parameter In Me.Parameters
-                        Where parameter.Signature.Type.IsDelegate
+                        Where parameter.Signature.Type.IsFunctionType
                         Select parameter.ToFunctionInstance
 
-                _GroupedFunctions = _Functions.Concat(delegateParameterFunctions).GroupBy(Function(instance) instance.Signature.Name, comparer:=StringComparer.OrdinalIgnoreCase).ToArray
+                _GroupedFunctions = _Functions.Concat(parameterFunctions).GroupBy(Function(instance) instance.Signature.Name, comparer:=StringComparer.OrdinalIgnoreCase).ToArray
             End If
 
             Return _GroupedFunctions
@@ -54,21 +54,21 @@
         _Types = If(types Is Nothing, NamedTypes.Empty, types)
     End Sub
 
-    Private Shared ReadOnly _Default As New TermContext(Constants:={New ConstantInstance(Of Boolean)("true", True, TypeNamedTypeDictionary.Default, "A Boolean value that passes a conditional test."),
-                                                                    New ConstantInstance(Of Boolean)("false", False, TypeNamedTypeDictionary.Default, "A Boolean value that fails a conditional test."),
-                                                                    New ConstantInstance(Of Double)("pi", System.Math.PI, TypeNamedTypeDictionary.Default, "= 3.14159..."),
-                                                                    New ConstantInstance(Of Double)("e", System.Math.E, TypeNamedTypeDictionary.Default, "= 2.71828...")
+    Private Shared ReadOnly _Default As New TermContext(Constants:={New ConstantInstance(Of Boolean)("true", True, TypeDictionary.Default, "A Boolean value that passes a conditional test."),
+                                                                    New ConstantInstance(Of Boolean)("false", False, TypeDictionary.Default, "A Boolean value that fails a conditional test."),
+                                                                    New ConstantInstance(Of Double)("pi", System.Math.PI, TypeDictionary.Default, "= 3.14159..."),
+                                                                    New ConstantInstance(Of Double)("e", System.Math.E, TypeDictionary.Default, "= 2.71828...")
                                                                    },
-                                                        Functions:={New FunctionInstance(Of Func(Of Double, Double))("Sqrt", Function(x As Double) System.Math.Sqrt(x), TypeNamedTypeDictionary.Default, "The square root of a real number."),
-                                                                    New FunctionInstance(Of Func(Of Double, Double))("Exp", Function(x) System.Math.Exp(x), TypeNamedTypeDictionary.Default, "E raised to the specified power."),
-                                                                    New FunctionInstance(Of Func(Of Double, Double))("Sin", Function(x) System.Math.Sin(x), TypeNamedTypeDictionary.Default, "The sine of a specified angle."),
-                                                                    New FunctionInstance(Of Func(Of Double, Double))("Cos", Function(x) System.Math.Cos(x), TypeNamedTypeDictionary.Default, "The cosine of a specified angle."),
-                                                                    New FunctionInstance(Of Func(Of Double, Double))("Tan", Function(x) System.Math.Tan(x), TypeNamedTypeDictionary.Default, "The tangent of a specified angle."),
-                                                                    New FunctionInstance(Of Func(Of Double, Double))("Arcsin", Function(x) System.Math.Asin(x), TypeNamedTypeDictionary.Default, "The arcsine of a specified number."),
-                                                                    New FunctionInstance(Of Func(Of Double, Double))("Arccos", Function(x) System.Math.Acos(x), TypeNamedTypeDictionary.Default, "The arccosine of a specified number."),
-                                                                    New FunctionInstance(Of Func(Of Double, Double))("Abs", Function(x) System.Math.Abs(x), TypeNamedTypeDictionary.Default, "The absolute value of the specified number."),
-                                                                    New FunctionInstance(Of Func(Of Double, Double, Double))("Max", Function(a, b) System.Math.Max(a, b), TypeNamedTypeDictionary.Default, "The maximum value of the specified numbers."),
-                                                                    New FunctionInstance(Of Func(Of Double, Double, Double))("Min", Function(a, b) System.Math.Min(a, b), TypeNamedTypeDictionary.Default, "The minimum value of the specified numbers.")
+                                                        Functions:={New FunctionInstance(Of Func(Of Double, Double))("Sqrt", Function(x As Double) System.Math.Sqrt(x), TypeDictionary.Default, "The square root of a real number."),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Exp", Function(x) System.Math.Exp(x), TypeDictionary.Default, "E raised to the specified power."),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Sin", Function(x) System.Math.Sin(x), TypeDictionary.Default, "The sine of a specified angle."),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Cos", Function(x) System.Math.Cos(x), TypeDictionary.Default, "The cosine of a specified angle."),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Tan", Function(x) System.Math.Tan(x), TypeDictionary.Default, "The tangent of a specified angle."),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Arcsin", Function(x) System.Math.Asin(x), TypeDictionary.Default, "The arcsine of a specified number."),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Arccos", Function(x) System.Math.Acos(x), TypeDictionary.Default, "The arccosine of a specified number."),
+                                                                    New FunctionInstance(Of Func(Of Double, Double))("Abs", Function(x) System.Math.Abs(x), TypeDictionary.Default, "The absolute value of the specified number."),
+                                                                    New FunctionInstance(Of Func(Of Double, Double, Double))("Max", Function(a, b) System.Math.Max(a, b), TypeDictionary.Default, "The maximum value of the specified numbers."),
+                                                                    New FunctionInstance(Of Func(Of Double, Double, Double))("Min", Function(a, b) System.Math.Min(a, b), TypeDictionary.Default, "The minimum value of the specified numbers.")
                                                                    },
                                                         Types:=NamedTypes.Default)
 
@@ -106,13 +106,13 @@
 
     Public Function ParseFunction(functionCall As FunctionCall) As FunctionInstance
         Dim matchingFunctionGroup = Me.GetMatchingFunctionGroup(functionCall.FunctionName)
-        Dim matchingFunctions = matchingFunctionGroup.Where(Function(instance) instance.Signature.DelegateType.Parameters.Count = functionCall.Arguments.Count)
+        Dim matchingFunctions = matchingFunctionGroup.Where(Function(instance) instance.Signature.FunctionType.Parameters.Count = functionCall.Arguments.Count)
         If Not matchingFunctions.Any Then Throw New LocatedCompilerException(functionCall.LocatedString, String.Format("Function '{0}' with parameter count {1} not defined in this context.", functionCall.FunctionName, functionCall.Arguments.Count))
         Return matchingFunctions.Single
     End Function
 
     Private Function GetMatchingFunctionGroup(functionName As LocatedString) As IGrouping(Of String, FunctionInstance)
-        Dim matchingFunctionGroups = Me.GroupedFunctionsAndDelegateParameters.Where(Function(group) CompilerTools.IdentifierEquals(group.Key, functionName.ToString))
+        Dim matchingFunctionGroups = Me.GroupedFunctionsAndFunctionParameters.Where(Function(group) CompilerTools.IdentifierEquals(group.Key, functionName.ToString))
         If Not matchingFunctionGroups.Any Then Throw New LocatedCompilerException(functionName, String.Format("Function '{0}' not defined in this context.", functionName))
         Return matchingFunctionGroups.Single
     End Function

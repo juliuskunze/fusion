@@ -1,4 +1,4 @@
-﻿Public Class DelegateType
+﻿Public Class FunctionType
 
     Private ReadOnly _ResultType As NamedType
     Public ReadOnly Property ResultType As NamedType
@@ -20,7 +20,7 @@
         _SystemType = Me.GetSystemType()
     End Sub
 
-    Public Sub CheckIsAssignableFrom(other As DelegateType)
+    Public Sub CheckIsAssignableFrom(other As FunctionType)
         Me.ResultType.CheckIsAssignableFrom(other.ResultType)
 
         For parameterIndex = 0 To Me.Parameters.Count - 1
@@ -31,7 +31,7 @@
         Next
     End Sub
 
-    Public Function IsAssignableFrom(other As DelegateType) As Boolean
+    Public Function IsAssignableFrom(other As FunctionType) As Boolean
         If Not Me.ResultType.IsAssignableFrom(other.ResultType) Then Return False
 
         For parameterIndex = 0 To Me.Parameters.Count - 1
@@ -54,14 +54,14 @@
     Private Function GetSystemType() As Type
         Dim resultType = Me.ResultType.SystemType
         Dim parameterTypes = Me.Parameters.Select(Function(parameter) parameter.Signature.Type.SystemType)
-        Return GetDelegateFunctionType(parameterTypes, resultType)
-    End Function
-    
-    Private Shared Function GetDelegateFunctionType( parameterTypes As IEnumerable(Of Type),  resultType As Type) As Type
-        Return GetDelegateFunctionType(parameterCount:=parameterTypes.Count).MakeGenericType(parameterTypes.Concat({resultType}).ToArray)
+        Return GetFunctionType(parameterTypes, resultType)
     End Function
 
-    Private Shared Function GetDelegateFunctionType(parameterCount As Integer) As Type
+    Private Shared Function GetFunctionType(parameterTypes As IEnumerable(Of Type), resultType As Type) As Type
+        Return GetFunctionType(parameterCount:=parameterTypes.Count).MakeGenericType(parameterTypes.Concat({resultType}).ToArray)
+    End Function
+
+    Private Shared Function GetFunctionType(parameterCount As Integer) As Type
         Select Case parameterCount
             Case 0
                 Return GetType(Func(Of ))
@@ -98,7 +98,7 @@
             Case 16
                 Return GetType(Func(Of ,,,,,,,,,,,,,,,,))
             Case Else
-                Throw New CompilerException("Function can not have more than 16 parameters.")
+                Throw New CompilerException("A function can not have more than 16 parameters.")
         End Select
     End Function
 

@@ -15,7 +15,7 @@
     End Property
 
     Public Sub New(expression As Expression, namedType As NamedType)
-        If Not namedType.IsDelegate AndAlso Not namedType.TypeArguments.Any AndAlso Not namedType.SystemType.IsAssignableFrom(expression.Type) Then Throw New ArgumentException(String.Format("Named type '{0}' is not assignable from expression type '{1}'.", namedType.Name, expression.Type))
+        If Not namedType.IsFunctionType AndAlso Not namedType.TypeArguments.Any AndAlso Not namedType.SystemType.IsAssignableFrom(expression.Type) Then Throw New ArgumentException(String.Format("Named type '{0}' is not assignable from expression type '{1}'.", namedType.Name, expression.Type))
         _Expression = expression
         _NamedType = namedType
     End Sub

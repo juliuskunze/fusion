@@ -13,9 +13,7 @@
     End Sub
 
     Public Sub New(term As String, typeInformation As TypeInformation, context As TermContext)
-        If Not context.Types.Contains(NamedType.Real) Then Throw New CompilerException("Type Real must be defined in this context.")
-        If Not context.Types.Contains(NamedType.Vector3D) Then Throw New CompilerException("Type Vector3D must be defined in this context.")
-        If Not context.Types.Contains(NamedType.Set) Then Throw New CompilerException("Type Set must be defined in this context.")
+        CheckPrimitveTypesAreDefined(context)
 
         _LocatedString = New AnalizedString(term, AllowedBracketTypes:=CompilerTools.AllowedBracketTypes).ToLocated.Trim
         _Context = context
@@ -29,13 +27,17 @@
     End Sub
 
     Public Sub New(term As LocatedString, typeInformation As TypeInformation, context As TermContext)
-        If Not context.Types.Contains(NamedType.Real) Then Throw New CompilerException("Type Real must be defined in this context.")
-        If Not context.Types.Contains(NamedType.Vector3D) Then Throw New CompilerException("Type Vector3D must be defined in this context.")
-        If Not context.Types.Contains(NamedType.Set) Then Throw New CompilerException("Type Set must be defined in this context.")
+        CheckPrimitveTypesAreDefined(context)
 
         _LocatedString = term.Trim
         _Context = context
         _TypeInformation = typeInformation
+    End Sub
+
+    Private Shared Sub CheckPrimitveTypesAreDefined(ByVal context As TermContext)
+        If Not context.Types.Contains(NamedType.Real) Then Throw New CompilerException("Type Real must be defined in this context.")
+        If Not context.Types.Contains(NamedType.Vector3D) Then Throw New CompilerException("Type Vector3D must be defined in this context.")
+        If Not context.Types.Contains(NamedType.Set) Then Throw New CompilerException("Type Set must be defined in this context.")
     End Sub
 
     Private Function TryGetConstantOrParameterExpression() As ExpressionWithNamedType
@@ -81,8 +83,8 @@
         Return Expression.Lambda(body:=Me.GetExpression, parameters:=_Context.Parameters.Select(Function(p) p.Expression)).Compile
     End Function
 
-    Public Function GetDelegate(Of TDelegate)() As TDelegate
-        Dim lambda = Expression.Lambda(Of TDelegate)(body:=Me.GetExpression, parameters:=_Context.Parameters.Select(Function(p) p.Expression))
+    Public Function GetDelegate(Of TFunction)() As TFunction
+        Dim lambda = Expression.Lambda(Of TFunction)(body:=Me.GetExpression, parameters:=_Context.Parameters.Select(Function(p) p.Expression))
 
         Return lambda.Compile
     End Function
@@ -132,7 +134,7 @@
             Return Me.GetCollectionExpression()
         End If
 
-        If Not _TypeInformation.IsInfer AndAlso _TypeInformation.Type.IsDelegate AndAlso _LocatedString.ToString.IsValidIdentifier Then Return _Context.ParseSingleFunctionWithName(_LocatedString).InvokableExpression.WithNamedType(_TypeInformation.Type)
+        If Not _TypeInformation.IsInfer AndAlso _TypeInformation.Type.IsFunctionType AndAlso _LocatedString.ToString.IsValidIdentifier Then Return _Context.ParseSingleFunctionWithName(_LocatedString).InvokableExpression.WithNamedType(_TypeInformation.Type)
 
         _CharIsInBrackets = _LocatedString.GetCharIsInBracketsArray
 
@@ -228,9 +230,9 @@
         End If
 
         Dim functionInstance = _Context.ParseFunction(functionCall)
-        Me.CheckTypeMatch(functionInstance.Signature.DelegateType.ResultType)
+        Me.CheckTypeMatch(functionInstance.Signature.FunctionType.ResultType)
 
-        Dim parameters = functionInstance.Signature.DelegateType.Parameters
+        Dim parameters = functionInstance.Signature.FunctionType.Parameters
 
         Dim arguments = New List(Of Expression)
         For parameterIndex = 0 To parameters.Count - 1
