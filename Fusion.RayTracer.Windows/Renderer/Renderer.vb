@@ -24,15 +24,22 @@ Public MustInherit Class Renderer(Of TResult)
     Public Event Completed(e As RenderResultEventArgs(Of TResult))
 
     Private Sub BackgroundWorker_Completed(sender As Object, e As ComponentModel.RunWorkerCompletedEventArgs) Handles _BackgroundWorker.RunWorkerCompleted
-        OnCompleted(e)
-        RaiseEvent Completed(New RenderResultEventArgs(Of TResult)(CType(CType(e.Result, Object), TResult), cancelled:=e.Cancelled, ElapsedTime:=Me.ElapsedTime))
-    End Sub
-
-    Protected Overridable Sub OnCompleted(e As RunWorkerCompletedEventArgs)
-        If e.Error IsNot Nothing Then Throw e.Error
-
         _Stopwatch.Stop()
+
+        RaiseEvent Completed(GetRenderResult(e))
     End Sub
+
+    Private Function GetRenderResult(e As ComponentModel.RunWorkerCompletedEventArgs) As RenderResultEventArgs(Of TResult)
+        If e.Cancelled Then
+            Return RenderResultEventArgs(Of TResult).CancelledResult
+        End If
+
+        If e.Error IsNot Nothing Then
+            Return New RenderResultEventArgs(Of TResult)([error]:=e.Error)
+        End If
+
+        Return New RenderResultEventArgs(Of TResult)(CType(CType(e.Result, Object), TResult), ElapsedTime:=Me.ElapsedTime)
+    End Function
 
     Protected Sub ReportProgress(relativeProgress As Double)
         _BackgroundWorker.ReportProgress(CInt(relativeProgress * 100))

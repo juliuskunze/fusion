@@ -1,4 +1,8 @@
-﻿Public Class FrameRenderer
+﻿''' <summary>
+''' Represnets a picture renderer, that saves the picture after rendering.
+''' </summary>
+''' <remarks></remarks>
+Public Class FrameRenderer
     Inherits PictureRenderer
 
     Private ReadOnly _OutputFile As FileInfo

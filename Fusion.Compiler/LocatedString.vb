@@ -208,14 +208,7 @@
     End Function
 
     Public Function TryGetSurroundingIdentifier(selection As TextLocation) As LocatedString
-        If selection.Length = 0 Then Return Me.TryGetSurroundingIdentifier(selection.StartIndex)
-
-        Dim startIdentifier = Me.TryGetSurroundingIdentifier(selection.StartIndex)
-        Dim endIdentifier = Me.TryGetSurroundingIdentifier(selection.EndIndex)
-
-        If startIdentifier <> endIdentifier Then Return Nothing
-
-        Return startIdentifier
+        Return Me.TryGetSurroundingIdentifier(selection.StartIndex)
     End Function
 
     Public Function TryGetSurroundingIdentifier(pointer As Integer) As LocatedString

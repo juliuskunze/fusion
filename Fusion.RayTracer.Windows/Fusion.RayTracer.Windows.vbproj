@@ -113,6 +113,7 @@
     <Compile Include="RenderTimeEstimation\IRenderTimeEstimator.vb" />
     <Compile Include="File\SaveFileDialog.vb" />
     <Compile Include="SimpleBitmap.vb" />
+    <Compile Include="TimeSpanExtensions.vb" />
     <Compile Include="VideoSlicer.vb" />
     <Compile Include="RenderTimeEstimation\VideoRenderTimeEstimator.vb" />
     <Compile Include="WindowExtensions.vb" />

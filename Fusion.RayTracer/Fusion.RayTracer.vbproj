@@ -174,7 +174,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\2000pixel spectrum sRGB %28380nm to 710nm%29.bmp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

@@ -16,18 +16,13 @@
     End Sub
 
     Private Sub BackgroundWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles _BackgroundWorker.DoWork
-        Try
-            For Each index In Enumerable.Range(0, _Video.FrameCount)
-                RenderFrame(index:=index, e:=e)
-            Next
+        For Each index In Enumerable.Range(0, _Video.FrameCount)
+            RenderFrame(index:=index, e:=e)
+        Next
 
-            VideoSlicer.Run(pictureInputFileNames:=_FrameFiles.Select(Function(file) file.FullName),
-                            videoOutputFileName:=_OutputFile.FullName,
-                            framesPerSecond:=_Video.FramesPerSecond)
-        Catch ex As Exception
-            e.Cancel = True
-            e.Result = ex.Message
-        End Try
+        VideoSlicer.Run(pictureInputFileNames:=_FrameFiles.Select(Function(file) file.FullName),
+                        videoOutputFileName:=_OutputFile.FullName,
+                        framesPerSecond:=_Video.FramesPerSecond)
 
         e.Result = Nothing
     End Sub
@@ -51,9 +46,5 @@
     Private Function GetFrameFile(index As Integer) As IO.FileInfo
         Return New FileInfo(_PictureOutputDirectory.FullName & String.Format("\picture{0}.bmp", index))
     End Function
-
-    Protected Overrides Sub OnCompleted(e As System.ComponentModel.RunWorkerCompletedEventArgs)
-        MyBase.OnCompleted(e)
-    End Sub
 
 End Class

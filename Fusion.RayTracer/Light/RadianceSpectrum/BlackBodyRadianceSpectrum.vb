@@ -4,6 +4,8 @@
     Private ReadOnly _ExponentFactor As Double
 
     Public Sub New(temperature As Double)
+        If temperature <= 0 Then Throw New ArgumentOutOfRangeException(paramName:="temperature", message:="The temperature of a black body must be positive.")
+
         _ExponentFactor = Constants.PlanckConstant * Constants.SpeedOfLight / (Constants.BoltzmannConstant * temperature)
     End Sub
 

@@ -51,7 +51,7 @@ Public Class RichCompiler(Of TResult)
         _RichTextBox.VerticalScrollBarVisibility = ScrollBarVisibility.Visible
 
         _Compiler = New Compiler(Of TResult)(baseContext:=baseContext, typeDictionary:=typeDictionary)
-        Me.UpdateOnTextChanged()
+        Me.UpdateOnTextOrSelectionChanged()
 
         Dim pasteCommandBinding = New CommandBinding(ApplicationCommands.Paste, AddressOf OnPaste, AddressOf OnCanExecutePaste)
         _RichTextBox.CommandBindings.Add(pasteCommandBinding)
@@ -100,7 +100,7 @@ Public Class RichCompiler(Of TResult)
     End Sub
 
     Private Sub UpdateAndCompile(Optional showHelp As Boolean = False)
-        Me.UpdateOnTextChanged()
+        Me.UpdateOnTextOrSelectionChanged()
         Me.Compile(showHelp:=showHelp)
     End Sub
 
@@ -122,7 +122,7 @@ Public Class RichCompiler(Of TResult)
         Me.AddHandlersIfNeeded()
     End Sub
 
-    Private Sub UpdateOnTextChanged()
+    Private Sub UpdateOnTextOrSelectionChanged()
         _TextOnlyDocument = New TextOnlyDocument(_RichTextBox.Document)
         _Compiler.Update(newLocatedString:=Me.GetText,
                          newSelection:=Me.GetSelection)
@@ -495,6 +495,10 @@ Public Class RichCompiler(Of TResult)
         _RichTextBox.Document = TextOnlyDocument.GetDocumentFromText(description)
 
         Me.ActivateAndCompile(showHelp:=False)
+    End Sub
+
+    Private Sub _RichTextBox_SelectionChanged(sender As Object, e As System.Windows.RoutedEventArgs) Handles _RichTextBox.SelectionChanged
+        Me.UpdateOnTextOrSelectionChanged()
     End Sub
 
 End Class

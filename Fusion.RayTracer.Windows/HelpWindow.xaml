@@ -76,7 +76,7 @@
                             Sphere s = Sphere(center : [1,2,3], radius : [4,5,6])
                         </TextBlock> <LineBreak/>
                         That's why there will be a corresponding compiler error.<LineBreak/>
-                        Some types are assignable to others, for example 'Sphere' is assignable to 'Surface', because a sphere is a special surface:
+                        Some types are assignable to others, for example 'Sphere' is assignable to 'Surface', because a sphere is a special surface:<LineBreak/>
                         <TextBlock Style="{DynamicResource CodeStyle}">
                             Surface s = Sphere(center : [1,2,3], radius : [4,5,6])
                         </TextBlock> <LineBreak/>
@@ -122,15 +122,29 @@
                         This expression returns is 1 if x&gt;0, -1 if x&lt;0 and 0 if x=0.<LineBreak/>
                         
                         <TextBlock Style="{DynamicResource HeadlineStyle}">
-                            Result
+                            Sets
+                        </TextBlock><LineBreak/>
+                        You can define sets of objects with the '{&gt;...&lt;}'-Syntax:<LineBreak/>
+                        <TextBlock Style="{DynamicResource CodeStyle}">
+                            Set[Real] threeNumbers = {1.5, 2.4, 3.3};<LineBreak/>
+                            Set[Sphere] someSpheres = {Sphere([1,0,0],1),Sphere([2,0,0],1)};
                         </TextBlock><LineBreak/>
                         
-                        You can return the total result of the program with the 'Return'-Keyword. (See examples for this.)<LineBreak/>
+                        <TextBlock Style="{DynamicResource HeadlineStyle}">
+                            The 'Return' statement
+                        </TextBlock><LineBreak/>
+                        
+                        You can return the total result with the 'Return' keyword as the last statement of a description:<LineBreak/>
+                        <TextBlock Style="{DynamicResource CodeStyle}">
+                            Real a = 1.5;
+                            Return a
+                        </TextBlock><LineBreak/>
+                        This would return 1.5 as the total result of the description.
                         
                         <TextBlock Style="{DynamicResource HeadlineStyle}">
                             Function types
                         </TextBlock><LineBreak/>
-                        The 'FunctionType'-Keyword defines a function type, which consists of a function's result type and a function's parameter count and their types: <LineBreak/>
+                        The 'FunctionType' Keyword defines a function type, which consists of a function's result type and a function's parameter count and their types: <LineBreak/>
                         <TextBlock Style="{DynamicResource CodeStyle}">
                             FunctionType Real SimpleFunction(Real a);
                         </TextBlock><LineBreak/>

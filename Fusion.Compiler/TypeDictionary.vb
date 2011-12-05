@@ -41,7 +41,7 @@
     End Function
 
     Private Shared Sub ThrowTypeNotInDictionaryException(type As Type)
-        Throw New InvalidOperationException(String.Format("Type '{0}' is not contained in TypeDictionary.", type.Name))
+        Throw New InvalidOperationException(String.Format("Type '{0}' is not contained in the type dictionary.", type.Name))
     End Sub
 
     Private Shared ReadOnly _Default As New TypeDictionary(NamedTypes.Default)

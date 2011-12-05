@@ -100,16 +100,15 @@
                             </Grid.RowDefinitions>
 
                         <Label Name="_CompileLabel" Grid.Row="0" ToolTip="Shows the message of the first (top most) error occured during the compilation if there are any.">Error:</Label>
-
-                            <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
-                                <TextBox Name="_ErrorTextBox" IsReadOnly="True"></TextBox>
-                            </ScrollViewer>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
+                            <TextBox Name="_ErrorTextBox" IsReadOnly="True" Margin="0"></TextBox>
+                        </ScrollViewer>
                         </Grid>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Rendering" IsEnabled="True" Name="_RenderingTabItem" Visibility="Collapsed">              
                     <StackPanel>
-                        <GroupBox Header="Render Time Estimatation" Name="_RenderTimeEstimationGroupBox">
+                        <GroupBox Header="Render Time Estimatation">
                             <StackPanel>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -117,12 +116,12 @@
                                         <ColumnDefinition Width="*"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
 
-                                    <Button Name="_EstimateRenderTimeButton" ToolTip="Estimates the time of the rendering the current scene description.">Estimate Render Time</Button>
+                                    <Button Name="_EstimateRenderTimeButton" ToolTip="Estimates the rendering time of the current scene description by rendering some random test pixels and measuring the elapsed time.">Estimate Render Time</Button>
                                     <Button Name="_EstimateRenderTimeOptionsButton" Grid.Column="1" ToolTip="Changes the options for the render time estimation.">Options...</Button>
                                 </Grid>
 
-                                <Label Name="_EstimatedTotalTimeLabel" Visibility="Collapsed" ToolTip="The estimated total rendering time.">(Estimated total time:)</Label>
-                                <Label Name="_EstimatedRenderTimePerPixelLabel" Visibility="Collapsed"  ToolTip="The estimated average rendering time per pixel.">(Estimated average time per pixel:)</Label>
+                                <Label Name="_EstimatedTotalTimeLabel" ToolTip="The estimated total rendering time."></Label>
+                                <Label Name="_EstimatedRenderTimePerPixelLabel" ToolTip="The estimated average rendering time per pixel."></Label>
                             </StackPanel>
                         </GroupBox>
                         
@@ -138,11 +137,13 @@
                             <Button Grid.Column="2" Name="_ChangeVideoFileButton">Change...</Button>
                         </Grid>
                         <Button Name="_RenderButton">Render</Button>
+                        <Label Name="_RenderingLabel">Rendering...</Label>
                         <Button Name="_RenderCancelButton" Visibility="Collapsed" ToolTip="Cancels the current rendering operation.">Cancel</Button>
                         <ProgressBar Name="_RenderProgressBar" Height="25" Maximum="1" Visibility="Collapsed" ToolTip="{Binding Source=_RenderProgressBar, Path= Value}"></ProgressBar>
-                        <Label Name="_TotalElapsedTimeLabel" Visibility="Collapsed" ToolTip="The elapsed total rendering time.">(Elapsed total time:)</Label>
-                        <Label Name="_AverageElapsedTimePerPixelLabel" Visibility="Collapsed" ToolTip="The elapsed average rendering time per pixel.">(Elapsed time per pixel average:)</Label>
+                        <Label Name="_TotalElapsedTimeLabel" Visibility="Collapsed" ToolTip="The elapsed total rendering time."></Label>
+                        <Label Name="_AverageElapsedTimePerPixelLabel" Visibility="Collapsed" ToolTip="The elapsed average rendering time per pixel."></Label>
                         <Label Name="_VideoRenderedLabel" Visibility="Collapsed">Video successfully rendered.</Label>
+                        <Label Name="_RenderErrorLabel"></Label>   
                 </StackPanel>
                 </TabItem>
                 <TabItem Header="Result Picture" Visibility="Collapsed" Name="_ResultPictureTabItem">

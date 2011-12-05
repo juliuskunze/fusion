@@ -49,9 +49,15 @@ Public Class MainWindow
     End Function
 
     Private Sub RenderButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _RenderButton.Click
+        Me.Render()
+    End Sub
+
+    Private Sub Render()
         _RenderButton.Visibility = Visibility.Collapsed
         _RenderCancelButton.Visibility = Visibility.Visible
         _RenderProgressBar.Visibility = Visibility.Visible
+        _RenderingLabel.Visibility = Visibility.Visible
+        _RenderErrorLabel.Content = Nothing
         Me.TaskbarItemInfo.ProgressState = Shell.TaskbarItemProgressState.Normal
 
         If Me.Mode = CompileMode.Picture Then
@@ -64,22 +70,20 @@ Public Class MainWindow
     End Sub
 
     Private Sub ResetRenderTabs()
-        _RenderTimeEstimationGroupBox.Visibility = Visibility.Visible
         _EstimatedRenderTimePerPixelLabel.Visibility = Visibility.Collapsed
         _EstimatedTotalTimeLabel.Visibility = Visibility.Collapsed
-
+        _TotalElapsedTimeLabel.Visibility = Visibility.Collapsed
+        _AverageElapsedTimePerPixelLabel.Visibility = Visibility.Collapsed
+        
         Const normalRenderToolTip = "Renders a picture or video based on the compiled scene."
         Const videoPathInvalidRenderToolTip = "Please select an output path before you render the scene."
 
-        Select Case Me.Mode
-            Case CompileMode.Picture
-            Case Else
-
-        End Select
-        _VideoFileGrid.Visibility = If(Me.Mode = CompileMode.Video, Visibility.Visible, Visibility.Hidden)
+        _VideoFileGrid.Visibility = If(Me.Mode = CompileMode.Video, Visibility.Visible, Visibility.Collapsed)
         _RenderButton.IsEnabled = If(Me.Mode = CompileMode.Picture, True, Me.IsVideoOutputFileValid)
         _RenderButton.ToolTip = If(Me.Mode = CompileMode.Picture, normalRenderToolTip, If(IsVideoOutputFileValid, normalRenderToolTip, videoPathInvalidRenderToolTip))
         _VideoRenderedLabel.Visibility = System.Windows.Visibility.Collapsed
+        _RenderingLabel.Visibility = Visibility.Collapsed
+        _RenderErrorLabel.Content = Nothing
     End Sub
 
     Private ReadOnly Property VideoOutputFile As FileInfo
@@ -96,7 +100,7 @@ Public Class MainWindow
         OnCompiled(e, out_result:=_Video)
     End Sub
 
-    Private Sub OnCompiled(Of TResult)( e As CompilerResultEventArgs(Of TResult), ByRef out_result As TResult)
+    Private Sub OnCompiled(Of TResult)(e As CompilerResultEventArgs(Of TResult), ByRef out_result As TResult)
         If e.CompilerResult.WasCompilationSuccessful Then
             out_result = e.CompilerResult.Result
             _CompileLabel.Content = "Compilation succeeded."
@@ -131,16 +135,49 @@ Public Class MainWindow
     End Sub
 
     Private Sub _EstimateRenderTimeButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _EstimateRenderTimeButton.Click
+        Me.EstimateRenderTime()
+    End Sub
+
+    Private Sub EstimateRenderTime()
         If Not _RenderTimeEstimationOptionsDialog.DialogResult Then Return
 
         Dim estimator = Me.GetRenderTimeEstimator
-        Dim result = estimator.Run
+        Try
+            Dim result = estimator.Run
 
-        _EstimatedRenderTimePerPixelLabel.Visibility = Visibility.Visible
-        _EstimatedRenderTimePerPixelLabel.Content = "Time per Pixel: " & result.TimePerPixel.TotalMilliseconds.ToString & "ms"
-        _EstimatedTotalTimeLabel.Visibility = Visibility.Visible
-        _EstimatedTotalTimeLabel.Content = "Total time: " & result.TotalTime.ToString
+            _EstimatedRenderTimePerPixelLabel.Visibility = Visibility.Visible
+            _EstimatedRenderTimePerPixelLabel.Content = "Estimated average time per pixel: " & AveragePixelTimeString(result.TimePerPixel)
+            _EstimatedTotalTimeLabel.Visibility = Visibility.Visible
+            _EstimatedTotalTimeLabel.Content = "Estimated total time: " & TotalTimeString(result.TotalTime)
+        Catch ex As Exception
+            Me.ShowRenderError(ex)
+        End Try
     End Sub
+
+    Private Shared Function TotalTimeString(totalTime As TimeSpan) As String
+        If totalTime.Days = 0 Then
+            If totalTime.Hours = 0 Then
+                If totalTime.Minutes = 0 Then
+                    If totalTime.Seconds = 0 Then
+                        Return totalTime.TotalMilliseconds.ToString("0") & " milliseconds"
+                    Else
+                        Return totalTime.TotalSeconds.ToString("0.0 seconds")
+                    End If
+                Else
+                    Return String.Format("{0} minutes {1} seconds", totalTime.Minutes, totalTime.Seconds)
+                End If
+            Else
+                Return String.Format("{0} hours {1} minutes", totalTime.Hours, totalTime.Minutes)
+            End If
+        Else
+            Return String.Format("{0} days {1} hours", totalTime.Days, totalTime.Hours)
+        End If
+        'Return String.Format("{0}{1:00}:{2:00}:{3:00}", If(totalTime.Days = 0, "", CStr(totalTime.Days) & " "), totalTime.Hours, totalTime.Minutes, totalTime.Seconds + CInt(totalTime.Milliseconds / 1000))
+    End Function
+
+    Private Shared Function AveragePixelTimeString(averagePixelTime As TimeSpan) As String
+        Return String.Format("{0:0.000} milliseconds", averagePixelTime.TotalMilliseconds)
+    End Function
 
     Private Function GetRenderTimeEstimator() As IRenderTimeEstimator
         If _Compiler.Mode = CompileMode.Picture Then
@@ -172,7 +209,7 @@ Public Class MainWindow
         Me.TaskbarItemInfo.ProgressValue = e.NewValue
     End Sub
 
-    Private Sub MainWindow_Deactivated(sender As Object, e As EventArgs) Handles _DescriptionBox.LostFocus
+    Private Sub MainWindow_Deactivated(sender As Object, e As EventArgs) Handles Me.Deactivated
         _Compiler.Unfocus()
     End Sub
 
@@ -374,26 +411,35 @@ Public Class MainWindow
     End Sub
 
     Private Sub OnPictureRendered(ByVal e As RenderResultEventArgs(Of Bitmap))
-        OnRendered(e)
+        Me.OnRendered(e)
+
+        If Not e.WasSuccessful Then Return
 
         _ResultBitmap = e.Result
         _ResultImage.Source = New SimpleBitmap(_ResultBitmap).ToBitmapSource
+        Me.ShowAverageElapsedTimePerPixel(e.ElapsedTime.Divide(_ResultBitmap.Size.Width * _ResultBitmap.Size.Height))
 
-        _AverageElapsedTimePerPixelLabel.Content = "Average elapsed time per pixel: " & (e.ElapsedTime.TotalMilliseconds / (_ResultBitmap.Size.Width * _ResultBitmap.Size.Height)).ToString & "ms"
-
+        _ResultPictureTabItem.Visibility = Visibility.Visible
         _ResultPictureTabItem.IsSelected = True
+    End Sub
+
+    Private Sub ShowAverageElapsedTimePerPixel(time As TimeSpan)
+        _AverageElapsedTimePerPixelLabel.Visibility = Visibility.Visible
+        _AverageElapsedTimePerPixelLabel.Content = "Elapsed average time per pixel: " & AveragePixelTimeString(time)
     End Sub
 
     Private Sub _VideoRenderer_Completed(e As RenderResultEventArgs(Of Object)) Handles _VideoRenderer.Completed
         OnVideoRendered(e)
     End Sub
 
-    Private Sub OnVideoRendered(ByVal e As RenderResultEventArgs(Of Object))
-        OnRendered(e)
+    Private Sub OnVideoRendered(e As RenderResultEventArgs(Of Object))
+        Me.OnRendered(e)
+
+        If Not e.WasSuccessful Then Return
 
         Dim firstPictureSize = _Video.GetFrame(0).PictureSize
 
-        _AverageElapsedTimePerPixelLabel.Content = "Average elapsed time per pixel: " & (e.ElapsedTime.TotalMilliseconds / (_Video.FrameCount * firstPictureSize.Width * firstPictureSize.Height)).ToString & "ms"
+        Me.ShowAverageElapsedTimePerPixel(e.ElapsedTime.Divide(_Video.FrameCount * firstPictureSize.Width * firstPictureSize.Height))
         _VideoRenderedLabel.Visibility = System.Windows.Visibility.Visible
     End Sub
 
@@ -401,19 +447,28 @@ Public Class MainWindow
         _RenderProgressBar.Value = 0
         _RenderProgressBar.Visibility = Visibility.Collapsed
         _RenderCancelButton.Visibility = Visibility.Collapsed
-        _RenderTimeEstimationGroupBox.Visibility = Visibility.Collapsed
 
         _RenderButton.Visibility = Visibility.Visible
-        _ResultPictureTabItem.Visibility = Visibility.Visible
+        _RenderingLabel.Visibility = Visibility.Collapsed
 
         Me.TaskbarItemInfo.ProgressState = Shell.TaskbarItemProgressState.None
 
         If e.Cancelled Then
-            Me.SetRenderTabItemVisibility(True)
+            _RenderErrorLabel.Content = "Rendering cancelled."
             Return
         End If
+        If e.Error IsNot Nothing Then
+            Me.ShowRenderError(e.Error)
+        End If
 
-        _TotalElapsedTimeLabel.Content = "Total elapsed time: " & e.ElapsedTime.ToString
+        If e.WasSuccessful Then
+            _TotalElapsedTimeLabel.Visibility = Visibility.Visible
+            _TotalElapsedTimeLabel.Content = "Elapsed total time: " & TotalTimeString(e.ElapsedTime)
+        End If
+    End Sub
+
+    Private Sub ShowRenderError(ex As Exception)
+        _RenderErrorLabel.Content = "A render error occured: " & ex.Message
     End Sub
 
     Private Function IsVideoOutputFileValid() As Boolean

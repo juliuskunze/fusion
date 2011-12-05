@@ -11,7 +11,7 @@
 
     Private ReadOnly _NamedTypes As New NamedTypes(
         {
-            New NamedType("Plane", GetType(Plane), "Represents a plane surface in a 3D space."),
+            New NamedType("Plane", GetType(Plane), "Represents a plane surface and the covered half space in a 3D space."),
             New NamedType("Sphere", GetType(Sphere), "Represents a the outer surface of a sphere in a 3D space."),
             New NamedType("AntiSphere", GetType(AntiSphere), "Represents a the inner surface of a sphere in a 3D space."),
             New NamedType("PointSet", GetType(IPointSet3D), "Represents a point set in 3D space."),
@@ -24,7 +24,7 @@
             New NamedType("LightSource", GetType(ILightSource(Of TLight)), description:="Represents a light source that illuminates surfaces in 3D space."),
             New NamedType("PointLightSource", GetType(IPointLightSource(Of TLight)), "Represents a light source that illuminates surfaces from a point in 3D space."),
             New NamedType("RayTracer", GetType(IRayTracer(Of TLight)), "Computes a resulting light radiance spectrum for each sight ray in 3D space."),
-            New NamedType("LinearRadianceSpectrumToRgbColorConverter", GetType(ILightToRgbColorConverter(Of RadianceSpectrum)), "Converts a radiance spectrum into an rgb color that can be displayed by standard monitors."),
+            New NamedType("RadianceSpectrumToRgbColorConverter", GetType(ILightToRgbColorConverter(Of RadianceSpectrum)), "Converts a radiance spectrum into an rgb color that can be displayed by standard monitors."),
             _MaterialType,
             _RayTracerPictureType,
             _RayTracerVideoType,
@@ -137,7 +137,15 @@
                              FunctionInstance.FromLambdaExpression(
                                  "LightSources",
                                  Function(lightSources As IEnumerable(Of ILightSource(Of TLight))) DirectCast(New LightSources(Of TLight)(lightSources), ILightSource(Of TLight)), _TypeDictionary,
-                                 "A light source that consists of the given set of light sources.")}
+                                 "A light source that consists of the given set of light sources."),
+                             FunctionInstance.FromLambdaExpression(
+                                 "TruncatedSurface",
+                                 Function(baseSurface As ISurface, truncatingPointSet As IPointSet3D) DirectCast(New TruncatedSurface(baseSurface:=baseSurface, truncatingPointSet:=truncatingPointSet), ISurface), _TypeDictionary,
+                                 "A surface that is truncated by a point set."),
+                             FunctionInstance.FromLambdaExpression(
+                                 "InversePointSet",
+                                 Function(pointSet As IPointSet3D) DirectCast(New InversePointSet3D(pointSet:=pointSet), IPointSet3D), _TypeDictionary,
+                                 "The inverse of a specified point set.")}
 
         Private ReadOnly _TermContext As TermContext
     Public ReadOnly Property TermContext As TermContext
