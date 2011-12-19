@@ -23,6 +23,10 @@ Public Class ConstantInstance
         Return Me.Expression.WithNamedType(Me.Signature.Type)
     End Function
 
+    Public Function ToFunctionInstance() As FunctionInstance
+        Return New FunctionInstance(Signature:=_Signature.ToFunctionSignature, invokableExpression:=_Expression)
+    End Function
+
 End Class
 
 Public Class ConstantInstance(Of T)

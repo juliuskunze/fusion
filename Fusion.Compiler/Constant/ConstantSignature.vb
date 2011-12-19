@@ -44,4 +44,10 @@
         If CompilerTools.IdentifierEquals(Me.Name, other.Name) Then Throw New CompilerException(String.Format("Constant '{0}' is already defined.", other.Name))
     End Sub
 
+    Public Function ToFunctionSignature() As FunctionSignature
+        If Not Me.Type.IsFunctionType Then Throw New InvalidOperationException("Function type expected.")
+
+        Return New FunctionSignature(Name:=Me.Name, FunctionType:=Me.Type.Function)
+    End Function
+
 End Class

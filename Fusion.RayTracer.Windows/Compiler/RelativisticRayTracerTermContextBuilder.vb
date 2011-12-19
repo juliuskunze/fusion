@@ -131,6 +131,10 @@
                                                                       material2 As TMaterial) MaterialFunctions(Of TMaterial).Checkerboard(xVector:=xVector, yVector:=yVector, material1:=material1, material2:=material2), _TypeDictionary,
                                  "A material function that looks like the checkerboard pattern for planes that are parallel to xVector and yvector. The length of xVector and yVector are the edge lengths of the resulting checkerboard fields."),
                              FunctionInstance.FromLambdaExpression(
+                                 "Surfaces",
+                                 Function(surfaces As IEnumerable(Of ISurface)) DirectCast(New Surfaces(surfaces:=surfaces), ISurface), _TypeDictionary,
+                                 "A surface that consists of the given set of surfaces."),
+                             FunctionInstance.FromLambdaExpression(
                                  "MaterialSurfaces",
                                  Function(materialSurfaces As IEnumerable(Of ISurface(Of TMaterial))) DirectCast(New Surfaces(Of TMaterial)(materialSurfaces), ISurface(Of TMaterial)), _TypeDictionary,
                                  "A material surface that consists of the given set of material surfaces."),
@@ -184,7 +188,7 @@ Public Class RelativisticRayTracerTermContextBuilder
                                                                       maxIntersectionCount As Double) DirectCast(New ScatteringRayTracer(Of RadianceSpectrum)(surface:=surface, rayCountPerPixel:=CInt(rayCountPerPixel), maxIntersectionCount:=CInt(maxIntersectionCount)), IRayTracer(Of RadianceSpectrum)),
                                                                    _TypeDictionary,
                                                                    "A ray tracer that supports full illumination (and shadows). The scene consists of a specified material surface. The sight ray tracing stops if the sight ray is reflected or refracted more than a specified maximum intersection count."),
-                             FunctionInstance.FromLambdaExpression("Material",
+                             FunctionInstance.FromLambdaExpression("TransparentMaterial",
                                                                    Function(
                                                                       emittedLight As Func(Of Double, Double),
                                                                       scatteringRemission As IRemission(Of RadianceSpectrum),
@@ -196,8 +200,26 @@ Public Class RelativisticRayTracerTermContextBuilder
                                                                                                                                                                                        transparencyRemission:=transparencyRemission,
                                                                                                                                              refractionIndexQuotient:=refractionIndexQuotient),
                                                                    _TypeDictionary,
-                                                                   "A material that has a specified emission and a specified scattering, reflection and transparancy remission and a specified quotient of the refraction index of the medium before and the medium behind the surface. If the material is not transparent, the refraction index quotient has no meaning."),
-                             FunctionInstance.FromLambdaExpression("RelativisticRayTracer",
+                                                                   "A material that has a specified light emission and a specified light scattering, reflection and transparancy remission and a specified quotient of the refraction index of the medium before and the medium behind the surface."),
+                            FunctionInstance.FromLambdaExpression("EmissionMaterial",
+                                                                   Function(
+                                                                      emittedLight As Func(Of Double, Double)) New Material2D(Of RadianceSpectrum)(sourceLight:=New RadianceSpectrum(Function(wavelength) emittedLight(wavelength)),
+                                                                                                                                                   scatteringRemission:=New BlackRemission(Of RadianceSpectrum),
+                                                                                                                                                   reflectionRemission:=New BlackRemission(Of RadianceSpectrum),
+                                                                                                                                                   transparencyRemission:=New BlackRemission(Of RadianceSpectrum)),
+                                                                   _TypeDictionary,
+                                                                   "A material that absorbs everything and emits a specified light."),
+                            FunctionInstance.FromLambdaExpression("IntransparentMaterial",
+                                                                   Function(
+                                                                      emittedLight As Func(Of Double, Double),
+                                                                      scatteringRemission As IRemission(Of RadianceSpectrum),
+                                                                      reflectionRemission As IRemission(Of RadianceSpectrum)) New Material2D(Of RadianceSpectrum)(sourceLight:=New RadianceSpectrum(Function(wavelength) emittedLight(wavelength)),
+                                                                                                                                                   scatteringRemission:=scatteringRemission,
+                                                                                                                                                   reflectionRemission:=reflectionRemission,
+                                                                                                                                                   transparencyRemission:=New BlackRemission(Of RadianceSpectrum)),
+                                                                   _TypeDictionary,
+                                                                   "A material that is not permeable for light and that has a specified light emission and a specified light scattering and reflection remission."),
+                            FunctionInstance.FromLambdaExpression("RelativisticRayTracer",
                                                                    Function(
                                                                       classicRayTracer As IRayTracer(Of RadianceSpectrum),
                                                                       observerVelocity As Vector3D,
@@ -206,15 +228,17 @@ Public Class RelativisticRayTracerTermContextBuilder
                                                                       ignoreSearchlightEffect As Boolean) DirectCast(New RelativisticRayTracer(classicRayTracer:=classicRayTracer, observerVelocity:=observerVelocity, ignoreGeometryEffect:=ignoreGeometryEffect, ignoreDopplerEffect:=ignoreDopplerEffect, ignoreSearchlightEffect:=ignoreSearchlightEffect), IRayTracer(Of RadianceSpectrum)),
                                                                    _TypeDictionary,
                                                                    "A ray tracer that supports effects of special relatity at a specified observer velocity based on a specified classic ray tracer. It is possible to ignore the geometry, Doppler or searchlight effect."),
-                             FunctionInstance.FromLambdaExpression("PointLightSource", Function(location As Vector3D, baseLight As Func(Of Double, Double)) DirectCast(New PointLightSource(Of RadianceSpectrum)(location:=location, baseLight:=New RadianceSpectrum(Function(wavelength) baseLight(wavelength))), IPointLightSource(Of RadianceSpectrum)), _TypeDictionary,
+                            FunctionInstance.FromLambdaExpression("PointLightSource", Function(location As Vector3D, baseLight As Func(Of Double, Double)) DirectCast(New PointLightSource(Of RadianceSpectrum)(location:=location, baseLight:=New RadianceSpectrum(Function(wavelength) baseLight(wavelength))), IPointLightSource(Of RadianceSpectrum)), _TypeDictionary,
                                                                    "A point light source that has a specified location and a specified base light (radiance spectrum at the distance of 1m)."),
-                             FunctionInstance.FromLambdaExpression("LinearRadianceSpectrumToRgbColorConverter", Function(spectralRadiancePerWhite As Double) DirectCast(New LinearRadianceSpectrumToRgbColorConverter(spectralRadiancePerWhite), ILightToRgbColorConverter(Of RadianceSpectrum)), _TypeDictionary,
-                                                                   "A RadianceSpectrumToRgbColorConverter that converts a radiance spectrum linear into an rgb color. If the whole spectrum is the specified spectralRadiancePerWhite, the rgb color will be the white (255, 255, 255). If the red, green or blue component would get greater than 255, all three components are scaled down so that it fits into the possible range.")
+        FunctionInstance.FromLambdaExpression("LinearRadianceSpectrumToRgbColorConverter", Function(spectralRadiancePerWhite As Double) DirectCast(New LinearRadianceSpectrumToRgbColorConverter(spectralRadiancePerWhite), ILightToRgbColorConverter(Of RadianceSpectrum)), _TypeDictionary,
+                                              "A RadianceSpectrumToRgbColorConverter that converts a radiance spectrum linear into an rgb color. If the whole spectrum is the specified spectralRadiancePerWhite, the rgb color will be the white (255, 255, 255). If the red, green or blue component would get greater than 255, all three components are scaled down so that it fits into the possible range.")
                          }
 
 
+    Private ReadOnly _ExtraConstants As IEnumerable(Of ConstantInstance) = {New ConstantInstance(Of Material2D(Of RadianceSpectrum))("BlackMaterial", Materials2D(Of RadianceSpectrum).Black, TypeDictionary:=_TypeDictionary, description:="A material that absorbs light totally.")}
+
     Public Sub New()
-        _TermContext = MyBase.TermContext.Merge(New TermContext(Functions:=_ExtraFunctions))
+        _TermContext = MyBase.TermContext.Merge(New TermContext(Functions:=_ExtraFunctions)).Merge(New TermContext(Constants:=_ExtraConstants))
     End Sub
 
     Private ReadOnly _TermContext As TermContext

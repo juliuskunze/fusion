@@ -36,8 +36,10 @@ Public Class MainWindow
 
         Me.InitDescription()
         
-        AddHandler _CompileVideoMenuItem.Checked, AddressOf _CompileVideoMenuItem_Click
-        AddHandler _CompilePictureMenuItem.Checked, AddressOf _CompilePictureMenuItem_Click
+        AddHandler _CompileVideoMenuItem.Checked, AddressOf _CompileVideoMenuItem_Checked
+        AddHandler _CompileVideoMenuItem.Unchecked, AddressOf _CompileVideoMenuItem_Unchecked
+        AddHandler _CompilePictureMenuItem.Checked, AddressOf _CompilePictureMenuItem_Checked
+        AddHandler _CompilePictureMenuItem.Unchecked, AddressOf _CompilePictureMenuItem_Unchecked
     End Sub
 
     Private Function CreatePictureOrVideoCompiler(relativisticRayTracerTermContextBuilder As RelativisticRayTracerTermContextBuilder) As PictureOrVideoCompiler
@@ -74,7 +76,7 @@ Public Class MainWindow
         _EstimatedTotalTimeLabel.Visibility = Visibility.Collapsed
         _TotalElapsedTimeLabel.Visibility = Visibility.Collapsed
         _AverageElapsedTimePerPixelLabel.Visibility = Visibility.Collapsed
-        
+
         Const normalRenderToolTip = "Renders a picture or video based on the compiled scene."
         Const videoPathInvalidRenderToolTip = "Please select an output path before you render the scene."
 
@@ -296,6 +298,8 @@ Public Class MainWindow
 
     Private Sub SaveAsMenuItem_Click(sender As Object, e As RoutedEventArgs) Handles _SaveAsMenuItem.Click
         _SaveDescriptionDialog.ShowAndTrySave(description:=Me.Description)
+
+        Me.SetTitleByCurrentFile()
     End Sub
 
     Private Sub ShowOpenDescriptionDialog()
@@ -308,9 +312,14 @@ Public Class MainWindow
         Me.Mode = _OpenDescriptionDialog.Mode
         _SaveDescriptionDialog.IsFileAccepted = True
 
-        Me.Title = _SaveDescriptionDialog.File.Name & " - " & _TitleBase
+        Me.SetTitleByCurrentFile()
+
         _Compiler.LoadDocument(description)
         _HasUnsavedChanges = False
+    End Sub
+
+    Private Sub SetTitleByCurrentFile()
+        Me.Title = _SaveDescriptionDialog.File.Name & " - " & _TitleBase
     End Sub
 
     Private Sub AutoCompileMenuItem_Click(sender As Object, e As RoutedEventArgs) Handles _AutoCompileMenuItem.Click
@@ -496,12 +505,20 @@ Public Class MainWindow
         _OpenDescriptionDialog.File = _SaveDescriptionDialog.File
     End Sub
 
-    Private Sub _CompileVideoMenuItem_Click(sender As Object, e As RoutedEventArgs)
+    Private Sub _CompileVideoMenuItem_Checked(sender As Object, e As RoutedEventArgs)
         Me.Mode = CompileMode.Video
     End Sub
 
-    Private Sub _CompilePictureMenuItem_Click(sender As Object, e As RoutedEventArgs)
+    Private Sub _CompileVideoMenuItem_Unchecked(sender As Object, e As RoutedEventArgs)
+        _CompilePictureMenuItem.IsChecked = True
+    End Sub
+
+    Private Sub _CompilePictureMenuItem_Checked(sender As Object, e As RoutedEventArgs)
         Me.Mode = CompileMode.Picture
+    End Sub
+
+    Private Sub _CompilePictureMenuItem_Unchecked(sender As Object, e As RoutedEventArgs)
+        _CompileVideoMenuItem.IsChecked = True
     End Sub
 
     Private Sub _GeneralHelpMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _GeneralHelpMenuItem.Click

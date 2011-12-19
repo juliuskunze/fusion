@@ -16,12 +16,6 @@
         _Expression = Expressions.Expression.Parameter(type:=signature.Type.SystemType, name:=signature.Name)
     End Sub
 
-    Public Function ToFunctionInstance() As FunctionInstance
-        If Not _Signature.Type.IsFunctionType Then Throw New InvalidOperationException("Function type expected.")
-
-        Return New FunctionInstance(Signature:=New FunctionSignature(Name:=_Signature.Name, functionType:=_Signature.Type.[Function]), invokableExpression:=_Expression)
-    End Function
-
     Public Shared Function FromText(text As LocatedString, typeContext As NamedTypes) As NamedParameter
         Return New NamedParameter(ConstantSignature.FromText(text:=text, typeContext:=typeContext))
     End Function
@@ -32,6 +26,10 @@
             Return _Expression
         End Get
     End Property
+
+    Public Function ToFunctionInstance() As FunctionInstance
+        Return New FunctionInstance(Signature:=_Signature.ToFunctionSignature, invokableExpression:=_Expression)
+    End Function
 
     Friend Function ToExpressionWithNamedType() As ExpressionWithNamedType
         Return Me.Expression.WithNamedType(Me.Signature.Type)

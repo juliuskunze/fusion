@@ -108,7 +108,7 @@
                 </TabItem>
                 <TabItem Header="Rendering" IsEnabled="True" Name="_RenderingTabItem" Visibility="Collapsed">              
                     <StackPanel>
-                        <GroupBox Header="Render Time Estimatation">
+                        <GroupBox Header="Render time estimation">
                             <StackPanel>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -116,7 +116,7 @@
                                         <ColumnDefinition Width="*"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
 
-                                    <Button Name="_EstimateRenderTimeButton" ToolTip="Estimates the rendering time of the current scene description by rendering some random test pixels and measuring the elapsed time.">Estimate Render Time</Button>
+                                    <Button Name="_EstimateRenderTimeButton" ToolTip="Estimates the rendering time of the current scene description by rendering some random test pixels and measuring the elapsed time.">Estimate render time</Button>
                                     <Button Name="_EstimateRenderTimeOptionsButton" Grid.Column="1" ToolTip="Changes the options for the render time estimation.">Options...</Button>
                                 </Grid>
 

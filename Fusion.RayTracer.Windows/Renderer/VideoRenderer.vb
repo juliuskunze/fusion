@@ -17,12 +17,18 @@
 
     Private Sub BackgroundWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles _BackgroundWorker.DoWork
         For Each index In Enumerable.Range(0, _Video.FrameCount)
-            RenderFrame(index:=index, e:=e)
+            Me.RenderFrame(index:=index, e:=e)
         Next
 
-        VideoSlicer.Run(pictureInputFileNames:=_FrameFiles.Select(Function(file) file.FullName),
-                        videoOutputFileName:=_OutputFile.FullName,
-                        framesPerSecond:=_Video.FramesPerSecond)
+        If _BackgroundWorker.CancellationPending Then
+            e.Cancel = True
+            Return
+        End If
+
+        Dim videoSplicer = New VideoSplicer(pictureInputFileNames:=_FrameFiles.Select(Function(file) file.FullName),
+                                            videoOutputFileName:=_OutputFile.FullName,
+                                            framesPerSecond:=_Video.FramesPerSecond)
+        videoSplicer.Run()
 
         e.Result = Nothing
     End Sub
@@ -44,7 +50,7 @@
     Private ReadOnly _FrameFiles As IEnumerable(Of FileInfo)
 
     Private Function GetFrameFile(index As Integer) As IO.FileInfo
-        Return New FileInfo(_PictureOutputDirectory.FullName & String.Format("\picture{0}.bmp", index))
+        Return New FileInfo(_PictureOutputDirectory.FullName & String.Format("\picture{0}.jpg", index))
     End Function
 
 End Class

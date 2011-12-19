@@ -18,7 +18,7 @@ Public Class FrameRenderer
     End Sub
 
     Private Sub Save(result As System.Drawing.Bitmap)
-        result.Save(_OutputFile.FullName, format:=System.Drawing.Imaging.ImageFormat.Bmp)
+        result.Save(_OutputFile.FullName, format:=System.Drawing.Imaging.ImageFormat.Jpeg)
     End Sub
 
     Public Overloads Sub Run()

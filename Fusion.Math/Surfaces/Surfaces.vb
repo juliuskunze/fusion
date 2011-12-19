@@ -2,6 +2,13 @@
     Inherits List(Of ISurface)
     Implements ISurface
 
+    Public Sub New()
+    End Sub
+
+    Public Sub New(surfaces As IEnumerable(Of ISurface))
+        MyBase.New(collection:=surfaces)
+    End Sub
+
     Public Function Intersections(ray As Ray) As IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
         Return Me.SelectMany(Function(surface) surface.Intersections(ray)).
                OrderBy(Function(intersection) (intersection.Location - ray.Origin).LengthSquared)

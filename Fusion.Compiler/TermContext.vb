@@ -33,11 +33,15 @@
         Get
             If _GroupedFunctions Is Nothing Then
                 Dim parameterFunctions =
-                        From parameter In Me.Parameters
-                        Where parameter.Signature.Type.IsFunctionType
-                        Select parameter.ToFunctionInstance
-
-                _GroupedFunctions = _Functions.Concat(parameterFunctions).GroupBy(Function(instance) instance.Signature.Name, comparer:=StringComparer.OrdinalIgnoreCase).ToArray
+                        From x In Me.Parameters
+                        Where x.Signature.Type.IsFunctionType
+                        Select x.ToFunctionInstance
+                Dim constantFunctions =
+                        From x In Me.Constants
+                        Where x.Signature.Type.IsFunctionType
+                        Select x.ToFunctionInstance
+                
+                _GroupedFunctions = _Functions.Concat(parameterFunctions).Concat(constantFunctions).GroupBy(Function(instance) instance.Signature.Name, comparer:=StringComparer.OrdinalIgnoreCase).ToArray
             End If
 
             Return _GroupedFunctions
@@ -68,7 +72,12 @@
                                                                     New FunctionInstance(Of Func(Of Double, Double))("Arccos", Function(x) System.Math.Acos(x), TypeDictionary.Default, "The arccosine of a specified number."),
                                                                     New FunctionInstance(Of Func(Of Double, Double))("Abs", Function(x) System.Math.Abs(x), TypeDictionary.Default, "The absolute value of the specified number."),
                                                                     New FunctionInstance(Of Func(Of Double, Double, Double))("Max", Function(a, b) System.Math.Max(a, b), TypeDictionary.Default, "The maximum value of the specified numbers."),
-                                                                    New FunctionInstance(Of Func(Of Double, Double, Double))("Min", Function(a, b) System.Math.Min(a, b), TypeDictionary.Default, "The minimum value of the specified numbers.")
+                                                                    New FunctionInstance(Of Func(Of Double, Double, Double))("Min", Function(a, b) System.Math.Min(a, b), TypeDictionary.Default, "The minimum value of the specified numbers."),
+                                                                    New FunctionInstance(Of Func(Of Vector3D, Double))("X", Function(v) v.X, TypeDictionary.Default, "The x-component of a vector."),
+                                                                    New FunctionInstance(Of Func(Of Vector3D, Double))("Y", Function(v) v.Y, TypeDictionary.Default, "The y-component of a vector."),
+                                                                    New FunctionInstance(Of Func(Of Vector3D, Double))("Z", Function(v) v.Z, TypeDictionary.Default, "The z-component of a vector."),
+                                                                    New FunctionInstance(Of Func(Of Vector3D, Vector3D, Double))("ScalarProduct", Function(u, v) u * v, TypeDictionary.Default, "The scalar product of two vectors."),
+                                                                    New FunctionInstance(Of Func(Of Vector3D, Vector3D, Vector3D))("VectorProduct", Function(u, v) u.CrossProduct(v), TypeDictionary.Default, "The vector product of two vectors.")
                                                                    },
                                                         Types:=NamedTypes.Default)
 

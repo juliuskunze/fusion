@@ -114,8 +114,10 @@
     <Compile Include="File\SaveFileDialog.vb" />
     <Compile Include="SimpleBitmap.vb" />
     <Compile Include="TimeSpanExtensions.vb" />
-    <Compile Include="VideoSlicer.vb" />
+    <Compile Include="VideoSplicer\VideoSplicerBase.vb" />
     <Compile Include="RenderTimeEstimation\VideoRenderTimeEstimator.vb" />
+    <Compile Include="VideoSplicer\SimpleVideoSplicer.vb" />
+    <Compile Include="VideoSplicer\VideoSplicer.vb" />
     <Compile Include="WindowExtensions.vb" />
     <Page Include="HelpWindow.xaml">
       <SubType>Designer</SubType>
@@ -195,6 +197,10 @@
     <AppDesigner Include="My Project\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\foreign sources\avilib\avilib\avilib.csproj">
+      <Project>{89FEFE9D-FAE0-434F-AB2D-C402475BB24A}</Project>
+      <Name>avilib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Fusion.Compiler\Fusion.Compiler.vbproj">
       <Project>{82EE6FFE-ECDD-4C2B-AE0D-9FBD0676FC32}</Project>
       <Name>Fusion.Compiler</Name>
