@@ -1,14 +1,14 @@
 ﻿Public Class LogarithmicRadianceSpectrumToRgbColorConverter
     Implements ILightToRgbColorConverter(Of RadianceSpectrum)
 
-    Private ReadOnly _LinearConverter As LinearRadianceSpectrumToRgbColorConverter
+    Private ReadOnly _Converter As RadianceSpectrumToRgbColorConverter
 
-    Public Sub New(linearConverter As LinearRadianceSpectrumToRgbColorConverter)
-        _LinearConverter = linearConverter
+    Public Sub New(converter As RadianceSpectrumToRgbColorConverter)
+        _Converter = converter
     End Sub
 
     Public Function Convert(light As RadianceSpectrum) As System.Drawing.Color Implements ILightToRgbColorConverter(Of RadianceSpectrum).Convert
-        Dim rgbLight = _LinearConverter.ConvertToRgbLight(light:=light)
+        Dim rgbLight = _Converter.ConvertToRgbLight(light:=light)
     End Function
 
 End Class

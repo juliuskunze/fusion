@@ -105,7 +105,7 @@ Public Class MainWindow
     Private Sub OnCompiled(Of TResult)(e As CompilerResultEventArgs(Of TResult), ByRef out_result As TResult)
         If e.CompilerResult.WasCompilationSuccessful Then
             out_result = e.CompilerResult.Result
-            _CompileLabel.Content = "Compilation succeeded."
+            _CompileLabel.Content = "Compilation succeeded. (Open the rendering tab above to continue.)"
             _ErrorTextBox.Text = ""
             Me.SetRenderTabItemVisibility(True)
         Else
@@ -536,5 +536,9 @@ Public Class MainWindow
 
     Private Sub CompileAndShowHelpMenuItem()
         _Compiler.Compile(showHelp:=True)
+    End Sub
+
+    Private Sub _DescriptionTab_LostFocus(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles _DescriptionTab.LostFocus
+        _Compiler.Unfocus()
     End Sub
 End Class

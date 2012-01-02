@@ -5,7 +5,8 @@
         Title="Fusion Ray Tracer" 
         Height="500" 
         Width="700" 
-        WindowState="Maximized">
+        WindowState="Maximized" 
+        Icon="/Fusion.RayTracer.Windows;component/Images/Color.ico">
     <Window.TaskbarItemInfo>
         <TaskbarItemInfo></TaskbarItemInfo>
     </Window.TaskbarItemInfo>
@@ -15,7 +16,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TabControl>
-                <TabItem Header="Scene Description">
+                <TabItem Header="Scene Description" Name="_DescriptionTab">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />

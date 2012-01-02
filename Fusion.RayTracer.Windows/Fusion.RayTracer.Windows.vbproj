@@ -54,6 +54,9 @@
   <PropertyGroup>
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Images\Color.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Splicer">
       <HintPath>..\foreign sources\splicer-release-binary-1.0.0.0\Splicer.dll</HintPath>
@@ -221,6 +224,9 @@
       <Project>{999FDCC5-C7B2-4F1E-B559-919752F9BC03}</Project>
       <Name>Fusion.Visualization</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Color.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

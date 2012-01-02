@@ -1,6 +1,6 @@
 ﻿Imports System.IO
 
-Public Class LinearRadianceSpectrumToRgbColorConverter
+Public Class RadianceSpectrumToRgbColorConverter
     Implements ILightToRgbColorConverter(Of RadianceSpectrum)
 
     Private _RgbLightToColorConverter As New RgbLightToRgbColorConverter

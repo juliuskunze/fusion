@@ -355,7 +355,7 @@ Public Class RichCompiler(Of TResult)
 
                     e.Handled = True
                 Case Key.Tab
-                    Me.CloseHelpAndAutoComplete()
+                    Me.CloseHelpAndInsertSuggestion()
 
                     e.Handled = True
             End Select
@@ -390,12 +390,12 @@ Public Class RichCompiler(Of TResult)
         If tb Is Nothing Then Return
 
         If e.ClickCount = 2 Then
-            Me.CloseHelpAndAutoComplete()
+            Me.CloseHelpAndInsertSuggestion()
             e.Handled = True
         End If
     End Sub
 
-    Private Sub CloseHelpAndAutoComplete()
+    Private Sub CloseHelpAndInsertSuggestion()
         Me.CloseHelp()
         Me.CompleteIdentifierByHelp(CStr(DirectCast(_HelpListBox.SelectedItem, ListBoxItem).Content))
     End Sub

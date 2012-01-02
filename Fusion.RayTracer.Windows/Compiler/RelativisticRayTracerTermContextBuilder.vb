@@ -12,7 +12,7 @@
     Private ReadOnly _NamedTypes As New NamedTypes(
         {
             New NamedType("Plane", GetType(Plane), "Represents a plane surface and the covered half space in a 3D space."),
-            New NamedType("Sphere", GetType(Sphere), "Represents a the outer surface of a sphere in a 3D space."),
+            New NamedType("Sphere", GetType(Sphere), "Represents an outer surface of a sphere in a 3D space."),
             New NamedType("AntiSphere", GetType(AntiSphere), "Represents a the inner surface of a sphere in a 3D space."),
             New NamedType("PointSet", GetType(IPointSet3D), "Represents a point set in 3D space."),
             New NamedType("Box", GetType(Box), "Represents a cuboid surface, which faces a parallel to x-, y- or z-axis."),
@@ -230,8 +230,10 @@ Public Class RelativisticRayTracerTermContextBuilder
                                                                    "A ray tracer that supports effects of special relatity at a specified observer velocity based on a specified classic ray tracer. It is possible to ignore the geometry, Doppler or searchlight effect."),
                             FunctionInstance.FromLambdaExpression("PointLightSource", Function(location As Vector3D, baseLight As Func(Of Double, Double)) DirectCast(New PointLightSource(Of RadianceSpectrum)(location:=location, baseLight:=New RadianceSpectrum(Function(wavelength) baseLight(wavelength))), IPointLightSource(Of RadianceSpectrum)), _TypeDictionary,
                                                                    "A point light source that has a specified location and a specified base light (radiance spectrum at the distance of 1m)."),
-        FunctionInstance.FromLambdaExpression("LinearRadianceSpectrumToRgbColorConverter", Function(spectralRadiancePerWhite As Double) DirectCast(New LinearRadianceSpectrumToRgbColorConverter(spectralRadiancePerWhite), ILightToRgbColorConverter(Of RadianceSpectrum)), _TypeDictionary,
-                                              "A RadianceSpectrumToRgbColorConverter that converts a radiance spectrum linear into an rgb color. If the whole spectrum is the specified spectralRadiancePerWhite, the rgb color will be the white (255, 255, 255). If the red, green or blue component would get greater than 255, all three components are scaled down so that it fits into the possible range.")
+        FunctionInstance.FromLambdaExpression("RadianceSpectrumToRgbColorConverter", Function(spectralRadiancePerWhite As Double) DirectCast(New RadianceSpectrumToRgbColorConverter(spectralRadiancePerWhite, testedWavelengthsCount:=100), ILightToRgbColorConverter(Of RadianceSpectrum)), _TypeDictionary,
+                                              "A RadianceSpectrumToRgbColorConverter that converts a radiance spectrum linear into an rgb color. If the whole spectrum is the specified spectralRadiancePerWhite, the rgb color will be the white (255, 255, 255). If the red, green or blue component would get greater than 255, all three components are scaled down so that it fits into the possible range. The tested wavelengths count is set to 100."),
+                              FunctionInstance.FromLambdaExpression("RadianceSpectrumToRgbColorConverter", Function(spectralRadiancePerWhite As Double, testedWavelengthsCount As Double) DirectCast(New RadianceSpectrumToRgbColorConverter(spectralRadiancePerWhite, testedWavelengthsCount:=CInt(testedWavelengthsCount)), ILightToRgbColorConverter(Of RadianceSpectrum)), _TypeDictionary,
+                                              "A RadianceSpectrumToRgbColorConverter that converts a radiance spectrum linear into an rgb color. If the whole spectrum is the specified spectralRadiancePerWhite, the rgb color will be the white (255, 255, 255). If the red, green or blue component would get greater than 255, all three components are scaled down so that it fits into the possible range. The accuracy of the conversion will grow with a higher specified tested wavelengths count.")
                          }
 
 
