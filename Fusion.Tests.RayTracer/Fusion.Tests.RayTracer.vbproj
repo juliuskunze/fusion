@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlackBodyRadianceSpectrumTests.vb" />
+    <Compile Include="DirectionalLightSourceTests.vb" />
     <Compile Include="RadianceSpectrumToColorConverterTests.vb" />
     <Compile Include="ExactColorTests.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

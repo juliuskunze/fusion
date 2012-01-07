@@ -1,6 +1,6 @@
 ﻿Public Class ColorWindow
 
-    Private _RgbLightToColorConverter As New RgbLightToRgbColorConverter
+    Private ReadOnly _RgbLightToColorConverter As New RgbLightToRgbColorConverter
     Private _RadianceSpectrumToRgbColorConverter As RadianceSpectrumToRgbColorConverter
 
     Public Sub New()

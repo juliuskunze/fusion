@@ -1,6 +1,6 @@
 ﻿Public Class FunctionCallExpressionBuilder
 
-    Private _ExpressionBuilder As Func(Of IEnumerable(Of Expression), Expression)
+    Private ReadOnly _ExpressionBuilder As Func(Of IEnumerable(Of Expression), Expression)
 
     Public Sub New(invokableExpression As Expression)
         _ExpressionBuilder = Function(arguments) Expressions.Expression.Invoke(expression:=invokableExpression, arguments:=arguments)

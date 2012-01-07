@@ -1,21 +1,21 @@
 ﻿Public Class IntersectedSurfacedPointSet3D
     Implements ISurfacedPointSet3D
 
-    Private _SurfacedPointSet1 As ISurfacedPointSet3D
+    Private ReadOnly _SurfacedPointSet1 As ISurfacedPointSet3D
     Public ReadOnly Property SurfacedPointSet1 As ISurfacedPointSet3D
         Get
             Return _SurfacedPointSet1
         End Get
     End Property
 
-    Private _SurfacedPointSet2 As ISurfacedPointSet3D
+    Private ReadOnly _SurfacedPointSet2 As ISurfacedPointSet3D
     Public ReadOnly Property SurfacedPointSet2 As ISurfacedPointSet3D
         Get
             Return _SurfacedPointSet2
         End Get
     End Property
 
-    Private _Surface As Surfaces
+    Private ReadOnly _Surface As Surfaces
 
     Public Sub New(surfacedPointSet1 As ISurfacedPointSet3D, surfacedPointSet2 As ISurfacedPointSet3D)
         _SurfacedPointSet1 = surfacedPointSet1

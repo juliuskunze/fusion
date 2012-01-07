@@ -1,10 +1,10 @@
 ﻿Public Class StringMutator
     Implements IMutator(Of String)
 
-    Private _Rnd As New Random
+    Private ReadOnly _Random As New Random
 
     Public Function Mutate(solution As String) As String Implements IMutator(Of String).Mutate
-        Dim typeOfMutation = _Rnd.NextDouble()
+        Dim typeOfMutation = _Random.NextDouble()
 
         Select Case typeOfMutation
             Case Is < 0.99
@@ -17,11 +17,11 @@
     End Function
 
     Private Function changeChar(solution As String) As String
-        Dim charPosition = _Rnd.Next(solution.Length)
+        Dim charPosition = _Random.Next(solution.Length)
 
         Dim newCharIndex As Integer
         Do
-            newCharIndex = _Rnd.Next(32, 255)
+            newCharIndex = _Random.Next(32, 255)
         Loop While newCharIndex = 149
 
         Dim newChar = Chr(newCharIndex)
@@ -33,7 +33,7 @@
 
 
     Private Function addChar(solution As String) As String
-        Return solution & Chr(_Rnd.Next(32, 255))
+        Return solution & Chr(_Random.Next(32, 255))
     End Function
 
     Private Function trimChar(solution As String) As String

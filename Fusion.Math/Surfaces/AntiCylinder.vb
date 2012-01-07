@@ -1,7 +1,7 @@
 ﻿Public Class AntiCylinder
     Implements ISurfacedPointSet3D
 
-    Private _InfiniteAntiCylinder As InfiniteAntiCylinder
+    Private ReadOnly _InfiniteAntiCylinder As InfiniteAntiCylinder
     Public ReadOnly Property Radius As Double
         Get
             Return _InfiniteAntiCylinder.Radius
@@ -19,7 +19,7 @@
         End Get
     End Property
 
-    Private _EndCenter As Vector3D
+    Private ReadOnly _EndCenter As Vector3D
     Public ReadOnly Property EndCenter As Vector3D
         Get
             Return _EndCenter

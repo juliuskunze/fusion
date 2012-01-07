@@ -9,7 +9,7 @@
 
     Public Property FieldType As IParticleFieldGenerator2D
 
-    Dim _Particles As IEnumerable(Of Particle2D)
+    Private ReadOnly _Particles As IEnumerable(Of Particle2D)
     Public ReadOnly Property Particles() As IEnumerable(Of Particle2D)
         Get
             Return _Particles

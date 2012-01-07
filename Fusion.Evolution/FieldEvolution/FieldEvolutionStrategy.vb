@@ -1,9 +1,9 @@
 ﻿Public Class FieldEvolutionStrategy
     Implements IEvolutionStrategy(Of ParticleField2D)
 
-    Private _Initializer As IInitializer(Of ParticleField2D)
-    Private _Fitness As IFitness(Of ParticleField2D)
-    Private _Mutator As FieldMutator
+    Private ReadOnly _Initializer As IInitializer(Of ParticleField2D)
+    Private ReadOnly _Fitness As IFitness(Of ParticleField2D)
+    Private ReadOnly _Mutator As FieldMutator
 
     Public Event BestSolutionImproved(sender As Object, e As SolutionEventArgs(Of Physics.ParticleField2D)) Implements IEvolutionStrategy(Of Physics.ParticleField2D).BestSolutionImproved
 

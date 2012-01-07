@@ -65,7 +65,7 @@ Public Module CompilerTools
         
         Dim argumentsText = argumentsInBrackets.Substring(1, argumentsInBrackets.Length - 2)
         
-        Return SplitIfSeparatorIsNotInBrackets(argumentsText, separator:=","c, bracketTypes:=_AllowedBracketTypes)
+        Return argumentsText.SplitIfSeparatorIsNotInBrackets(separator:=","c, bracketTypes:=_AllowedBracketTypes)
     End Function
 
     <Extension()>
@@ -183,10 +183,10 @@ Public Module CompilerTools
         Dim trim = text.TrimStart
 
         Dim rest As LocatedString = Nothing
-        Dim type = CompilerTools.GetStartingType(trim, types:=types, out_rest:=rest)
+        Dim type = trim.GetStartingType(types:=types, out_rest:=rest)
 
         Dim rest2 = rest.TrimStart
-        Dim name = CompilerTools.GetStartingIdentifier(rest2)
+        Dim name = rest2.GetStartingIdentifier
 
         out_rest = rest2.Substring(startIndex:=name.Length)
 

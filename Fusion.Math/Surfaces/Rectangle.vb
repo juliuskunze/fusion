@@ -1,7 +1,7 @@
 ﻿Public Class Rectangle
     Implements ISurface
 
-    Private _Surface As ISurface
+    Private ReadOnly _Surface As ISurface
 
     Public Sub New(vertex1 As Vector3D, vertex2 As Vector3D, vertex3 As Vector3D)
         If (vertex2 - vertex3) * (vertex1 - vertex1) <> 0 Then Throw New ArgumentException("The edge vectors of a rectangle must be orthogonal.")

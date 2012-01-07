@@ -1,7 +1,7 @@
 ﻿Public Class Cylinder
     Implements ISurfacedPointSet3D
 
-    Private _InfiniteCylinder As InfiniteCylinder
+    Private ReadOnly _InfiniteCylinder As InfiniteCylinder
     Public ReadOnly Property Radius As Double
         Get
             Return _InfiniteCylinder.Radius
@@ -19,16 +19,16 @@
         End Get
     End Property
 
-    Private _EndCenter As Vector3D
+    Private ReadOnly _EndCenter As Vector3D
     Public ReadOnly Property EndCenter As Vector3D
         Get
             Return _EndCenter
         End Get
     End Property
 
-    Private _StartPlane As Plane
-    Private _EndPlane As Plane
-    Private _Surface As ISurface
+    Private ReadOnly _StartPlane As Plane
+    Private ReadOnly _EndPlane As Plane
+    Private ReadOnly _Surface As ISurface
 
     Public Sub New(startCenter As Vector3D, endCenter As Vector3D, radius As Double)
         _EndCenter = endCenter

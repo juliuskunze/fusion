@@ -5,7 +5,7 @@
 Public Class Triangle
     Implements ISurface
 
-    Private _Surface As ISurface
+    Private ReadOnly _Surface As ISurface
     
     Public Sub New(vertex1 As Vector3D, vertex2 As Vector3D, vertex3 As Vector3D)
         _Vertex1 = vertex1

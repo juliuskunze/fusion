@@ -10,7 +10,7 @@
         _MoveStepLength = moveStepLength
     End Sub
 
-    Private _Random As Random
+    Private ReadOnly _Random As Random
 
     Private _MoveStepLength As Double
     Public Property MoveStepLength() As Double

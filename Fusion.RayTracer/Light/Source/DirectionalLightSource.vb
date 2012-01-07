@@ -1,9 +1,9 @@
 Public Class DirectionalLightSource(Of TLight As {ILight(Of TLight), New})
     Implements ILightSource(Of TLight)
 
-    Public Sub New(direction As Vector3D, baseLight As TLight)
+    Public Sub New(direction As Vector3D, light As TLight)
         Me.Direction = direction
-        Me.BaseLight = baseLight
+        Me.Light = light
     End Sub
 
     Public WriteOnly Property Direction As Vector3D
@@ -19,16 +19,16 @@ Public Class DirectionalLightSource(Of TLight As {ILight(Of TLight), New})
         End Get
     End Property
 
-    Public Property BaseLight As TLight
+    Public Property Light As TLight
 
     Public Function GetLight(surfacePoint As SurfacePoint) As TLight Implements ILightSource(Of TLight).GetLight
-        Dim valueFactor = surfacePoint.NormalizedNormal * _NormalizedDirection
+        Dim valueFactor = -surfacePoint.NormalizedNormal * _NormalizedDirection
 
         If valueFactor < 0 Then
             Return New TLight
         End If
 
-        Return Me.BaseLight.MultiplyBrightness(valueFactor)
+        Return Me.Light.MultiplyBrightness(valueFactor)
     End Function
 
 End Class

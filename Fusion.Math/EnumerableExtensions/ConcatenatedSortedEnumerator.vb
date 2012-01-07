@@ -34,9 +34,9 @@ Public Class ConcatenatedSortedEnumerator(Of T)
 
     End Class
 
-    Private _SourceEnumerators As IEnumerable(Of ActivatableEnumerator)
+    Private ReadOnly _SourceEnumerators As IEnumerable(Of ActivatableEnumerator)
 
-    Private _CompareValueFunction As Func(Of T, Double)
+    Private ReadOnly _CompareValueFunction As Func(Of T, Double)
 
     Public Sub New(sourceEnumerators As IEnumerable(Of IEnumerator(Of T)), compareValueFunction As Func(Of T, Double))
         'Deleting ".ToList" will cause failing tests.

@@ -7,7 +7,7 @@ Public Class RecursiveRayTracer(Of TLight As {ILight(Of TLight), New})
                    Optional maxIntersectionCount As Integer = 10)
         _Surface = surface
         _LightSource = unshadedLightSource
-        _ShadedPointLightSources = shadedPointLightSources
+        _ShadedPointLightSources = New ShadedLightSources(Of TLight)(shadowingSurface:=_Surface, pointLightSources:=shadedPointLightSources)
         _MaxIntersectionCount = maxIntersectionCount
     End Sub
 
@@ -25,14 +25,12 @@ Public Class RecursiveRayTracer(Of TLight As {ILight(Of TLight), New})
         End Get
     End Property
 
-    Private ReadOnly _ShadedPointLightSources As IEnumerable(Of IPointLightSource(Of TLight))
+    Private ReadOnly _ShadedPointLightSources As ShadedLightSources(Of TLight)
     Public ReadOnly Property ShadedPointLightSources As IEnumerable(Of IPointLightSource(Of TLight))
         Get
-            Return _ShadedLightSources
+            Return _ShadedPointLightSources
         End Get
     End Property
-
-    Private _ShadedLightSources As ShadedLightSources(Of TLight)
 
     Protected Function TraceColor(ray As Ray, intersectionCount As Integer) As TLight
         Dim firstIntersection = Me.Surface.FirstMaterialIntersection(ray)
@@ -43,7 +41,7 @@ Public Class RecursiveRayTracer(Of TLight As {ILight(Of TLight), New})
 
         Dim finalLight = hitMaterial.SourceLight
         If hitMaterial.Scatters Then
-            Dim lightColor = Me.LightSource.GetLight(firstIntersection).Add(_ShadedLightSources.GetLight(firstIntersection))
+            Dim lightColor = Me.LightSource.GetLight(firstIntersection).Add(_ShadedPointLightSources.GetLight(firstIntersection))
             finalLight = finalLight.Add(hitMaterial.ScatteringRemission.GetRemission(lightColor))
         End If
 

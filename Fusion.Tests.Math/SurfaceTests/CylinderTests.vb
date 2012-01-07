@@ -1,6 +1,6 @@
 ﻿Public Class CylinderTests
 
-    Private _Cylinder As Cylinder = New Cylinder(Vector3D.Zero, New Vector3D(2.5, 0, 0), 1)
+    Private ReadOnly _Cylinder As Cylinder = New Cylinder(Vector3D.Zero, New Vector3D(2.5, 0, 0), 1)
 
     <Test()>
     Public Sub Contains()

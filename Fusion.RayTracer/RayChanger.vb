@@ -29,7 +29,7 @@
         Return WithSafetyDistance(New Ray(origin:=intersection.Location, direction:=Me.SourceRay.NormalizedDirection))
     End Function
 
-    Private Shared _Random As New Random
+    Private Shared ReadOnly _Random As New Random
     Public Function ScatteredRay(intersection As SurfacePoint) As Ray
         Dim scatteredRayDirection = NormalizedRandomDirection()
         If scatteredRayDirection * intersection.NormalizedNormal < 0 Then

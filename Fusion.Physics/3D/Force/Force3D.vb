@@ -14,7 +14,7 @@ Public Class Force3D
         _Color = color
     End Sub
 
-    Private _EndNodes As EndNodes(Of Particle3D)
+    Private ReadOnly _EndNodes As EndNodes(Of Particle3D)
     Public ReadOnly Property EndNodes() As Math.EndNodes(Of Particle3D) Implements Math.IEdge(Of Particle3D).EndNodes
         Get
             Return _EndNodes

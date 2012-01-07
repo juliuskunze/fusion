@@ -1,7 +1,7 @@
 ﻿Public Class LensVideo
     Implements IRayTraceVideo
 
-    Private _VideoSize As Size
+    Private ReadOnly _VideoSize As Size
     Public ReadOnly Property VideoSize As Size
         Get
             Return _VideoSize

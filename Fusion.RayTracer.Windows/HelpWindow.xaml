@@ -180,8 +180,12 @@
                         Parse the help popup for more information about the predefined constants, functions and types. 
                         The compiler will show you error messages if you do something wrong.
                         You can press tab to insert the current suggestion of the help popup and escape to close it.
-                        Press F2 to get help for the function or constant next to the cursor.
+                        Press F2 to get help for the function or constant next to the cursor. Press tab to insert the selected suggestion from the help popup.
                         <LineBreak/>
+                        Have fun!<LineBreak/>
+                        <LineBreak/>
+                        <Italic>Julius Kunze - juliuskunze@gmail.com</Italic>
+                    <LineBreak/>
                     </Paragraph>
                 </FlowDocument>
             </FlowDocumentScrollViewer>

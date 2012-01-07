@@ -1,12 +1,12 @@
 ﻿Public Class RadianceSpectrumToColorConverterTests
 
-    Const exampleRadiancePerWhite = 25
+    Const _ExampleRadiancePerWhite = 25
 
-    Private _Converter As New RadianceSpectrumToRgbColorConverter(testedWavelengthsCount:=150, spectralRadiancePerWhite:=exampleRadiancePerWhite)
+    Private ReadOnly _Converter As New RadianceSpectrumToRgbColorConverter(testedWavelengthsCount:=150, spectralRadiancePerWhite:=_ExampleRadiancePerWhite)
 
     <Test()>
     Public Sub TestWhite()
-        Dim whiteSpectrum = New RadianceSpectrum([function]:=Function(wavelength) exampleRadiancePerWhite)
+        Dim whiteSpectrum = New RadianceSpectrum([function]:=Function(wavelength) _ExampleRadiancePerWhite)
         Dim white = _Converter.Convert(whiteSpectrum)
 
         Assert.That(Abs(1 - white.R / 255), [Is].LessThan(0.01))

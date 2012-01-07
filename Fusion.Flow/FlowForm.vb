@@ -58,7 +58,7 @@
         End If
     End Sub
 
-    Private _Directory As String = My.Computer.FileSystem.SpecialDirectories.Desktop
+    Private ReadOnly _Directory As String = My.Computer.FileSystem.SpecialDirectories.Desktop
 
     Private Sub _Timer_FrameTick(sender As Object, e As Visualization.FrameTickEventArgs) Handles _Timer.FrameTick
         For i = 0 To e.CalcsPerFrame - 1

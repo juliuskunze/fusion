@@ -1,7 +1,7 @@
 ﻿Public Class SurfacePoint(Of TMaterial)
     Inherits SurfacePoint
 
-    Private _Material As TMaterial
+    Private ReadOnly _Material As TMaterial
 
     Public Sub New(location As Vector3D, normal As Vector3D, material As TMaterial)
         MyBase.New(location:=location, normal:=normal)

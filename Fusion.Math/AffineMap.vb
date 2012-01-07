@@ -10,7 +10,7 @@
         _TranslationVector = transformationVector
     End Sub
 
-    Private _LinearMap As LinearMap2D
+    Private ReadOnly _LinearMap As LinearMap2D
     Public ReadOnly Property LinearMap() As LinearMap2D
         Get
             Return _LinearMap

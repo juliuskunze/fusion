@@ -12,7 +12,7 @@
         End Get
     End Property
 
-    Private _NormalizedNormal As Vector3D
+    Private ReadOnly _NormalizedNormal As Vector3D
     Public ReadOnly Property NormalizedNormal As Vector3D
         Get
             Return _NormalizedNormal

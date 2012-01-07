@@ -189,7 +189,7 @@ Public Class MainWindow
         End If
     End Function
 
-    Private _RenderTimeEstimationOptionsDialog As New RenderTimeEstimationOptionsDialog
+    Private ReadOnly _RenderTimeEstimationOptionsDialog As New RenderTimeEstimationOptionsDialog
 
     Private Sub CalculateNeededTimeOptionsButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _EstimateRenderTimeOptionsButton.Click
         _RenderTimeEstimationOptionsDialog.ShowDialog()

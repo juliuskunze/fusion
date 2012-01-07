@@ -4,7 +4,7 @@
         _ParticleSystem = particleSystem
     End Sub
 
-    Private _ParticleSystem As ParticleSystem2D
+    Private ReadOnly _ParticleSystem As ParticleSystem2D
     Public ReadOnly Property ParticleSystem As ParticleSystem2D
         Get
             Return _ParticleSystem

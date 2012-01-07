@@ -125,7 +125,7 @@ Public Class RayTracingExamples
 
         Dim undirectionalLightSource = New UndirectionalLightSource(Of RgbLight)(New RgbLight(Color.DarkGray))
         Dim directionalLightSoure = New DirectionalLightSource(Of RgbLight)(direction:=New Vector3D(1, 1, 1),
-                                                                    baseLight:=New RgbLight(Color.DarkGray))
+                                                                    light:=New RgbLight(Color.DarkGray))
         Dim pointLightSource1 = New PointLightSource(Of RgbLight)(Location:=1.5 * New Vector3D(1, 1, 1),
                                                      baseLight:=New RgbLight(Color.Orange))
         Dim pointLightSource2 = New PointLightSource(Of RgbLight)(Location:=New Vector3D(2, 0, -1),
@@ -140,7 +140,7 @@ Public Class RayTracingExamples
         Return New RayTracerPicture(Of RgbLight)(rayTracer:=rayTracer, PictureSize:=Me.PictureSize, view:=view, lightToRgbColorConverter:=New RgbLightToRgbColorConverter)
     End Function
 
-    Dim random As Random = New Random()
+    Private ReadOnly random As Random = New Random()
     Private Function RandomSphere() As ColorfulSphere
         Dim radius = random.NextDouble * 2
         Dim x = random.NextDouble * 6 - 4

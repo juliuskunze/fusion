@@ -1,21 +1,21 @@
 ﻿Public Class Field2DDrawer
     Implements IDrawer2D
 
-    Private _ArrowGridDrawer As Field2DArrowGridDrawer
+    Private ReadOnly _ArrowGridDrawer As Field2DArrowGridDrawer
     Public ReadOnly Property ArrowGridDrawer As Field2DArrowGridDrawer
         Get
             Return _ArrowGridDrawer
         End Get
     End Property
 
-    Private _FieldlineDrawer As Field2DFieldlineDrawer
+    Private ReadOnly _FieldlineDrawer As Field2DFieldlineDrawer
     Public ReadOnly Property FieldlineDrawer As Field2DFieldlineDrawer
         Get
             Return _FieldlineDrawer
         End Get
     End Property
 
-    Private _ColorDrawer As Field2DColorAreaDrawer
+    Private ReadOnly _ColorDrawer As Field2DColorAreaDrawer
     Public ReadOnly Property ColorDrawer As Field2DColorAreaDrawer
         Get
             Return _ColorDrawer

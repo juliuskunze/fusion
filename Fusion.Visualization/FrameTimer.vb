@@ -1,7 +1,7 @@
 ﻿Public Class FrameTimer
     Implements IDisposable
 
-    Private _Timer As Windows.Forms.Timer
+    Private ReadOnly _Timer As Windows.Forms.Timer
 
     Public Sub New(framerate As Double, calcRate As Double, Optional fastMotion As Double = 1)
         _Timer = New Windows.Forms.Timer

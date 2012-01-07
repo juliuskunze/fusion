@@ -18,9 +18,9 @@
     End Property
 
 
-    Private _VectorInitializer As IInitializer(Of Vector2D) = New VectorInitializer
-    Private _VectorMutator As IMutator(Of Vector2D) = New VectorMutator(1)
-    Private _VectorFitness As VectorFitness = New VectorFitness(New Vector2D(10, 10))
+    Private ReadOnly _VectorInitializer As IInitializer(Of Vector2D) = New VectorInitializer
+    Private ReadOnly _VectorMutator As IMutator(Of Vector2D) = New VectorMutator(1)
+    Private ReadOnly _VectorFitness As VectorFitness = New VectorFitness(New Vector2D(10, 10))
 
     Public Sub Start() Implements IEvolutionStrategy(Of Vector2D).StartEvolution
         _Solution = _VectorInitializer.Initialize()

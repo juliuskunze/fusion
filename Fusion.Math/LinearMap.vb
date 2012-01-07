@@ -27,7 +27,7 @@
         Return Not l1 = l2
     End Operator
 
-    Private _MappingMatrix As SquareMatrix
+    Private ReadOnly _MappingMatrix As SquareMatrix
 
     Public ReadOnly Property MappingMatrix() As SquareMatrix
         Get

@@ -8,7 +8,7 @@
         End Function
     End Structure
 
-    Private _List As New List(Of TestStructure) From {New TestStructure With {.Name = "Short"},
+    Private ReadOnly _List As New List(Of TestStructure) From {New TestStructure With {.Name = "Short"},
                                             New TestStructure With {.Name = "Very very long"},
                                             New TestStructure With {.Name = "Very long"}}
 

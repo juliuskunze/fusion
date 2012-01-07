@@ -1,8 +1,8 @@
 ﻿<Serializable()>
 Public Class Graph(Of NodeType As Class, EdgeType As IEdge(Of NodeType))
 
-    Private _Nodes As List(Of NodeType)
-    Private _Edges As List(Of EdgeType)
+    Private ReadOnly _Nodes As List(Of NodeType)
+    Private ReadOnly _Edges As List(Of EdgeType)
 
     Public Sub New()
         _Nodes = New List(Of NodeType)

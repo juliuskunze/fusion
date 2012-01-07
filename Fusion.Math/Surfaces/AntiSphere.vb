@@ -1,7 +1,7 @@
 ﻿Public Class AntiSphere
     Implements ISurfacedPointSet3D
 
-    Private _Sphere As Sphere
+    Private ReadOnly _Sphere As Sphere
     Public ReadOnly Property Center As Vector3D
         Get
             Return _Sphere.Center

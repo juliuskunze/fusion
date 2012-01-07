@@ -1,6 +1,6 @@
 ﻿Public Class ExactColorTests
 
-    Private _ColorConverter As New RgbLightToRgbColorConverter
+    Private ReadOnly _ColorConverter As New RgbLightToRgbColorConverter
 
     <Test()>
     Public Sub Black()

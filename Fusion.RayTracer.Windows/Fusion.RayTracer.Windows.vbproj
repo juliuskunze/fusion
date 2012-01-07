@@ -58,9 +58,6 @@
     <ApplicationIcon>Images\Color.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Splicer">
-      <HintPath>..\foreign sources\splicer-release-binary-1.0.0.0\Splicer.dll</HintPath>
-    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -119,7 +116,6 @@
     <Compile Include="TimeSpanExtensions.vb" />
     <Compile Include="VideoSplicer\VideoSplicerBase.vb" />
     <Compile Include="RenderTimeEstimation\VideoRenderTimeEstimator.vb" />
-    <Compile Include="VideoSplicer\SimpleVideoSplicer.vb" />
     <Compile Include="VideoSplicer\VideoSplicer.vb" />
     <Compile Include="WindowExtensions.vb" />
     <Page Include="HelpWindow.xaml">
@@ -203,6 +199,7 @@
     <ProjectReference Include="..\foreign sources\avilib\avilib\avilib.csproj">
       <Project>{89FEFE9D-FAE0-434F-AB2D-C402475BB24A}</Project>
       <Name>avilib</Name>
+      <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\Fusion.Compiler\Fusion.Compiler.vbproj">
       <Project>{82EE6FFE-ECDD-4C2B-AE0D-9FBD0676FC32}</Project>

@@ -1,12 +1,12 @@
-﻿Public Class SolutionEventArgs(Of SolutionType)
+﻿Public Class SolutionEventArgs(Of TSolution)
     Inherits EventArgs
 
-    Public Sub New(solution As SolutionType)
+    Public Sub New(solution As TSolution)
         _Solution = solution
     End Sub
 
-    Private _Solution As SolutionType
-    Public ReadOnly Property Solution() As SolutionType
+    Private ReadOnly _Solution As TSolution
+    Public ReadOnly Property Solution() As TSolution
         Get
             Return _Solution
         End Get

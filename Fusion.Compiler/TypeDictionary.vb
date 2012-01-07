@@ -10,13 +10,7 @@
     End Sub
 
     Private Shared Function GetDictionary(keyValuePairs As IEnumerable(Of KeyValuePair(Of Type, NamedType))) As Dictionary(Of Type, NamedType)
-        Dim keyValuePair As KeyValuePair(Of Type, NamedType)
-
-        Dim dictionary = New Dictionary(Of Type, NamedType)
-        For Each keyValuePair In keyValuePairs
-            dictionary.Add(keyValuePair.Key, keyValuePair.Value)
-        Next
-        Return dictionary
+        Return keyValuePairs.ToDictionary(Function(keyValuePair) keyValuePair.Key, Function(keyValuePair) keyValuePair.Value)
     End Function
 
     Public Sub New(namedTypes As IEnumerable(Of NamedType))

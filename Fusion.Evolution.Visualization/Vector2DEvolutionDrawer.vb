@@ -33,12 +33,12 @@
         AddHandler _VectorEvolutionStrategy.BadSolutionGenerated, AddressOf vectorEvolutionStrategy_BadSolutionGenerated
     End Sub
 
-    Private Sub vectorEvolutionStrategy_BestSolutionImproved(sender As Object, e As SolutionEventArgs(Of Vector2D))
+    Private Sub VectorEvolutionStrategy_BestSolutionImproved(sender As Object, e As SolutionEventArgs(Of Vector2D))
         _Solutions.Add(e.Solution)
         _BadSolutions.Add(New List(Of Vector2D))
     End Sub
 
-    Private Sub vectorEvolutionStrategy_BadSolutionGenerated(sender As Object, e As Evolution.SolutionEventArgs(Of Math.Vector2D)) Handles _VectorEvolutionStrategy.BadSolutionGenerated
+    Private Sub VectorEvolutionStrategy_BadSolutionGenerated(sender As Object, e As Evolution.SolutionEventArgs(Of Math.Vector2D)) Handles _VectorEvolutionStrategy.BadSolutionGenerated
         _BadSolutions(_Solutions.Count - 1).Add(e.Solution)
     End Sub
 
@@ -49,17 +49,17 @@
         drawTarget()
     End Sub
 
-    Private Sub drawTarget()
+    Private Sub DrawTarget()
         Me.Visualizer.DrawingGraphics.FillEllipse(New SolidBrush(Color.Red), Me.Visualizer.GenerateCircleRect(New Vector2D(50, 50), 0.1))
     End Sub
 
-    Private Sub drawSolutions()
+    Private Sub DrawSolutions()
         For Each solution In _Solutions
             Me.Visualizer.DrawingGraphics.FillEllipse(New SolidBrush(Color.Black), Me.Visualizer.GenerateCircleRect(solution, 0.1))
         Next
     End Sub
 
-    Private Sub drawConnections()
+    Private Sub DrawConnections()
         Dim connectionPen = New Pen(Color.Black)
         connectionPen.EndCap = Drawing2D.LineCap.ArrowAnchor
 
@@ -68,7 +68,7 @@
         Next
     End Sub
 
-    Private Sub drawBadSolutions()
+    Private Sub DrawBadSolutions()
         Dim connectionPen = New Pen(Color.Gray)
         connectionPen.EndCap = Drawing2D.LineCap.ArrowAnchor
 
@@ -79,7 +79,7 @@
         Next
     End Sub
 
-    Private _BadSolutionPen As Pen
+    Private ReadOnly _BadSolutionPen As Pen
 
     Private Sub drawBadSolution(goodSolutionIndex As Integer, badSolution As Vector2D)
         Me.Visualizer.DrawingGraphics.DrawLine(_BadSolutionPen, Me.Visualizer.Map.Apply(_Solutions(goodSolutionIndex)).ToPointF, Me.Visualizer.Map.Apply(badSolution).ToPointF)

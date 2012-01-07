@@ -18,7 +18,7 @@ Public Class Force2D
         Me.Pen = pen
     End Sub
 
-    Private _ConnectedParticles As EndNodes(Of Particle2D)
+    Private ReadOnly _ConnectedParticles As EndNodes(Of Particle2D)
     Public ReadOnly Property ConnectedParticles() As Math.EndNodes(Of Particle2D) Implements Math.IEdge(Of Particle2D).EndNodes, IForce2D.ConnectedParticles
         Get
             Return _ConnectedParticles

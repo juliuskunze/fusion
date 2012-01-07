@@ -25,7 +25,7 @@
         End Get
     End Property
 
-    Private _ContainingPlane As Plane
+    Private ReadOnly _ContainingPlane As Plane
 
     Public Function Intersection(ray As Ray) As SurfacePoint Implements ISurface.FirstIntersection
         Dim planeIntersection = _ContainingPlane.Intersection(ray)

@@ -7,7 +7,7 @@ Public Class RichCompiler(Of TResult)
     Private WithEvents _HelpListBox As ListBox
     Private WithEvents _HelpScrollViewer As ScrollViewer
     Private _ItemToolTip As TextToolTip
-    Private _OpenedFunctionToolTip As TextToolTip
+    Private ReadOnly _OpenedFunctionToolTip As TextToolTip
 
     Private _ApplyingTextDecorations As Boolean
     Public ReadOnly Property ApplyingTextDecorations As Boolean
@@ -18,7 +18,7 @@ Public Class RichCompiler(Of TResult)
 
     Private _TextOnlyDocument As TextOnlyDocument
 
-    Private _Compiler As Compiler(Of TResult)
+    Private ReadOnly _Compiler As Compiler(Of TResult)
 
     Private _AutoCompile As Boolean
     Public Property AutoCompile As Boolean

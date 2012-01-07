@@ -7,21 +7,21 @@
         _CameraViewCourse = cameraViewCourse
     End Sub
 
-    Private _CameraViewCourse As IViewCourse
+    Private ReadOnly _CameraViewCourse As IViewCourse
     Public ReadOnly Property CameraViewCourse As IViewCourse
         Get
             Return _CameraViewCourse
         End Get
     End Property
 
-    Private _RayTracer As IRayTracer(Of RgbLight)
+    Private ReadOnly _RayTracer As IRayTracer(Of RgbLight)
     Public ReadOnly Property RayTracer As IRayTracer(Of RgbLight)
         Get
             Return _RayTracer
         End Get
     End Property
 
-    Private _VideoSize As Size
+    Private ReadOnly _VideoSize As Size
     Public ReadOnly Property VideoSize As Size
         Get
             Return _VideoSize

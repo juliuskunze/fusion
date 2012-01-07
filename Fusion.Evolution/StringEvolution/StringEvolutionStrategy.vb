@@ -18,9 +18,9 @@
     End Property
 
 
-    Private _StringInitializer As IInitializer(Of String) = New StringInitializer
-    Private _StringMutator As IMutator(Of String) = New StringMutator
-    Private _StringFitness As StringFitness = New StringFitness("Hello evolutionary world!")
+    Private ReadOnly _StringInitializer As IInitializer(Of String) = New StringInitializer
+    Private ReadOnly _StringMutator As IMutator(Of String) = New StringMutator
+    Private ReadOnly _StringFitness As StringFitness = New StringFitness("Hello evolutionary world!")
 
     Public Sub Start() Implements IEvolutionStrategy(Of String).StartEvolution
         _Solution = _StringInitializer.Initialize()
@@ -30,9 +30,9 @@
         Do
             Dim oldfitness = _Fitness
 
-            Dim _MutantSolution = _StringMutator.Mutate(_Solution)
-            If _StringFitness.Fitness(_MutantSolution) >= _StringFitness.Fitness(_Solution) Then
-                _Solution = _MutantSolution
+            Dim mutantSolution = _StringMutator.Mutate(_Solution)
+            If _StringFitness.Fitness(mutantSolution) >= _StringFitness.Fitness(_Solution) Then
+                _Solution = mutantSolution
             End If
 
             _Fitness = _StringFitness.Fitness(_Solution)

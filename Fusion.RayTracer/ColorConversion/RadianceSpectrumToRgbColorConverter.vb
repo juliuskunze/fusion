@@ -3,7 +3,7 @@
 Public Class RadianceSpectrumToRgbColorConverter
     Implements ILightToRgbColorConverter(Of RadianceSpectrum)
 
-    Private _RgbLightToColorConverter As New RgbLightToRgbColorConverter
+    Private ReadOnly _RgbLightToColorConverter As New RgbLightToRgbColorConverter
 
     Public Const LowerVisibleWavelengthBound = 380 * 10 ^ -9
     Public Const UpperVisibleWavelengthBound = 710 * 10 ^ -9

@@ -1,5 +1,5 @@
 ﻿Public Class AntiCylinderTests
-    Dim _AntiCylinder As AntiCylinder = New AntiCylinder(Vector3D.Zero, New Vector3D(2.5, 0, 0), 1)
+    Private ReadOnly _AntiCylinder As AntiCylinder = New AntiCylinder(Vector3D.Zero, New Vector3D(2.5, 0, 0), 1)
 
     <Test()>
     Public Sub Contains()
