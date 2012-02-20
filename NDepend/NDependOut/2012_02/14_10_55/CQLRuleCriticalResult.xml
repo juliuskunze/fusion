@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<CQLRuleCriticalResult>
+  <RuleCritical QueryId="Query1888313633" FullName="Code Quality \ Type Metrics \ Types too big - critical (NbLinesOfCode)" />
+</CQLRuleCriticalResult>

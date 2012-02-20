@@ -121,7 +121,7 @@
                                  "MaterialSurface",
                                  Function(surface As ISurface,
                                           materialFunction As Func(Of Vector3D, TMaterial)) DirectCast(New MaterialSurface(Of TMaterial)(surface:=surface, materialFunction:=materialFunction), ISurface(Of TMaterial)), _TypeDictionary,
-                                 "A material surface that has a material specified by the material function depending on the location of point of the specified surface."),
+                                 "A material surface that has a material specified by the material function depending on the location of the point of the specified surface."),
                              FunctionInstance.FromLambdaExpression(
                                  "Checkerboard",
                                  Function(

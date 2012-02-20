@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<ApplicationMetrics NAsm="0" NbLinesOfCode="0" NbLinesOfComment="0" PercentageComment="0" NType="0" NClass="0" NAbstractClass="0" NInterface="0" NValueType="0" NExceptionType="0" NAttributeType="0" NDelegateType="0" NEnumType="0" NGenericMethodsDefinition="0" NGenericTypesDefinition="0" NILInstruction="0" NMethods="0" NFields="0" NNamespaces="0" NThirdPartyAssemblies="11" NThirdPartyNamespaces="3" NThirdPartyTypes="9" NThirdPartyMethods="0" NThirdPartyFields="0" PercentCodeCoverage="0" PercentPublicType="NaN" PercentPublicMethod="NaN" PercentClassWithAtLeastOnePublicField="NaN">
+  <PropertyOnInterface Occ="0" Avg="0" StdDev="0" MaxVal="-1" MaxName="" />
+  <MethodOnInterface Occ="0" Avg="0" StdDev="0" MaxVal="-1" MaxName="" />
+  <ArgOnMethodOnInterface Occ="0" Avg="0" StdDev="0" MaxVal="-1" MaxName="" />
+  <PublicPropertyOnClass Occ="0" Avg="0" StdDev="0" MaxVal="-1" MaxName="" />
+  <PublicMethodOnClass Occ="0" Avg="0" StdDev="0" MaxVal="-1" MaxName="" />
+  <ArgOnPublicMethodOnClass Occ="0" Avg="0" StdDev="0" MaxVal="-1" MaxName="" />
+  <ILInstructionInNonAbstractMethods Occ="0" Avg="0" StdDev="0" MaxVal="-1" MaxName="" />
+  <TypeWithTheMostILInstruction Occ="0" Avg="0" StdDev="0" MaxVal="-1" MaxName="" />
+  <MethodCC Occ="0" Avg="0" StdDev="0" MaxVal="-1" MaxName="" />
+</ApplicationMetrics>

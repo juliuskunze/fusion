@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<CQLRuleResult NbQueries="110" NbErrors="0" NbWarns="0">
+  <Group Name="Code Quality" FullName="Code Quality" GroupId="GroupOfRules-55193780" NbQueries="12" NbErrors="0" NbWarns="0" Status="Ok">
+    <Group Name="Type Metrics" FullName="Code Quality \ Type Metrics" GroupId="GroupOfRules-1034765296" NbQueries="5" NbErrors="0" NbWarns="0" Status="Ok" />
+  </Group>
+  <Group Name="Design" FullName="Design" GroupId="GroupOfRules-358659326" NbQueries="15" NbErrors="0" NbWarns="0" Status="Ok">
+    <Group Name="Performance" FullName="Design \ Performance" GroupId="GroupOfRules-1202259592" NbQueries="4" NbErrors="0" NbWarns="0" Status="Ok" />
+  </Group>
+  <Group Name="Code Diff" FullName="Code Diff" GroupId="GroupOfRules-1312349231" NbQueries="10" NbErrors="0" NbWarns="0" Status="Ok">
+    <Group Name="API Breaking Changes" FullName="Code Diff \ API Breaking Changes" GroupId="GroupOfRules-1429212426" NbQueries="3" NbErrors="0" NbWarns="0" Status="Ok" />
+  </Group>
+  <Group Name="Code Coverage" FullName="Code Coverage" GroupId="GroupOfRules1296861689" NbQueries="7" NbErrors="0" NbWarns="0" Status="Ok">
+    <Group Name="Coverage Regression" FullName="Code Coverage \ Coverage Regression" GroupId="GroupOfRules-2093326276" NbQueries="7" NbErrors="0" NbWarns="0" Status="Ok" />
+  </Group>
+  <Group Name="Dead Code" FullName="Dead Code" GroupId="GroupOfRules-935955550" NbQueries="2" NbErrors="0" NbWarns="0" Status="Ok" />
+  <Group Name="Code Quality from Now!" FullName="Code Quality from Now!" GroupId="GroupOfRules494690661" NbQueries="3" NbErrors="0" NbWarns="0" Status="Ok" />
+  <Group Name="Encapsulation" FullName="Encapsulation" GroupId="GroupOfRules-899546502" NbQueries="1" NbErrors="0" NbWarns="0" Status="Ok">
+    <Group Name="Methods Optimal Encapsulation" FullName="Encapsulation \ Methods Optimal Encapsulation" GroupId="GroupOfRules112565523" NbQueries="5" NbErrors="0" NbWarns="0" Status="Ok" />
+    <Group Name="Types Optimal Encapsulation" FullName="Encapsulation \ Types Optimal Encapsulation" GroupId="GroupOfRules-1690661178" NbQueries="5" NbErrors="0" NbWarns="0" Status="Ok" />
+    <Group Name="Fields Optimal Encapsulation" FullName="Encapsulation \ Fields Optimal Encapsulation" GroupId="GroupOfRules-1054548904" NbQueries="5" NbErrors="0" NbWarns="0" Status="Ok" />
+  </Group>
+  <Group Name="Purity - Immutability - Side-Effects" FullName="Purity - Immutability - Side-Effects" GroupId="GroupOfRules213518596" NbQueries="6" NbErrors="0" NbWarns="0" Status="Ok" />
+  <Group Name="Naming Conventions" FullName="Naming Conventions" GroupId="GroupOfRules-1005792771" NbQueries="10" NbErrors="0" NbWarns="0" Status="Ok">
+    <Group Name="Name too long" FullName="Naming Conventions \ Name too long" GroupId="GroupOfRules1667286463" NbQueries="3" NbErrors="0" NbWarns="0" Status="Ok" />
+  </Group>
+  <Group Name=".NET Framework Usage" FullName=".NET Framework Usage" GroupId="GroupOfRules776011600" NbQueries="0" NbErrors="0" NbWarns="0" Status="Ok">
+    <Group Name="System" FullName=".NET Framework Usage \ System" GroupId="GroupOfRules994470963" NbQueries="13" NbErrors="0" NbWarns="0" Status="Ok" />
+    <Group Name="System.Collection" FullName=".NET Framework Usage \ System.Collection" GroupId="GroupOfRules-908923421" NbQueries="1" NbErrors="0" NbWarns="0" Status="Ok" />
+    <Group Name="System.Runtime.InteropServices" FullName=".NET Framework Usage \ System.Runtime.InteropServices" GroupId="GroupOfRules125586677" NbQueries="3" NbErrors="0" NbWarns="0" Status="Ok" />
+    <Group Name="System.Threading" FullName=".NET Framework Usage \ System.Threading" GroupId="GroupOfRules-818084121" NbQueries="7" NbErrors="0" NbWarns="0" Status="Ok" />
+    <Group Name="System.Xml" FullName=".NET Framework Usage \ System.Xml" GroupId="GroupOfRules1344796316" NbQueries="2" NbErrors="0" NbWarns="0" Status="Ok" />
+    <Group Name="System.Globalization" FullName=".NET Framework Usage \ System.Globalization" GroupId="GroupOfRules-678451365" NbQueries="1" NbErrors="0" NbWarns="0" Status="Ok" />
+  </Group>
+  <Group Name="Rules extracted from Source Code" FullName="Rules extracted from Source Code" GroupId="GroupOfRules1491845406" NbQueries="0" NbErrors="0" NbWarns="0" Status="Not yet compiled" />
+</CQLRuleResult>

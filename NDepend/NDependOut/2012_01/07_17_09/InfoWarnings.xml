@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<InfoWarnings>
+  <Info>01.07.2012 17:09:13 Begin full analysis with NDepend v3.9.0</Info>
+  <Info>No Baseline for Comparison loaded.</Info>
+  <Warning>Can't load the assembly {Fusion.IO}:
+Can't find the .NET assembly {Fusion.IO} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Warning>Can't load the assembly {Fusion.Math}:
+Can't find the .NET assembly {Fusion.Math} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Warning>Can't load the assembly {Fusion.Physics}:
+Can't find the .NET assembly {Fusion.Physics} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Warning>Can't load the assembly {Fusion.Physics.Interaction}:
+Can't find the .NET assembly {Fusion.Physics.Interaction} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Warning>Can't load the assembly {Fusion.Evolution}:
+Can't find the .NET assembly {Fusion.Evolution} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Warning>Can't load the assembly {Fusion.Visualization}:
+Can't find the .NET assembly {Fusion.Visualization} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Warning>Can't load the assembly {Fusion.Forms}:
+Can't find the .NET assembly {Fusion.Forms} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Warning>Can't load the assembly {Fusion.Flow}:
+Can't find the .NET assembly {Fusion.Flow} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Warning>Can't load the assembly {Fusion.Physics.Visualization}:
+Can't find the .NET assembly {Fusion.Physics.Visualization} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Warning>Can't load the assembly {Fusion.Evolution.Visualization}:
+Can't find the .NET assembly {Fusion.Evolution.Visualization} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Warning>Can't load the assembly {Fusion.Tests.Math}:
+Can't find the .NET assembly {Fusion.Tests.Math} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Warning>Can't load the assembly {Fusion.Tests.RayTracer}:
+Can't find the .NET assembly {Fusion.Tests.RayTracer} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Warning>Can't load the assembly {Fusion.Ry.Forms}:
+Can't find the .NET assembly {Fusion.Ry.Forms} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Warning>Can't load the assembly {Fusion.Tests.Visualization}:
+Can't find the .NET assembly {Fusion.Tests.Visualization} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Warning>Can't load the assembly {Fusion.Calculator}:
+Can't find the .NET assembly {Fusion.Calculator} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Warning>Can't load the assembly {Fusion.RayTracer.Windows}:
+Can't find the .NET assembly {Fusion.RayTracer.Windows} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Warning>Can't load the assembly {Fusion.RayTracer}:
+Can't find the .NET assembly {Fusion.RayTracer} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Warning>Can't load the assembly {nunit.framework}:
+Can't find the .NET assembly {nunit.framework} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Warning>Can't load the assembly {RibbonControlsLibrary}:
+Can't find the .NET assembly {RibbonControlsLibrary} in specified folders. 
+Has it been compiled properly? 
+Is the NDepend project missing the containing folder of the .NET assembly?</Warning>
+  <Info>Concurrent mode</Info>
+  <Warning>Assembly {Microsoft.VisualBasic} doesn't contain any type.</Warning>
+  <Warning>Assembly {System.Xml.Linq} doesn't contain any type.</Warning>
+  <Warning>Assembly {System.Drawing} doesn't contain any type.</Warning>
+  <Warning>Assembly {System.Windows.Forms} doesn't contain any type.</Warning>
+  <Warning>Assembly {System} doesn't contain any type.</Warning>
+  <Warning>Assembly {System.Core} doesn't contain any type.</Warning>
+  <Warning>Assembly {PresentationFramework} doesn't contain any type.</Warning>
+  <Warning>Assembly {System.Xaml} doesn't contain any type.</Warning>
+  <Warning>Assembly {PresentationCore} doesn't contain any type.</Warning>
+  <Warning>Assembly {WindowsBase} doesn't contain any type.</Warning>
+  <Info>Assemblies loaded from {C:\Windows\Microsoft.NET\Framework\v4.0.30319} 
+   mscorlib.dll   v4.0.0.0
+   Microsoft.VisualBasic.dll   v10.0.0.0
+   System.Xml.Linq.dll   v4.0.0.0
+   System.Drawing.dll   v4.0.0.0
+   System.Windows.Forms.dll   v4.0.0.0
+   System.dll   v4.0.0.0
+   System.Core.dll   v4.0.0.0
+   System.Xaml.dll   v4.0.0.0</Info>
+  <Info>Assemblies loaded from {C:\Windows\Microsoft.NET\Framework\v4.0.30319\WPF} 
+   PresentationFramework.dll   v4.0.0.0
+   PresentationCore.dll   v4.0.0.0
+   WindowsBase.dll   v4.0.0.0</Info>
+  <Warning>No application or third party assembly found in directory {B:\Fusion Repository\BuildOutput\bin\debug}</Warning>
+  <Warning>No application or third party assembly found in directory {B:\Fusion Repository\BuildOutput\Tests\bin\debug}</Warning>
+  <Warning>No application or third party assembly found in directory {B:\Fusion Repository\Fusion.Calculator\bin\Debug}</Warning>
+  <Warning>No application or third party assembly found in directory {B:\Fusion Repository\Fusion.RayTracer.Windows\bin\Debug}</Warning>
+  <Warning>No application or third party assembly found in directory {B:\Fusion Repository\Fusion.RayTracer\bin\Debug}</Warning>
+  <Info>0 CQL rule has been extracted from code.</Info>
+  <Info>No dependency cycle detected in assemblies referencement graph.</Info>
+  <Info>01.07.2012 17:09:13 Analyse dependencies of your application.</Info>
+  <Info>01.07.2012 17:09:13 Building the report (standard).</Info>
+</InfoWarnings>
