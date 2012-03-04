@@ -6,12 +6,12 @@
 Public Class RelativisticRadianceTransformation
 
     Public Sub New(relativeVelocityOfTInS As Vector3D)
-        If relativeVelocityOfTInS.Length >= Physics.Constants.SpeedOfLight Then Throw New ArgumentException("A velocity must be smaller than light velocity.")
+        If relativeVelocityOfTInS.Length >= SpeedOfLight Then Throw New ArgumentException("A velocity must be smaller than light velocity.")
 
         _RelativeVelocity = relativeVelocityOfTInS
         _NormalizedRelativeVelocityDirection = _RelativeVelocity.Normalized
-        _Beta = _RelativeVelocity.Length / Physics.Constants.SpeedOfLight
-        _Gamma = 1 / (1 - _Beta ^ 2)
+        _Beta = _RelativeVelocity.Length / SpeedOfLight
+        _Gamma = 1 / Sqrt(1 - _Beta ^ 2)
         _RelativeVelocityIsNull = (_RelativeVelocity.LengthSquared = 0)
     End Sub
 
@@ -30,25 +30,13 @@ Public Class RelativisticRadianceTransformation
     End Property
 
     Private ReadOnly _Beta As Double
-    Private ReadOnly Property Beta As Double
-        Get
-            Return _Beta
-        End Get
-    End Property
-
     Private ReadOnly _Gamma As Double
-    Private ReadOnly Property Gamma As Double
-        Get
-            Return _Gamma
-        End Get
-    End Property
-
     Private ReadOnly _RelativeVelocityIsNull As Boolean
 
     Private Function GetGammaTheta(viewRayInS As Ray) As Double
         If _RelativeVelocityIsNull Then Return 1
 
-        Return Me.GetGammaTheta(cosinusTheta:=-viewRayInS.NormalizedDirection * _NormalizedRelativeVelocityDirection)
+        Return GetGammaTheta(cosinusTheta:=-viewRayInS.NormalizedDirection * _NormalizedRelativeVelocityDirection)
     End Function
 
     Private Function GetGammaTheta(cosinusTheta As Double) As Double
@@ -76,21 +64,21 @@ Public Class RelativisticRadianceTransformation
 
     Public Function GetWavelengthInS(viewRayInS As Ray, wavelengthInT As Double) As Double
         'lambda = lambda' * gamma_phi
-        Return wavelengthInT * Me.GetGammaTheta(viewRayInS:=viewRayInS)
+        Return wavelengthInT * GetGammaTheta(viewRayInS:=viewRayInS)
     End Function
 
     Public Function GetSpectralRadianceInT(viewRayInS As Ray, spectralRadianceInS As Double) As Double
         'L'(...') = L(...) * gamma_phi ^ 5
-        Return spectralRadianceInS * Me.GetGammaTheta(viewRayInS:=viewRayInS) ^ 5
+        Return spectralRadianceInS * GetGammaTheta(viewRayInS:=viewRayInS) ^ 5
     End Function
 
     Public Function GetSpectralRadianceFunctionInT(viewRayInS As Ray, spectralRadianceFunctionInS As SpectralRadianceFunction) As SpectralRadianceFunction
-        Return Function(wavelengthInT) Me.GetSpectralRadianceInT(viewRayInS:=viewRayInS, spectralRadianceInS:=spectralRadianceFunctionInS(Me.GetWavelengthInS(viewRayInS:=viewRayInS, wavelengthInT:=wavelengthInT)))
+        Return Function(wavelengthInT) GetSpectralRadianceInT(viewRayInS:=viewRayInS, spectralRadianceInS:=spectralRadianceFunctionInS(GetWavelengthInS(viewRayInS:=viewRayInS, wavelengthInT:=wavelengthInT)))
         'Me.GetTransformedSpectralRadiance(ray, spectralRadianceFunction(Me.GetTransformedWavelength(ray, wavelength)))
     End Function
 
     Public Function GetRadianceSpectrumInT(viewRayInS As Ray, radianceSpectrumInS As RadianceSpectrum) As RadianceSpectrum
-        Return New RadianceSpectrum(Me.GetSpectralRadianceFunctionInT(viewRayInS:=viewRayInS, spectralRadianceFunctionInS:=radianceSpectrumInS.Function))
+        Return New RadianceSpectrum(GetSpectralRadianceFunctionInT(viewRayInS:=viewRayInS, spectralRadianceFunctionInS:=radianceSpectrumInS.Function))
     End Function
 
 End Class
