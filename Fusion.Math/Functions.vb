@@ -84,7 +84,7 @@
         Return Primes
     End Function
 
-    Public Function Factorial(n As Long) As Long
+    Public Function Factorial(n As Double) As Double
         If n <= 1 Then
             Return 1
         Else
@@ -100,9 +100,9 @@
         If chosen > total Then Return 0
 
         If chosen > total - chosen Then
-            Return FactorialPiece(total, chosen) \ Factorial(total - chosen)
+            Return FactorialPiece(total, chosen) \ CInt(Factorial(total - chosen))
         Else
-            Return FactorialPiece(total, lowerBoundMinusOne:=total - chosen) \ Factorial(chosen)
+            Return FactorialPiece(total, lowerBoundMinusOne:=total - chosen) \ CInt(Factorial(chosen))
         End If
     End Function
 
@@ -146,5 +146,15 @@
                    Return height
                End Function
     End Function
+
+    Public Function PositiveMod(number As Double, modulo As Double) As Double
+        Dim m = number Mod modulo
+        Return If(m < 0, m + modulo, m)
+    End Function
+
+    Public Function PositiveNormalizedMod(number As Double, modulo As Double) As Double
+        Return PositiveMod(number, modulo) / modulo
+    End Function
+
 
 End Module

@@ -12,7 +12,7 @@
             Case Is < 0.995
                 Return addChar(solution)
             Case Else
-                Return trimChar(solution)
+                Return TrimChar(solution)
         End Select
     End Function
 
@@ -32,11 +32,11 @@
     End Function
 
 
-    Private Function addChar(solution As String) As String
+    Private Function AddChar(solution As String) As String
         Return solution & Chr(_Random.Next(32, 255))
     End Function
 
-    Private Function trimChar(solution As String) As String
+    Private Shared Function TrimChar(solution As String) As String
         Return solution.Substring(0, solution.Length - 1)
     End Function
 End Class

@@ -23,7 +23,7 @@
         Assert.That(ColorsEqual(random, convertedRandom))
     End Sub
 
-    Private Function ColorsEqual(color1 As Color, color2 As Color) As Boolean
+    Private Shared Function ColorsEqual(color1 As Color, color2 As Color) As Boolean
         Return color1.R = color2.R AndAlso
                color1.G = color2.G AndAlso
                color1.B = color2.B

@@ -63,7 +63,7 @@
     End Function
 
     Public Shared Function Scaling(scalingFactor As Double) As LinearMap2D
-        Return New LinearMap2D(New Double(,) {{scalingFactor, 0}, _
+        Return New LinearMap2D(New Double(,) {{scalingFactor, 0},
                                               {0, scalingFactor}})
     End Function
 

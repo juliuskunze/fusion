@@ -135,7 +135,7 @@
         Return position
     End Function
 
-    Private Function GetPositionInParent( run As Run) As Integer
+    Private Shared Function GetPositionInParent(run As Run) As Integer
         Dim position = 0
 
         Dim inline = run.PreviousInline
@@ -147,7 +147,7 @@
         Return position
     End Function
 
-    Private Function GetPositionInParent( block As Block) As Integer
+    Private Shared Function GetPositionInParent(block As Block) As Integer
         Dim position = 0
 
         block = block.PreviousBlock

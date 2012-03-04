@@ -141,7 +141,7 @@ Public Class MainWindow
     End Sub
 
     Private Sub EstimateRenderTime()
-        If Not _RenderTimeEstimationOptionsDialog.DialogResult Then Return
+        If Not _RenderTimeEstimationOptionsDialog.DialogResult.Value Then Return
 
         Dim estimator = Me.GetRenderTimeEstimator
         Try
@@ -239,7 +239,7 @@ Public Class MainWindow
         Else
             Select Case e.Key
                 Case Key.F1
-                    Me.ShowHelpWindow()
+                    ShowHelpWindow()
 
                     e.Handled = True
                 Case Key.F2
@@ -521,11 +521,11 @@ Public Class MainWindow
         _CompileVideoMenuItem.IsChecked = True
     End Sub
 
-    Private Sub _GeneralHelpMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _GeneralHelpMenuItem.Click
-        Me.ShowHelpWindow()
+    Private Shared Sub _GeneralHelpMenuItem_Click(sender As Object, e As System.Windows.RoutedEventArgs) Handles _GeneralHelpMenuItem.Click
+        ShowHelpWindow()
     End Sub
 
-    Private Sub ShowHelpWindow()
+    Private Shared Sub ShowHelpWindow()
         Dim helpWindow = New HelpWindow
         helpWindow.Show()
     End Sub

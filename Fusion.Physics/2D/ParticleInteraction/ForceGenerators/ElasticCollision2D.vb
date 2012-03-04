@@ -17,7 +17,7 @@ Public Class ElasticCollision2D
             Dim distance = connection.Length
             Dim direction = connection / distance
 
-            Dim deep As Double = collisionDeep(targetSphereParticle, causeSphereParticle)
+            Dim deep As Double = CollisionDeep(targetSphereParticle, causeSphereParticle)
             If deep > 0 Then
                 Return CollsionSpringConstant * deep * direction
             Else
@@ -33,7 +33,7 @@ Public Class ElasticCollision2D
             Dim sphereParticle1 = DirectCast(particle1, SphereParticle2D)
             Dim sphereParticle2 = DirectCast(particle1, SphereParticle2D)
 
-            Dim deep As Double = collisionDeep(sphereParticle1, sphereParticle2)
+            Dim deep As Double = CollisionDeep(sphereParticle1, sphereParticle2)
             If deep > 0 Then
                 Return 0.5 * CollsionSpringConstant * deep ^ 2
             Else
@@ -44,7 +44,7 @@ Public Class ElasticCollision2D
         End If
     End Function
 
-    Private Function collisionDeep(particle1 As SphereParticle2D, particle2 As SphereParticle2D) As Double
+    Private Shared Function CollisionDeep(particle1 As SphereParticle2D, particle2 As SphereParticle2D) As Double
         Return particle1.Radius + particle2.Radius - (particle1.Location - particle2.Location).Length
     End Function
 

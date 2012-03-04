@@ -17,18 +17,18 @@
         If firstIntersection Is Nothing Then Return Nothing
 
         Dim material = Me.Material.Clone()
-        material.SourceLight = ColorFromDirection(firstIntersection.NormalizedNormal)
+        material.SourceLight = GetColorFromDirection(firstIntersection.NormalizedNormal)
 
         Return New SurfacePoint(Of Material2D(Of RgbLight))(SurfacePoint:=firstIntersection, material:=material)
     End Function
 
-    Private Function ColorFromDirection(normalizedNormal As Vector3D) As RgbLight
-        Return New RgbLight(colorComponent(normalizedNormal.X),
-                              colorComponent(normalizedNormal.Y),
-                              colorComponent(normalizedNormal.Z))
+    Private Shared Function GetColorFromDirection(normalizedNormal As Vector3D) As RgbLight
+        Return New RgbLight(GetColorComponent(normalizedNormal.X),
+                              GetColorComponent(normalizedNormal.Y),
+                              GetColorComponent(normalizedNormal.Z))
     End Function
 
-    Private Function colorComponent(value As Double) As Double
+    Private Shared Function GetColorComponent(value As Double) As Double
         Return (value + 1) / 2
     End Function
 

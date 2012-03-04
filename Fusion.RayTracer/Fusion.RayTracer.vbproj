@@ -73,6 +73,7 @@
     <Compile Include="ColorConversion\RgbLightToRgbColorConverter.vb" />
     <Compile Include="Examples\LensVideo.vb" />
     <Compile Include="Examples\RayTracingExamples.vb" />
+    <Compile Include="Light\RadianceSpectrum\Remission.vb" />
     <Compile Include="MaterialSurfaces\MaterialFunctions.vb" />
     <Compile Include="MaterialSurfaces\MaterialSurface.vb" />
     <Compile Include="RayTracer\IRayTracer.vb" />

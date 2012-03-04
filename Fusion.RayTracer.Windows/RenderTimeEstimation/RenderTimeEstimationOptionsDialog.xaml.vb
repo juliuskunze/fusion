@@ -2,36 +2,37 @@
 
     Public Sub New()
         Me.InitializeComponent()
+        DialogResult = False
     End Sub
 
     Private Sub OkButton_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles _OkButton.Click
-        Me.DialogResult = True
+        DialogResult = True
 
-        If Me.Mode = RenderTimeEstimationMode.FixTime Then
+        If Mode = RenderTimeEstimationMode.FixTime Then
             Try
-                Dim time = CDbl(Me._MaxTimeBox.Text)
+                Dim time = CDbl(_MaxTimeBox.Text)
             Catch
                 MessageBox.Show("Invalid fix time.")
                 Me.DialogResult = False
             End Try
         Else
             Try
-                Dim pixelCount = CDbl(Me._PixelCountBox.Text)
+                Dim pixelCount = CDbl(_PixelCountBox.Text)
             Catch
                 MessageBox.Show("Invalid fix pixel count.")
                 Me.DialogResult = False
             End Try
         End If
 
-        Me.Hide()
+        Hide()
     End Sub
 
     Public ReadOnly Property Options As RenderTimeEstimationOptions
         Get
-            If Me.Mode = RenderTimeEstimationMode.FixTime Then
-                Return New RenderTimeEstimationOptions(Time:=Me.Time)
+            If Mode = RenderTimeEstimationMode.FixTime Then
+                Return New RenderTimeEstimationOptions(Time:=Time)
             Else
-                Return New RenderTimeEstimationOptions(PixelCount:=Me.PixelCount)
+                Return New RenderTimeEstimationOptions(PixelCount:=PixelCount)
             End If
         End Get
     End Property
@@ -58,17 +59,17 @@
         End Get
     End Property
 
-    Private Sub Grid_Checked(sender As System.Object, e As System.Windows.RoutedEventArgs)
-        If Not Me.IsLoaded Then Return
+    Private Sub Grid_Checked(sender As System.Object, e As RoutedEventArgs)
+        If Not IsLoaded Then Return
 
         _MaxTimeBox.IsEnabled = _FixTimeRadioButton.IsChecked.Value
         _PixelCountBox.IsEnabled = _FixPixelCountRadioButton.IsChecked.Value
     End Sub
 
-    Protected Overrides Sub OnClosing(e As System.ComponentModel.CancelEventArgs)
+    Protected Overrides Sub OnClosing(e As ComponentModel.CancelEventArgs)
         e.Cancel = True
 
-        Me.Hide()
+        Hide()
     End Sub
 
 End Class

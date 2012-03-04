@@ -26,7 +26,7 @@
 
     <Test()>
     Public Sub TestWhiteSpace()
-        Dim container = New AnalizedString("  AB ", AllowedBracketTypes:={}).ToLocated
+        Dim container = New AnalizedString("  AB ", {}).ToLocated
         Assert.AreEqual(container.Location.StartIndex, 0)
         Assert.AreEqual(container.ToString, "  AB ")
 

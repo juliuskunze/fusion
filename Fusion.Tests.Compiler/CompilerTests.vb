@@ -35,8 +35,8 @@
         End Try
     End Sub
 
-    Private Sub TestCollectionTypeMismatch(s As String)
-        Dim compiler = New Compiler(Of Double)(s.ToLocated, baseContext:=TermContext.Default, typeDictionary:=TypeDictionary.Default)
+    Private Shared Sub TestCollectionTypeMismatch(s As String)
+        Dim compiler = New Compiler(Of Double)(s.ToLocated, baseContext:=TermContext.Default, TypeDictionary:=TypeDictionary.Default)
         Try
             compiler.Compile()
             Assert.Fail()

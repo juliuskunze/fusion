@@ -21,10 +21,7 @@
         grid.Rows.Add(gridRow)
     End Sub
 
-    Private Sub grid_CellContentClick(sender As System.Object, e As System.Windows.Forms.DataGridViewCellEventArgs) Handles grid.CellContentClick
-    End Sub
-
-    Private Enum gridColums As INteger
+    Private Enum gridColums As Integer
         Name
         Mass
         Charge

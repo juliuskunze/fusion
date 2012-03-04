@@ -219,6 +219,10 @@ Public Class RelativisticRayTracerTermContextBuilder
                                                                                                                                                    transparencyRemission:=New BlackRemission(Of RadianceSpectrum)),
                                                                    _TypeDictionary,
                                                                    "A material that is not permeable for light and that has a specified light emission and a specified light scattering and reflection remission."),
+                            FunctionInstance.FromLambdaExpression("Remission",
+                                                                   Function(albedoSpectrum As Func(Of Double, Double)) DirectCast(New Remission(albedoSpectrum:=albedoSpectrum), IRemission(Of RadianceSpectrum)),
+                                                                   _TypeDictionary,
+                                                                   "A remission that passes light with a specified albedo for every wavelength."),
                             FunctionInstance.FromLambdaExpression("RelativisticRayTracer",
                                                                    Function(
                                                                       classicRayTracer As IRayTracer(Of RadianceSpectrum),
@@ -236,8 +240,8 @@ Public Class RelativisticRayTracerTermContextBuilder
                                                                    "A light source that emits a specified radiance spectrum in every direction in whole space."),
         FunctionInstance.FromLambdaExpression("RadianceSpectrumToRgbColorConverter", Function(spectralRadiancePerWhite As Double) DirectCast(New RadianceSpectrumToRgbColorConverter(spectralRadiancePerWhite, testedWavelengthsCount:=100), ILightToRgbColorConverter(Of RadianceSpectrum)), _TypeDictionary,
                                               "A RadianceSpectrumToRgbColorConverter that converts a radiance spectrum linear into an rgb color. If the whole spectrum is the specified spectralRadiancePerWhite, the rgb color will be the white (255, 255, 255). If the red, green or blue component would get greater than 255, all three components are scaled down so that it fits into the possible range. The tested wavelengths count is set to 100."),
-                              FunctionInstance.FromLambdaExpression("RadianceSpectrumToRgbColorConverter", Function(spectralRadiancePerWhite As Double, testedWavelengthsCount As Double) DirectCast(New RadianceSpectrumToRgbColorConverter(spectralRadiancePerWhite, testedWavelengthsCount:=CInt(testedWavelengthsCount)), ILightToRgbColorConverter(Of RadianceSpectrum)), _TypeDictionary,
-                                              "A RadianceSpectrumToRgbColorConverter that converts a radiance spectrum linear into an rgb color. If the whole spectrum is the specified spectralRadiancePerWhite, the rgb color will be the white (255, 255, 255). If the red, green or blue component would get greater than 255, all three components are scaled down so that it fits into the possible range. The accuracy of the conversion will grow with a higher specified tested wavelengths count.")
+        FunctionInstance.FromLambdaExpression("RadianceSpectrumToRgbColorConverter", Function(spectralRadiancePerWhite As Double, testedWavelengthsCount As Double) DirectCast(New RadianceSpectrumToRgbColorConverter(spectralRadiancePerWhite, testedWavelengthsCount:=CInt(testedWavelengthsCount)), ILightToRgbColorConverter(Of RadianceSpectrum)), _TypeDictionary,
+                        "A RadianceSpectrumToRgbColorConverter that converts a radiance spectrum linear into an rgb color. If the whole spectrum is the specified spectralRadiancePerWhite, the rgb color will be the white (255, 255, 255). If the red, green or blue component would get greater than 255, all three components are scaled down so that it fits into the possible range. The accuracy of the conversion will grow with a higher specified tested wavelengths count.")
                          }
 
 

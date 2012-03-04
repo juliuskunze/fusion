@@ -41,24 +41,24 @@ Public Class View3D
         End Get
     End Property
 
-    Private _NormalizedLookDirection As Vector3D
+    Private ReadOnly _NormalizedLookDirection As Vector3D
     Public ReadOnly Property NormalizedLookDirection As Vector3D
         Get
             Return _NormalizedLookDirection
         End Get
     End Property
 
-    Private _NormalizedUpDirection As Vector3D
+    Private ReadOnly _NormalizedUpDirection As Vector3D
     Public ReadOnly Property NormalizedUpDirection As Vector3D
         Get
             Return _NormalizedUpDirection
         End Get
     End Property
 
-    Private _ViewPlaneDistanceVector As Vector3D
-    Private _ViewPlaneToCameraDistance As Double
-    Private _NormalizedRightVectorInViewPlane As Vector3D
-    Private _NormalizedUpVectorInViewPlane As Vector3D
+    Private ReadOnly _ViewPlaneDistanceVector As Vector3D
+    Private ReadOnly _ViewPlaneToCameraDistance As Double
+    Private ReadOnly _NormalizedRightVectorInViewPlane As Vector3D
+    Private ReadOnly _NormalizedUpVectorInViewPlane As Vector3D
 
     ''' <summary>
     ''' 

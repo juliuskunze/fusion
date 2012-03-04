@@ -11,7 +11,7 @@
     End Sub
 
     Private ReadOnly _LinearMap As LinearMap2D
-    Public ReadOnly Property LinearMap() As LinearMap2D
+    Public ReadOnly Property LinearMap As LinearMap2D
         Get
             Return _LinearMap
         End Get
@@ -50,7 +50,7 @@
     End Function
 
     Public Function At(location As Vector2D) As AffineMap2D
-        Return AffineMap2D.Translation(location).After(Me).After(AffineMap2D.Translation(-location))
+        Return Translation(location).After(Me).After(Translation(-location))
     End Function
 
     Public Sub New()
