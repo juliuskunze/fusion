@@ -1,8 +1,7 @@
 ﻿Public Class RenderTimeEstimationOptionsDialog
 
     Public Sub New()
-        Me.InitializeComponent()
-        DialogResult = False
+        InitializeComponent()
     End Sub
 
     Private Sub OkButton_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles _OkButton.Click
