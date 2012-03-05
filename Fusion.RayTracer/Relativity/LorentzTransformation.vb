@@ -58,10 +58,10 @@ Public Class LorentzTransformation
     Public Function InverseSemiTransformViewRay(viewRayInTWithOriginInS As Ray) As Ray
         If _RelativeVelocityIsNull Then Return viewRayInTWithOriginInS
 
-        Return New Ray(origin:=viewRayInTWithOriginInS.Origin, direction:=InverseTransformLightDirection(viewRayInTWithOriginInS.NormalizedDirection))
+        Return New Ray(origin:=viewRayInTWithOriginInS.Origin, direction:=InverseTransformViewRayDirection(viewRayInTWithOriginInS.NormalizedDirection))
     End Function
 
-    Public Function InverseTransformLightDirection(direction As Vector3D) As Vector3D
+    Public Function InverseTransformViewRayDirection(direction As Vector3D) As Vector3D
         Dim oldDirection = direction
         Dim oldCosinus = oldDirection * _NormalizedRelativeVelocity
         Dim oldCosinusVector = oldCosinus * _NormalizedRelativeVelocity
@@ -113,7 +113,7 @@ Public Class LorentzTransformation
         Dim ux = velocity.OrthogonalProjectionOn(_NormalizedRelativeVelocity)
 
         Return 1 / (1 - _RelativeVelocity * velocity / SpeedOfLight ^ 2) *
-            ((velocity - ux) / _Gamma + _NormalizedRelativeVelocity * (ux.Length - _RelativeVelocity.Length))
+            ((velocity - ux) / _Gamma + _NormalizedRelativeVelocity * (ux * _NormalizedRelativeVelocity - _RelativeVelocity.Length))
     End Function
 
     Public Function Before(second As LorentzTransformation) As LorentzTransformation

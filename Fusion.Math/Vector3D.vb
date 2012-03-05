@@ -204,7 +204,7 @@ Public Structure Vector3D
     End Function
 
     Public Function OrthogonalProjectionOn(v As Vector3D) As Vector3D
-        Return DotProduct(v) / v.LengthSquared * v
+        Return Me.DotProduct(v) / v.LengthSquared * v
     End Function
 
     Public Overrides Function ToString() As String
