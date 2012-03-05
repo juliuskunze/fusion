@@ -58,23 +58,8 @@ Public Class LorentzTransformation
     Public Function InverseSemiTransformViewRay(viewRayInTWithOriginInS As Ray) As Ray
         If _RelativeVelocityIsNull Then Return viewRayInTWithOriginInS
 
-        Return New Ray(origin:=viewRayInTWithOriginInS.Origin, direction:=InverseTransformViewRayDirection(viewRayInTWithOriginInS.NormalizedDirection))
-    End Function
-
-    Public Function InverseTransformViewRayDirection(direction As Vector3D) As Vector3D
-        Dim oldDirection = direction
-        Dim oldCosinus = oldDirection * _NormalizedRelativeVelocity
-        Dim oldCosinusVector = oldCosinus * _NormalizedRelativeVelocity
-        Dim normalizedOldSinusVector = (oldDirection - oldCosinusVector).Normalized
-
-        'cos theta = (cos theta' - beta) / (1 - beta * cos theta')
-        Dim newCosinus = (oldCosinus - _Beta) / (1 - _Beta * oldCosinus)
-        Dim newCosinusVector = newCosinus * _NormalizedRelativeVelocity
-
-        ' phi = phi'
-        Dim newSinusVector = Sqrt(1 - newCosinus ^ 2) * normalizedOldSinusVector
-
-        Return newSinusVector + newCosinusVector
+        Return New Ray(origin:=viewRayInTWithOriginInS.Origin,
+                       direction:=-Inverse.TransformVelocity(-viewRayInTWithOriginInS.NormalizedDirection.ScaledToLength(SpeedOfLight)))
     End Function
 
     Public Function GetWavelengthInS(viewRayInS As Ray, wavelengthInT As Double) As Double
@@ -104,7 +89,11 @@ Public Class LorentzTransformation
     End Function
 
     Public Function Inverse() As LorentzTransformation
-        Return New LorentzTransformation(-_RelativeVelocity)
+        Static state As LorentzTransformation
+
+        If state Is Nothing Then state = New LorentzTransformation(-_RelativeVelocity)
+
+        Return state
     End Function
 
     Public Function TransformVelocity(velocity As Vector3D) As Vector3D
@@ -117,7 +106,7 @@ Public Class LorentzTransformation
     End Function
 
     Public Function Before(second As LorentzTransformation) As LorentzTransformation
-        Return New LorentzTransformation(RelativeVelocity:=TransformVelocity(second.RelativeVelocity))
+        Return New LorentzTransformation(RelativeVelocity:=Inverse.TransformVelocity(second.RelativeVelocity))
     End Function
 
 End Class

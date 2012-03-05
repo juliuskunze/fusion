@@ -1,30 +1,32 @@
 ﻿Public Class LorentzTransformationTests
     Private Const c = Constants.SpeedOfLight
 
+    Private ReadOnly _NullTransformation As New LorentzTransformation(relativeVelocity:=New Vector3D)
+
     <Test()>
     Public Sub Velocity0()
-        Dim nullTransformation = New LorentzTransformation(relativeVelocity:=New Vector3D)
+
         Dim viewRayInT = New Ray(origin:=New Vector3D, direction:=New Vector3D(0, 1, 0))
 
-        Dim viewRayInS = nullTransformation.InverseSemiTransformViewRay(viewRayInTWithOriginInS:=viewRayInT)
+        Dim viewRayInS = _NullTransformation.InverseSemiTransformViewRay(viewRayInTWithOriginInS:=viewRayInT)
 
         Assert.AreEqual(viewRayInT.Origin, viewRayInS.Origin)
         Assert.AreEqual(viewRayInT.NormalizedDirection, viewRayInS.NormalizedDirection)
-        Assert.AreEqual(nullTransformation.GetWavelengthInS(viewRayInT, wavelengthInT:=17), 17)
-        Assert.AreEqual(nullTransformation.GetSpectralRadianceInT(viewRayInT, spectralRadianceInS:=17), 17)
+        Assert.AreEqual(_NullTransformation.GetWavelengthInS(viewRayInT, wavelengthInT:=17), 17)
+        Assert.AreEqual(_NullTransformation.GetSpectralRadianceInT(viewRayInT, spectralRadianceInS:=17), 17)
 
         Dim randomRayInS = New Ray(origin:=New Vector3D, direction:=New Vector3D(43, -12, 4))
 
-        Assert.AreEqual(nullTransformation.GetWavelengthInS(randomRayInS, wavelengthInT:=17), 17)
-        Assert.AreEqual(nullTransformation.GetSpectralRadianceInT(randomRayInS, spectralRadianceInS:=17), 17)
+        Assert.AreEqual(_NullTransformation.GetWavelengthInS(randomRayInS, wavelengthInT:=17), 17)
+        Assert.AreEqual(_NullTransformation.GetSpectralRadianceInT(randomRayInS, spectralRadianceInS:=17), 17)
 
         Dim randomEventInS = New SpaceTimeEvent(5, New Vector3D(1, 2, 3))
 
-        Assert.AreEqual(nullTransformation.TransformEvent(randomEventInS), randomEventInS)
+        Assert.AreEqual(_NullTransformation.TransformEvent(randomEventInS), randomEventInS)
 
         Dim randomVelocityInS = New Vector3D(1, 2, 3)
 
-        Assert.AreEqual(nullTransformation.TransformVelocity(randomVelocityInS), randomVelocityInS)
+        Assert.AreEqual(_NullTransformation.TransformVelocity(randomVelocityInS), randomVelocityInS)
     End Sub
 
     Private Const beta = 0.5
@@ -32,6 +34,7 @@
     Private Const v = beta * c
     Private _RelativeVelocity As New Vector3D(v, 0, 0)
     Private ReadOnly _Transformation As New LorentzTransformation(relativeVelocity:=_RelativeVelocity)
+    Private ReadOnly _VectorComparer As New Vector3DRoughComparer(10 ^ -15)
 
     <Test()>
     Public Sub PositiveVelocity()
@@ -43,12 +46,12 @@
         Dim frontRayInT = New Ray(origin:=New Vector3D, direction:=New Vector3D(1, 0, 0))
         Dim frontRayInS = _Transformation.InverseSemiTransformViewRay(frontRayInT)
         Assert.AreEqual(frontRayInT.Origin, frontRayInS.Origin)
-        Assert.AreEqual(frontRayInT.NormalizedDirection, frontRayInS.NormalizedDirection)
+        Assert.That(_VectorComparer.Equals(frontRayInT.NormalizedDirection, frontRayInS.NormalizedDirection))
 
         Dim backRay = New Ray(origin:=New Vector3D, direction:=New Vector3D(1, 0, 0))
         Dim transformedBackRay = _Transformation.InverseSemiTransformViewRay(backRay)
         Assert.AreEqual(backRay.Origin, transformedBackRay.Origin)
-        Assert.AreEqual(backRay.NormalizedDirection, transformedBackRay.NormalizedDirection)
+        Assert.That(_VectorComparer.Equals(backRay.NormalizedDirection, transformedBackRay.NormalizedDirection))
 
         Const testWavelengthInT = 0.0000005
         Dim testRayInT = New Ray(New Vector3D, New Vector3D(1, 1, 1))
@@ -76,17 +79,25 @@
 
     <Test()>
     Public Sub TestInverse()
-        Dim randomVelocityInS = New Vector3D(10, -3, 0)
+        Dim softVectorComparer As New Vector3DRoughComparer(10 ^ -8)
 
-        Assert.That(New Vector3DRoughComparer(10 ^ -12).Equals(_Transformation.Inverse.TransformVelocity(_Transformation.TransformVelocity(randomVelocityInS)), randomVelocityInS))
+        Dim randomVelocityInS = New Vector3D(0, -3, 0)
+
+        Assert.That(softVectorComparer.Equals(_Transformation.Inverse.TransformVelocity(_Transformation.TransformVelocity(randomVelocityInS)), randomVelocityInS))
+        Assert.AreEqual(_Transformation.Inverse.Before(_Transformation).TransformVelocity(randomVelocityInS), randomVelocityInS)
+        Assert.AreEqual(_Transformation.Before(_Transformation.Inverse).TransformVelocity(randomVelocityInS), randomVelocityInS)
     End Sub
 
     <Test()>
-    Public Sub TestTransformedVelocity()
-        Const ux = 10
+    Public Sub TransformedVelocity_And_Before()
+        Const ux = 10000
         Dim parallelVelocity = New Vector3D(ux, 0, 0)
 
-        Assert.AreEqual(_Transformation.TransformVelocity(parallelVelocity), New Vector3D((ux - v) / (1 - v * ux / c ^ 2), 0, 0))
+        Dim transformedVelocity = _Transformation.TransformVelocity(parallelVelocity)
+
+        Assert.AreEqual(transformedVelocity, New Vector3D((ux - v) / (1 - v * ux / c ^ 2), 0, 0))
+        Assert.AreEqual(transformedVelocity, _Transformation.Before(_NullTransformation).TransformVelocity(parallelVelocity))
+        Assert.AreEqual(transformedVelocity, _NullTransformation.Before(_Transformation).TransformVelocity(parallelVelocity))
 
         Const uy = 10
         Dim orthogonalVelocity = New Vector3D(0, uy, 0)
@@ -105,14 +116,4 @@
 
         Assert.AreEqual(_Transformation.TransformVelocity(orthogonalLightVelocity).Length, c)
     End Sub
-
-    <Test()>
-    Public Sub TestVelocityDirection()
-        Dim randomVelocityInS = New Vector3D(1, 2, 3).Normalized * c
-
-        Dim vector1 = _Transformation.TransformVelocity(randomVelocityInS.ScaledToLength(c)).Normalized
-        Dim vector2 = -_Transformation.Inverse.InverseTransformViewRayDirection(-randomVelocityInS.Normalized).Normalized
-        Assert.That(New Vector3DRoughComparer(10 ^ -15).Equals(vector1, vector2), message:=String.Format("{0} <> {1}", vector1.ToString("0.000"), vector2.ToString("0.000")))
-    End Sub
-
 End Class
