@@ -307,7 +307,7 @@ Public Class RayTracingExamples
                                                               shadedPointLightSources:=shadedLightSources)
 
         Return New RelativisticRayTracerWithoutDopplerEffect(Of RgbLight)(classicRayTracer:=classicRayTracer,
-                                                                          cameraVelocity:=New Vector3D(0, 0, -0.5) * Physics.Constants.SpeedOfLight)
+                                                                          cameraVelocity:=New Vector3D(0, 0, -0.5) * SpeedOfLight)
     End Function
 
     Public Shared Sub WriteVideo()
@@ -432,12 +432,10 @@ Public Class RayTracingExamples
 
         Dim relativisticRayTracer = New RelativisticRayTracer(classicRayTracer:=classicRayTracer,
                                                               observerVelocity:=New Vector3D(0, 0, 0.9 * SpeedOfLight),
-                                                              ignoreDopplerEffect:=False,
-                                                              ignoreSearchlightEffect:=False,
-                                                              ignoreGeometryEffect:=False)
+                                                              options:=New RadianceSpectrumLorentzTransformationOptions)
 
         Return New RayTracerPicture(Of RadianceSpectrum)(RayTracer:=relativisticRayTracer,
-                                                         PictureSize:=Me.PictureSize,
+                                                         PictureSize:=PictureSize,
                                                          view:=view,
                                                          lightToRgbColorConverter:=radianceSpectrumToRgbColorConverter)
     End Function

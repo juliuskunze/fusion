@@ -85,7 +85,7 @@ Public Class ColorWindow
             Const temperatureStep = (maxTemperature - minTemperature) / height
 
             For y = 0 To height - 1
-                Dim color = _RadianceSpectrumToRgbColorConverter.Convert(transformation.TransformRadianceSpectrum(viewRayInS:=New Ray(New Vector3D, New Vector3D(1, 0, 0)), radianceSpectrumInS:=New RadianceSpectrum(New BlackBodyRadianceSpectrum(minTemperature + y * temperatureStep))))
+                Dim color = _RadianceSpectrumToRgbColorConverter.Convert(transformation.TransformRadianceSpectrum(sightRayInS:=New Ray(New Vector3D, New Vector3D(1, 0, 0)), radianceSpectrumInS:=New RadianceSpectrum(New BlackBodyRadianceSpectrum(minTemperature + y * temperatureStep))))
                 bitmap.SetPixel(x:=x, y:=y, color:=color)
             Next
 
