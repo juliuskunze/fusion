@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Import Include="Fusion.Math" />
+    <Import Include="Fusion.Physics.Constants" />
     <Import Include="System" />
     <Import Include="System.Collections" />
     <Import Include="System.Collections.Generic" />

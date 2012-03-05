@@ -58,6 +58,7 @@
     <Import Include="Fusion.Compiler" />
     <Import Include="Fusion.Math" />
     <Import Include="Fusion.Physics" />
+    <Import Include="Fusion.Physics.Constants" />
     <Import Include="Fusion.Visualization" />
     <Import Include="System" />
     <Import Include="System.Collections.Generic" />
@@ -125,9 +126,10 @@
     <Compile Include="RayTracer\RayTracerPicture.vb" />
     <Compile Include="RayTracer\RayTracerVideo.vb" />
     <Compile Include="RayTracer\RecursiveRayTracer.vb" />
+    <Compile Include="Relativity\SpaceTimeEvent.vb" />
     <Compile Include="Relativity\RelativisticRayTracerWithoutDopplerEffect.vb" />
     <Compile Include="Relativity\RelativisticRayTracerBase.vb" />
-    <Compile Include="Relativity\RelativisticTransformation.vb" />
+    <Compile Include="Relativity\LorentzTransformation.vb" />
     <Compile Include="Relativity\RelativisticRayTracer.vb" />
     <Compile Include="RayTracer\ScatteringRayTracer.vb" />
     <Compile Include="ColorConversion\RadianceSpectrumToRgbColorConverter.vb" />

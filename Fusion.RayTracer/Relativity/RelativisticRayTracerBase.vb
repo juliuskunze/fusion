@@ -6,13 +6,13 @@
 Public MustInherit Class RelativisticRayTracerBase(Of TLight As {ILight(Of TLight), New})
     Implements IRayTracer(Of TLight)
 
-    Protected ReadOnly _RayTransformation As RelativisticRadianceTransformation
+    Protected ReadOnly _RayTransformation As LorentzTransformation
     Protected ReadOnly _ClassicRayTracer As IRayTracer(Of TLight)
 
     Public Sub New(classicRayTracer As IRayTracer(Of TLight),
                     observerVelocity As Vector3D)
         _ClassicRayTracer = classicRayTracer
-        _RayTransformation = New RelativisticRadianceTransformation(relativeVelocityOfTInS:=observerVelocity)
+        _RayTransformation = New LorentzTransformation(relativeVelocityOfTInS:=observerVelocity)
     End Sub
 
     Public MustOverride Function GetLight(viewRay As Math.Ray) As TLight Implements IRayTracer(Of TLight).GetLight

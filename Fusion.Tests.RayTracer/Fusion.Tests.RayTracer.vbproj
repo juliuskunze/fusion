@@ -100,7 +100,7 @@
     <Compile Include="RayTracerTests.vb" />
     <Compile Include="NormalizedMidpointCoordinateSystemTests.vb" />
     <Compile Include="RelativisticRayTracingComilerTests.vb" />
-    <Compile Include="RelativisticRadianceTransformationTests.vb" />
+    <Compile Include="LorentzTransformationTests.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

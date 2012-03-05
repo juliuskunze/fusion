@@ -146,6 +146,7 @@
     <Import Include="Fusion.Compiler" />
     <Import Include="Fusion.Math" />
     <Import Include="Fusion.Physics" />
+    <Import Include="Fusion.Physics.Constants" />
     <Import Include="Fusion.RayTracer" />
     <Import Include="Fusion.Visualization" />
     <Import Include="System.IO" />

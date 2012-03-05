@@ -1,4 +1,6 @@
-﻿Public Module Constants
+﻿Public NotInheritable Class Constants
+    Private Sub New()
+    End Sub
 
     Public Const GravitationalConstant = 6.67428 * 10 ^ -11 '+-*1e-4
     Public Const SpeedOfLight = 299792458.0
@@ -13,5 +15,4 @@
     Public Const MetersPerInch = 0.0254
 
     Public Const AstronomicalUnit = 149597870691.0
-
-End Module
+End Class

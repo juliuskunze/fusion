@@ -1,4 +1,6 @@
-﻿Public Class ColorWindow
+﻿Imports Fusion.Physics.Constants
+
+Public Class ColorWindow
 
     Private ReadOnly _RgbLightToColorConverter As New RgbLightToRgbColorConverter
     Private _RadianceSpectrumToRgbColorConverter As RadianceSpectrumToRgbColorConverter
@@ -75,7 +77,7 @@
 
         For x = 0 To width - 1
             Dim beta = minBeta + x * betaStep
-            Dim transformation = New RelativisticRadianceTransformation(New Vector3D(beta * SpeedOfLight, 0, 0))
+            Dim transformation = New LorentzTransformation(New Vector3D(beta * SpeedOfLight, 0, 0))
 
             Const minTemperature = 0
             Const maxTemperature = 16000
@@ -84,12 +86,11 @@
 
             For y = 0 To height - 1
                 Dim color = _RadianceSpectrumToRgbColorConverter.Convert(transformation.GetRadianceSpectrumInT(viewRayInS:=New Ray(New Vector3D, New Vector3D(1, 0, 0)), radianceSpectrumInS:=New RadianceSpectrum(New BlackBodyRadianceSpectrum(minTemperature + y * temperatureStep))))
-                bitmap.SetPixel(x:=x, y:=y, color:=Color)
+                bitmap.SetPixel(x:=x, y:=y, color:=color)
             Next
 
         Next
 
         _ColorsImage.Source = bitmap.ToBitmapSource
     End Sub
-
 End Class

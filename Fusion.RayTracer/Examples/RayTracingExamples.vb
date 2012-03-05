@@ -1,3 +1,5 @@
+Imports Fusion.Physics.Constants
+
 Public Class RayTracingExamples
 
     Public Property PictureSize As Size

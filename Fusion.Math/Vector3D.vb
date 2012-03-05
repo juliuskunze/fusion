@@ -85,15 +85,15 @@ Public Structure Vector3D
 
     Public ReadOnly Property Length As Double
         Get
-            Return Sqrt(Me.LengthSquared)
+            Return Sqrt(LengthSquared)
         End Get
     End Property
 
     Public Function ScaledToLength(newLength As Double) As Vector3D
-        If Me.Length = 0 Then
+        If Length = 0 Then
             Return New Vector3D(newLength, 0, 0)
         Else
-            Dim factor = newLength / Me.Length
+            Dim factor = newLength / Length
             Return factor * Me
         End If
     End Function
@@ -106,7 +106,7 @@ Public Structure Vector3D
 
     Public ReadOnly Property R As Double
         Get
-            Return Me.Length
+            Return Length
         End Get
     End Property
 
@@ -195,16 +195,16 @@ Public Structure Vector3D
     End Function
 
     Public Function ToRowMatrix() As Matrix
-        Dim matrixArray As Double(,) = {{_X, y, z}}
+        Dim matrixArray As Double(,) = {{_X, Y, Z}}
         Return New Matrix(matrixArray)
     End Function
 
     Public Function Normalized() As Vector3D
-        Return Me / Me.Length
+        Return Me / Length
     End Function
 
     Public Function OrthogonalProjectionOn(v As Vector3D) As Vector3D
-        Return Me.DotProduct(v) / v.LengthSquared * v
+        Return DotProduct(v) / v.LengthSquared * v
     End Function
 
     Public Overrides Function ToString() As String
@@ -212,7 +212,7 @@ Public Structure Vector3D
     End Function
 
     Public Overloads Function ToString(numberFormat As String) As String
-        Return "(" & _X.ToString(numberFormat) & "|" & _Y.ToString(numberFormat) & "|" & _Z.ToString(numberFormat) & ")"
+        Return String.Format("({0}|{1}|{2})", _X.ToString(numberFormat), _Y.ToString(numberFormat), _Z.ToString(numberFormat))
     End Function
 
     Public Shared Function Fit(v1 As Vector3D, v2 As Vector3D, Optional maxRelativeError As Double = 0.00000000000001) As Boolean
