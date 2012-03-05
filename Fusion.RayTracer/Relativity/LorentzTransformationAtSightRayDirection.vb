@@ -1,5 +1,5 @@
 ﻿''' <summary>
-''' Transforms events, velocities and view rays of a (stationary) reference frame S into a reference frame T which relativly moves with a constant velocity.
+''' Transforms (on a sightray with a specified direction) wavelength dependent values of a (stationary) reference frame S into a reference frame T which relativly moves with a constant velocity.
 ''' The events (0, 0, 0, 0) of both reference frames are the same.
 ''' </summary>
 Public Class LorentzTransformationAtSightRayDirection
@@ -18,14 +18,12 @@ Public Class LorentzTransformationAtSightRayDirection
     ''' <param name="wavelength">A wavelength in S.</param>
     ''' <returns>The corresponding wavelength in T.</returns>
     Public Function TransformWavelength(wavelength As Double) As Double
-        'lambda' = lambda / gamma_theta
         Return wavelength / _GammaTheta
     End Function
 
     ''' <param name="spectralRadiance">A spectral radiance in S.</param>
     ''' <returns>The corresponding spectral radiance in T.</returns>
     Public Function TransformSpectralRadiance(spectralRadiance As Double) As Double
-        'L'(...') = L(...) * gamma_theta ^ 5
         Return spectralRadiance * _GammaTheta ^ 5
     End Function
 
@@ -42,7 +40,7 @@ Public Class LorentzTransformationAtSightRayDirection
     End Function
 
     Public Shadows Function Inverse() As LorentzTransformationAtSightRayDirection
-        Return New LorentzTransformationAtSightRayDirection(MyBase.Inverse.RelativeVelocity, sightRayDirectionInS:=_NormalizedSightRayDirectionInS)
+        Return MyBase.Inverse.AtSightRayDirection(_NormalizedSightRayDirectionInS)
     End Function
 
 End Class

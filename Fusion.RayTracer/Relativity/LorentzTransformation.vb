@@ -10,7 +10,7 @@ Public Class LorentzTransformation
 
     ''' <param name="relativeVelocity">The relative velocity of T in S.</param>
     Public Sub New(relativeVelocity As Vector3D)
-        If relativeVelocity.Length >= SpeedOfLight Then Throw New ArgumentException("A velocity must be smaller than light velocity.")
+        If relativeVelocity.Length >= SpeedOfLight Then Throw New ArgumentException("A velocity of a reference frame must be smaller than light velocity.")
 
         _RelativeVelocity = relativeVelocity
         _NormalizedRelativeVelocity = _RelativeVelocity.Normalized
@@ -99,7 +99,7 @@ Public Class LorentzTransformation
         Return New SightRay(originEvent:=TransformEvent(sightRay.OriginEvent), direction:=TransformSightRayDirection(sightRay.Ray.NormalizedDirection))
     End Function
 
-    Public Function AtDirection(sightRayDirectionInS As Vector3D) As LorentzTransformationAtSightRayDirection
+    Public Function AtSightRayDirection(sightRayDirectionInS As Vector3D) As LorentzTransformationAtSightRayDirection
         Return New LorentzTransformationAtSightRayDirection(RelativeVelocity:=RelativeVelocity, sightRayDirectionInS:=sightRayDirectionInS)
     End Function
 End Class
