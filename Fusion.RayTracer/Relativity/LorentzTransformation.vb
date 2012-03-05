@@ -1,14 +1,13 @@
 ﻿''' <summary>
-''' Transforms events and view rays of a (stationary) reference frame S into a reference frame T which relativly moves with a constant velocity.
+''' Transforms events, velocities and view rays of a (stationary) reference frame S into a reference frame T which relativly moves with a constant velocity.
 ''' The events (0, 0, 0, 0) of both reference frames are the same.
 ''' </summary>
-''' <remarks></remarks>
 Public Class LorentzTransformation
+    ''' <param name="relativeVelocity">The relative velocity of T in S.</param>
+    Public Sub New(relativeVelocity As Vector3D)
+        If relativeVelocity.Length >= SpeedOfLight Then Throw New ArgumentException("A velocity must be smaller than light velocity.")
 
-    Public Sub New(relativeVelocityOfTInS As Vector3D)
-        If relativeVelocityOfTInS.Length >= SpeedOfLight Then Throw New ArgumentException("A velocity must be smaller than light velocity.")
-
-        _RelativeVelocity = relativeVelocityOfTInS
+        _RelativeVelocity = relativeVelocity
         _NormalizedRelativeVelocity = _RelativeVelocity.Normalized
         _Beta = _RelativeVelocity.Length / SpeedOfLight
         _Gamma = 1 / Sqrt(1 - _Beta ^ 2)
@@ -56,23 +55,26 @@ Public Class LorentzTransformation
         Return 1 / (_Gamma * (1 + _Beta * cosinusTheta))
     End Function
 
-    Public Function GetViewRayInS(viewRayInT As Ray) As Ray
-        If _RelativeVelocityIsNull Then Return viewRayInT
+    Public Function InverseSemiTransformViewRay(viewRayInTWithOriginInS As Ray) As Ray
+        If _RelativeVelocityIsNull Then Return viewRayInTWithOriginInS
 
-        Dim oldDirection = viewRayInT.NormalizedDirection
+        Return New Ray(origin:=viewRayInTWithOriginInS.Origin, direction:=InverseTransformLightDirection(viewRayInTWithOriginInS.NormalizedDirection))
+    End Function
+
+    Public Function InverseTransformLightDirection(direction As Vector3D) As Vector3D
+        Dim oldDirection = direction
         Dim oldCosinus = oldDirection * _NormalizedRelativeVelocity
         Dim oldCosinusVector = oldCosinus * _NormalizedRelativeVelocity
         Dim oldSinusVector = oldDirection - oldCosinusVector
 
-        'cos theta= (cos theta' - beta) / (1 - beta * cos theta')
+        'cos theta = (cos theta' - beta) / (1 - beta * cos theta')
         Dim newCosinus = (oldCosinus - _Beta) / (1 - _Beta * oldCosinus)
         Dim newCosinusVector = newCosinus * _NormalizedRelativeVelocity
 
-        'cos phi= cos phi'
+        'cos phi = cos phi'
         Dim newSinusVector = oldSinusVector
 
-        Dim newDirection = newSinusVector + newCosinusVector
-        Return New Ray(origin:=viewRayInT.Origin, direction:=newDirection)
+        Return newSinusVector + newCosinusVector
     End Function
 
     Public Function GetWavelengthInS(viewRayInS As Ray, wavelengthInT As Double) As Double
@@ -90,15 +92,32 @@ Public Class LorentzTransformation
         'Me.GetTransformedSpectralRadiance(ray, spectralRadianceFunction(Me.GetTransformedWavelength(ray, wavelength)))
     End Function
 
-    Public Function GetRadianceSpectrumInT(viewRayInS As Ray, radianceSpectrumInS As RadianceSpectrum) As RadianceSpectrum
+    Public Function TransformRadianceSpectrum(viewRayInS As Ray, radianceSpectrumInS As RadianceSpectrum) As RadianceSpectrum
         Return New RadianceSpectrum(GetSpectralRadianceFunctionInT(viewRayInS:=viewRayInS, spectralRadianceFunctionInS:=radianceSpectrumInS.Function))
     End Function
 
-    Public Function GetEventInT(eventInS As SpaceTimeEvent) As SpaceTimeEvent
+    Public Function TransformEvent(eventInS As SpaceTimeEvent) As SpaceTimeEvent
         If _RelativeVelocityIsNull Then Return eventInS
 
         Return New SpaceTimeEvent(time:=_Gamma * (eventInS.Time - (_RelativeVelocity.Length * (_NormalizedRelativeVelocity * eventInS.Location)) / SpeedOfLight ^ 2),
                                   location:=eventInS.Location + (_Gamma - 1) * (_NormalizedRelativeVelocity * eventInS.Location) * _NormalizedRelativeVelocity - _Gamma * eventInS.Time * _RelativeVelocity)
+    End Function
+
+    Public Function Inverse() As LorentzTransformation
+        Return New LorentzTransformation(-_RelativeVelocity)
+    End Function
+
+    Public Function TransformVelocity(velocity As Vector3D) As Vector3D
+        If _RelativeVelocityIsNull Then Return velocity
+
+        Dim ux = velocity.OrthogonalProjectionOn(_NormalizedRelativeVelocity)
+
+        Return 1 / (1 - _RelativeVelocity * velocity / SpeedOfLight ^ 2) *
+            ((velocity - ux) / _Gamma + _NormalizedRelativeVelocity * (ux.Length - _RelativeVelocity.Length))
+    End Function
+
+    Public Function Before(second As LorentzTransformation) As LorentzTransformation
+        Return New LorentzTransformation(RelativeVelocity:=TransformVelocity(second.RelativeVelocity))
     End Function
 
 End Class

@@ -26,7 +26,7 @@ Public Class RelativisticRayTracer
     Private Function GetViewRayInS(viewRayInT As Ray) As Ray
         If _IgnoreGeometryEffect Then Return viewRayInT
 
-        Return _RayTransformation.GetViewRayInS(viewRayInT:=viewRayInT)
+        Return _RayTransformation.InverseSemiTransformViewRay(viewRayInTWithOriginInS:=viewRayInT)
     End Function
 
     Private Function GetSpectralRadianceFunctionInT(viewRayInS As Ray, spectralRadianceFunctionInS As SpectralRadianceFunction) As SpectralRadianceFunction

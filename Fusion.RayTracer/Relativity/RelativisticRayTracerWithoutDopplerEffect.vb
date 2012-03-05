@@ -7,7 +7,7 @@ Public Class RelativisticRayTracerWithoutDopplerEffect(Of TLight As {ILight(Of T
     End Sub
 
     Public Overrides Function GetLight(viewRay As Math.Ray) As TLight
-        Dim viewRayInS = _RayTransformation.GetViewRayInS(viewRayInT:=viewRay)
+        Dim viewRayInS = _RayTransformation.InverseSemiTransformViewRay(viewRayInTWithOriginInS:=viewRay)
         Dim lightInS = _ClassicRayTracer.GetLight(viewRayInS)
 
         Dim searchlightFactor = _RayTransformation.GetSpectralRadianceInT(viewRayInS:=viewRay, spectralRadianceInS:=1)
