@@ -9,14 +9,14 @@
     Public Function ReflectedRay(intersection As SurfacePoint) As Ray
         Dim normalizedNormal = intersection.NormalizedNormal
         Return WithSafetyDistance(New Ray(origin:=intersection.Location,
-                                  direction:=Me.SourceRay.NormalizedDirection - 2 * Me.SourceRay.NormalizedDirection.OrthogonalProjectionOn(normalizedNormal)))
+                                  direction:=SourceRay.NormalizedDirection - 2 * SourceRay.NormalizedDirection.OrthogonalProjectionOn(normalizedNormal)))
     End Function
 
     Public Function RefractedRay(Of TLight)(intersection As SurfacePoint(Of Material2D(Of TLight))) As Ray
         Dim normalizedNormal = intersection.NormalizedNormal
         Dim refractionIndexQuotient = intersection.Material.RefractionIndexQuotient
 
-        Dim startSinusVector = Me.SourceRay.NormalizedDirection - Me.SourceRay.NormalizedDirection.OrthogonalProjectionOn(normalizedNormal)
+        Dim startSinusVector = SourceRay.NormalizedDirection - SourceRay.NormalizedDirection.OrthogonalProjectionOn(normalizedNormal)
         Dim startSinus = startSinusVector.Length
         Dim finalSinus = startSinus * refractionIndexQuotient
         Dim finalCosinus = Sqrt(1 - finalSinus ^ 2)
@@ -26,7 +26,7 @@
     End Function
 
     Public Function PassedRay(intersection As SurfacePoint) As Ray
-        Return WithSafetyDistance(New Ray(origin:=intersection.Location, direction:=Me.SourceRay.NormalizedDirection))
+        Return WithSafetyDistance(New Ray(origin:=intersection.Location, direction:=SourceRay.NormalizedDirection))
     End Function
 
     Private Shared ReadOnly _Random As New Random
@@ -37,8 +37,6 @@
         End If
 
         Return WithSafetyDistance(New Ray(origin:=intersection.Location, direction:=scatteredRayDirection))
-
-        Throw New NotImplementedException
     End Function
 
     Private Shared Function NormalizedRandomDirection() As Vector3D

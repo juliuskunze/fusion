@@ -32,7 +32,7 @@ Public Class RecursiveRayTracer(Of TLight As {ILight(Of TLight), New})
         End Get
     End Property
 
-    Protected Function TraceLight(ray As Ray, intersectionCount As Integer) As TLight
+    Private Function TraceLight(ray As Ray, intersectionCount As Integer) As TLight
         Dim firstIntersection = Surface.FirstMaterialIntersection(ray)
 
         If firstIntersection Is Nothing Then Return New TLight

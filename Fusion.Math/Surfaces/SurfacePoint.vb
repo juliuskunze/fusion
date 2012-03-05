@@ -1,5 +1,4 @@
 ﻿Public Class SurfacePoint
-
     Public Sub New(location As Vector3D, normal As Vector3D)
         _Location = location
         _NormalizedNormal = normal.Normalized
@@ -18,5 +17,4 @@
             Return _NormalizedNormal
         End Get
     End Property
-
 End Class

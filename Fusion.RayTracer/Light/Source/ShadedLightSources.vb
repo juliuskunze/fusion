@@ -22,7 +22,7 @@ Public Class ShadedLightSources(Of TLight As {ILight(Of TLight), New})
             Dim lightRay = New Ray(origin:=pointLightSource.Location,
                                    direction:=surfacePoint.Location - pointLightSource.Location)
 
-            Dim firstIntersection = Me.ShadowingSurface.FirstIntersection(lightRay)
+            Dim firstIntersection = ShadowingSurface.FirstIntersection(lightRay)
 
             If firstIntersection Is Nothing Then Continue For
             If (firstIntersection.Location - surfacePoint.Location).LengthSquared >= SafetyDistanceSquared Then Continue For

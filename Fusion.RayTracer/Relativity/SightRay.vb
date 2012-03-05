@@ -26,6 +26,12 @@ Public Class SightRay
         End Get
     End Property
 
+    Public ReadOnly Property OriginLocation As Vector3D
+        Get
+            Return _Ray.Origin
+        End Get
+    End Property
+
     Public ReadOnly Property Ray As Ray
         Get
             Return _Ray

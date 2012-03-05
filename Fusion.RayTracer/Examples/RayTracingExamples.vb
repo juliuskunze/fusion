@@ -430,7 +430,7 @@ Public Class RayTracingExamples
                                                                            unshadedLightSource:=New LightSources(Of RadianceSpectrum),
                                                                            shadedPointLightSources:=Enumerable.Empty(Of IPointLightSource(Of RadianceSpectrum)))
 
-        Dim relativisticRayTracer = New RelativisticRayTracer(classicRayTracer:=classicRayTracer,
+        Dim relativisticRayTracer = New SingleObjectFrameRelativisticRayTracer(classicRayTracer:=classicRayTracer,
                                                               observerVelocity:=New Vector3D(0, 0, 0.9 * SpeedOfLight),
                                                               options:=New RadianceSpectrumLorentzTransformationOptions)
 

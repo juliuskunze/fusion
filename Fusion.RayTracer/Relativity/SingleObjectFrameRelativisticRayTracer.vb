@@ -1,4 +1,4 @@
-Public Class RelativisticRayTracer
+Public Class SingleObjectFrameRelativisticRayTracer
     Inherits RelativisticRayTracerBase(Of RadianceSpectrum)
 
     Private ReadOnly _Transformation As RadianceSpectrumLorentzTransformation
