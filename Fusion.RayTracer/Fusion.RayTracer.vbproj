@@ -126,6 +126,7 @@
     <Compile Include="RayTracer\RayTracerPicture.vb" />
     <Compile Include="RayTracer\RayTracerVideo.vb" />
     <Compile Include="RayTracer\RecursiveRayTracer.vb" />
+    <Compile Include="Relativity\SightRay.vb" />
     <Compile Include="Relativity\SpaceTimeEvent.vb" />
     <Compile Include="Relativity\RelativisticRayTracerWithoutDopplerEffect.vb" />
     <Compile Include="Relativity\RelativisticRayTracerBase.vb" />

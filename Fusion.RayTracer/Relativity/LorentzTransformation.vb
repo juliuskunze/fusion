@@ -59,22 +59,25 @@ Public Class LorentzTransformation
         If _RelativeVelocityIsNull Then Return viewRayInTWithOriginInS
 
         Return New Ray(origin:=viewRayInTWithOriginInS.Origin,
-                       direction:=-Inverse.TransformVelocity(-viewRayInTWithOriginInS.NormalizedDirection.ScaledToLength(SpeedOfLight)))
+                       direction:=Inverse.TransFormSightRayDirection(viewRayInTWithOriginInS.NormalizedDirection))
+    End Function
+
+    Private Function TransFormSightRayDirection(direction As Vector3D) As Vector3D
+        Return -TransformVelocity(-direction.Normalized.ScaledToLength(SpeedOfLight))
     End Function
 
     Public Function GetWavelengthInS(viewRayInS As Ray, wavelengthInT As Double) As Double
-        'lambda = lambda' * gamma_phi
+        'lambda = lambda' * gamma_theta
         Return wavelengthInT * GetGammaTheta(viewRayInS:=viewRayInS)
     End Function
 
     Public Function GetSpectralRadianceInT(viewRayInS As Ray, spectralRadianceInS As Double) As Double
-        'L'(...') = L(...) * gamma_phi ^ 5
+        'L'(...') = L(...) * gamma_theta ^ 5
         Return spectralRadianceInS * GetGammaTheta(viewRayInS:=viewRayInS) ^ 5
     End Function
 
     Public Function GetSpectralRadianceFunctionInT(viewRayInS As Ray, spectralRadianceFunctionInS As SpectralRadianceFunction) As SpectralRadianceFunction
         Return Function(wavelengthInT) GetSpectralRadianceInT(viewRayInS:=viewRayInS, spectralRadianceInS:=spectralRadianceFunctionInS(GetWavelengthInS(viewRayInS:=viewRayInS, wavelengthInT:=wavelengthInT)))
-        'Me.GetTransformedSpectralRadiance(ray, spectralRadianceFunction(Me.GetTransformedWavelength(ray, wavelength)))
     End Function
 
     Public Function TransformRadianceSpectrum(viewRayInS As Ray, radianceSpectrumInS As RadianceSpectrum) As RadianceSpectrum
@@ -109,4 +112,7 @@ Public Class LorentzTransformation
         Return New LorentzTransformation(RelativeVelocity:=Inverse.TransformVelocity(second.RelativeVelocity))
     End Function
 
+    Public Function TransformSightRay(sightRay As SightRay) As SightRay
+        Return New SightRay(originEvent:=TransformEvent(sightRay.OriginEvent), direction:=TransFormSightRayDirection(sightRay.Ray.NormalizedDirection))
+    End Function
 End Class
