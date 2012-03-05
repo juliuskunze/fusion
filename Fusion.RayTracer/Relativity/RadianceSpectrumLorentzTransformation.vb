@@ -17,9 +17,9 @@
     ''' <returns>The corresponding spectral radiance function in T.</returns>
     Public Function TransformSpectralRadianceFunction(normalizedSightRayDirectionInS As Vector3D, spectralRadianceFunction As SpectralRadianceFunction) As SpectralRadianceFunction
         If _Options.IgnoreDopplerEffect AndAlso _Options.IgnoreSearchlightEffect Then Return spectralRadianceFunction
-        If _Options.IgnoreSearchlightEffect Then Return Function(wavelengthInT) spectralRadianceFunction(_Transformation.Inverse.TransformWavelength(normalizedSightRayDirectionInS:=normalizedSightRayDirectionInS, wavelength:=wavelengthInT))
-        If _Options.IgnoreDopplerEffect Then Return Function(wavelengthInT) _Transformation.TransformSpectralRadiance(normalizedSightRayDirectionInS:=normalizedSightRayDirectionInS, spectralRadiance:=spectralRadianceFunction(wavelengthInT))
+        If _Options.IgnoreSearchlightEffect Then Return Function(wavelengthInT) spectralRadianceFunction(_Transformation.Inverse.AtDirection(normalizedSightRayDirectionInS).TransformWavelength(wavelength:=wavelengthInT))
+        If _Options.IgnoreDopplerEffect Then Return Function(wavelengthInT) _Transformation.AtDirection(normalizedSightRayDirectionInS).TransformSpectralRadiance(spectralRadiance:=spectralRadianceFunction(wavelengthInT))
 
-        Return _Transformation.TransformSpectralRadianceFunction(normalizedSightRayDirectionInS:=normalizedSightRayDirectionInS, spectralRadianceFunction:=spectralRadianceFunction)
+        Return _Transformation.AtDirection(normalizedSightRayDirectionInS).TransformSpectralRadianceFunction(spectralRadianceFunction:=spectralRadianceFunction)
     End Function
 End Class
