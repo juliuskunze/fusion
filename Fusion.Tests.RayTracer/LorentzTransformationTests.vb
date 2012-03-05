@@ -78,7 +78,7 @@
     Public Sub TestInverse()
         Dim randomVelocityInS = New Vector3D(10, -3, 0)
 
-        Assert.That(New Vector3DRoughComparer(10 ^ -8).Equals(_Transformation.Inverse.TransformVelocity(_Transformation.TransformVelocity(randomVelocityInS)), randomVelocityInS))
+        Assert.That(New Vector3DRoughComparer(10 ^ -12).Equals(_Transformation.Inverse.TransformVelocity(_Transformation.TransformVelocity(randomVelocityInS)), randomVelocityInS))
     End Sub
 
     <Test()>
@@ -100,15 +100,19 @@
         Dim antiParallelLightVelocity = New Vector3D(-c, 0, 0)
 
         Assert.AreEqual(_Transformation.TransformVelocity(antiParallelLightVelocity), antiParallelLightVelocity)
+
+        Dim orthogonalLightVelocity = New Vector3D(0, c, 0)
+
+        Assert.AreEqual(_Transformation.TransformVelocity(orthogonalLightVelocity).Length, c)
     End Sub
 
     <Test()>
     Public Sub TestVelocityDirection()
-        Dim randomVelocityInS = New Vector3D(-1, 0, 0)
+        Dim randomVelocityInS = New Vector3D(1, 2, 3).Normalized * c
 
         Dim vector1 = _Transformation.TransformVelocity(randomVelocityInS.ScaledToLength(c)).Normalized
         Dim vector2 = -_Transformation.Inverse.InverseTransformViewRayDirection(-randomVelocityInS.Normalized).Normalized
-        Assert.That(New Vector3DRoughComparer(10 ^ -20).Equals(vector1, vector2), message:=String.Format("{0} <> {1}", vector1, vector2))
+        Assert.That(New Vector3DRoughComparer(10 ^ -15).Equals(vector1, vector2), message:=String.Format("{0} <> {1}", vector1.ToString("0.000"), vector2.ToString("0.000")))
     End Sub
 
 End Class

@@ -44,7 +44,7 @@
         End Try
     End Function
 
-    Public Overrides Function Show() As Boolean
+    Public Shadows Function Show() As Boolean
         If Not MyBase.Show Then Return False
         If Not Me.IsModeValid Then
             MessageBox.Show(messageBoxText:="The selected file is not a description file (.pic or .vid).", caption:="No description")

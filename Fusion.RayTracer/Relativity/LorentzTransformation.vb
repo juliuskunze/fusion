@@ -65,14 +65,14 @@ Public Class LorentzTransformation
         Dim oldDirection = direction
         Dim oldCosinus = oldDirection * _NormalizedRelativeVelocity
         Dim oldCosinusVector = oldCosinus * _NormalizedRelativeVelocity
-        Dim oldSinusVector = oldDirection - oldCosinusVector
+        Dim normalizedOldSinusVector = (oldDirection - oldCosinusVector).Normalized
 
         'cos theta = (cos theta' - beta) / (1 - beta * cos theta')
         Dim newCosinus = (oldCosinus - _Beta) / (1 - _Beta * oldCosinus)
         Dim newCosinusVector = newCosinus * _NormalizedRelativeVelocity
 
-        'cos phi = cos phi'
-        Dim newSinusVector = oldSinusVector
+        ' phi = phi'
+        Dim newSinusVector = Sqrt(1 - newCosinus ^ 2) * normalizedOldSinusVector
 
         Return newSinusVector + newCosinusVector
     End Function

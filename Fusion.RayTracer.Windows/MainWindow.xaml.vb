@@ -297,7 +297,7 @@ Public Class MainWindow
         If Not _OpenDescriptionDialog.Show Then Return
         If Not TryCloseDescription() Then Return
 
-        _OpenDescriptionDialog.OpenDescription()
+        Dim sceneDescription = _OpenDescriptionDialog.OpenDescription()
 
         _SaveDescriptionDialog.File = _OpenDescriptionDialog.File
         Mode = _OpenDescriptionDialog.Mode
@@ -305,7 +305,7 @@ Public Class MainWindow
 
         SetTitleByCurrentFile()
 
-        _Compiler.LoadDocument(description)
+        _Compiler.LoadDocument(sceneDescription)
         _HasUnsavedChanges = False
     End Sub
 

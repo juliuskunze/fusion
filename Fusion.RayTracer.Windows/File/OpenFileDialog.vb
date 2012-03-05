@@ -35,7 +35,7 @@ Public Class OpenFileDialog
             }
     End Sub
 
-    Public Overridable Function Show() As Boolean
+    Public Function Show() As Boolean
         Return _OpenFileDialog.ShowDialog(owner:=_Owner).Value
     End Function
 
