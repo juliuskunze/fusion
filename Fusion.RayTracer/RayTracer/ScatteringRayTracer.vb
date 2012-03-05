@@ -52,10 +52,10 @@ Public Class ScatteringRayTracer(Of TLight As {ILight(Of TLight), New})
     Public Property MaxIntersectionCount As Integer
     Public Property RayCount As Integer
 
-    Public Function GetLight(viewRay As Ray) As TLight Implements IRayTracer(Of TLight).GetLight
+    Public Function GetLight(sightRay As Ray) As TLight Implements IRayTracer(Of TLight).GetLight
         Dim colorSum = New TLight
         For i = 1 To Me.RayCount
-            colorSum = colorSum.Add(Me.TraceColor(viewRay, intersectionCount:=0))
+            colorSum = colorSum.Add(Me.TraceColor(sightRay, intersectionCount:=0))
         Next
         Return colorSum.DivideBrightness(Me.RayCount)
     End Function

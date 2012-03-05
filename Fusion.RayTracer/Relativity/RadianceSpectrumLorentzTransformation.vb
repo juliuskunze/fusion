@@ -13,11 +13,13 @@
         End Get
     End Property
 
-    Public Function GetSpectralRadianceFunctionInT(viewRayInS As Ray, spectralRadianceFunctionInS As SpectralRadianceFunction) As SpectralRadianceFunction
-        If _Options.IgnoreDopplerEffect AndAlso _Options.IgnoreSearchlightEffect Then Return spectralRadianceFunctionInS
-        If _Options.IgnoreSearchlightEffect Then Return Function(wavelengthInT) spectralRadianceFunctionInS(_Transformation.InverseTransformWavelength(sightRayInS:=viewRayInS, wavelengthInT:=wavelengthInT))
-        If _Options.IgnoreDopplerEffect Then Return Function(wavelengthInT) _Transformation.TransformSpectralRadiance(sightRayInS:=viewRayInS, spectralRadianceInS:=spectralRadianceFunctionInS(wavelengthInT))
+    ''' <param name="spectralRadianceFunction">A spectral radiance function in S.</param>
+    ''' <returns>The corresponding spectral radiance function in T.</returns>
+    Public Function TransformSpectralRadianceFunction(normalizedSightRayDirectionInS As Vector3D, spectralRadianceFunction As SpectralRadianceFunction) As SpectralRadianceFunction
+        If _Options.IgnoreDopplerEffect AndAlso _Options.IgnoreSearchlightEffect Then Return spectralRadianceFunction
+        If _Options.IgnoreSearchlightEffect Then Return Function(wavelengthInT) spectralRadianceFunction(_Transformation.Inverse.TransformWavelength(normalizedSightRayDirectionInS:=normalizedSightRayDirectionInS, wavelength:=wavelengthInT))
+        If _Options.IgnoreDopplerEffect Then Return Function(wavelengthInT) _Transformation.TransformSpectralRadiance(normalizedSightRayDirectionInS:=normalizedSightRayDirectionInS, spectralRadiance:=spectralRadianceFunction(wavelengthInT))
 
-        Return _Transformation.TransformSpectralRadianceFunction(sightRayInS:=viewRayInS, spectralRadianceFunctionInS:=spectralRadianceFunctionInS)
+        Return _Transformation.TransformSpectralRadianceFunction(normalizedSightRayDirectionInS:=normalizedSightRayDirectionInS, spectralRadianceFunction:=spectralRadianceFunction)
     End Function
 End Class

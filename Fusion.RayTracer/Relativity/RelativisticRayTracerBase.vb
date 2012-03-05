@@ -27,6 +27,6 @@ Public MustInherit Class RelativisticRayTracerBase(Of TLight As {ILight(Of TLigh
         End Get
     End Property
 
-    Public MustOverride Function GetLight(viewRay As Ray) As TLight Implements IRayTracer(Of TLight).GetLight
+    Public MustOverride Function GetLight(sightRay As Ray) As TLight Implements IRayTracer(Of TLight).GetLight
 
 End Class

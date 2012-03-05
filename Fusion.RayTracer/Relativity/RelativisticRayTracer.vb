@@ -10,17 +10,17 @@ Public Class RelativisticRayTracer
         _Transformation = New RadianceSpectrumLorentzTransformation(MyBase.LorentzTransformation, options:=options)
     End Sub
 
-    Public Overrides Function GetLight(viewRay As Ray) As RadianceSpectrum
-        Dim viewRayInS = InverseSemiTransformViewRay(viewRayInT:=viewRay)
-        Dim spectralRadianceFunctionInS = ClassicRayTracer.GetLight(viewRayInS).Function
+    Public Overrides Function GetLight(sightRay As Ray) As RadianceSpectrum
+        Dim sightRayInS = InverseSemiTransformSightRay(sightRayInT:=sightRay)
+        Dim spectralRadianceFunctionInS = ClassicRayTracer.GetLight(sightRayInS).Function
 
-        Return New RadianceSpectrum(_Transformation.GetSpectralRadianceFunctionInT(viewRayInS:=viewRayInS, spectralRadianceFunctionInS:=spectralRadianceFunctionInS))
+        Return New RadianceSpectrum(_Transformation.TransformSpectralRadianceFunction(normalizedSightRayDirectionInS:=sightRayInS.NormalizedDirection, spectralRadianceFunction:=spectralRadianceFunctionInS))
     End Function
 
-    Private Function InverseSemiTransformViewRay(viewRayInT As Ray) As Ray
-        If _Transformation.Options.IgnoreGeometryEffect Then Return viewRayInT
+    Private Function InverseSemiTransformSightRay(sightRayInT As Ray) As Ray
+        If _Transformation.Options.IgnoreGeometryEffect Then Return sightRayInT
 
-        Return LorentzTransformation.InverseSemiTransformViewRay(viewRayInTWithOriginInS:=viewRayInT)
+        Return LorentzTransformation.InverseSemiTransformSightRay(sightRayInTWithOriginInS:=sightRayInT)
     End Function
 
 End Class

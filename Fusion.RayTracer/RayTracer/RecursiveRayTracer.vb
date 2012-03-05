@@ -74,8 +74,8 @@ Public Class RecursiveRayTracer(Of TLight As {ILight(Of TLight), New})
         End Get
     End Property
 
-    Public Overridable Function GetLight(viewRay As Ray) As TLight Implements IRayTracer(Of TLight).GetLight
-        Return TraceLight(viewRay, intersectionCount:=0)
+    Public Overridable Function GetLight(sightRay As Ray) As TLight Implements IRayTracer(Of TLight).GetLight
+        Return TraceLight(sightRay, intersectionCount:=0)
     End Function
 
 End Class

@@ -55,36 +55,44 @@ Public Class LorentzTransformation
         Return 1 / (_Gamma * (1 + _Beta * cosinusTheta))
     End Function
 
-    Public Function InverseSemiTransformViewRay(viewRayInTWithOriginInS As Ray) As Ray
-        If _RelativeVelocityIsNull Then Return viewRayInTWithOriginInS
+    Public Function InverseSemiTransformSightRay(sightRayInTWithOriginInS As Ray) As Ray
+        If _RelativeVelocityIsNull Then Return sightRayInTWithOriginInS
 
-        Return New Ray(origin:=viewRayInTWithOriginInS.Origin,
-                       direction:=Inverse.TransformSightRayDirection(viewRayInTWithOriginInS.NormalizedDirection))
+        Return New Ray(origin:=sightRayInTWithOriginInS.Origin,
+                       direction:=Inverse.TransformSightRayDirection(sightRayInTWithOriginInS.NormalizedDirection))
     End Function
 
     Private Function TransformSightRayDirection(sightRayDirection As Vector3D) As Vector3D
         Return -TransformVelocity(-sightRayDirection.Normalized.ScaledToLength(SpeedOfLight))
     End Function
 
-    Public Function InverseTransformWavelength(sightRayInS As Ray, wavelengthInT As Double) As Double
-        'lambda = lambda' * gamma_theta
-        Return wavelengthInT * GetGammaTheta(normalizedSightRayDirectionInS:=sightRayInS.NormalizedDirection)
+    ''' <param name="wavelength">A wavelength in S.</param>
+    ''' <returns>The corresponding wavelength in T.</returns>
+    Public Function TransformWavelength(normalizedSightRayDirectionInS As Vector3D, wavelength As Double) As Double
+        'lambda' = lambda / gamma_theta
+        Return wavelength / GetGammaTheta(normalizedSightRayDirectionInS:=normalizedSightRayDirectionInS)
     End Function
 
-    Public Function TransformSpectralRadiance(sightRayInS As Ray, spectralRadianceInS As Double) As Double
+    ''' <param name="spectralRadiance">A spectral radiance in S.</param>
+    ''' <returns>The corresponding spectral radiance in T.</returns>
+    Public Function TransformSpectralRadiance(normalizedSightRayDirectionInS As Vector3D, spectralRadiance As Double) As Double
         'L'(...') = L(...) * gamma_theta ^ 5
-        Return spectralRadianceInS * GetGammaTheta(normalizedSightRayDirectionInS:=sightRayInS.NormalizedDirection) ^ 5
+        Return spectralRadiance * GetGammaTheta(normalizedSightRayDirectionInS:=normalizedSightRayDirectionInS) ^ 5
     End Function
 
-    Public Function TransformSpectralRadianceFunction(sightRayInS As Ray, spectralRadianceFunctionInS As SpectralRadianceFunction) As SpectralRadianceFunction
-        Return Function(wavelengthInT) TransformSpectralRadiance(sightRayInS:=sightRayInS, spectralRadianceInS:=spectralRadianceFunctionInS(InverseTransformWavelength(sightRayInS:=sightRayInS, wavelengthInT:=wavelengthInT)))
+    ''' <param name="spectralRadianceFunction">A spectral radiance function in S.</param>
+    ''' <returns>The corresponding spectral radiance function in T.</returns>
+    Public Function TransformSpectralRadianceFunction(normalizedSightRayDirectionInS As Vector3D, spectralRadianceFunction As SpectralRadianceFunction) As SpectralRadianceFunction
+        Return Function(wavelengthInT) TransformSpectralRadiance(normalizedSightRayDirectionInS:=normalizedSightRayDirectionInS, spectralRadiance:=spectralRadianceFunction(Inverse.TransformWavelength(normalizedSightRayDirectionInS:=normalizedSightRayDirectionInS, wavelength:=wavelengthInT)))
     End Function
 
-    Public Function TransformRadianceSpectrum(sightRayInS As Ray, radianceSpectrumInS As RadianceSpectrum) As RadianceSpectrum
-        Return New RadianceSpectrum(TransformSpectralRadianceFunction(sightRayInS:=sightRayInS, spectralRadianceFunctionInS:=radianceSpectrumInS.Function))
+    ''' <param name="radianceSpectrum">A spectral radiance spectrum in S.</param>
+    ''' <returns>The corresponding spectral radiance spectrum in T.</returns>
+    Public Function TransformRadianceSpectrum(normalizedSightRayDirectionInS As Vector3D, radianceSpectrum As RadianceSpectrum) As RadianceSpectrum
+        Return New RadianceSpectrum(TransformSpectralRadianceFunction(normalizedSightRayDirectionInS:=normalizedSightRayDirectionInS, spectralRadianceFunction:=radianceSpectrum.Function))
     End Function
 
-    ''' <param name="event">A event in S.</param>
+    ''' <param name="event">An event in S.</param>
     ''' <returns>The corresponding event in T.</returns>
     Public Function TransformEvent([event] As SpaceTimeEvent) As SpaceTimeEvent
         If _RelativeVelocityIsNull Then Return [event]
