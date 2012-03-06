@@ -5,21 +5,21 @@
 Public Class LorentzTransformationAtSightRayDirection
     Inherits LorentzTransformation
 
-    Private ReadOnly _NormalizedSightRayDirectionInS As Vector3D
+    Private ReadOnly _NormalizedSightRayDirection As Vector3D
 
-    Public ReadOnly Property NormalizedSightRayDirectionInS() As Vector3D
+    Public ReadOnly Property NormalizedSightRayDirection() As Vector3D
         Get
-            Return _NormalizedSightRayDirectionInS
+            Return _NormalizedSightRayDirection
         End Get
     End Property
 
     Private ReadOnly _GammaTheta As Double
 
-    Public Sub New(relativeVelocity As Vector3D, sightRayDirectionInS As Vector3D)
+    Public Sub New(relativeVelocity As Vector3D, sightRayDirection As Vector3D)
         MyBase.New(relativeVelocity:=relativeVelocity)
-        _NormalizedSightRayDirectionInS = sightRayDirectionInS.Normalized
+        _NormalizedSightRayDirection = sightRayDirection.Normalized
 
-        _GammaTheta = If(RelativeVelocityIsNull, 1, 1 / (Gamma * (1 - Beta * _NormalizedSightRayDirectionInS * NormalizedRelativeVelocity)))
+        _GammaTheta = If(RelativeVelocityIsNull, 1, 1 / (Gamma * (1 - Beta * _NormalizedSightRayDirection * NormalizedRelativeVelocity)))
     End Sub
 
     ''' <param name="wavelength">A wavelength in S.</param>
@@ -30,24 +30,30 @@ Public Class LorentzTransformationAtSightRayDirection
 
     ''' <param name="spectralRadiance">A spectral radiance in S.</param>
     ''' <returns>The corresponding spectral radiance in T.</returns>
-    Public Function TransformSpectralRadiance(spectralRadiance As Double) As Double
+    Public Overridable Function TransformSpectralRadiance(spectralRadiance As Double) As Double
         Return spectralRadiance * _GammaTheta ^ 5
     End Function
 
     ''' <param name="spectralRadianceFunction">A spectral radiance function in S.</param>
     ''' <returns>The corresponding spectral radiance function in T.</returns>
     Public Overridable Function TransformSpectralRadianceFunction(spectralRadianceFunction As SpectralRadianceFunction) As SpectralRadianceFunction
-        Return Function(wavelengthInT) TransformSpectralRadiance(spectralRadiance:=spectralRadianceFunction(Inverse.TransformWavelength(wavelength:=wavelengthInT)))
+        Return Function(wavelength) TransformSpectralRadiance(spectralRadianceFunction(InverseTransformWavelength(wavelength)))
+    End Function
+
+    Protected Overridable Function InverseTransformWavelength(wavelength As Double) As Double
+        Return Inverse.TransformWavelength(wavelength)
     End Function
 
     ''' <param name="radianceSpectrum">A spectral radiance spectrum in S.</param>
     ''' <returns>The corresponding spectral radiance spectrum in T.</returns>
     Public Overridable Function TransformRadianceSpectrum(radianceSpectrum As RadianceSpectrum) As RadianceSpectrum
-        Return New RadianceSpectrum(TransformSpectralRadianceFunction(spectralRadianceFunction:=radianceSpectrum.Function))
+        Return New RadianceSpectrum(TransformSpectralRadianceFunction(radianceSpectrum.Function))
     End Function
 
     Public Shadows Function Inverse() As LorentzTransformationAtSightRayDirection
-        Return MyBase.Inverse.AtSightRayDirection(_NormalizedSightRayDirectionInS)
+        Dim inverseLorentz = MyBase.Inverse
+
+        Return inverseLorentz.AtSightRayDirection(inverseLorentz.TransformSightRayDirection(_NormalizedSightRayDirection))
     End Function
 
     Public Function Partly(options As RadianceSpectrumLorentzTransformationOptions) As PartlyLorentzTransformationAtSightRayDirection

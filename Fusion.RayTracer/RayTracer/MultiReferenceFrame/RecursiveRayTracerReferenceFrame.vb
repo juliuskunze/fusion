@@ -7,7 +7,7 @@
         _Transformation = transformation
     End Sub
 
-    Public ReadOnly Property Transformation() As LorentzTransformation
+    Public ReadOnly Property Transformation As LorentzTransformation
         Get
             Return _Transformation
         End Get

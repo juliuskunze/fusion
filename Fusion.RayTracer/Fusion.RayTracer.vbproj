@@ -130,7 +130,6 @@
     <Compile Include="RayTracer\RecursiveRayTracer.vb" />
     <Compile Include="Relativity\LorentzTransformationAtSightRayDirection.vb" />
     <Compile Include="Relativity\RadianceSpectrumLorentzTransformationOptions.vb" />
-    <Compile Include="Relativity\RayTracerInMovedReferenceFrame.vb" />
     <Compile Include="Relativity\SightRay.vb" />
     <Compile Include="Relativity\SpaceTimeEvent.vb" />
     <Compile Include="Relativity\RelativisticRayTracerWithoutDopplerEffect.vb" />

@@ -31,13 +31,13 @@ Public Class LorentzTransformation
         End Get
     End Property
 
-    Public ReadOnly Property Beta() As Double
+    Public ReadOnly Property Beta As Double
         Get
             Return _Beta
         End Get
     End Property
 
-    Public ReadOnly Property Gamma() As Double
+    Public ReadOnly Property Gamma As Double
         Get
             Return _Gamma
         End Get
@@ -54,12 +54,12 @@ Public Class LorentzTransformation
     ''' <summary>
     ''' Transforms the direction, but keeps the origin location of the sight ray.
     ''' </summary>
-    Public Function SemiTransformSightRay(sightRayInTWithOriginInS As Ray) As Ray
-        Return New Ray(origin:=sightRayInTWithOriginInS.Origin,
-                       direction:=TransformSightRayDirection(sightRayInTWithOriginInS.NormalizedDirection))
+    Public Function SemiTransformSightRay(sightRay As Ray) As Ray
+        Return New Ray(origin:=sightRay.Origin,
+                       direction:=TransformSightRayDirection(sightRay.NormalizedDirection))
     End Function
 
-    Private Function TransformSightRayDirection(sightRayDirection As Vector3D) As Vector3D
+    Public Function TransformSightRayDirection(sightRayDirection As Vector3D) As Vector3D
         Return -TransformVelocity(-sightRayDirection.Normalized.ScaledToLength(SpeedOfLight))
     End Function
 
@@ -99,7 +99,7 @@ Public Class LorentzTransformation
         Return New SightRay(originEvent:=TransformEvent(sightRay.OriginEvent), direction:=TransformSightRayDirection(sightRay.Ray.NormalizedDirection))
     End Function
 
-    Public Function AtSightRayDirection(sightRayDirectionInS As Vector3D) As LorentzTransformationAtSightRayDirection
-        Return New LorentzTransformationAtSightRayDirection(RelativeVelocity:=RelativeVelocity, sightRayDirectionInS:=sightRayDirectionInS)
+    Public Function AtSightRayDirection(sightRayDirection As Vector3D) As LorentzTransformationAtSightRayDirection
+        Return New LorentzTransformationAtSightRayDirection(RelativeVelocity:=RelativeVelocity, sightRayDirection:=sightRayDirection)
     End Function
 End Class

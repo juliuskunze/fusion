@@ -1,5 +1,5 @@
 Public Class SingleObjectFrameRelativisticRayTracer
-    Inherits RelativisticRayTracerBase(Of RadianceSpectrum)
+    Inherits SingleReferenceFrameRelativisticRayTracerBase(Of RadianceSpectrum)
 
     Private ReadOnly _Options As RadianceSpectrumLorentzTransformationOptions
 
@@ -10,14 +10,14 @@ Public Class SingleObjectFrameRelativisticRayTracer
         _Options = options
     End Sub
 
-    Public Overrides Function GetLight(sightRay As Ray) As RadianceSpectrum
-        Dim sightRayInS = If(_Options.IgnoreGeometryEffect,
-                             sightRay,
-                             LorentzTransformation.Inverse.SemiTransformSightRay(sightRayInTWithOriginInS:=sightRay))
-        Dim radianceSpectrum = ClassicRayTracer.GetLight(sightRayInS)
+    Public Overrides Function GetLight(observerSightRayWithObjectOrigin As Ray) As RadianceSpectrum
+        Dim objectSightRay = If(_Options.IgnoreGeometryEffect,
+                                observerSightRayWithObjectOrigin,
+                                ObjectToObserver.Inverse.SemiTransformSightRay(observerSightRayWithObjectOrigin))
+        Dim radianceSpectrum = ClassicRayTracer.GetLight(objectSightRay)
 
-        Return LorentzTransformation.
-            AtSightRayDirection(sightRayInS.NormalizedDirection).
+        Return ObjectToObserver.
+            AtSightRayDirection(objectSightRay.NormalizedDirection).
             Partly(_Options).
             TransformRadianceSpectrum(radianceSpectrum)
     End Function

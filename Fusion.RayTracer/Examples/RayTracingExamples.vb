@@ -170,7 +170,7 @@ Public Class RayTracingExamples
         Return New RayTracerPicture(Of RgbLight)(rayTracer:=rayTracer, PictureSize:=PictureSize, view:=view, lightToRgbColorConverter:=New RgbLightToRgbColorConverter)
     End Function
 
-    Public Function SecondRoomRayTracer() As RelativisticRayTracerBase(Of RgbLight)
+    Public Function SecondRoomRayTracer() As SingleReferenceFrameRelativisticRayTracerBase(Of RgbLight)
         Dim origin = Vector3D.Zero
         Dim frontLeftDown = New Vector3D(0, 0, 6)
         Dim backLeftDown = New Vector3D(0, 0, 16)
@@ -306,7 +306,7 @@ Public Class RayTracingExamples
                                                               unshadedLightSource:=New LightSources(Of RgbLight),
                                                               shadedPointLightSources:=shadedLightSources)
 
-        Return New RelativisticRayTracerWithoutDopplerEffect(Of RgbLight)(classicRayTracer:=classicRayTracer,
+        Return New SingleReferenceFrameRelativisticRayTracerWithoutDopplerEffect(Of RgbLight)(classicRayTracer:=classicRayTracer,
                                                                           cameraVelocity:=New Vector3D(0, 0, -0.5) * SpeedOfLight)
     End Function
 
