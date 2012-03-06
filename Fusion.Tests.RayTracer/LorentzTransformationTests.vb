@@ -8,7 +8,7 @@
 
         Dim sightRayInT = New Ray(origin:=New Vector3D, direction:=New Vector3D(0, 1, 0))
 
-        Dim sightRayInS = _NullTransformation.InverseSemiTransformSightRay(sightRayInTWithOriginInS:=sightRayInT)
+        Dim sightRayInS = _NullTransformation.Inverse.SemiTransformSightRay(sightRayInTWithOriginInS:=sightRayInT)
 
         Assert.AreEqual(sightRayInT.Origin, sightRayInS.Origin)
         Assert.AreEqual(sightRayInT.NormalizedDirection, sightRayInS.NormalizedDirection)
@@ -44,19 +44,19 @@
         Assert.AreEqual(_Transformation.Gamma, gamma)
 
         Dim frontRayInT = New Ray(origin:=New Vector3D, direction:=New Vector3D(1, 0, 0))
-        Dim frontRayInS = _Transformation.InverseSemiTransformSightRay(frontRayInT)
+        Dim frontRayInS = _Transformation.Inverse.SemiTransformSightRay(frontRayInT)
         Assert.AreEqual(frontRayInT.Origin, frontRayInS.Origin)
         Assert.That(_VectorComparer.Equals(frontRayInT.NormalizedDirection, frontRayInS.NormalizedDirection))
 
         Dim backRay = New Ray(origin:=New Vector3D, direction:=New Vector3D(1, 0, 0))
-        Dim transformedBackRay = _Transformation.InverseSemiTransformSightRay(backRay)
+        Dim transformedBackRay = _Transformation.Inverse.SemiTransformSightRay(backRay)
         Assert.AreEqual(backRay.Origin, transformedBackRay.Origin)
         Assert.That(_VectorComparer.Equals(backRay.NormalizedDirection, transformedBackRay.NormalizedDirection))
 
         Const testWavelengthInT = 0.0000005
         Dim testRayInT = New Ray(New Vector3D, New Vector3D(1, 1, 1))
         Assert.Less(testWavelengthInT, _Transformation.Inverse.AtSightRayDirection(frontRayInS.NormalizedDirection).TransformWavelength(wavelength:=testWavelengthInT))
-        Assert.Greater(testRayInT.NormalizedDirection.X, _Transformation.InverseSemiTransformSightRay(sightRayInTWithOriginInS:=testRayInT).NormalizedDirection.X)
+        Assert.Greater(testRayInT.NormalizedDirection.X, _Transformation.Inverse.SemiTransformSightRay(sightRayInTWithOriginInS:=testRayInT).NormalizedDirection.X)
 
         Const testIntensityInS = 17
         Assert.Greater(_Transformation.AtSightRayDirection(frontRayInS.NormalizedDirection).TransformSpectralRadiance(spectralRadiance:=testIntensityInS), testIntensityInS)

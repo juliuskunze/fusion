@@ -139,7 +139,7 @@
     <Compile Include="Relativity\SingleObjectFrameRelativisticRayTracer.vb" />
     <Compile Include="RayTracer\ScatteringRayTracer.vb" />
     <Compile Include="ColorConversion\RadianceSpectrumToRgbColorConverter.vb" />
-    <Compile Include="Relativity\RadianceSpectrumLorentzTransformation.vb" />
+    <Compile Include="Relativity\PartlyLorentzTransformationAtSightRayDirection.vb" />
     <Compile Include="Relativity\SurfaceEvent.vb" />
     <Compile Include="Video\IRayTraceVideo.vb" />
     <Compile Include="Video\IViewCourse.vb" />

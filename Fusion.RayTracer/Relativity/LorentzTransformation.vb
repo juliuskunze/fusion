@@ -52,11 +52,11 @@ Public Class LorentzTransformation
     End Property
 
     ''' <summary>
-    ''' Transforms the direction, but not the origin location of the sight ray.
+    ''' Transforms the direction, but keeps the origin location of the sight ray.
     ''' </summary>
-    Public Function InverseSemiTransformSightRay(sightRayInTWithOriginInS As Ray) As Ray
+    Public Function SemiTransformSightRay(sightRayInTWithOriginInS As Ray) As Ray
         Return New Ray(origin:=sightRayInTWithOriginInS.Origin,
-                       direction:=Inverse.TransformSightRayDirection(sightRayInTWithOriginInS.NormalizedDirection))
+                       direction:=TransformSightRayDirection(sightRayInTWithOriginInS.NormalizedDirection))
     End Function
 
     Private Function TransformSightRayDirection(sightRayDirection As Vector3D) As Vector3D

@@ -6,6 +6,13 @@ Public Class LorentzTransformationAtSightRayDirection
     Inherits LorentzTransformation
 
     Private ReadOnly _NormalizedSightRayDirectionInS As Vector3D
+
+    Public ReadOnly Property NormalizedSightRayDirectionInS() As Vector3D
+        Get
+            Return _NormalizedSightRayDirectionInS
+        End Get
+    End Property
+
     Private ReadOnly _GammaTheta As Double
 
     Public Sub New(relativeVelocity As Vector3D, sightRayDirectionInS As Vector3D)
@@ -29,18 +36,22 @@ Public Class LorentzTransformationAtSightRayDirection
 
     ''' <param name="spectralRadianceFunction">A spectral radiance function in S.</param>
     ''' <returns>The corresponding spectral radiance function in T.</returns>
-    Public Function TransformSpectralRadianceFunction(spectralRadianceFunction As SpectralRadianceFunction) As SpectralRadianceFunction
+    Public Overridable Function TransformSpectralRadianceFunction(spectralRadianceFunction As SpectralRadianceFunction) As SpectralRadianceFunction
         Return Function(wavelengthInT) TransformSpectralRadiance(spectralRadiance:=spectralRadianceFunction(Inverse.TransformWavelength(wavelength:=wavelengthInT)))
     End Function
 
     ''' <param name="radianceSpectrum">A spectral radiance spectrum in S.</param>
     ''' <returns>The corresponding spectral radiance spectrum in T.</returns>
-    Public Function TransformRadianceSpectrum(radianceSpectrum As RadianceSpectrum) As RadianceSpectrum
+    Public Overridable Function TransformRadianceSpectrum(radianceSpectrum As RadianceSpectrum) As RadianceSpectrum
         Return New RadianceSpectrum(TransformSpectralRadianceFunction(spectralRadianceFunction:=radianceSpectrum.Function))
     End Function
 
     Public Shadows Function Inverse() As LorentzTransformationAtSightRayDirection
         Return MyBase.Inverse.AtSightRayDirection(_NormalizedSightRayDirectionInS)
+    End Function
+
+    Public Function Partly(options As RadianceSpectrumLorentzTransformationOptions) As PartlyLorentzTransformationAtSightRayDirection
+        Return New PartlyLorentzTransformationAtSightRayDirection(Me, options)
     End Function
 
 End Class
