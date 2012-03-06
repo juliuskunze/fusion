@@ -27,10 +27,12 @@
         Return If(_Options.IgnoreSearchlightEffect, spectralRadiance, MyBase.TransformSpectralRadiance(spectralRadiance))
     End Function
 
-    ''' <param name="radianceSpectrum">A radiance spectrum in S.</param>
-    ''' <returns>The corresponding radiance spectrum in T.</returns>
-    Public Overrides Function TransformRadianceSpectrum(radianceSpectrum As RadianceSpectrum) As RadianceSpectrum
-        Return New RadianceSpectrum(TransformSpectralRadianceFunction(radianceSpectrum.Function))
+    Public Function InversePartly() As PartlyLorentzTransformationAtSightRayDirection
+        Return InverseAtSightRayDirection.Partly(_Options)
+    End Function
+
+    Public Overrides Function Inverse() As LorentzTransformation
+        Return InversePartly()
     End Function
 
 End Class

@@ -72,7 +72,7 @@ Public Class LorentzTransformation
                                   location:=[event].Location + (_Gamma - 1) * (_NormalizedRelativeVelocity * [event].Location) * _NormalizedRelativeVelocity - _Gamma * [event].Time * _RelativeVelocity)
     End Function
 
-    Public Function Inverse() As LorentzTransformation
+    Public Overridable Function Inverse() As LorentzTransformation
         Static state As LorentzTransformation
 
         If state Is Nothing Then state = New LorentzTransformation(-_RelativeVelocity)

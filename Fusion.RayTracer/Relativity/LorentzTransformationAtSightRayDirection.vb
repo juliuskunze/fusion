@@ -41,19 +41,23 @@ Public Class LorentzTransformationAtSightRayDirection
     End Function
 
     Protected Overridable Function InverseTransformWavelength(wavelength As Double) As Double
-        Return Inverse.TransformWavelength(wavelength)
+        Return InverseAtSightRayDirection.TransformWavelength(wavelength)
     End Function
 
     ''' <param name="radianceSpectrum">A spectral radiance spectrum in S.</param>
     ''' <returns>The corresponding spectral radiance spectrum in T.</returns>
-    Public Overridable Function TransformRadianceSpectrum(radianceSpectrum As RadianceSpectrum) As RadianceSpectrum
+    Public Function TransformRadianceSpectrum(radianceSpectrum As RadianceSpectrum) As RadianceSpectrum
         Return New RadianceSpectrum(TransformSpectralRadianceFunction(radianceSpectrum.Function))
     End Function
 
-    Public Shadows Function Inverse() As LorentzTransformationAtSightRayDirection
+    Public Function InverseAtSightRayDirection() As LorentzTransformationAtSightRayDirection
         Dim inverseLorentz = MyBase.Inverse
 
         Return inverseLorentz.AtSightRayDirection(inverseLorentz.TransformSightRayDirection(_NormalizedSightRayDirection))
+    End Function
+
+    Public Overrides Function Inverse() As LorentzTransformation
+        Return InverseAtSightRayDirection()
     End Function
 
     Public Function Partly(options As RadianceSpectrumLorentzTransformationOptions) As PartlyLorentzTransformationAtSightRayDirection
