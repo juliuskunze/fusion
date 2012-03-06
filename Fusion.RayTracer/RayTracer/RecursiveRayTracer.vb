@@ -26,7 +26,7 @@ Public Class RecursiveRayTracer(Of TLight As {ILight(Of TLight), New})
     End Property
 
     Private ReadOnly _ShadedPointLightSources As ShadedLightSources(Of TLight)
-    Public ReadOnly Property ShadedPointLightSources As IEnumerable(Of IPointLightSource(Of TLight))
+    Public ReadOnly Property ShadedPointLightSources As ShadedLightSources(Of TLight)
         Get
             Return _ShadedPointLightSources
         End Get
@@ -41,7 +41,8 @@ Public Class RecursiveRayTracer(Of TLight As {ILight(Of TLight), New})
 
         Dim finalLight = hitMaterial.SourceLight
         If hitMaterial.Scatters Then
-            Dim lightColor = LightSource.GetLight(firstIntersection).Add(_ShadedPointLightSources.GetLight(firstIntersection))
+            Dim pointLightSourceLight  = _ShadedPointLightSources.GetLight(firstIntersection)
+            Dim lightColor = LightSource.GetLight(firstIntersection).Add(pointLightSourceLight)
             finalLight = finalLight.Add(hitMaterial.ScatteringRemission.GetRemission(lightColor))
         End If
 

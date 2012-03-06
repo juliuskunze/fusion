@@ -3,17 +3,17 @@
 
     Private ReadOnly _ObserverTime As Double
     Private ReadOnly _ReferenceFrames As IEnumerable(Of RecursiveRayTracerReferenceFrame(Of RadianceSpectrum))
-    Private ReadOnly _TransformationOptions As RadianceSpectrumLorentzTransformationOptions
+    Private ReadOnly _Options As RadianceSpectrumLorentzTransformationOptions
 
-    Public Sub New(observerTime As Double, referenceFrames As IEnumerable(Of RecursiveRayTracerReferenceFrame(Of RadianceSpectrum)), transformationOptions As RadianceSpectrumLorentzTransformationOptions)
+    Public Sub New(observerTime As Double, referenceFrames As IEnumerable(Of RecursiveRayTracerReferenceFrame(Of RadianceSpectrum)), options As RadianceSpectrumLorentzTransformationOptions)
         _ObserverTime = observerTime
         _ReferenceFrames = referenceFrames
-        _TransformationOptions = transformationOptions
+        _Options = options
     End Sub
 
-    Public ReadOnly Property TransformationOptions() As RadianceSpectrumLorentzTransformationOptions
+    Public ReadOnly Property Options() As RadianceSpectrumLorentzTransformationOptions
         Get
-            Return _TransformationOptions
+            Return _Options
         End Get
     End Property
 
@@ -30,29 +30,42 @@
     End Property
 
 
-    Private Function TraceLight(sightRay As SightRay) As RadianceSpectrum
-        Dim hits = From frame In _ReferenceFrames
-                             Let surface = frame.RecursiveRayTracer.Surface
-                             Let transformation = frame.Transformation
-                             Let transformedSightRay = transformation.TransformSightRay(sightRay)
-                             Let transformedSurfacePoint = surface.FirstMaterialIntersection(transformedSightRay.Ray)
-                             Where transformedSurfacePoint IsNot Nothing
-                             Let transformedDistanceFromOrigin = (transformedSurfacePoint.Location - transformedSightRay.OriginLocation).Length
-                             Let transformedHitEvent = transformedSightRay.GetEvent(transformedDistanceFromOrigin)
-                             Let hitEvent = transformation.Inverse.TransformEvent(transformedHitEvent)
-                             Select transformation, transformedSurfacePoint, transformedSightRay, hitEvent
+    Private Function TraceLight(observerSightRay As SightRay) As RadianceSpectrum
+        Dim hits =
+            From frame In _ReferenceFrames
+            Let surface = frame.RecursiveRayTracer.Surface
+            Let observerToObject = frame.ObserverToObject
+            Let objectSightRay = observerToObject.TransformSightRay(observerSightRay)
+            Let objectSurfacePoint = surface.FirstMaterialIntersection(objectSightRay.Ray)
+            Where objectSurfacePoint IsNot Nothing
+            Let objectDistanceFromOrigin = (objectSurfacePoint.Location - objectSightRay.OriginLocation).Length
+            Let objectEvent = objectSightRay.GetEvent(objectDistanceFromOrigin)
+            Let [event] = observerToObject.Inverse.TransformEvent(objectEvent)
+            Select frame, objectSurfacePoint, objectSightRay, [event]
 
         If Not hits.Any Then Return New RadianceSpectrum
 
-        Dim realHit = hits.MaxItem(Function(hit) hit.hitEvent.Time)
-        Dim hitMaterial = realHit.transformedSurfacePoint.Material
-        Dim lorentzBackTransformationAtSightRay = realHit.transformation.Inverse.AtSightRayDirection(realHit.transformedSightRay.Ray.NormalizedDirection)
-        Dim finalLight = lorentzBackTransformationAtSightRay.TransformRadianceSpectrum(hitMaterial.SourceLight)
+        Dim actualHit = hits.MaxItem(Function(hit) hit.event.Time)
+        Dim hitMaterial = actualHit.objectSurfacePoint.Material
+        Dim objectToObserverAtSightRay = actualHit.frame.ObserverToObject.Inverse.AtSightRayDirection(actualHit.objectSightRay.Ray.NormalizedDirection).Partly(_Options)
+        Dim finalLight = objectToObserverAtSightRay.TransformRadianceSpectrum(hitMaterial.SourceLight)
 
-        'If hitMaterial.Scatters Then
-        '    Dim lightColor = LightSource.GetLight(firstIntersection).Add(_ShadedPointLightSources.GetLight(firstIntersection))
-        '    finalLight = finalLight.Add(hitMaterial.ScatteringRemission.GetRemission(lightColor))
-        'End If
+        If hitMaterial.Scatters Then
+            Dim lightColor = actualHit.frame.RecursiveRayTracer.LightSource.GetLight(actualHit.objectSurfacePoint)
+
+            Dim a = From frame In _ReferenceFrames
+                    Let observerToPointLight = frame.ObserverToObject
+                    Let pointLightHitEvent = frame.ObserverToObject.TransformEvent(actualHit.event)
+                        From pointLightSource In frame.RecursiveRayTracer.ShadedPointLightSources
+                        Let pointLightSightRay = New SightRay(pointLightHitEvent, direction:=pointLightSource.Location - pointLightHitEvent.Location)
+                            From surfaceFrame In _ReferenceFrames
+                            Let pointLightToSurface = observerToPointLight.Inverse.Before(surfaceFrame.ObserverToObject)
+                            Let surfaceFrameSightRay = pointLightToSurface.TransformSightRay(pointLightSightRay)
+                            Let barrier = surfaceFrame.RecursiveRayTracer.Surface.FirstMaterialIntersection(surfaceFrameSightRay.Ray)
+                            Where barrier Is Nothing
+
+            finalLight = finalLight.Add(hitMaterial.ScatteringRemission.GetRemission(lightColor))
+        End If
 
         If hitMaterial.Reflects OrElse hitMaterial.IsTranslucent Then
             Throw New NotImplementedException("Reflection and translucence are not implemented.")

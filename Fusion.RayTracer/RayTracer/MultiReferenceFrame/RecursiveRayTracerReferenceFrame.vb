@@ -1,15 +1,15 @@
 ﻿Public Class RecursiveRayTracerReferenceFrame(Of TLight As {ILight(Of TLight), New})
     Private ReadOnly _RecursiveRayTracer As RecursiveRayTracer(Of TLight)
-    Private ReadOnly _Transformation As LorentzTransformation
+    Private ReadOnly _ObserverToObject As LorentzTransformation
 
-    Public Sub New(recursiveRayTracer As RecursiveRayTracer(Of TLight), transformation As LorentzTransformation)
+    Public Sub New(recursiveRayTracer As RecursiveRayTracer(Of TLight), observerToObject As LorentzTransformation)
         _RecursiveRayTracer = recursiveRayTracer
-        _Transformation = transformation
+        _ObserverToObject = observerToObject
     End Sub
 
-    Public ReadOnly Property Transformation As LorentzTransformation
+    Public ReadOnly Property ObserverToObject As LorentzTransformation
         Get
-            Return _Transformation
+            Return _ObserverToObject
         End Get
     End Property
 
