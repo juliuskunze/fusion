@@ -10,17 +10,19 @@ Public Class PointLightSource(Of TLight As {ILight(Of TLight), New})
     End Sub
 
     Public Function GetLight(surfacePoint As SurfacePoint) As TLight Implements ILightSource(Of TLight).GetLight
-        Dim relativeVector = surfacePoint.Location - Me.Location
-        Dim normalizedRelativeVector = relativeVector.Normalized
-        Dim distanceSquared = relativeVector.LengthSquared
-        Dim valueFactorByDistance = 1 / distanceSquared
-        Dim valueFactorByNormal = -surfacePoint.NormalizedNormal.DotProduct(normalizedRelativeVector)
-        If valueFactorByNormal <= 0 Then
-            Return New TLight
-        End If
+        Dim pointToLight = Location - surfacePoint.Location
+        Dim normalizedPointToLight = pointToLight.Normalized
+        Dim distanceSquared = pointToLight.LengthSquared
+        Dim brightnessFactorByDistance = 1 / distanceSquared
+        Dim brightnessFactorByNormal = surfacePoint.NormalizedNormal.DotProduct(normalizedPointToLight)
+        If brightnessFactorByNormal <= 0 Then Return New TLight
 
-        Dim valueFactor = valueFactorByDistance * valueFactorByNormal
-        Return Me.BaseLight.MultiplyBrightness(valueFactor)
+        Return BaseLight.MultiplyBrightness(brightnessFactorByDistance * brightnessFactorByNormal)
     End Function
+
+    Public Function GetLightAtPoint(point As Vector3D) As TLight
+        Return BaseLight.MultiplyBrightness(1 / (Location - point).LengthSquared)
+    End Function
+
 
 End Class
