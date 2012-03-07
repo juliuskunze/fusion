@@ -47,7 +47,7 @@
 
         Dim actualHit = hits.MaxItem(Function(hit) hit.event.Time)
         Dim hitMaterial = actualHit.objectSurfacePoint.Material
-        Dim objectToObserverAtSightRay = actualHit.frame.ObserverToObject.Inverse.AtSightRayDirection(actualHit.objectSightRay.Ray.NormalizedDirection).Partly(_Options)
+        Dim objectToObserverAtSightRay = actualHit.frame.ObserverToObject.Inverse.AtSightRay(actualHit.objectSightRay).Partly(_Options)
         Dim finalLight = objectToObserverAtSightRay.TransformRadianceSpectrum(hitMaterial.SourceLight)
 
         If hitMaterial.Scatters Then
@@ -62,7 +62,7 @@
                             Let pointLightToSurface = observerToPointLight.Inverse.Before(surfaceFrame.ObserverToObject)
                             Let surfaceFrameSightRay = pointLightToSurface.TransformSightRay(pointLightSightRay)
                             Let barrier = surfaceFrame.RecursiveRayTracer.Surface.FirstMaterialIntersection(surfaceFrameSightRay.Ray)
-                            Where barrier Is Nothing
+                            Where barrier.Location = actualHit.objectSurfacePoint.Location
 
             finalLight = finalLight.Add(hitMaterial.ScatteringRemission.GetRemission(lightColor))
         End If

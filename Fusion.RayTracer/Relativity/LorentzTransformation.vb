@@ -51,18 +51,6 @@ Public Class LorentzTransformation
         End Get
     End Property
 
-    ''' <summary>
-    ''' Transforms the direction, but keeps the origin location of the sight ray.
-    ''' </summary>
-    Public Function SemiTransformSightRay(sightRay As Ray) As Ray
-        Return New Ray(origin:=sightRay.Origin,
-                       direction:=TransformSightRayDirection(sightRay.NormalizedDirection))
-    End Function
-
-    Public Function TransformSightRayDirection(sightRayDirection As Vector3D) As Vector3D
-        Return -TransformVelocity(-sightRayDirection.Normalized.ScaledToLength(SpeedOfLight))
-    End Function
-
     ''' <param name="event">An event in S.</param>
     ''' <returns>The corresponding event in T.</returns>
     Public Function TransformEvent([event] As SpaceTimeEvent) As SpaceTimeEvent
@@ -96,10 +84,11 @@ Public Class LorentzTransformation
     End Function
 
     Public Function TransformSightRay(sightRay As SightRay) As SightRay
-        Return New SightRay(originEvent:=TransformEvent(sightRay.OriginEvent), direction:=TransformSightRayDirection(sightRay.Ray.NormalizedDirection))
+        Return New SightRay(originEvent:=TransformEvent(sightRay.OriginEvent),
+                            direction:=AtSightRay(sightRay).TransformSightRayDirection)
     End Function
 
-    Public Function AtSightRayDirection(sightRayDirection As Vector3D) As LorentzTransformationAtSightRayDirection
-        Return New LorentzTransformationAtSightRayDirection(RelativeVelocity:=RelativeVelocity, sightRayDirection:=sightRayDirection)
+    Public Function AtSightRay(sightRay As SightRay) As LorentzTransformationAtSightRay
+        Return New LorentzTransformationAtSightRay(RelativeVelocity:=RelativeVelocity, sightRay:=sightRay)
     End Function
 End Class

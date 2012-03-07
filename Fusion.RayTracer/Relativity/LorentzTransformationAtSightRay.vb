@@ -2,24 +2,28 @@
 ''' Transforms (on a sightray with a specified direction) wavelength dependent values of a (stationary) reference frame S into a reference frame T which relativly moves with a constant velocity.
 ''' The events (0, 0, 0, 0) of both reference frames are the same.
 ''' </summary>
-Public Class LorentzTransformationAtSightRayDirection
+Public Class LorentzTransformationAtSightRay
     Inherits LorentzTransformation
 
-    Private ReadOnly _NormalizedSightRayDirection As Vector3D
+    Private ReadOnly _SightRay As SightRay
 
-    Public ReadOnly Property NormalizedSightRayDirection() As Vector3D
+    Public ReadOnly Property SightRay() As SightRay
         Get
-            Return _NormalizedSightRayDirection
+            Return _SightRay
         End Get
     End Property
 
     Private ReadOnly _GammaTheta As Double
 
-    Public Sub New(relativeVelocity As Vector3D, sightRayDirection As Vector3D)
-        MyBase.New(relativeVelocity:=relativeVelocity)
-        _NormalizedSightRayDirection = sightRayDirection.Normalized
+    Public Sub New(relativeVelocity As Vector3D, sightRay As Ray)
+        Me.New(relativeVelocity, New SightRay(sightRay, 0))
+    End Sub
 
-        _GammaTheta = If(RelativeVelocityIsNull, 1, 1 / (Gamma * (1 - Beta * _NormalizedSightRayDirection * NormalizedRelativeVelocity)))
+    Public Sub New(relativeVelocity As Vector3D, sightRay As SightRay)
+        MyBase.New(relativeVelocity:=relativeVelocity)
+        _SightRay = sightRay
+
+        _GammaTheta = If(RelativeVelocityIsNull, 1, 1 / (Gamma * (1 - Beta * _SightRay.Ray.NormalizedDirection * NormalizedRelativeVelocity)))
     End Sub
 
     ''' <param name="wavelength">A wavelength in S.</param>
@@ -41,7 +45,7 @@ Public Class LorentzTransformationAtSightRayDirection
     End Function
 
     Protected Overridable Function InverseTransformWavelength(wavelength As Double) As Double
-        Return InverseAtSightRayDirection.TransformWavelength(wavelength)
+        Return InverseAtSightRay.TransformWavelength(wavelength)
     End Function
 
     ''' <param name="radianceSpectrum">A spectral radiance spectrum in S.</param>
@@ -50,18 +54,35 @@ Public Class LorentzTransformationAtSightRayDirection
         Return New RadianceSpectrum(TransformSpectralRadianceFunction(radianceSpectrum.Function))
     End Function
 
-    Public Function InverseAtSightRayDirection() As LorentzTransformationAtSightRayDirection
+    Public Function InverseAtSightRay() As LorentzTransformationAtSightRay
         Dim inverseLorentz = MyBase.Inverse
 
-        Return inverseLorentz.AtSightRayDirection(inverseLorentz.TransformSightRayDirection(_NormalizedSightRayDirection))
+        Return inverseLorentz.AtSightRay(inverseLorentz.TransformSightRay(_SightRay))
     End Function
 
     Public Overrides Function Inverse() As LorentzTransformation
-        Return InverseAtSightRayDirection()
+        Return InverseAtSightRay()
     End Function
 
-    Public Function Partly(options As RadianceSpectrumLorentzTransformationOptions) As PartlyLorentzTransformationAtSightRayDirection
-        Return New PartlyLorentzTransformationAtSightRayDirection(Me, options)
+    Public Function Partly(options As RadianceSpectrumLorentzTransformationOptions) As PartlyLorentzTransformationAtSightRay
+        Return New PartlyLorentzTransformationAtSightRay(Me, options)
     End Function
+
+    ''' <summary>
+    ''' Transforms the direction, but keeps the origin event of the sight ray.
+    ''' </summary>
+    Public Function SemiTransformSightRay() As SightRay
+        Return New SightRay(originEvent:=_SightRay.OriginEvent,
+                            direction:=TransformSightRayDirection)
+    End Function
+
+    Public Function TransformSightRayDirection() As Vector3D
+        Return -TransformVelocity(-_SightRay.Ray.NormalizedDirection.ScaledToLength(SpeedOfLight))
+    End Function
+
+    Public Shadows Function TransformSightRay() As SightRay
+        Return MyBase.TransformSightRay(_SightRay)
+    End Function
+
 
 End Class

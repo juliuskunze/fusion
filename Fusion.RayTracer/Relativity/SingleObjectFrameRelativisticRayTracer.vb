@@ -11,13 +11,14 @@ Public Class SingleObjectFrameRelativisticRayTracer
     End Sub
 
     Public Overrides Function GetLight(observerSightRayWithObjectOrigin As Ray) As RadianceSpectrum
+        Dim sightRay = New SightRay(observerSightRayWithObjectOrigin)
         Dim objectSightRay = If(_Options.IgnoreGeometryEffect,
-                                observerSightRayWithObjectOrigin,
-                                ObjectToObserver.Inverse.SemiTransformSightRay(observerSightRayWithObjectOrigin))
-        Dim radianceSpectrum = ClassicRayTracer.GetLight(objectSightRay)
+                                sightRay,
+                                ObjectToObserver.Inverse.AtSightRay(sightRay).SemiTransformSightRay)
+        Dim radianceSpectrum = ClassicRayTracer.GetLight(objectSightRay.Ray)
 
         Return ObjectToObserver.
-            AtSightRayDirection(objectSightRay.NormalizedDirection).
+            AtSightRay(objectSightRay).
             Partly(_Options).
             TransformRadianceSpectrum(radianceSpectrum)
     End Function

@@ -3,10 +3,6 @@
 
     Private ReadOnly _MaxDeviation As Double
 
-    Public Sub New()
-        Me.New(10 ^ -10)
-    End Sub
-
     Public Sub New(maxDeviation As Double)
         _MaxDeviation = maxDeviation
     End Sub

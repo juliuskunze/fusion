@@ -5,6 +5,10 @@ Public Class SightRay
     Private ReadOnly _Ray As Ray
     Private ReadOnly _OriginTime As Double
 
+    Public Sub New(ray As Ray)
+        Me.New(ray, OriginTime:=0)
+    End Sub
+
     Public Sub New(ray As Ray, originTime As Double)
         _Ray = ray
         _OriginTime = originTime
@@ -32,6 +36,9 @@ Public Class SightRay
         End Get
     End Property
 
+    ''' <summary>
+    ''' The corresponding time independent ray.
+    ''' </summary>
     Public ReadOnly Property Ray As Ray
         Get
             Return _Ray

@@ -2,6 +2,10 @@
     Private ReadOnly _Time As Double
     Private ReadOnly _Location As Vector3D
 
+    Public Sub New()
+        Me.New(0, New Vector3D)
+    End Sub
+
     Public Sub New(time As Double, location As Vector3D)
         _Time = time
         _Location = location
@@ -20,7 +24,7 @@
     End Property
 
     Public Overrides Function ToString() As String
-        Return Me.ToString("0.00")
+        Return ToString("0.00")
     End Function
 
     Public Overloads Function ToString(numberFormat As String) As String

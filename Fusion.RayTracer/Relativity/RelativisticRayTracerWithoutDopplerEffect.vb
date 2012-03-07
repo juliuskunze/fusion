@@ -7,10 +7,11 @@ Public Class SingleReferenceFrameRelativisticRayTracerWithoutDopplerEffect(Of TL
     End Sub
 
     Public Overrides Function GetLight(observerSightRayWithObjectOrigin As Ray) As TLight
-        Dim objectSightRay = ObjectToObserver.Inverse.SemiTransformSightRay(observerSightRayWithObjectOrigin)
-        Dim light = ClassicRayTracer.GetLight(objectSightRay)
+        Dim observerSightRay = New SightRay(observerSightRayWithObjectOrigin)
+        Dim objectSightRay = ObjectToObserver.Inverse.AtSightRay(observerSightRay).SemiTransformSightRay
+        Dim light = ClassicRayTracer.GetLight(objectSightRay.Ray)
 
-        Dim searchlightFactor = ObjectToObserver.AtSightRayDirection(observerSightRayWithObjectOrigin.NormalizedDirection).TransformSpectralRadiance(spectralRadiance:=1)
+        Dim searchlightFactor = ObjectToObserver.AtSightRay(observerSightRay).TransformSpectralRadiance(spectralRadiance:=1)
 
         Return light.MultiplyBrightness(searchlightFactor)
     End Function

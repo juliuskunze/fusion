@@ -1,15 +1,10 @@
-﻿Public Class PartlyLorentzTransformationAtSightRayDirection
-    Inherits LorentzTransformationAtSightRayDirection
+﻿Public Class PartlyLorentzTransformationAtSightRay
+    Inherits LorentzTransformationAtSightRay
 
     Private ReadOnly _Options As RadianceSpectrumLorentzTransformationOptions
 
-    Public Sub New(relativeVelocity As Vector3D, sightRayDirection As Vector3D, options As RadianceSpectrumLorentzTransformationOptions)
-        MyBase.New(relativeVelocity:=relativeVelocity, sightRayDirection:=sightRayDirection)
-        _Options = options
-    End Sub
-
-    Public Sub New(transformation As LorentzTransformationAtSightRayDirection, options As RadianceSpectrumLorentzTransformationOptions)
-        MyBase.New(transformation.RelativeVelocity, sightRayDirection:=transformation.NormalizedSightRayDirection)
+    Public Sub New(transformation As LorentzTransformationAtSightRay, options As RadianceSpectrumLorentzTransformationOptions)
+        MyBase.New(transformation.RelativeVelocity, sightRay:=transformation.SightRay)
         _Options = options
     End Sub
 
@@ -27,8 +22,8 @@
         Return If(_Options.IgnoreSearchlightEffect, spectralRadiance, MyBase.TransformSpectralRadiance(spectralRadiance))
     End Function
 
-    Public Function InversePartly() As PartlyLorentzTransformationAtSightRayDirection
-        Return InverseAtSightRayDirection.Partly(_Options)
+    Public Function InversePartly() As PartlyLorentzTransformationAtSightRay
+        Return InverseAtSightRay.Partly(_Options)
     End Function
 
     Public Overrides Function Inverse() As LorentzTransformation

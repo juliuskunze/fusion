@@ -2,34 +2,32 @@ Public Class ShadedLightSources(Of TLight As {ILight(Of TLight), New})
     Inherits List(Of IPointLightSource(Of TLight))
     Implements ILightSource(Of TLight)
 
-    Public Property ShadowingSurface As ISurface
+    Private ReadOnly _ShadowingSurface As ISurface
 
-    Public Property SafetyDistanceSquared As Double = 1.0E-19
+    Public ReadOnly Property ShadowingSurface As ISurface
+        Get
+            Return _ShadowingSurface
+        End Get
+    End Property
+
+    Private Shared ReadOnly _LocationComparer As New Vector3DRoughComparer(maxDeviation:=3.2 * 10 ^ -10)
 
     Public Sub New(shadowingSurface As ISurface)
-        Me.ShadowingSurface = shadowingSurface
+        _ShadowingSurface = shadowingSurface
     End Sub
 
     Public Sub New(pointLightSources As IEnumerable(Of IPointLightSource(Of TLight)), shadowingSurface As ISurface)
         MyBase.New(pointLightSources)
 
-        Me.ShadowingSurface = shadowingSurface
+        _ShadowingSurface = shadowingSurface
     End Sub
 
     Public Function GetLight(surfacePoint As SurfacePoint) As TLight Implements ILightSource(Of TLight).GetLight
-        Dim returnColor = New TLight
-        For Each pointLightSource In Me
-            Dim lightRay = New Ray(origin:=pointLightSource.Location,
-                                   direction:=surfacePoint.Location - pointLightSource.Location)
-
-            Dim firstIntersection = ShadowingSurface.FirstIntersection(lightRay)
-
-            If firstIntersection Is Nothing Then Continue For
-            If (firstIntersection.Location - surfacePoint.Location).LengthSquared >= SafetyDistanceSquared Then Continue For
-
-            returnColor = returnColor.Add(pointLightSource.GetLight(surfacePoint))
-        Next
-
-        Return returnColor
+        Return (From pointLightSource In Me
+                Let lightRay = New Ray(origin:=pointLightSource.Location, direction:=surfacePoint.Location - pointLightSource.Location)
+                Let firstIntersection = ShadowingSurface.FirstIntersection(lightRay)
+                Where firstIntersection IsNot Nothing
+                Where _LocationComparer.Equals(firstIntersection.Location, surfacePoint.Location)
+                Select pointLightSource).Aggregate(New TLight, Function(current, pointLightSource) current.Add(pointLightSource.GetLight(surfacePoint)))
     End Function
 End Class

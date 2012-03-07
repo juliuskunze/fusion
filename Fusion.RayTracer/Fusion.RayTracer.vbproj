@@ -128,7 +128,7 @@
     <Compile Include="RayTracer\RayTracerPicture.vb" />
     <Compile Include="RayTracer\RayTracerVideo.vb" />
     <Compile Include="RayTracer\RecursiveRayTracer.vb" />
-    <Compile Include="Relativity\LorentzTransformationAtSightRayDirection.vb" />
+    <Compile Include="Relativity\LorentzTransformationAtSightRay.vb" />
     <Compile Include="Relativity\RadianceSpectrumLorentzTransformationOptions.vb" />
     <Compile Include="Relativity\SightRay.vb" />
     <Compile Include="Relativity\SpaceTimeEvent.vb" />
@@ -138,7 +138,7 @@
     <Compile Include="Relativity\SingleObjectFrameRelativisticRayTracer.vb" />
     <Compile Include="RayTracer\ScatteringRayTracer.vb" />
     <Compile Include="ColorConversion\RadianceSpectrumToRgbColorConverter.vb" />
-    <Compile Include="Relativity\PartlyLorentzTransformationAtSightRayDirection.vb" />
+    <Compile Include="Relativity\PartlyLorentzTransformationAtSightRay.vb" />
     <Compile Include="Relativity\SurfaceEvent.vb" />
     <Compile Include="Video\IRayTraceVideo.vb" />
     <Compile Include="Video\IViewCourse.vb" />
