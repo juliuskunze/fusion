@@ -7,13 +7,19 @@ Public Class LorentzTransformationAtSightRay
 
     Private ReadOnly _SightRay As SightRay
 
-    Public ReadOnly Property SightRay() As SightRay
+    Public ReadOnly Property SightRay As SightRay
         Get
             Return _SightRay
         End Get
     End Property
 
     Private ReadOnly _GammaTheta As Double
+
+    Public ReadOnly Property GammaTheta As Double
+        Get
+            Return _GammaTheta
+        End Get
+    End Property
 
     Public Sub New(relativeVelocity As Vector3D, sightRay As Ray)
         Me.New(relativeVelocity, New SightRay(sightRay, 0))
@@ -23,19 +29,19 @@ Public Class LorentzTransformationAtSightRay
         MyBase.New(relativeVelocity:=relativeVelocity)
         _SightRay = sightRay
 
-        _GammaTheta = If(RelativeVelocityIsNull, 1, 1 / (Gamma * (1 - Beta * _SightRay.Ray.NormalizedDirection * NormalizedRelativeVelocity)))
+        _GammaTheta = If(RelativeVelocityIsNull, 1, 1 / (Gamma * (1 + Beta * _SightRay.Ray.NormalizedDirection * NormalizedRelativeVelocity)))
     End Sub
 
     ''' <param name="wavelength">A wavelength in S.</param>
     ''' <returns>The corresponding wavelength in T.</returns>
     Public Function TransformWavelength(wavelength As Double) As Double
-        Return wavelength / _GammaTheta
+        Return wavelength * _GammaTheta
     End Function
 
     ''' <param name="spectralRadiance">A spectral radiance in S.</param>
     ''' <returns>The corresponding spectral radiance in T.</returns>
     Public Overridable Function TransformSpectralRadiance(spectralRadiance As Double) As Double
-        Return spectralRadiance * _GammaTheta ^ 5
+        Return spectralRadiance / _GammaTheta ^ 5
     End Function
 
     ''' <param name="spectralRadianceFunction">A spectral radiance function in S.</param>
@@ -55,9 +61,8 @@ Public Class LorentzTransformationAtSightRay
     End Function
 
     Public Function InverseAtSightRay() As LorentzTransformationAtSightRay
-        Dim inverseLorentz = MyBase.Inverse
-
-        Return inverseLorentz.AtSightRay(inverseLorentz.TransformSightRay(_SightRay))
+        Static lazy As New Lazy(Of LorentzTransformationAtSightRay)(Function() MyBase.Inverse.AtSightRay(TransformSightRay))
+        Return lazy.Value
     End Function
 
     Public Overrides Function Inverse() As LorentzTransformation
@@ -83,6 +88,4 @@ Public Class LorentzTransformationAtSightRay
     Public Shadows Function TransformSightRay() As SightRay
         Return MyBase.TransformSightRay(_SightRay)
     End Function
-
-
 End Class

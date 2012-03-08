@@ -1,5 +1,4 @@
 ﻿Public Structure Ray
-
     Private ReadOnly _NormalizedDirection As Vector3D
     Public ReadOnly Property NormalizedDirection As Vector3D
         Get
@@ -22,7 +21,10 @@
     Public Function PointOnRay(distanceFromOrigin As Double) As Vector3D
         If distanceFromOrigin < 0 Then Throw New ArgumentException("The distance from start location must be positve.")
 
-        Return Me.Origin + distanceFromOrigin * Me.NormalizedDirection
+        Return Origin + distanceFromOrigin * NormalizedDirection
     End Function
 
+    Public Overrides Function ToString() As String
+        Return String.Format("Ray(origin : {0}, direction : {1})", Origin.ToString, NormalizedDirection.ToString)
+    End Function
 End Structure

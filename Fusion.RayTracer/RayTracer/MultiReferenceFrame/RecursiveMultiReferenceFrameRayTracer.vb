@@ -72,9 +72,9 @@
                         Let lightToSurface = observerToLight.Inverse.Before(observerToSurface)
                         Let lightToSurfaceAtLightSightRay = lightToSurface.AtSightRay(lightSightRay)
                         Let surfaceLightWithoutGeometry = lightToSurfaceAtLightSightRay.Partly(_Options).TransformRadianceSpectrum(light)
-                        Let brightnessFactorByNormal = actualHit.objectSurfacePoint.NormalizedNormal.DotProduct(lightSightRay.Ray.NormalizedDirection)
-                        Let brightnessFactorByNormal2 = If(brightnessFactorByNormal > 0, brightnessFactorByNormal, 0)
-                        Select surfaceLight = surfaceLightWithoutGeometry.MultiplyBrightness(brightnessFactorByNormal2)
+                        Let brightnessFactorByNormalUncut = actualHit.objectSurfacePoint.NormalizedNormal.DotProduct(lightSightRay.Ray.NormalizedDirection)
+                        Let brightnessFactorByNormal = If(brightnessFactorByNormalUncut > 0, brightnessFactorByNormalUncut, 0)
+                        Select surfaceLight = surfaceLightWithoutGeometry.MultiplyBrightness(brightnessFactorByNormal)
 
             Dim scatteringPointLight = scatteringPointLights.Aggregate(New RadianceSpectrum, Function(sum, current) sum.Add(current))
 

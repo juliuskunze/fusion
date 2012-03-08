@@ -43,23 +43,23 @@
         Assert.AreEqual(_Transformation.Beta, beta)
         Assert.AreEqual(_Transformation.Gamma, gamma)
 
-        Dim frontRayInT = New SightRay(New SpaceTimeEvent, direction:=New Vector3D(1, 0, 0))
-        Dim frontRayInS = _Transformation.Inverse.AtSightRay(frontRayInT).SemiTransformSightRay
-        Assert.AreEqual(frontRayInT.OriginLocation, frontRayInS.OriginLocation)
-        Assert.That(_VectorComparer.Equals(frontRayInT.Ray.NormalizedDirection, frontRayInS.Ray.NormalizedDirection))
+        Dim parallelRay = New SightRay(New SpaceTimeEvent, direction:=New Vector3D(1, 0, 0))
+        Dim transformedParallelRay = _Transformation.AtSightRay(parallelRay).SemiTransformSightRay
+        Assert.AreEqual(parallelRay.OriginLocation, transformedParallelRay.OriginLocation)
+        Assert.That(_VectorComparer.Equals(parallelRay.Ray.NormalizedDirection, transformedParallelRay.Ray.NormalizedDirection))
 
-        Dim backRay = New SightRay(New SpaceTimeEvent, direction:=New Vector3D(1, 0, 0))
-        Dim transformedBackRay = _Transformation.Inverse.AtSightRay(backRay).SemiTransformSightRay
-        Assert.AreEqual(backRay.OriginLocation, transformedBackRay.OriginLocation)
-        Assert.That(_VectorComparer.Equals(backRay.Ray.NormalizedDirection, transformedBackRay.Ray.NormalizedDirection))
+        Dim antiParallelRay = New SightRay(New SpaceTimeEvent, direction:=New Vector3D(1, 0, 0))
+        Dim transformedAntiparallelRay = _Transformation.AtSightRay(antiParallelRay).SemiTransformSightRay
+        Assert.AreEqual(antiParallelRay.OriginLocation, transformedAntiparallelRay.OriginLocation)
+        Assert.That(_VectorComparer.Equals(antiParallelRay.Ray.NormalizedDirection, transformedAntiparallelRay.Ray.NormalizedDirection))
 
-        Const testWavelengthInT = 0.0000005
-        Dim testRayInT = New SightRay(New SpaceTimeEvent, New Vector3D(1, 1, 1))
-        Assert.Less(testWavelengthInT, _Transformation.Inverse.AtSightRay(frontRayInS).TransformWavelength(wavelength:=testWavelengthInT))
-        Assert.Greater(testRayInT.Ray.NormalizedDirection.X, _Transformation.Inverse.AtSightRay(testRayInT).SemiTransformSightRay.Ray.NormalizedDirection.X)
+        Const randomWavelength = 0.0000005
+        Dim ray = New SightRay(New SpaceTimeEvent, New Vector3D(1, 1, 1))
+        Assert.Greater(randomWavelength, _Transformation.AtSightRay(parallelRay).TransformWavelength(randomWavelength))
+        Assert.Greater(ray.Ray.NormalizedDirection.X, _Transformation.Inverse.AtSightRay(ray).SemiTransformSightRay.Ray.NormalizedDirection.X)
 
-        Const testIntensityInS = 17
-        Assert.Greater(_Transformation.AtSightRay(frontRayInS).TransformSpectralRadiance(spectralRadiance:=testIntensityInS), testIntensityInS)
+        Const randomSpectralRadiance = 17
+        Assert.Greater(_Transformation.AtSightRay(parallelRay).TransformSpectralRadiance(randomSpectralRadiance), randomSpectralRadiance)
 
         Dim originEvent = New SpaceTimeEvent(0, New Vector3D)
 

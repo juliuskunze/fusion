@@ -10,7 +10,7 @@ Public MustInherit Class SingleReferenceFrameRelativisticRayTracerBase(Of TLight
     Private ReadOnly _ClassicRayTracer As IRayTracer(Of TLight)
 
     Public Sub New(classicRayTracer As IRayTracer(Of TLight),
-                    observerVelocity As Vector3D)
+                   observerVelocity As Vector3D)
         _ClassicRayTracer = classicRayTracer
         _ObjectToObserver = New LorentzTransformation(relativeVelocity:=observerVelocity)
     End Sub

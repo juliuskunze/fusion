@@ -91,6 +91,8 @@
   <ItemGroup>
     <Compile Include="AffineMap.vb" />
     <Compile Include="Complex.vb" />
+    <Compile Include="DoubleRoughComparer.vb" />
+    <Compile Include="RayRoughComparer.vb" />
     <Compile Include="Vector3DRoughComparer.vb" />
     <Compile Include="EndNodes.vb" />
     <Compile Include="Functions.vb" />

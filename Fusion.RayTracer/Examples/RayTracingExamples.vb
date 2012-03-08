@@ -307,7 +307,7 @@ Public Class RayTracingExamples
                                                               shadedPointLightSources:=shadedLightSources)
 
         Return New SingleReferenceFrameRelativisticRayTracerWithoutDopplerEffect(Of RgbLight)(classicRayTracer:=classicRayTracer,
-                                                                          cameraVelocity:=New Vector3D(0, 0, -0.5) * SpeedOfLight)
+                                                                          observerVelocity:=New Vector3D(0, 0, -0.5) * SpeedOfLight)
     End Function
 
     Public Shared Sub WriteVideo()

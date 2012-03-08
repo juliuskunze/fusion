@@ -2,8 +2,8 @@ Public Class SingleReferenceFrameRelativisticRayTracerWithoutDopplerEffect(Of TL
     Inherits SingleReferenceFrameRelativisticRayTracerBase(Of TLight)
 
     Public Sub New(classicRayTracer As IRayTracer(Of TLight),
-                    cameraVelocity As Vector3D)
-        MyBase.New(classicRayTracer:=classicRayTracer, observerVelocity:=cameraVelocity)
+                   observerVelocity As Vector3D)
+        MyBase.New(classicRayTracer:=classicRayTracer, observerVelocity:=observerVelocity)
     End Sub
 
     Public Overrides Function GetLight(observerSightRayWithObjectOrigin As Ray) As TLight

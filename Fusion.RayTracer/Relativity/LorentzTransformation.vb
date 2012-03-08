@@ -8,7 +8,7 @@ Public Class LorentzTransformation
     Private ReadOnly _Beta As Double
     Private ReadOnly _Gamma As Double
 
-    ''' <param name="relativeVelocity">The relative velocity of T in S.</param>
+    ''' <param name="relativeVelocity">The relative velocity of T (transformed) in S (original).</param>
     Public Sub New(relativeVelocity As Vector3D)
         If relativeVelocity.Length >= SpeedOfLight Then Throw New ArgumentException("A velocity of a reference frame must be smaller than light velocity.")
 
@@ -61,11 +61,8 @@ Public Class LorentzTransformation
     End Function
 
     Public Overridable Function Inverse() As LorentzTransformation
-        Static state As LorentzTransformation
-
-        If state Is Nothing Then state = New LorentzTransformation(-_RelativeVelocity)
-
-        Return state
+        Static lazy As New Lazy(Of LorentzTransformation)(Function() New LorentzTransformation(-_RelativeVelocity))
+        Return lazy.Value
     End Function
 
     ''' <param name="velocity">A velocity in S.</param>
