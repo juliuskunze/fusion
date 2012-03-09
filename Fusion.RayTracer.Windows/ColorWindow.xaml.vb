@@ -23,7 +23,7 @@ Public Class ColorWindow
         Dim wavelengthStep = (RadianceSpectrumToRgbColorConverter.UpperVisibleWavelengthBound - RadianceSpectrumToRgbColorConverter.LowerVisibleWavelengthBound) / width
 
         For x = 0 To width - 1
-            Dim color = _RgbLightToColorConverter.Convert(_RadianceSpectrumToRgbColorConverter.GetColorPerIntensity(wavelength:=RadianceSpectrumToRgbColorConverter.LowerVisibleWavelengthBound + x * wavelengthStep))
+            Dim color = _RgbLightToColorConverter.Run(_RadianceSpectrumToRgbColorConverter.GetColorPerIntensity(wavelength:=RadianceSpectrumToRgbColorConverter.LowerVisibleWavelengthBound + x * wavelengthStep))
 
             For y = 0 To height - 1
                 bitmap.SetPixel(x:=x, y:=y, color:=color)
@@ -31,7 +31,7 @@ Public Class ColorWindow
 
         Next
 
-        Dim white = _RadianceSpectrumToRgbColorConverter.Convert(New RadianceSpectrum(Function(wavelength) 1))
+        Dim white = _RadianceSpectrumToRgbColorConverter.Run(New RadianceSpectrum(Function(wavelength) 1))
 
         'bitmap.Clear(white)
 
@@ -50,7 +50,7 @@ Public Class ColorWindow
         Dim temperatureStep = (upperTemperatureBound - lowerTemperatureBound) / width
 
         For x = 0 To width - 1
-            Dim color = _RadianceSpectrumToRgbColorConverter.Convert(New RadianceSpectrum(New BlackBodyRadianceSpectrum(lowerTemperatureBound + x * temperatureStep)))
+            Dim color = _RadianceSpectrumToRgbColorConverter.Run(New RadianceSpectrum(New BlackBodyRadianceSpectrum(lowerTemperatureBound + x * temperatureStep)))
 
             For y = 0 To height - 1
                 bitmap.SetPixel(x:=x, y:=y, color:=color)
@@ -85,7 +85,7 @@ Public Class ColorWindow
             Const temperatureStep = (maxTemperature - minTemperature) / height
 
             For y = 0 To height - 1
-                Dim color = _RadianceSpectrumToRgbColorConverter.Convert(transformation.AtSightRay(sightRay:=New SightRay(New SpaceTimeEvent, New Vector3D(1, 0, 0))).TransformRadianceSpectrum(radianceSpectrum:=New RadianceSpectrum(New BlackBodyRadianceSpectrum(minTemperature + y * temperatureStep))))
+                Dim color = _RadianceSpectrumToRgbColorConverter.Run(transformation.AtSightRay(sightRay:=New SightRay(New SpaceTimeEvent, New Vector3D(1, 0, 0))).TransformRadianceSpectrum(radianceSpectrum:=New RadianceSpectrum(New BlackBodyRadianceSpectrum(minTemperature + y * temperatureStep))))
                 bitmap.SetPixel(x:=x, y:=y, color:=color)
             Next
 

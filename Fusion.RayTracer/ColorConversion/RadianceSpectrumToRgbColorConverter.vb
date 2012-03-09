@@ -1,23 +1,25 @@
 ﻿Public Class RadianceSpectrumToRgbColorConverter
     Implements ILightToRgbColorConverter(Of RadianceSpectrum)
 
-    Private ReadOnly _RgbLightToColorConverter As New RgbLightToRgbColorConverter
+    Private Shared ReadOnly _RgbLightToColorConverter As New RgbLightToRgbColorConverter
 
     Public Const LowerVisibleWavelengthBound = 380 * 10 ^ -9
     Public Const UpperVisibleWavelengthBound = 710 * 10 ^ -9
 
     Private _WavelengthStep As Double
     Private ReadOnly _TestedWavelengthsCount As Integer
+    Private ReadOnly _GammaCorrector As RgbColorGammaCorrector
 
     Private _ColorArray As RgbLight()
     Private ReadOnly _SpectralRadiancePerWhite As Double
 
     ''' <param name="spectralRadiancePerWhite">Wenn das ganze Spektrum die übergebene spektrale Strahldichte besitzt, wird die RGB-Farbe Weiß (255, 255, 255) zurückgegeben.</param>
     ''' <param name="testedWavelengthsCount"></param>
-    Public Sub New(spectralRadiancePerWhite As Double, Optional testedWavelengthsCount As Integer = 100)
+    Public Sub New(spectralRadiancePerWhite As Double, Optional testedWavelengthsCount As Integer = 100, Optional gamma As Double = 2.0)
         If spectralRadiancePerWhite <= 0 Then Throw New ArgumentOutOfRangeException("spectralRadiancePerWhite")
 
         _TestedWavelengthsCount = testedWavelengthsCount
+        _GammaCorrector = New RgbColorGammaCorrector(gamma)
         _SpectralRadiancePerWhite = spectralRadiancePerWhite
         ReadWavelengthRgbDictionary()
     End Sub
@@ -43,7 +45,7 @@
     End Sub
 
     Private Sub NormalizeToWhite()
-        Dim white = ConvertToRgbLight(New RadianceSpectrum(Function(wavelength) 1), testedWavelengthsCount:=_ColorArray.Count)
+        Dim white = RadianceSpectrumToRgb(New RadianceSpectrum(Function(wavelength) 1), testedWavelengthsCount:=_ColorArray.Count)
 
         NormalizeColorData(divisorRed:=white.Red, divisorGreen:=white.Green, divisorBlue:=white.Blue)
     End Sub
@@ -68,7 +70,7 @@
         Return _ColorArray(index)
     End Function
 
-    Private Function ConvertToRgbLight(radianceSpectrum As IRadianceSpectrum, testedWavelengthsCount As Integer) As RgbLight
+    Private Function RadianceSpectrumToRgb(radianceSpectrum As IRadianceSpectrum, testedWavelengthsCount As Integer) As RgbLight
         Dim rgbLight = New RgbLight
 
         Dim interval = (UpperVisibleWavelengthBound - LowerVisibleWavelengthBound) / (testedWavelengthsCount - 1)
@@ -82,11 +84,11 @@
         Return rgbLight / testedWavelengthsCount
     End Function
 
-    Public Function ConvertToRgbLight(light As RadianceSpectrum) As RgbLight
-        Return ConvertToRgbLight(radianceSpectrum:=light, testedWavelengthsCount:=_TestedWavelengthsCount)
+    Public Function RadianceSpectrumToRgb(light As RadianceSpectrum) As RgbLight
+        Return RadianceSpectrumToRgb(radianceSpectrum:=light, testedWavelengthsCount:=_TestedWavelengthsCount)
     End Function
 
-    Public Function Convert(light As RadianceSpectrum) As Color Implements ILightToRgbColorConverter(Of RadianceSpectrum).Convert
-        Return _RgbLightToColorConverter.Convert(ConvertToRgbLight(light))
+    Public Function Run(light As RadianceSpectrum) As Color Implements ILightToRgbColorConverter(Of RadianceSpectrum).Run
+        Return _RgbLightToColorConverter.Run(_GammaCorrector.Run(RadianceSpectrumToRgb(light)))
     End Function
 End Class

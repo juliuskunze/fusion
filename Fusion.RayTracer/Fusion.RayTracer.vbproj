@@ -70,6 +70,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColorConversion\RgbColorGammaCorrector.vb" />
     <Compile Include="ColorConversion\RgbLightToRgbColorConverter.vb" />
     <Compile Include="Examples\LensVideo.vb" />
     <Compile Include="Examples\RayTracingExamples.vb" />
