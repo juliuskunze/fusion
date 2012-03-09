@@ -11,5 +11,4 @@
     Public Sub New(compilerResult As RichCompilerResult(Of TResult))
         _CompilerResult = compilerResult
     End Sub
-
 End Class

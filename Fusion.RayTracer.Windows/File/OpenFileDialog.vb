@@ -24,7 +24,6 @@ Public Class OpenFileDialog
 
     Public Sub New(owner As Window,
                    fileFilters As FileFilters,
-                   defaultFilter As FileFilter,
                    initialDirectory As DirectoryInfo)
         _Owner = owner
         _FileFilters = fileFilters

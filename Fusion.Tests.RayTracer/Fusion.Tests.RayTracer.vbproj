@@ -100,7 +100,6 @@
     <Compile Include="RayChangerTests.vb" />
     <Compile Include="RayTracerTests.vb" />
     <Compile Include="NormalizedMidpointCoordinateSystemTests.vb" />
-    <Compile Include="RelativisticRayTracingComilerTests.vb" />
     <Compile Include="LorentzTransformationTests.vb" />
     <Compile Include="RgbColorGammaCorrectorTests.vb" />
     <Compile Include="SingleObjectFrameRelativisticRayTracerTests.vb" />

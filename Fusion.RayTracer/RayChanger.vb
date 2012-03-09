@@ -60,6 +60,6 @@
         Return New Ray(origin:=ray.Origin + ray.NormalizedDirection * SaftyDistance, direction:=ray.NormalizedDirection)
     End Function
 
-    Public Const SaftyDistance As Double = 0.0000000001
+    Public Const SaftyDistance = 0.0000000001
 
 End Class

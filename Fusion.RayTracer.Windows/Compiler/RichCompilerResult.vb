@@ -3,7 +3,7 @@
     Private ReadOnly _ErrorMessage As String
     Public ReadOnly Property ErrorMessage As String
         Get
-            If Me.WasCompilationSuccessful Then Throw New InvalidOperationException("There is no error message because compilation was successful.")
+            If WasCompilationSuccessful Then Throw New InvalidOperationException("There is no error message because compilation was successful.")
 
             Return _ErrorMessage
         End Get
@@ -12,7 +12,7 @@
     Private ReadOnly _Result As TResult
     Public ReadOnly Property Result As TResult
         Get
-            If Not Me.WasCompilationSuccessful Then Throw New InvalidOperationException("There is no result because compilation was not successful.")
+            If Not WasCompilationSuccessful Then Throw New InvalidOperationException("There is no result because compilation was not successful.")
 
             Return _Result
         End Get

@@ -6,18 +6,18 @@
 
     <Test()>
     Public Sub Test1()
-        Dim gammaCorrector1 = New RgbColorGammaCorrector(1)
+        Dim corrector = New RgbColorGammaCorrector(1)
 
-        Assert.AreEqual(gammaCorrector1.Run(gray), gray)
+        Assert.AreEqual(corrector.Run(gray), gray)
     End Sub
 
     <Test()>
     Public Sub Test2()
-        Dim gammaCorrector2 = New RgbColorGammaCorrector(2)
+        Dim corrector = New RgbColorGammaCorrector(2)
 
-        Assert.AreEqual(gammaCorrector2.Run(gray), white * 0.5 ^ 0.5)
-        Assert.AreEqual(gammaCorrector2.Run(white), white)
-        Assert.AreEqual(gammaCorrector2.Run(black), black)
+        Assert.AreEqual(corrector.Run(gray), white * 0.5 ^ 0.5)
+        Assert.AreEqual(corrector.Run(white), white)
+        Assert.AreEqual(corrector.Run(black), black)
     End Sub
 
 End Class

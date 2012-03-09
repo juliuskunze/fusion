@@ -5,13 +5,12 @@
                    initialDirectory As DirectoryInfo)
         MyBase.New(owner:=owner,
                    initialDirectory:=initialDirectory,
-                   FileFilters:=DescriptionFileHelper.OpenFileFilters,
-                   defaultFilter:=DescriptionFileHelper.AllFilesFilter)
+                   FileFilters:=DescriptionFileHelper.OpenFileFilters)
     End Sub
 
     Public ReadOnly Property Mode As CompileMode
         Get
-            Select Case Me.File.Extension
+            Select Case File.Extension
                 Case ".pic" : Return CompileMode.Picture
                 Case ".vid" : Return CompileMode.Video
                 Case Else
@@ -22,20 +21,20 @@
 
     Private ReadOnly Property IsModeValid As Boolean
         Get
-            Return {".pic", ".vid"}.Contains(Me.File.Extension)
+            Return {".pic", ".vid"}.Contains(File.Extension)
         End Get
     End Property
 
     Public Function OpenDescription() As String
-        Dim mode As CompileMode
+        Dim compileMode As CompileMode
         Try
-            mode = Me.Mode
+            compileMode = Mode
         Catch ex As ArgumentOutOfRangeException
-            mode = CompileMode.Picture
+            compileMode = CompileMode.Picture
         End Try
 
         Try
-            Using streamReader = New IO.StreamReader(Me.File.FullName)
+            Using streamReader = New StreamReader(File.FullName)
                 Return streamReader.ReadToEnd()
             End Using
         Catch ex As IOException
