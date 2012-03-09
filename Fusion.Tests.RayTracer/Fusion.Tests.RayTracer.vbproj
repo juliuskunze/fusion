@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlackBodyRadianceSpectrumTests.vb" />
+    <Compile Include="SingleObjectFrameRelativisticRayTracerTests.vb" />
     <Compile Include="DirectionalLightSourceTests.vb" />
     <Compile Include="LorentzTransformationAtSightRayTests.vb" />
     <Compile Include="RadianceSpectrumToColorConverterTests.vb" />
@@ -102,7 +103,7 @@
     <Compile Include="NormalizedMidpointCoordinateSystemTests.vb" />
     <Compile Include="LorentzTransformationTests.vb" />
     <Compile Include="RgbColorGammaCorrectorTests.vb" />
-    <Compile Include="SingleObjectFrameRelativisticRayTracerTests.vb" />
+    <Compile Include="RecursiveRelativisticRayTracerTests.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
