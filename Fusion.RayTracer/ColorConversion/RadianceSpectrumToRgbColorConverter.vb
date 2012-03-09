@@ -1,4 +1,7 @@
-﻿Public Class RadianceSpectrumToRgbColorConverter
+﻿''' <summary>
+''' Converts a radiance spectrum into a gamma corrected rgb color that can be displayed by standard monitors.
+''' </summary>
+Public Class RadianceSpectrumToRgbColorConverter
     Implements ILightToRgbColorConverter(Of RadianceSpectrum)
 
     Private Shared ReadOnly _RgbLightToColorConverter As New RgbLightToRgbColorConverter

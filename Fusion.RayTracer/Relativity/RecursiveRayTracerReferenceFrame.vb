@@ -7,6 +7,10 @@
         _ObserverToObject = observerToObject
     End Sub
 
+    Public Sub New(recursiveRayTracer As RecursiveRayTracer(Of RadianceSpectrum), objectVelocityRelativeToObserver As Vector3D)
+        Me.New(recursiveRayTracer, New LorentzTransformation(objectVelocityRelativeToObserver))
+    End Sub
+
     Public ReadOnly Property ObserverToObject As LorentzTransformation
         Get
             Return _ObserverToObject

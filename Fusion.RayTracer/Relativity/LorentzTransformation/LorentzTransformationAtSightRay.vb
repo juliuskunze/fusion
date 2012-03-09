@@ -61,7 +61,7 @@ Public Class LorentzTransformationAtSightRay
     End Function
 
     Public Function InverseAtSightRay() As LorentzTransformationAtSightRay
-        Static lazy As New Lazy(Of LorentzTransformationAtSightRay)(Function() MyBase.Inverse.AtSightRay(TransformSightRay))
+        Static lazy As New Lazy(Of LorentzTransformationAtSightRay)(Function() MyBase.Inverse.AtSightRay(MyClass.TransformSightRay))
         Return lazy.Value
     End Function
 

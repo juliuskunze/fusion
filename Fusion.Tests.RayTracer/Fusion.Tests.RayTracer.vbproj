@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlackBodyRadianceSpectrumTests.vb" />
+    <Compile Include="PartlyLorentzTransformationAtSightRayTests.vb" />
     <Compile Include="SingleObjectFrameRelativisticRayTracerTests.vb" />
     <Compile Include="DirectionalLightSourceTests.vb" />
     <Compile Include="LorentzTransformationAtSightRayTests.vb" />

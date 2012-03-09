@@ -4,7 +4,12 @@
     Private ReadOnly _Options As LorentzTransformationAtSightRayOptions
 
     Public Sub New(transformation As LorentzTransformationAtSightRay, options As LorentzTransformationAtSightRayOptions)
-        MyBase.New(transformation.RelativeVelocity, sightRay:=transformation.SightRay)
+        Me.New(RelativeVelocity:=transformation.RelativeVelocity, SightRay:=transformation.SightRay, options:=options)
+        _Options = options
+    End Sub
+
+    Public Sub New(relativeVelocity As Vector3D, sightRay As SightRay, options As LorentzTransformationAtSightRayOptions)
+        MyBase.New(relativeVelocity, sightRay)
         _Options = options
     End Sub
 
