@@ -25,5 +25,5 @@ Public MustInherit Class SingleReferenceFrameRelativisticRayTracerBase(Of TLight
         End Get
     End Property
 
-    Public MustOverride Function GetLight(observerSightRayWithObjectOrigin As Ray) As TLight Implements IRayTracer(Of TLight).GetLight
+    Public MustOverride Function GetLight(sightRay As Ray) As TLight Implements IRayTracer(Of TLight).GetLight
 End Class

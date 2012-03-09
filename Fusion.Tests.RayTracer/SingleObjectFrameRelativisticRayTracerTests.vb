@@ -3,7 +3,7 @@
     <Test()>
     Public Sub Searchlight()
         Dim spectrum = Function(wavelength As Double) 1
-        Assert.Greater(GetTestScene(spectrum).GetLight(observerSightRayWithObjectOrigin:=New Ray(New Vector3D, New Vector3D(1, 0, 0))).Function(1), spectrum(1))
+        Assert.Greater(GetTestScene(spectrum).GetLight(sightRay:=New Ray(New Vector3D, New Vector3D(1, 0, 0))).Function(1), spectrum(1))
     End Sub
 
     <Test()>
