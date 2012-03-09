@@ -7,7 +7,7 @@
                                                                                        Materials2D(Of RadianceSpectrum).LightSource(New RadianceSpectrum(spectrum)))
         Dim r = New SingleObjectFrameRelativisticRayTracer(New RecursiveRayTracer(Of RadianceSpectrum)(whitePlane, New LightSources(Of RadianceSpectrum)({}), {}),
                                                            observerVelocity:=New Vector3D(Constants.SpeedOfLight / 2, 0, 0),
-                                                           options:=New RadianceSpectrumLorentzTransformationOptions)
+                                                           options:=New LorentzTransformationAtSightRayOptions)
 
         Assert.Greater(r.GetLight(observerSightRayWithObjectOrigin:=New Ray(New Vector3D, New Vector3D(1, 0, 0))).Function(1), spectrum(1))
     End Sub
@@ -21,7 +21,7 @@
                                                                                        Materials2D(Of RadianceSpectrum).LightSource(New RadianceSpectrum(spectrum)))
         Dim r = New SingleObjectFrameRelativisticRayTracer(New RecursiveRayTracer(Of RadianceSpectrum)(whitePlane, New LightSources(Of RadianceSpectrum)({}), {}),
                                                            observerVelocity:=New Vector3D(Constants.SpeedOfLight / 2, 0, 0),
-                                                           options:=New RadianceSpectrumLorentzTransformationOptions)
+                                                           options:=New LorentzTransformationAtSightRayOptions)
 
         Dim transformedSpectrum = r.GetLight(observerSightRayWithObjectOrigin:=New Ray(New Vector3D, New Vector3D(1, 0, 0))).Function
 

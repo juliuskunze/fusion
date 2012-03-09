@@ -1,5 +1,5 @@
 ﻿''' <summary>
-''' Represents the events moving from an origin event into one direction backward in time with light velocity.
+''' Represents the events moving backward in time from an origin event into one direction with light velocity.
 ''' </summary>
 Public Class SightRay
     Private ReadOnly _Ray As Ray

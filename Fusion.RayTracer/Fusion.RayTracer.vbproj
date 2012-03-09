@@ -70,14 +70,13 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ColorConversion\LogarithmicRadianceSpectrumToRgbColorConverter.vb" />
     <Compile Include="ColorConversion\RgbLightToRgbColorConverter.vb" />
     <Compile Include="Examples\LensVideo.vb" />
     <Compile Include="Examples\RayTracingExamples.vb" />
     <Compile Include="Light\RadianceSpectrum\Remission.vb" />
     <Compile Include="MaterialSurfaces\MaterialFunctions.vb" />
     <Compile Include="MaterialSurfaces\MaterialSurface.vb" />
-    <Compile Include="RayTracer\IRayTracer.vb" />
+    <Compile Include="ClassicRayTracers\IRayTracer.vb" />
     <Compile Include="ColorConversion\ILightToRgbColorConverter.vb" />
     <Compile Include="Light\RadianceSpectrum\BlackBodyRadianceSpectrum.vb" />
     <Compile Include="Light\RadianceSpectrum\RadianceSpectrum.vb" />
@@ -123,22 +122,22 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="RayChanger.vb" />
-    <Compile Include="RayTracer\MultiReferenceFrame\RecursiveMultiReferenceFrameRayTracer.vb" />
-    <Compile Include="RayTracer\MultiReferenceFrame\RecursiveRayTracerReferenceFrame.vb" />
-    <Compile Include="RayTracer\RayTracerPicture.vb" />
-    <Compile Include="RayTracer\RayTracerVideo.vb" />
-    <Compile Include="RayTracer\RecursiveRayTracer.vb" />
-    <Compile Include="Relativity\LorentzTransformationAtSightRay.vb" />
-    <Compile Include="Relativity\RadianceSpectrumLorentzTransformationOptions.vb" />
-    <Compile Include="Relativity\SightRay.vb" />
-    <Compile Include="Relativity\SpaceTimeEvent.vb" />
-    <Compile Include="Relativity\RelativisticRayTracerWithoutDopplerEffect.vb" />
-    <Compile Include="Relativity\RelativisticRayTracerBase.vb" />
-    <Compile Include="Relativity\LorentzTransformation.vb" />
+    <Compile Include="Relativity\RecursiveRelativisticRayTracer.vb" />
+    <Compile Include="Relativity\RecursiveRayTracerReferenceFrame.vb" />
+    <Compile Include="ClassicRayTracers\RayTracerPicture.vb" />
+    <Compile Include="ClassicRayTracers\RayTracerVideo.vb" />
+    <Compile Include="ClassicRayTracers\RecursiveRayTracer.vb" />
+    <Compile Include="Relativity\LorentzTransformation\LorentzTransformationAtSightRay.vb" />
+    <Compile Include="Relativity\LorentzTransformation\LorentzTransformationAtSightRayOptions.vb" />
+    <Compile Include="Relativity\LorentzTransformation\SightRay.vb" />
+    <Compile Include="Relativity\LorentzTransformation\SpaceTimeEvent.vb" />
+    <Compile Include="Relativity\SingleObjectFrameRelativisticRayTracerWithoutDopplerEffect.vb" />
+    <Compile Include="Relativity\SingleObjectFrameRelativisticRayTracerBase.vb" />
+    <Compile Include="Relativity\LorentzTransformation\LorentzTransformation.vb" />
     <Compile Include="Relativity\SingleObjectFrameRelativisticRayTracer.vb" />
-    <Compile Include="RayTracer\ScatteringRayTracer.vb" />
+    <Compile Include="ClassicRayTracers\ScatteringRayTracer.vb" />
     <Compile Include="ColorConversion\RadianceSpectrumToRgbColorConverter.vb" />
-    <Compile Include="Relativity\PartlyLorentzTransformationAtSightRay.vb" />
+    <Compile Include="Relativity\LorentzTransformation\PartlyLorentzTransformationAtSightRay.vb" />
     <Compile Include="Relativity\SurfaceEvent.vb" />
     <Compile Include="Video\IRayTraceVideo.vb" />
     <Compile Include="Video\IViewCourse.vb" />

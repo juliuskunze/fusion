@@ -69,7 +69,7 @@ Public Class LorentzTransformationAtSightRay
         Return InverseAtSightRay()
     End Function
 
-    Public Function Partly(options As RadianceSpectrumLorentzTransformationOptions) As PartlyLorentzTransformationAtSightRay
+    Public Function Partly(options As LorentzTransformationAtSightRayOptions) As PartlyLorentzTransformationAtSightRay
         Return New PartlyLorentzTransformationAtSightRay(Me, options)
     End Function
 

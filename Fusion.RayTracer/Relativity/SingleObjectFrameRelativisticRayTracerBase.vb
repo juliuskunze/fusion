@@ -1,8 +1,3 @@
-''' <summary>
-''' A ray tracer that provides visual effects (geometry, intensity) for an observer 
-''' that moves with a constant velocity (in x-direction) very close to the light velocity.
-''' </summary>
-''' <remarks></remarks>
 Public MustInherit Class SingleReferenceFrameRelativisticRayTracerBase(Of TLight As {ILight(Of TLight), New})
     Implements IRayTracer(Of TLight)
 
@@ -31,5 +26,4 @@ Public MustInherit Class SingleReferenceFrameRelativisticRayTracerBase(Of TLight
     End Property
 
     Public MustOverride Function GetLight(observerSightRayWithObjectOrigin As Ray) As TLight Implements IRayTracer(Of TLight).GetLight
-
 End Class

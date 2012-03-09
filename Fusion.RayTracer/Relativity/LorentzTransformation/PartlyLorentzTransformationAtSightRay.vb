@@ -1,14 +1,14 @@
 ﻿Public Class PartlyLorentzTransformationAtSightRay
     Inherits LorentzTransformationAtSightRay
 
-    Private ReadOnly _Options As RadianceSpectrumLorentzTransformationOptions
+    Private ReadOnly _Options As LorentzTransformationAtSightRayOptions
 
-    Public Sub New(transformation As LorentzTransformationAtSightRay, options As RadianceSpectrumLorentzTransformationOptions)
+    Public Sub New(transformation As LorentzTransformationAtSightRay, options As LorentzTransformationAtSightRayOptions)
         MyBase.New(transformation.RelativeVelocity, sightRay:=transformation.SightRay)
         _Options = options
     End Sub
 
-    Public ReadOnly Property Options As RadianceSpectrumLorentzTransformationOptions
+    Public ReadOnly Property Options As LorentzTransformationAtSightRayOptions
         Get
             Return _Options
         End Get

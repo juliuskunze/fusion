@@ -1,4 +1,4 @@
-﻿Public Class RadianceSpectrumLorentzTransformationOptions
+﻿Public Class LorentzTransformationAtSightRayOptions
     Private ReadOnly _IgnoreGeometryEffect As Boolean
     Private ReadOnly _IgnoreDopplerEffect As Boolean
     Private ReadOnly _IgnoreSearchlightEffect As Boolean

@@ -432,7 +432,7 @@ Public Class RayTracingExamples
 
         Dim relativisticRayTracer = New SingleObjectFrameRelativisticRayTracer(classicRayTracer:=classicRayTracer,
                                                               observerVelocity:=New Vector3D(0, 0, 0.9 * SpeedOfLight),
-                                                              options:=New RadianceSpectrumLorentzTransformationOptions)
+                                                              options:=New LorentzTransformationAtSightRayOptions)
 
         Return New RayTracerPicture(Of RadianceSpectrum)(RayTracer:=relativisticRayTracer,
                                                          PictureSize:=PictureSize,

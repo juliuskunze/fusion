@@ -1,6 +1,4 @@
-﻿Imports System.IO
-
-Public Class RadianceSpectrumToRgbColorConverter
+﻿Public Class RadianceSpectrumToRgbColorConverter
     Implements ILightToRgbColorConverter(Of RadianceSpectrum)
 
     Private ReadOnly _RgbLightToColorConverter As New RgbLightToRgbColorConverter
@@ -14,22 +12,18 @@ Public Class RadianceSpectrumToRgbColorConverter
     Private _ColorArray As RgbLight()
     Private ReadOnly _SpectralRadiancePerWhite As Double
 
-    ''' <summary>
-    ''' 
-    ''' </summary>
     ''' <param name="spectralRadiancePerWhite">Wenn das ganze Spektrum die übergebene spektrale Strahldichte besitzt, wird die RGB-Farbe Weiß (255, 255, 255) zurückgegeben.</param>
     ''' <param name="testedWavelengthsCount"></param>
-    ''' <remarks></remarks>
     Public Sub New(spectralRadiancePerWhite As Double, Optional testedWavelengthsCount As Integer = 100)
         If spectralRadiancePerWhite <= 0 Then Throw New ArgumentOutOfRangeException("spectralRadiancePerWhite")
 
         _TestedWavelengthsCount = testedWavelengthsCount
         _SpectralRadiancePerWhite = spectralRadiancePerWhite
-        Me.ReadWavelengthRgbDictionary()
+        ReadWavelengthRgbDictionary()
     End Sub
 
     Private Sub ReadWavelengthRgbDictionary()
-        Dim filename = Directory.GetCurrentDirectory & "\Data\2000pixel spectrum sRGB (380nm to 710nm).bmp"
+        Dim filename = IO.Path.Combine(IO.Directory.GetCurrentDirectory, "Data", "2000pixel spectrum sRGB (380nm to 710nm).bmp")
         Dim image = Drawing.Bitmap.FromFile(filename:=filename)
         Dim bitmap = CType(image, Bitmap)
 
@@ -40,22 +34,22 @@ Public Class RadianceSpectrumToRgbColorConverter
             _ColorArray(index) = New RgbLight(bitmap.GetPixel(index, 0))
         Next
 
-        Me.NormalizeToWhite()
-        Me.NormalizeWhiteToSpecificRadiance()
+        NormalizeToWhite()
+        NormalizeWhiteToSpecificRadiance()
     End Sub
 
     Private Sub NormalizeWhiteToSpecificRadiance()
-        Me.NormalizeColorData(divisor:=_SpectralRadiancePerWhite)
+        NormalizeColorData(divisor:=_SpectralRadiancePerWhite)
     End Sub
 
     Private Sub NormalizeToWhite()
-        Dim white = Me.ConvertToRgbLight(New RadianceSpectrum(Function(wavelength) 1), testedWavelengthsCount:=_ColorArray.Count)
+        Dim white = ConvertToRgbLight(New RadianceSpectrum(Function(wavelength) 1), testedWavelengthsCount:=_ColorArray.Count)
 
-        Me.NormalizeColorData(divisorRed:=white.Red, divisorGreen:=white.Green, divisorBlue:=white.Blue)
+        NormalizeColorData(divisorRed:=white.Red, divisorGreen:=white.Green, divisorBlue:=white.Blue)
     End Sub
 
     Private Sub NormalizeColorData(divisor As Double)
-        Me.NormalizeColorData(divisorRed:=divisor, divisorGreen:=divisor, divisorBlue:=divisor)
+        NormalizeColorData(divisorRed:=divisor, divisorGreen:=divisor, divisorBlue:=divisor)
     End Sub
 
     Private Sub NormalizeColorData(divisorRed As Double, divisorGreen As Double, divisorBlue As Double)
@@ -82,17 +76,17 @@ Public Class RadianceSpectrumToRgbColorConverter
         For index = 0 To testedWavelengthsCount - 1
             Dim wavelength = LowerVisibleWavelengthBound + index * interval
             Dim intensity = radianceSpectrum.GetSpectralRadiance(wavelength)
-            rgbLight += Me.GetColorPerIntensity(wavelength:=wavelength) * intensity
+            rgbLight += GetColorPerIntensity(wavelength:=wavelength) * intensity
         Next
 
         Return rgbLight / testedWavelengthsCount
     End Function
 
     Public Function ConvertToRgbLight(light As RadianceSpectrum) As RgbLight
-        Return Me.ConvertToRgbLight(radianceSpectrum:=light, testedWavelengthsCount:=_TestedWavelengthsCount)
+        Return ConvertToRgbLight(radianceSpectrum:=light, testedWavelengthsCount:=_TestedWavelengthsCount)
     End Function
 
-    Public Function Convert(light As RadianceSpectrum) As System.Drawing.Color Implements ILightToRgbColorConverter(Of RadianceSpectrum).Convert
-        Return _RgbLightToColorConverter.Convert(Me.ConvertToRgbLight(light))
+    Public Function Convert(light As RadianceSpectrum) As Color Implements ILightToRgbColorConverter(Of RadianceSpectrum).Convert
+        Return _RgbLightToColorConverter.Convert(ConvertToRgbLight(light))
     End Function
 End Class

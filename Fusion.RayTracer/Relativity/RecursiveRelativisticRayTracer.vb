@@ -1,19 +1,19 @@
-﻿Public Class RecursiveMultiReferenceFrameRayTracer
+﻿Public Class RecursiveRelativisticRayTracer
     Implements IRayTracer(Of RadianceSpectrum)
 
     Private ReadOnly _ObserverTime As Double
     Private ReadOnly _ReferenceFrames As IEnumerable(Of RecursiveRayTracerReferenceFrame(Of RadianceSpectrum))
-    Private ReadOnly _Options As RadianceSpectrumLorentzTransformationOptions
+    Private ReadOnly _Options As LorentzTransformationAtSightRayOptions
 
     Private Shared ReadOnly _LocationComparer As New Vector3DRoughComparer(maxDeviation:=3.2 * 10 ^ -9)
 
-    Public Sub New(observerTime As Double, referenceFrames As IEnumerable(Of RecursiveRayTracerReferenceFrame(Of RadianceSpectrum)), options As RadianceSpectrumLorentzTransformationOptions)
+    Public Sub New(observerTime As Double, referenceFrames As IEnumerable(Of RecursiveRayTracerReferenceFrame(Of RadianceSpectrum)), options As LorentzTransformationAtSightRayOptions)
         _ObserverTime = observerTime
         _ReferenceFrames = referenceFrames
         _Options = options
     End Sub
 
-    Public ReadOnly Property Options As RadianceSpectrumLorentzTransformationOptions
+    Public ReadOnly Property Options As LorentzTransformationAtSightRayOptions
         Get
             Return _Options
         End Get
