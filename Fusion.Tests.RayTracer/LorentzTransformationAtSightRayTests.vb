@@ -5,8 +5,9 @@
     Private Const _RandomWavelength = 700 * 10 ^ -9
     Private Const _RandomSpectralRadiance = 0.37
 
+    Const _Beta = 0.5
     Private ReadOnly _SightRay As New Ray(New Vector3D, New Vector3D(0, 1, 0))
-    Private ReadOnly _T As New LorentzTransformationAtSightRay(relativeVelocity:=New Vector3D(c / 2, 0, 0), SightRay:=_SightRay)
+    Private ReadOnly _T As New LorentzTransformationAtSightRay(relativeVelocity:=New Vector3D(c * _Beta, 0, 0), SightRay:=_SightRay)
 
     Private ReadOnly _Inverse As LorentzTransformationAtSightRay = _T.InverseAtSightRay
 
@@ -30,6 +31,6 @@
 
     <Test()>
     Public Sub Parallel()
-        Assert.Greater(_RandomWavelength, _Parallel.TransformWavelength(_RandomWavelength))
+        Assert.That(New DoubleRoughComparer(10 ^ -12).Equals(Sqrt((1 - _Beta) / (1 + _Beta)) * _RandomWavelength, _Parallel.TransformWavelength(_RandomWavelength)))
     End Sub
 End Class

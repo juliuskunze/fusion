@@ -22,6 +22,14 @@
         Return If(_Options.IgnoreSearchlightEffect, spectralRadiance, MyBase.TransformSpectralRadiance(spectralRadiance))
     End Function
 
+    Public Overrides Function TransformSightRayDirection() As Vector3D
+        Return If(_Options.IgnoreGeometryEffect, SightRay.Ray.NormalizedDirection, MyBase.TransformSightRayDirection)
+    End Function
+
+    Public Overrides Function TransformSightRay() As SightRay
+        Return If(_Options.IgnoreGeometryEffect, SightRay, MyBase.TransformSightRay)
+    End Function
+
     Public Function InversePartly() As PartlyLorentzTransformationAtSightRay
         Return InverseAtSightRay.Partly(_Options)
     End Function
@@ -29,5 +37,4 @@
     Public Overrides Function Inverse() As LorentzTransformation
         Return InversePartly()
     End Function
-
 End Class

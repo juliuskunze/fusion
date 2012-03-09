@@ -81,11 +81,11 @@ Public Class LorentzTransformationAtSightRay
                             direction:=TransformSightRayDirection)
     End Function
 
-    Public Function TransformSightRayDirection() As Vector3D
+    Public Overridable Function TransformSightRayDirection() As Vector3D
         Return -TransformVelocity(-_SightRay.Ray.NormalizedDirection.ScaledToLength(SpeedOfLight))
     End Function
 
-    Public Shadows Function TransformSightRay() As SightRay
+    Public Overridable Shadows Function TransformSightRay() As SightRay
         Return MyBase.TransformSightRay(_SightRay)
     End Function
 End Class
