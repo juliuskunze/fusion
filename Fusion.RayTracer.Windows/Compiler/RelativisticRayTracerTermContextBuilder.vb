@@ -225,6 +225,10 @@ Public Class RelativisticRayTracerTermContextBuilder
                                                                    Function(albedoSpectrum As Func(Of Double, Double)) DirectCast(New Remission(albedoSpectrum:=albedoSpectrum), IRemission(Of RadianceSpectrum)),
                                                                    _TypeDictionary,
                                                                    "A remission that passes light with a specified albedo for every wavelength."),
+                             FunctionInstance.FromLambdaExpression("ScaledRemission",
+                                                                   Function(albedo As Double) DirectCast(New ScaledRemission(Of RadianceSpectrum)(albedo:=albedo), IRemission(Of RadianceSpectrum)),
+                                                                   _TypeDictionary,
+                                                                   "A remission that passes light with the same specified albedo for every wavelength."),
                              FunctionInstance.FromLambdaExpression("RelativisticRayTracer",
                                                                    Function(
                                                                       classicRayTracer As IRayTracer(Of RadianceSpectrum),
