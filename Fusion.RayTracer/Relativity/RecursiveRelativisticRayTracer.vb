@@ -68,12 +68,13 @@
                             Let lightToSurface = observerToLight.Inverse.Before(surfaceFrame.ObserverToObject)
                             Let surfaceSightRay = lightToSurface.TransformSightRay(lightSightRay)
                             Let surfaceIntersection = surfaceFrame.RecursiveRayTracer.Surface.FirstMaterialIntersection(surfaceSightRay.Ray)
+                            Where surfaceIntersection IsNot Nothing
                             Where Not _LocationComparer.Equals(surfaceIntersection.Location, actualHit.objectSurfacePoint.Location)).
                             Any()
                         Let light = lightSource.GetLightAtPoint(lightHitEvent.Location)
                         Let lightToSurface = observerToLight.Inverse.Before(observerToSurface)
-                        Let lightToSurfaceAtLightSightRay = lightToSurface.AtSightRay(lightSightRay)
-                        Let surfaceLightWithoutGeometry = lightToSurfaceAtLightSightRay.Partly(_Options).TransformRadianceSpectrum(light)
+                        Let lightToSurfaceAtLightSightRay = lightToSurface.AtSightRay(lightSightRay).Partly(_Options)
+                        Let surfaceLightWithoutGeometry = lightToSurfaceAtLightSightRay.TransformRadianceSpectrum(light)
                         Let brightnessFactorByNormalUncut = actualHit.objectSurfacePoint.NormalizedNormal.DotProduct(lightSightRay.Ray.NormalizedDirection)
                         Let brightnessFactorByNormal = If(brightnessFactorByNormalUncut > 0, brightnessFactorByNormalUncut, 0)
                         Select surfaceLight = surfaceLightWithoutGeometry.MultiplyBrightness(brightnessFactorByNormal)

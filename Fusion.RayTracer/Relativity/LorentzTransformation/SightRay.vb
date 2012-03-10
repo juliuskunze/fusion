@@ -46,7 +46,7 @@ Public Class SightRay
     End Property
 
     Public Function GetTime(distanceFromOrigin As Double) As Double
-        Return _OriginTime - SpeedOfLight * distanceFromOrigin
+        Return _OriginTime - distanceFromOrigin / SpeedOfLight
     End Function
 
     Public Function GetEvent(distanceFromOrigin As Double) As SpaceTimeEvent
