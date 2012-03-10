@@ -28,7 +28,7 @@ Public Class RadianceSpectrumToRgbColorConverter
     End Sub
 
     Private Sub ReadWavelengthRgbDictionary()
-        Dim filename = IO.Path.Combine(IO.Directory.GetCurrentDirectory, "Data", "2000pixel spectrum sRGB (380nm to 710nm).bmp")
+        Dim filename = IO.Path.Combine(IO.Path.GetDirectoryName(Reflection.Assembly.GetExecutingAssembly.Location), "Data", "2000pixel spectrum sRGB (380nm to 710nm).bmp")
         Dim image = Drawing.Bitmap.FromFile(filename:=filename)
         Dim bitmap = CType(image, Bitmap)
 
