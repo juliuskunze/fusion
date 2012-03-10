@@ -76,6 +76,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="File\DescriptionOpener.vb" />
     <Compile Include="File\DescriptionFileHelper.vb" />
     <Compile Include="File\FileFilter.vb" />
     <Compile Include="File\FileFilters.vb" />

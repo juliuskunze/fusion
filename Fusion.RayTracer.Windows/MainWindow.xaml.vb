@@ -22,7 +22,8 @@ Public Class MainWindow
     Private WithEvents _VideoRenderer As VideoRenderer
 
     Public Sub New(relativisticRayTracerTermContextBuilder As RelativisticRayTracerTermContextBuilder,
-                   initialDirectory As DirectoryInfo)
+                   initialDirectory As DirectoryInfo,
+                   Optional startupFile As FileInfo = Nothing)
         InitializeComponent()
 
         _SavePictureDialog = New SavePictureDialog(Owner:=Me, initalDirectory:=initialDirectory)
@@ -35,11 +36,15 @@ Public Class MainWindow
         Mode = CompileMode.Picture
 
         InitDescription()
-        
+
         AddHandler _CompileVideoMenuItem.Checked, AddressOf _CompileVideoMenuItem_Checked
         AddHandler _CompileVideoMenuItem.Unchecked, AddressOf _CompileVideoMenuItem_Unchecked
         AddHandler _CompilePictureMenuItem.Checked, AddressOf _CompilePictureMenuItem_Checked
         AddHandler _CompilePictureMenuItem.Unchecked, AddressOf _CompilePictureMenuItem_Unchecked
+
+        If (startupFile IsNot Nothing) AndAlso New DescriptionOpener(startupFile).Check Then
+            LoadDescription(startupFile)
+        End If
     End Sub
 
     Private Function CreatePictureOrVideoCompiler(relativisticRayTracerTermContextBuilder As RelativisticRayTracerTermContextBuilder) As PictureOrVideoCompiler
@@ -297,10 +302,14 @@ Public Class MainWindow
         If Not _OpenDescriptionDialog.Show Then Return
         If Not TryCloseDescription() Then Return
 
-        Dim sceneDescription = _OpenDescriptionDialog.OpenDescription()
+        LoadDescription(_OpenDescriptionDialog.File)
+    End Sub
 
-        _SaveDescriptionDialog.File = _OpenDescriptionDialog.File
-        Mode = _OpenDescriptionDialog.Mode
+    Private Sub LoadDescription(file As FileInfo)
+        Dim descriptionOpener = New DescriptionOpener(file)
+        Dim sceneDescription = descriptionOpener.OpenDescription
+        _SaveDescriptionDialog.File = file
+        Mode = descriptionOpener.Mode
         _SaveDescriptionDialog.IsFileAccepted = True
 
         SetTitleByCurrentFile()

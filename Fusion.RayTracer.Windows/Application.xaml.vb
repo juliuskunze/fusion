@@ -1,24 +1,21 @@
-﻿Imports System.Windows.Threading
-
-Class Application
-
+﻿Class Application
     Private WithEvents _MainWindow As MainWindow
 
-    Private ReadOnly _InitialDirectory As New DirectoryInfo(My.Computer.FileSystem.SpecialDirectories.Desktop)
+    Private ReadOnly _DefaultInitialDirectory As New DirectoryInfo(My.Computer.FileSystem.SpecialDirectories.Desktop)
 
-    Private Sub Application_Startup(sender As Object, e As System.Windows.StartupEventArgs) Handles Me.Startup
-        System.Threading.Thread.CurrentThread.CurrentCulture = New System.Globalization.CultureInfo("en-US")
+    Private Sub Application_Startup(sender As Object, e As StartupEventArgs) Handles Me.Startup
+        System.Threading.Thread.CurrentThread.CurrentCulture = New Globalization.CultureInfo("en-US")
 
-        _MainWindow = New MainWindow(RelativisticRayTracerTermContextBuilder:=New RelativisticRayTracerTermContextBuilder, initialDirectory:=_InitialDirectory)
+        Dim startupFile = If(e.Args.Count = 1 AndAlso File.Exists(e.Args.Single), New FileInfo(e.Args.Single), Nothing)
+        Dim initialDirectory = If(startupFile Is Nothing, _DefaultInitialDirectory, startupFile.Directory)
+
+        _MainWindow = New MainWindow(RelativisticRayTracerTermContextBuilder:=New RelativisticRayTracerTermContextBuilder,
+                                     initialDirectory:=initialDirectory,
+                                     startupFile:=startupFile)
         _MainWindow.Show()
-
-        'Dim splicer = New VideoSplicer1(Enumerable.Range(0, 241).Select(Function(i) String.Format("B:\Julius-Ordner\Zeitlos\Programmierung\Fusion.Ry-Bilder\Examples\1 geometry\picture{0}.jpg", CStr(i))), "B:\Julius-Ordner\Zeitlos\Programmierung\Fusion.Ry-Bilder\Examples\1 geometryNORMAL.avi", 24)
-        Dim splicer = New VideoSplicer(Enumerable.Range(0, 241).Select(Function(i) String.Format("B:\Julius-Ordner\Zeitlos\Programmierung\Fusion.Ry-Bilder\Examples\sun\picture{0}.jpg", CStr(i))), "B:\Julius-Ordner\Zeitlos\Programmierung\Fusion.Ry-Bilder\Examples\0 nothingAVILIB_jpg2.avi", 24)
-        'splicer.Run()
     End Sub
 
-    Private Sub _MainWindow_Unloaded(sender As Object, e As System.Windows.RoutedEventArgs) Handles _MainWindow.Unloaded
-        Me.Shutdown()
+    Private Sub _MainWindow_Unloaded(sender As Object, e As RoutedEventArgs) Handles _MainWindow.Unloaded
+        Shutdown()
     End Sub
-
 End Class
