@@ -245,7 +245,7 @@
             arguments.Add(Me.SubstringExpression(argumentTerm, typeInformation:=New TypeInformation(parameter.Signature.Type)).Expression)
         Next
 
-        Return New ExpressionWithNamedType(functionInstance.CallExpressionBuilder.Run(arguments:=arguments), _TypeInformation.Type)
+        Return New ExpressionWithNamedType(functionInstance.CallExpressionBuilder.Run(arguments:=arguments), functionInstance.Signature.FunctionType.ResultType)
     End Function
 
     Private Function GetCollectionExpression() As ExpressionWithNamedType

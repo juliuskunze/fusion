@@ -70,4 +70,15 @@
         Assert.AreEqual(3, result)
     End Sub
 
+    <Test()>
+    Public Sub Test_Function()
+        Const term = "Real flair(Real wavelength) =  1; Real flair2(Real wavelength) = flair(wavelength) * 100; return flair2(0)"
+
+        Dim compiler = New Compiler(Of Double)(LocatedString:=term.ToLocated,
+                                                                baseContext:=TermContext.Default.Merge(New TermContext(types:=New NamedTypes({New NamedType("RadianceSpectrum", New FunctionType(NamedType.Real, Parameters:={New NamedParameter("wavelength", NamedType.Real)}))}))),
+                                                                TypeDictionary:=TypeDictionary.Default)
+
+        compiler.Compile()
+    End Sub
+
 End Class

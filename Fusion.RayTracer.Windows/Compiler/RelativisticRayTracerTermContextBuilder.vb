@@ -248,14 +248,14 @@ Public Class RelativisticRayTracerTermContextBuilder
                              FunctionInstance.FromLambdaExpression("RecursiveRelativisticRayTracer",
                                                                    Function(observerTime As Double,
                                                                             referenceFrames As IEnumerable(Of RecursiveRayTracerReferenceFrame),
-                                                                            ignoreGeometryEffect As Boolean,
                                                                             ignoreDopplerEffect As Boolean,
-                                                                            ignoreSearchlightEffect As Boolean) DirectCast(New RecursiveRelativisticRayTracer(observerTime, referenceFrames, New LorentzTransformationAtSightRayOptions(ignoreGeometryEffect:=ignoreGeometryEffect, ignoreDopplerEffect:=ignoreDopplerEffect, ignoreSearchlightEffect:=ignoreSearchlightEffect)), IRayTracer(Of RadianceSpectrum)), _TypeDictionary,
-                                                                   "A ray tracer that ca have multiple object reference frames that have a constant velocity relative to the observer.")
+                                                                            ignoreSearchlightEffect As Boolean) DirectCast(New RecursiveRelativisticRayTracer(observerTime, referenceFrames, New LorentzTransformationAtSightRayOptions(ignoreDopplerEffect:=ignoreDopplerEffect, ignoreSearchlightEffect:=ignoreSearchlightEffect)), IRayTracer(Of RadianceSpectrum)), _TypeDictionary,
+                                                                   "A ray tracer that can have multiple object reference frames that have a constant velocity relative to the observer.")
        }
 
 
-    Private ReadOnly _ExtraConstants As IEnumerable(Of ConstantInstance) = {New ConstantInstance(Of Material2D(Of RadianceSpectrum))("BlackMaterial", Materials2D(Of RadianceSpectrum).Black, TypeDictionary:=_TypeDictionary, description:="A material that absorbs light totally.")}
+    Private ReadOnly _ExtraConstants As IEnumerable(Of ConstantInstance) = {New ConstantInstance(Of Material2D(Of RadianceSpectrum))("BlackMaterial", Materials2D(Of RadianceSpectrum).Black, TypeDictionary:=_TypeDictionary, description:="A material that absorbs light totally."),
+                                                                            New ConstantInstance(Of Func(Of Double, Double))("Black", Function(wavelength) 0, _TypeDictionary, "A black radiance spectrum.")}
 
     Public Sub New()
         _TermContext = MyBase.TermContext.Merge(New TermContext(Functions:=_ExtraFunctions)).Merge(New TermContext(Constants:=_ExtraConstants))

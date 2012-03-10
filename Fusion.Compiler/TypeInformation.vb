@@ -3,7 +3,7 @@
     Private ReadOnly _Type As NamedType
     Public ReadOnly Property Type As NamedType
         Get
-            If Me.IsInfer Then Throw New InvalidOperationException("Type is unknown when IsInfer is True.")
+            If IsInfer Then Throw New InvalidOperationException("Type is unknown when IsInfer is True.")
 
             Return _Type
         End Get
