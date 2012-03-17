@@ -18,7 +18,7 @@ Public Class RadianceSpectrumToRgbColorConverter
 
     ''' <param name="spectralRadiancePerWhite">Wenn das ganze Spektrum die übergebene spektrale Strahldichte besitzt, wird die RGB-Farbe Weiß (255, 255, 255) zurückgegeben.</param>
     ''' <param name="testedWavelengthsCount"></param>
-    Public Sub New(spectralRadiancePerWhite As Double, Optional testedWavelengthsCount As Integer = 100, Optional gamma As Double = 2.0)
+    Public Sub New(spectralRadiancePerWhite As Double, Optional testedWavelengthsCount As Integer = 100, Optional gamma As Double = 2.2)
         If spectralRadiancePerWhite <= 0 Then Throw New ArgumentOutOfRangeException("spectralRadiancePerWhite")
 
         _TestedWavelengthsCount = testedWavelengthsCount

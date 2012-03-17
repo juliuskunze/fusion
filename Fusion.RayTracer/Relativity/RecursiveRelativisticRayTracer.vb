@@ -75,7 +75,7 @@
                         Let lightToSurface = observerToLight.Inverse.Before(observerToSurface)
                         Let lightToSurfaceAtLightSightRay = lightToSurface.AtSightRay(lightSightRay).Partly(_Options)
                         Let surfaceLightWithoutGeometry = lightToSurfaceAtLightSightRay.TransformRadianceSpectrum(light)
-                        Let brightnessFactorByNormalUncut = actualHit.objectSurfacePoint.NormalizedNormal.DotProduct(lightSightRay.Ray.NormalizedDirection)
+                        Let brightnessFactorByNormalUncut = actualHit.objectSurfacePoint.NormalizedNormal.DotProduct(lightToSurfaceAtLightSightRay.TransformSightRay.Ray.NormalizedDirection)
                         Let brightnessFactorByNormal = If(brightnessFactorByNormalUncut > 0, brightnessFactorByNormalUncut, 0)
                         Select surfaceLight = surfaceLightWithoutGeometry.MultiplyBrightness(brightnessFactorByNormal)
 
