@@ -7,7 +7,7 @@
         _Picture = picture
     End Sub
 
-    Private Sub BackgroundWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles _BackgroundWorker.DoWork
+    Private Sub BackgroundWorker_DoWork(sender As Object, e As ComponentModel.DoWorkEventArgs) Handles _BackgroundWorker.DoWork
         Dim resultBitmap = New System.Drawing.Bitmap(_Picture.PictureSize.Width, _Picture.PictureSize.Height)
 
         For bitmapX = 0 To _Picture.PictureSize.Width - 1
@@ -19,7 +19,7 @@
             For bitmapY = 0 To _Picture.PictureSize.Height - 1
                 _Picture.SetPixelColor(resultBitmap, bitmapX, bitmapY)
             Next
-            Me.ReportProgress(relativeProgress:=(bitmapX + 1) / _Picture.PictureSize.Width)
+            ReportProgress(relativeProgress:=(bitmapX + 1) / _Picture.PictureSize.Width)
         Next
 
         e.Result = resultBitmap

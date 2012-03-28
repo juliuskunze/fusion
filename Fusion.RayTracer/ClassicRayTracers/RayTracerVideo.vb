@@ -49,12 +49,12 @@
 
     Public ReadOnly Property FrameCount As Integer
         Get
-            Return CInt(System.Math.Floor(_Duration * _FramesPerSecond + 1))
+            Return CInt(Floor(_Duration * _FramesPerSecond + 1))
         End Get
     End Property
 
     Public Function GetFrame(index As Integer) As RayTracerPicture(Of TLight)
-        If index < 0 OrElse index >= Me.FrameCount Then Throw New ArgumentOutOfRangeException("index")
+        If index < 0 OrElse index >= FrameCount Then Throw New ArgumentOutOfRangeException("index")
 
         Dim time = _StartTime + index * _TimeStep
 

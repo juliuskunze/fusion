@@ -58,12 +58,13 @@
         If hitMaterial.Scatters Then
             Dim scatteringLight = actualHit.frame.RecursiveRayTracer.LightSource.GetLight(actualHit.objectSurfacePoint)
 
-            Dim scatteringPointLights = From lightFrame In _ReferenceFrames
-                    Let observerToLight = lightFrame.ObserverToObject
-                    Let lightHitEvent = lightFrame.ObserverToObject.TransformEvent(actualHit.event)
-                        From lightSource In lightFrame.RecursiveRayTracer.ShadedPointLightSources.Cast(Of PointLightSource(Of RadianceSpectrum))()
-                        Let lightSightRay = New SightRay(lightHitEvent, direction:=lightSource.Location - lightHitEvent.Location)
-                        Where Not (
+            Dim scatteringPointLights =
+                From lightFrame In _ReferenceFrames
+                Let observerToLight = lightFrame.ObserverToObject
+                Let lightHitEvent = lightFrame.ObserverToObject.TransformEvent(actualHit.event)
+                    From lightSource In lightFrame.RecursiveRayTracer.ShadedPointLightSources.Cast(Of PointLightSource(Of RadianceSpectrum))()
+                    Let lightSightRay = New SightRay(lightHitEvent, direction:=lightSource.Location - lightHitEvent.Location)
+                    Where Not (
                             From surfaceFrame In _ReferenceFrames
                             Let lightToSurface = observerToLight.Inverse.Before(surfaceFrame.ObserverToObject)
                             Let surfaceSightRay = lightToSurface.TransformSightRay(lightSightRay)
@@ -71,13 +72,13 @@
                             Where surfaceIntersection IsNot Nothing
                             Where Not _LocationComparer.Equals(surfaceIntersection.Location, actualHit.objectSurfacePoint.Location)).
                             Any()
-                        Let light = lightSource.GetLightAtPoint(lightHitEvent.Location)
-                        Let lightToSurface = observerToLight.Inverse.Before(observerToSurface)
-                        Let lightToSurfaceAtLightSightRay = lightToSurface.AtSightRay(lightSightRay).Partly(_Options)
-                        Let surfaceLightWithoutGeometry = lightToSurfaceAtLightSightRay.TransformRadianceSpectrum(light)
-                        Let brightnessFactorByNormalUncut = actualHit.objectSurfacePoint.NormalizedNormal.DotProduct(lightToSurfaceAtLightSightRay.TransformSightRay.Ray.NormalizedDirection)
-                        Let brightnessFactorByNormal = If(brightnessFactorByNormalUncut > 0, brightnessFactorByNormalUncut, 0)
-                        Select surfaceLight = surfaceLightWithoutGeometry.MultiplyBrightness(brightnessFactorByNormal)
+                    Let light = lightSource.GetLightAtPoint(lightHitEvent.Location)
+                    Let lightToSurface = observerToLight.Inverse.Before(observerToSurface)
+                    Let lightToSurfaceAtLightSightRay = lightToSurface.AtSightRay(lightSightRay).Partly(_Options)
+                    Let surfaceLightWithoutGeometry = lightToSurfaceAtLightSightRay.TransformRadianceSpectrum(light)
+                    Let brightnessFactorByNormalUncut = actualHit.objectSurfacePoint.NormalizedNormal.DotProduct(lightToSurfaceAtLightSightRay.TransformSightRay.Ray.NormalizedDirection)
+                    Let brightnessFactorByNormal = If(brightnessFactorByNormalUncut > 0, brightnessFactorByNormalUncut, 0)
+                    Select surfaceLight = surfaceLightWithoutGeometry.MultiplyBrightness(brightnessFactorByNormal)
 
             Dim scatteringPointLight = scatteringPointLights.Aggregate(New RadianceSpectrum, Function(sum, current) sum.Add(current))
 

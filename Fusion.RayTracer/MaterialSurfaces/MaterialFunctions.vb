@@ -26,4 +26,47 @@
         Return rest < 1
     End Function
 
+    Public Shared Function Grid2D(xVector As Vector3D, yVector As Vector3D, backgroundMaterial As TMaterial, gridMaterial As TMaterial, gridLineWidth As Double) As Func(Of Vector3D, TMaterial)
+        Return Function(location)
+                   Dim xLocation = xVector.Normalized * location
+                   Dim yLocation = yVector.Normalized * location
+
+                   Dim useGridMaterial =
+                           IsInGrid(xLocation, rowWidth:=xVector.Length, gridLineWidth:=gridLineWidth) OrElse
+                           IsInGrid(yLocation, rowWidth:=yVector.Length, gridLineWidth:=gridLineWidth)
+
+                   If useGridMaterial Then
+                       Return gridMaterial
+                   Else
+                       Return backgroundMaterial
+                   End If
+               End Function
+    End Function
+
+    Public Shared Function Grid3D(xVector As Vector3D, yVector As Vector3D, zVector As Vector3D, backgroundMaterial As TMaterial, gridMaterial As TMaterial, gridLineWidth As Double) As Func(Of Vector3D, TMaterial)
+        Return Function(location)
+                   Dim xLocation = xVector.Normalized * location
+                   Dim yLocation = yVector.Normalized * location
+                   Dim zLocation = zVector.Normalized * location
+
+                   Dim useGridMaterial =
+                           IsInGrid(xLocation, rowWidth:=xVector.Length, gridLineWidth:=gridLineWidth) OrElse
+                           IsInGrid(yLocation, rowWidth:=yVector.Length, gridLineWidth:=gridLineWidth) OrElse
+                           IsInGrid(zLocation, rowWidth:=zVector.Length, gridLineWidth:=gridLineWidth)
+
+                   If useGridMaterial Then
+                       Return gridMaterial
+                   Else
+                       Return backgroundMaterial
+                   End If
+               End Function
+    End Function
+
+    Private Shared Function IsInGrid(value As Double, rowWidth As Double, gridLineWidth As Double) As Boolean
+        Dim m = PositiveMod(value, rowWidth)
+        Dim halfGridLineWidth = gridLineWidth / 2
+
+        Return m < halfGridLineWidth OrElse m > rowWidth - halfGridLineWidth
+    End Function
+
 End Class

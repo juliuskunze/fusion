@@ -29,8 +29,8 @@
         '    File.Move(fileToMove.fileToMove, fileToMove.newPath)
         'Next
 
-        '!!!Dim splicer = New VideoSplicer(Enumerable.Range(0, 241).Except({188}).Select(Function(i) String.Format("B:\Julius-Ordner\Schule\BeLL\Shadow\Video\new\picture{0}.jpg", CStr(i))),
-        '                               "B:\Julius-Ordner\Schule\BeLL\Shadow\Video\new23.avi",
+        'Dim splicer = New VideoSplicer(Enumerable.Range(0, 241).Except({188}).Select(Function(i) String.Format("B:\Julius-Ordner\Schule\BeLL\Shadow\Video\shadow\picture{0}.jpg", CStr(i))),
+        '                               "B:\Julius-Ordner\Schule\BeLL\Shadow\Video\shadow_flip.avi",
         '                               24)
 
         'splicer.Run()

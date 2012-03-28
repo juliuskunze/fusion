@@ -133,6 +133,10 @@
                                                                       material2 As TMaterial) MaterialFunctions(Of TMaterial).Checkerboard(xVector:=xVector, yVector:=yVector, material1:=material1, material2:=material2), _TypeDictionary,
                                  "A material function that looks like the checkerboard pattern for planes that are parallel to xVector and yvector. The length of xVector and yVector are the edge lengths of the resulting checkerboard fields."),
                              FunctionInstance.FromLambdaExpression(
+                                 "Grid3D",
+                                 Function(xVector As Vector3D, yVector As Vector3D, zVector As Vector3D, backgroundMaterial As TMaterial, gridMaterial As TMaterial, gridLineWidth As Double) MaterialFunctions(Of TMaterial).Grid3D(xVector:=xVector, yVector:=yVector, zVector:=zVector, backgroundMaterial:=backgroundMaterial, gridMaterial:=gridMaterial, gridLineWidth:=gridLineWidth), _TypeDictionary,
+                                 "A material function that looks like a 3D grid with the specified x-,y- and z-axis. The length of xVector, yVector and zVector are the grid lengths of the resulting grid."),
+                             FunctionInstance.FromLambdaExpression(
                                  "Surfaces",
                                  Function(surfaces As IEnumerable(Of ISurface)) DirectCast(New Surfaces(surfaces:=surfaces), ISurface), _TypeDictionary,
                                  "A surface that consists of the given set of surfaces."),

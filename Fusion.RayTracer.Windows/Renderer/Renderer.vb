@@ -3,7 +3,7 @@
 Public MustInherit Class Renderer(Of TResult)
 
     Private ReadOnly _Stopwatch As Stopwatch = Stopwatch.StartNew
-    Protected WithEvents _BackgroundWorker As New ComponentModel.BackgroundWorker With {.WorkerReportsProgress = True, .WorkerSupportsCancellation = True}
+    Protected WithEvents _BackgroundWorker As New BackgroundWorker With {.WorkerReportsProgress = True, .WorkerSupportsCancellation = True}
 
     Public ReadOnly Property ElapsedTime As TimeSpan
         Get
@@ -15,21 +15,21 @@ Public MustInherit Class Renderer(Of TResult)
         _BackgroundWorker.CancelAsync()
     End Sub
 
-    Public Event ProgressChanged(e As ComponentModel.ProgressChangedEventArgs)
+    Public Event ProgressChanged(e As ProgressChangedEventArgs)
 
-    Private Sub BackgroundWorker_ProgressChanged(sender As Object, e As ComponentModel.ProgressChangedEventArgs) Handles _BackgroundWorker.ProgressChanged
+    Private Sub BackgroundWorker_ProgressChanged(sender As Object, e As ProgressChangedEventArgs) Handles _BackgroundWorker.ProgressChanged
         RaiseEvent ProgressChanged(e)
     End Sub
 
     Public Event Completed(e As RenderResultEventArgs(Of TResult))
 
-    Private Sub BackgroundWorker_Completed(sender As Object, e As ComponentModel.RunWorkerCompletedEventArgs) Handles _BackgroundWorker.RunWorkerCompleted
+    Private Sub BackgroundWorker_Completed(sender As Object, e As RunWorkerCompletedEventArgs) Handles _BackgroundWorker.RunWorkerCompleted
         _Stopwatch.Stop()
 
         RaiseEvent Completed(GetRenderResult(e))
     End Sub
 
-    Private Function GetRenderResult(e As ComponentModel.RunWorkerCompletedEventArgs) As RenderResultEventArgs(Of TResult)
+    Private Function GetRenderResult(e As RunWorkerCompletedEventArgs) As RenderResultEventArgs(Of TResult)
         If e.Cancelled Then
             Return RenderResultEventArgs(Of TResult).CancelledResult
         End If
@@ -38,7 +38,7 @@ Public MustInherit Class Renderer(Of TResult)
             Return New RenderResultEventArgs(Of TResult)([error]:=e.Error)
         End If
 
-        Return New RenderResultEventArgs(Of TResult)(CType(CType(e.Result, Object), TResult), ElapsedTime:=Me.ElapsedTime)
+        Return New RenderResultEventArgs(Of TResult)(CType(e.Result, TResult), ElapsedTime:=ElapsedTime)
     End Function
 
     Protected Sub ReportProgress(relativeProgress As Double)
