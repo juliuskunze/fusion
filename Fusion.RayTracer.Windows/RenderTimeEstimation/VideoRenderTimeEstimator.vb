@@ -16,7 +16,7 @@
         Dim estimator = New PictureRenderTimeEstimator(firstFrame, options:=_Options)
         Dim result = estimator.Run
 
-        Return New RenderTimeEstimationResult(totalTime:=TimeSpan.FromTicks(result.TotalTime.Ticks * _Video.FrameCount), timePerPixel:=result.TimePerPixel)
+        Return New RenderTimeEstimationResult(totalTime:=TimeSpan.FromTicks(CLng(result.TotalTime.Ticks * _Video.FrameCount / Environment.ProcessorCount)), timePerPixel:=result.TimePerPixel)
     End Function
 
 End Class
