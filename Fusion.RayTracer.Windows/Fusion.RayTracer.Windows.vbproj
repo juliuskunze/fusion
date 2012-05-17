@@ -115,6 +115,9 @@
     <Compile Include="File\SaveFileDialog.vb" />
     <Compile Include="SimpleBitmap.vb" />
     <Compile Include="TimeSpanExtensions.vb" />
+    <Compile Include="VideoSplicerWindow.xaml.vb">
+      <DependentUpon>VideoSplicerWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="VideoSplicer\VideoSplicerBase.vb" />
     <Compile Include="RenderTimeEstimation\VideoRenderTimeEstimator.vb" />
     <Compile Include="VideoSplicer\VideoSplicer.vb" />
@@ -139,6 +142,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="ColorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VideoSplicerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -292,6 +292,11 @@ Public Class MainWindow
         TrySaveDescription()
     End Sub
 
+    Private Shared Sub SplicePicturesMenuItem_Click(sender As Object, e As RoutedEventArgs) Handles _SplicePicturesMenuItem.Click
+        Dim window = New VideoSplicerWindow
+        window.Show()
+    End Sub
+
     Private Sub SaveAsMenuItem_Click(sender As Object, e As RoutedEventArgs) Handles _SaveAsMenuItem.Click
         _SaveDescriptionDialog.ShowAndTrySave(description:=Description)
 

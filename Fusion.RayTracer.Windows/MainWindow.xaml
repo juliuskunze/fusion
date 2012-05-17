@@ -31,6 +31,8 @@
                                 <MenuItem Name="_SaveMenuItem" Header="Save" InputGestureText="Strg+S" ToolTip="Save the current scene description."></MenuItem>
                                 <MenuItem Name="_SaveAsMenuItem" Header="Save as..." ToolTip="Save the current scene description file as..."></MenuItem>
                                 <MenuItem Name="_OpenMenuItem" Header="Open..." InputGestureText="Strg+O" ToolTip="Open a scene description file..."></MenuItem>
+                                <Separator></Separator>
+                                <MenuItem Name="_SplicePicturesMenuItem" Header="Splice pictures to video..." ToolTip="Opens a separate program to splice rendered pictures into a video."/>
                             </MenuItem>
                             <MenuItem Header="Compile">
                                 <MenuItem Name="_AutoCompileMenuItem" Header="Auto compile" InputGestureText="F4" IsCheckable="True" IsChecked="True" ToolTip="If auto compile is on, the scene will automatically be compiled from the description when it is changed."></MenuItem>
@@ -45,11 +47,6 @@
                             </MenuItem>
                         </Menu>
                         <RichTextBox FontFamily="{DynamicResource CodeFont}" Grid.Row="1" Margin="3" AcceptsReturn="True" Name="_DescriptionBox" Background="#FFFFFF" UndoLimit="50">
-                            <RichTextBox.Resources>
-                                <Style TargetType="{x:Type Paragraph}">
-                                    <Setter Property="Margin" Value="0"/>
-                                </Style>
-                            </RichTextBox.Resources>
                             <FlowDocument PageWidth="10000"></FlowDocument>
                         </RichTextBox>
                         <Popup Name="_HelpPopup" AllowsTransparency="True" Placement="Bottom" IsOpen="False">
