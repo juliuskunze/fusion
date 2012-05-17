@@ -1,5 +1,5 @@
 ﻿''' <summary>
-''' Represnets a picture renderer, that saves the picture after rendering.
+''' Represents a picture renderer that saves the picture after rendering.
 ''' </summary>
 ''' <remarks></remarks>
 Public Class FrameRenderer
@@ -12,17 +12,16 @@ Public Class FrameRenderer
         _OutputFile = outputFile
     End Sub
 
-
     Private Sub FrameRenderer_Completed(e As RenderResultEventArgs(Of System.Drawing.Bitmap)) Handles Me.Completed
-        Me.Save(result:=e.Result)
+        Save(result:=e.Result)
     End Sub
 
     Private Sub Save(result As System.Drawing.Bitmap)
-        result.Save(_OutputFile.FullName, format:=System.Drawing.Imaging.ImageFormat.Jpeg)
+        result.Save(_OutputFile.FullName, format:=System.Drawing.Imaging.ImageFormat.Png)
     End Sub
 
     Public Overloads Sub Run()
-        Me.Save(result:=MyBase.Run)
+        Save(result:=MyBase.Run)
     End Sub
 
 End Class

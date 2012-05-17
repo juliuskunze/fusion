@@ -44,7 +44,7 @@
                                 <MenuItem Name="_CompileAndShowHelpMenuItem" Header="Compile and show help popup" InputGestureText="F2" ToolTip="Compile the scene and show the help popup."></MenuItem>
                             </MenuItem>
                         </Menu>
-                        <RichTextBox FontFamily="{DynamicResource CodeFont}" Grid.Row="1" Margin="3" AcceptsReturn="True" Name="_DescriptionBox" Background="#FFFFFF">
+                        <RichTextBox FontFamily="{DynamicResource CodeFont}" Grid.Row="1" Margin="3" AcceptsReturn="True" Name="_DescriptionBox" Background="#FFFFFF" UndoLimit="50">
                             <RichTextBox.Resources>
                                 <Style TargetType="{x:Type Paragraph}">
                                     <Setter Property="Margin" Value="0"/>

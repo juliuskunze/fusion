@@ -1,5 +1,4 @@
 ﻿Public MustInherit Class VideoSplicerBase
-
     Protected ReadOnly _PictureInputFileNames As IEnumerable(Of String)
     Protected ReadOnly _VideoOutputFileName As String
     Protected ReadOnly _FramesPerSecond As Double
@@ -17,10 +16,9 @@
     End Function
 
     Protected Sub CheckInputExists()
-        _PictureInputFileNames.All(Function(inputFileName) IO.File.Exists(inputFileName))
+        _PictureInputFileNames.All(Function(inputFileName) File.Exists(inputFileName))
     End Sub
 
     Public MustOverride Sub Run()
-
 End Class
 

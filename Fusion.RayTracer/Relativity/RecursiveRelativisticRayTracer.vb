@@ -62,7 +62,7 @@
                 From lightFrame In _ReferenceFrames
                 Let observerToLight = lightFrame.ObserverToObject
                 Let lightHitEvent = lightFrame.ObserverToObject.TransformEvent(actualHit.event)
-                    From lightSource In lightFrame.RecursiveRayTracer.ShadedPointLightSources.Cast(Of PointLightSource(Of RadianceSpectrum))()
+                    From lightSource In lightFrame.RecursiveRayTracer.ShadedPointLightSources.Cast(Of IPointLightSource(Of RadianceSpectrum))()
                     Let lightSightRay = New SightRay(lightHitEvent, direction:=lightSource.Location - lightHitEvent.Location)
                     Where Not (
                             From surfaceFrame In _ReferenceFrames
@@ -72,7 +72,7 @@
                             Where surfaceIntersection IsNot Nothing
                             Where Not _LocationComparer.Equals(surfaceIntersection.Location, actualHit.objectSurfacePoint.Location)).
                             Any()
-                    Let light = lightSource.GetLightAtPoint(lightHitEvent.Location)
+                    Let light = lightSource.GetLight(lightHitEvent.Location)
                     Let lightToSurface = observerToLight.Inverse.Before(observerToSurface)
                     Let lightToSurfaceAtLightSightRay = lightToSurface.AtSightRay(lightSightRay).Partly(_Options)
                     Let surfaceLightWithoutGeometry = lightToSurfaceAtLightSightRay.TransformRadianceSpectrum(light)

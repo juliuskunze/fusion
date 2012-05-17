@@ -4,6 +4,13 @@
     Private ReadOnly _Video As RayTracerVideo(Of RadianceSpectrum)
     Private ReadOnly _OutputFile As FileInfo
     Private ReadOnly _PictureOutputDirectory As DirectoryInfo
+
+    Public ReadOnly Property PictureOutputDirectory() As DirectoryInfo
+        Get
+            Return _PictureOutputDirectory
+        End Get
+    End Property
+
     Private ReadOnly _OutputFileNameWithoutExtension As String
 
     Public Sub New(video As RayTracerVideo(Of RadianceSpectrum), outputFile As FileInfo)
@@ -51,7 +58,7 @@
     Private ReadOnly _FrameFiles As IEnumerable(Of FileInfo)
 
     Private Function GetFrameFile(index As Integer) As FileInfo
-        Return New FileInfo(_PictureOutputDirectory.FullName & String.Format("\picture{0}.jpg", index))
+        Return New FileInfo(_PictureOutputDirectory.FullName & String.Format("\picture{0}.png", index))
     End Function
 
 End Class

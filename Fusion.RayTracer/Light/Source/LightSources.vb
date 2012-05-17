@@ -1,7 +1,7 @@
 Public Class LightSources(Of TLight As {ILight(Of TLight), New})
     Inherits List(Of ILightSource(Of TLight))
     Implements ILightSource(Of TLight)
-
+    
     Public Sub New()
     End Sub
 

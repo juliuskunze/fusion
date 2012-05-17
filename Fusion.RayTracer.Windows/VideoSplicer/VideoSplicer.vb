@@ -10,9 +10,9 @@ Public Class VideoSplicer
     End Sub
 
     Public Overrides Sub Run()
-        Me.CheckInputExists()
+        CheckInputExists()
 
-        Dim size = Me.GetVideoSize
+        Dim size = GetVideoSize()
 
         Dim aviWriter = New AviWriter
         Dim bitmap = aviWriter.Open(fileName:=_VideoOutputFileName, frameRate:=Convert.ToUInt32(_FramesPerSecond), width:=size.Width, height:=size.Height)
@@ -21,6 +21,7 @@ Public Class VideoSplicer
         For Each pictureFileName In _PictureInputFileNames
             canvas.Clear(System.Drawing.Color.Black)
             Dim image = System.Drawing.Image.FromFile(pictureFileName)
+            image.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipY)
             canvas.DrawImage(image:=image, x:=0, y:=0)
             aviWriter.AddFrame()
             image.Dispose()

@@ -1,4 +1,5 @@
-﻿Imports Fusion.Math
+﻿Imports Fusion.Compiler
+Imports Fusion.Math
 
 Class CalculatorWindow
 
@@ -74,4 +75,13 @@ Class CalculatorWindow
         End Try
     End Sub
 
+    Private Sub _CalculateButton_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles _CalculateButton.Click
+        Dim compiler = New Compiler(Of Double)(LocatedString:=_CalculationInputTextBox.Text.ToLocated, baseContext:=TermContext.Default, TypeDictionary:=TypeDictionary.Default)
+        Try
+            _CalculationResultTextBox.Text = compiler.Compile.Result.ToString
+        Catch ex As CompilerException
+            _CalculationResultTextBox.Text = ex.Message
+        End Try
+
+    End Sub
 End Class

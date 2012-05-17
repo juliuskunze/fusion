@@ -1,6 +1,6 @@
 Public Class DirectionalLightSource(Of TLight As {ILight(Of TLight), New})
     Implements ILightSource(Of TLight)
-
+    
     Public Sub New(direction As Vector3D, light As TLight)
         Me.Direction = direction
         Me.Light = light
@@ -28,7 +28,6 @@ Public Class DirectionalLightSource(Of TLight As {ILight(Of TLight), New})
             Return New TLight
         End If
 
-        Return Me.Light.MultiplyBrightness(valueFactor)
+        Return Light.MultiplyBrightness(valueFactor)
     End Function
-
 End Class

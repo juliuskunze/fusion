@@ -10,5 +10,4 @@
     Public Function GetLight(surfacePoint As SurfacePoint) As TLight Implements ILightSource(Of TLight).GetLight
         Return _Color
     End Function
-
 End Class
