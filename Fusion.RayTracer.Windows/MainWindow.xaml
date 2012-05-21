@@ -47,7 +47,12 @@
                             </MenuItem>
                         </Menu>
                         <RichTextBox FontFamily="{DynamicResource CodeFont}" Grid.Row="1" Margin="3" AcceptsReturn="True" Name="_DescriptionBox" Background="#FFFFFF" UndoLimit="50">
-                            <FlowDocument PageWidth="10000"></FlowDocument>
+                        <RichTextBox.Resources>
+                            <Style TargetType="{x:Type Paragraph}">
+                                <Setter Property="Margin" Value="0"/>
+                            </Style>
+                        </RichTextBox.Resources>
+                        <FlowDocument PageWidth="10000"></FlowDocument>
                         </RichTextBox>
                         <Popup Name="_HelpPopup" AllowsTransparency="True" Placement="Bottom" IsOpen="False">
                             <Border BorderThickness="1" BorderBrush="Gray">
