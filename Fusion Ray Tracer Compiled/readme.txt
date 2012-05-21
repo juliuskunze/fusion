@@ -1,1 +1,1 @@
-Windows Vista/Windows 7 and .NET Framework 4.0 (or later version) is required to run this program.
+To run this program Windows Vista (or later version) and .NET Framework 4.0 (or later version) is required.
