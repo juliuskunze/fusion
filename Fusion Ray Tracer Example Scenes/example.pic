@@ -1,0 +1,29 @@
+View v = View(observerLocation:[1,1,1],
+              lookAt: [0,0,0],
+              upDirection: [0,1,0],
+              horizontalViewAngle: pi/2);
+
+Plane p = Plane([0,-1,0], [0,1,0]);
+
+Sphere s = Sphere(center: [0,0,0], radius: 1);
+
+RadianceSpectrum blue = Peak(position: 467e-9, height: 1, width: 50e-9);
+
+Real white(Real wavelength) = 35;
+
+Material m(Vector location) = IntransparentMaterial(emittedLight: Black,
+                                                    scatteringRemission: Remission(blue),
+                                                    reflectionRemission: BlackRemission);
+
+PointLightSource source = PointLightSource(location: [2,4,0],
+                                           baseLight: white);
+
+RayTracer r = RecursiveRayTracer(surface: MaterialSurface(surface: Surfaces({s, p}), materialFunction: m),
+                                 unshadedLightSource: LightSources({}),
+                                 shadedPointLightSources: {source},
+                                 maxIntersectionCount: 10);
+
+return RayTracerPicture(rayTracer: r,
+                        pictureSize: PictureSize(400, 400),
+                        view: v,
+                        lightToRgbColorConverter: GammaCorrectedRadianceSpectrumToRgbColorConverter(spectralRadiancePerWhite: 1, gamma: 1.0));

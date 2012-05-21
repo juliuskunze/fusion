@@ -1,0 +1,111 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Fusion.RayTracer.Windows
+</name>
+</assembly>
+<members>
+<member name="M:Fusion.RayTracer.Windows.MainWindow.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:Fusion.RayTracer.Windows.MainWindow">
+	<summary>
+MainWindow
+</summary>
+</member><member name="M:Fusion.RayTracer.Windows.VideoSplicerWindow.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:Fusion.RayTracer.Windows.VideoSplicerWindow">
+	<summary>
+VideoSplicerWindow
+</summary>
+</member><member name="M:Fusion.RayTracer.Windows.RenderTimeEstimationOptionsDialog.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:Fusion.RayTracer.Windows.RenderTimeEstimationOptionsDialog">
+	<summary>
+RenderTimeEstimationOptionsDialog
+</summary>
+</member><member name="M:Fusion.RayTracer.Windows.HelpWindow.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:Fusion.RayTracer.Windows.HelpWindow">
+	<summary>
+HelpWindow
+</summary>
+</member><member name="M:Fusion.RayTracer.Windows.ColorWindow.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:Fusion.RayTracer.Windows.ColorWindow">
+	<summary>
+ColorWindow
+</summary>
+</member><member name="M:Fusion.RayTracer.Windows.Application.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="M:Fusion.RayTracer.Windows.Application.Main">
+	<summary>
+Application Entry Point.
+</summary>
+</member><member name="T:Fusion.RayTracer.Windows.Application">
+	<summary>
+Application
+</summary>
+</member><member name="P:Fusion.RayTracer.Windows.My.MyWpfExtension.Application">
+	<summary>
+ Returns the application object for the running application
+ </summary>
+</member><member name="P:Fusion.RayTracer.Windows.My.MyWpfExtension.Computer">
+	<summary>
+ Returns information about the host computer.
+ </summary>
+</member><member name="P:Fusion.RayTracer.Windows.My.MyWpfExtension.User">
+	<summary>
+ Returns information for the current user.  If you wish to run the application with the current 
+ Windows user credentials, call My.User.InitializeWithWindowsUser().
+ </summary>
+</member><member name="P:Fusion.RayTracer.Windows.My.MyWpfExtension.Log">
+	<summary>
+ Returns the application log. The listeners can be configured by the application's configuration file.
+ </summary>
+</member><member name="P:Fusion.RayTracer.Windows.My.MyWpfExtension.Windows">
+	<summary>
+ Returns the collection of Windows defined in the project.
+ </summary>
+</member><member name="T:Fusion.RayTracer.Windows.My.MyWpfExtension">
+	<summary>
+ Module used to define the properties that are available in the My Namespace for WPF
+ </summary>
+	<remarks></remarks>
+</member><member name="T:Fusion.RayTracer.Windows.FrameRenderer">
+	<summary>
+ Represents a picture renderer that saves the picture after rendering.
+ </summary>
+	<remarks></remarks>
+</member><member name="M:Fusion.RayTracer.Windows.WindowExtensions.GetPixelFactor(System.Windows.Media.Visual,System.Double,System.Double)">
+	<summary>
+ Erfüllt die Gleichung pixels = pixelFactor * visual.Width.
+ </summary>
+</member><member name="P:Fusion.RayTracer.Windows.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:Fusion.RayTracer.Windows.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:Fusion.RayTracer.Windows.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+</members>
+</doc>

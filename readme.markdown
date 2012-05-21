@@ -1,4 +1,4 @@
-LIZENZ / LICENCE:
+LIZENZ / LICENCE
 ====================
 
 GERMAN
