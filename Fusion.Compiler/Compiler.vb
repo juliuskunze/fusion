@@ -126,5 +126,4 @@
 
         Return trim.Substring(startIndex:=Keywords.FunctionType.Count)
     End Function
-
 End Class

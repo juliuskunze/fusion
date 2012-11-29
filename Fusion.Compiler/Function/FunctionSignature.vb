@@ -48,5 +48,4 @@
     Public Sub CheckForConflicts(other As FunctionSignature)
         If Me.Name = other.Name AndAlso Me.FunctionType.Parameters.Count = other.FunctionType.Parameters.Count Then Throw New CompilerException(String.Format("Function '{0}' with parameter count {1} is already defined.", other.Name, other.FunctionType.Parameters.Count))
     End Sub
-
 End Class

@@ -1,5 +1,4 @@
 Public Class PerformanceTests
-
     <Test()>
     Public Sub ExamplePicture()
         Dim startTime = DateTime.Now
@@ -118,5 +117,4 @@ Public Class PerformanceTests
 
         Return New RayTracerPicture(Of RgbLight)(rayTracer:=rayTracer, pictureSize:=New Size(100, 100), view:=view, lightToRgbColorConverter:=New RgbLightToRgbColorConverter)
     End Function
-
 End Class

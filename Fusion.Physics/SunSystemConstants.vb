@@ -21,5 +21,4 @@
     Public Const MoonEarthAverageVelocity As Double = 1023.0
     Public Const MoonEarthMinimalVelocity As Double = 964.0
     Public Const MoonEarthMaximalVelocity As Double = 1076.0
-
 End Class

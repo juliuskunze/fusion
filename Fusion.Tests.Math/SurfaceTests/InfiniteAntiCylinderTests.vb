@@ -1,5 +1,4 @@
 ﻿Public Class InfiniteAntiCylinderTests
-
     <Test()>
     Public Sub Contains()
         Dim infiniteCylinder = New InfiniteAntiCylinder(New Vector3D(5, 0, 0), New Vector3D(0, 2, 0), 2)
@@ -16,5 +15,4 @@
         Assert.AreEqual(New Vector3D(19, 10, 0), infiniteCylinder.Intersection(ray).Location)
         Assert.AreEqual(New Vector3D(-1, 0, 0), infiniteCylinder.Intersection(ray).NormalizedNormal)
     End Sub
-
 End Class

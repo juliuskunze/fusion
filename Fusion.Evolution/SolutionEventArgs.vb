@@ -11,5 +11,4 @@
             Return _Solution
         End Get
     End Property
-
 End Class

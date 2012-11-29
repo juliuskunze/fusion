@@ -1,5 +1,4 @@
 ﻿Public Class CompilerTests
-
     <Test()>
     Public Sub TestConstant()
         Dim compiler = New Compiler(Of Double)("Real a = 4; Real b = a/2; return b;".ToLocated, baseContext:=TermContext.Default, typeDictionary:=TypeDictionary.Default)
@@ -80,5 +79,4 @@
 
         compiler.Compile()
     End Sub
-
 End Class

@@ -71,11 +71,10 @@
   <Queries>
     <Group Name="Code Quality" Active="True" ShownInReport="False">
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="True"><![CDATA[// <Name>Methods too complex - critical (ILCyclomaticComplexity)</Name>
-warnif count > 0 from m in Application.Methods where 
-  m.ILCyclomaticComplexity > 40 && 
-  m.ILNestingDepth > 4 
-  orderby m.ILCyclomaticComplexity descending
-select new { m, m.ILCyclomaticComplexity, m.ILNestingDepth }
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+  ILCyclomaticComplexity > 40 AND 
+  ILNestingDepth > 4 
+  ORDER BY ILCyclomaticComplexity DESC
 
 // METHODS WHERE ILCyclomaticComplexity > 40 
 // are really too complex and should be split 
@@ -86,10 +85,9 @@ select new { m, m.ILCyclomaticComplexity, m.ILNestingDepth }
 // See the definition of the ILNestingDepth metric here 
 // http://www.NDepend.com/Metrics.aspx#ILNestingDepth]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="True"><![CDATA[// <Name>Methods with too many parameters - critical (NbParameters)</Name>
-warnif count > 0 from m in Application.Methods where 
-  m.NbParameters > 8
-  orderby m.NbParameters descending
-select new { m, m.NbParameters }
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+  NbParameters > 8
+  ORDER BY NbParameters DESC
 
 // METHODS WHERE NbParameters > 8 might be painful to call 
 // and might degrade performance. You should prefer using 
@@ -102,34 +100,30 @@ select new { m, m.NbParameters }
 // http://www.ndepend.com/Metrics.aspx#NbParameters
 ]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Quick summary of methods to refactor</Name>
-warnif count > 0 from 
-   m in Application.Methods /*OUT OF "YourGeneratedCode" */ where 
+WARN IF Count > 0 IN SELECT 
+   METHODS /*OUT OF "YourGeneratedCode" */ WHERE 
 
                                     // Metrics' definitions
-  ( m.NbLinesOfCode > 30 ||           // http://www.ndepend.com/Metrics.aspx#NbLinesOfCode
-    m.NbILInstructions > 200 ||       // http://www.ndepend.com/Metrics.aspx#NbILInstructions
-    m.CyclomaticComplexity > 20 ||    // http://www.ndepend.com/Metrics.aspx#CC
-    m.ILCyclomaticComplexity > 50 ||  // http://www.ndepend.com/Metrics.aspx#ILCC
-    m.ILNestingDepth > 4 ||           // http://www.ndepend.com/Metrics.aspx#ILNestingDepth
-    m.NbParameters > 5 ||             // http://www.ndepend.com/Metrics.aspx#NbParameters
-    m.NbVariables > 8 ||              // http://www.ndepend.com/Metrics.aspx#NbVariables
-    m.NbOverloads > 6 )               // http://www.ndepend.com/Metrics.aspx#NbOverloads
-     && 
+  ( NbLinesOfCode > 30 OR           // http://www.ndepend.com/Metrics.aspx#NbLinesOfCode
+    NbILInstructions > 200 OR       // http://www.ndepend.com/Metrics.aspx#NbILInstructions
+    CyclomaticComplexity > 20 OR    // http://www.ndepend.com/Metrics.aspx#CC
+    ILCyclomaticComplexity > 50 OR  // http://www.ndepend.com/Metrics.aspx#ILCC
+    ILNestingDepth > 4 OR           // http://www.ndepend.com/Metrics.aspx#ILNestingDepth
+    NbParameters > 5 OR             // http://www.ndepend.com/Metrics.aspx#NbParameters
+    NbVariables > 8 OR              // http://www.ndepend.com/Metrics.aspx#NbVariables
+    NbOverloads > 6 )               // http://www.ndepend.com/Metrics.aspx#NbOverloads
+     AND 
 
   // Here are some ways to avoid taking account of generated methods.
-  !( (m.Name == @"InitializeComponent()") ||
+  !( NameIs "InitializeComponent()" OR
      // NDepend.CQL.GeneratedAttribute is defined in 
      // the redistributable assembly $NDependInstallDir$\Lib\NDepend.CQL.dll
      // You can define your own attribute to mark "Generated".
-     m.HasAttribute ("NDepend.CQL.GeneratedAttribute".AllowNoMatch()))
-select new { m, m.NbLinesOfCode, m.NbILInstructions, m.CyclomaticComplexity, 
-             m.ILCyclomaticComplexity, m.ILNestingDepth, 
-             m.NbParameters, m.NbVariables, m.NbOverloads } ]]></Query>
+     HasAttribute "OPTIONAL:NDepend.CQL.GeneratedAttribute") ]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods too big (NbLinesOfCode)</Name>
-warnif count > 0 from m in Application.Methods where 
-   m.NbLinesOfCode > 30 
-   orderby m.NbLinesOfCode descending
-select new { m, m.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+   NbLinesOfCode > 30 
+   ORDER BY NbLinesOfCode DESC
 
 // METHODS WHERE NbLinesOfCode > 30 are extremely complex 
 // and should be split in smaller methods 
@@ -137,10 +131,9 @@ select new { m, m.NbLinesOfCode }
 // See the definition of the NbLinesOfCode metric here 
 // http://www.ndepend.com/Metrics.aspx#NbLinesOfCode]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods too big (NbILInstructions)</Name>
-warnif count > 0 from m in Application.Methods where 
-  m.NbILInstructions > 200 
-  orderby m.NbILInstructions descending
-select new { m, m.NbILInstructions }
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+  NbILInstructions > 200 
+  ORDER BY NbILInstructions DESC
 
 // METHODS WHERE NbILInstructions > 200 are extremely complex 
 // and should be split in smaller methods 
@@ -148,10 +141,9 @@ select new { m, m.NbILInstructions }
 // See the definition of the NbILInstructions metric here 
 // http://www.ndepend.com/Metrics.aspx#NbILInstructions]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods too complex (CyclomaticComplexity)</Name>
-warnif count > 0 from m in Application.Methods where 
-  m.CyclomaticComplexity > 20 
-  orderby m.CyclomaticComplexity descending
-select new { m, m.CyclomaticComplexity }
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+  CyclomaticComplexity > 20 
+  ORDER BY CyclomaticComplexity DESC
 
 // METHODS WHERE CyclomaticComplexity > 15 are hard to understand and maintain.
 // METHODS WHERE CyclomaticComplexity > 30 are extremely complex 
@@ -160,10 +152,9 @@ select new { m, m.CyclomaticComplexity }
 // See the definition of the CyclomaticComplexity metric here 
 // http://www.ndepend.com/Metrics.aspx#CC]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods too complex (ILCyclomaticComplexity)</Name>
-warnif count > 0 from m in Application.Methods where 
-  m.ILCyclomaticComplexity > 40 
-  orderby m.ILCyclomaticComplexity descending
-select new { m, m.ILCyclomaticComplexity }
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+  ILCyclomaticComplexity > 40 
+  ORDER BY ILCyclomaticComplexity DESC
 
 // METHODS WHERE ILCyclomaticComplexity > 20 
 // are hard to understand and maintain.
@@ -174,10 +165,9 @@ select new { m, m.ILCyclomaticComplexity }
 // See the definition of the ILCyclomaticComplexity metric here 
 // http://www.ndepend.com/Metrics.aspx#ILCC]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods too complex (ILNestingDepth)</Name>
-warnif count > 0 from m in Application.Methods where 
-  m.ILNestingDepth > 4 
-  orderby m.ILNestingDepth descending
-select new { m, m.ILNestingDepth }
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+  ILNestingDepth > 4 
+  ORDER BY ILNestingDepth DESC
 
 // METHODS WHERE ILNestingDepth > 4 are hard 
 // to understand and maintain. 
@@ -188,21 +178,19 @@ select new { m, m.ILNestingDepth }
 // See the definition of the NbILInstructions metric here 
 // http://www.NDepend.com/Metrics.aspx#ILNestingDepth]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods poorly commented (PercentageComment)</Name>
-warnif count > 0 from m in Application.Methods where 
-  m.PercentageComment < 20 && 
-  m.NbLinesOfCode > 10  
-  orderby m.PercentageComment ascending
-select new { m, m.PercentageComment, m.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+  PercentageComment < 20 AND 
+  NbLinesOfCode > 10  
+  ORDER BY PercentageComment ASC
 
 // METHODS WHERE %Comment < 20 and that have 
 // at least 10 lines of code should be more commented.
 // See the definition of the PercentageComment metric here 
 // http://www.ndepend.com/Metrics.aspx#PercentageComment]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods with too many parameters (NbParameters)</Name>
-warnif count > 0 from m in Application.Methods where 
-  m.NbParameters > 5 
-  orderby m.NbParameters descending
-select new { m, m.NbParameters }
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+  NbParameters > 5 
+  ORDER BY NbParameters DESC
 
 // METHODS WHERE NbParameters > 5 might be painful to call 
 // and might degrade performance. You should prefer using 
@@ -214,10 +202,9 @@ select new { m, m.NbParameters }
 // See the definition of the NbParameters metric here 
 // http://www.ndepend.com/Metrics.aspx#NbParameters]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods with too many local variables (NbVariables)</Name>
-warnif count > 0 from m in Application.Methods where 
-  m.NbVariables > 15 
-  orderby m.NbVariables descending
-select new { m, m.NbVariables }
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+  NbVariables > 15 
+  ORDER BY NbVariables DESC
 
 // METHODS WHERE NbVariables > 8 are hard to understand and maintain.
 // METHODS WHERE NbVariables > 15 are extremely complex 
@@ -226,10 +213,9 @@ select new { m, m.NbVariables }
 // See the definition of the Nbvariables metric here 
 // http://www.ndepend.com/Metrics.aspx#Nbvariables]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods with too many overloads (NbOverloads)</Name>
-warnif count > 0 from m in Application.Methods where 
-  m.NbOverloads > 6 
-  orderby m.NbOverloads descending
-select new { m, m.NbOverloads }
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+  NbOverloads > 6 
+  ORDER BY NbOverloads DESC
 
 // METHODS WHERE NbOverloads > 6 might 
 // be a problem to maintain and provoke higher coupling 
@@ -242,11 +228,10 @@ select new { m, m.NbOverloads }
 // http://www.ndepend.com/Metrics.aspx#NbOverloads]]></Query>
       <Group Name="Type Metrics" Active="True" ShownInReport="False">
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="True"><![CDATA[// <Name>Types too big - critical (NbLinesOfCode)</Name>
-warnif count > 0 from t in Application.Types where 
-   t.NbLinesOfCode > 500 ||
-   t.NbILInstructions > 3000
-   orderby t.NbLinesOfCode descending
-select new { t, t.NbLinesOfCode, t.NbILInstructions }
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+   NbLinesOfCode > 500 OR
+   NbILInstructions > 3000
+   ORDER BY NbLinesOfCode DESC
 
 // METHODS WHERE NbLinesOfCode > 500 are extremely complex 
 // and should be split in a smaller group of types. 
@@ -264,10 +249,9 @@ select new { t, t.NbLinesOfCode, t.NbILInstructions }
 
 ]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types with too many methods</Name>
-warnif count > 0 from t in Application.Types where 
-  t.NbMethods > 20 
-  orderby t.NbMethods descending
-select new { t, t.NbMethods }
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  NbMethods > 20 
+  ORDER BY NbMethods DESC
 
 // TYPES WHERE NbMethods > 20 might be hard to 
 // understand and maintain 
@@ -278,11 +262,10 @@ select new { t, t.NbMethods }
 // See the definition of the NbMethods metric here 
 // http://www.ndepend.com/Metrics.aspx#NbMethods]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types with too many fields</Name>
-warnif count > 0 from t in Application.Types where 
-  t.NbFields > 20 && 
-  !t.IsEnumeration 
-  orderby t.NbFields descending
-select new { t, t.NbFields }
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  NbFields > 20 AND 
+  !IsEnumeration 
+  ORDER BY NbFields DESC
 
 // TYPES WHERE NbFields > 20 AND !IsEnumeration 
 // might be hard to understand and maintain 
@@ -295,12 +278,11 @@ select new { t, t.NbFields }
 // See the definition of the NbFields metric here 
 // http://www.ndepend.com/Metrics.aspx#NbFields]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types with poor cohesion (LCOM)</Name>
-warnif count > 0 from t in Application.Types where 
-  t.LCOM > 0.8 && 
-  t.NbFields > 10 && 
-  t.NbMethods >10 
-  orderby t.LCOM descending
-select new { t, t.LCOM, t.NbFields, t.NbMethods }
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  LCOM > 0.8 AND 
+  NbFields > 10 AND 
+  NbMethods >10 
+  ORDER BY LCOM DESC
 
 // TYPES WHERE LCOM > 0.8 AND NbFields > 10 
 // AND NbMethods >10 might be problematic. 
@@ -311,12 +293,11 @@ select new { t, t.LCOM, t.NbFields, t.NbMethods }
 // See the definition of the LCOM metric here 
 // http://www.ndepend.com/Metrics.aspx#LCOM]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types with poor cohesion (LCOMHS)</Name>
-warnif count > 0 from t in Application.Types where 
-  t.LCOMHS > 0.95 && 
-  t.NbFields > 10 && 
-  t.NbMethods >10 
-  orderby t.LCOMHS descending
-select new { t, t.LCOMHS, t.NbFields, t.NbMethods }
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  LCOMHS > 0.95 AND 
+  NbFields > 10 AND 
+  NbMethods >10 
+  ORDER BY LCOMHS DESC
 
 // TYPES WHERE LCOMHS > 1.0 AND NbFields > 10 AND 
 // NbMethods >10 should be avoided. 
@@ -329,9 +310,8 @@ select new { t, t.LCOMHS, t.NbFields, t.NbMethods }
     </Group>
     <Group Name="Design" Active="True" ShownInReport="False">
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Assembly should not contain namespaces dependency cycles</Name>
-warnif count > 0 from a in Application.Assemblies where
-a.ContainsNamespaceDependencyCycle == true
-select new { a, a.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT ASSEMBLIES WHERE
+ContainsNamespaceDependencyCycle
 
 // Dependency cycles between namespaces must be avoided
 // in order to have a levelized and comprehensive design.
@@ -349,9 +329,8 @@ select new { a, a.NbLinesOfCode }
 //   --> Display Direct and Indirect Dependencies
     ]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Avoid partitioning the code base through too many Assemblies</Name>
-warnif count > 50
-from a in Assemblies where !a.IsThirdParty
-select new { a, a.NbLinesOfCode }
+WARN IF Count > 50 IN
+SELECT ASSEMBLIES WHERE !IsFrameworkAssembly
 
 // Each .NET Assembly represents one or several physical file.
 // Having too many .NET Assemblies is a symptom of considering
@@ -370,10 +349,9 @@ select new { a, a.NbLinesOfCode }
 // http://codebetter.com/blogs/patricksmacchia/archive/2008/12/08/advices-on-partitioning-code-through-net-assemblies.aspx
     ]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Type should not have too many responsibilities (Efferent Coupling)</Name>
-warnif count > 0 from t in Application.Types where 
-  t.NbTypesUsed > 50 
-  orderby t.NbTypesUsed descending
-select new { t, t.NbTypesUsed } 
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  TypeCe > 50 
+  ORDER BY TypeCe DESC 
 
 // The Efferent Coupling (TypeCe) for a particular type is 
 // the number of types it directly depends on. Notice that 
@@ -388,31 +366,28 @@ select new { t, t.NbTypesUsed }
 
 ]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>A stateless class or structure might be turned into a static type</Name>
-warnif count > 0 from t in Application.Types where
-  t.SizeOfInst ==0 &&
+WARN IF Count > 0 IN SELECT TYPES WHERE
+  SizeOfInst ==0 AND
 
   // For accuracy, this rule doesn't take
   // account of types that implement some interfaces.
   // and classes that have a base class and don't
   // derive directly from System.Object, or classes
   // that have sub-classes children.  
-  t.NbInterfacesImplemented == 0 &&                           
-  ((t.IsClass && t.DepthOfInheritance == 1   
-            && t.NbChildren == 0)          
-    || t.IsStructure) &&                   
-  !t.IsStatic &&
-  !t.IsGeneric
-select new { t, t.SizeOfInst, t.NbInterfacesImplemented, 
-             t.DepthOfInheritance, t.NbChildren }
+  NbInterfacesImplemented == 0 AND                           
+  ((IsClass AND DepthOfInheritance == 1   
+            AND NbChildren == 0)          
+    OR IsStructure) AND                   
+  !IsStatic AND
+  !IsGeneric
   // this rule indicates stateless types that might 
   // eventually be turned into static classes.
   // See the definition of the SizeOfInst metric here 
   // http://www.ndepend.com/Metrics.aspx#SizeOfInst]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Class shouldn't be too deep in inheritance tree </Name>
-warnif count > 0 from t in Application.Types where 
-  t.DepthOfInheritance >= 6 
-  
-select new { t, t.DepthOfInheritance } 
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  DepthOfInheritance >= 6 
+  ORDER BY DepthOfInheritance DESC 
 
 // Branches too long in the derivation should be avoided.
 // See the definition of the DepthOfInheritance metric here 
@@ -422,29 +397,27 @@ select new { t, t.DepthOfInheritance }
 // DepthOfInheritance with such condition for example:
 // AND !DeriveFrom "System.Windows.Forms.Form" ]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Class with no descendant should be sealed if possible</Name>
-warnif count > 0 from t in Application.Types where 
-  t.IsClass && 
-  t.NbChildren ==0 && 
-  !t.IsSealed && 
-  !t.IsStatic 
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  IsClass AND 
+  NbChildren ==0 AND 
+  !IsSealed AND 
+  !IsStatic 
   // AND !IsPublic <-- You might want to add this condition 
   //                   if you are developping a framework
   //                   with classes that are intended to be 
   //                   sub-classed by your clients.
-  orderby t.NbLinesOfCode
-select new { t, t.NbChildren, t.NbLinesOfCode }]]></Query>
+  ORDER BY NbLinesOfCode]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Classes that are candidate to be turned into Structures</Name>
-warnif count > 0 from t in Application.Types where 
-  t.IsClass &&
-  !t.IsStatic &&
-  t.SizeOfInst > 0 &&
-  t.SizeOfInst <= 16 &&    // Structure instance must not be too big, 
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  IsClass AND
+  !IsStatic AND
+  SizeOfInst > 0 AND
+  SizeOfInst <= 16 AND    // Structure instance must not be too big, 
                           // else it degrades performance.
 
-  t.NbChildren == 0 &&     // Must not have children
+  NbChildren == 0 AND     // Must not have children
 
-  t.DepthOfInheritance == 1
-select new { t, t.SizeOfInst, t.NbChildren, t.DepthOfInheritance } // Must derive directly from System.Object
+  DepthOfInheritance == 1 // Must derive directly from System.Object
 
   // AND IsSealed    <-- You might want to add this condition 
   //                     to restreint the set.
@@ -455,10 +428,9 @@ select new { t, t.SizeOfInst, t.NbChildren, t.DepthOfInheritance } // Must deriv
   //                     your clients.
 ]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Avoid namespaces with few types</Name>
-warnif count > 0 from n in Application.Namespaces where 
-  n.NbTypes < 5 
-  orderby n.NbTypes ascending
-select new { n, n.NbTypes } 
+WARN IF Count > 0 IN SELECT NAMESPACES WHERE 
+  NbTypes < 5 
+  ORDER BY NbTypes ASC 
 
 // Make sure that there is a logical organization 
 // to each of your namespaces, and that there is a 
@@ -468,11 +440,10 @@ select new { n, n.NbTypes }
 // When their applications are mutually exclusive, 
 // types should be located in separate namespaces]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Nested types should not be visible</Name>
-warnif count > 0 from t in Types where 
-  t.IsNested && 
-  !t.IsPrivate && 
-  !t.IsThirdParty
-select new { t, t.NbLinesOfCode } 
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  IsNested AND 
+  !IsPrivate AND 
+  !IsInFrameworkAssembly 
 
 // A nested type is a type declared within the 
 // scope of another type. Nested types are useful 
@@ -483,10 +454,9 @@ select new { t, t.NbLinesOfCode }
 // logical grouping or to avoid name collisions; 
 // instead, use namespaces.]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Avoid empty interfaces</Name>
-warnif count > 0 from t in Application.Types where 
-  t.IsInterface && 
-  t.NbMethods == 0
-select new { t, t.NbMethods }
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  IsInterface AND 
+  NbMethods == 0
 
 // Interfaces define members that provide a behavior 
 // or usage contract. The functionality described by 
@@ -509,10 +479,9 @@ select new { t, t.NbMethods }
 // identification must occurs at compile time, then using 
 // an empty interface is acceptable.]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Avoid interfaces with too many methods</Name>
-warnif count > 0 from t in Application.Types where 
-  t.IsInterface && 
-  t.NbMethods > 20
-select new { t, t.NbMethods }
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  IsInterface AND 
+  NbMethods > 20
 
 // An interface should abstract a clear and well-defined concept.
 // Such concept shoudln't be represented with too many methods.
@@ -524,10 +493,9 @@ select new { t, t.NbMethods }
 // http://www.ndepend.com/Metrics.aspx#NbMethods
 ]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Declare types in namespaces</Name>
-warnif count > 0 from n in Namespaces where 
-  (n.Name == @"") && 
-  !n.IsThirdParty
-select new { n, n.NbLinesOfCode } 
+WARN IF Count > 0 IN SELECT NAMESPACES WHERE 
+  NameIs "" AND 
+  !IsInFrameworkAssembly 
 
 // Types are declared within namespaces to 
 // prevent name collisions, and as a way of 
@@ -537,17 +505,15 @@ select new { n, n.NbLinesOfCode }
 // in code. If an anonymous namespace can be found, 
 // it means that it contains types outside of namespaces.]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Empty static constructor can be discarded</Name>
-warnif count > 0 from m in Application.Methods where 
-  m.IsClassConstructor && 
-  m.NbLinesOfCode == 0
-select new { m, m.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+  IsClassConstructor AND 
+  NbLinesOfCode == 0
     ]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Assemblies with poor cohesion (RelationalCohesion)</Name>
-warnif count > 0 from a in Application.Assemblies where 
-  a.NbTypes > 20 && // Relational Cohesion metrics is relevant only if there are several types 
-  (a.RelationalCohesion < 1.5 || 
-   a.RelationalCohesion > 4.0)
-select new { a, a.NbTypes, a.RelationalCohesion }
+WARN IF Count > 0 IN SELECT ASSEMBLIES WHERE 
+  NbTypes > 20 AND // Relational Cohesion metrics is relevant only if there are several types 
+  (RelationalCohesion < 1.5 OR 
+   RelationalCohesion > 4.0)
 
 // As classes inside an assembly should be strongly related, 
 // the cohesion should be high. On the other hand, a value 
@@ -556,19 +522,17 @@ select new { a, a.NbTypes, a.RelationalCohesion }
 // See the definition of the RelationalCohesion metric here 
 // http://www.ndepend.com/Metrics.aspx#RelationalCohesion]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Assemblies that don't satisfy the Abstractness/Instability principle</Name>
-warnif percentage > 15 from a in Application.Assemblies where 
-  a.NormDistFromMainSeq > 0.7 
-  orderby a.NormDistFromMainSeq descending
-select new { a, a.NormDistFromMainSeq }
+WARN IF Percentage > 15 IN SELECT ASSEMBLIES WHERE 
+  NormDistFromMainSeq > 0.7 
+  ORDER BY NormDistFromMainSeq DESC
 
 // See the definition of the NormDistFromMainSeq metric here 
 // http://www.ndepend.com/Metrics.aspx#DitFromMainSeq]]></Query>
       <Group Name="Performance" Active="True" ShownInReport="False">
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Instances size shouldn't be too big (SizeOfInst)</Name>
-warnif count > 0 from t in Application.Types where 
-  t.SizeOfInst > 64 
-  orderby t.SizeOfInst descending
-select new { t, t.SizeOfInst }
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  SizeOfInst > 64 
+  ORDER BY SizeOfInst DESC
 
 // TYPES WHERE SizeOfInst > 64 might degrade performance 
 // (depending on the number of instances created at runtime) 
@@ -579,27 +543,24 @@ select new { t, t.SizeOfInst }
 // See the definition of the SizeOfInst metric here 
 // http://www.ndepend.com/Metrics.aspx#SizeOfInst]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Boxing/unboxing should be avoided (Method)</Name>
-warnif percentage > 5 from m in Application.Methods where 
-  m.IsUsingBoxing || 
-  m.IsUsingUnboxing
-select new { m, m.NbLinesOfCode } 
+WARN IF Percentage > 5 IN SELECT METHODS WHERE 
+  IsUsingBoxing OR 
+  IsUsingUnboxing 
 
 // Thanks to generics, boxing and unboxing should be rare.]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Boxing/unboxing should be avoided (Type)</Name>
-warnif percentage > 5 from t in Application.Types where 
-  t.IsUsingBoxing || 
-  t.IsUsingUnboxing
-select new { t, t.NbLinesOfCode } 
+WARN IF Percentage > 5 IN SELECT TYPES WHERE 
+  IsUsingBoxing OR 
+  IsUsingUnboxing 
 
 // Thanks to generics, boxing and unboxing should be rare.]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Attribute classes should be sealed</Name>
-warnif count > 0 from t in Types where 
-  t.IsAttributeClass && 
-  !t.IsSealed && 
-  !t.IsAbstract && 
-  t.IsPublic && 
-  !t.IsThirdParty
-select new { t, t.NbLinesOfCode } 
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  IsAttributeClass AND 
+  !IsSealed AND 
+  !IsAbstract AND 
+  IsPublic AND 
+  !IsInFrameworkAssembly 
 
 // The .NET Framework class library provides methods 
 // for retrieving custom attributes. By default, 
@@ -614,9 +575,8 @@ select new { t, t.NbLinesOfCode }
     </Group>
     <Group Name="Code Diff" Active="True" ShownInReport="True">
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>API Breaking Changes: Types</Name>
-warnif count > 0 from t in codeBase.OlderVersion().Application.Types
-where t.IsPublic && (t.VisibilityWasChanged() || t.WasRemoved())
-select new { t, t.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT TYPES
+WHERE IsPublic AND (VisibilityWasChanged OR WasRemoved)
 
 // This rule warns if a public type is not public anymore or if it has been removed.
 // This can break the code of your clients.
@@ -633,8 +593,7 @@ select new { t, t.NbLinesOfCode }
 
 ]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods added</Name>
-from m in Application.Methods where m.WasAdded()
-select new { m, m.NbLinesOfCode }
+SELECT METHODS WHERE WasAdded
 
 // To run this query properly 2 analysis 
 // must be compared.
@@ -642,16 +601,14 @@ select new { m, m.NbLinesOfCode }
 //   NDepend -> Compare -> Define the project's Baseline for Comparison
 ]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods where code was changed</Name>
-from m in Application.Methods where m.CodeWasChanged()
-select new { m, m.NbLinesOfCode } 
+SELECT METHODS WHERE CodeWasChanged 
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Public Types added</Name>
-from t in Application.Types where t.WasAdded() && t.IsPublic
-select new { t, t.NbLinesOfCode }
+SELECT TYPES WHERE WasAdded AND IsPublic
 
 // To run this query properly 2 analysis 
 // must be compared.
@@ -659,48 +616,42 @@ select new { t, t.NbLinesOfCode }
 //   NDepend -> Compare -> Define the project's Baseline for Comparison
 ]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types added</Name>
-from t in Application.Types where t.WasAdded()
-select new { t, t.NbLinesOfCode }
+SELECT TYPES WHERE WasAdded
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types where code was changed</Name>
-from t in Application.Types where t.CodeWasChanged()
-select new { t, t.NbLinesOfCode } 
+SELECT TYPES WHERE CodeWasChanged 
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Namespaces added</Name>
-from n in Application.Namespaces where n.WasAdded()
-select new { n, n.NbLinesOfCode }
+SELECT NAMESPACES WHERE WasAdded
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Namespaces where code was changed</Name>
-from n in Application.Namespaces where n.CodeWasChanged()
-select new { n, n.NbLinesOfCode } 
+SELECT NAMESPACES WHERE CodeWasChanged 
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Third party Types that were not used and that are now used</Name>
-from t in Types where t.IsUsedRecently()
-select new { t, t.NbLinesOfCode } 
+SELECT TYPES WHERE IsUsedRecently 
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Third party Methods that were not used and that are now used</Name>
-from m in Methods where m.IsUsedRecently()
-select new { m, m.NbLinesOfCode } 
+SELECT METHODS WHERE IsUsedRecently 
 
 // To run this query properly 2 analysis 
 // must be compared.
@@ -708,11 +659,10 @@ select new { m, m.NbLinesOfCode }
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
       <Group Name="API Breaking Changes" Active="True" ShownInReport="False">
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>API Breaking Changes: Methods</Name>
-warnif count > 0 from m in codeBase.OlderVersion().Application.Methods
-where 
-  m.IsPublic && 
-  (m.VisibilityWasChanged() || m.WasRemoved())
-select new { m, m.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT METHODS
+WHERE 
+  IsPublic AND 
+  (VisibilityWasChanged OR WasRemoved)
 
 // This rule warns if a public method is 
 // not public anymore or if it has been removed.
@@ -729,9 +679,8 @@ select new { m, m.NbLinesOfCode }
 
 ]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="True"><![CDATA[// <Name>API Breaking Changes: Types</Name>
-warnif count > 0 from t in codeBase.OlderVersion().Application.Types
-where t.IsPublic && (t.VisibilityWasChanged() || t.WasRemoved())
-select new { t, t.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT TYPES
+WHERE IsPublic AND (VisibilityWasChanged OR WasRemoved)
 
 // This rule warns if a public type is not public anymore or if it has been removed.
 // This can break the code of your clients.
@@ -748,9 +697,8 @@ select new { t, t.NbLinesOfCode }
 
 ]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="True"><![CDATA[// <Name>API Breaking Changes: Interfaces</Name>
-warnif count > 0 from t in Application.Types
-where t.IsInterface && t.IsPublic && (t.WasChanged() && !t.CommentsWereChanged())
-select new { t, t.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT TYPES
+WHERE IsInterface AND IsPublic AND (WasChanged AND !CommentsWereChanged)
 
 // This rule warns if a public interface has been changed, but not because of comment change.
 // This can break the code of your clients that implements such interface.
@@ -767,8 +715,7 @@ select new { t, t.NbLinesOfCode }
       <Group Name="Changes Summary" Active="False" ShownInReport="False">
         <Group Name="Methods" Active="False" ShownInReport="False">
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods added</Name>
-from m in Application.Methods where m.WasAdded()
-select new { m, m.NbLinesOfCode }
+SELECT METHODS WHERE WasAdded
 
 // To run this query properly 2 analysis 
 // must be compared.
@@ -776,40 +723,35 @@ select new { m, m.NbLinesOfCode }
 //   NDepend -> Compare -> Define the project's Baseline for Comparison
 ]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods removed</Name>
-from m in codeBase.OlderVersion().Application.Methods where m.WasRemoved()
-select new { m, m.NbLinesOfCode } 
+SELECT METHODS WHERE WasRemoved 
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods where code was changed</Name>
-from m in Application.Methods where m.CodeWasChanged()
-select new { m, m.NbLinesOfCode } 
+SELECT METHODS WHERE CodeWasChanged 
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods where comments were changed</Name>
-from m in Application.Methods where m.CommentsWereChanged()
-select new { m, m.NbLinesOfCode }  
+SELECT METHODS WHERE CommentsWereChanged  
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods where visibility was changed</Name>
-from m in Application.Methods where m.VisibilityWasChanged()
-select new { m, m.NbLinesOfCode }  
+SELECT METHODS WHERE VisibilityWasChanged  
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods that became obsolete</Name>
-from m in Methods where m.BecameObsolete()
-select new { m, m.NbLinesOfCode }  
+SELECT METHODS WHERE BecameObsolete  
 
 // To run this query properly 2 analysis 
 // must be compared.
@@ -818,16 +760,14 @@ select new { m, m.NbLinesOfCode }
         </Group>
         <Group Name="Fields" Active="False" ShownInReport="False">
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Fields added</Name>
-from f in Application.Fields where f.WasAdded()
-select new { f, f.SizeOfInst }
+SELECT FIELDS WHERE WasAdded
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Fields removed</Name>
-from f in codeBase.OlderVersion().Application.Fields where f.WasRemoved()
-select new { f, f.SizeOfInst } 
+SELECT FIELDS WHERE WasRemoved 
 
 // To run this query properly 2 analysis 
 // must be compared.
@@ -836,48 +776,42 @@ select new { f, f.SizeOfInst }
         </Group>
         <Group Name="Types" Active="False" ShownInReport="False">
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types added</Name>
-from t in Application.Types where t.WasAdded()
-select new { t, t.NbLinesOfCode }
+SELECT TYPES WHERE WasAdded
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types removed</Name>
-from t in codeBase.OlderVersion().Application.Types where t.WasRemoved()
-select new { t, t.NbLinesOfCode } 
+SELECT TYPES WHERE WasRemoved 
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types where code was changed</Name>
-from t in Application.Types where t.CodeWasChanged()
-select new { t, t.NbLinesOfCode } 
+SELECT TYPES WHERE CodeWasChanged 
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types where comments were changed</Name>
-from t in Application.Types where t.CommentsWereChanged()
-select new { t, t.NbLinesOfCode }  
+SELECT TYPES WHERE CommentsWereChanged  
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types where visibility was changed</Name>
-from t in Application.Types where t.VisibilityWasChanged()
-select new { t, t.NbLinesOfCode }  
+SELECT TYPES WHERE VisibilityWasChanged  
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types that became obsolete</Name>
-from t in Types where t.BecameObsolete()
-select new { t, t.NbLinesOfCode }  
+SELECT TYPES WHERE BecameObsolete  
 
 // To run this query properly 2 analysis 
 // must be compared.
@@ -886,32 +820,28 @@ select new { t, t.NbLinesOfCode }
         </Group>
         <Group Name="Namespaces" Active="False" ShownInReport="False">
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Namespaces added</Name>
-from n in Application.Namespaces where n.WasAdded()
-select new { n, n.NbLinesOfCode }
+SELECT NAMESPACES WHERE WasAdded
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Namespaces removed</Name>
-from n in codeBase.OlderVersion().Application.Namespaces where n.WasRemoved()
-select new { n, n.NbLinesOfCode } 
+SELECT NAMESPACES WHERE WasRemoved 
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Namespaces where code was changed</Name>
-from n in Application.Namespaces where n.CodeWasChanged()
-select new { n, n.NbLinesOfCode } 
+SELECT NAMESPACES WHERE CodeWasChanged 
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Namespaces where comments were changed</Name>
-from n in Application.Namespaces where n.CommentsWereChanged()
-select new { n, n.NbLinesOfCode }  
+SELECT NAMESPACES WHERE CommentsWereChanged  
 
 // To run this query properly 2 analysis 
 // must be compared.
@@ -920,32 +850,28 @@ select new { n, n.NbLinesOfCode }
         </Group>
         <Group Name="Assemblies" Active="False" ShownInReport="False">
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Assemblies added</Name>
-from a in Application.Assemblies where a.WasAdded()
-select new { a, a.NbLinesOfCode }
+SELECT ASSEMBLIES WHERE WasAdded
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Assemblies removed</Name>
-from a in codeBase.OlderVersion().Application.Assemblies where a.WasRemoved()
-select new { a, a.NbLinesOfCode } 
+SELECT ASSEMBLIES WHERE WasRemoved 
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Assemblies where code was changed</Name>
-from a in Application.Assemblies where a.CodeWasChanged()
-select new { a, a.NbLinesOfCode } 
+SELECT ASSEMBLIES WHERE CodeWasChanged 
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Assemblies where comments were changed</Name>
-from a in Application.Assemblies where a.CommentsWereChanged()
-select new { a, a.NbLinesOfCode }  
+SELECT ASSEMBLIES WHERE CommentsWereChanged  
 
 // To run this query properly 2 analysis 
 // must be compared.
@@ -954,104 +880,91 @@ select new { a, a.NbLinesOfCode }
         </Group>
         <Group Name="Third party Code Usage" Active="False" ShownInReport="False">
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Third party Methods that were not used and that are now used</Name>
-from m in Methods where m.IsUsedRecently()
-select new { m, m.NbLinesOfCode } 
+SELECT METHODS WHERE IsUsedRecently 
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Third party Methods that were used and that are not used anymore</Name>
-from m in codeBase.OlderVersion().Methods where m.IsNotUsedAnymore()
-select new { m, m.NbLinesOfCode }  
+SELECT METHODS WHERE IsNotUsedAnymore  
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Third party Types that were not used and that are now used</Name>
-from t in Types where t.IsUsedRecently()
-select new { t, t.NbLinesOfCode } 
+SELECT TYPES WHERE IsUsedRecently 
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Third party Types that were used and that are not used anymore</Name>
-from t in codeBase.OlderVersion().Types where t.IsNotUsedAnymore()
-select new { t, t.NbLinesOfCode }  
+SELECT TYPES WHERE IsNotUsedAnymore  
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Third party Types where usage changed</Name>
-from t in Types where t.IsUsedDifferently()
-select new { t, t.NbLinesOfCode } 
+SELECT TYPES WHERE IsUsedDifferently 
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Third party Namespaces that were not used and that are now used</Name>
-from n in Namespaces where n.IsUsedRecently()
-select new { n, n.NbLinesOfCode } 
+SELECT NAMESPACES WHERE IsUsedRecently 
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Third party Namespaces that were used and that are not used anymore</Name>
-from n in codeBase.OlderVersion().Namespaces where n.IsNotUsedAnymore()
-select new { n, n.NbLinesOfCode }  
+SELECT NAMESPACES WHERE IsNotUsedAnymore  
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Third party Namespaces where usage changed</Name>
-from n in Namespaces where n.IsUsedDifferently()
-select new { n, n.NbLinesOfCode } 
+SELECT NAMESPACES WHERE IsUsedDifferently 
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Third party Assemblies that were not used and that are now used</Name>
-from a in Assemblies where a.IsUsedRecently()
-select new { a, a.NbLinesOfCode } 
+SELECT ASSEMBLIES WHERE IsUsedRecently 
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Third party Assemblies that were used and that are not used anymore</Name>
-from a in codeBase.OlderVersion().Assemblies where a.IsNotUsedAnymore()
-select new { a, a.NbLinesOfCode }  
+SELECT ASSEMBLIES WHERE IsNotUsedAnymore  
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Third party Assemblies where usage changed</Name>
-from a in Assemblies where a.IsUsedDifferently()
-select new { a, a.NbLinesOfCode } 
+SELECT ASSEMBLIES WHERE IsUsedDifferently 
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Third party Fields that were not used and that are now used</Name>
-from f in Fields where f.IsUsedRecently()
-select new { f, f.SizeOfInst } 
+SELECT FIELDS WHERE IsUsedRecently 
 
 // To run this query properly 2 analysis 
 // must be compared.
 // This can be done throught the menu: 
 //   NDepend -> Compare -> Define the project's Baseline for Comparison]]></Query>
           <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Third party Fields that were used and that are not used anymore</Name>
-from f in codeBase.OlderVersion().Fields where f.IsNotUsedAnymore()
-select new { f, f.SizeOfInst }  
+SELECT FIELDS WHERE IsNotUsedAnymore  
 
 // To run this query properly 2 analysis 
 // must be compared.
@@ -1062,29 +975,26 @@ select new { f, f.SizeOfInst }
     </Group>
     <Group Name="Code Coverage" Active="True" ShownInReport="True">
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Complex methods should be 100% covered by tests</Name>
-warnif count > 0 from m in Application.Methods 
+WARN IF Count > 0 IN SELECT METHODS 
  /*OUT OF "YourGeneratedCode" */ 
- where 
+ WHERE 
      // These metrics' definitions are available here: 
      // http://www.ndepend.com/Metrics.aspx#MetricsOnMethods
-     (  m.NbLinesOfCode > 30 || 
-        m.ILCyclomaticComplexity > 50 || 
-        m.ILNestingDepth > 4 ||
-        m.NbParameters > 5 || 
-        m.NbVariables > 8 ||
-        m.NbOverloads > 6 ) && 
+     (  NbLinesOfCode > 30 OR 
+        ILCyclomaticComplexity > 50 OR 
+        ILNestingDepth > 4 OR
+        NbParameters > 5 OR 
+        NbVariables > 8 OR
+        NbOverloads > 6 ) AND 
 
      // Take care only of complex methods 
      // already covered a bit, but not completely covered.
-     m.PercentageCoverage > 0 &&
-     m.PercentageCoverage < 100
+     PercentageCoverage > 0 AND
+     PercentageCoverage < 100
 
-  orderby m.NbLinesOfCode descending, 
-           m.NbLinesOfCodeNotCovered ,
-           m.PercentageCoverage
-select new { m, m.NbLinesOfCode, m.ILCyclomaticComplexity, 
-             m.ILNestingDepth, m.NbParameters, m.NbVariables, 
-             m.NbOverloads, m.PercentageCoverage, m.NbLinesOfCodeNotCovered }  
+  ORDER BY NbLinesOfCode DESC, 
+           NbLinesOfCodeNotCovered ,
+           PercentageCoverage  
 
 // To run this rule properly coverage data must be 
 // gathered from NCover™ or Visual Studio™ Coverage.
@@ -1095,14 +1005,12 @@ select new { m, m.NbLinesOfCode, m.ILCyclomaticComplexity,
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Method changed poorly covered</Name>
-from m in Application.Methods where 
-  m.PercentageCoverage < 30 && 
-  m.CodeWasChanged() 
-  orderby m.NbLinesOfCode descending, 
-           m.NbLinesOfCodeNotCovered ,
-           m.PercentageCoverage
-select new { m, m.PercentageCoverage, m.NbLinesOfCode, 
-             m.NbLinesOfCodeNotCovered }  
+SELECT METHODS WHERE 
+  PercentageCoverage < 30 AND 
+  CodeWasChanged 
+  ORDER BY NbLinesOfCode DESC, 
+           NbLinesOfCodeNotCovered ,
+           PercentageCoverage  
 
 // To run this query properly 2 analysis must be compared.
 // This can be done throught the menu: 
@@ -1117,14 +1025,12 @@ select new { m, m.PercentageCoverage, m.NbLinesOfCode,
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Method added poorly covered</Name>
-from m in Application.Methods where
-  m.PercentageCoverage < 30 && 
-  m.WasAdded() 
-  orderby m.NbLinesOfCode descending, 
-           m.NbLinesOfCodeNotCovered ,
-           m.PercentageCoverage
-select new { m, m.PercentageCoverage, m.NbLinesOfCode, 
-             m.NbLinesOfCodeNotCovered } 
+SELECT METHODS WHERE
+  PercentageCoverage < 30 AND 
+  WasAdded 
+  ORDER BY NbLinesOfCode DESC, 
+           NbLinesOfCodeNotCovered ,
+           PercentageCoverage 
 
 // To run this query properly 2 analysis must be compared.
 // This can be done throught the menu: 
@@ -1139,14 +1045,12 @@ select new { m, m.PercentageCoverage, m.NbLinesOfCode,
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types 95% to 99% covered</Name>
-from t in Application.Types where 
-  t.PercentageCoverage >= 95 && 
-  t.PercentageCoverage <= 99 
-  orderby t.NbLinesOfCode descending , 
-           t.NbLinesOfCodeNotCovered ,
-           t.PercentageCoverage
-select new { t, t.PercentageCoverage, t.NbLinesOfCode, 
-             t.NbLinesOfCodeNotCovered } 
+SELECT TYPES WHERE 
+  PercentageCoverage >= 95 AND 
+  PercentageCoverage <= 99 
+  ORDER BY NbLinesOfCode DESC , 
+           NbLinesOfCodeNotCovered ,
+           PercentageCoverage 
 
 // To run this query properly coverage data must be 
 // gathered from NCover™ or Visual Studio™ Coverage.
@@ -1157,14 +1061,12 @@ select new { t, t.PercentageCoverage, t.NbLinesOfCode,
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.asp]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Namespaces 95% to 99% covered</Name>
-from n in Application.Namespaces where 
-  n.PercentageCoverage >= 95 && 
-  n.PercentageCoverage <= 99 
-  orderby n.NbLinesOfCode descending , 
-           n.NbLinesOfCodeNotCovered ,
-           n.PercentageCoverage
-select new { n, n.PercentageCoverage, n.NbLinesOfCode, 
-             n.NbLinesOfCodeNotCovered } 
+SELECT NAMESPACES WHERE 
+  PercentageCoverage >= 95 AND 
+  PercentageCoverage <= 99 
+  ORDER BY NbLinesOfCode DESC , 
+           NbLinesOfCodeNotCovered ,
+           PercentageCoverage 
 
 // To run this query properly coverage data must be 
 // gathered from NCover™ or Visual Studio™ Coverage.
@@ -1175,13 +1077,11 @@ select new { n, n.PercentageCoverage, n.NbLinesOfCode,
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types not covered</Name>
-from t in Application.Types where 
-  t.PercentageCoverage == 0
-  orderby t.NbLinesOfCode descending , 
-           t.NbLinesOfCodeNotCovered ,
-           t.PercentageCoverage
-select new { t, t.PercentageCoverage, t.NbLinesOfCode, 
-             t.NbLinesOfCodeNotCovered } 
+SELECT TYPES WHERE 
+  PercentageCoverage == 0
+  ORDER BY NbLinesOfCode DESC , 
+           NbLinesOfCodeNotCovered ,
+           PercentageCoverage 
 
 // To run this query properly coverage data must be 
 // gathered from NCover™ or Visual Studio™ Coverage.
@@ -1192,13 +1092,11 @@ select new { t, t.PercentageCoverage, t.NbLinesOfCode,
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Namespaces not covered</Name>
-from n in Application.Namespaces where 
-  n.PercentageCoverage == 0
-  orderby n.NbLinesOfCode descending , 
-           n.NbLinesOfCodeNotCovered ,
-           n.PercentageCoverage
-select new { n, n.PercentageCoverage, n.NbLinesOfCode, 
-             n.NbLinesOfCodeNotCovered } 
+SELECT NAMESPACES WHERE 
+  PercentageCoverage == 0
+  ORDER BY NbLinesOfCode DESC , 
+           NbLinesOfCodeNotCovered ,
+           PercentageCoverage 
 
 // To run this query properly coverage data must be 
 // gathered from NCover™ or Visual Studio™ Coverage.
@@ -1210,9 +1108,8 @@ select new { n, n.PercentageCoverage, n.NbLinesOfCode,
 // http://www.ndepend.com/Coverage.aspx]]></Query>
       <Group Name="Test Coverage Summary" Active="False" ShownInReport="False">
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods 100% covered</Name>
-from m in Application.Methods where 
-  m.PercentageCoverage == 100
-select new { m, m.PercentageCoverage }
+SELECT METHODS WHERE 
+  PercentageCoverage == 100
 
 // To run this query properly coverage data must be 
 // gathered from NCover™ or Visual Studio™ Coverage.
@@ -1223,9 +1120,8 @@ select new { m, m.PercentageCoverage }
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types 100% covered</Name>
-from t in Application.Types where 
-  t.PercentageCoverage == 100
-select new { t, t.PercentageCoverage }
+SELECT TYPES WHERE 
+  PercentageCoverage == 100
 
 // To run this query properly coverage data must be 
 // gathered from NCover™ or Visual Studio™ Coverage.
@@ -1236,9 +1132,8 @@ select new { t, t.PercentageCoverage }
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Namespaces 100% covered</Name>
-from n in Application.Namespaces where 
-  n.PercentageCoverage == 100
-select new { n, n.PercentageCoverage }
+SELECT NAMESPACES WHERE 
+  PercentageCoverage == 100
 
 // To run this query properly coverage data must be 
 // gathered from NCover™ or Visual Studio™ Coverage.
@@ -1249,9 +1144,8 @@ select new { n, n.PercentageCoverage }
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Assemblies 100% covered</Name>
-from a in Application.Assemblies where 
-  a.PercentageCoverage == 100
-select new { a, a.PercentageCoverage }
+SELECT ASSEMBLIES WHERE 
+  PercentageCoverage == 100
 
 // To run this query properly coverage data must be 
 // gathered from NCover™ or Visual Studio™ Coverage.
@@ -1262,10 +1156,9 @@ select new { a, a.PercentageCoverage }
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods not covered</Name>
-from m in Application.Methods where 
-  m.PercentageCoverage == 0
-  orderby m.NbLinesOfCode descending
-select new { m, m.PercentageCoverage, m.NbLinesOfCode }
+SELECT METHODS WHERE 
+  PercentageCoverage == 0
+  ORDER BY NbLinesOfCode DESC
 
 // To run this query properly coverage data must be 
 // gathered from NCover™ or Visual Studio™ Coverage.
@@ -1276,10 +1169,9 @@ select new { m, m.PercentageCoverage, m.NbLinesOfCode }
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types not covered</Name>
-from t in Application.Types where 
-  t.PercentageCoverage == 0
-  orderby t.NbLinesOfCode descending
-select new { t, t.PercentageCoverage, t.NbLinesOfCode }
+SELECT TYPES WHERE 
+  PercentageCoverage == 0
+  ORDER BY NbLinesOfCode DESC
 
 // To run this query properly coverage data must be 
 // gathered from NCover™ or Visual Studio™ Coverage.
@@ -1290,10 +1182,9 @@ select new { t, t.PercentageCoverage, t.NbLinesOfCode }
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Namespaces not covered</Name>
-from n in Application.Namespaces where 
-  n.PercentageCoverage == 0
-  orderby n.NbLinesOfCode descending
-select new { n, n.PercentageCoverage, n.NbLinesOfCode }
+SELECT NAMESPACES WHERE 
+  PercentageCoverage == 0
+  ORDER BY NbLinesOfCode DESC
 
 // To run this query properly coverage data must be 
 // gathered from NCover™ or Visual Studio™ Coverage.
@@ -1304,10 +1195,9 @@ select new { n, n.PercentageCoverage, n.NbLinesOfCode }
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Assemblies not covered</Name>
-from a in Application.Assemblies where 
-  a.PercentageCoverage == 0
-  orderby a.NbLinesOfCode descending
-select new { a, a.PercentageCoverage, a.NbLinesOfCode }
+SELECT ASSEMBLIES WHERE 
+  PercentageCoverage == 0
+  ORDER BY NbLinesOfCode DESC
 
 // To run this query properly coverage data must be 
 // gathered from NCover™ or Visual Studio™ Coverage.
@@ -1318,13 +1208,11 @@ select new { a, a.PercentageCoverage, a.NbLinesOfCode }
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods 95% to 99% covered</Name>
-from m in Application.Methods where 
-  m.PercentageCoverage >= 95 && 
-  m.PercentageCoverage <= 99 
-  orderby m.NbLinesOfCode descending , 
-           m.NbLinesOfCodeNotCovered
-select new { m, m.PercentageCoverage, m.NbLinesOfCode, 
-             m.NbLinesOfCodeNotCovered } 
+SELECT METHODS WHERE 
+  PercentageCoverage >= 95 AND 
+  PercentageCoverage <= 99 
+  ORDER BY NbLinesOfCode DESC , 
+           NbLinesOfCodeNotCovered 
 
 // To run this query properly coverage data must be 
 // gathered from NCover™ or Visual Studio™ Coverage.
@@ -1335,13 +1223,11 @@ select new { m, m.PercentageCoverage, m.NbLinesOfCode,
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Assemblies 95% to 99% covered</Name>
-from a in Application.Assemblies where 
-  a.PercentageCoverage >= 95 && 
-  a.PercentageCoverage <= 99 
-  orderby a.NbLinesOfCode descending , 
-           a.NbLinesOfCodeNotCovered
-select new { a, a.PercentageCoverage, a.NbLinesOfCode, 
-             a.NbLinesOfCodeNotCovered } 
+SELECT ASSEMBLIES WHERE 
+  PercentageCoverage >= 95 AND 
+  PercentageCoverage <= 99 
+  ORDER BY NbLinesOfCode DESC , 
+           NbLinesOfCodeNotCovered 
 
 // To run this query properly coverage data must be 
 // gathered from NCover™ or Visual Studio™ Coverage.
@@ -1352,13 +1238,11 @@ select new { a, a.PercentageCoverage, a.NbLinesOfCode,
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods 70% to 94% covered</Name>
-from m in Application.Methods where 
-  m.PercentageCoverage >= 70 && 
-  m.PercentageCoverage <= 94
-  orderby m.NbLinesOfCode descending , 
-           m.NbLinesOfCodeNotCovered
-select new { m, m.PercentageCoverage, m.NbLinesOfCode, 
-             m.NbLinesOfCodeNotCovered } 
+SELECT METHODS WHERE 
+  PercentageCoverage >= 70 AND 
+  PercentageCoverage <= 94
+  ORDER BY NbLinesOfCode DESC , 
+           NbLinesOfCodeNotCovered 
 
 // To run this query properly coverage data must be 
 // gathered from NCover™ or Visual Studio™ Coverage.
@@ -1369,13 +1253,11 @@ select new { m, m.PercentageCoverage, m.NbLinesOfCode,
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types 70% to 94% covered</Name>
-from t in Application.Types where 
-  t.PercentageCoverage >= 70 && 
-  t.PercentageCoverage <= 94
-  orderby t.NbLinesOfCode descending , 
-           t.NbLinesOfCodeNotCovered
-select new { t, t.PercentageCoverage, t.NbLinesOfCode, 
-             t.NbLinesOfCodeNotCovered } 
+SELECT TYPES WHERE 
+  PercentageCoverage >= 70 AND 
+  PercentageCoverage <= 94
+  ORDER BY NbLinesOfCode DESC , 
+           NbLinesOfCodeNotCovered 
 
 // To run this query properly coverage data must be 
 // gathered from NCover™ or Visual Studio™ Coverage.
@@ -1386,13 +1268,11 @@ select new { t, t.PercentageCoverage, t.NbLinesOfCode,
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Namespaces 70% to 94% covered</Name>
-from n in Application.Namespaces where 
-  n.PercentageCoverage >= 70 && 
-  n.PercentageCoverage <= 94
-  orderby n.NbLinesOfCode descending , 
-           n.NbLinesOfCodeNotCovered
-select new { n, n.PercentageCoverage, n.NbLinesOfCode, 
-             n.NbLinesOfCodeNotCovered } 
+SELECT NAMESPACES WHERE 
+  PercentageCoverage >= 70 AND 
+  PercentageCoverage <= 94
+  ORDER BY NbLinesOfCode DESC , 
+           NbLinesOfCodeNotCovered 
 
 // To run this query properly coverage data must be 
 // gathered from NCover™ or Visual Studio™ Coverage.
@@ -1403,13 +1283,11 @@ select new { n, n.PercentageCoverage, n.NbLinesOfCode,
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Assemblies 70% to 94% covered</Name>
-from a in Application.Assemblies where 
-  a.PercentageCoverage >= 70 && 
-  a.PercentageCoverage <= 94
-  orderby a.NbLinesOfCode descending , 
-           a.NbLinesOfCodeNotCovered
-select new { a, a.PercentageCoverage, a.NbLinesOfCode, 
-             a.NbLinesOfCodeNotCovered } 
+SELECT ASSEMBLIES WHERE 
+  PercentageCoverage >= 70 AND 
+  PercentageCoverage <= 94
+  ORDER BY NbLinesOfCode DESC , 
+           NbLinesOfCodeNotCovered 
 
 // To run this query properly coverage data must be 
 // gathered from NCover™ or Visual Studio™ Coverage.
@@ -1420,13 +1298,11 @@ select new { a, a.PercentageCoverage, a.NbLinesOfCode,
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods 1% to 69% covered</Name>
-from m in Application.Methods where 
-  m.PercentageCoverage >= 1 && 
-  m.PercentageCoverage <= 69
-  orderby m.NbLinesOfCode descending , 
-           m.NbLinesOfCodeNotCovered
-select new { m, m.PercentageCoverage, m.NbLinesOfCode, 
-             m.NbLinesOfCodeNotCovered } 
+SELECT METHODS WHERE 
+  PercentageCoverage >= 1 AND 
+  PercentageCoverage <= 69
+  ORDER BY NbLinesOfCode DESC , 
+           NbLinesOfCodeNotCovered 
 
 // To run this query properly coverage data must be 
 // gathered from NCover™ or Visual Studio™ Coverage.
@@ -1437,13 +1313,11 @@ select new { m, m.PercentageCoverage, m.NbLinesOfCode,
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types 1% to 69% covered</Name>
-from t in Application.Types where 
-  t.PercentageCoverage >= 1 && 
-  t.PercentageCoverage <= 69
-  orderby t.NbLinesOfCode descending , 
-           t.NbLinesOfCodeNotCovered
-select new { t, t.PercentageCoverage, t.NbLinesOfCode, 
-             t.NbLinesOfCodeNotCovered } 
+SELECT TYPES WHERE 
+  PercentageCoverage >= 1 AND 
+  PercentageCoverage <= 69
+  ORDER BY NbLinesOfCode DESC , 
+           NbLinesOfCodeNotCovered 
 
 // To run this query properly coverage data must be 
 // gathered from NCover™ or Visual Studio™ Coverage.
@@ -1454,13 +1328,11 @@ select new { t, t.PercentageCoverage, t.NbLinesOfCode,
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Namespaces 1% to 69% covered</Name>
-from n in Application.Namespaces where 
-  n.PercentageCoverage >= 1 && 
-  n.PercentageCoverage <= 69
-  orderby n.NbLinesOfCode descending , 
-           n.NbLinesOfCodeNotCovered
-select new { n, n.PercentageCoverage, n.NbLinesOfCode, 
-             n.NbLinesOfCodeNotCovered } 
+SELECT NAMESPACES WHERE 
+  PercentageCoverage >= 1 AND 
+  PercentageCoverage <= 69
+  ORDER BY NbLinesOfCode DESC , 
+           NbLinesOfCodeNotCovered 
 
 // To run this query properly coverage data must be 
 // gathered from NCover™ or Visual Studio™ Coverage.
@@ -1471,13 +1343,11 @@ select new { n, n.PercentageCoverage, n.NbLinesOfCode,
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Assemblies 1% to 69% covered</Name>
-from a in Application.Assemblies where 
-  a.PercentageCoverage >= 1 && 
-  a.PercentageCoverage <= 69
-  orderby a.NbLinesOfCode descending , 
-           a.NbLinesOfCodeNotCovered
-select new { a, a.PercentageCoverage, a.NbLinesOfCode, 
-             a.NbLinesOfCodeNotCovered } 
+SELECT ASSEMBLIES WHERE 
+  PercentageCoverage >= 1 AND 
+  PercentageCoverage <= 69
+  ORDER BY NbLinesOfCode DESC , 
+           NbLinesOfCodeNotCovered 
 
 // To run this query properly coverage data must be 
 // gathered from NCover™ or Visual Studio™ Coverage.
@@ -1490,10 +1360,9 @@ select new { a, a.PercentageCoverage, a.NbLinesOfCode,
       </Group>
       <Group Name="Coverage Regression" Active="True" ShownInReport="False">
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Coverage regression on methods 100% covered by tests</Name>
-warnif count > 0 from m in Application.Methods where 
-  m.HasAttribute ("NDepend.CQL.FullCoveredAttribute".AllowNoMatch()) && 
-  m.PercentageCoverage < 100
-select new { m, m.PercentageCoverage }
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+  HasAttribute "OPTIONAL:NDepend.CQL.FullCoveredAttribute" AND 
+  PercentageCoverage < 100
 
 // NDepend.CQL.FullCoveredAttribute is defined in the 
 // redistributable assembly $NDependInstallDir$\Lib\NDepend.CQL.dll
@@ -1509,10 +1378,9 @@ select new { m, m.PercentageCoverage }
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Coverage regression on methods 100% Branch-covered by tests</Name>
-warnif count > 0 from m in Application.Methods where 
-  m.HasAttribute ("NDepend.CQL.FullBranchCoveredAttribute".AllowNoMatch()) && 
-  m.PercentageBranchCoverage < 100
-select new { m, m.PercentageBranchCoverage }
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+  HasAttribute "OPTIONAL:NDepend.CQL.FullBranchCoveredAttribute" AND 
+  PercentageBranchCoverage < 100
 
 // NDepend.CQL.FullCoveredAttribute is defined in the 
 // redistributable assembly $NDependInstallDir$\Lib\NDepend.CQL.dll
@@ -1530,10 +1398,9 @@ select new { m, m.PercentageBranchCoverage }
 
 // The metric BranchCoverage is not available if you are using Visual Studio™ Coverage.]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Coverage regression on type 100% covered by tests</Name>
-warnif count > 0 from t in Application.Types where 
-  t.HasAttribute ("NDepend.CQL.FullCoveredAttribute".AllowNoMatch()) && 
-  t.PercentageCoverage < 100
-select new { t, t.PercentageCoverage }
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  HasAttribute "OPTIONAL:NDepend.CQL.FullCoveredAttribute" AND 
+  PercentageCoverage < 100
 
 // NDepend.CQL.FullCoveredAttribute is defined in the 
 // redistributable assembly $NDependInstallDir$\Lib\NDepend.CQL.dll
@@ -1549,10 +1416,9 @@ select new { t, t.PercentageCoverage }
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Coverage regression on assembly 100% covered by tests</Name>
-warnif count > 0 from a in Application.Assemblies where 
-  a.HasAttribute ("NDepend.CQL.FullCoveredAttribute".AllowNoMatch()) && 
-  a.PercentageCoverage < 100
-select new { a, a.PercentageCoverage }
+WARN IF Count > 0 IN SELECT ASSEMBLIES WHERE 
+  HasAttribute "OPTIONAL:NDepend.CQL.FullCoveredAttribute" AND 
+  PercentageCoverage < 100
 
 // NDepend.CQL.FullCoveredAttribute is defined in the 
 // redistributable assembly $NDependInstallDir$\Lib\NDepend.CQL.dll
@@ -1568,10 +1434,9 @@ select new { a, a.PercentageCoverage }
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Coverage regression on methods at least 95% covered by tests</Name>
-warnif count > 0 from m in Application.Methods where 
-  m.HasAttribute ("NDepend.CQL.MoreThan95PercentCoveredAttribute".AllowNoMatch()) && 
-  m.PercentageCoverage < 95
-select new { m, m.PercentageCoverage }
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+  HasAttribute "OPTIONAL:NDepend.CQL.MoreThan95PercentCoveredAttribute" AND 
+  PercentageCoverage < 95
 
 // NDepend.CQL.FullCoveredAttribute is defined in the 
 // redistributable assembly $NDependInstallDir$\Lib\NDepend.CQL.dll
@@ -1587,10 +1452,9 @@ select new { m, m.PercentageCoverage }
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Coverage regression on types at least 95% covered by tests</Name>
-warnif count > 0 from t in Application.Types where 
-  t.HasAttribute ("NDepend.CQL.MoreThan95PercentCoveredAttribute".AllowNoMatch()) && 
-  t.PercentageCoverage < 95
-select new { t, t.PercentageCoverage }
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  HasAttribute "OPTIONAL:NDepend.CQL.MoreThan95PercentCoveredAttribute" AND 
+  PercentageCoverage < 95
 
 // NDepend.CQL.FullCoveredAttribute is defined in the 
 // redistributable assembly $NDependInstallDir$\Lib\NDepend.CQL.dll
@@ -1606,10 +1470,9 @@ select new { t, t.PercentageCoverage }
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Coverage regression on assemblies at least 95% covered by tests</Name>
-warnif count > 0 from a in Application.Assemblies where 
-  a.HasAttribute ("NDepend.CQL.MoreThan95PercentCoveredAttribute".AllowNoMatch()) && 
-  a.PercentageCoverage < 95
-select new { a, a.PercentageCoverage }
+WARN IF Count > 0 IN SELECT ASSEMBLIES WHERE 
+  HasAttribute "OPTIONAL:NDepend.CQL.MoreThan95PercentCoveredAttribute" AND 
+  PercentageCoverage < 95
 
 // NDepend.CQL.FullCoveredAttribute is defined in the 
 // redistributable assembly $NDependInstallDir$\Lib\NDepend.CQL.dll
@@ -1627,11 +1490,10 @@ select new { a, a.PercentageCoverage }
       </Group>
       <Group Name="Coverage of Changes Summary" Active="False" ShownInReport="False">
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Method changed 100% covered by tests</Name>
-from m in Application.Methods where 
-  m.PercentageCoverage == 100 && 
-  m.CodeWasChanged() 
-  orderby m.NbLinesOfCode descending
-select new { m, m.PercentageCoverage, m.NbLinesOfCode } 
+SELECT METHODS WHERE 
+  PercentageCoverage == 100 AND 
+  CodeWasChanged 
+  ORDER BY NbLinesOfCode DESC 
 
 // To run this query properly 2 analysis must be compared.
 // This can be done throught the menu: 
@@ -1646,11 +1508,10 @@ select new { m, m.PercentageCoverage, m.NbLinesOfCode }
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Method added 100% covered by tests</Name>
-from m in Application.Methods where 
-  m.WasAdded() && 
-  m.PercentageCoverage == 100 
-  orderby m.NbLinesOfCode descending
-select new { m, m.PercentageCoverage, m.NbLinesOfCode } 
+SELECT METHODS WHERE 
+  WasAdded AND 
+  PercentageCoverage == 100 
+  ORDER BY NbLinesOfCode DESC 
 
 // To run this query properly 2 analysis must be compared.
 // This can be done throught the menu: 
@@ -1665,15 +1526,13 @@ select new { m, m.PercentageCoverage, m.NbLinesOfCode }
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Method changed partially covered by tests</Name>
-from m in Application.Methods where 
-  m.PercentageCoverage < 100 && 
-  m.PercentageCoverage > 0 &&
-  m.CodeWasChanged() 
-  orderby m.PercentageCoverage descending , 
-           m.NbLinesOfCodeCovered , 
-           m.NbLinesOfCodeNotCovered
-select new { m, m.PercentageCoverage, m.NbLinesOfCodeCovered, 
-             m.NbLinesOfCodeNotCovered } 
+SELECT METHODS WHERE 
+  PercentageCoverage < 100 AND 
+  PercentageCoverage > 0 AND
+  CodeWasChanged 
+  ORDER BY PercentageCoverage DESC , 
+           NbLinesOfCodeCovered , 
+           NbLinesOfCodeNotCovered 
 
 // To run this query properly 2 analysis must be compared.
 // This can be done throught the menu: 
@@ -1688,15 +1547,13 @@ select new { m, m.PercentageCoverage, m.NbLinesOfCodeCovered,
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Method added partially covered by tests</Name>
-from m in Application.Methods where 
-  m.PercentageCoverage < 100 && 
-  m.PercentageCoverage > 0 &&
-  m.WasAdded()  
-  orderby m.PercentageCoverage descending , 
-           m.NbLinesOfCodeCovered , 
-           m.NbLinesOfCodeNotCovered
-select new { m, m.PercentageCoverage, m.NbLinesOfCodeCovered, 
-             m.NbLinesOfCodeNotCovered } 
+SELECT METHODS WHERE 
+  PercentageCoverage < 100 AND 
+  PercentageCoverage > 0 AND
+  WasAdded  
+  ORDER BY PercentageCoverage DESC , 
+           NbLinesOfCodeCovered , 
+           NbLinesOfCodeNotCovered 
 
 // To run this query properly 2 analysis must be compared.
 // This can be done throught the menu: 
@@ -1711,11 +1568,10 @@ select new { m, m.PercentageCoverage, m.NbLinesOfCodeCovered,
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Method changed not covered at all</Name>
-from m in Application.Methods where 
-  m.PercentageCoverage == 0 && 
-  m.CodeWasChanged() 
-  orderby m.NbLinesOfCode descending
-select new { m, m.PercentageCoverage, m.NbLinesOfCode } 
+SELECT METHODS WHERE 
+  PercentageCoverage == 0 AND 
+  CodeWasChanged 
+  ORDER BY NbLinesOfCode DESC 
 
 // To run this query properly 2 analysis must be compared.
 // This can be done throught the menu: 
@@ -1730,11 +1586,10 @@ select new { m, m.PercentageCoverage, m.NbLinesOfCode }
 // More information on how to import coverage data here:
 // http://www.ndepend.com/Coverage.aspx]]></Query>
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Method added not covered at all</Name>
-from m in Application.Methods where 
-  m.PercentageCoverage == 0 && 
-  m.WasAdded() 
-  orderby m.NbLinesOfCode descending
-select new { m, m.PercentageCoverage, m.NbLinesOfCode } 
+SELECT METHODS WHERE 
+  PercentageCoverage == 0 AND 
+  WasAdded 
+  ORDER BY NbLinesOfCode DESC 
 
 // To run this query properly 2 analysis must be compared.
 // This can be done throught the menu: 
@@ -1752,20 +1607,19 @@ select new { m, m.PercentageCoverage, m.NbLinesOfCode }
     </Group>
     <Group Name="Dead Code" Active="True" ShownInReport="True">
       <Query Active="False" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Potentially unused types</Name>
-warnif count > 0 from t in Application.Types where 
- t.NbTypesUsingMe == 0 &&    // Ca=0 -> No Afferent Coupling -> 
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+ TypeCa == 0 AND    // Ca=0 -> No Afferent Coupling -> 
                     // The type is not used in the 
                     // context of this application.
 
          // Type Afferent Coupling metric definition
          // http://www.ndepend.com/Metrics.aspx#TypeCa
 
- !t.IsPublic &&      // Public and Protected types 
- !t.IsProtected &&   // might be used by client 
+ !IsPublic AND      // Public and Protected types 
+ !IsProtected AND   // might be used by client 
                     // applications of your assemblies.
 
- !(t.Name == @"Program")
-select new { t, t.NbTypesUsingMe }  // Generally, types named Program 
+ !NameIs "Program"  // Generally, types named Program 
                     // contain a Main() entry-point 
                     // method and this condition avoid 
                     // to consider such type as 
@@ -1773,55 +1627,53 @@ select new { t, t.NbTypesUsingMe }  // Generally, types named Program
 
 // Caution: Types used only by reflection might be matched.]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Potentially unused methods</Name>
-warnif count > 0 from m in Application.Methods where 
- m.NbMethodsCallingMe == 0 &&        // Ca=0 -> No Afferent Coupling -> 
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+ MethodCa == 0 AND        // Ca=0 -> No Afferent Coupling -> 
                           // The method is not used in the 
                           // context of this application.
 
          // Method  Afferent Coupling metric definition
          // http://www.ndepend.com/Metrics.aspx#MethodCa
 
- !m.IsPublic &&            // Public and Protected methods 
- !m.IsProtected &&         // might be used by client 
+ !IsPublic AND            // Public and Protected methods 
+ !IsProtected AND         // might be used by client 
                           // applications of your assemblies..
 
- !m.IsEntryPoint &&        // Main() method is not used by-design.
+ !IsEntryPoint AND        // Main() method is not used by-design.
 
- !m.IsExplicitInterfaceImpl // The IL code never explicitely 
- &&                      // calls explicit interface methods 
+ !IsExplicitInterfaceImpl // The IL code never explicitely 
+ AND                      // calls explicit interface methods 
                           // implementation.
  
- !m.IsClassConstructor &&  // The IL code never explicitely 
+ !IsClassConstructor AND  // The IL code never explicitely 
                           // calls class constructors.
 
- !m.IsFinalizer
-select new { m, m.NbMethodsCallingMe }             // The IL code never explicitely 
+ !IsFinalizer             // The IL code never explicitely 
                           // calls finalizers.
 
 // Caution: Methods used only by reflection might be matched.
 ]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Potentially unused fields</Name>
-warnif count > 0 from f in Application.Fields where 
- f.NbMethodsUsingMe == 0 &&  // Ca=0 -> No Afferent Coupling -> 
+WARN IF Count > 0 IN SELECT FIELDS WHERE 
+ FieldCa == 0 AND  // Ca=0 -> No Afferent Coupling -> 
                    // The field is not used in the 
                    // context of this application.
 
       // Field Afferent Coupling metric definition
       // http://www.ndepend.com/Metrics.aspx#FieldCa
 
- !f.IsPublic &&     // Although not recommended, 
- !f.IsProtected &&  // Public and Protected fields  
+ !IsPublic AND     // Although not recommended, 
+ !IsProtected AND  // Public and Protected fields  
                    // might be used by client 
                    // applications of your assemblies.
 
- !f.IsLiteral &&    // The IL code never explicitely 
+ !IsLiteral AND    // The IL code never explicitely 
                    // uses literal fields.
 
- !f.IsEnumValue &&  // The IL code never explicitely 
+ !IsEnumValue AND  // The IL code never explicitely 
                    // uses enumeration value.
 
- !(f.Name == @"value__")
-select new { f, f.NbMethodsUsingMe } // Field named 'value__' are relative 
+ !NameIs "value__" // Field named 'value__' are relative 
                    // to enumerations and the IL code 
                    // never explicitely uses them.
 
@@ -1829,23 +1681,20 @@ select new { f, f.NbMethodsUsingMe } // Field named 'value__' are relative
     </Group>
     <Group Name="Code Quality from Now!" Active="True" ShownInReport="False">
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>From now, all methods added or refactored should respect basic quality principles</Name>
-warnif count > 0 from m in Application.Methods where
+WARN IF Count > 0 IN SELECT METHODS WHERE
 
 // *** Only new or modified methods since Baseline for Comparison ***
- (m.WasAdded() || m.CodeWasChanged()) &&
+ (WasAdded OR CodeWasChanged) AND
 
 // Low Quality methods// Metrics' definitions
-(  m.NbLinesOfCode > 30 ||    // http://www.ndepend.com/Metrics.aspx#NbLinesOfCode
-   m.NbILInstructions > 200 ||// http://www.ndepend.com/Metrics.aspx#NbILInstructions
-   m.CyclomaticComplexity > 20 ||   // http://www.ndepend.com/Metrics.aspx#CC
-   m.ILCyclomaticComplexity > 50 || // http://www.ndepend.com/Metrics.aspx#ILCC
-   m.ILNestingDepth > 4 ||    // http://www.ndepend.com/Metrics.aspx#ILNestingDepth
-   m.NbParameters > 5 ||// http://www.ndepend.com/Metrics.aspx#NbParameters
-   m.NbVariables > 8 || // http://www.ndepend.com/Metrics.aspx#NbVariables
-   m.NbOverloads > 6 )
-select new { m, m.NbLinesOfCode, m.NbILInstructions, m.CyclomaticComplexity, 
-             m.ILCyclomaticComplexity, m.ILNestingDepth, 
-             m.NbParameters, m.NbVariables, m.NbOverloads }  // http://www.ndepend.com/Metrics.aspx#NbOverloads
+(  NbLinesOfCode > 30 OR    // http://www.ndepend.com/Metrics.aspx#NbLinesOfCode
+   NbILInstructions > 200 OR// http://www.ndepend.com/Metrics.aspx#NbILInstructions
+   CyclomaticComplexity > 20 OR   // http://www.ndepend.com/Metrics.aspx#CC
+   ILCyclomaticComplexity > 50 OR // http://www.ndepend.com/Metrics.aspx#ILCC
+   ILNestingDepth > 4 OR    // http://www.ndepend.com/Metrics.aspx#ILNestingDepth
+   NbParameters > 5 OR// http://www.ndepend.com/Metrics.aspx#NbParameters
+   NbVariables > 8 OR // http://www.ndepend.com/Metrics.aspx#NbVariables
+   NbOverloads > 6 )  // http://www.ndepend.com/Metrics.aspx#NbOverloads
 
 
 // This rule warns if a method with
@@ -1861,28 +1710,27 @@ select new { m, m.NbLinesOfCode, m.NbILInstructions, m.CyclomaticComplexity,
 //   Project Properties -> Analysis -> Analysis Comparison
     ]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>From now, all types added or refactored should respect basic quality principles</Name>
-warnif count > 0 from t in Application.Types where
+WARN IF Count > 0 IN SELECT TYPES WHERE
 
 // *** Only match new or modified types since Baseline for Comparison ***
-(t.WasAdded() || t.CodeWasChanged()) &&
+(WasAdded OR CodeWasChanged) AND
 
 // Low Quality types     Metrics' definitions are available here:
 //     http://www.ndepend.com/Metrics.aspx#MetricsOnTypes
 (  // Types with too many methods
-   t.NbMethods > 20 ||
+   NbMethods > 20 OR
 
    // Types with too many fields
-   ( t.NbFields > 20 &&
-    !t.IsEnumeration) ||
+   ( NbFields > 20 AND
+    !IsEnumeration) OR
 
    // Types with poor cohesion
-   ( t.LCOMHS > 0.95 &&
-     t.NbFields > 10 &&
-     t.NbMethods > 10) ||
+   ( LCOMHS > 0.95 AND
+     NbFields > 10 AND
+     NbMethods > 10) OR
 
    // Complex Types that use more than 50 other types
-   t.NbTypesUsed > 50  )
-select new { t, t.NbMethods, t.NbFields, t.LCOMHS, t.NbTypesUsed }
+   TypeCe > 50  )
 
 
 // This rule warns if a type with
@@ -1897,14 +1745,13 @@ select new { t, t.NbMethods, t.NbFields, t.LCOMHS, t.NbTypesUsed }
 // This can be done at analysis time throught the menu:
 //   Project Properties -> Analysis -> Analysis Comparison]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>From now, all methods added or refactored should be 100% covered by tests</Name>
-warnif count > 0 from m in Application.Methods where
+WARN IF Count > 0 IN SELECT METHODS WHERE
 
 // Match methods new or modified since Baseline for Comparison...
-  (m.WasAdded() || m.CodeWasChanged()) &&
+  (WasAdded OR CodeWasChanged) AND
 
 // ...that are not 100% covered by tests
-  m.PercentageCoverage < 100
-select new { m, m.PercentageCoverage }
+  PercentageCoverage < 100
 
 
 // This rule warns if a method has been
@@ -1930,47 +1777,41 @@ select new { m, m.PercentageCoverage }
     </Group>
     <Group Name="Encapsulation" Active="True" ShownInReport="False">
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Fields should be declared as private</Name>
-warnif count > 0 from f in Application.Fields where 
- !f.IsPrivate && 
+WARN IF Count > 0 IN SELECT FIELDS WHERE 
+ !IsPrivate AND 
 
  // These conditions filter cases where fields 
  // doesn't represent state that should be encapsulated. 
- !f.IsThirdParty && 
- !f.IsGeneratedByCompiler && 
- !f.IsSpecialName && 
- !f.IsInitOnly && 
- !f.IsLiteral && 
- !f.IsEnumValue
-select new { f, f.SizeOfInst }]]></Query>
+ !IsInFrameworkAssembly AND 
+ !IsGeneratedByCompiler AND 
+ !IsSpecialName AND 
+ !IsInitOnly AND 
+ !IsLiteral AND 
+ !IsEnumValue]]></Query>
       <Group Name="Methods Optimal Encapsulation" Active="True" ShownInReport="False">
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods that could be declared as 'internal' in C#, 'Friend' in VB.NET</Name>
-warnif count > 0 from m in Application.Methods where 
-  m.CouldBeInternal &&
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+  CouldBeInternal AND
   
   // Eliminate default constructor from the result.
   // Whatever the visibility of the declaring class,
   // default constructors are public and introduce noise
   // in the current rule.
-  ! ( m.IsConstructor && 
-      m.IsPublic && 
-      m.NbILInstructions == 3)
-select new { m, m.NbILInstructions }]]></Query>
+  ! ( IsConstructor AND 
+      IsPublic AND 
+      NbILInstructions == 3)]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods that could be declared as 'protected internal' in C#, 'Protected Friend' in VB.NET</Name>
-warnif count > 0 from m in Application.Methods where 
-  m.CouldBeInternalProtected
-select new { m, m.NbLinesOfCode }]]></Query>
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+  CouldBeInternalProtected]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods that could be declared as 'protected' in C#, 'Protected' in VB.NET</Name>
-warnif count > 0 from m in Application.Methods where 
-  m.CouldBeProtected
-select new { m, m.NbLinesOfCode }]]></Query>
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+  CouldBeProtected]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods that could be declared as 'private' in C#, 'Private' in VB.NET</Name>
-warnif count > 0 from m in Application.Methods where 
-  m.CouldBePrivate
-select new { m, m.NbLinesOfCode }]]></Query>
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+  CouldBePrivate]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods that should be declared as 'public' in C#, 'Public' in VB.NET</Name>
-from m in Application.Methods where 
-  m.ShouldBePublic
-select new { m, m.NbLinesOfCode } 
+SELECT METHODS WHERE 
+  ShouldBePublic 
 
 // The keyword 'ShouldBePublic' shows code elements 
 // declared as 'internal\Friend' that are used outside 
@@ -1979,25 +1820,20 @@ select new { m, m.NbLinesOfCode }
       </Group>
       <Group Name="Types Optimal Encapsulation" Active="True" ShownInReport="False">
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types that could be declared as internal</Name>
-warnif count > 0 from t in Application.Types where 
-  t.CouldBeInternal
-select new { t, t.NbLinesOfCode }]]></Query>
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  CouldBeInternal]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types that could be declared as 'protected internal' in C#, 'Protected Friend' in VB.NET</Name>
-warnif count > 0 from t in Application.Types where 
-  t.CouldBeInternalProtected
-select new { t, t.NbLinesOfCode }]]></Query>
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  CouldBeInternalProtected]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types that could be declared as 'protected' in C#, 'Protected' in VB.NET</Name>
-warnif count > 0 from t in Application.Types where 
-  t.CouldBeProtected
-select new { t, t.NbLinesOfCode }]]></Query>
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  CouldBeProtected]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types that could be declared as 'private' in C#, 'Private' in VB.NET</Name>
-warnif count > 0 from t in Application.Types where 
-  t.CouldBePrivate
-select new { t, t.NbLinesOfCode }]]></Query>
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  CouldBePrivate]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types that should be declared as 'public' in C#, 'Public' in VB.NET</Name>
-from t in Application.Types where 
-  t.ShouldBePublic
-select new { t, t.NbLinesOfCode } 
+SELECT TYPES WHERE 
+  ShouldBePublic 
 
 // The keyword 'ShouldBePublic' shows code elements 
 // declared as 'internal\Friend' that are used 
@@ -2006,25 +1842,20 @@ select new { t, t.NbLinesOfCode }
       </Group>
       <Group Name="Fields Optimal Encapsulation" Active="True" ShownInReport="False">
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Fields that could be declared as internal</Name>
-warnif count > 0 from f in Application.Fields where 
-  f.CouldBeInternal
-select new { f, f.SizeOfInst }]]></Query>
+WARN IF Count > 0 IN SELECT FIELDS WHERE 
+  CouldBeInternal]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Fields that could be declared as 'protected internal' in C#, 'Protected Friend' in VB.NET</Name>
-warnif count > 0 from f in Application.Fields where 
-  f.CouldBeInternalProtected
-select new { f, f.SizeOfInst }]]></Query>
+WARN IF Count > 0 IN SELECT FIELDS WHERE 
+  CouldBeInternalProtected]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Fields that could be declared as 'protected' in C#, 'Protected' in VB.NET</Name>
-warnif count > 0 from f in Application.Fields where 
-  f.CouldBeProtected
-select new { f, f.SizeOfInst }]]></Query>
+WARN IF Count > 0 IN SELECT FIELDS WHERE 
+  CouldBeProtected]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Fields that could be declared as 'private' in C#, 'Private' in VB.NET</Name>
-warnif count > 0 from f in Application.Fields where 
-  f.CouldBePrivate
-select new { f, f.SizeOfInst }]]></Query>
+WARN IF Count > 0 IN SELECT FIELDS WHERE 
+  CouldBePrivate]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Fields that should be declared as 'public' in C#, 'Public' in VB.NET</Name>
-from f in Application.Fields where 
-  f.ShouldBePublic
-select new { f, f.SizeOfInst } 
+SELECT FIELDS WHERE 
+  ShouldBePublic 
 
 // The keyword 'ShouldBePublic' shows code elements 
 // declared as 'internal\Friend' that are used 
@@ -2034,11 +1865,10 @@ select new { f, f.SizeOfInst }
     </Group>
     <Group Name="Purity - Immutability - Side-Effects" Active="True" ShownInReport="False">
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Fields should be marked as ReadOnly when possible</Name>
-warnif count > 0 from f in Application.Fields where 
-  f.IsImmutable && 
-  !f.IsInitOnly &&
-  !f.IsGeneratedByCompiler
-select new { f, f.SizeOfInst } 
+WARN IF Count > 0 IN SELECT FIELDS WHERE 
+  IsImmutable AND 
+  !IsInitOnly AND
+  !IsGeneratedByCompiler 
 
 // A field that matches the condition IsImmutable 
 // is a field that is assigned only by constructors 
@@ -2061,11 +1891,10 @@ select new { f, f.SizeOfInst }
 
 ]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Structures should be immutable</Name>
-warnif count > 0 from t in Application.Types where 
-  t.IsStructure && 
-  !t.IsImmutable && 
-  !t.IsThirdParty
-select new { t, t.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  IsStructure AND 
+  !IsImmutable AND 
+  !IsInFrameworkAssembly
 
 // It is deemed as a good practice to make 
 // your structure immutable.
@@ -2080,10 +1909,9 @@ select new { t, t.NbLinesOfCode }
 // http://codebetter.com/blogs/patricksmacchia/archive/2008/01/13/immutable-types-understand-them-and-use-them.aspx
 ]]></Query>
       <Query Active="True" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Regression on immutable types</Name>
-warnif count > 0 from t in Application.Types where 
-  t.HasAttribute ("NDepend.CQL.ImmutableAttribute".AllowNoMatch()) && 
-  !t.IsImmutable
-select new { t, t.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  HasAttribute "OPTIONAL:NDepend.CQL.ImmutableAttribute" AND 
+  !IsImmutable
 
 // An object is immutable if its state doesn’t 
 // change once the object has been created. 
@@ -2102,11 +1930,10 @@ select new { t, t.NbLinesOfCode }
 
 ]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Regression on pure methods</Name>
-warnif count > 0 from m in Application.Methods where 
-  m.HasAttribute ("NDepend.CQL.PureAttribute".AllowNoMatch()) && 
-  ( m.ChangesObjectState || m.ChangesTypeState ) &&
-  m.NbLinesOfCode > 0
-select new { m, m.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+  HasAttribute "OPTIONAL:NDepend.CQL.PureAttribute" AND 
+  ( ChangesObjectState OR ChangesTypeState ) AND
+  NbLinesOfCode > 0
 
 // A method is pure if its execution doesn’t change 
 // the value of any instance or static field. 
@@ -2122,10 +1949,9 @@ select new { m, m.NbLinesOfCode }
 
 ]]></Query>
       <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Missing usage of ImmutableAttribute</Name>
-from t in Application.Types where 
-  !t.HasAttribute ("NDepend.CQL.ImmutableAttribute".AllowNoMatch()) && 
-  t.IsImmutable
-select new { t, t.NbLinesOfCode }
+SELECT TYPES WHERE 
+  !HasAttribute "OPTIONAL:NDepend.CQL.ImmutableAttribute" AND 
+  IsImmutable
 
 // Types matched by this query are immutable but 
 // are not tagged with the ImmutableAttribute.
@@ -2138,11 +1964,10 @@ select new { t, t.NbLinesOfCode }
 // You can define your own attribute to tag 'immutable' types.
 ]]></Query>
       <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Missing usage of PureAttribute</Name>
-from m in Application.Methods where 
-  !m.HasAttribute ("NDepend.CQL.PureAttribute".AllowNoMatch()) && 
-  !m.ChangesObjectState && !m.ChangesTypeState &&
-  m.NbLinesOfCode > 0
-select new { m, m.NbLinesOfCode }
+SELECT METHODS WHERE 
+  !HasAttribute "OPTIONAL:NDepend.CQL.PureAttribute" AND 
+  !ChangesObjectState AND !ChangesTypeState AND
+  NbLinesOfCode > 0
 
 // Methods matched by this query are pure but 
 // are not tagged with the PureAttribute.
@@ -2154,25 +1979,23 @@ select new { m, m.NbLinesOfCode }
 // redistributable assembly $NDependInstallDir$\Lib\NDepend.CQL.dll
 // You can define your own attribute to tag 'pure' methods.]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Instance Property Getter should be immutable</Name>
-warnif count > 0 from m in Application.Methods where
-m.IsPropertyGetter &&
-!m.IsStatic &&
-m.ChangesObjectState
-select new { m, m.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT METHODS WHERE
+IsPropertyGetter AND
+!IsStatic AND
+ChangesObjectState
 
 // This rule might be violated in the case of object lazy initialized
 // when the property getter is accessed the first time.
     ]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Static Property Getter should be immutable</Name>
-warnif count > 0 from m in Application.Methods  where
-m.IsPropertyGetter &&
-m.IsStatic &&
-m.ChangesTypeState
+WARN IF Count > 0 IN SELECT METHODS  WHERE
+IsPropertyGetter AND
+IsStatic AND
+ChangesTypeState
 
 // Generated property getter Resources.get_ResourceManager()
 // provokes a read-only property lazy-initialized
-&& !m.FullNameLike (@"Resources.get_ResourceManager()")
-select new { m, m.NbLinesOfCode }
+AND !FullNameLike "Resources.get_ResourceManager()"
 
 // This rule might be violated in the case of object lazy initialized
 // when the property getter is accessed the first time.
@@ -2180,98 +2003,89 @@ select new { m, m.NbLinesOfCode }
     </Group>
     <Group Name="Naming Conventions" Active="True" ShownInReport="False">
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Instance fields should be prefixed with a 'm_'</Name>
-warnif count > 0 from f in Application.Fields where 
-  !f.NameLike (@"^m_") && 
-  !f.IsStatic && 
-  !f.IsLiteral && 
-  !f.IsGeneratedByCompiler  && 
-  !f.IsSpecialName && 
-  !f.IsEventDelegateObject
-select new { f, f.SizeOfInst } 
+WARN IF Count > 0 IN SELECT FIELDS WHERE 
+  !NameLike "^m_" AND 
+  !IsStatic AND 
+  !IsLiteral AND 
+  !IsGeneratedByCompiler  AND 
+  !IsSpecialName AND 
+  !IsEventDelegateObject 
 
 // This naming convention provokes debate.
 // Don't hesitate to customize the regex of 
 // NameLike to your preference.]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Static fields should be prefixed with a 's_'</Name>
-warnif count > 0 from f in Application.Fields where 
-  !f.NameLike (@"^s_") && 
-  f.IsStatic && 
-  !f.IsLiteral && 
-  !f.IsGeneratedByCompiler && 
-  !f.IsSpecialName && 
-  !f.IsEventDelegateObject
-select new { f, f.SizeOfInst }  
+WARN IF Count > 0 IN SELECT FIELDS WHERE 
+  !NameLike "^s_" AND 
+  IsStatic AND 
+  !IsLiteral AND 
+  !IsGeneratedByCompiler AND 
+  !IsSpecialName AND 
+  !IsEventDelegateObject  
 
 // This naming convention provokes debate.
 // Don't hesitate to customize the regex of 
 // NameLike to your preference.
 ]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Interface name should begin with a 'I'</Name>
-warnif count > 0 from t in Types where 
-  t.IsInterface && 
-  !t.NameLike (@"^I") && 
-  !t.IsNested && 
-  !t.IsThirdParty
-select new { t, t.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  IsInterface AND 
+  !NameLike "^I" AND 
+  !IsNested AND 
+  !IsInFrameworkAssembly
 ]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Abstract base class should be suffixed with 'Base'</Name>
-warnif count > 0 from t in Application.Types where 
-  t.IsAbstract && 
-  t.IsClass &&
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  IsAbstract AND 
+  IsClass AND
 
   // equivalent to:   DepthOfDeriveFrom "System.Object" == 1
-  t.DepthOfInheritance == 1 && 
+  DepthOfInheritance == 1 AND 
 
-  ((!t.IsGeneric && !t.NameLike (@"Base$")) ||
-   ( t.IsGeneric && !t.NameLike (@"Base<")))
-select new { t, t.DepthOfInheritance }
+  ((!IsGeneric AND !NameLike "Base$") OR
+   ( IsGeneric AND !NameLike "Base<"))
 ]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Exception class name should be suffixed with 'Exception'</Name>
-warnif count > 0 from t in Types where 
-  t.IsExceptionClass && 
-  !t.NameLike (@"Exception$") && 
-  !t.IsThirdParty
-select new { t, t.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  IsExceptionClass AND 
+  !NameLike "Exception$" AND 
+  !IsInFrameworkAssembly
 
 // The name of an exception class should end with 
 // 'Exception'.]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Attribute class name should be suffixed with 'Attribute'</Name>
-warnif count > 0 from t in Types where 
-  t.IsAttributeClass && 
-  !t.NameLike (@"Attribute$") && 
-  !t.IsThirdParty
-select new { t, t.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  IsAttributeClass AND 
+  !NameLike "Attribute$" AND 
+  !IsInFrameworkAssembly
 ]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types name should begin with an Upper character</Name>
-warnif count > 0 from t in Application.Types where 
+WARN IF Count > 0 IN SELECT TYPES WHERE 
   // The name of a type should begin with an Upper letter.
-  !t.NameLike (@"^[A-Z]") &&     
+  !NameLike "^[A-Z]" AND     
 
   // Except if it is generated by compiler or ...
-  !t.IsGeneratedByCompiler && 
+  !IsGeneratedByCompiler AND 
 
   // ... if it is declared in a third party assembly.
-  !t.IsThirdParty
-select new { t, t.NbLinesOfCode }     ]]></Query>
+  !IsInFrameworkAssembly     ]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods name should begin with an Upper character</Name>
-warnif count > 0 from m in Application.Methods where 
-  !m.NameLike (@"^[A-Z]") && 
-  !( m.IsClassConstructor || m.IsConstructor || 
-     m.IsPropertyGetter  || m.IsPropertySetter ||
-     m.IsIndexerGetter || m.IsIndexerSetter ||
-     m.IsEventAdder || m.IsEventRemover ||
-     m.IsOperator) && 
-  !m.IsGeneratedByCompiler && 
-  !m.IsThirdParty
-select new { m, m.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+  !NameLike "^[A-Z]" AND 
+  !( IsClassConstructor OR IsConstructor OR 
+     IsPropertyGetter  OR IsPropertySetter OR
+     IsIndexerGetter OR IsIndexerSetter OR
+     IsEventAdder OR IsEventRemover OR
+     IsOperator) AND 
+  !IsGeneratedByCompiler AND 
+  !IsInFrameworkAssembly
 
 // The name of a regular method should 
 // begin with an Upper letter.]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Do not name enum values 'Reserved'</Name>
-warnif count > 0 from f in Fields where 
-  f.IsEnumValue && 
-  f.NameLike (@"Reserved")
-select new { f, f.SizeOfInst }
+WARN IF Count > 0 IN SELECT FIELDS WHERE 
+  IsEnumValue AND 
+  NameLike "Reserved"
 
 // This rule assumes that an enumeration member 
 // with a name that contains "reserved" 
@@ -2295,12 +2109,11 @@ select new { f, f.SizeOfInst }
 // addition does not cause the values of the 
 // original members to change.]]></Query>
       <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Type names should not match namespaces</Name>
-warnif count > 0 from t in Types where 
-  (t.Name == @"Collections") ||
-  (t.Name == @"Forms") ||
-  (t.Name == @"System") ||
-  (t.Name == @"UI")
-select new { t, t.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  NameIs "Collections" OR
+  NameIs "Forms" OR
+  NameIs "System" OR
+  NameIs "UI"
 
 // Type names should not match the names of 
 // namespaces defined in the .NET Framework 
@@ -2308,11 +2121,10 @@ select new { t, t.NbLinesOfCode }
 // the usability of the library.]]></Query>
       <Group Name="Name too long" Active="True" ShownInReport="False">
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Avoid methods with name too long</Name>
-warnif count > 0 from m in Methods where 
-  m.NameLike (@"^[^\<\(]{35,}.*$") &&
-  !m.IsExplicitInterfaceImpl && 
-  !m.IsThirdParty
-select new { m, m.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+  NameLike "^[^\<\(]{35,}.*$" AND
+  !IsExplicitInterfaceImpl AND 
+  !IsInFrameworkAssembly
 
 // The regex matches methods with name longer 
 // than 35 characters.
@@ -2326,11 +2138,10 @@ select new { m, m.NbLinesOfCode }
 // with the interface name.
       ]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Avoid types with name too long</Name>
-warnif count > 0 from t in Types where
-  t.NameLike (@"^[^\<]{35,}.*$") &&
-  !t.IsNested && 
-  !t.IsThirdParty
-select new { t, t.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT TYPES WHERE
+  NameLike "^[^\<]{35,}.*$" AND
+  !IsNested AND 
+  !IsInFrameworkAssembly
 
 // The regex matches types with name longer 
 // than 35 characters.
@@ -2343,10 +2154,9 @@ select new { t, t.NbLinesOfCode }
 // names are prefixed with outer type's name.
       ]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Avoid fields with name too long</Name>
-warnif count > 0 from f in Fields where
-  f.NameLike (@"^[^\<]{35,}.*$") &&
-  !f.IsThirdParty
-select new { f, f.SizeOfInst }
+WARN IF Count > 0 IN SELECT FIELDS WHERE
+  NameLike "^[^\<]{35,}.*$" AND
+  !IsInFrameworkAssembly
 
 // The regex matches fields with name longer 
 // than 35 characters.
@@ -2358,11 +2168,10 @@ select new { f, f.SizeOfInst }
     <Group Name=".NET Framework Usage" Active="True" ShownInReport="False">
       <Group Name="System" Active="True" ShownInReport="False">
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Mark ISerializable types with serializable</Name>
-from t in Types where 
- t.IsPublic && !t.IsDelegate &&
- t.Implement ("System.Runtime.Serialization.ISerializable".AllowNoMatch()) && 
- !t.HasAttribute ("System.SerializableAttribute".AllowNoMatch())
-select new { t, t.NbLinesOfCode }
+SELECT TYPES WHERE 
+ IsPublic AND !IsDelegate AND
+ Implement "OPTIONAL:System.Runtime.Serialization.ISerializable" AND 
+ !HasAttribute "OPTIONAL:System.SerializableAttribute"
 
 // To be recognized by the CLR as serializable, 
 // types must be marked with the SerializableAttribute 
@@ -2370,10 +2179,9 @@ select new { t, t.NbLinesOfCode }
 // serialization routine through implementation of 
 // the ISerializable interface.]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Mark assemblies with assembly version</Name>
-warnif count > 0 from a in Assemblies where 
-  !a.HasAttribute ("System.Reflection.AssemblyVersionAttribute".AllowNoMatch()) &&
-  !a.IsThirdParty
-select new { a, a.NbLinesOfCode } 
+WARN IF Count > 0 IN SELECT ASSEMBLIES WHERE 
+  !HasAttribute "OPTIONAL:System.Reflection.AssemblyVersionAttribute" AND
+  !IsFrameworkAssembly 
 
 // The identity of an assembly is composed of 
 // the following information:
@@ -2389,10 +2197,9 @@ select new { a, a.NbLinesOfCode }
 // run only with the assembly version with 
 // which they were built.]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Mark assemblies with CLSCompliant</Name>
-warnif count > 0 from a in Assemblies where 
-  !a.HasAttribute ("System.CLSCompliantAttribute".AllowNoMatch()) &&
-  !a.IsThirdParty
-select new { a, a.NbLinesOfCode } 
+WARN IF Count > 0 IN SELECT ASSEMBLIES WHERE 
+  !HasAttribute "OPTIONAL:System.CLSCompliantAttribute" AND
+  !IsFrameworkAssembly 
 
 // The Common Language Specification (CLS) defines 
 // naming restrictions, data types, and rules to which 
@@ -2403,10 +2210,9 @@ select new { a, a.NbLinesOfCode }
 // attribute is not present on an assembly, the 
 // assembly is not compliant.]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Mark assemblies with ComVisible</Name>
-warnif count > 0 from a in Assemblies where 
-  !a.HasAttribute ("System.Runtime.InteropServices.ComVisibleAttribute".AllowNoMatch()) &&
-  !a.IsThirdParty
-select new { a, a.NbLinesOfCode } 
+WARN IF Count > 0 IN SELECT ASSEMBLIES WHERE 
+  !HasAttribute "OPTIONAL:System.Runtime.InteropServices.ComVisibleAttribute" AND
+  !IsFrameworkAssembly 
 
 // The ComVisibleAttribute attribute determines 
 // how COM clients access managed code. Good design 
@@ -2417,11 +2223,10 @@ select new { a, a.NbLinesOfCode }
 // attribute is not present, the contents of 
 // the assembly are visible to COM clients.]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Mark attributes with AttributeUsageAttribute</Name>
-warnif count > 0 from t in Types where 
-t.DeriveFrom ("System.Attribute".AllowNoMatch()) &&
-!t.HasAttribute ("System.AttributeUsageAttribute".AllowNoMatch()) &&
-!t.IsThirdParty
-select new { t, t.NbLinesOfCode } 
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+DeriveFrom "OPTIONAL:System.Attribute" AND
+!HasAttribute "OPTIONAL:System.AttributeUsageAttribute" AND
+!IsInFrameworkAssembly 
 
 // When defining a custom attribute, mark it using 
 // AttributeUsageAttribute to indicate where in the 
@@ -2438,24 +2243,22 @@ select new { t, t.NbLinesOfCode }
 // procedures would dictate whether the attribute 
 // should be allowed on assemblies.]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Remove calls to GC.Collect()</Name>
-warnif count > 0 from m in Methods where
-  m.IsUsing ("System.GC.Collect()".AllowNoMatch()) ||
-  m.IsUsing ("System.GC.Collect(Int32)".AllowNoMatch()) ||
-  m.IsUsing ("System.GC.Collect(Int32,GCCollectionMode)".AllowNoMatch())
-select new { m, m.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT METHODS WHERE
+  IsDirectlyUsing "OPTIONAL:System.GC.Collect()" OR
+  IsDirectlyUsing "OPTIONAL:System.GC.Collect(Int32)" OR
+  IsDirectlyUsing "OPTIONAL:System.GC.Collect(Int32,GCCollectionMode)"
 
 // It is preferrable to avoid calling GC.Collect() 
 // explicitely in order to avoid some performance pitfall.
 // More in information on this here:
 // http://blogs.msdn.com/ricom/archive/2004/11/29/271829.aspx]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Don't call GC.Collect() without calling GC.WaitForPendingFinalizers()</Name>
-warnif count > 0 from m in Methods where
-  (m.IsUsing ("System.GC.Collect()".AllowNoMatch()) ||
-   m.IsUsing ("System.GC.Collect(Int32)".AllowNoMatch()) ||
-   m.IsUsing ("System.GC.Collect(Int32,GCCollectionMode)".AllowNoMatch())) 
-  &&
-  !m.IsUsing ("System.GC.WaitForPendingFinalizers()".AllowNoMatch())
-select new { m, m.NbLinesOfCode } 
+WARN IF Count > 0 IN SELECT METHODS WHERE
+  (IsDirectlyUsing "OPTIONAL:System.GC.Collect()" OR
+   IsDirectlyUsing "OPTIONAL:System.GC.Collect(Int32)" OR
+   IsDirectlyUsing "OPTIONAL:System.GC.Collect(Int32,GCCollectionMode)") 
+  AND
+  !IsDirectlyUsing "OPTIONAL:System.GC.WaitForPendingFinalizers()" 
 
 // It is preferrable to avoid calling GC.Collect() 
 // explicitely in order to avoid some performance 
@@ -2467,11 +2270,10 @@ select new { m, m.NbLinesOfCode }
 // To make sure that finalizer got executed, and 
 // object with finalizer got cleaned properly.]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Enum Storage should be Int32</Name>
-warnif count > 0 from f in Fields where 
-  (f.Name == @"value__") && 
-  !f.FieldTypeIs ("System.Int32".AllowNoMatch()) &&
-  !f.IsThirdParty
-select new { f, f.SizeOfInst }
+WARN IF Count > 0 IN SELECT FIELDS WHERE 
+  NameIs "value__" AND 
+  !IsOfType "OPTIONAL:System.Int32" AND
+  !IsInFrameworkAssembly
 
 // An enumeration is a value type that defines 
 // a set of related named constants. By default, 
@@ -2487,58 +2289,39 @@ select new { f, f.SizeOfInst }
 // the enumeration's values are representable in 
 // CLS-compliant programming languages.]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Do not raise too general exception types</Name>
-warnif count > 0 from m in Methods 
-let depth0 = m.DepthOfCreateA("System.Exception".AllowNoMatch())
-let depth1 = m.DepthOfCreateA("System.ApplicationException".AllowNoMatch())
-let depth2 = m.DepthOfCreateA("System.SystemException".AllowNoMatch())
-where 
+WARN IF Count > 0 IN SELECT METHODS WHERE 
   // The following exception types are too general 
   // to provide sufficient information to the user:
-  ( ( depth0  == 1 || 
-      depth1  == 1 || 
-      depth2  == 1 )
+  ( ( DepthOfCreateA "OPTIONAL:System.Exception" == 1 OR 
+      DepthOfCreateA "OPTIONAL:System.ApplicationException" == 1 OR 
+      DepthOfCreateA "OPTIONAL:System.SystemException" == 1 )
     // Test for non-constructor, else this rule 
     // would warn on ctor of classes that derive 
     // from these exception types.
-    && !m.IsConstructor )
-select new { m, depth0, depth1, depth2 }
+    AND !IsConstructor )
 ]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Do not raise reserved exception types</Name>
-warnif count > 0 from m in Methods 
-let depth0 = m.DepthOfCreateA("System.ExecutionEngineException".AllowNoMatch())
-let depth1 = m.DepthOfCreateA("System.IndexOutOfRangeException".AllowNoMatch())
-let depth2 = m.DepthOfCreateA("System.NullReferenceException".AllowNoMatch())
-let depth3 = m.DepthOfCreateA("System.OutOfMemoryException".AllowNoMatch())
-let depth4 = m.DepthOfCreateA("System.StackOverflowException".AllowNoMatch())
-let depth5 = m.DepthOfCreateA("System.InvalidProgramException".AllowNoMatch())
-let depth6 = m.DepthOfCreateA("System.AccessViolationException".AllowNoMatch())
-let depth7 = m.DepthOfCreateA("System.CannotUnloadAppDomainException".AllowNoMatch())
-let depth8 = m.DepthOfCreateA("System.BadImageFormatException".AllowNoMatch())
-let depth9 = m.DepthOfCreateA("System.DataMisalignedException".AllowNoMatch())
-where 
+WARN IF Count > 0 IN SELECT METHODS WHERE 
   // The following exception types are reserved 
   // and should be thrown only by the Common Language Runtime:
-  ( depth0  == 1 || 
-    depth1  == 1 || 
-    depth2  == 1 ||
-    depth3  == 1 ||
-    depth4  == 1 || 
-    depth5  == 1 || 
-    depth6  == 1 ||
-    depth7  == 1 ||
-    depth8  == 1 || 
-    depth9  == 1 )
-select new { m, depth0, depth1, depth2, depth3, depth4, 
-             depth5, depth6, depth7, depth8, depth9 }
+  ( DepthOfCreateA "OPTIONAL:System.ExecutionEngineException" == 1 OR 
+    DepthOfCreateA "OPTIONAL:System.IndexOutOfRangeException" == 1 OR 
+    DepthOfCreateA "OPTIONAL:System.NullReferenceException" == 1 OR
+    DepthOfCreateA "OPTIONAL:System.OutOfMemoryException" == 1 OR
+    DepthOfCreateA "OPTIONAL:System.StackOverflowException" == 1 OR 
+    DepthOfCreateA "OPTIONAL:System.InvalidProgramException" == 1 OR 
+    DepthOfCreateA "OPTIONAL:System.AccessViolationException" == 1 OR
+    DepthOfCreateA "OPTIONAL:System.CannotUnloadAppDomainException" == 1 OR
+    DepthOfCreateA "OPTIONAL:System.BadImageFormatException" == 1 OR 
+    DepthOfCreateA "OPTIONAL:System.DataMisalignedException" == 1 )
 ]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Use integral or string argument for indexers</Name>
-from m in Methods where 
-m.IsIndexerGetter && 
- !( (m.Name == @"get_Item(String)") || 
-    m.NameLike (@"get_Item\(Int") || 
-    m.NameLike (@"get_Item\(Byte") ||
-    m.NameLike (@"get_Item\(SByte") )
-select new { m, m.NbLinesOfCode }
+SELECT METHODS WHERE 
+IsIndexerGetter AND 
+ !( NameIs "get_Item(String)" OR 
+    NameLike "get_Item\(Int" OR 
+    NameLike "get_Item\(Byte" OR
+    NameLike "get_Item\(SByte" )
 
 // Indexers, that is, indexed properties, 
 // should use integer or string types for the index. 
@@ -2553,20 +2336,16 @@ select new { m, m.NbLinesOfCode }
 // does not represent a logical data store, 
 // use a method.]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Uri fields should be of type System.Uri</Name>
-warnif count > 0 from f in Fields where 
-  (f.NameLike (@"Uri$") || f.NameLike (@"Url$")) && !f.FieldTypeIs ("System.Uri".AllowNoMatch())
-select new { f, f.SizeOfInst }
+WARN IF Count > 0 IN SELECT FIELDS WHERE 
+  (NameLike "Uri$" OR NameLike "Url$") AND !IsOfType "OPTIONAL:System.Uri"
 
 // A field which name end with 'Uri' is deemed 
 // as representing a uri. Such field should be of 
 // type System.Uri.]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types should not extend System.ApplicationException</Name>
-warnif count > 0 from t in Types 
-let depth0 = t.DepthOfDeriveFrom("System.ApplicationException".AllowNoMatch())
-where
-  depth0  == 1 &&
-  !t.IsThirdParty
-select new { t, depth0 }
+WARN IF Count > 0 IN SELECT TYPES WHERE
+  DepthOfDeriveFrom "OPTIONAL:System.ApplicationException" == 1 AND
+  !IsInFrameworkAssembly
 
 // For .NET Framework version 1, it was 
 // recommended to derive new exceptions from 
@@ -2577,29 +2356,27 @@ select new { t, depth0 }
       </Group>
       <Group Name="System.Collection" Active="True" ShownInReport="False">
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Don't use .NET 1.x HashTable and ArrayList</Name>
-warnif count > 0 from m in Methods where
+WARN IF Count > 0 IN SELECT METHODS WHERE
 
   // Prefer using the class 
   // System.Collections.Generic.Dictionary<K,V> over 
   // System.Collections.HashTable.
-  m.IndirectlyCreateA ("System.Collections.HashTable".AllowNoMatch()) ||
+  CreateA "OPTIONAL:System.Collections.HashTable" OR
 
   // Prefer using the class 
   // System.Collections.Generic.List<T> over
   // System.Collections.ArrayList.
-  m.IndirectlyCreateA ("System.Collections.ArrayList".AllowNoMatch())
-select new { m, m.NbLinesOfCode }
+  CreateA "OPTIONAL:System.Collections.ArrayList"
 
 // You can be forced to use HashTable or ArrayList 
 // because you are using third party code that requires 
 // working with these classes or because you are 
 // coding with .NET 1.x.]]></Query>
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Caution with List.Contains()</Name>
-from m in Methods where 
-  m.IsUsing ("System.Collections.Generic.List<T>.Contains(T)".AllowNoMatch()) ||
-  m.IsUsing ("System.Collections.Generic.IList<T>.Contains(T)".AllowNoMatch()) ||
-  m.IsUsing ("System.Collections.ArrayList.Contains(Object)".AllowNoMatch())
-select new { m, m.NbLinesOfCode }
+SELECT METHODS WHERE 
+  IsDirectlyUsing "OPTIONAL:System.Collections.Generic.List<T>.Contains(T)" OR
+  IsDirectlyUsing "OPTIONAL:System.Collections.Generic.IList<T>.Contains(T)" OR
+  IsDirectlyUsing "OPTIONAL:System.Collections.ArrayList.Contains(Object)"
 
 // The cost of checking if a list contains an 
 // object is proportional to the size of the list 
@@ -2609,11 +2386,10 @@ select new { m, m.NbLinesOfCode }
 // where calls to Contains() takes a constant 
 // time (O(0) operation).]]></Query>
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Prefer return collection abstraction instead of implementation</Name>
-from m in Methods where 
-  m.ReturnTypeIs ("System.Collections.Generic.List<T>".AllowNoMatch()) || 
-  m.ReturnTypeIs ("System.Collections.Generic.HashSet<T>".AllowNoMatch()) ||
-  m.ReturnTypeIs ("System.Collections.Generic.Dictionary<TKey,TValue>".AllowNoMatch())
-select new { m, m.NbLinesOfCode }
+SELECT METHODS WHERE 
+  ReturnTypeIs "OPTIONAL:System.Collections.Generic.List<T>" OR 
+  ReturnTypeIs "OPTIONAL:System.Collections.Generic.HashSet<T>" OR
+  ReturnTypeIs "OPTIONAL:System.Collections.Generic.Dictionary<TKey,TValue>"
 
 // Most of the time, clients of a method doesn't 
 // need to know the exact implementation of the 
@@ -2623,12 +2399,11 @@ select new { m, m.NbLinesOfCode }
       </Group>
       <Group Name="System.Runtime.InteropServices" Active="True" ShownInReport="False">
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>P/Invokes should be static and not be visible</Name>
-warnif count > 0 from m in Methods where
-  !m.IsThirdParty &&
-  (m.HasAttribute ("System.Runtime.InteropServices.DllImportAttribute".AllowNoMatch())) &&
-  ( m.IsPublic || 
-    !m.IsStatic)
-select new { m, m.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT METHODS WHERE
+  !IsInFrameworkAssembly AND
+  (HasAttribute "OPTIONAL:System.Runtime.InteropServices.DllImportAttribute") AND
+  ( IsPublic OR 
+    !IsStatic)
 
 // Methods marked with the DllImportAttribute 
 // attribute (or methods defined using the 
@@ -2640,11 +2415,10 @@ select new { m, m.NbLinesOfCode }
 // security by allowing callers access to 
 // unmanaged APIs they could not call otherwise.]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Move P/Invokes to NativeMethods class</Name>
-warnif count > 0 from m in Methods where
-  !m.IsThirdParty &&
-  m.HasAttribute ("System.Runtime.InteropServices.DllImportAttribute".AllowNoMatch()) &&
-  !m.FullNameLike (@"NativeMethods.")
-select new { m, m.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT METHODS WHERE
+  !IsInFrameworkAssembly AND
+  HasAttribute "OPTIONAL:System.Runtime.InteropServices.DllImportAttribute" AND
+  !FullNameLike "NativeMethods."
 
 // Platform Invocation methods, such as those marked 
 // with the System.Runtime.InteropServices.DllImportAttribute 
@@ -2679,14 +2453,13 @@ select new { m, m.NbLinesOfCode }
 //     no stack walk will be performed.
 ]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>NativeMethods class should be static and internal</Name>
-warnif count > 0 from t in Types where
-  !t.IsThirdParty &&
-  ( (t.Name == @"NativeMethods") ||
-    (t.Name == @"SafeNativeMethods") ||
-    (t.Name == @"UnsafeNativeMethods")) &&
-  (t.IsPublic ||
-   !t.IsStatic)
-select new { t, t.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT TYPES WHERE
+  !IsInFrameworkAssembly AND
+  ( NameIs "NativeMethods" OR
+    NameIs "SafeNativeMethods" OR
+    NameIs "UnsafeNativeMethods") AND
+  (IsPublic OR
+   !IsStatic)
 
 // Native Methods' classes are declared as internal 
 // (Friend, in Visual Basic) and static.
@@ -2694,11 +2467,10 @@ select new { t, t.NbLinesOfCode }
       </Group>
       <Group Name="System.Threading" Active="True" ShownInReport="False">
         <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Method non-synchronized that read mutable states</Name>
-from m in Application.Methods where 
- (m.ReadsMutableObjectState || m.ReadsMutableTypeState) && 
- !m.IsUsing ("System.Threading.Monitor".AllowNoMatch()) && 
- !m.IsUsing ("System.Threading.ReaderWriterLock".AllowNoMatch())
-select new { m, m.NbLinesOfCode }
+SELECT METHODS WHERE 
+ (ReadsMutableObjectState OR ReadsMutableTypeState) AND 
+ !IsDirectlyUsing "OPTIONAL:System.Threading.Monitor" AND 
+ !IsDirectlyUsing "OPTIONAL:System.Threading.ReaderWriterLock"
 
 // Mutable object states are instance fields that 
 // can be modifed throught the lifetime of the object.
@@ -2709,9 +2481,8 @@ select new { m, m.NbLinesOfCode }
 // multi-threaded program, doing so can lead to 
 // state corruption.]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Don't create threads explicitely</Name>
-warnif count > 0 from m in Methods where 
-  m.IndirectlyCreateA ("System.Threading.Thread".AllowNoMatch())
-select new { m, m.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+  CreateA "OPTIONAL:System.Threading.Thread"
 
 // Prefer using the thread pool instead of 
 // creating manually your own thread.
@@ -2729,74 +2500,64 @@ select new { m, m.NbLinesOfCode }
 // threads have affinity. It is preferrable 
 // to code tasks that can be ran on any thread.]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Don't use Thread.Sleep()</Name>
-warnif count > 0 from m in Methods where m.IsUsing  ("System.Threading.Thread.Sleep(Int32)".AllowNoMatch())
-select new { m, m.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT METHODS WHERE IsDirectlyUsing  "OPTIONAL:System.Threading.Thread.Sleep(Int32)"
 
 // Usage of Thread.Sleep() is a sign of 
 // flawed design. More information on this here:
 // http://msmvps.com/blogs/peterritchie/archive/2007/04/26/thread-sleep-is-a-sign-of-a-poorly-designed-program.aspx
 ]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Don't use Thread.Abort()</Name>
-warnif count > 0 from m in Methods where 
-  m.IsUsing  ("System.Threading.Thread.Abort()".AllowNoMatch()) ||
-  m.IsUsing  ("System.Threading.Thread.Abort(Object)".AllowNoMatch())
-select new { m, m.NbLinesOfCode } 
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+  IsDirectlyUsing  "OPTIONAL:System.Threading.Thread.Abort()" OR
+  IsDirectlyUsing  "OPTIONAL:System.Threading.Thread.Abort(Object)" 
 
 // Usage of Thread.Abort() is dangerous.
 // More information on this here:
 // http://www.interact-sw.co.uk/iangblog/2004/11/12/cancellation]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Monitor Enter/Exit must be both called within the same method</Name>
-warnif count > 0 from m in Methods where
- m.IsUsing ("System.Threading.Monitor.Enter(Object)".AllowNoMatch()) &&
- !m.IsUsing ("System.Threading.Monitor.Exit(Object)".AllowNoMatch())
-select new { m, m.NbLinesOfCode } ]]></Query>
+WARN IF Count > 0 IN SELECT METHODS WHERE
+ IsDirectlyUsing "OPTIONAL:System.Threading.Monitor.Enter(Object)" AND
+ !IsDirectlyUsing "OPTIONAL:System.Threading.Monitor.Exit(Object)" ]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Monitor TryEnter/Exit must be both called within the same method</Name>
-warnif count > 0 from m in Methods where
- ( m.IsUsing ("System.Threading.Monitor.Enter(Object)".AllowNoMatch()) ||
-   m.IsUsing ("System.Threading.Monitor.TryEnter(Object,Int32)".AllowNoMatch()) ||
-   m.IsUsing ("System.Threading.Monitor.TryEnter(Object,TimeSpan)".AllowNoMatch())) &&
- !m.IsUsing ("System.Threading.Monitor.Exit(Object)".AllowNoMatch())
-select new { m, m.NbLinesOfCode } ]]></Query>
+WARN IF Count > 0 IN SELECT METHODS WHERE
+ ( IsDirectlyUsing "OPTIONAL:System.Threading.Monitor.Enter(Object)" OR
+   IsDirectlyUsing "OPTIONAL:System.Threading.Monitor.TryEnter(Object,Int32)" OR
+   IsDirectlyUsing "OPTIONAL:System.Threading.Monitor.TryEnter(Object,TimeSpan)") AND
+ !IsDirectlyUsing "OPTIONAL:System.Threading.Monitor.Exit(Object)" ]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>ReaderWriterLock AcquireReaderLock/ReleaseLock must be both called within the same method</Name>
-warnif count > 0 from m in Methods where
-  ( m.IsUsing ("System.Threading.ReaderWriterLock.AcquireReaderLock(Int32)".AllowNoMatch()) ||
-    m.IsUsing ("System.Threading.ReaderWriterLock.AcquireReaderLock(TimeSpan)".AllowNoMatch()) ||
-    m.IsUsing ("System.Threading.Monitor.TryEnter(Object,TimeSpan)".AllowNoMatch())) 
-&&
- !( m.IsUsing ("System.Threading.ReaderWriterLock.ReleaseReaderLock()".AllowNoMatch()) || 
-    m.IsUsing ("System.Threading.ReaderWriterLock.ReleaseLock()".AllowNoMatch()))
-select new { m, m.NbLinesOfCode } ]]></Query>
+WARN IF Count > 0 IN SELECT METHODS WHERE
+  ( IsDirectlyUsing "OPTIONAL:System.Threading.ReaderWriterLock.AcquireReaderLock(Int32)" OR
+    IsDirectlyUsing "OPTIONAL:System.Threading.ReaderWriterLock.AcquireReaderLock(TimeSpan)" OR
+    IsDirectlyUsing "OPTIONAL:System.Threading.Monitor.TryEnter(Object,TimeSpan)") 
+AND
+ !( IsDirectlyUsing "OPTIONAL:System.Threading.ReaderWriterLock.ReleaseReaderLock()" OR 
+    IsDirectlyUsing "OPTIONAL:System.Threading.ReaderWriterLock.ReleaseLock()") ]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>ReaderWriterLock AcquireWriterLock/ReleaseLock must be both called within the same method</Name>
-warnif count > 0 from m in Methods where
-  ( m.IsUsing ("System.Threading.ReaderWriterLock.AcquireWriterLock(Int32)".AllowNoMatch()) ||
-    m.IsUsing ("System.Threading.ReaderWriterLock.AcquireWriterLock(TimeSpan)".AllowNoMatch()) ||
-    m.IsUsing ("System.Threading.Monitor.TryEnter(Object,TimeSpan)".AllowNoMatch())) 
-&&
- !( m.IsUsing ("System.Threading.ReaderWriterLock.ReleaseWriterLock()".AllowNoMatch()) || 
-    m.IsUsing ("System.Threading.ReaderWriterLock.ReleaseLock()".AllowNoMatch()))
-select new { m, m.NbLinesOfCode } ]]></Query>
+WARN IF Count > 0 IN SELECT METHODS WHERE
+  ( IsDirectlyUsing "OPTIONAL:System.Threading.ReaderWriterLock.AcquireWriterLock(Int32)" OR
+    IsDirectlyUsing "OPTIONAL:System.Threading.ReaderWriterLock.AcquireWriterLock(TimeSpan)" OR
+    IsDirectlyUsing "OPTIONAL:System.Threading.Monitor.TryEnter(Object,TimeSpan)") 
+AND
+ !( IsDirectlyUsing "OPTIONAL:System.Threading.ReaderWriterLock.ReleaseWriterLock()" OR 
+    IsDirectlyUsing "OPTIONAL:System.Threading.ReaderWriterLock.ReleaseLock()") ]]></Query>
       </Group>
       <Group Name="System.Xml" Active="True" ShownInReport="False">
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Method should not return concrete XmlNode</Name>
-warnif count > 0 from m in Methods where 
-( m.ReturnTypeIs ("System.Xml.XmlDocument".AllowNoMatch()) || 
-  m.ReturnTypeIs ("System.Xml.XmlAttribute".AllowNoMatch()) || 
-  m.ReturnTypeIs ("System.Xml.XmlDocumentFragment".AllowNoMatch()) || 
-  m.ReturnTypeIs ("System.Xml.XmlEntity".AllowNoMatch()) || 
-  m.ReturnTypeIs ("System.Xml.XmlLinkedNode".AllowNoMatch()) || 
-  m.ReturnTypeIs ("System.Xml.XmlNotation".AllowNoMatch()) ||
-  m.ReturnTypeIs ("System.Xml.XmlNode".AllowNoMatch()) )
-select new { m, m.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+( ReturnTypeIs "OPTIONAL:System.Xml.XmlDocument" OR 
+  ReturnTypeIs "OPTIONAL:System.Xml.XmlAttribute" OR 
+  ReturnTypeIs "OPTIONAL:System.Xml.XmlDocumentFragment" OR 
+  ReturnTypeIs "OPTIONAL:System.Xml.XmlEntity" OR 
+  ReturnTypeIs "OPTIONAL:System.Xml.XmlLinkedNode" OR 
+  ReturnTypeIs "OPTIONAL:System.Xml.XmlNotation" OR
+  ReturnTypeIs "OPTIONAL:System.Xml.XmlNode" )
 
 // The class System.Xml.XmlNode implements the interface 
 // System.Xml.Xpath.IXPathNavigable. It is preferrable 
 // to return this interface instead of a concrete class.
 ]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types should not extend System.Xml.XmlDocument</Name>
-warnif count > 0 from t in Types 
-let depth0 = t.DepthOfDeriveFrom("System.Xml.XmlDocument".AllowNoMatch())
-where depth0  == 1
-select new { t, depth0 }
+WARN IF Count > 0 IN SELECT TYPES WHERE DepthOfDeriveFrom "OPTIONAL:System.Xml.XmlDocument" == 1
 
 // Do not create a subclass of XmlDocument if you want 
 // to create an XML view of an underlying object 
@@ -2804,22 +2565,20 @@ select new { t, depth0 }
       </Group>
       <Group Name="System.Globalization" Active="True" ShownInReport="False">
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Float and Date Parsing must be culture aware</Name>
-warnif count > 0 from m in 
-  Types.WithFullNameIn( "System.DateTime", 
-             "System.Single", 
-             "System.Double",
-             "System.Decimal").ChildMethods()
+WARN IF Count > 0 IN SELECT METHODS 
+  FROM TYPES "OPTIONAL:System.DateTime", 
+             "OPTIONAL:System.Single", 
+             "OPTIONAL:System.Double",
+             "OPTIONAL:System.Decimal"
   // The 'NameLike' CQL clause operates on the signature
   // "methodName(type1,type2...typeN)"
-  where (m.NameLike (@"Parse\(") || m.NameLike (@"ToString\(")) &&
-        !m.NameLike (@"IFormatProvider")
-select new { m, m.NbLinesOfCode }]]></Query>
+  WHERE (NameLike "Parse\(" OR NameLike "ToString\(") AND
+        !NameLike "IFormatProvider"]]></Query>
       </Group>
     </Group>
     <Group Name="Statistics" Active="False" ShownInReport="False">
       <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Most used types (TypeRank)</Name>
-(from t in Types orderby t.Rank descending
-select new { t, t.Rank }).Take(50)
+SELECT TOP 50 TYPES ORDER BY TypeRank DESC
 
 // TypeRank values are computed by applying 
 // the Google PageRank  algorithm on the 
@@ -2828,8 +2587,7 @@ select new { t, t.Rank }).Take(50)
 // See the definition of the TypeRank metric here: 
 // http://www.ndepend.com/Metrics.aspx#TypeRank]]></Query>
       <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Most used methods (MethodRank)</Name>
-(from m in Methods orderby m.Rank descending
-select new { m, m.Rank }).Take(50)
+SELECT TOP 50 METHODS ORDER BY MethodRank DESC
 
 // MethodRank values are computed by applying 
 // the Google PageRank  algorithm on the graph of 
@@ -2838,8 +2596,7 @@ select new { m, m.Rank }).Take(50)
 // the MethodRank metric here:
 // http://www.ndepend.com/Metrics.aspx#MethodRank]]></Query>
       <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Most used namespaces (NamespaceCa)</Name>
-(from n in Namespaces orderby n.NbNamespacesUsingMe descending
-select new { n, n.NbNamespacesUsingMe }).Take(50)
+SELECT TOP 50 NAMESPACES ORDER BY NamespaceCa DESC
 
 // The Afferent Coupling for a particular namespace 
 // is the number of namespaces that depends directly 
@@ -2848,8 +2605,7 @@ select new { n, n.NbNamespacesUsingMe }).Take(50)
 // See the definition of the NamespaceCa metric here:
 // http://www.ndepend.com/Metrics.aspx#NamespaceCa]]></Query>
       <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Most used types  (TypeCa)</Name>
-(from t in Types orderby t.NbTypesUsingMe descending
-select new { t, t.NbTypesUsingMe }).Take(50)
+SELECT TOP 50 TYPES ORDER BY TypeCa DESC
 
 // The Afferent Coupling for a particular type 
 // is the number of types that depends directly 
@@ -2857,8 +2613,7 @@ select new { t, t.NbTypesUsingMe }).Take(50)
 // See the definition of the TypeCa metric here:
 // http://www.ndepend.com/Metrics.aspx#TypeCa]]></Query>
       <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Most used methods (MethodCa)</Name>
-(from m in Methods orderby m.NbMethodsCallingMe descending
-select new { m, m.NbMethodsCallingMe }).Take(50)
+SELECT TOP 50 METHODS ORDER BY MethodCa DESC
 
 // The Afferent Coupling for a particular method 
 // is the number of methods that depends directly 
@@ -2866,8 +2621,7 @@ select new { m, m.NbMethodsCallingMe }).Take(50)
 // See the definition of the MethodCa metric here:
 // http://www.ndepend.com/Metrics.aspx#MethodCa]]></Query>
       <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Namespaces that use many other namespaces (NamespaceCe)</Name>
-(from n in Namespaces orderby n.NbNamespacesUsed descending
-select new { n, n.NbNamespacesUsed }).Take(50)
+SELECT TOP 50 NAMESPACES ORDER BY NamespaceCe DESC
 
 // The Efferent Coupling for a particular namespace 
 // is the number of namespaces it directly depends on.
@@ -2876,8 +2630,7 @@ select new { n, n.NbNamespacesUsed }).Take(50)
 // See the definition of the NamespaceCe metric here:
 // http://www.ndepend.com/Metrics.aspx#NamespaceCe]]></Query>
       <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Types that use many other types (TypeCe)</Name>
-(from t in Types orderby t.NbTypesUsed descending
-select new { t, t.NbTypesUsed }).Take(50)
+SELECT TOP 50 TYPES ORDER BY TypeCe DESC
 
 // The Efferent Coupling for a particular type
 // is the number of types it directly depends on.
@@ -2886,8 +2639,7 @@ select new { t, t.NbTypesUsed }).Take(50)
 // See the definition of the TypeCe metric here:
 // http://www.ndepend.com/Metrics.aspx#TypeCe]]></Query>
       <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Methods that use many other methods (MethodCe)</Name>
-(from m in Methods orderby m.NbMethodsCalled descending
-select new { m, m.NbMethodsCalled }).Take(50)
+SELECT TOP 50 METHODS ORDER BY MethodCe DESC
 
 // The Efferent Coupling for a particular method 
 // is the number of methods it directly depends on.
@@ -2895,29 +2647,25 @@ select new { m, m.NbMethodsCalled }).Take(50)
 // taken account.
 // See the definition of the MethodCe metric here http://www.ndepend.com/Metrics.aspx#MethodCe]]></Query>
       <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>High-level to low-level assemblies (AssemblyLevel)</Name>
-from a in Assemblies orderby a.Level descending
-select new { a, a.Level }
+SELECT ASSEMBLIES ORDER BY AssemblyLevel DESC
 
 // Classify assemblies by their Level values.
 // See the definition of the AssemblyLevel metric here:
 // http://www.ndepend.com/Metrics.aspx#Level]]></Query>
       <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>High-level to low-level namespaces (NamespaceLevel)</Name>
-from n in Namespaces orderby n.Level descending
-select new { n, n.Level }
+SELECT NAMESPACES ORDER BY NamespaceLevel DESC
 
 // Classify namespaces by their Level values.
 // See the definition of the NamespaceLevel metric here:
 // http://www.ndepend.com/Metrics.aspx#Level]]></Query>
       <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>High-level to low-level types (TypeLevel)</Name>
-from t in Types orderby t.Level descending
-select new { t, t.Level }
+SELECT TYPES ORDER BY TypeLevel DESC
 
 // Classify types by their Level values.
 // See the definition of the TypeLevel metric here:
 // http://www.ndepend.com/Metrics.aspx#Level]]></Query>
       <Query Active="False" DisplayList="False" DisplayStat="False" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>High-level to low-level methods (MethodLevel)</Name>
-from m in Methods orderby m.Level descending
-select new { m, m.Level }
+SELECT METHODS ORDER BY MethodLevel DESC
 
 // Classify methods by their Level values.
 // See the definition of the MethodLevel metric here:
@@ -2926,68 +2674,62 @@ select new { m, m.Level }
     <Group Name="Samples of Custom rules" Active="False" ShownInReport="False">
       <Query Active="False" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Check that the assembly Asm1 is not using the assembly Asm2</Name>
 
-warnif count > 0 from a in Assemblies where 
-  a.IsUsing ("Asm2".AllowNoMatch().MatchAssembly()) &&
-  (a.Name == @"Asm1")
-select new { a, a.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT ASSEMBLIES WHERE 
+  IsDirectlyUsing "OPTIONAL:ASSEMBLY:Asm2" AND
+  NameIs "Asm1"
 
 // The OPTIONAL: prefix is just use to avoid an 
 //error because there is currently no assembly named Asm2.
 ]]></Query>
       <Query Active="False" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Check that the namespace N1.N2 is not using the namespace N3.N4.N5</Name>
 
-warnif count > 0 from n in Namespaces where 
-  n.IsUsing ("N3.N4.N5".AllowNoMatch().MatchAssembly()) &&
-  (n.Name == @"N1.N2")
-select new { n, n.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT NAMESPACES WHERE 
+  IsDirectlyUsing "OPTIONAL:ASSEMBLY:N3.N4.N5" AND
+  NameIs "N1.N2"
 
 // The OPTIONAL: prefix is just use to avoid an 
 // error because there is currently no namespace named N3.N4.N5.
 ]]></Query>
       <Query Active="False" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Check that the assembly Asm1 is only using the assemblies Asm2, Asm3 or mscorlib</Name>
 
-warnif count > 0 from a in Application.Assemblies where 
-  ( !a.IsUsing ("Asm2".AllowNoMatch().MatchAssembly()) ||
-    !a.IsUsing ("Asm3".AllowNoMatch().MatchAssembly()) ||
-    !a.IsUsing ("mscorlib".MatchAssembly()) ||
-    a.NbTypesUsed != 3) // Must not be used more than 3 assemblies 
+WARN IF Count > 0 IN SELECT ASSEMBLIES WHERE 
+  ( !IsDirectlyUsing "OPTIONAL:ASSEMBLY:Asm2" OR
+    !IsDirectlyUsing "OPTIONAL:ASSEMBLY:Asm3" OR
+    !IsDirectlyUsing "ASSEMBLY:mscorlib" OR
+    AsmCe != 3) // Must not be used more than 3 assemblies 
                 // AsmCe = Efferent Coupling for assembly
-&& 
-  (a.Name == @"Asm1")
-select new { a, a.NbTypesUsed }
+AND 
+  NameIs "Asm1"
   // The OPTIONAL: prefix is just use to avoid an 
   // error because there is currently no assembly 
   // named Asm2 or Asm3.
 ]]></Query>
       <Query Active="False" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Check that the namespace N1.N2 is only using the namespaces N3.N4, N5 or System</Name>
 
-warnif count > 0 from a in Application.Assemblies where 
-  ( !a.IsUsing ("N3.N4".AllowNoMatch().MatchNamespace()) ||
-    !a.IsUsing ("N5".AllowNoMatch().MatchNamespace()) ||
-    !a.IsUsing ("System".MatchNamespace()) ||
-    a.NbTypesUsed != 3) // Must not be used more than 3 assemblies 
+WARN IF Count > 0 IN SELECT ASSEMBLIES WHERE 
+  ( !IsDirectlyUsing "OPTIONAL:NAMESPACE:N3.N4" OR
+    !IsDirectlyUsing "OPTIONAL:NAMESPACE:N5" OR
+    !IsDirectlyUsing "NAMESPACE:System" OR
+    AsmCe != 3) // Must not be used more than 3 assemblies 
                 // AsmCe = Efferent Coupling for assembly
-&& 
-  (a.Name == @"Asm1")
-select new { a, a.NbTypesUsed }
+AND 
+  NameIs "Asm1"
   // The OPTIONAL: prefix is just use to avoid an
   // error because there is currently no namespace 
   // named N3.N4 or N5.
 ]]></Query>
       <Query Active="False" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Check that AsmDrawing is the only assembly that is using System.Drawing</Name>
-warnif count> 0 from a in Assemblies where 
-  a.IsUsing ("System.Drawing".AllowNoMatch().MatchAssembly()) &&
-  !(a.Name == @"AsmDrawing")
-select new { a, a.NbLinesOfCode }
+WARN IF Count> 0 IN SELECT ASSEMBLIES WHERE 
+  IsDirectlyUsing "OPTIONAL:ASSEMBLY:System.Drawing" AND
+  !NameIs "AsmDrawing"
 
 // The OPTIONAL: prefix is just use to avoid 
 // an error because System.Drawing might not 
 // be currently referenced.
 ]]></Query>
       <Query Active="False" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Check that only 3 assemblies are using System.Drawing</Name>
-warnif count > 3 from a in Assemblies where 
-  a.IsUsing ("System.Drawing".AllowNoMatch().MatchAssembly())
-select new { a, a.NbLinesOfCode }
+WARN IF Count > 3 IN SELECT ASSEMBLIES WHERE 
+  IsDirectlyUsing "OPTIONAL:ASSEMBLY:System.Drawing"
 
 // The OPTIONAL: prefix is just use to avoid an 
 // error because System.Drawing might not be 
@@ -2995,64 +2737,58 @@ select new { a, a.NbLinesOfCode }
 ]]></Query>
       <Query Active="False" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Check that all methods that call Foo.Fct1() also call Foo.Fct2(Int32)</Name>
 
-warnif count > 0 from m in Methods where 
-  m.IsUsing ("Foo.Fct1()".AllowNoMatch()) &&
-  !m.IsUsing ("Foo.Fct2(Int32)".AllowNoMatch())
-select new { m, m.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT METHODS WHERE 
+  IsDirectlyUsing "OPTIONAL:Foo.Fct1()" AND
+  !IsDirectlyUsing "OPTIONAL:Foo.Fct2(Int32)"
   // The OPTIONAL: prefix is just use to avoid an error 
   // because there is currently no methods named 
   // Foo.Fct1() or Foo.Fct2(Int32)]]></Query>
       <Query Active="False" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Check that all types that derive from Foo, also implement IFoo</Name>
 
-warnif count > 0 from t in Types where 
-  t.DeriveFrom ("Foo".AllowNoMatch().MatchType()) &&
-  !t.Implement ("IFoo".AllowNoMatch().MatchType())
-select new { t, t.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  DeriveFrom "OPTIONAL:TYPE:Foo" AND
+  !Implement "OPTIONAL:TYPE:IFoo"
   // The OPTIONAL: prefix is just use to avoid an 
   // error because there is currently no class named 
   // Foo and no interface named IFoo]]></Query>
       <Query Active="False" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Check that all types that has the attribute FooAttribute are declared in the namespace N1.N2</Name>
 
-warnif count > 0 from t in 
-  Namespaces.WithNameWildcardMatchNotIn( "N1.N2").ChildTypes() 
-  where 
-    t.HasAttribute ("FooAttribute".AllowNoMatch())
-select new { t, t.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT TYPES 
+  OUT OF NAMESPACES "OPTIONAL:N1.N2" 
+  WHERE 
+    HasAttribute "OPTIONAL:FooAttribute"
 
   // The OPTIONAL: prefix is just use to avoid an 
   // error because there is currently no attribute 
   // class named FooAttribute and no namespace named N1.N2]]></Query>
       <Query Active="False" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Check that all synchronization objects are only used from the namespaces under MyNamespace.Sync</Name>
 
-warnif count > 0 from n in Namespaces 
-  where 
-    (n.IsUsing ("System.Threading.Monitor".AllowNoMatch()) ||
-    n.IsUsing ("System.Threading.ReaderWriterLock".AllowNoMatch()) ||
-    n.IsUsing ("System.Threading.Mutex".AllowNoMatch()) ||
-    n.IsUsing ("System.Threading.EventWaitHandle".AllowNoMatch()) ||
-    n.IsUsing ("System.Threading.Semaphore".AllowNoMatch()) ||
-    n.IsUsing ("System.Threading.Interlocked".AllowNoMatch())) 
-  && !n.NameLike (@"^MyNamespace.Sync")
-select new { n, n.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT NAMESPACES 
+  WHERE 
+    IsDirectlyUsing "OPTIONAL:System.Threading.Monitor" OR
+    IsDirectlyUsing "OPTIONAL:System.Threading.ReaderWriterLock" OR
+    IsDirectlyUsing "OPTIONAL:System.Threading.Mutex" OR
+    IsDirectlyUsing "OPTIONAL:System.Threading.EventWaitHandle" OR
+    IsDirectlyUsing "OPTIONAL:System.Threading.Semaphore" OR
+    IsDirectlyUsing "OPTIONAL:System.Threading.Interlocked" 
+  AND !NameLike "^MyNamespace.Sync"
 
   // The OPTIONAL: prefix is just use to avoid an 
   // error because there some code elemnts might 
   // not currently exists.]]></Query>
       <Query Active="False" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Check that the graph of namespaces dependencies of the assembly Asm is acyclic</Name>
-warnif count > 0 from a in Application.Assemblies where 
-  (a.Name == @"OPTIONAL:Asm") &&
-  a.ContainsNamespaceDependencyCycle == true
-select new { a, a.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT ASSEMBLIES WHERE 
+  NameIs "OPTIONAL:Asm" AND
+  ContainsNamespaceDependencyCycle
 
   // The OPTIONAL: prefix is just use to avoid 
   // an error because there is currently no assembly 
   // named Asm]]></Query>
       <Group Name="Check Coverage on particular Code Elements" Active="True" ShownInReport="False">
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Check that the assembly Asm is 100% covered by tests</Name>
-warnif count > 0 from a in Application.Assemblies where 
-  (a.Name == @"Asm") && 
-  a.PercentageCoverage < 100
-select new { a, a.PercentageCoverage }
+WARN IF Count > 0 IN SELECT ASSEMBLIES WHERE 
+  NameIs "Asm" AND 
+  PercentageCoverage < 100
 
 
 // To run this rule properly coverage data 
@@ -3066,10 +2802,9 @@ select new { a, a.PercentageCoverage }
 
 ]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Check that the namespace N1.N2 is 100% covered by tests</Name>
-warnif count > 0 from n in Application.Namespaces where 
-  (n.Name == @"N1.N2") && 
-  n.PercentageCoverage < 100
-select new { n, n.PercentageCoverage }
+WARN IF Count > 0 IN SELECT NAMESPACES WHERE 
+  NameIs "N1.N2" AND 
+  PercentageCoverage < 100
 
 
 // To run this rule properly coverage data 
@@ -3083,10 +2818,9 @@ select new { n, n.PercentageCoverage }
 
 ]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Check that the class Namespace.Foo is 100% covered by tests</Name>
-warnif count > 0 from t in Application.Types where 
-  (t.FullName == @"Namespace.Foo") && 
-  t.PercentageCoverage < 100
-select new { t, t.PercentageCoverage }
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  FullNameIs "Namespace.Foo" AND 
+  PercentageCoverage < 100
 
 
 // To run this rule properly coverage data 
@@ -3100,10 +2834,9 @@ select new { t, t.PercentageCoverage }
 
 ]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Check that the class Namespace.Foo.Method(Int32) is 100% covered by tests</Name>
-warnif count > 0 from t in Application.Types where 
-  (t.FullName == @"Namespace.Foo.Method(Int32)") && 
-  t.PercentageCoverage < 100
-select new { t, t.PercentageCoverage }
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  FullNameIs "Namespace.Foo.Method(Int32)" AND 
+  PercentageCoverage < 100
 
 
 // To run this rule properly coverage data 
@@ -3120,18 +2853,16 @@ select new { t, t.PercentageCoverage }
       <Group Name="Custom Naming Conventions" Active="True" ShownInReport="False">
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Check that all types that derive from Foo, has a name that ends up with Foo</Name>
 
-warnif count > 0 from t in Types where 
-  t.DeriveFrom ("Foo".AllowNoMatch().MatchType()) &&
-  !t.NameLike (@"Foo$")
-select new { t, t.NbLinesOfCode }
+WARN IF Count > 0 IN SELECT TYPES WHERE 
+  DeriveFrom "OPTIONAL:TYPE:Foo" AND
+  !NameLike "Foo$"
   // The OPTIONAL: prefix is just use to avoid 
   // an error because there is currently no 
   // class named Foo]]></Query>
         <Query Active="True" DisplayList="True" DisplayStat="True" DisplaySelectionView="False" IsCriticalRule="False"><![CDATA[// <Name>Check that all namespaces begins with CompanyName.ProductName</Name>
-warnif count > 0 from n in Namespaces where 
-  !n.NameLike (@"^CompanyName.ProductName")
-  && !n.IsThirdParty
-select new { n, n.NbLinesOfCode } ]]></Query>
+WARN IF Count > 0 IN SELECT NAMESPACES WHERE 
+  !NameLike "^CompanyName.ProductName"
+  AND !IsInFrameworkAssembly ]]></Query>
       </Group>
     </Group>
   </Queries>

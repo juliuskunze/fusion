@@ -25,5 +25,4 @@
             Me.FOld = DirectCast(Me.FEq.Clone, Double(,))
         End If
     End Sub
-
 End Class

@@ -1,5 +1,4 @@
 ﻿Public Class BinaryOperatorOverload
-
     Private ReadOnly _ArgumentType1 As NamedType
 
     Public ReadOnly Property ArgumentType1 As NamedType
@@ -47,7 +46,6 @@
         _ResultType = resultType
         _ExpressionBuilder = expressionBuilder
     End Sub
-
 End Class
 
 Public Delegate Function BinaryOperatorExpressionBuilder(e1 As Expression, e2 As Expression) As Expression

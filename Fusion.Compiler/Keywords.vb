@@ -27,5 +27,4 @@
             Return _HelpItems
         End Get
     End Property
-
 End Class

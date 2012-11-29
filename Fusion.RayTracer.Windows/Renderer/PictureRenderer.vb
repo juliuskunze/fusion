@@ -36,5 +36,4 @@
 
         Return resultBitmap
     End Function
-
 End Class

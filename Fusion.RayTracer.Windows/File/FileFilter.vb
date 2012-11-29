@@ -1,5 +1,4 @@
 ﻿Public Class FileFilter
-
     Private ReadOnly _FileFilter As String
     Private ReadOnly _Description As String
 
@@ -23,5 +22,4 @@
     Public Overrides Function ToString() As String
         Return _Description & "|" & _FileFilter
     End Function
-
 End Class

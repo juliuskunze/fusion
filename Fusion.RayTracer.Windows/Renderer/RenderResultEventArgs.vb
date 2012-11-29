@@ -56,5 +56,4 @@
             Return Not _Cancelled AndAlso _Error Is Nothing
         End Get
     End Property
-
 End Class

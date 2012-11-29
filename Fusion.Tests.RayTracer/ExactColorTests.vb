@@ -1,5 +1,4 @@
 ﻿Public Class ExactColorTests
-
     Private ReadOnly _ColorConverter As New RgbLightToRgbColorConverter
 
     <Test()>
@@ -28,5 +27,4 @@
 
         Assert.AreEqual(c, c2)
     End Sub
-
 End Class

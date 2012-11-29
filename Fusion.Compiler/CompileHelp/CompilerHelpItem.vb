@@ -1,5 +1,4 @@
 ﻿Public Class CompilerHelpItem
-
     Private ReadOnly _Name As String
     Public ReadOnly Property Name As String
         Get

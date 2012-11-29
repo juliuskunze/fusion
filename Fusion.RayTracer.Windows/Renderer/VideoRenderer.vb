@@ -60,5 +60,4 @@
     Private Function GetFrameFile(index As Integer) As FileInfo
         Return New FileInfo(_PictureOutputDirectory.FullName & String.Format("\picture{0}.png", index))
     End Function
-
 End Class

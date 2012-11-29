@@ -1,5 +1,4 @@
 ﻿Public Class BlackBodyRadianceSpectrumTests
-
     <Test()>
     Public Sub Test()
         Dim b = New BlackBodyRadianceSpectrum(temperature:=1000)
@@ -8,5 +7,4 @@
         Assert.That(0.9 < ratio)
         Assert.That(ratio < 1.1)
     End Sub
-
 End Class

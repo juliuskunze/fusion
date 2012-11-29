@@ -119,5 +119,4 @@ Public Class ParticleSystem3D
             Return SumOfPositiveCharges
         End Get
     End Property
-
 End Class

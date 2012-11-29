@@ -6,5 +6,4 @@ Public Module TimeSpanExtensions
     Public Function Divide(timeSpan As TimeSpan, divisor As Double) As TimeSpan
         Return timeSpan.FromTicks(CLng(timeSpan.Ticks / divisor))
     End Function
-
 End Module

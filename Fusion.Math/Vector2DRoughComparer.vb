@@ -14,5 +14,4 @@
     Public Overloads Function GetHashCode(obj As Vector3D) As Integer Implements IEqualityComparer(Of Vector3D).GetHashCode
         Return obj.GetHashCode
     End Function
-
 End Class

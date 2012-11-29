@@ -63,5 +63,4 @@ Partial Class MainWindow
     End Sub
     Friend WithEvents _PictureBox As System.Windows.Forms.PictureBox
     Friend WithEvents _ComplexLabel As System.Windows.Forms.Label
-
 End Class

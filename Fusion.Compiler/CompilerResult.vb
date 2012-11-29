@@ -18,5 +18,4 @@
         _Result = result
         _CompilerHelp = compilerHelp
     End Sub
-
 End Class

@@ -46,5 +46,4 @@
 
         Return MaterialSurfacePointFromSurfacePoint(intersection)
     End Function
-
 End Class

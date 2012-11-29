@@ -1,5 +1,4 @@
 ﻿Public Class TextOnlyDocument
-
     Private Shared ReadOnly _LineBreak As String = Microsoft.VisualBasic.ControlChars.CrLf
     Private Shared ReadOnly _LineBreakLength As Integer = _LineBreak.Count
 
@@ -68,7 +67,7 @@
 
         Dim startPointer = GetPointer(startIndex)
         Dim endPointer = GetPointer(endIndex)
-        
+
         If Not _Document.Blocks.Any OrElse Not _Document.Blocks.OfType(Of Paragraph).Any(Function(paragraph) paragraph.Inlines.Any) Then
             If startPointer Is Nothing Then startPointer = _Document.ContentStart
             If endPointer Is Nothing Then endPointer = _Document.ContentEnd
@@ -131,7 +130,7 @@
             position += GetPositionInParent(block)
         End If
 
-        
+
         Return position
     End Function
 
@@ -180,5 +179,4 @@
     Public Function GetCharacterRect(index As Integer) As Rect
         Return Me.GetTextPointer(index:=index).GetCharacterRect(LogicalDirection.Forward)
     End Function
-
 End Class

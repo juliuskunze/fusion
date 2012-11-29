@@ -12,5 +12,4 @@
     Public Function WithHelp(compilerHelp As CompilerHelp) As CompilerExceptionWithHelp
         Return New CompilerExceptionWithHelp(Me, compilerHelp)
     End Function
-
 End Class

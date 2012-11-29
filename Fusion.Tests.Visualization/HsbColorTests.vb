@@ -1,5 +1,4 @@
 ﻿Public Class HsbColorTests
-
     <Test()>
     Public Sub Test()
         Dim red = Color.Red
@@ -28,5 +27,4 @@
                color1.G = color2.G AndAlso
                color1.B = color2.B
     End Function
-
 End Class

@@ -14,5 +14,4 @@ Public Module ColorExtensions
     Public Function ToMediaBrush(systemColor As System.Drawing.Color) As System.Windows.Media.Brush
         Return New System.Windows.Media.SolidColorBrush(systemColor.ToMediaColor)
     End Function
-
 End Module

@@ -85,5 +85,4 @@
         Dim inverseLinearMap = Me.LinearMap.Inverse
         Return New AffineMap2D(inverseLinearMap, -inverseLinearMap.Apply(Me.TranslationVector))
     End Function
-
 End Class

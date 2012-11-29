@@ -1,5 +1,4 @@
 ﻿Public Class Matrix
-
     Protected Friend _Elements(,) As Double
 
     Public Sub New(width As Integer, height As Integer)
@@ -126,5 +125,4 @@
     Public Shared Operator <>(m1 As Matrix, m2 As Matrix) As Boolean
         Return Not m1 = m2
     End Operator
-
 End Class

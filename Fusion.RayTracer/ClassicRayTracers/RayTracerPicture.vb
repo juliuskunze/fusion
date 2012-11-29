@@ -54,5 +54,4 @@ Public Class RayTracerPicture(Of TLight As {ILight(Of TLight), New})
 
         Return _LightToRgbColorConverter.Run(Me.RayTracer.GetLight(sightRay:=sightRay))
     End Function
-
 End Class

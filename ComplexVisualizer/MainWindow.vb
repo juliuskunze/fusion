@@ -1,5 +1,4 @@
 ﻿Public Class MainWindow
-
     Private ReadOnly _CenterComplex As New Complex(0, 0)
     Private Const _Radius As Double = 100
 

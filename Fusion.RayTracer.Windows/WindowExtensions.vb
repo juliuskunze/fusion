@@ -11,5 +11,4 @@ Public Module WindowExtensions
         out_dpiX = m.M11 * 96
         out_dpiY = m.M22 * 96
     End Sub
-
 End Module

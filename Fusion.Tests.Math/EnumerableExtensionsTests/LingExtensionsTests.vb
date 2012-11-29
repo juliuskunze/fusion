@@ -1,5 +1,4 @@
 ﻿Public Class LingExtensionsTests
-
     Private Structure TestStructure
         Public Name As String
 
@@ -56,7 +55,6 @@
         Assert.AreEqual(elementLinq, elementLinear)
         Assert.Greater(linqTime, linearTime)
     End Sub
-
 
 
 End Class

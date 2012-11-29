@@ -14,5 +14,4 @@
             Return DirectCast(formatter.Deserialize(stream), ParticleSystem2D)
         End Using
     End Function
-
 End Class

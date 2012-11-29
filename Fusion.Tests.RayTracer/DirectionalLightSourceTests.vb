@@ -1,5 +1,4 @@
 ﻿Public Class DirectionalLightSourceTests
-
     <Test()>
     Public Sub Test()
 
@@ -8,5 +7,4 @@
         Assert.AreEqual(0, directionalLightSource.GetLight(New SurfacePoint(New Vector3D, New Vector3D(1, 0, 0))).GetSpectralRadiance(1))
 
     End Sub
-
 End Class

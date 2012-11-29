@@ -1,5 +1,4 @@
 ﻿Public Class NamedBinaryOperator
-
     Private ReadOnly _Name As String
     Public ReadOnly Property Name As String
         Get
@@ -141,5 +140,4 @@
         "-"c,
         {New BinaryOperatorOverload(NamedType.Real, NamedType.Real, NamedType.Real, _NegateFirstAndSubtractSecondExpressionBuilder),
          New BinaryOperatorOverload(NamedType.Vector3D, NamedType.Vector3D, NamedType.Vector3D, _NegateFirstAndSubtractSecondExpressionBuilder)})
-
 End Class

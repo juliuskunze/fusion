@@ -1,5 +1,4 @@
 ﻿Public Class ExpressionWithNamedType
-
     Private ReadOnly _Expression As Expression
     Public ReadOnly Property Expression As Expression
         Get
@@ -19,5 +18,4 @@
         _Expression = expression
         _NamedType = namedType
     End Sub
-
 End Class

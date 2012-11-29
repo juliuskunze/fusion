@@ -1,5 +1,4 @@
 ﻿Public Class Vector3DTests
-
     <Test()>
     Public Sub Length()
         Assert.AreEqual(New Vector3D(1, 2, 2).Length, 3)
@@ -31,5 +30,4 @@
         Assert.AreEqual(New Vector3D(0.1, 1.0, 2), New Vector3D("0.1,1.0,2"))
         Assert.AreEqual(New Vector3D(0.1, 1.0, 2), New Vector3D("{0.1,1.0,2}"))
     End Sub
-
 End Class

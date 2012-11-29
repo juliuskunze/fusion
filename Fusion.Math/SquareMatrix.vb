@@ -92,5 +92,4 @@
         Dim m1AsMatrix = DirectCast(m1, Matrix)
         Return New SquareMatrix(m1AsMatrix * m2)
     End Operator
-
 End Class

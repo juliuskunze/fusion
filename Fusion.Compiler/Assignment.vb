@@ -3,7 +3,6 @@
 ''' </summary>
 ''' <remarks></remarks>
 Public Class Assignment
-
     Protected ReadOnly _SignatureString As LocatedString
     ''' <summary>
     ''' First part of the assignment like 'Real a'.
@@ -46,5 +45,4 @@ Public Class Assignment
     Private Shared Function GetIsFunctionDefinition(signatureString As String) As Boolean
         Return signatureString.Contains(CompilerTools.ParameterBracketType.OpeningBracket) OrElse signatureString.Contains(CompilerTools.ParameterBracketType.ClosingBracket)
     End Function
-
 End Class

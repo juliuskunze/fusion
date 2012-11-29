@@ -494,5 +494,4 @@ Public Class RichCompiler(Of TResult)
     Private Sub _RichTextBox_SelectionChanged(sender As Object, e As RoutedEventArgs) Handles _RichTextBox.SelectionChanged
         UpdateOnTextOrSelectionChanged()
     End Sub
-
 End Class

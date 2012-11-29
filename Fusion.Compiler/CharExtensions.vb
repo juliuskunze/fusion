@@ -11,5 +11,4 @@ Public Module CharExtensions
     Public Function IsIdentifierChar(c As Char) As Boolean
         Return Char.IsLetterOrDigit(c)
     End Function
-
 End Module

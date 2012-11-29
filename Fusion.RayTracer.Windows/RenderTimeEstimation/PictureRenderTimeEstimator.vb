@@ -47,5 +47,4 @@
 
         Return New RenderTimeEstimationResult(totalTime:=totalTime, timePerPixel:=timePerPixel)
     End Function
-
 End Class

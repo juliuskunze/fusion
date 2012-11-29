@@ -1,5 +1,4 @@
 ﻿Public Class TermContext
-
     Private ReadOnly _Types As NamedTypes
     Public ReadOnly Property Types As NamedTypes
         Get
@@ -40,7 +39,7 @@
                         From x In Me.Constants
                         Where x.Signature.Type.IsFunctionType
                         Select x.ToFunctionInstance
-                
+
                 _GroupedFunctions = _Functions.Concat(parameterFunctions).Concat(constantFunctions).GroupBy(Function(instance) instance.Signature.Name, comparer:=StringComparer.OrdinalIgnoreCase).ToArray
             End If
 
@@ -139,5 +138,4 @@
 
         Return matchingParameters.Single
     End Function
-
 End Class

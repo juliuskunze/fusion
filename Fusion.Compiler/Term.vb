@@ -1,5 +1,4 @@
 ﻿Public Class Term
-
     Private ReadOnly _LocatedString As LocatedString
     Private ReadOnly _Context As TermContext
     Private ReadOnly _TypeInformation As TypeInformation
@@ -431,5 +430,4 @@
             Return True
         End Get
     End Property
-
 End Class

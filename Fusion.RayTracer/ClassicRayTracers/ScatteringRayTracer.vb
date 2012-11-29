@@ -59,5 +59,4 @@ Public Class ScatteringRayTracer(Of TLight As {ILight(Of TLight), New})
         Next
         Return colorSum.DivideBrightness(Me.RayCount)
     End Function
-
 End Class

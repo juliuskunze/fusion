@@ -1,5 +1,4 @@
 ﻿Public Class RenderTimeEstimationOptions
-
     Private ReadOnly _Time As Double
     Public ReadOnly Property Time As Double
         Get
@@ -34,5 +33,4 @@
         _PixelCount = pixelCount
         _Mode = RenderTimeEstimationMode.FixPixelCount
     End Sub
-
 End Class

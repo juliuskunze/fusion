@@ -77,6 +77,5 @@ Public Class Force3D
             Me.Color = value.Color
         End Set
     End Property
-
 End Class
 

@@ -1,7 +1,6 @@
 ﻿Imports Fusion.Physics.Constants
 
 Public Class ColorWindow
-
     Private ReadOnly _RgbLightToColorConverter As New RgbLightToRgbColorConverter
     Private _RadianceSpectrumToRgbColorConverter As RadianceSpectrumToRgbColorConverter
 

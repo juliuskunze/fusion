@@ -1,5 +1,4 @@
 ﻿Public Class LocatedStringTests
-
     <Test()>
     Public Sub Test()
         Dim container = "0123456".ToLocated
@@ -82,5 +81,4 @@
         Assert.AreEqual(Nothing, s3.TryGetIdentifierBeforeLastOpenedBracket(0))
         Assert.AreEqual(Nothing, s3.TryGetIdentifierBeforeLastOpenedBracket(s3.Length))
     End Sub
-
 End Class

@@ -1,5 +1,4 @@
 ﻿Public Class PlaneTests
-
     Private ReadOnly _YzHalfSpace As Plane
 
     Public Sub New()
@@ -41,5 +40,4 @@
         Assert.AreEqual(intersection, Nothing)
         SurfaceTests.SurfaceRayIntersection(_YzHalfSpace, wrongDirectionRay)
     End Sub
-
 End Class

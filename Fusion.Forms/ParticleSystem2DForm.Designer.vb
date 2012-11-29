@@ -364,5 +364,4 @@ Partial Class ParticleSystem2DForm
     Friend WithEvents splitContainer As System.Windows.Forms.SplitContainer
     Friend WithEvents energyLabel As System.Windows.Forms.Label
     Friend WithEvents momentumLabel As System.Windows.Forms.Label
-
 End Class

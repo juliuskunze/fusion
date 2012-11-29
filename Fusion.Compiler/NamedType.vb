@@ -18,7 +18,7 @@
     Private ReadOnly _SystemType As Type
     Public ReadOnly Property SystemType As Type
         Get
-            If Me.IsFunctionType Then
+            If IsFunctionType Then
                 Return _Function.SystemType
             Else
                 Return _SystemType
@@ -49,11 +49,11 @@
         End Get
     End Property
 
-    Public Sub New(name As String, systemType As System.Type, Optional description As String = Nothing)
+    Public Sub New(name As String, systemType As Type, Optional description As String = Nothing)
         Me.New(name:=name, systemType:=systemType, TypeArguments:={}, description:=description)
     End Sub
 
-    Private Sub New(name As String, systemType As System.Type, typeArguments As IEnumerable(Of NamedType), Optional description As String = Nothing)
+    Private Sub New(name As String, systemType As Type, typeArguments As IEnumerable(Of NamedType), Optional description As String = Nothing)
         If typeArguments Is Nothing Then Throw New ArgumentNullException("typeArguments")
 
         _IsFunctionType = False
@@ -102,9 +102,9 @@
         Return signature.AsNamedFunctionType
     End Function
 
-    Private Function ThrowNotAssignableFromException(otherName As String) As CompilerException
-        Throw New CompilerException(String.Format("Type '{0}' is not assignable to type '{1}'.", otherName, Me.Name))
-    End Function
+    Private Sub ThrowNotAssignableFromException(otherName As String)
+        Throw New CompilerException(String.Format("Type '{0}' is not assignable to type '{1}'.", otherName, Name))
+    End Sub
 
     Private Shared ReadOnly _Boolean As New NamedType("Boolean", GetType(Boolean))
     Public Shared ReadOnly Property [Boolean] As NamedType
@@ -135,10 +135,10 @@
     End Property
 
     Public Function GetSignatureString() As String Implements ISignature.GetSignatureString
-        If Me.IsFunctionType Then
-            Return Me.[Function].ResultType.GetSignatureString & " " & Me.Name & String.Join(", ", Me.[Function].Parameters.Select(Function(parameter) parameter.Signature.ToString)).InBrackets(CompilerTools.ParameterBracketType)
+        If IsFunctionType Then
+            Return [Function].ResultType.GetSignatureString & " " & Name & String.Join(", ", [Function].Parameters.Select(Function(parameter) parameter.Signature.ToString)).InBrackets(CompilerTools.ParameterBracketType)
         Else
-            Return "Type " & Me.NameWithTypeArguments
+            Return "Type " & NameWithTypeArguments
         End If
     End Function
 
@@ -157,5 +157,4 @@
     Public Sub CheckForSignatureConflicts(other As NamedType)
         If CompilerTools.IdentifierEquals(Me.Name, other.Name) Then Throw New CompilerException(String.Format("Type '{0}' is already defined.", other.Name))
     End Sub
-
 End Class

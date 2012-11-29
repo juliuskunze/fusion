@@ -47,5 +47,4 @@ Partial Class ValueBox
 
     End Sub
     Friend WithEvents Txt As System.Windows.Forms.TextBox
-
 End Class

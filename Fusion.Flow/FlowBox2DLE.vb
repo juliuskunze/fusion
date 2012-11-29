@@ -140,5 +140,4 @@ Public Class FlowBox2DLE
             Next
         Next
     End Sub
-
 End Class

@@ -1,5 +1,4 @@
 Public Class PointLightSourceTests
-
     Private ReadOnly _LightSource As New PointLightSource(Of RgbLight)(location:=Vector3D.Zero, baseLight:=New RgbLight(Color.FromArgb(16, 32, 16)))
 
     <Test()>
@@ -25,5 +24,4 @@ Public Class PointLightSourceTests
 
         Assert.AreEqual(New RgbLight(Color.FromArgb(4, 8, 4)) / Sqrt(2), colorAtDistance2)
     End Sub
-
 End Class

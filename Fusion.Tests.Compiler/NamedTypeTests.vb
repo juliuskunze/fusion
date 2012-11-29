@@ -1,5 +1,4 @@
 ﻿Public Class NamedTypeTests
-
     <Test()>
     Public Sub NamedDelegateTypeFromText()
         Dim delegateType = NamedType.NamedFunctionTypeFromString("FunctionType Real WavelengthFunction(Real wavelength)".ToLocated, typeContext:=NamedTypes.Default)
@@ -46,5 +45,4 @@
 
         Assert.AreEqual(expected:="Set[Text]", actual:=stringSetType.NameWithTypeArguments)
     End Sub
-
 End Class

@@ -49,5 +49,4 @@
                                          TransparencyRemission:=Me.TransparencyRemission,
                                          refractionIndexQuotient:=Me.RefractionIndexQuotient)
     End Function
-
 End Class

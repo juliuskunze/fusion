@@ -1,5 +1,4 @@
 ﻿Public Class RenderTimeEstimationOptionsDialog
-
     Public Sub New()
         InitializeComponent()
     End Sub
@@ -70,5 +69,4 @@
 
         Hide()
     End Sub
-
 End Class

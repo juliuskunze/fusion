@@ -1,5 +1,4 @@
 ﻿Public Class FunctionCall
-
     Private ReadOnly _FunctionName As LocatedString
     Public ReadOnly Property FunctionName As LocatedString
         Get
@@ -27,5 +26,4 @@
         _FunctionName = _LocatedString.GetStartingIdentifier
         _Arguments = CompilerTools.GetArguments(argumentsInBrackets:=_LocatedString.Substring(startIndex:=_FunctionName.Length, length:=_LocatedString.Length - _FunctionName.Length).Trim)
     End Sub
-
 End Class

@@ -13,5 +13,4 @@
             Return New SpaceTimeEvent(_Time, Location)
         End Get
     End Property
-
 End Class

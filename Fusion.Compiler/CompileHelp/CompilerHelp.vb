@@ -1,5 +1,4 @@
 ﻿Public Class CompilerHelp
-
     Private ReadOnly _TermContext As TermContext
     Private ReadOnly _CurrentIdentifierIfDefined As LocatedString
     Private ReadOnly _Filter As String
@@ -40,7 +39,7 @@
         Dim parameters = _TermContext.Parameters.Select(Function(parameter) New CompilerHelpItem(signature:=parameter.Signature))
         Dim functions = _TermContext.GroupedFunctionsAndFunctionParameters.Select(Function(functionGroup) New CompilerHelpItem(functionGroup:=functionGroup))
         Dim types = _TermContext.Types.Select(Function(type) CompilerHelpItem.FromType(type:=type, types:=_TermContext.Types))
-        
+
         Dim all = constants.Concat(parameters).Concat(functions).Concat(types).Concat(Compiler.Keywords.HelpItems)
 
         Return all.Where(Function(item) Me.PassesFilter(item)).OrderBy(Function(item) item.Name)
@@ -88,6 +87,4 @@
 
         Return New CompilerHelpItem(functionGroup:=functionGroup)
     End Function
-
-
 End Class

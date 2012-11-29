@@ -1,5 +1,4 @@
 ﻿Public Class DescriptionFileHelper
-
     Public Shared Function GetFileFilter(mode As CompileMode) As FileFilter
         Select Case mode
             Case CompileMode.Picture : Return New FileFilter(FileFilter:="*.pic", description:="Picture descriptions (*.pic)")
@@ -23,5 +22,4 @@
     Public Shared Function SaveVideoFilters() As FileFilters
         Return New FileFilters({New FileFilter(FileFilter:="*.avi", description:="Audio Video Interleave (*.avi)")})
     End Function
-
 End Class

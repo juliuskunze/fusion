@@ -1,5 +1,4 @@
 ﻿Public Class SphereTests
-
     <Test()>
     Public Sub FirstIntersection_RayStartsOutside()
         Dim sphere = New Sphere(center:=Vector3D.Zero, radius:=1)
@@ -29,5 +28,4 @@
         Dim firstIntersection = sphere.Intersection(ray)
         Assert.AreEqual(firstIntersection, Nothing)
     End Sub
-
 End Class

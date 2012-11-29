@@ -1,5 +1,4 @@
 ﻿Public Class ParticleGuide
-
     Public Sub New(particleSystem As ParticleSystem2D)
         _ParticleSystem = particleSystem
     End Sub
@@ -53,5 +52,4 @@
     End Sub
 
     Public Event ParticleChanged(sender As Object, e As EventArgs)
-
 End Class

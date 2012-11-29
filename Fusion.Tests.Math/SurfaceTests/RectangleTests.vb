@@ -1,5 +1,4 @@
 ﻿Public Class RectangleTests
-
     <Test()>
     Public Sub FirstIntersection()
         Dim ray = New Ray(origin:=New Vector3D(2.5, 2.5, 0), direction:=New Vector3D(0, 0, 1))
@@ -26,6 +25,5 @@
         Assert.AreEqual(New Vector3D(2, 2, 1), firstIntersecton.Location)
         Assert.AreEqual(New Vector3D(0, 0, -1), firstIntersecton.NormalizedNormal)
     End Sub
-
 
 End Class

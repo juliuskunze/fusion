@@ -37,7 +37,6 @@
     Public Function GetSpectralRadiance(wavelength As Double) As Double Implements IRadianceSpectrum.GetSpectralRadiance
         Return _Function.Invoke(wavelength)
     End Function
-
 End Class
 
 Public Delegate Function SpectralRadianceFunction(wavelength As Double) As Double

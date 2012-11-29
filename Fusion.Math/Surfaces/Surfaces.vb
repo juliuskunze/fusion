@@ -19,5 +19,4 @@
                Where(Function(intersection) intersection IsNot Nothing).
                MinItem(Function(intersection) (intersection.Location - ray.Origin).LengthSquared)
     End Function
-
 End Class

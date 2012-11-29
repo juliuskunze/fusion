@@ -1,5 +1,4 @@
 Public Class RayTracerTests
-
     <Test()>
     Public Sub Reflection()
         Dim reflectingSphere = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Sphere(center:=New Vector3D(-1, 0, 0), radius:=1),
@@ -20,5 +19,4 @@ Public Class RayTracerTests
         Assert.AreEqual(0, color.Green)
         Assert.AreEqual(1, color.Blue)
     End Sub
-
 End Class

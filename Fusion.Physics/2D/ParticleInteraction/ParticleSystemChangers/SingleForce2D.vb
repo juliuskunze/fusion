@@ -13,5 +13,4 @@ Public Class SingleForce2D
     Public Sub AccelerateParticle(timeSpan As Double) Implements IParticleSystemChanger.ChangeSystem
         Me.Particle.Accelerate(timeSpan, Me.SingleForce.Force(Me.Particle))
     End Sub
-
 End Class

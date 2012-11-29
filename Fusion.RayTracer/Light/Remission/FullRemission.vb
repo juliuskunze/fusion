@@ -10,5 +10,4 @@ Public Class FullRemission(Of TLight As {ILight(Of TLight), New})
     Public Function GetRemission(light As TLight) As TLight Implements IRemission(Of TLight).GetRemission
         Return light
     End Function
-
 End Class

@@ -2,7 +2,6 @@
 Imports Fusion.Math
 
 Class CalculatorWindow
-
     Private Sub RespectOrderCheckBox_Click(sender As System.Object, e As RoutedEventArgs) Handles _RespectOrderCheckBox.Click
         Me.SetCalculationFormulaLabelText()
     End Sub

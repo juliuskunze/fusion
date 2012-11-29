@@ -31,5 +31,4 @@
 
         Assert.AreEqual(Nothing, intersection)
     End Sub
-
 End Class

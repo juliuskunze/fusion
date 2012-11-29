@@ -1,5 +1,4 @@
 ﻿Public Class ParticleSystem2DForm
-
     Private _Serializer As ParticleSystem2DSerializer
 
     Private _SphereParticleDialog As SphereParticle2DDialog
@@ -370,7 +369,6 @@
             _Drawer.Visualizer.Graphics = pictureBox.CreateGraphics
         End If
     End Sub
-
 
 
 End Class

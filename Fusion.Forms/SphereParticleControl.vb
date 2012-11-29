@@ -28,5 +28,4 @@
             pbxColor.BackColor = value.Color
         End Set
     End Property
-
 End Class

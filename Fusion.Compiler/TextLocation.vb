@@ -1,5 +1,4 @@
 ﻿Public Class TextLocation
-
     Public Sub New(startIndex As Integer, length As Integer)
         _StartIndex = startIndex
         _Length = length
@@ -61,5 +60,4 @@
     Public Shared Operator <>(l1 As TextLocation, l2 As TextLocation) As Boolean
         Return Not l1 = l2
     End Operator
-
 End Class

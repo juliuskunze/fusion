@@ -57,5 +57,4 @@
 
         Return New ParticleField2D(Me.ForceType.FieldGenerator, newParticleList)
     End Function
-
 End Class

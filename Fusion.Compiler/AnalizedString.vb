@@ -1,5 +1,4 @@
 ﻿Public Class AnalizedString
-
     Private ReadOnly _Text As String
     Public ReadOnly Property Text As String
         Get
@@ -25,5 +24,4 @@
     Public Overrides Function ToString() As String
         Return _Text
     End Function
-
 End Class

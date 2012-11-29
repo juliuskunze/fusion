@@ -1,5 +1,4 @@
 ﻿Public Class ViewController2D
-
     Public Sub New(visualizer As Visualizer2D, Optional zoomInFactorPerZoomStep As Double = 1.2, Optional rotationAnglePerDeltaInPixels As Double = PI / 100)
         Me.ZoomInFactorPerZoomStep = zoomInFactorPerZoomStep
         Me.ZoomCenterMode = CenterModes.AtMouseLocation
@@ -71,5 +70,4 @@
         Me.Visualizer.ProjectionMap = Me.Visualizer.ProjectionMap.
             Before(AffineMap2D.Translation(-Me.Visualizer.ProjectionMap.Apply(simulationLocation)))
     End Sub
-
 End Class

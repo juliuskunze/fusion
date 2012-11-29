@@ -1,5 +1,4 @@
 Public Class ConstantAssignmentTests
-
     <Test()>
     Public Sub Test()
         Dim d = New ConstantAssignment(definition:="Real a = 4".ToLocated, context:=TermContext.Default)
@@ -34,5 +33,4 @@ Public Class ConstantAssignmentTests
         Assert.AreEqual(e.Signature.Name, "c")
         Assert.AreEqual(CType(e.Expression.Value, IEnumerable(Of Double)).ToArray, {1, 2})
     End Sub
-
 End Class

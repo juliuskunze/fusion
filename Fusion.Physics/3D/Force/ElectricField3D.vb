@@ -24,5 +24,4 @@ Public Class ElectricField3D
     Public Function Force(field As Math.Vector3D, particle As Particle3D) As Math.Vector3D Implements IField3D.Force
         Return field * particle.Charge
     End Function
-
 End Class

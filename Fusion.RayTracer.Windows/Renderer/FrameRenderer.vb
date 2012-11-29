@@ -23,5 +23,4 @@ Public Class FrameRenderer
     Public Overloads Sub Run()
         Save(result:=MyBase.Run)
     End Sub
-
 End Class

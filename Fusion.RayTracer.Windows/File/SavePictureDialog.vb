@@ -12,5 +12,4 @@
             initialDirectory:=initalDirectory,
             initalFileName:="Ray tracer picture")
     End Sub
-
 End Class

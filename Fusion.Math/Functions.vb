@@ -1,5 +1,4 @@
 ﻿Public Module Functions
-
     Public Function Gcd(a As Long, b As Long) As Long
         If a = 0 AndAlso b = 0 Then
             Throw New ArgumentException("Gcd of 0 and 0 is not defined.")
@@ -155,6 +154,5 @@
     Public Function PositiveNormalizedMod(number As Double, modulo As Double) As Double
         Return PositiveMod(number, modulo) / modulo
     End Function
-
 
 End Module

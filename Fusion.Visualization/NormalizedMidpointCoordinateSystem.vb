@@ -1,5 +1,4 @@
 ﻿Public Class NormalizedMidpointCoordinateSystem
-
     Public Sub New(pictureSize As Vector2D)
         Me.PictureSize = pictureSize
     End Sub
@@ -25,5 +24,4 @@
     Public Function VirtualLocation(pixelLocation As Vector2D) As Vector2D
         Return (New Vector2D(pixelLocation.X, Me.PictureSize.Y - pixelLocation.Y) - _Origin) / (Me.PictureSize.X / 2)
     End Function
-
 End Class

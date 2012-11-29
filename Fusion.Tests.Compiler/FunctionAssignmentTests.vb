@@ -1,5 +1,4 @@
 ﻿Public Class FunctionAssignmentTests
-
     <Test()>
     Public Sub TestFunction()
         Dim e = New FunctionAssignment("Real f(Real   x) = x".ToLocated, context:=TermContext.Default).GetFunctionInstance
@@ -95,5 +94,4 @@
         Assert.AreEqual(New Term("product(2, 4, 8)", Type:=NamedType.Real, context:=context).GetDelegate(Of Func(Of Double)).Invoke, 64)
         Assert.AreEqual(New Term("product(x : 2, 4,z : 8)", Type:=NamedType.Real, context:=context).GetDelegate(Of Func(Of Double)).Invoke, 64)
     End Sub
-
 End Class

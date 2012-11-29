@@ -10,5 +10,4 @@
     Public Function Contains(point As Vector3D) As Boolean Implements IPointSet3D.Contains
         Return Not Me.PointSet.Contains(point)
     End Function
-
 End Class

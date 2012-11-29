@@ -1,5 +1,4 @@
 ﻿Public Class AntiSphereTests
-
     <Test()>
     Public Sub FirstIntersection_RayStartsInside()
         Dim antiSphere = New AntiSphere(center:=Vector3D.Zero,
@@ -27,5 +26,4 @@
 
         SurfaceTests.SurfaceRayIntersection(antiSphere, ray)
     End Sub
-
 End Class

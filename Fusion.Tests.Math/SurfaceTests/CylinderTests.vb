@@ -1,5 +1,4 @@
 ﻿Public Class CylinderTests
-
     Private ReadOnly _Cylinder As Cylinder = New Cylinder(Vector3D.Zero, New Vector3D(2.5, 0, 0), 1)
 
     <Test()>
@@ -33,5 +32,4 @@
 
         Assert.AreEqual(Nothing, intersection)
     End Sub
-
 End Class

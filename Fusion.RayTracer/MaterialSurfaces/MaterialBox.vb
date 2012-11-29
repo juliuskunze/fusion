@@ -75,5 +75,4 @@
                 Throw New ArgumentOutOfRangeException("surfacePoint.NormalizedNormal")
         End Select
     End Function
-
 End Class

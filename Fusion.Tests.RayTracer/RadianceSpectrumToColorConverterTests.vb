@@ -1,5 +1,4 @@
 ﻿Public Class RadianceSpectrumToColorConverterTests
-
     Const _ExampleRadiancePerWhite = 25
 
     Private ReadOnly _Converter As New RadianceSpectrumToRgbColorConverter(testedWavelengthsCount:=150, spectralRadiancePerWhite:=_ExampleRadiancePerWhite)
@@ -30,5 +29,4 @@
         Assert.That(blue.B, [Is].GreaterThan(10 * blue.G))
         Assert.That(blue.B, [Is].GreaterThan(2 * blue.R))
     End Sub
-
 End Class

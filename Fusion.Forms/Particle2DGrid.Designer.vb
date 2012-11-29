@@ -108,5 +108,4 @@ Partial Class Particle2DGrid
     Friend WithEvents colorGridColumn As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents radiusGridColumn As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents changeColumn As System.Windows.Forms.DataGridViewButtonColumn
-
 End Class

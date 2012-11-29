@@ -28,5 +28,4 @@
     Public Shared Function TranslatedSurfacePoint(original As SurfacePoint, translation As Vector3D) As SurfacePoint
         Return New SurfacePoint(location:=original.Location + translation, normal:=original.NormalizedNormal)
     End Function
-
 End Class

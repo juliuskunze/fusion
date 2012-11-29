@@ -15,5 +15,4 @@ Public Class SingleReferenceFrameRelativisticRayTracerWithoutDopplerEffect(Of TL
 
         Return light.MultiplyBrightness(searchlightFactor)
     End Function
-
 End Class

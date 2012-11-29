@@ -18,6 +18,5 @@
 
         Return New FunctionInstance(signature:=signature, invokableExpression:=lambdaExpression)
     End Function
-
 End Class
 

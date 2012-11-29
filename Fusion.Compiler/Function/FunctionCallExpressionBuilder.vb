@@ -1,5 +1,4 @@
 ﻿Public Class FunctionCallExpressionBuilder
-
     Private ReadOnly _ExpressionBuilder As Func(Of IEnumerable(Of Expression), Expression)
 
     Public Sub New(invokableExpression As Expression)
@@ -9,7 +8,6 @@
     Public Function Run(arguments As IEnumerable(Of Expression)) As Expression
         Return _ExpressionBuilder(arguments)
     End Function
-
 End Class
 
 Public Class FunctionCallExpressionBuilder(Of TDelegate)
@@ -18,5 +16,4 @@ Public Class FunctionCallExpressionBuilder(Of TDelegate)
     Public Sub New(lambdaExpression As Expression(Of TDelegate))
         MyBase.New(invokableExpression:=lambdaExpression)
     End Sub
-
 End Class

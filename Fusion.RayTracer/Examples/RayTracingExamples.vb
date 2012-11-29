@@ -1,7 +1,6 @@
 Imports Fusion.Physics.Constants
 
 Public Class RayTracingExamples
-
     Public Property PictureSize As Size
 
     Public Sub New(pictureSize As Size)
@@ -439,5 +438,4 @@ Public Class RayTracingExamples
                                                          view:=view,
                                                          lightToRgbColorConverter:=radianceSpectrumToRgbColorConverter)
     End Function
-
 End Class

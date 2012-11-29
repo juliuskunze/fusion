@@ -1,5 +1,4 @@
 ﻿Public Class TextOnlyDocumentTests
-
     <Test()>
     Public Sub Test()
         Assert.AreEqual(New TextOnlyDocument(New FlowDocument(New Paragraph(New Run("ABC")))).GetTextRange(0, 1).Text, "A")
@@ -63,5 +62,4 @@
 
         Assert.AreEqual(textOnlyDocument.GetIndex(textPointer), 4)
     End Sub
-
 End Class

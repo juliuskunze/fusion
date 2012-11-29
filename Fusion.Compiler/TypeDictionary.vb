@@ -44,5 +44,4 @@
             Return _Default
         End Get
     End Property
-
 End Class

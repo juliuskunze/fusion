@@ -14,5 +14,4 @@
     Public Function Contains(point As Vector2D) As Boolean Implements IPointSet2D.Contains
         Return Me.LinkOperator.Invoke(Me.PointSet1.Contains(point), Me.PointSet2.Contains(point))
     End Function
-
 End Class

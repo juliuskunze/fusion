@@ -33,5 +33,4 @@
 
         _Result = result
     End Sub
-
 End Class

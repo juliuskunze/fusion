@@ -171,7 +171,6 @@
     Protected Sub New(termContext As TermContext)
         _TermContext = termContext
     End Sub
-
 End Class
 
 Public Class RelativisticRayTracerTermContextBuilder
@@ -279,5 +278,4 @@ Public Class RelativisticRayTracerTermContextBuilder
             Return _TermContext
         End Get
     End Property
-
 End Class

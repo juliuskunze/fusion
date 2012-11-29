@@ -1,5 +1,4 @@
 ﻿Public Class FieldEvolutionForm
-
     Private WithEvents _EvolutionStrategy As FieldEvolutionStrategy
 
     Private _ViewController As ViewController2D

@@ -45,6 +45,5 @@
         Return Not e1 = e2
     End Operator
 
-
 End Class
 

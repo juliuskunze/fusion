@@ -47,5 +47,4 @@
                               reflectionRemission:=New BlackRemission(Of RgbLight),
                               transparencyRemission:=New BlackRemission(Of RgbLight))
     End Function
-
 End Class

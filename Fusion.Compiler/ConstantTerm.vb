@@ -12,5 +12,4 @@ Public Class ConstantTerm(Of TResult)
     Public Function GetResult() As TResult
         Return MyBase.GetDelegate(Of Func(Of TResult)).Invoke
     End Function
-
 End Class

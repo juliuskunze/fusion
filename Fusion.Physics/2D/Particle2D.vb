@@ -1,6 +1,5 @@
 ﻿<Serializable()>
 Public Class Particle2D
-
     Public Sub New(mass As Double, location As Vector2D)
         Me.New(mass:=mass, Charge:=0, location:=location, Velocity:=Vector2D.Zero, Color:=Drawing.Color.Black)
     End Sub

@@ -48,5 +48,4 @@ Public MustInherit Class Renderer(Of TResult)
     Public Sub RunAsync()
         _BackgroundWorker.RunWorkerAsync()
     End Sub
-
 End Class

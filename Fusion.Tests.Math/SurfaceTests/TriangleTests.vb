@@ -1,5 +1,4 @@
 ﻿Public Class TriangleTests
-
     Private ReadOnly _Triangle As New Triangle(vertex1:=New Vector3D(0, 0, 0),
                                               vertex2:=New Vector3D(0, 0, 1),
                                               vertex3:=New Vector3D(0, 1, 0))
@@ -30,5 +29,4 @@
         Assert.AreEqual(Nothing, firstIntersection)
         SurfaceTests.SurfaceRayIntersection(_Triangle, ray)
     End Sub
-
 End Class

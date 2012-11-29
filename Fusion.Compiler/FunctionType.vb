@@ -1,5 +1,4 @@
 ﻿Public Class FunctionType
-
     Private ReadOnly _ResultType As NamedType
     Public ReadOnly Property ResultType As NamedType
         Get
@@ -101,5 +100,4 @@
                 Throw New CompilerException("A function can not have more than 16 parameters.")
         End Select
     End Function
-
 End Class

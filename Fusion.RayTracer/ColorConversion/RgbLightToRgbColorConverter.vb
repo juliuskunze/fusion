@@ -26,5 +26,4 @@
     Friend Shared Function GetComponent(byteColorComponent As Byte) As Double
         Return byteColorComponent / Byte.MaxValue
     End Function
-
 End Class

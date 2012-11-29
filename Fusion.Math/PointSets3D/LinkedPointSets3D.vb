@@ -15,5 +15,4 @@
     Public Overloads Function Contains(point As Vector3D) As Boolean Implements IPointSet3D.Contains
         Return Me.LinkOperator.Invoke(Me.PointSet1.Contains(point), Me.PointSet2.Contains(point))
     End Function
-
 End Class

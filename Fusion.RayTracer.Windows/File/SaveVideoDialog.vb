@@ -8,5 +8,4 @@
                    FileFilters:=DescriptionFileHelper.SaveVideoFilters,
                    initalFileName:="Ray tracer video")
     End Sub
-
 End Class

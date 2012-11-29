@@ -40,5 +40,4 @@
         If Me.ShowField Then Me.FieldDrawer.Draw()
         If Me.ShowParticleSystem Then Me.ParticleSystemDrawer.Draw()
     End Sub
-
 End Class

@@ -1,5 +1,4 @@
 Public Class ConstantInstance
-
     Private ReadOnly _Signature As ConstantSignature
     Public ReadOnly Property Signature As ConstantSignature
         Get
@@ -26,7 +25,6 @@ Public Class ConstantInstance
     Public Function ToFunctionInstance() As FunctionInstance
         Return New FunctionInstance(Signature:=_Signature.ToFunctionSignature, invokableExpression:=_Expression)
     End Function
-
 End Class
 
 Public Class ConstantInstance(Of T)
@@ -38,5 +36,4 @@ Public Class ConstantInstance(Of T)
                    Optional description As String = Nothing)
         MyBase.New(New ConstantSignature(name:=name, Type:=typeDictionary.GetNamedType(GetType(T)), description:=description), value:=value)
     End Sub
-
 End Class

@@ -159,5 +159,4 @@ Public Class ParticleSystem2D
             Next
         Next
     End Sub
-
 End Class

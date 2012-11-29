@@ -1,5 +1,4 @@
 ﻿Public Class RayChanger
-
     Public Property SourceRay As Ray
 
     Public Sub New(sourceRay As Ray)
@@ -61,5 +60,4 @@
     End Function
 
     Public Const SaftyDistance = 0.0000000001
-
 End Class

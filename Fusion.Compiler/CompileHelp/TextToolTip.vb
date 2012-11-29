@@ -23,5 +23,4 @@
             _TextBlock.Text = value
         End Set
     End Property
-
 End Class

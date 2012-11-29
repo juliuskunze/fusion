@@ -1,7 +1,6 @@
 ﻿Imports Microsoft
 
 Public Class SaveFileDialog
-
     Private ReadOnly _Owner As Window
     Protected _FileFilters As FileFilters
     Private ReadOnly _SaveFileDialog As Win32.SaveFileDialog
@@ -63,6 +62,5 @@ Public Class SaveFileDialog
     Public Function Show() As Boolean
         Return _SaveFileDialog.ShowDialog(owner:=_Owner).Value
     End Function
-
 
 End Class

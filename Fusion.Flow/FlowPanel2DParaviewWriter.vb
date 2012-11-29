@@ -47,5 +47,4 @@
     Public Sub WriteToTextFile()
         IO.File.WriteAllText(Me.Directory & "\" & Me.Name & Me.FlowPanel.CalculationCount.ToString & ".vtk", getString)
     End Sub
-
 End Class

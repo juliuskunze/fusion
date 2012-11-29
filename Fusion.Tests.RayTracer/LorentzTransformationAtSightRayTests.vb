@@ -1,5 +1,4 @@
 ﻿Public Class LorentzTransformationAtSightRayTests
-
     Private Const c = Fusion.Physics.Constants.SpeedOfLight
 
     Private Const _RandomWavelength = 700 * 10 ^ -9

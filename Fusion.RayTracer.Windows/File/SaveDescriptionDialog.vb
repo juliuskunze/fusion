@@ -71,5 +71,4 @@
     End Sub
 
     Public Event Saved()
-
 End Class

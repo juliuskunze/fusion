@@ -1,5 +1,4 @@
 ﻿Public Class RgbColorGammaCorrectorTests
-
     Private ReadOnly white As New RgbLight(1, 1, 1)
     Private ReadOnly gray As RgbLight = white / 2
     Private ReadOnly black As RgbLight = white * 0
@@ -19,5 +18,4 @@
         Assert.AreEqual(corrector.Run(white), white)
         Assert.AreEqual(corrector.Run(black), black)
     End Sub
-
 End Class

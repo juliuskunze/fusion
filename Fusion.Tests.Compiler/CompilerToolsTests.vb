@@ -1,5 +1,4 @@
 ﻿Public Class CompilerToolsTests
-
     <Test()>
     Public Sub TestGetArguments()
         Assert.AreEqual({"3", " f(3, 4)", " [3,4, 5]   "}.ToList, CompilerTools.GetArguments("(3, f(3, 4), [3,4, 5]   )".ToLocated).Select(Function(located) located.ToString).ToList)
@@ -42,5 +41,4 @@
         Assert.AreEqual(NamedType.Vector3D, t2.Type)
         Assert.AreEqual(" (3,4)", rest.ToString)
     End Sub
-
 End Class

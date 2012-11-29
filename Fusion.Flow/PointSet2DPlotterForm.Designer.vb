@@ -53,5 +53,4 @@ Partial Class PointSet2DPlotterForm
 
     End Sub
     Friend WithEvents pictureBox As System.Windows.Forms.PictureBox
-
 End Class

@@ -1,5 +1,4 @@
 ﻿Public Class FunctionInstance
-
     Private ReadOnly _Signature As FunctionSignature
     Public ReadOnly Property Signature As FunctionSignature
         Get
@@ -42,7 +41,6 @@
                                                   typeDictionary,
                                                   description)
     End Function
-
 End Class
 
 Public Class FunctionInstance(Of TDelegate)
@@ -73,5 +71,4 @@ Public Class FunctionInstance(Of TDelegate)
 
         Return New FunctionType(resultType:=namedResultType, parameters:=namedParameters)
     End Function
-
 End Class

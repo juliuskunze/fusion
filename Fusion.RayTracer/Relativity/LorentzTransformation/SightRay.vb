@@ -52,5 +52,4 @@ Public Class SightRay
     Public Function GetEvent(distanceFromOrigin As Double) As SpaceTimeEvent
         Return New SpaceTimeEvent(GetTime(distanceFromOrigin), Ray.PointOnRay(distanceFromOrigin))
     End Function
-
 End Class

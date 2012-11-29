@@ -18,5 +18,4 @@
         MyBase.New(Message:="An error occured during compilation.", InnerException:=compilerExcpetion)
         _CompilerHelp = compilerHelp
     End Sub
-
 End Class

@@ -196,5 +196,4 @@ Partial Class SphereParticleControl
     Friend WithEvents lbl5 As System.Windows.Forms.Label
     Friend WithEvents v2bLocation As Fusion.Forms.Vector2DBox
     Friend WithEvents v2bVelocity As Fusion.Forms.Vector2DBox
-
 End Class

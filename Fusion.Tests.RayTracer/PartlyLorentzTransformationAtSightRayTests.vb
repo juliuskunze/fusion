@@ -1,5 +1,4 @@
 ﻿Public Class PartlyLorentzTransformationAtSightRayTests
-
     Private Const c = Constants.SpeedOfLight
 
     Private Const _RandomWavelength = 700 * 10 ^ -9

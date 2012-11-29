@@ -1,5 +1,4 @@
 ﻿Public Class Vector2DTests
-
     <Test()> Public Shared Sub NewFromXY()
         Dim v As New Vector2D(1.5, -2)
         Assert.True(v.X = 1.5 AndAlso v.Y = -2)
@@ -99,5 +98,4 @@
     <Test()> Public Shared Sub TestToString()
         Assert.True((New Vector2D(1, 2)).ToString() = "(1|2)")
     End Sub
-
 End Class

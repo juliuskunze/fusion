@@ -42,5 +42,4 @@
         Return {materialIntersection}
     End Function
 
-
 End Class

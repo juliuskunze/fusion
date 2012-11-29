@@ -151,5 +151,4 @@
             Return _Lambda
         End Get
     End Property
-
 End Class

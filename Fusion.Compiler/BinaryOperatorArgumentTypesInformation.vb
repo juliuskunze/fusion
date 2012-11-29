@@ -1,5 +1,4 @@
 ﻿Public Class BinaryOperatorArgumentTypesInformation
-
     Private ReadOnly _Argument1TypeInformation As TypeInformation
     Public ReadOnly Property Argument1TypeInformation As TypeInformation
         Get
@@ -25,5 +24,4 @@
             Return _Infer
         End Get
     End Property
-
 End Class

@@ -49,5 +49,4 @@
 
         Return New FunctionSignature(Name:=Me.Name, FunctionType:=Me.Type.Function)
     End Function
-
 End Class

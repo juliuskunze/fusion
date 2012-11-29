@@ -1,5 +1,4 @@
 ﻿Public Class PointSet2DPlotterForm
-
     Private _Graphics As Graphics
     Private _Visualizer As Visualizer2D
     Private _Drawer As PointSetArrayDrawer
@@ -56,5 +55,4 @@
         End Select
         _Renderer.Render()
     End Sub
-
 End Class

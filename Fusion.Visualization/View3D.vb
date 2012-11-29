@@ -1,5 +1,4 @@
 Public Class View3D
-
     Public Sub New(observerLocation As Vector3D, lookAt As Vector3D, upDirection As Vector3D, horizontalViewAngle As Double)
         If observerLocation = lookAt Then Throw New ArgumentException("Observer location must not be lookAt location.")
         _NormalizedLookDirection = (lookAt - observerLocation).Normalized
@@ -70,5 +69,4 @@ Public Class View3D
         Dim sightVectorInViewPlane = _NormalizedRightVectorInViewPlane * viewPlaneLocation.X + _NormalizedUpVectorInViewPlane * viewPlaneLocation.Y
         Return New Ray(origin:=Me.ObserverLocation, Direction:=_ViewPlaneDistanceVector + sightVectorInViewPlane)
     End Function
-
 End Class

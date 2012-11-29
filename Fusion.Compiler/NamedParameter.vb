@@ -1,5 +1,4 @@
 ﻿Public Class NamedParameter
-
     Private ReadOnly _Signature As ConstantSignature
     Public ReadOnly Property Signature As ConstantSignature
         Get
@@ -34,5 +33,4 @@
     Friend Function ToExpressionWithNamedType() As ExpressionWithNamedType
         Return Me.Expression.WithNamedType(Me.Signature.Type)
     End Function
-
 End Class

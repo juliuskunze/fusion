@@ -1,5 +1,4 @@
 ﻿Public Class Visualizer2D
-
     Private Const _MetersPerInch As Double = 0.0254
 
     Private _ScreenMap As AffineMap2D
@@ -110,5 +109,4 @@
 
         Return New RectangleF(lowerCorner.ToPointF, (upperCorner - lowerCorner).ToSizeF)
     End Function
-
 End Class

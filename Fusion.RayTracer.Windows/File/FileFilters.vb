@@ -1,5 +1,4 @@
 ﻿Public Class FileFilters
-
     Private ReadOnly _FileFilters As IEnumerable(Of FileFilter)
     Public ReadOnly Property FileFilters As IEnumerable(Of FileFilter)
         Get
@@ -14,5 +13,4 @@
     Public Overrides Function ToString() As String
         Return String.Join("|", _FileFilters.Select(Function(fileFilter) fileFilter.ToString))
     End Function
-
 End Class

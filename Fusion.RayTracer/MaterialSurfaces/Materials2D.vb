@@ -10,5 +10,4 @@
                               reflectionRemission:=New BlackRemission(Of TLight),
                               transparencyRemission:=New BlackRemission(Of TLight))
     End Function
-
 End Class

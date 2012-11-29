@@ -14,5 +14,4 @@
     Public Function Inverse() As PointSet3D
         Return New PointSet3D(Function(point) Not Me.Contains(point))
     End Function
-
 End Class

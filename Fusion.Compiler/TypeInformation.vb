@@ -1,5 +1,4 @@
 ﻿Public Class TypeInformation
-
     Private ReadOnly _Type As NamedType
     Public ReadOnly Property Type As NamedType
         Get
@@ -36,5 +35,4 @@
 
         Me.Type.CheckIsAssignableFrom(type)
     End Sub
-
 End Class

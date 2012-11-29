@@ -76,5 +76,4 @@
         screenRadius = Max(Me.MinimalParticleScreenRadiusInPixels, screenRadius)
         Return Me.Visualizer.generateScreenRadiusCircleRect(particle.Location, screenRadius)
     End Function
-
 End Class

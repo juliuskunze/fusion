@@ -1,5 +1,4 @@
 ﻿Public Class LocatedString
-
     Private Shared ReadOnly _WhiteSpaceTrimCondition As Func(Of Char, Boolean) = Function(c) Char.IsWhiteSpace(c)
 
     Private ReadOnly _ContainingAnalizedString As AnalizedString
@@ -260,5 +259,4 @@
 
         Return Me.Substring(startIndex:=startIndex, length:=endIndex - startIndex)
     End Function
-
 End Class

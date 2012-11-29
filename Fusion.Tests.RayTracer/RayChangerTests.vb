@@ -1,5 +1,4 @@
 ﻿Public Class RayChangerTests
-
     <Test()>
     Public Sub ReflectedRay()
         Dim sourceRay = New Ray(origin:=New Vector3D(1, 1, 0), direction:=New Vector3D(-1, -1, 0))
@@ -68,5 +67,4 @@
 
         Assert.That(plane.Intersections(refractedRay).Count = 0)
     End Sub
-
 End Class

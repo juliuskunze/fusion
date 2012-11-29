@@ -188,7 +188,6 @@ Public Structure Vector3D
         Return v1.CrossProduct(v2).DotProduct(v3)
     End Function
 
-
     Public Function ToColumnMatrix() As Matrix
         Dim matrixArray As Double(,) = {{_X}, {_Y}, {_Z}}
         Return New Matrix(matrixArray)

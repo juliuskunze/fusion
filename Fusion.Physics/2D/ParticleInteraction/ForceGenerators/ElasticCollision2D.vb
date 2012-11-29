@@ -47,5 +47,4 @@ Public Class ElasticCollision2D
     Private Shared Function CollisionDeep(particle1 As SphereParticle2D, particle2 As SphereParticle2D) As Double
         Return particle1.Radius + particle2.Radius - (particle1.Location - particle2.Location).Length
     End Function
-
 End Class

@@ -1,5 +1,4 @@
 ﻿Public Class FlowForm
-
     Private _FlowPanel As FlowPanel2D
     Private WithEvents _Timer As FrameTimer
 
@@ -136,5 +135,4 @@
         _Timer.CalcRate = CInt(calculationRateTextBox.Text)
         _Timer.Framerate = CInt(frameRateTextBox.Text)
     End Sub
-
 End Class

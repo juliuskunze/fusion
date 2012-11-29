@@ -1,5 +1,4 @@
 ﻿Public Class AffineMap2DTests
-
     <Test()>
     Public Sub TestScalingBefore()
         Dim a = New Vector2D(2, 1)
@@ -19,5 +18,4 @@
 
         Assert.AreEqual(map.Apply(testVector), New Vector2D(4, 3))
     End Sub
-
 End Class

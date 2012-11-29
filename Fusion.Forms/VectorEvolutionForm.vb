@@ -1,5 +1,4 @@
 ﻿Public Class VectorEvolutionForm
-
     Private WithEvents _Strategy As VectorEvolutionStrategy
 
     Private _Drawer As Vector2DEvolutionDrawer

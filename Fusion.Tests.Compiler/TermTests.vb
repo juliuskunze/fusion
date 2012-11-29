@@ -1,5 +1,4 @@
 Public Class TermTests
-
     <Test()>
     Public Sub TestIndependentTerm1()
         Assert.True(New ConstantTerm(Of Double)("5").GetResult = 5)
@@ -260,5 +259,4 @@ Public Class TermTests
 
         Assert.AreEqual(result, False)
     End Sub
-
 End Class

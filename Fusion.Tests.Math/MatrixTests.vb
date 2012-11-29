@@ -1,5 +1,4 @@
 ﻿Public Class MatrixTests
-
     <Test()> Public Shared Sub NewFromWidthAndHeight()
         Dim m = New Matrix(width:=1, height:=2)
         Assert.True(m(0, 0) = 0 AndAlso m(1, 0) = 0)
@@ -91,6 +90,5 @@
         'Assert.True(Vector2D.Fit(m * v, New Vector2D(1 * 1 + 2 * 2, 3 * 1 + 0 * 2)).ToColumnMatrix)
         Assert.Fail()
     End Sub
-
 
 End Class

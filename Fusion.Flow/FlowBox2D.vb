@@ -79,5 +79,4 @@
     Private Shared ReadOnly _NeighborVectors As Vector2D(,) = New Vector2D(2, 2) {{New Vector2D(-1, -1), New Vector2D(-1, 0), New Vector2D(-1, 1)},
                                                                                   {New Vector2D(0, -1), New Vector2D(0, 0), New Vector2D(0, 1)},
                                                                                   {New Vector2D(1, -1), New Vector2D(1, 0), New Vector2D(1, 1)}}
-
 End Class

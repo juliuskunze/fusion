@@ -29,6 +29,5 @@
 
         Return solutions
     End Function
-
 End Class
 

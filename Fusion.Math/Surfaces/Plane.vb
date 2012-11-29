@@ -52,5 +52,4 @@
         If intersection Is Nothing Then Return Enumerable.Empty(Of SurfacePoint)()
         Return {intersection}
     End Function
-
 End Class

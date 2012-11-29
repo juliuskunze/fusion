@@ -63,5 +63,4 @@
     Public Function PointFromRowColumn(column As Integer, row As Integer) As Vector2D Implements ICoordinateSystemToArray(Of T).PointFromRowColumn
         Return New Vector2D(Me.LowerVertex.X + Me.GridLength * column, Me.LowerVertex.Y + Me.GridLength * row)
     End Function
-
 End Class

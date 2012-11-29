@@ -3,7 +3,6 @@
 ''' </summary>
 ''' <remarks></remarks>
 Public Class SurfaceTests
-
     Public Shared Sub SurfaceRayIntersection(surface As ISurface, ray As Ray)
         NotFromBehind(surface, ray)
         IntersectionLiesOnRayAndNotContraRayDirection(surface, ray)
@@ -25,5 +24,4 @@ Public Class SurfaceTests
                         "The intersection point should be located in ray direction.")
         Next
     End Sub
-
 End Class

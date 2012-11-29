@@ -12,5 +12,4 @@
 
         Return New ConstantInstance(Signature:=instance, value:=term.GetDelegate.DynamicInvoke(Nothing))
     End Function
-
 End Class

@@ -1,5 +1,4 @@
 ﻿Public Class SquareMatrixTests
-
     <Test()> <Ignore()>
     Public Shared Sub NewByOrder()
 

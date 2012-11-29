@@ -8,5 +8,4 @@
     Public Sub New(term As LocatedString)
         MyBase.New(LocatedString:=term, Message:=String.Format("The term is invalid: '{0}'", term.ToString))
     End Sub
-
 End Class

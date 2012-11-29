@@ -1,5 +1,4 @@
 ﻿Public Class ConcatenatedSortedEnumeratorTests
-
     <Test()>
     Public Sub TestSingleEmpty()
         Dim emptyEnumerator = (New List(Of Double)).GetEnumerator
@@ -154,5 +153,4 @@
             Return Me.Enumerator
         End Function
     End Class
-
 End Class

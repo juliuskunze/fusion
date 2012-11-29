@@ -1,5 +1,4 @@
 ﻿Public Class TruncatedSurfaceTests
-
     <Test()>
     Public Sub Test()
         Dim truncatingPointSet = New AntiSphere(Vector3D.Zero, 1)
@@ -12,5 +11,4 @@
         Dim ray2 = New Ray(New Vector3D(-1, 0, 0), New Vector3D(2, 0, 0))
         Assert.That(truncatedSurface.Intersections(ray2).Count = 0)
     End Sub
-
 End Class

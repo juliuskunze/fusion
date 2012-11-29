@@ -1,5 +1,4 @@
 ﻿Public Class LinearMapTests
-
     <Test()> Shared Sub NewFromSquareMatrix()
         Dim m As New SquareMatrix(New Double(,) {{1, 2}, {3, 4}})
         Assert.True((New LinearMap2D(m).MappingMatrix = m))
@@ -122,5 +121,4 @@
         Dim l = New LinearMap2D(New Double(,) {{-1, 9}, {5, 7}})
         Assert.True(l.Inverse.After(l) = LinearMap2D.Identity())
     End Sub
-
 End Class

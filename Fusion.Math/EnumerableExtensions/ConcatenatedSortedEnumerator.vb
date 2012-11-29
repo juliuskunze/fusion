@@ -126,5 +126,4 @@ Public Class ConcatenatedSortedEnumerator(Of T)
         Dispose(True)
         GC.SuppressFinalize(Me)
     End Sub
-
 End Class

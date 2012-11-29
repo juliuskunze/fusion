@@ -29,5 +29,4 @@
 
         Me.Visualizer.DrawingGraphics.DrawImageUnscaled(image:=bitmap, point:=New Point(0, 0))
     End Sub
-
 End Class

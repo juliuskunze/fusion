@@ -1,5 +1,4 @@
 ﻿Public Class TypeAndName
-
     Protected ReadOnly _Name As String
     Public ReadOnly Property Name As String
         Get
@@ -18,5 +17,4 @@
         _Name = name
         _Type = type
     End Sub
-
 End Class

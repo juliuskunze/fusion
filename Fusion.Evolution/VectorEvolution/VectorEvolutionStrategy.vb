@@ -65,5 +65,4 @@
     End Property
 
     Public Event BadSolutionGenerated(sender As Object, e As SolutionEventArgs(Of Vector2D))
-
 End Class

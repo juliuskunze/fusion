@@ -70,5 +70,4 @@
     End Sub
 
     Public Property Visualizer As Visualization.Visualizer2D Implements Visualization.IDrawer2D.Visualizer
-
 End Class

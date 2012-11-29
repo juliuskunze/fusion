@@ -60,5 +60,4 @@
 
         Return _PictureFunction(time)
     End Function
-
 End Class

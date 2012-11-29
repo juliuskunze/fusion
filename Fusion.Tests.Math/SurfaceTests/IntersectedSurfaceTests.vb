@@ -1,5 +1,4 @@
 ﻿Public Class IntersectedSurfaceTests
-
     <Test()>
     Public Sub Test()
         Dim sphere = New Sphere(Vector3D.Zero, 1)
@@ -10,5 +9,4 @@
         Assert.AreEqual(New Vector3D(0.5, 0, 0), intersection1.Location)
 
     End Sub
-
 End Class

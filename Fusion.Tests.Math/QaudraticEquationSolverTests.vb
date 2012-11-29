@@ -1,5 +1,4 @@
 ﻿Public Class QaudraticEquationSolverTests
-
     <Test()>
     Public Sub Solve()
         Dim quadraticEqaution = New QuadraticEquation(1, -4, 4)
@@ -41,5 +40,4 @@
         Dim solutions = quadraticEqaution.Solve
         Assert.That(solutions.Count = 0)
     End Sub
-
 End Class

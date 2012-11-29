@@ -2,7 +2,6 @@
 Imports System.Drawing
 
 Public Class MainWindow
-
     Private Const _TitleBase = "Fusion Ray Tracer"
 
     Private WithEvents _SaveDescriptionDialog As SaveDescriptionDialog

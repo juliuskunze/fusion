@@ -1,7 +1,6 @@
 ﻿Imports System.Windows.Controls.Primitives
 
 Public Class PictureOrVideoCompiler
-
     Private WithEvents _PictureCompiler As RichCompiler(Of RayTracerPicture(Of RadianceSpectrum))
     Private WithEvents _VideoCompiler As RichCompiler(Of RayTracerVideo(Of RadianceSpectrum))
 
@@ -109,6 +108,5 @@ Public Class PictureOrVideoCompiler
             _VideoCompiler.LoadDocument(description:=description)
         End If
     End Sub
-
 End Class
 

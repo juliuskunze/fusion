@@ -68,5 +68,4 @@ Public Class Graph(Of NodeType As Class, EdgeType As IEdge(Of NodeType))
         Next
         Return Degree
     End Function
-
 End Class

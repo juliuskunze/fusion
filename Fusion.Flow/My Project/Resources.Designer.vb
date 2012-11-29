@@ -26,7 +26,6 @@ Namespace My.Resources
      Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(), _
      Global.Microsoft.VisualBasic.HideModuleNameAttribute()> _
     Friend Module Resources
-
         Private resourceMan As Global.System.Resources.ResourceManager
 
         Private resourceCulture As Global.System.Globalization.CultureInfo

@@ -63,5 +63,4 @@
         Dim halfArrowVector = 0.5 * _FieldArrowSimulationLengthPerFieldStrength * fieldStrength
         Me.Visualizer.DrawingGraphics.DrawLine(pen, Me.Visualizer.Map.Apply(arrowLocation - halfArrowVector).ToPointF, Me.Visualizer.Map.Apply(arrowLocation + halfArrowVector).ToPointF)
     End Sub
-
 End Class

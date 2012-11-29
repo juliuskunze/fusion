@@ -54,5 +54,4 @@ Public Class Force2D
             _Pen = value
         End Set
     End Property
-
 End Class

@@ -1,5 +1,4 @@
 ﻿Public Class SingleObjectFrameRelativisticRayTracerTests
-
     <Test()>
     Public Sub Searchlight()
         Dim spectrum = Function(wavelength As Double) 1
@@ -25,5 +24,4 @@
                                                            observerVelocity:=New Vector3D(Constants.SpeedOfLight / 2, 0, 0),
                                                            options:=New LorentzTransformationAtSightRayOptions)
     End Function
-
 End Class

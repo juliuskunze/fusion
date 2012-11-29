@@ -1,5 +1,4 @@
 ﻿Public Class SimpleBitmap
-
     Private ReadOnly _Width As Integer
     Private ReadOnly _Height As Integer
     Private ReadOnly _Bytes As Byte()
@@ -62,5 +61,4 @@
         _Bytes(y * _Stride + 3 * x + 1) = color.G
         _Bytes(y * _Stride + 3 * x + 2) = color.B
     End Sub
-
 End Class

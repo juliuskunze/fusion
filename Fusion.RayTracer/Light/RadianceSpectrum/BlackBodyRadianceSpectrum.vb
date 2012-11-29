@@ -19,5 +19,4 @@
     Public Overrides Function ToString() As String
         Return 2 * Constants.PlanckConstant * Constants.SpeedOfLight ^ 2 & " / lambda ^ 5 / (e ^ (" & _ExponentFactor & " / lambda)) - 1)"
     End Function
-
 End Class

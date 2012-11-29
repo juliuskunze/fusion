@@ -68,5 +68,4 @@
 
         Return m < halfGridLineWidth OrElse m > rowWidth - halfGridLineWidth
     End Function
-
 End Class

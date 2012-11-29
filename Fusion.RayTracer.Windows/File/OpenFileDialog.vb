@@ -1,7 +1,6 @@
 ﻿Imports Microsoft
 
 Public Class OpenFileDialog
-
     Private ReadOnly _Owner As Window
     Private ReadOnly _FileFilters As FileFilters
 
@@ -37,5 +36,4 @@ Public Class OpenFileDialog
     Public Function Show() As Boolean
         Return _OpenFileDialog.ShowDialog(owner:=_Owner).Value
     End Function
-
 End Class

@@ -4,16 +4,16 @@
 winexe
 VB
 .vb
-B:\Fusion Repository\Fusion.Calculator\obj\x86\Release\
+C:\Fusion Repository\Fusion.Calculator\obj\x86\Release\
 Fusion.Calculator
 none
 false
 
-B:\Fusion Repository\Fusion.Calculator\Application.xaml
+C:\Fusion Repository\Fusion.Calculator\Application.xaml
 1-1127106939
 
-7-2068005482
-10350130851
+7-1048776001
+10-55869452
 CalculatorWindow.xaml;
 
 False

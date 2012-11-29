@@ -59,6 +59,5 @@ Public Class SphereParticle3D
             Me.Volume = Me.Mass / value
         End Set
     End Property
-
 End Class
 

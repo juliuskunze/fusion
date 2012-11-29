@@ -6,7 +6,7 @@
     End Sub
 
     Public Function Parse(name As LocatedString) As NamedType
-        Dim matchingTypes = Me.Where(Function(type) CompilerTools.IdentifierEquals(type.Name, name.ToString)).ToArray
+        Dim matchingTypes = Where(Function(type) IdentifierEquals(type.Name, name.ToString)).ToArray
 
         If Not matchingTypes.Any Then Throw New LocatedCompilerException(name, message:=String.Format("Type '{0}' is not defined in this context.", name))
 
@@ -34,7 +34,6 @@
             Next
         Next
 
-        Return New NamedTypes(Me.Concat(second))
+        Return New NamedTypes(Concat(second))
     End Function
-
 End Class

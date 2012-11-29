@@ -12,5 +12,4 @@
         MyBase.New(message:=message)
         _LocatedString = LocatedString
     End Sub
-
 End Class

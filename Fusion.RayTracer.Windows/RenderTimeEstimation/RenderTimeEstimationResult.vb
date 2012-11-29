@@ -1,5 +1,4 @@
 ﻿Public Class RenderTimeEstimationResult
-
     Private ReadOnly _TotalTime As TimeSpan
     Public ReadOnly Property TotalTime As TimeSpan
         Get
@@ -18,5 +17,4 @@
         _TotalTime = totalTime
         _TimePerPixel = timePerPixel
     End Sub
-
 End Class

@@ -39,5 +39,4 @@
             Return 0
         End If
     End Function
-
 End Class

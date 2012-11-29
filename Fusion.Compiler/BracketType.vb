@@ -1,5 +1,4 @@
 ﻿Public Class BracketType
-
     Private ReadOnly _OpeningBracket As Char
     Public ReadOnly Property OpeningBracket As Char
         Get
@@ -50,5 +49,4 @@
             Return _Inequality
         End Get
     End Property
-
 End Class

@@ -1,7 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 
 Public Module CompilerTools
-
     Private ReadOnly _ParameterBracketType As BracketType = BracketType.Round
     Public ReadOnly Property ParameterBracketType As BracketType
         Get
@@ -62,9 +61,9 @@ Public Module CompilerTools
 
     Public Function GetArguments(argumentsInBrackets As LocatedString, bracketType As BracketType) As IEnumerable(Of LocatedString)
         If Not argumentsInBrackets.IsInBrackets(bracketType:=bracketType) Then Throw New LocatedCompilerException(argumentsInBrackets, String.Format("Invalid argument enumeration: '{0}'.", argumentsInBrackets.ToString))
-        
+
         Dim argumentsText = argumentsInBrackets.Substring(1, argumentsInBrackets.Length - 2)
-        
+
         Return argumentsText.SplitIfSeparatorIsNotInBrackets(separator:=","c, bracketTypes:=_AllowedBracketTypes)
     End Function
 
@@ -216,5 +215,4 @@ Public Module CompilerTools
     Public Function ToLocated(s As String) As LocatedString
         Return s.ToAnalized.ToLocated
     End Function
-
 End Module
