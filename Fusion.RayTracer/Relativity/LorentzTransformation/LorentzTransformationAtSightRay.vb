@@ -46,7 +46,7 @@ Public Class LorentzTransformationAtSightRay
 
     ''' <param name="spectralRadianceFunction">A spectral radiance function in S.</param>
     ''' <returns>The corresponding spectral radiance function in T.</returns>
-    Public Overridable Function TransformSpectralRadianceFunction(spectralRadianceFunction As SpectralRadianceFunction) As SpectralRadianceFunction
+    Private Function TransformSpectralRadianceFunction(spectralRadianceFunction As SpectralRadianceFunction) As SpectralRadianceFunction
         Return Function(wavelength) TransformSpectralRadiance(spectralRadianceFunction(InverseTransformWavelength(wavelength)))
     End Function
 

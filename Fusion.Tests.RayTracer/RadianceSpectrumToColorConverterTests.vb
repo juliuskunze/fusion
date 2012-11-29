@@ -1,7 +1,7 @@
 ﻿Public Class RadianceSpectrumToColorConverterTests
     Const _ExampleRadiancePerWhite = 25
 
-    Private ReadOnly _Converter As New RadianceSpectrumToRgbColorConverter(testedWavelengthsCount:=150, spectralRadiancePerWhite:=_ExampleRadiancePerWhite)
+    Private ReadOnly _Converter As New RadianceSpectrumToRgbColorConverter(testedWavelengthsCount:=150, spectralRadiancePerWhite:=_ExampleRadiancePerWhite, bitmapFilePath:="C:\Fusion Repository\Fusion.RayTracer\Data\2000pixel spectrum sRGB (380nm to 710nm).bmp")
 
     <Test()>
     Public Sub TestWhite()

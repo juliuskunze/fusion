@@ -11,6 +11,7 @@ Public Class RadianceSpectrumToRgbColorConverter
 
     Private _WavelengthStep As Double
     Private ReadOnly _TestedWavelengthsCount As Integer
+    Private ReadOnly _BitmapFilePath As String
     Private ReadOnly _GammaCorrector As RgbColorGammaCorrector
 
     Private _ColorArray As RgbLight()
@@ -18,19 +19,18 @@ Public Class RadianceSpectrumToRgbColorConverter
 
     ''' <param name="spectralRadiancePerWhite">Wenn das ganze Spektrum die übergebene spektrale Strahldichte besitzt, wird die RGB-Farbe Weiß (255, 255, 255) zurückgegeben.</param>
     ''' <param name="testedWavelengthsCount"></param>
-    Public Sub New(spectralRadiancePerWhite As Double, Optional testedWavelengthsCount As Integer = 100, Optional gamma As Double = 2.2)
+    Public Sub New(spectralRadiancePerWhite As Double, Optional testedWavelengthsCount As Integer = 100, Optional gamma As Double = 2.2, Optional bitmapFilePath As String = "")
         If spectralRadiancePerWhite <= 0 Then Throw New ArgumentOutOfRangeException("spectralRadiancePerWhite")
 
         _TestedWavelengthsCount = testedWavelengthsCount
+        _BitmapFilePath = If(bitmapFilePath Is Nothing, IO.Path.Combine(IO.Path.GetDirectoryName(Reflection.Assembly.GetExecutingAssembly.Location), "Data", "2000pixel spectrum sRGB (380nm to 710nm).bmp"), bitmapFilePath)
         _GammaCorrector = New RgbColorGammaCorrector(gamma)
         _SpectralRadiancePerWhite = spectralRadiancePerWhite
         ReadWavelengthRgbDictionary()
     End Sub
 
     Private Sub ReadWavelengthRgbDictionary()
-        Dim filename = IO.Path.Combine(IO.Path.GetDirectoryName(Reflection.Assembly.GetExecutingAssembly.Location), "Data", "2000pixel spectrum sRGB (380nm to 710nm).bmp")
-        Dim image = Drawing.Bitmap.FromFile(filename:=filename)
-        Dim bitmap = CType(image, Bitmap)
+        Dim bitmap = DirectCast(Image.FromFile(_BitmapFilePath), Bitmap)
 
         ReDim _ColorArray(bitmap.Width - 1)
         _WavelengthStep = (UpperVisibleWavelengthBound - LowerVisibleWavelengthBound) / (_ColorArray.Count - 1)
