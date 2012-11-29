@@ -3,7 +3,7 @@
         InitializeComponent()
     End Sub
 
-    Private Sub OkButton_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles _OkButton.Click
+    Private Sub OkButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _OkButton.Click
         DialogResult = True
 
         If Mode = RenderTimeEstimationMode.FixTime Then
@@ -11,14 +11,14 @@
                 Dim time = CDbl(_MaxTimeBox.Text)
             Catch
                 MessageBox.Show("Invalid fix time.")
-                Me.DialogResult = False
+                DialogResult = False
             End Try
         Else
             Try
                 Dim pixelCount = CDbl(_PixelCountBox.Text)
             Catch
                 MessageBox.Show("Invalid fix pixel count.")
-                Me.DialogResult = False
+                DialogResult = False
             End Try
         End If
 

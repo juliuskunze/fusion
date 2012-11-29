@@ -6,19 +6,19 @@
 
     <Test()>
     Public Sub TestSplitIfSeparatorIsNotInBrackets()
-        Assert.AreEqual({"3", " f(3, 4)", " [3,4, 5]   "}.ToList, CompilerTools.SplitIfSeparatorIsNotInBrackets("3, f(3, 4), [3,4, 5]   ".ToLocated, ","c, bracketTypes:=CompilerTools.AllowedBracketTypes).Select(Function(located) located.ToString).ToList)
+        Assert.AreEqual({"3", " f(3, 4)", " [3,4, 5]   "}.ToList, "3, f(3, 4), [3,4, 5]   ".ToLocated.SplitIfSeparatorIsNotInBrackets(","c, bracketTypes:=CompilerTools.AllowedBracketTypes).Select(Function(located) located.ToString).ToList)
     End Sub
 
     <Test()>
     Public Sub TestGetStartingValidVariableName()
-        Assert.AreEqual("a", CompilerTools.GetStartingIdentifier("a".ToLocated).ToString)
-        Assert.Throws(Of LocatedCompilerException)(Sub() CompilerTools.GetStartingIdentifier("'a".ToLocated))
+        Assert.AreEqual("a", "a".ToLocated.GetStartingIdentifier().ToString)
+        Assert.Throws(Of LocatedCompilerException)(Sub() Call "'a".ToLocated.GetStartingIdentifier())
     End Sub
 
     <Test()>
     Public Sub TestGetStartingType()
         Dim rest As LocatedString = Nothing
-        Dim type = CompilerTools.GetStartingType("Set[Real]".ToLocated, types:=NamedTypes.Default, out_rest:=rest)
+        Dim type = "Set[Real]".ToLocated.GetStartingType(types:=NamedTypes.Default, out_rest:=rest)
         Dim argument = type.TypeArguments.Single
 
         Assert.AreEqual(rest.ToString, "")

@@ -1,65 +1,65 @@
 ﻿Imports System.Runtime.CompilerServices
 
-Public Module CompilerTools
-    Private ReadOnly _ParameterBracketType As BracketType = BracketType.Round
-    Public ReadOnly Property ParameterBracketType As BracketType
+Public NotInheritable Class CompilerTools
+    Private Shared ReadOnly _ParameterBracketType As BracketType = BracketType.Round
+    Public Shared ReadOnly Property ParameterBracketType As BracketType
         Get
             Return _ParameterBracketType
         End Get
     End Property
 
-    Private ReadOnly _ArgumentBracketType As BracketType = BracketType.Round
-    Public ReadOnly Property ArgumentBracketType As BracketType
+    Private Shared ReadOnly _ArgumentBracketType As BracketType = BracketType.Round
+    Public Shared ReadOnly Property ArgumentBracketType As BracketType
         Get
             Return _ArgumentBracketType
         End Get
     End Property
 
-    Private ReadOnly _AllowedBracketTypes As IEnumerable(Of BracketType) = {BracketType.Round, BracketType.Square, BracketType.Curly}
-    Public ReadOnly Property AllowedBracketTypes As IEnumerable(Of BracketType)
+    Private Shared ReadOnly _AllowedBracketTypes As IEnumerable(Of BracketType) = {BracketType.Round, BracketType.Square, BracketType.Curly}
+    Public Shared ReadOnly Property AllowedBracketTypes As IEnumerable(Of BracketType)
         Get
             Return _AllowedBracketTypes
         End Get
     End Property
 
-    Private ReadOnly _TypeArgumentBracketType As BracketType = BracketType.Square
-    Public ReadOnly Property TypeArgumentBracketType As BracketType
+    Private Shared ReadOnly _TypeArgumentBracketType As BracketType = BracketType.Square
+    Public Shared ReadOnly Property TypeArgumentBracketType As BracketType
         Get
             Return _TypeArgumentBracketType
         End Get
     End Property
 
-    Private ReadOnly _CollectionBracketType As BracketType = BracketType.Curly
-    Public ReadOnly Property CollectionBracketType As BracketType
+    Private Shared ReadOnly _CollectionBracketType As BracketType = BracketType.Curly
+    Public Shared ReadOnly Property CollectionBracketType As BracketType
         Get
             Return _CollectionBracketType
         End Get
     End Property
 
-    Private ReadOnly _VectorBracketType As BracketType = BracketType.Square
-    Public ReadOnly Property VectorBracketType As BracketType
+    Private Shared ReadOnly _VectorBracketType As BracketType = BracketType.Square
+    Public Shared ReadOnly Property VectorBracketType As BracketType
         Get
             Return _VectorBracketType
         End Get
     End Property
 
-    Public Function GetParameters(parametersInBrackets As LocatedString) As IEnumerable(Of LocatedString)
+    Public Shared Function GetParameters(parametersInBrackets As LocatedString) As IEnumerable(Of LocatedString)
         Return GetArguments(parametersInBrackets, bracketType:=_ParameterBracketType)
     End Function
 
-    Public Function GetArguments(argumentsInBrackets As LocatedString) As IEnumerable(Of LocatedString)
+    Public Shared Function GetArguments(argumentsInBrackets As LocatedString) As IEnumerable(Of LocatedString)
         Return GetArguments(argumentsInBrackets, bracketType:=_ArgumentBracketType)
     End Function
 
-    Public Function GetTypeArguments(typeArgumentsInBrackets As LocatedString) As IEnumerable(Of LocatedString)
+    Public Shared Function GetTypeArguments(typeArgumentsInBrackets As LocatedString) As IEnumerable(Of LocatedString)
         Return GetArguments(typeArgumentsInBrackets, bracketType:=_TypeArgumentBracketType)
     End Function
 
-    Public Function GetCollectionArguments(collectionArgumentsInBrackets As LocatedString) As IEnumerable(Of LocatedString)
+    Public Shared Function GetCollectionArguments(collectionArgumentsInBrackets As LocatedString) As IEnumerable(Of LocatedString)
         Return GetArguments(collectionArgumentsInBrackets, bracketType:=_CollectionBracketType)
     End Function
-
-    Public Function GetArguments(argumentsInBrackets As LocatedString, bracketType As BracketType) As IEnumerable(Of LocatedString)
+    
+    Public Shared Function GetArguments(argumentsInBrackets As LocatedString, bracketType As BracketType) As IEnumerable(Of LocatedString)
         If Not argumentsInBrackets.IsInBrackets(bracketType:=bracketType) Then Throw New LocatedCompilerException(argumentsInBrackets, String.Format("Invalid argument enumeration: '{0}'.", argumentsInBrackets.ToString))
 
         Dim argumentsText = argumentsInBrackets.Substring(1, argumentsInBrackets.Length - 2)
@@ -67,9 +67,30 @@ Public Module CompilerTools
         Return argumentsText.SplitIfSeparatorIsNotInBrackets(separator:=","c, bracketTypes:=_AllowedBracketTypes)
     End Function
 
+
+    Public Shared Function GetStartingTypedAndNamedVariable(text As LocatedString, types As NamedTypes, Optional ByRef out_rest As LocatedString = Nothing) As TypeAndName
+        Dim trim = text.TrimStart
+
+        Dim rest As LocatedString = Nothing
+        Dim type = trim.GetStartingType(types:=types, out_rest:=rest)
+
+        Dim rest2 = rest.TrimStart
+        Dim name = rest2.GetStartingIdentifier
+
+        out_rest = rest2.Substring(startIndex:=name.Length)
+
+        Return New TypeAndName(name:=name.ToString, type:=type)
+    End Function
+
+    Public Shared Function IdentifierEquals(a As String, b As String) As Boolean
+        Return String.Equals(a, b, StringComparison.OrdinalIgnoreCase)
+    End Function
+End Class
+
+Public Module CompilerToolsExtensions
     <Extension()>
     Public Function SplitIfSeparatorIsNotInBrackets(s As LocatedString, separator As Char, bracketTypes As IEnumerable(Of BracketType)) As IEnumerable(Of LocatedString)
-        Dim inBracketsArray = s.GetCharIsInBracketsArray(bracketTypes:=_AllowedBracketTypes)
+        Dim inBracketsArray = s.GetCharIsInBracketsArray(bracketTypes:=CompilerTools.AllowedBracketTypes)
 
 
         Dim arguments = New List(Of LocatedString)
@@ -87,6 +108,8 @@ Public Module CompilerTools
 
         Return arguments
     End Function
+
+    Private Const _IdentifierExpectedExceptionMessage = "Identifier expected."
 
     <Extension()>
     Public Function GetStartingIdentifier(s As LocatedString) As LocatedString
@@ -106,9 +129,9 @@ Public Module CompilerTools
         Dim typeNameWithoutParameters = s.GetStartingIdentifier()
         out_rest = s.Substring(startIndex:=typeNameWithoutParameters.ToString.Count).Trim
 
-        If out_rest.ToString.Any AndAlso out_rest.ToString.First <> _TypeArgumentBracketType.OpeningBracket Then Return types.Parse(typeNameWithoutParameters)
+        If out_rest.ToString.Any AndAlso out_rest.ToString.First <> CompilerTools.TypeArgumentBracketType.OpeningBracket Then Return types.Parse(typeNameWithoutParameters)
 
-        Dim charIsInBracketsArray = out_rest.GetCharIsInBracketsArray(_TypeArgumentBracketType)
+        Dim charIsInBracketsArray = out_rest.GetCharIsInBracketsArray(CompilerTools.TypeArgumentBracketType)
 
         Dim charsInBracketsCount = charIsInBracketsArray.Count
         For index = 0 To charIsInBracketsArray.Count - 1
@@ -147,7 +170,7 @@ Public Module CompilerTools
 
     <Extension()>
     Public Function GetCharIsInBracketsArray(s As LocatedString) As Boolean()
-        Return s.GetCharIsInBracketsArray(BracketType:=BracketType.Round)
+        Return s.GetCharIsInBracketsArray(bracketType:=BracketType.Round)
     End Function
 
     <Extension()>
@@ -174,26 +197,6 @@ Public Module CompilerTools
         Dim charIsInBracketsArray = s.GetCharIsInBracketsArray(bracketTypes:=bracketTypes)
 
         Return charIsInBracketsArray.All(Function(inBrackets) inBrackets)
-    End Function
-
-    Private Const _IdentifierExpectedExceptionMessage = "Identifier expected."
-
-    Public Function GetStartingTypedAndNamedVariable(text As LocatedString, types As NamedTypes, Optional ByRef out_rest As LocatedString = Nothing) As TypeAndName
-        Dim trim = text.TrimStart
-
-        Dim rest As LocatedString = Nothing
-        Dim type = trim.GetStartingType(types:=types, out_rest:=rest)
-
-        Dim rest2 = rest.TrimStart
-        Dim name = rest2.GetStartingIdentifier
-
-        out_rest = rest2.Substring(startIndex:=name.Length)
-
-        Return New TypeAndName(name:=name.ToString, type:=type)
-    End Function
-
-    Public Function IdentifierEquals(a As String, b As String) As Boolean
-        Return String.Equals(a, b, StringComparison.OrdinalIgnoreCase)
     End Function
 
     <Extension()>
