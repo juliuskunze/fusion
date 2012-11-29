@@ -22,23 +22,23 @@
         _Sphere = sphere
     End Sub
 
-    Public Function Intersection(ray As Ray) As SurfacePoint Implements ISurfacedPointSet3D.FirstIntersection
+    Public Function FirstIntersection(ray As Ray) As SurfacePoint Implements ISurface.FirstIntersection
         Dim allIntersectionRayLengths = _Sphere.SurfaceIntersectionRayLengths(ray)
 
         If allIntersectionRayLengths.Count = 0 Then Return Nothing
 
         Dim rayLength = allIntersectionRayLengths.Max
         Dim intersectionLocation = ray.PointOnRay(distanceFromOrigin:=rayLength)
-        Dim normal = Me.Center - intersectionLocation
+        Dim normal = Center - intersectionLocation
         Return New SurfacePoint(location:=intersectionLocation, normal:=normal)
     End Function
 
-    Public Function Contains(point As Fusion.Math.Vector3D) As Boolean Implements Fusion.Math.IPointSet3D.Contains
+    Public Function Contains(point As Vector3D) As Boolean Implements IPointSet3D.Contains
         Return Not _Sphere.Contains(point)
     End Function
 
-    Public Function Intersections(ray As Ray) As System.Collections.Generic.IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
-        Dim intersection = Me.Intersection(ray)
+    Public Function Intersections(ray As Ray) As IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
+        Dim intersection = Me.FirstIntersection(ray)
 
         If intersection Is Nothing Then Return Enumerable.Empty(Of SurfacePoint)()
         Return {intersection}

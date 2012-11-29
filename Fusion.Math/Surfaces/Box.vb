@@ -73,7 +73,7 @@ Public Class Box
         Return _Surface.FirstIntersection(ray)
     End Function
 
-    Public Function Intersections(ray As Ray) As System.Collections.Generic.IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
+    Public Function Intersections(ray As Ray) As IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
         Return _Surface.Intersections(ray)
     End Function
 End Class

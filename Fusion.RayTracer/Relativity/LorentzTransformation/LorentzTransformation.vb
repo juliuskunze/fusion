@@ -56,8 +56,8 @@ Public Class LorentzTransformation
     Public Function TransformEvent([event] As SpaceTimeEvent) As SpaceTimeEvent
         If _RelativeVelocityIsNull Then Return [event]
 
-        Return New SpaceTimeEvent(time:=_Gamma * ([event].Time - (_RelativeVelocity.Length * (_NormalizedRelativeVelocity * [event].Location)) / SpeedOfLight ^ 2),
-                                  location:=[event].Location + (_Gamma - 1) * (_NormalizedRelativeVelocity * [event].Location) * _NormalizedRelativeVelocity - _Gamma * [event].Time * _RelativeVelocity)
+        Return New SpaceTimeEvent(
+                                  location:=[event].Location + (_Gamma - 1) * (_NormalizedRelativeVelocity * [event].Location) * _NormalizedRelativeVelocity - _Gamma * [event].Time * _RelativeVelocity, time:=_Gamma * ([event].Time - (_RelativeVelocity.Length * (_NormalizedRelativeVelocity * [event].Location)) / SpeedOfLight ^ 2))
     End Function
 
     Public Overridable Function Inverse() As LorentzTransformation

@@ -15,7 +15,7 @@
         Return TranslatedSurfacePoint(intersection, _Translation)
     End Function
 
-    Public Function Intersections(ray As Ray) As System.Collections.Generic.IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
+    Public Function Intersections(ray As Ray) As IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
         Dim rayIntersections = _Original.Intersections(TranslatedRay(ray, -_Translation))
 
         Return rayIntersections.Select(Function(intersection) TranslatedSurfacePoint(intersection, _Translation))

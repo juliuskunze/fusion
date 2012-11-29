@@ -27,8 +27,8 @@
 
     Private ReadOnly _ContainingPlane As Plane
 
-    Public Function Intersection(ray As Ray) As SurfacePoint Implements ISurface.FirstIntersection
-        Dim planeIntersection = _ContainingPlane.Intersection(ray)
+    Public Function FirstIntersection(ray As Ray) As SurfacePoint Implements ISurface.FirstIntersection
+        Dim planeIntersection = _ContainingPlane.FirstIntersection(ray)
 
         If planeIntersection Is Nothing Then Return Nothing
 
@@ -37,8 +37,8 @@
         Return planeIntersection
     End Function
 
-    Public Function Intersections(ray As Ray) As System.Collections.Generic.IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
-        Dim intersection = Me.Intersection(ray)
+    Public Function Intersections(ray As Ray) As IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
+        Dim intersection = Me.FirstIntersection(ray)
 
         If intersection Is Nothing Then Return Enumerable.Empty(Of SurfacePoint)()
         Return {intersection}

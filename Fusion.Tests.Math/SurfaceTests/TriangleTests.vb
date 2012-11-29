@@ -7,7 +7,7 @@
     Public Sub FirstIntersection()
         Dim ray = New Ray(origin:=New Vector3D(-1, 0.25, 0.25),
                           direction:=New Vector3D(1, 0, 0))
-        Dim firstIntersection = _Triangle.Intersection(ray)
+        Dim firstIntersection = _Triangle.FirstIntersection(ray)
         Assert.That(firstIntersection.NormalizedNormal = New Vector3D(-1, 0, 0))
         Assert.AreEqual(New Vector3D(0, 0.25, 0.25), firstIntersection.Location)
         SurfaceTests.SurfaceRayIntersection(_Triangle, ray)
@@ -17,7 +17,7 @@
     Public Sub FirstIntersection_NoIntersection()
         Dim ray = New Ray(origin:=New Vector3D(1, 1, 1),
                           direction:=New Vector3D(-1, 0, 0))
-        Dim firstIntersection = _Triangle.Intersection(ray)
+        Dim firstIntersection = _Triangle.FirstIntersection(ray)
         Assert.AreEqual(Nothing, firstIntersection)
     End Sub
 
@@ -25,7 +25,7 @@
     Public Sub FirstIntersection_NoIntersectionFromBehind()
         Dim ray = New Ray(origin:=New Vector3D(1, 0.25, 0.25),
                           direction:=New Vector3D(-1, 0, 0))
-        Dim firstIntersection = _Triangle.Intersection(ray)
+        Dim firstIntersection = _Triangle.FirstIntersection(ray)
         Assert.AreEqual(Nothing, firstIntersection)
         SurfaceTests.SurfaceRayIntersection(_Triangle, ray)
     End Sub

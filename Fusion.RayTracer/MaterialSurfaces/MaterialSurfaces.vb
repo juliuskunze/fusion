@@ -7,14 +7,13 @@
         _Surfaces = surfaces
     End Sub
 
-
-    Public Function Intersections(ray As Math.Ray) As System.Collections.Generic.IEnumerable(Of Math.SurfacePoint) Implements Math.ISurface.Intersections
-        Return Me.MaterialIntersections(ray)
+    Public Function Intersections(ray As Ray) As IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
+        Return MaterialIntersections(New SightRay(ray))
     End Function
 
-    Public Function MaterialIntersections(ray As Math.Ray) As System.Collections.Generic.IEnumerable(Of SurfacePoint(Of TMaterial)) Implements ISurface(Of TMaterial).MaterialIntersections
-        Return Me.SelectMany(Function(surface) surface.MaterialIntersections(ray)).
-               OrderBy(Function(intersection) (intersection.Location - ray.Origin).LengthSquared)
+    Public Function MaterialIntersections(sightRay As SightRay) As IEnumerable(Of SurfacePoint(Of TMaterial)) Implements ISurface(Of TMaterial).MaterialIntersections
+        Return SelectMany(Function(surface) surface.MaterialIntersections(sightRay)).
+               OrderBy(Function(intersection) (intersection.Location - sightRay.OriginLocation).LengthSquared)
     End Function
 
     Public Function FirstIntersection(ray As Math.Ray) As Math.SurfacePoint Implements Math.ISurface.FirstIntersection
@@ -23,17 +22,17 @@
                MinItem(Function(intersection) (intersection.Location - ray.Origin).LengthSquared)
     End Function
 
-    Public Function FirstMaterialIntersection(ray As Math.Ray) As SurfacePoint(Of TMaterial) Implements ISurface(Of TMaterial).FirstMaterialIntersection
-        Return Me.Select(Function(surface) surface.FirstMaterialIntersection(ray)).
+    Public Function FirstMaterialIntersection(sightRay As SightRay) As SurfacePoint(Of TMaterial) Implements ISurface(Of TMaterial).FirstMaterialIntersection
+        Return Me.Select(Function(surface) surface.FirstMaterialIntersection(sightRay)).
                Where(Function(intersection) intersection IsNot Nothing).
-               MinItem(Function(intersection) (intersection.Location - ray.Origin).LengthSquared)
+               MinItem(Function(intersection) (intersection.Location - sightRay.OriginLocation).LengthSquared)
     End Function
 
-    Public Function GetEnumerator() As System.Collections.Generic.IEnumerator(Of ISurface(Of TMaterial)) Implements System.Collections.Generic.IEnumerable(Of ISurface(Of TMaterial)).GetEnumerator
+    Public Function GetEnumerator() As IEnumerator(Of ISurface(Of TMaterial)) Implements IEnumerable(Of ISurface(Of TMaterial)).GetEnumerator
         Return _Surfaces.GetEnumerator
     End Function
 
-    Public Function GetEnumeratorObj() As System.Collections.IEnumerator Implements System.Collections.IEnumerable.GetEnumerator
+    Public Function GetEnumeratorObj() As Collections.IEnumerator Implements Collections.IEnumerable.GetEnumerator
         Throw New NotImplementedException
     End Function
 End Class

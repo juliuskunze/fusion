@@ -20,7 +20,7 @@ Public Class SightRay
 
     Public ReadOnly Property OriginEvent As SpaceTimeEvent
         Get
-            Return New SpaceTimeEvent(_OriginTime, _Ray.Origin)
+            Return New SpaceTimeEvent(_Ray.Origin, _OriginTime)
         End Get
     End Property
 
@@ -45,11 +45,17 @@ Public Class SightRay
         End Get
     End Property
 
+    Public ReadOnly Property NormalizedDirection() As Vector3D
+        Get
+            Return Ray.NormalizedDirection
+        End Get
+    End Property
+
     Public Function GetTime(distanceFromOrigin As Double) As Double
         Return _OriginTime - distanceFromOrigin / SpeedOfLight
     End Function
 
     Public Function GetEvent(distanceFromOrigin As Double) As SpaceTimeEvent
-        Return New SpaceTimeEvent(GetTime(distanceFromOrigin), Ray.PointOnRay(distanceFromOrigin))
+        Return New SpaceTimeEvent(Ray.PointOnRay(distanceFromOrigin), GetTime(distanceFromOrigin))
     End Function
 End Class

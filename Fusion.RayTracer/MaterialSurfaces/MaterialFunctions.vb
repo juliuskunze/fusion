@@ -1,7 +1,9 @@
 ﻿Public Class MaterialFunctions(Of TMaterial)
 
-    Public Shared Function Checkerboard(xVector As Vector3D, yVector As Vector3D, material1 As TMaterial, material2 As TMaterial) As Func(Of Vector3D, TMaterial)
-        Return Function(location)
+    Public Shared Function Checkerboard(xVector As Vector3D, yVector As Vector3D, material1 As TMaterial, material2 As TMaterial) As Func(Of SpaceTimeEvent, TMaterial)
+        Return Function(spaceTimeEvent)
+                   Dim location = spaceTimeEvent.Location
+
                    Dim xLocation = xVector.Normalized * location
                    Dim yLocation = yVector.Normalized * location
 
@@ -26,8 +28,9 @@
         Return rest < 1
     End Function
 
-    Public Shared Function Grid2D(xVector As Vector3D, yVector As Vector3D, backgroundMaterial As TMaterial, gridMaterial As TMaterial, gridLineWidth As Double) As Func(Of Vector3D, TMaterial)
-        Return Function(location)
+    Public Shared Function Grid2D(xVector As Vector3D, yVector As Vector3D, backgroundMaterial As TMaterial, gridMaterial As TMaterial, gridLineWidth As Double) As Func(Of SpaceTimeEvent, TMaterial)
+        Return Function(spaceTimeEvent)
+                   Dim location = spaceTimeEvent.Location
                    Dim xLocation = xVector.Normalized * location
                    Dim yLocation = yVector.Normalized * location
 
@@ -43,8 +46,9 @@
                End Function
     End Function
 
-    Public Shared Function Grid3D(xVector As Vector3D, yVector As Vector3D, zVector As Vector3D, backgroundMaterial As TMaterial, gridMaterial As TMaterial, gridLineWidth As Double) As Func(Of Vector3D, TMaterial)
-        Return Function(location)
+    Public Shared Function Grid3D(xVector As Vector3D, yVector As Vector3D, zVector As Vector3D, backgroundMaterial As TMaterial, gridMaterial As TMaterial, gridLineWidth As Double) As Func(Of SpaceTimeEvent, TMaterial)
+        Return Function(spaceTimeEvent)
+                   Dim location = spaceTimeEvent.Location
                    Dim xLocation = xVector.Normalized * location
                    Dim yLocation = yVector.Normalized * location
                    Dim zLocation = zVector.Normalized * location

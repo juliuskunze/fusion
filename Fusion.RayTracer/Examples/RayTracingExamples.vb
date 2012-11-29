@@ -9,7 +9,7 @@ Public Class RayTracingExamples
     End Sub
 
     Public Function OldExampleBox(Optional glassRefractionIndex As Double = 1.4) As RayTracerPicture(Of RgbLight)
-        Dim view = New View3D(observerLocation:=New Vector3D(5, 5, 25),
+        Dim view = New View3D(observerEvent:=New SpaceTimeEvent(New Vector3D(5, 5, 25)),
                               lookAt:=New Vector3D(5, 5, 0),
                               upDirection:=New Vector3D(0, 1, 0),
                               horizontalViewAngle:=PI / 3)
@@ -17,27 +17,27 @@ Public Class RayTracingExamples
 
         Dim grayMaterial = RgbLightMaterials2D.Scattering(New RgbLight(Color.Gray))
 
-        Dim ground = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=Vector3D.Zero, normal:=New Vector3D(0, 1, 0)),
+        Dim ground = New MaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=Vector3D.Zero, normal:=New Vector3D(0, 1, 0)),
                                                material:=grayMaterial)
 
-        Dim leftWall = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=Vector3D.Zero, normal:=New Vector3D(1, 0, 0)),
+        Dim leftWall = New MaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=Vector3D.Zero, normal:=New Vector3D(1, 0, 0)),
                                                         material:=RgbLightMaterials2D.Scattering(New RgbLight(Color.Orange)))
-        Dim rightWall = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=New Vector3D(10, 0, 0), normal:=New Vector3D(-1, 0, 0)),
+        Dim rightWall = New MaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=New Vector3D(10, 0, 0), normal:=New Vector3D(-1, 0, 0)),
                                                                  material:=RgbLightMaterials2D.Scattering(New RgbLight(Color.MediumBlue)))
-        Dim ceiling = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=New Vector3D(0, 10, 0), normal:=New Vector3D(0, -1, 0)),
+        Dim ceiling = New MaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=New Vector3D(0, 10, 0), normal:=New Vector3D(0, -1, 0)),
                                                                material:=RgbLightMaterials2D.Scattering(0.2))
 
-        Dim frontWall = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=Vector3D.Zero, normal:=New Vector3D(0, 0, 1)),
+        Dim frontWall = New MaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=Vector3D.Zero, normal:=New Vector3D(0, 0, 1)),
                                                                  material:=grayMaterial)
 
-        Dim backWall = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=New Vector3D(0, 0, 40), normal:=New Vector3D(0, 0, -1)),
+        Dim backWall = New MaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=New Vector3D(0, 0, 40), normal:=New Vector3D(0, 0, -1)),
                                                                 material:=grayMaterial)
 
-        Dim lampSurface = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Sphere(center:=New Vector3D(5, 10, 8), radius:=2),
+        Dim lampSurface = New MaterialSurface(Of Material2D(Of RgbLight))(New Sphere(center:=New Vector3D(5, 10, 8), radius:=2),
                                         material:=RgbLightMaterials2D.LightSource(RgbLight.White * 10))
 
         Dim reflectingSphereRadius = 2
-        Dim reflectingSphere = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Sphere(center:=New Vector3D(3.5, reflectingSphereRadius, 8), radius:=reflectingSphereRadius),
+        Dim reflectingSphere = New MaterialSurface(Of Material2D(Of RgbLight))(New Sphere(center:=New Vector3D(3.5, reflectingSphereRadius, 8), radius:=reflectingSphereRadius),
                                 material:=RgbLightMaterials2D.Reflecting)
 
         Dim glass = RgbLightMaterials2D.Transparent(scatteringRemission:=New BlackRemission(Of RgbLight),
@@ -48,8 +48,8 @@ Public Class RayTracingExamples
         glassInside.ReflectionRemission = New BlackRemission(Of RgbLight)
 
         'Dim cylinder = New InfiniteCylinder(New Vector3D(8, 0, 8), New Vector3D(0, 1, 0), 1)
-        'Dim glassCylinder = New SingleMaterialSurface(Of Material2D(Of ExactColor))(cylinder, glass)
-        'Dim antiGlassCylinder = New SingleMaterialSurface(Of Material2D(Of ExactColor))(New InfiniteAntiCylinder(cylinder), glassInside)
+        'Dim glassCylinder = New MaterialSurface(Of Material2D(Of ExactColor))(cylinder, glass)
+        'Dim antiGlassCylinder = New MaterialSurface(Of Material2D(Of ExactColor))(New InfiniteAntiCylinder(cylinder), glassInside)
 
         Dim refractingSphereRadius = 1.8
         Dim refractionSphereCenter = New Vector3D(8, refractingSphereRadius, 13)
@@ -59,9 +59,9 @@ Public Class RayTracingExamples
         'Dim cutOutAntiSphere = New AntiSphere(cutOutSphere)
 
         'New IntersectedSurface(sphere, cutOutAntiSphere)
-        Dim refractingSphere = New SingleMaterialSurface(Of Material2D(Of RgbLight))(sphere, material:=glass)
+        Dim refractingSphere = New MaterialSurface(Of Material2D(Of RgbLight))(sphere, material:=glass)
         'New UnitedSurface(New AntiSphere(sphere), cutOutSphere)
-        Dim innerRefractingSphere = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New AntiSphere(sphere),
+        Dim innerRefractingSphere = New MaterialSurface(Of Material2D(Of RgbLight))(New AntiSphere(sphere),
                                                               material:=glassInside)
 
 
@@ -77,7 +77,7 @@ Public Class RayTracingExamples
     Public Function SquaredSurfaceDrawer() As RayTracerPicture(Of RgbLight)
         Dim cameraLocation = New Vector3D(4, 0.3, 0)
 
-        Dim view = New View3D(observerLocation:=cameraLocation,
+        Dim view = New View3D(observerEvent:=New SpaceTimeEvent(cameraLocation),
                               lookAt:=New Vector3D(0, 0.3, 0),
                               upDirection:=New Vector3D(0, 1, 0),
                               horizontalViewAngle:=PI / 2)
@@ -100,19 +100,19 @@ Public Class RayTracingExamples
                         material1:=groundMaterial1,
                         material2:=groundMaterial2))
 
-        Dim refractingSphere = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Sphere(center:=New Vector3D(1.5, 0, 1), radius:=1),
+        Dim refractingSphere = New MaterialSurface(Of Material2D(Of RgbLight))(New Sphere(center:=New Vector3D(1.5, 0, 1), radius:=1),
                                                          material:=RgbLightMaterials2D.Transparent(scatteringRemission:=New ScaledRemission(Of RgbLight)(0.2),
                                                                                            reflectionRemission:=New ScaledRemission(Of RgbLight)(0.1),
                                                                                            refractionIndexQuotient:=1 / 2))
-        Dim refractingSphereInside = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New AntiSphere(center:=New Vector3D(1.5, 0, 1), radius:=1),
+        Dim refractingSphereInside = New MaterialSurface(Of Material2D(Of RgbLight))(New AntiSphere(center:=New Vector3D(1.5, 0, 1), radius:=1),
                                                                material:=RgbLightMaterials2D.Transparent(scatteringRemission:=New ScaledRemission(Of RgbLight)(0.2),
                                                                                                  reflectionRemission:=New ScaledRemission(Of RgbLight)(0.1),
                                                                                                  refractionIndexQuotient:=2))
 
-        Dim sphere2 = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Sphere(center:=New Vector3D(-0.6, 0.8, 0), radius:=1.3),
+        Dim sphere2 = New MaterialSurface(Of Material2D(Of RgbLight))(New Sphere(center:=New Vector3D(-0.6, 0.8, 0), radius:=1.3),
                                                 material:=RgbLightMaterials2D.Reflecting(albedo:=0.2))
 
-        Dim reflectingSphere = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Sphere(center:=New Vector3D(-0.6, 0.8, -2.5), radius:=1),
+        Dim reflectingSphere = New MaterialSurface(Of Material2D(Of RgbLight))(New Sphere(center:=New Vector3D(-0.6, 0.8, -2.5), radius:=1),
                                                          material:=New Material2D(Of RgbLight)(sourceLight:=RgbLight.Black,
                                                                                   scatteringRemission:=New ScaledRemission(Of RgbLight)(0.2),
                                                                                   reflectionRemission:=New FullRemission(Of RgbLight),
@@ -159,7 +159,7 @@ Public Class RayTracingExamples
     End Function
 
     Public Function SecondRoom() As RayTracerPicture(Of RgbLight)
-        Dim view = New View3D(observerLocation:=New Vector3D(7.5, 6, 15),
+        Dim view = New View3D(observerEvent:=New SpaceTimeEvent(New Vector3D(7.5, 6, 15)),
                               lookAt:=New Vector3D(7.5, 3, 0),
                               upDirection:=New Vector3D(0, 1, 0),
                               horizontalViewAngle:=PI * 0.26)
@@ -219,36 +219,36 @@ Public Class RayTracingExamples
                 material2:=whiteGroundMaterial))
 
         Dim redWallPlane = New Fusion.Math.Rectangle(frontLeftDown, frontLeftUp, backLeftUp)
-        Dim redWall = New SingleMaterialSurface(Of Material2D(Of RgbLight))(redWallPlane, redMaterial)
+        Dim redWall = New MaterialSurface(Of Material2D(Of RgbLight))(redWallPlane, redMaterial)
 
         Dim frontWallPlane1 = New Fusion.Math.Rectangle(frontLeftDown, midDown, midUp)
         Dim frontWallPlane2 = New Fusion.Math.Rectangle(midDown, leftFrontDown, leftFrontUp)
         Dim frontWallPlane3 = New Fusion.Math.Rectangle(leftFrontDown, frontRightDown, frontRightUp)
 
         Dim frontWallSurface = New Surfaces From {frontWallPlane1, frontWallPlane2, frontWallPlane3}
-        Dim frontWall = New SingleMaterialSurface(Of Material2D(Of RgbLight))(frontWallSurface, whiteMaterial)
+        Dim frontWall = New MaterialSurface(Of Material2D(Of RgbLight))(frontWallSurface, whiteMaterial)
 
         Dim greenWallPlane = New Fusion.Math.Rectangle(frontRightUp, frontRightDown, backRightDown)
-        Dim greenWall = New SingleMaterialSurface(Of Material2D(Of RgbLight))(greenWallPlane, greenMaterial)
+        Dim greenWall = New MaterialSurface(Of Material2D(Of RgbLight))(greenWallPlane, greenMaterial)
 
         Dim backWallPlane = New Fusion.Math.Rectangle(backRightDown, backLeftDown, backLeftUp)
-        Dim backWall = New SingleMaterialSurface(Of Material2D(Of RgbLight))(backWallPlane, whiteMaterial)
+        Dim backWall = New MaterialSurface(Of Material2D(Of RgbLight))(backWallPlane, whiteMaterial)
 
         Dim pointLightSource = New LinearPointLightSource(Of RgbLight)(location:=New Vector3D(6, 9.5, 10), baseLight:=RgbLight.White * 5)
         Dim shadedLightSources = New List(Of IPointLightSource(Of RgbLight)) From {pointLightSource}
 
         Dim ceilingPlane = New Fusion.Math.Rectangle(backLeftUp, originUp, frontRightUp)
-        Dim ceiling = New SingleMaterialSurface(Of Material2D(Of RgbLight))(ceilingPlane, whiteMaterial)
+        Dim ceiling = New MaterialSurface(Of Material2D(Of RgbLight))(ceilingPlane, whiteMaterial)
 
         Dim scatteringSphereRadius = 0.75
         Dim scatteringSphereCenter = backRightDown + New Vector3D(-1.5, scatteringSphereRadius, -2.5)
         Dim scatteringSphereSurface = New Sphere(scatteringSphereCenter, scatteringSphereRadius)
-        Dim scatteringSphere = New SingleMaterialSurface(Of Material2D(Of RgbLight))(scatteringSphereSurface, whiteMaterial)
+        Dim scatteringSphere = New MaterialSurface(Of Material2D(Of RgbLight))(scatteringSphereSurface, whiteMaterial)
 
         Dim metalSphereRadius = 1.5
         Dim metalSphereCenter = midDown + New Vector3D(0, metalSphereRadius, 3)
         Dim metalSphereSurface = New Sphere(metalSphereCenter, metalSphereRadius)
-        Dim metalSphere = New SingleMaterialSurface(Of Material2D(Of RgbLight))(metalSphereSurface, metal)
+        Dim metalSphere = New MaterialSurface(Of Material2D(Of RgbLight))(metalSphereSurface, metal)
 
         Dim glassLocation = backLeftDown + New Vector3D(3, 0, -4.5)
         Dim glassCylinderHeight = 3
@@ -256,19 +256,19 @@ Public Class RayTracingExamples
         Dim glassSphereRadius = 1.5
         Dim glassSphereCenter = glassLocation + New Vector3D(0, glassCylinderHeight + glassSphereRadius, 0)
         Dim glassSphereSurface = New Sphere(glassSphereCenter, glassSphereRadius)
-        Dim glassSphere = New SingleMaterialSurface(Of Material2D(Of RgbLight))(glassSphereSurface, glass)
+        Dim glassSphere = New MaterialSurface(Of Material2D(Of RgbLight))(glassSphereSurface, glass)
         Dim glassAntiSphereSurface = New AntiSphere(glassSphereSurface)
-        Dim glassAntiSphere = New SingleMaterialSurface(Of Material2D(Of RgbLight))(glassAntiSphereSurface, innerGlass)
+        Dim glassAntiSphere = New MaterialSurface(Of Material2D(Of RgbLight))(glassAntiSphereSurface, innerGlass)
 
         Dim glassCylinder = New Cylinder(startCenter:=glassLocation, endCenter:=glassLocation + New Vector3D(0, glassCylinderHeight, 0), radius:=0.15)
         Dim glassAntiCylinder = New AntiCylinder(glassCylinder)
-        Dim glassCylinderSurface = New SingleMaterialSurface(Of Material2D(Of RgbLight))(glassCylinder, glass)
-        Dim glassAntiCylinderSurface = New SingleMaterialSurface(Of Material2D(Of RgbLight))(glassAntiCylinder, innerGlass)
+        Dim glassCylinderSurface = New MaterialSurface(Of Material2D(Of RgbLight))(glassCylinder, glass)
+        Dim glassAntiCylinderSurface = New MaterialSurface(Of Material2D(Of RgbLight))(glassAntiCylinder, innerGlass)
 
         Dim frontCylinderHeight = 6
         Dim frontCylinderRadius = 0.75
         Dim frontCylinder = New InfiniteCylinder(New Vector3D(0, frontCylinderHeight + frontCylinderRadius, 0), New Vector3D(1, 0, 0), radius:=frontCylinderRadius)
-        Dim frontCylinderSurface = New SingleMaterialSurface(Of Material2D(Of RgbLight))(frontCylinder, material:=whiteMaterial)
+        Dim frontCylinderSurface = New MaterialSurface(Of Material2D(Of RgbLight))(frontCylinder, material:=whiteMaterial)
 
         Dim lampHeight = New Vector3D(0, 9.5, 0)
         Dim lampWidth = New Vector3D(2.5, 0, 0)
@@ -290,8 +290,8 @@ Public Class RayTracingExamples
         Dim lampLeft = New Fusion.Math.Rectangle(vertex1:=lampFrontLeft, vertex2:=lampBackLeft,
                                               vertex3:=lampBackLeft + lampThickness)
 
-        Dim light = New SingleMaterialSurface(Of Material2D(Of RgbLight))(lampRectangle, lightMaterial)
-        Dim lampSide = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Surfaces From {lampFront, lampBack,
+        Dim light = New MaterialSurface(Of Material2D(Of RgbLight))(lampRectangle, lightMaterial)
+        Dim lampSide = New MaterialSurface(Of Material2D(Of RgbLight))(New Surfaces From {lampFront, lampBack,
                                                                                    lampRight, lampLeft},
                                                                 whiteMaterial)
         Dim surfaces = New Surfaces(Of Material2D(Of RgbLight))({ground, redWall, frontWall, greenWall, backWall, ceiling,
@@ -321,7 +321,7 @@ Public Class RayTracingExamples
     End Sub
 
     Public Function ExampleBox(Optional glassRefractionIndex As Double = 1.3) As RayTracerPicture(Of RgbLight)
-        Dim view = New View3D(observerLocation:=New Vector3D(5, 5, 25),
+        Dim view = New View3D(observerEvent:=New SpaceTimeEvent(New Vector3D(5, 5, 25)),
                               lookAt:=New Vector3D(5, 5, 0),
                               upDirection:=New Vector3D(0, 1, 0),
                               horizontalViewAngle:=PI / 3)
@@ -337,27 +337,27 @@ Public Class RayTracingExamples
         Dim lighterGrayMaterial = RgbLightMaterials2D.Scattering(0.82)
 
 
-        Dim ground = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=Vector3D.Zero, normal:=New Vector3D(0, 1, 0)),
+        Dim ground = New MaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=Vector3D.Zero, normal:=New Vector3D(0, 1, 0)),
                                                material:=grayMaterial)
 
-        Dim leftWall = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=Vector3D.Zero, normal:=New Vector3D(1, 0, 0)),
+        Dim leftWall = New MaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=Vector3D.Zero, normal:=New Vector3D(1, 0, 0)),
                                                         material:=RgbLightMaterials2D.Scattering(New RgbLight(Color.MediumBlue)))
-        Dim rightWall = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=New Vector3D(10, 0, 0), normal:=New Vector3D(-1, 0, 0)),
+        Dim rightWall = New MaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=New Vector3D(10, 0, 0), normal:=New Vector3D(-1, 0, 0)),
                                                                  material:=RgbLightMaterials2D.Scattering(New RgbLight(Color.Orange)))
-        Dim ceiling = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=New Vector3D(0, 10, 0), normal:=New Vector3D(0, -1, 0)),
+        Dim ceiling = New MaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=New Vector3D(0, 10, 0), normal:=New Vector3D(0, -1, 0)),
                                                                material:=darkerGrayMaterial) '
 
-        Dim frontWall = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=Vector3D.Zero, normal:=New Vector3D(0, 0, 1)),
+        Dim frontWall = New MaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=Vector3D.Zero, normal:=New Vector3D(0, 0, 1)),
                                                                  material:=darkGrayMaterial)
 
-        Dim backWall = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=New Vector3D(0, 0, 40), normal:=New Vector3D(0, 0, -1)),
+        Dim backWall = New MaterialSurface(Of Material2D(Of RgbLight))(New Plane(Location:=New Vector3D(0, 0, 40), normal:=New Vector3D(0, 0, -1)),
                                                                 material:=grayMaterial)
 
-        Dim lampSurface = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Sphere(center:=New Vector3D(5, 10, 8), radius:=2),
+        Dim lampSurface = New MaterialSurface(Of Material2D(Of RgbLight))(New Sphere(center:=New Vector3D(5, 10, 8), radius:=2),
                                         material:=RgbLightMaterials2D.LightSource(RgbLight.White * 13))
 
         Dim reflectingSphereRadius = 1.9
-        Dim reflectingSphere = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Sphere(New Vector3D(3.6, reflectingSphereRadius, 8), reflectingSphereRadius), RgbLightMaterials2D.Reflecting) 'lightGrayMaterial
+        Dim reflectingSphere = New MaterialSurface(Of Material2D(Of RgbLight))(New Sphere(New Vector3D(3.6, reflectingSphereRadius, 8), reflectingSphereRadius), RgbLightMaterials2D.Reflecting) 'lightGrayMaterial
 
         Dim glass = RgbLightMaterials2D.Transparent(scatteringRemission:=New BlackRemission(Of RgbLight),
                                             reflectionRemission:=New ScaledRemission(Of RgbLight)(0.2),
@@ -370,13 +370,13 @@ Public Class RayTracingExamples
         Dim refractionSphereCenter = New Vector3D(7.7, refractingSphereRadius, 11)
         Dim sphere = New Sphere(refractionSphereCenter, refractingSphereRadius)
 
-        Dim refractingSphere = New SingleMaterialSurface(Of Material2D(Of RgbLight))(sphere, material:=glass) 'lightGrayMaterial
+        Dim refractingSphere = New MaterialSurface(Of Material2D(Of RgbLight))(sphere, material:=glass) 'lightGrayMaterial
 
-        Dim innerRefractingSphere = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New AntiSphere(sphere),
+        Dim innerRefractingSphere = New MaterialSurface(Of Material2D(Of RgbLight))(New AntiSphere(sphere),
                                                               material:=glassInside)
 
         Dim scatteringSphereRadius = 1
-        Dim scatteringSphere = New SingleMaterialSurface(Of Material2D(Of RgbLight))(New Sphere(New Vector3D(3, scatteringSphereRadius, 13), scatteringSphereRadius), lighterGrayMaterial)
+        Dim scatteringSphere = New MaterialSurface(Of Material2D(Of RgbLight))(New Sphere(New Vector3D(3, scatteringSphereRadius, 13), scatteringSphereRadius), lighterGrayMaterial)
 
         Dim allSurfaces = New Surfaces(Of Material2D(Of RgbLight))({ground, ceiling, rightWall, leftWall, frontWall, backWall, lampSurface,
                                                      reflectingSphere, refractingSphere, innerRefractingSphere, scatteringSphere})
@@ -390,7 +390,7 @@ Public Class RayTracingExamples
     End Function
 
     Public Function BlackBodyPlaneRelativistic(radianceSpectrumToRgbColorConverter As ILightToRgbColorConverter(Of RadianceSpectrum)) As RayTracerPicture(Of RadianceSpectrum)
-        Dim view = New View3D(observerLocation:=New Vector3D,
+        Dim view = New View3D(observerEvent:=New SpaceTimeEvent,
                               lookAt:=New Vector3D(0, 0, 1),
                               upDirection:=New Vector3D(0, 1, 0),
                               horizontalViewAngle:=PI / 4)

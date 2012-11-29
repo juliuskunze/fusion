@@ -58,12 +58,12 @@ Public Class Triangle
         End Get
     End Property
 
-    Public Function Intersection(ray As Ray) As SurfacePoint Implements ISurface.FirstIntersection
+    Public Function FirstIntersection(ray As Ray) As SurfacePoint Implements ISurface.FirstIntersection
         Return _Surface.FirstIntersection(ray)
     End Function
 
-    Public Function Intersections(ray As Ray) As System.Collections.Generic.IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
-        Dim intersection = Me.Intersection(ray)
+    Public Function Intersections(ray As Ray) As IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
+        Dim intersection = Me.FirstIntersection(ray)
 
         If intersection Is Nothing Then Return Enumerable.Empty(Of SurfacePoint)()
 

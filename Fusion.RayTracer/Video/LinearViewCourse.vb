@@ -6,8 +6,8 @@ Public Class LinearViewCourse
     Implements IViewCourse
 
     Public Sub New(velocity As Vector3D,
-                    startLocation As Vector3D,
-                    visibleXAngle As Double,
+                   startLocation As Vector3D,
+                   visibleXAngle As Double,
                    Optional startTime As Double = 0)
         _Velocity = velocity
         _StartLocation = startLocation
@@ -43,9 +43,10 @@ Public Class LinearViewCourse
         End Get
     End Property
 
-    Public Function GetView(pointOfTime As Double) As Visualization.View3D Implements IViewCourse.GetView
-        Dim location = _StartLocation + (pointOfTime - Me.StartTime) * Me.Velocity
+    Public Function GetView(pointOfTime As Double) As View3D Implements IViewCourse.GetView
+        Dim location = _StartLocation + (pointOfTime - StartTime) * Velocity
+        Dim observerEvent = New SpaceTimeEvent(location, pointOfTime)
 
-        Return New View3D(observerLocation:=location, lookAt:=location + Me.Velocity, upDirection:=New Vector3D(0, 1, 0), horizontalViewAngle:=Me.VisibleXAngle)
+        Return New View3D(observerEvent:=observerEvent, lookAt:=location + Velocity, upDirection:=New Vector3D(0, 1, 0), horizontalViewAngle:=VisibleXAngle)
     End Function
 End Class

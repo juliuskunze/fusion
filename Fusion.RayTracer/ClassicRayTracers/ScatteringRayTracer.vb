@@ -2,45 +2,45 @@ Public Class ScatteringRayTracer(Of TLight As {ILight(Of TLight), New})
     Implements IRayTracer(Of TLight)
 
     Public Sub New(surface As ISurface(Of Material2D(Of TLight)), Optional rayCountPerPixel As Integer = 1, Optional maxIntersectionCount As Integer = 10)
-        Me.Surface = surface
-        Me.RayCount = rayCountPerPixel
-        Me.MaxIntersectionCount = maxIntersectionCount
+        _Surface = surface
+        _RayCount = rayCountPerPixel
+        _MaxIntersectionCount = maxIntersectionCount
     End Sub
 
-    Public Property Surface As ISurface(Of Material2D(Of TLight))
+    Private ReadOnly _Surface As ISurface(Of Material2D(Of TLight))
 
-    Private Function TraceColor(ray As Ray, intersectionCount As Integer) As TLight
-        Dim firstIntersection = Me.Surface.FirstMaterialIntersection(ray)
+    Private Function TraceColor(sightRay As SightRay, intersectionCount As Integer) As TLight
+        Dim firstIntersection = _Surface.FirstMaterialIntersection(sightRay)
 
-        If firstIntersection Is Nothing Then Return Me.BackColor
+        If firstIntersection Is Nothing Then Return _BackColor
 
         Dim finalColor = firstIntersection.Material.SourceLight
 
-        If intersectionCount >= Me.MaxIntersectionCount Then
+        If intersectionCount >= _MaxIntersectionCount Then
             Return finalColor
         Else
-            Dim rayChanger = New RayChanger(ray)
+            Dim rayChanger = New RayChanger(Of TLight)(sightRay, firstIntersection)
 
             If firstIntersection.Material.Scatters Then
-                Dim scatteredRay = New RayChanger(ray).ScatteredRay(firstIntersection)
-                Dim scatteredColor = TraceColor(ray:=scatteredRay, intersectionCount:=intersectionCount + 1)
+                Dim scatteredRay = rayChanger.ScatteredRay
+                Dim scatteredColor = TraceColor(sightRay:=scatteredRay, intersectionCount:=intersectionCount + 1)
                 finalColor = finalColor.Add(firstIntersection.Material.ScatteringRemission.GetRemission(scatteredColor))
             End If
 
             If firstIntersection.Material.Reflects Then
-                Dim reflectedRay = rayChanger.ReflectedRay(firstIntersection)
-                Dim reflectionColor = TraceColor(ray:=reflectedRay, intersectionCount:=intersectionCount + 1)
+                Dim reflectedRay = rayChanger.ReflectedRay()
+                Dim reflectionColor = TraceColor(sightRay:=reflectedRay, intersectionCount:=intersectionCount + 1)
                 finalColor = finalColor.Add(firstIntersection.Material.ReflectionRemission.GetRemission(reflectionColor))
             End If
 
             If firstIntersection.Material.IsTranslucent Then
-                Dim passedRay As Ray
+                Dim passedRay As SightRay
                 If firstIntersection.Material.Refracts Then
-                    passedRay = rayChanger.RefractedRay(firstIntersection)
+                    passedRay = rayChanger.RefractedRay()
                 Else
-                    passedRay = rayChanger.PassedRay(firstIntersection)
+                    passedRay = rayChanger.PassedRay()
                 End If
-                Dim passedColor = TraceColor(ray:=passedRay, intersectionCount:=intersectionCount + 1)
+                Dim passedColor = TraceColor(sightRay:=passedRay, intersectionCount:=intersectionCount + 1)
                 finalColor = finalColor.Add(firstIntersection.Material.TransparencyRemission.GetRemission(passedColor))
             End If
 
@@ -48,15 +48,15 @@ Public Class ScatteringRayTracer(Of TLight As {ILight(Of TLight), New})
         End If
     End Function
 
-    Public Property BackColor As New TLight
-    Public Property MaxIntersectionCount As Integer
-    Public Property RayCount As Integer
+    Private ReadOnly _BackColor As New TLight
+    Private ReadOnly _MaxIntersectionCount As Integer
+    Private ReadOnly _RayCount As Integer
 
-    Public Function GetLight(sightRay As Ray) As TLight Implements IRayTracer(Of TLight).GetLight
+    Public Function GetLight(sightRay As SightRay) As TLight Implements IRayTracer(Of TLight).GetLight
         Dim colorSum = New TLight
-        For i = 1 To Me.RayCount
-            colorSum = colorSum.Add(Me.TraceColor(sightRay, intersectionCount:=0))
+        For i = 1 To _RayCount
+            colorSum = colorSum.Add(TraceColor(sightRay, intersectionCount:=0))
         Next
-        Return colorSum.DivideBrightness(Me.RayCount)
+        Return colorSum.DivideBrightness(_RayCount)
     End Function
 End Class

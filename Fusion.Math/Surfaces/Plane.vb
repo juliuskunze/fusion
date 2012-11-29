@@ -24,8 +24,8 @@
         End Get
     End Property
 
-    Public Function Intersection(ray As Ray) As SurfacePoint Implements ISurfacedPointSet3D.FirstIntersection
-        Dim relativeRayOrigin = ray.Origin - Me.Location
+    Public Function FirstIntersection(ray As Ray) As SurfacePoint Implements ISurface.FirstIntersection
+        Dim relativeRayOrigin = ray.Origin - Location
 
         Dim signedRelativeRayOriginDistance = relativeRayOrigin * _NormalizedNormal
         Dim rayOriginCorrect = (signedRelativeRayOriginDistance > 0)
@@ -43,11 +43,11 @@
     End Function
 
     Public Function CoveredHalfSpaceContains(point As Vector3D) As Boolean Implements IPointSet3D.Contains
-        Return Me.NormalizedNormal * (point - Me.Location) < 0
+        Return NormalizedNormal * (point - Location) < 0
     End Function
 
     Public Function Intersections(ray As Ray) As IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
-        Dim intersection = Me.Intersection(ray)
+        Dim intersection = FirstIntersection(ray)
 
         If intersection Is Nothing Then Return Enumerable.Empty(Of SurfacePoint)()
         Return {intersection}

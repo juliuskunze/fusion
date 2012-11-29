@@ -10,10 +10,10 @@ Public Class SingleObjectFrameRelativisticRayTracer
         _Options = options
     End Sub
 
-    Public Overrides Function GetLight(sightRay As Ray) As RadianceSpectrum
-        Dim observerToObjectAtSightRay = ObjectToObserver.Inverse.AtSightRay(New SightRay(sightRay)).Partly(_Options)
+    Public Overrides Function GetLight(sightRay As SightRay) As RadianceSpectrum
+        Dim observerToObjectAtSightRay = ObjectToObserver.Inverse.AtSightRay(sightRay).Partly(_Options)
         Dim objectSightRay = observerToObjectAtSightRay.SemiTransformSightRay
-        Dim radianceSpectrum = ClassicRayTracer.GetLight(objectSightRay.Ray)
+        Dim radianceSpectrum = ClassicRayTracer.GetLight(objectSightRay)
 
         Return observerToObjectAtSightRay.InversePartly.TransformRadianceSpectrum(radianceSpectrum)
     End Function

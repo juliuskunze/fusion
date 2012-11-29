@@ -20,7 +20,7 @@
         Assert.AreEqual(_NullTransformation.Inverse.AtSightRay(randomRayInS).TransformWavelength(wavelength:=17), 17)
         Assert.AreEqual(_NullTransformation.AtSightRay(randomRayInS).TransformSpectralRadiance(spectralRadiance:=17), 17)
 
-        Dim randomEventInS = New SpaceTimeEvent(5, New Vector3D(1, 2, 3))
+        Dim randomEventInS = New SpaceTimeEvent(New Vector3D(1, 2, 3), 5)
 
         Assert.AreEqual(_NullTransformation.TransformEvent(randomEventInS), randomEventInS)
 
@@ -61,19 +61,19 @@
         Const randomSpectralRadiance = 17
         Assert.Greater(_Transformation.AtSightRay(parallelRay).TransformSpectralRadiance(randomSpectralRadiance), randomSpectralRadiance)
 
-        Dim originEvent = New SpaceTimeEvent(0, New Vector3D)
+        Dim originEvent = New SpaceTimeEvent(New Vector3D, 0)
 
         Assert.AreEqual(_Transformation.TransformEvent(originEvent), originEvent)
 
         Const t = 10
-        Dim spaceOriginEvent = New SpaceTimeEvent(t, New Vector3D)
+        Dim spaceOriginEvent = New SpaceTimeEvent(New Vector3D, t)
 
-        Assert.AreEqual(_Transformation.TransformEvent(spaceOriginEvent), New SpaceTimeEvent(gamma * t, New Vector3D(-gamma * t * v, 0, 0)))
+        Assert.AreEqual(_Transformation.TransformEvent(spaceOriginEvent), New SpaceTimeEvent(New Vector3D(-gamma * t * v, 0, 0), gamma * t))
 
         Const x = 10
-        Dim timeOriginEvent = New SpaceTimeEvent(0, New Vector3D(x, 0, 0))
+        Dim timeOriginEvent = New SpaceTimeEvent(New Vector3D(x, 0, 0), 0)
 
-        Assert.AreEqual(_Transformation.TransformEvent(timeOriginEvent), New SpaceTimeEvent(-gamma * v * x / c ^ 2, New Vector3D(gamma * x, 0, 0)))
+        Assert.AreEqual(_Transformation.TransformEvent(timeOriginEvent), New SpaceTimeEvent(New Vector3D(gamma * x, 0, 0), -gamma * v * x / c ^ 2))
 
     End Sub
 

@@ -20,7 +20,7 @@
         Return _Surface.FirstIntersection(ray)
     End Function
 
-    Public Function Intersections(ray As Ray) As System.Collections.Generic.IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
+    Public Function Intersections(ray As Ray) As IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
         Dim firstIntersection = Me.FirstIntersection(ray)
 
         If firstIntersection Is Nothing Then Return Enumerable.Empty(Of SurfacePoint)()

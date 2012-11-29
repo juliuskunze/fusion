@@ -22,16 +22,16 @@
         End Get
     End Property
 
-    Public Function Intersection(ray As Ray) As SurfacePoint Implements ISurfacedPointSet3D.FirstIntersection
-        If Me.Contains(ray.Origin) Then Return Nothing
+    Public Function FirstIntersection(ray As Ray) As SurfacePoint Implements ISurface.FirstIntersection
+        If Contains(ray.Origin) Then Return Nothing
 
-        Dim allIntersectionLocations = Me.SurfaceIntersectionRayLengths(ray)
+        Dim allIntersectionLocations = SurfaceIntersectionRayLengths(ray)
 
         If allIntersectionLocations.Count = 0 Then Return Nothing
 
         Dim rayLength = allIntersectionLocations.Min
         Dim intersectionLocation As Vector3D = ray.PointOnRay(distanceFromOrigin:=rayLength)
-        Dim normal = intersectionLocation - Me.Center
+        Dim normal = intersectionLocation - Center
         Return New SurfacePoint(location:=intersectionLocation, normal:=normal)
     End Function
 
@@ -59,7 +59,7 @@
     End Function
 
     Public Function Intersections(ray As Ray) As IEnumerable(Of SurfacePoint) Implements ISurface.Intersections
-        Dim intersection = Me.Intersection(ray)
+        Dim intersection = Me.FirstIntersection(ray)
 
         If intersection Is Nothing Then Return Enumerable.Empty(Of SurfacePoint)()
 

@@ -27,6 +27,7 @@
             New NamedType("RecursiveRayTracer", GetType(RecursiveRayTracer(Of TLight)), "Computes a resulting light radiance spectrum for each sight ray in 3D space."),
             New NamedType("RadianceSpectrumToRgbColorConverter", GetType(ILightToRgbColorConverter(Of RadianceSpectrum)), "Converts a radiance spectrum into a gamma corrected rgb color that can be displayed by standard monitors."),
             New NamedType("RecursiveRayTracerReferenceFrame", GetType(RecursiveRayTracerReferenceFrame), "A specified recursive ray tracer 3D scene in a reference frame that has a specified velocity relative to the observer."),
+            New NamedType("SpaceTimeEvent", GetType(SpaceTimeEvent), "An physical event, consisting of a point of time and a location."),
             _MaterialType,
             _RayTracerPictureType,
             _RayTracerVideoType,
@@ -90,7 +91,7 @@
                                  "A picture size with the specified width and height."),
                              FunctionInstance.FromLambdaExpression(
                                  "View",
-                                 Function(observerLocation As Vector3D, lookAt As Vector3D, upDirection As Vector3D, horizontalViewAngle As Double) New View3D(observerLocation:=observerLocation, lookAt:=lookAt, upDirection:=upDirection, horizontalViewAngle:=horizontalViewAngle), _TypeDictionary,
+                                 Function(observerEvent As SpaceTimeEvent, lookAt As Vector3D, upDirection As Vector3D, horizontalViewAngle As Double) New View3D(observerEvent:=observerEvent, lookAt:=lookAt, upDirection:=upDirection, horizontalViewAngle:=horizontalViewAngle), _TypeDictionary,
                                  "A view with specified observer location, point the observer is looking on, up direction and horizontal visible view angle."),
                              FunctionInstance.FromLambdaExpression(
                                  "RayTracerPicture",
@@ -101,8 +102,8 @@
                                  Function(pictureFunction As Func(Of Double, RayTracerPicture(Of TLight)), framesPerSecond As Double, duration As Double, startTime As Double, timeStep As Double) New RayTracerVideo(Of TLight)(pictureFunction:=pictureFunction, framesPerSecond:=framesPerSecond, duration:=duration, startTime:=startTime, timeStep:=timeStep), _TypeDictionary,
                                  "A video with specified duration and frame count per second. The specified time step and start time define the points of time where the pictures are chosen from the picture function."),
                              FunctionInstance.FromLambdaExpression(
-                                 "SingleMaterialSurface",
-                                 Function(surface As ISurface, material As TMaterial) DirectCast(New SingleMaterialSurface(Of TMaterial)(surface:=surface, material:=material), ISurface(Of TMaterial)), _TypeDictionary,
+                                 "MaterialSurface",
+                                 Function(surface As ISurface, material As TMaterial) DirectCast(New MaterialSurface(Of TMaterial)(surface:=surface, material:=material), ISurface(Of TMaterial)), _TypeDictionary,
                                  "A material surface that has the same specified material at all points of the specified surface."),
                              FunctionInstance.FromLambdaExpression(
                                  "BlackbodyRadianceSpectrum",
@@ -122,7 +123,7 @@
                              FunctionInstance.FromLambdaExpression(
                                  "MaterialSurface",
                                  Function(surface As ISurface,
-                                          materialFunction As Func(Of Vector3D, TMaterial)) DirectCast(New MaterialSurface(Of TMaterial)(surface:=surface, materialFunction:=materialFunction), ISurface(Of TMaterial)), _TypeDictionary,
+                                          materialFunction As Func(Of SpaceTimeEvent, TMaterial)) DirectCast(New MaterialSurface(Of TMaterial)(surface:=surface, materialFunction:=materialFunction), ISurface(Of TMaterial)), _TypeDictionary,
                                  "A material surface that has a material specified by the material function depending on the location of the point of the specified surface."),
                              FunctionInstance.FromLambdaExpression(
                                  "Checkerboard",
@@ -257,10 +258,9 @@ Public Class RelativisticRayTracerTermContextBuilder
                                               "A RadianceSpectrumToRgbColorConverter that converts a radiance spectrum linear into an rgb color. If the whole spectrum is the specified spectralRadiancePerWhite, the rgb color will be the white (255, 255, 255). If the red, green or blue component would get greater than 255, all three components are scaled down so that it fits into the possible range. Gamma is set to 2.2. The accuracy of the conversion will grow with a higher specified tested wavelengths count."),
                              FunctionInstance.FromLambdaExpression("RecursiveRayTracerReferenceFrame", Function(recursiveRayTracer As RecursiveRayTracer(Of RadianceSpectrum), objectVelocityRelativeToObserver As Vector3D) New RecursiveRayTracerReferenceFrame(recursiveRayTracer:=recursiveRayTracer, objectVelocityRelativeToObserver:=objectVelocityRelativeToObserver), _TypeDictionary),
                              FunctionInstance.FromLambdaExpression("RecursiveRelativisticRayTracer",
-                                                                   Function(observerTime As Double,
-                                                                            referenceFrames As IEnumerable(Of RecursiveRayTracerReferenceFrame),
+                                                                   Function(referenceFrames As IEnumerable(Of RecursiveRayTracerReferenceFrame),
                                                                             ignoreDopplerEffect As Boolean,
-                                                                            ignoreSearchlightEffect As Boolean) DirectCast(New RecursiveRelativisticRayTracer(observerTime, referenceFrames, New LorentzTransformationAtSightRayOptions(ignoreDopplerEffect:=ignoreDopplerEffect, ignoreSearchlightEffect:=ignoreSearchlightEffect)), IRayTracer(Of RadianceSpectrum)), _TypeDictionary,
+                                                                            ignoreSearchlightEffect As Boolean) DirectCast(New RecursiveRelativisticRayTracer(referenceFrames, New LorentzTransformationAtSightRayOptions(ignoreDopplerEffect:=ignoreDopplerEffect, ignoreSearchlightEffect:=ignoreSearchlightEffect)), IRayTracer(Of RadianceSpectrum)), _TypeDictionary,
                                                                    "A ray tracer that can have multiple object reference frames that have a constant velocity relative to the observer.")
        }
 

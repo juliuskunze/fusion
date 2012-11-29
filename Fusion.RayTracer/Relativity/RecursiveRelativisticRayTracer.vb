@@ -1,46 +1,27 @@
 ﻿Public Class RecursiveRelativisticRayTracer
     Implements IRayTracer(Of RadianceSpectrum)
 
-    Private ReadOnly _ObserverTime As Double
     Private ReadOnly _ReferenceFrames As IEnumerable(Of RecursiveRayTracerReferenceFrame)
     Private ReadOnly _Options As LorentzTransformationAtSightRayOptions
 
     Private Shared ReadOnly _LocationComparer As New Vector3DRoughComparer(maxDeviation:=3.2 * 10 ^ -9)
 
-    Public Sub New(observerTime As Double, referenceFrames As IEnumerable(Of RecursiveRayTracerReferenceFrame), options As LorentzTransformationAtSightRayOptions)
+    Public Sub New(referenceFrames As IEnumerable(Of RecursiveRayTracerReferenceFrame), options As LorentzTransformationAtSightRayOptions)
         If options.IgnoreGeometryEffect Then Throw New ArgumentOutOfRangeException("options", "Geometry effect cannot be ignored in a recursive relativistic raytracer.")
 
-        _ObserverTime = observerTime
         _ReferenceFrames = referenceFrames
         _Options = options
     End Sub
 
-    Public ReadOnly Property Options As LorentzTransformationAtSightRayOptions
-        Get
-            Return _Options
-        End Get
-    End Property
+    Public Function GetLight(sightRay As SightRay) As RadianceSpectrum Implements IRayTracer(Of RadianceSpectrum).GetLight
+        Dim observerSightRay = sightRay
 
-    Public ReadOnly Property ReferenceFrames As IEnumerable(Of RecursiveRayTracerReferenceFrame)
-        Get
-            Return _ReferenceFrames
-        End Get
-    End Property
-
-    Public ReadOnly Property ObserverTime As Double
-        Get
-            Return _ObserverTime
-        End Get
-    End Property
-
-
-    Private Function TraceLight(observerSightRay As SightRay) As RadianceSpectrum
         Dim hits =
             From frame In _ReferenceFrames
             Let surface = frame.RecursiveRayTracer.Surface
             Let observerToObject = frame.ObserverToObject
             Let objectSightRay = observerToObject.TransformSightRay(observerSightRay)
-            Let objectSurfacePoint = surface.FirstMaterialIntersection(objectSightRay.Ray)
+            Let objectSurfacePoint = surface.FirstMaterialIntersection(objectSightRay)
             Where objectSurfacePoint IsNot Nothing
             Let objectDistanceFromOrigin = (objectSurfacePoint.Location - objectSightRay.OriginLocation).Length
             Let objectEvent = objectSightRay.GetEvent(objectDistanceFromOrigin)
@@ -68,7 +49,7 @@
                             From surfaceFrame In _ReferenceFrames
                             Let lightToSurface = observerToLight.Inverse.Before(surfaceFrame.ObserverToObject)
                             Let surfaceSightRay = lightToSurface.TransformSightRay(lightSightRay)
-                            Let surfaceIntersection = surfaceFrame.RecursiveRayTracer.Surface.FirstMaterialIntersection(surfaceSightRay.Ray)
+                            Let surfaceIntersection = surfaceFrame.RecursiveRayTracer.Surface.FirstMaterialIntersection(surfaceSightRay)
                             Where surfaceIntersection IsNot Nothing
                             Where Not _LocationComparer.Equals(surfaceIntersection.Location, actualHit.objectSurfacePoint.Location)).
                             Any()
@@ -88,17 +69,9 @@
         End If
 
         If hitMaterial.Reflects OrElse hitMaterial.IsTranslucent Then
-            Throw New NotImplementedException("Reflection and translucence are not implemented.")
+            Throw New NotImplementedException("Reflection and translucence at the same time is not implemented.")
         End If
 
         Return finalLight
-    End Function
-
-    Public Function GetLight(sightRay As SightRay) As RadianceSpectrum
-        Return TraceLight(sightRay)
-    End Function
-
-    Public Function GetLight(sightRay As Ray) As RadianceSpectrum Implements IRayTracer(Of RadianceSpectrum).GetLight
-        Return GetLight(New SightRay(sightRay, _ObserverTime))
     End Function
 End Class

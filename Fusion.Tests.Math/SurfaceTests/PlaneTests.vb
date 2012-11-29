@@ -17,7 +17,7 @@
     Public Sub FirstIntersection_Vertical()
         Dim verticalRay = New Ray(origin:=New Vector3D(1, 4, 5), direction:=New Vector3D(-1, 0, 0))
 
-        Dim intersection = _YzHalfSpace.Intersection(verticalRay)
+        Dim intersection = _YzHalfSpace.FirstIntersection(verticalRay)
         Assert.AreEqual(New Vector3D(0, 4, 5), intersection.Location)
         Assert.AreEqual(New Vector3D(1, 0, 0), intersection.NormalizedNormal)
         SurfaceTests.SurfaceRayIntersection(_YzHalfSpace, verticalRay)
@@ -27,7 +27,7 @@
     Public Sub FirstIntersection_Parallel()
         Dim parallelRay = New Ray(origin:=New Vector3D(1, 0, 0), direction:=New Vector3D(0, 1, 0))
 
-        Dim intersection = _YzHalfSpace.Intersection(parallelRay)
+        Dim intersection = _YzHalfSpace.FirstIntersection(parallelRay)
         Assert.AreEqual(intersection, Nothing)
         SurfaceTests.SurfaceRayIntersection(_YzHalfSpace, parallelRay)
     End Sub
@@ -36,7 +36,7 @@
     Public Sub FirstIntersection_WrongDirection()
         Dim wrongDirectionRay = New Ray(origin:=New Vector3D(1, 0, 0), direction:=New Vector3D(1, 0, 0))
 
-        Dim intersection = _YzHalfSpace.Intersection(wrongDirectionRay)
+        Dim intersection = _YzHalfSpace.FirstIntersection(wrongDirectionRay)
         Assert.AreEqual(intersection, Nothing)
         SurfaceTests.SurfaceRayIntersection(_YzHalfSpace, wrongDirectionRay)
     End Sub

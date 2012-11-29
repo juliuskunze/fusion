@@ -45,7 +45,7 @@ Public Class ConcatenatedSortedEnumerator(Of T)
     End Sub
 
     Private _Current As T
-    Public ReadOnly Property Current As T Implements System.Collections.Generic.IEnumerator(Of T).Current
+    Public ReadOnly Property Current As T Implements IEnumerator(Of T).Current
         Get
             Return _Current
         End Get

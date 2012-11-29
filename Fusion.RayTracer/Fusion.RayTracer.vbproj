@@ -108,7 +108,7 @@
     <Compile Include="MaterialSurfaces\Material2D.vb" />
     <Compile Include="MaterialSurfaces\MaterialSurfacePoint.vb" />
     <Compile Include="MaterialSurfaces\MaterialSurfaces.vb" />
-    <Compile Include="MaterialSurfaces\SingleMaterialSurface.vb" />
+    <Compile Include="MaterialSurfaces\SurfaceExtensions.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -140,11 +140,11 @@
     <Compile Include="Relativity\SingleObjectFrameRelativisticRayTracer.vb" />
     <Compile Include="ClassicRayTracers\ScatteringRayTracer.vb" />
     <Compile Include="Relativity\LorentzTransformation\PartlyLorentzTransformationAtSightRay.vb" />
-    <Compile Include="Relativity\SurfaceEvent.vb" />
     <Compile Include="Video\IRayTraceVideo.vb" />
     <Compile Include="Video\IViewCourse.vb" />
     <Compile Include="Video\LinearViewCourse.vb" />
     <Compile Include="Video\ViewCourseVideo.vb" />
+    <Compile Include="View3D.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

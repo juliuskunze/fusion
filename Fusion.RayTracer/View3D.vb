@@ -1,14 +1,14 @@
 Public Class View3D
-    Public Sub New(observerLocation As Vector3D, lookAt As Vector3D, upDirection As Vector3D, horizontalViewAngle As Double)
-        If observerLocation = lookAt Then Throw New ArgumentException("Observer location must not be lookAt location.")
-        _NormalizedLookDirection = (lookAt - observerLocation).Normalized
+    Public Sub New(observerEvent As SpaceTimeEvent, lookAt As Vector3D, upDirection As Vector3D, horizontalViewAngle As Double)
+        If observerEvent.Location = lookAt Then Throw New ArgumentException("Observer location must not be lookAt location.")
+        _NormalizedLookDirection = (lookAt - observerEvent.Location).Normalized
 
         If upDirection.LengthSquared = 0 Then Throw New ArgumentException("Up direction must not be null vector.")
         _NormalizedUpDirection = upDirection.Normalized
 
         If horizontalViewAngle < 0 OrElse horizontalViewAngle >= PI Then Throw New ArgumentException("Horizontal view angle must be in [0,pi).")
 
-        _ObserverLocation = observerLocation
+        _ObserverEvent = observerEvent
         _LookAt = lookAt
         _HorizontalViewAngle = horizontalViewAngle
         _NormalizedRightVectorInViewPlane = _NormalizedLookDirection.CrossProduct(_NormalizedUpDirection)
@@ -26,10 +26,10 @@ Public Class View3D
         End Get
     End Property
 
-    Private ReadOnly _ObserverLocation As Vector3D
-    Public ReadOnly Property ObserverLocation As Vector3D
+    Private ReadOnly _ObserverEvent As SpaceTimeEvent
+    Public ReadOnly Property ObserverEvent As SpaceTimeEvent
         Get
-            Return _ObserverLocation
+            Return _ObserverEvent
         End Get
     End Property
 
@@ -65,8 +65,8 @@ Public Class View3D
     ''' <param name="viewPlaneLocation">The view plane is visible if viewPlaneLocation.X and viewPlaneLocation.Y are in [-1; 1].</param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function SightRay(viewPlaneLocation As Vector2D) As Ray
+    Public Function SightRay(viewPlaneLocation As Vector2D) As SightRay
         Dim sightVectorInViewPlane = _NormalizedRightVectorInViewPlane * viewPlaneLocation.X + _NormalizedUpVectorInViewPlane * viewPlaneLocation.Y
-        Return New Ray(origin:=Me.ObserverLocation, Direction:=_ViewPlaneDistanceVector + sightVectorInViewPlane)
+        Return New SightRay(ObserverEvent, Direction:=_ViewPlaneDistanceVector + sightVectorInViewPlane)
     End Function
 End Class
