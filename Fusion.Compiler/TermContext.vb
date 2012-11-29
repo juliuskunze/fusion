@@ -116,6 +116,7 @@
         Dim matchingFunctionGroup = Me.GetMatchingFunctionGroup(functionCall.FunctionName)
         Dim matchingFunctions = matchingFunctionGroup.Where(Function(instance) instance.Signature.FunctionType.Parameters.Count = functionCall.Arguments.Count)
         If Not matchingFunctions.Any Then Throw New LocatedCompilerException(functionCall.LocatedString, String.Format("Function '{0}' with parameter count {1} not defined in this context.", functionCall.FunctionName, functionCall.Arguments.Count))
+        If matchingFunctions.Count > 1 Then Throw New LocatedCompilerException(functionCall.LocatedString, String.Format("Function '{0}' with parameter count {1} not defined twice in this context.", functionCall.FunctionName, functionCall.Arguments.Count))
         Return matchingFunctions.Single
     End Function
 

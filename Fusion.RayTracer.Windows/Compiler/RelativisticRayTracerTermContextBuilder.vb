@@ -1,13 +1,14 @@
 ﻿Public Class RelativisticRayTracerTermContextBuilder(Of TLight As {ILight(Of TLight), New}, TMaterial As Material2D(Of TLight))
-
     Private ReadOnly _RayTracerPictureType As New NamedType("RayTracerPicture", GetType(RayTracerPicture(Of TLight)), "A picture produced by a ray tracer.")
     Private ReadOnly _RayTracerVideoType As New NamedType("RayTracerVideo", GetType(RayTracerVideo(Of TLight)), "A video produced by a ray tracer.")
     Private ReadOnly _MaterialType As New NamedType("Material", GetType(TMaterial), "A material of a 2D surface.")
-
+    Private ReadOnly _SpaceTimeEventType As New NamedType("SpaceTimeEvent", GetType(SpaceTimeEvent), "An physical event, consisting of a point of time and a location.")
+    
     Private ReadOnly _SpectralRadianceFunctionType As New NamedType("RadianceSpectrum", New FunctionType(NamedType.Real, Parameters:={New NamedParameter("wavelength", NamedType.Real)}), "A light spectrum as wavelength spectrum of spectral radiance.")
     Private ReadOnly _PictureFunctionType As New NamedType("PictureFunction", New FunctionType(_RayTracerPictureType, Parameters:={New NamedParameter("time", NamedType.Real)}), "A function that returns a picture for each point of time.")
-    Private ReadOnly _MaterialFunctionType As New NamedType("MaterialFunction", New FunctionType(_MaterialType, Parameters:={New NamedParameter("location", NamedType.Vector3D)}), "A function that returns a material for each location in 3D space.")
+    Private ReadOnly _MaterialFunctionType As New NamedType("MaterialFunction", New FunctionType(_MaterialType, Parameters:={New NamedParameter("spaceTimeEvent", _SpaceTimeEventType)}), "A function that returns a material for each 3D-location and time.")
     Private ReadOnly _PointSelectorType As New NamedType("PointSelector", New FunctionType(NamedType.Boolean, Parameters:={New NamedParameter("point", NamedType.Vector3D)}), "A function that returns whether a point is in a point set or not.")
+
 
     Private ReadOnly _NamedTypes As New NamedTypes(
         {
@@ -27,7 +28,7 @@
             New NamedType("RecursiveRayTracer", GetType(RecursiveRayTracer(Of TLight)), "Computes a resulting light radiance spectrum for each sight ray in 3D space."),
             New NamedType("RadianceSpectrumToRgbColorConverter", GetType(ILightToRgbColorConverter(Of RadianceSpectrum)), "Converts a radiance spectrum into a gamma corrected rgb color that can be displayed by standard monitors."),
             New NamedType("RecursiveRayTracerReferenceFrame", GetType(RecursiveRayTracerReferenceFrame), "A specified recursive ray tracer 3D scene in a reference frame that has a specified velocity relative to the observer."),
-            New NamedType("SpaceTimeEvent", GetType(SpaceTimeEvent), "An physical event, consisting of a point of time and a location."),
+            _SpaceTimeEventType,
             _MaterialType,
             _RayTracerPictureType,
             _RayTracerVideoType,
@@ -102,7 +103,7 @@
                                  Function(pictureFunction As Func(Of Double, RayTracerPicture(Of TLight)), framesPerSecond As Double, duration As Double, startTime As Double, timeStep As Double) New RayTracerVideo(Of TLight)(pictureFunction:=pictureFunction, framesPerSecond:=framesPerSecond, duration:=duration, startTime:=startTime, timeStep:=timeStep), _TypeDictionary,
                                  "A video with specified duration and frame count per second. The specified time step and start time define the points of time where the pictures are chosen from the picture function."),
                              FunctionInstance.FromLambdaExpression(
-                                 "MaterialSurface",
+                                 "SingleMaterialSurface",
                                  Function(surface As ISurface, material As TMaterial) DirectCast(New MaterialSurface(Of TMaterial)(surface:=surface, material:=material), ISurface(Of TMaterial)), _TypeDictionary,
                                  "A material surface that has the same specified material at all points of the specified surface."),
                              FunctionInstance.FromLambdaExpression(
@@ -156,9 +157,22 @@
                              FunctionInstance.FromLambdaExpression(
                                  "InversePointSet",
                                  Function(pointSet As IPointSet3D) DirectCast(New InversePointSet3D(pointSet:=pointSet), IPointSet3D), _TypeDictionary,
-                                 "The inverse of a specified point set.")}
+                                 "The inverse of a specified point set."),
+                             FunctionInstance.FromLambdaExpression(
+                                 "SpaceTimeEvent",
+                                 Function(location As Vector3D, time As Double) New SpaceTimeEvent(location, time), _TypeDictionary,
+                                 "The physical event consisting of a spcified 3D location and a specified point of time."),
+                             FunctionInstance.FromLambdaExpression(
+                                 "Location",
+                                 Function(spaceTimeEvent As SpaceTimeEvent) spaceTimeEvent.Location, _TypeDictionary,
+                                 "The 3D location of the event."),
+                             FunctionInstance.FromLambdaExpression(
+                                 "Time",
+                                 Function(spaceTimeEvent As SpaceTimeEvent) spaceTimeEvent.Time, _TypeDictionary,
+                                 "The point of time of the spaceTimeEvent.")}
 
-        Private ReadOnly _TermContext As TermContext
+    Private ReadOnly _TermContext As TermContext
+
     Public ReadOnly Property TermContext As TermContext
         Get
             Return _TermContext
