@@ -3,6 +3,5 @@
 
     ReadOnly Property Location As Vector3D
 
-    Overloads Function GetLight(point As Vector3D) As TLight
-
+    Overloads Function GetLight(point As Point) As TLight
 End Interface

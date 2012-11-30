@@ -3,7 +3,7 @@ Public Class PointLightSourceTests
 
     <Test()>
     Public Sub LightColor_Orthogonal()
-        Dim surfacePointAtDistance2 = New SurfacePoint(location:=New Vector3D(2, 0, 0), normal:=New Vector3D(-2, 0, 0))
+        Dim surfacePointAtDistance2 = New SurfacePoint(Of RgbLight)(New SpaceTimeEvent(New Vector3D(2, 0, 0)), normal:=New Vector3D(-2, 0, 0), material:=RgbLightMaterials2D.Black)
         Dim colorAtDistance2 = _LightSource.GetLight(surfacePointAtDistance2)
 
         Assert.AreEqual(colorAtDistance2, New RgbLight(Color.FromArgb(4, 8, 4)))
@@ -11,7 +11,7 @@ Public Class PointLightSourceTests
 
     <Test()>
     Public Sub LightColor_Horizontal()
-        Dim surfacePointAtDistance2 = New SurfacePoint(location:=New Vector3D(2, 0, 0), normal:=New Vector3D(0, 1, 0))
+        Dim surfacePointAtDistance2 = New SurfacePoint(Of RgbLight)(New SpaceTimeEvent(New Vector3D(2, 0, 0)), normal:=New Vector3D(0, 1, 0), material:=RgbLightMaterials2D.Black)
         Dim colorAtDistance2 = _LightSource.GetLight(surfacePointAtDistance2)
 
         Assert.AreEqual(colorAtDistance2, RgbLight.Black)
@@ -19,7 +19,7 @@ Public Class PointLightSourceTests
 
     <Test()>
     Public Sub LightColor_Angular()
-        Dim surfacePointAtDistance2 = New SurfacePoint(location:=New Vector3D(2, 0, 0), normal:=New Vector3D(-1, -1, 0))
+        Dim surfacePointAtDistance2 = New SurfacePoint(Of RgbLight)(New SpaceTimeEvent(New Vector3D(2, 0, 0)), normal:=New Vector3D(-1, -1, 0), material:=RgbLightMaterials2D.Black)
         Dim colorAtDistance2 = _LightSource.GetLight(surfacePointAtDistance2)
 
         Assert.AreEqual(New RgbLight(Color.FromArgb(4, 8, 4)) / Sqrt(2), colorAtDistance2)

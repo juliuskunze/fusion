@@ -21,7 +21,7 @@ Public Class DirectionalLightSource(Of TLight As {ILight(Of TLight), New})
 
     Public Property Light As TLight
 
-    Public Function GetLight(surfacePoint As SurfacePoint) As TLight Implements ILightSource(Of TLight).GetLight
+    Public Function GetLight(surfacePoint As SurfacePoint(Of TLight)) As TLight Implements ILightSource(Of TLight).GetLight
         Dim valueFactor = -surfacePoint.NormalizedNormal * _NormalizedDirection
 
         If valueFactor < 0 Then

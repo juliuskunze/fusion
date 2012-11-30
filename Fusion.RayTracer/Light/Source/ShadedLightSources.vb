@@ -22,7 +22,7 @@ Public Class ShadedLightSources(Of TLight As {ILight(Of TLight), New})
         _ShadowingSurface = shadowingSurface
     End Sub
 
-    Public Function GetLight(surfacePoint As SurfacePoint) As TLight Implements ILightSource(Of TLight).GetLight
+    Public Function GetLight(surfacePoint As SurfacePoint(Of TLight)) As TLight Implements ILightSource(Of TLight).GetLight
         Return (From pointLightSource In Me
                 Let lightRay = New Ray(origin:=pointLightSource.Location, direction:=surfacePoint.Location - pointLightSource.Location)
                 Let firstIntersection = ShadowingSurface.FirstIntersection(lightRay)

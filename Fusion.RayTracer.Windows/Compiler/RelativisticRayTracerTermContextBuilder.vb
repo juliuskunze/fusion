@@ -144,7 +144,7 @@
                                  "A surface that consists of the given set of surfaces."),
                              FunctionInstance.FromLambdaExpression(
                                  "MaterialSurfaces",
-                                 Function(materialSurfaces As IEnumerable(Of ISurface(Of Material2D(Of TLight)))) DirectCast(New Surfaces(Of Material2D(Of TLight))(materialSurfaces), ISurface(Of Material2D(Of TLight))), _TypeDictionary,
+                                 Function(materialSurfaces As IEnumerable(Of ISurface(Of TLight))) DirectCast(New Surfaces(Of TLight)(materialSurfaces), ISurface(Of TLight)), _TypeDictionary,
                                  "A material surface that consists of the given set of material surfaces."),
                              FunctionInstance.FromLambdaExpression(
                                  "LightSources",

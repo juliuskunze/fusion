@@ -18,7 +18,7 @@ Public Class ConstantPointLightSource(Of TLight As {ILight(Of TLight), New})
         Me.Light = light
     End Sub
 
-    Public Function GetLight(surfacePoint As SurfacePoint) As TLight Implements ILightSource(Of TLight).GetLight
+    Public Function GetLight(surfacePoint As SurfacePoint(Of TLight)) As TLight Implements ILightSource(Of TLight).GetLight
         Dim pointToLight = Location - surfacePoint.Location
         Dim normalizedPointToLight = pointToLight.Normalized
         Dim brightnessFactorByNormal = surfacePoint.NormalizedNormal.DotProduct(normalizedPointToLight)
