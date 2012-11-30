@@ -1,5 +1,5 @@
-﻿Public Class MaterialBox(Of TMaterial)
-    Inherits MaterialSurface(Of TMaterial)
+﻿Public Class MaterialBox(Of TLight)
+    Inherits MaterialSurface(Of TLight)
 
     Private Shared ReadOnly _LowerXNormal As New Vector3D(-1, 0, 0)
     Private Shared ReadOnly _LowerYNormal As New Vector3D(0, -1, 0)
@@ -9,12 +9,12 @@
     Private Shared ReadOnly _UpperZNormal As New Vector3D(0, 0, 1)
 
     Public Sub New(box As Box,
-                   lowerXMaterial As TMaterial,
-                   upperXMaterial As TMaterial,
-                   lowerYMaterial As TMaterial,
-                   upperYMaterial As TMaterial,
-                   lowerZMaterial As TMaterial,
-                   upperZMaterial As TMaterial)
+                   lowerXMaterial As Material2D(Of TLight),
+                   upperXMaterial As Material2D(Of TLight),
+                   lowerYMaterial As Material2D(Of TLight),
+                   upperYMaterial As Material2D(Of TLight),
+                   lowerZMaterial As Material2D(Of TLight),
+                   upperZMaterial As Material2D(Of TLight))
         MyBase.New(surface:=box, materialFunction:=
                    Function(spaceTimeEvent, surfacePoint)
                        If surfacePoint Is Nothing Then Return Nothing

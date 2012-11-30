@@ -1,6 +1,6 @@
-﻿Public Class MaterialFunctions(Of TMaterial)
+﻿Public Class MaterialFunctions(Of TLight)
 
-    Public Shared Function Checkerboard(xVector As Vector3D, yVector As Vector3D, material1 As TMaterial, material2 As TMaterial) As Func(Of SpaceTimeEvent, TMaterial)
+    Public Shared Function Checkerboard(xVector As Vector3D, yVector As Vector3D, material1 As Material2D(Of TLight), material2 As Material2D(Of TLight)) As Func(Of SpaceTimeEvent, Material2D(Of TLight))
         Return Function(spaceTimeEvent)
                    Dim location = spaceTimeEvent.Location
 
@@ -28,7 +28,7 @@
         Return rest < 1
     End Function
 
-    Public Shared Function Grid2D(xVector As Vector3D, yVector As Vector3D, backgroundMaterial As TMaterial, gridMaterial As TMaterial, gridLineWidth As Double) As Func(Of SpaceTimeEvent, TMaterial)
+    Public Shared Function Grid2D(xVector As Vector3D, yVector As Vector3D, backgroundMaterial As Material2D(Of TLight), gridMaterial As Material2D(Of TLight), gridLineWidth As Double) As Func(Of SpaceTimeEvent, Material2D(Of TLight))
         Return Function(spaceTimeEvent)
                    Dim location = spaceTimeEvent.Location
                    Dim xLocation = xVector.Normalized * location
@@ -46,7 +46,7 @@
                End Function
     End Function
 
-    Public Shared Function Grid3D(xVector As Vector3D, yVector As Vector3D, zVector As Vector3D, backgroundMaterial As TMaterial, gridMaterial As TMaterial, gridLineWidth As Double) As Func(Of SpaceTimeEvent, TMaterial)
+    Public Shared Function Grid3D(xVector As Vector3D, yVector As Vector3D, zVector As Vector3D, backgroundMaterial As Material2D(Of TLight), gridMaterial As Material2D(Of TLight), gridLineWidth As Double) As Func(Of SpaceTimeEvent, Material2D(Of TLight))
         Return Function(spaceTimeEvent)
                    Dim location = spaceTimeEvent.Location
                    Dim xLocation = xVector.Normalized * location

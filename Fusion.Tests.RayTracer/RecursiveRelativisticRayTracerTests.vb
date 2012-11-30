@@ -7,7 +7,7 @@
     End Sub
 
     Private Function GetTestScene(spectrum As SpectralRadianceFunction) As RecursiveRelativisticRayTracer
-        Dim whitePlane = New MaterialSurface(Of Material2D(Of RadianceSpectrum))(New Plane(New Vector3D(1, 0, 0), New Vector3D(-1, 0, 0)),
+        Dim whitePlane = New MaterialSurface(Of RadianceSpectrum)(New Plane(New Vector3D(1, 0, 0), New Vector3D(-1, 0, 0)),
                                                                                        Materials2D(Of RadianceSpectrum).LightSource(New RadianceSpectrum(spectrum)))
         Dim frame = New RecursiveRayTracerReferenceFrame(New RecursiveRayTracer(Of RadianceSpectrum)(whitePlane, New LightSources(Of RadianceSpectrum)({}), {}), New LorentzTransformation(New Vector3D(-Constants.SpeedOfLight / 2, 0, 0)))
         Return New RecursiveRelativisticRayTracer(referenceFrames:={frame}, options:=New LorentzTransformationAtSightRayOptions)

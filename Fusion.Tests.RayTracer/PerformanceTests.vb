@@ -55,8 +55,8 @@ Public Class PerformanceTests
                                                           transparencyRemission:=New BlackRemission(Of RgbLight))
         Dim groundRectangle = New Fusion.Math.Rectangle(frontRightDown, origin, backLeftDown)
 
-        Dim ground = New MaterialSurface(Of Material2D(Of RgbLight))(groundRectangle,
-                                                                     MaterialFunctions(Of Material2D(Of RgbLight)).Checkerboard(
+        Dim ground = New MaterialSurface(Of RgbLight)(groundRectangle,
+                                                                     MaterialFunctions(Of RgbLight).Checkerboard(
                                         xVector:=New Vector3D(1, 0, 0),
                                         yVector:=New Vector3D(0, 0, 1),
                                         material1:=groundMaterial1,
@@ -64,39 +64,39 @@ Public Class PerformanceTests
 
         Dim lightRectangle = New Fusion.Math.Rectangle(vertex1:=New Vector3D(10, 9.5, 10), vertex2:=New Vector3D(5, 9.5, 10),
                                                        vertex3:=New Vector3D(5, 9.5, 5))
-        Dim light = New MaterialSurface(Of Material2D(Of RgbLight))(lightRectangle, lightMaterial)
+        Dim light = New MaterialSurface(Of RgbLight)(lightRectangle, lightMaterial)
 
         Dim redWallPlane = New Fusion.Math.Rectangle(frontLeftDown, frontLeftUp, backLeftUp)
-        Dim redWall = New MaterialSurface(Of Material2D(Of RgbLight))(redWallPlane, redMaterial)
+        Dim redWall = New MaterialSurface(Of RgbLight)(redWallPlane, redMaterial)
 
         Dim frontWallPlane1 = New Fusion.Math.Rectangle(frontLeftDown, midDown, midUp)
         Dim frontWallPlane2 = New Fusion.Math.Rectangle(midDown, leftFrontDown, leftFrontUp)
         Dim frontWallPlane3 = New Fusion.Math.Rectangle(leftFrontDown, frontRightDown, frontRightUp)
 
         Dim frontWallSurface = New Surfaces From {frontWallPlane1, frontWallPlane2, frontWallPlane3}
-        Dim frontWall = New MaterialSurface(Of Material2D(Of RgbLight))(frontWallSurface, whiteMaterial)
+        Dim frontWall = New MaterialSurface(Of RgbLight)(frontWallSurface, whiteMaterial)
 
         Dim greenWallPlane = New Fusion.Math.Rectangle(frontRightUp, frontRightDown, backRightDown)
-        Dim greenWall = New MaterialSurface(Of Material2D(Of RgbLight))(greenWallPlane, greenMaterial)
+        Dim greenWall = New MaterialSurface(Of RgbLight)(greenWallPlane, greenMaterial)
 
         Dim backWallPlane = New Fusion.Math.Rectangle(backRightDown, backLeftDown, backLeftUp)
-        Dim backWall = New MaterialSurface(Of Material2D(Of RgbLight))(backWallPlane, whiteMaterial)
+        Dim backWall = New MaterialSurface(Of RgbLight)(backWallPlane, whiteMaterial)
 
         Dim pointLightSource = New LinearPointLightSource(Of RgbLight)(Location:=New Vector3D(6, 9.5, 10), baseLight:=RgbLight.White * 5)
         Dim shadedLightSources = New List(Of IPointLightSource(Of RgbLight)) From {pointLightSource}
 
         Dim ceilingPlane = New Fusion.Math.Rectangle(backLeftUp, originUp, frontRightUp)
-        Dim ceiling = New MaterialSurface(Of Material2D(Of RgbLight))(ceilingPlane, whiteMaterial)
+        Dim ceiling = New MaterialSurface(Of RgbLight)(ceilingPlane, whiteMaterial)
 
         Dim scatteringSphereRadius = 0.75
         Dim scatteringSphereCenter = backRightDown + New Vector3D(-1.5, scatteringSphereRadius, -2.5)
         Dim scatteringSphereSurface = New Sphere(scatteringSphereCenter, scatteringSphereRadius)
-        Dim scatteringSphere = New MaterialSurface(Of Material2D(Of RgbLight))(scatteringSphereSurface, whiteMaterial)
+        Dim scatteringSphere = New MaterialSurface(Of RgbLight)(scatteringSphereSurface, whiteMaterial)
 
         Dim metalSphereRadius = 1.5
         Dim metalSphereCenter = midDown + New Vector3D(0, metalSphereRadius, 3)
         Dim metalSphereSurface = New Sphere(metalSphereCenter, metalSphereRadius)
-        Dim metalSphere = New MaterialSurface(Of Material2D(Of RgbLight))(metalSphereSurface, metal)
+        Dim metalSphere = New MaterialSurface(Of RgbLight)(metalSphereSurface, metal)
 
         Dim glassLocation = backLeftDown + New Vector3D(3, 0, -4.5)
         Dim glassCylinderHeight = 3
@@ -104,11 +104,11 @@ Public Class PerformanceTests
         Dim glassSphereRadius = 1.5
         Dim glassSphereCenter = glassLocation + New Vector3D(0, glassCylinderHeight + glassSphereRadius, 0)
         Dim glassSphereSurface = New Sphere(glassSphereCenter, glassSphereRadius)
-        Dim glassSphere = New MaterialSurface(Of Material2D(Of RgbLight))(glassSphereSurface, glass)
+        Dim glassSphere = New MaterialSurface(Of RgbLight)(glassSphereSurface, glass)
         Dim glassAntiSphereSurface = New AntiSphere(glassSphereSurface)
-        Dim glassAntiSphere = New MaterialSurface(Of Material2D(Of RgbLight))(glassAntiSphereSurface, innerGlass)
+        Dim glassAntiSphere = New MaterialSurface(Of RgbLight)(glassAntiSphereSurface, innerGlass)
 
-        Dim surfaces = New Surfaces(Of Material2D(Of RgbLight))({ground, redWall, frontWall, greenWall, backWall, ceiling, frontWall, light, scatteringSphere, glassSphere, glassAntiSphere, metalSphere})
+        Dim surfaces = New Surfaces(Of RgbLight)({ground, redWall, frontWall, greenWall, backWall, ceiling, frontWall, light, scatteringSphere, glassSphere, glassAntiSphere, metalSphere})
         Dim rayTracer = New RecursiveRayTracer(Of RgbLight)(surface:=surfaces, unshadedLightSource:=New LightSources(Of RgbLight), shadedPointLightSources:=shadedLightSources, maxIntersectionCount:=10)
         'Dim rayTracer = New ScatteringRayTracer(surface:=surfaces, rayCount:=1, maxIntersectionCount:=10)
 

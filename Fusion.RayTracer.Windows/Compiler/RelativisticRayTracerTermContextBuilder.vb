@@ -1,9 +1,9 @@
-﻿Public Class RelativisticRayTracerTermContextBuilder(Of TLight As {ILight(Of TLight), New}, TMaterial As Material2D(Of TLight))
+﻿Public Class RelativisticRayTracerTermContextBuilder(Of TLight As {ILight(Of TLight), New})
     Private ReadOnly _RayTracerPictureType As New NamedType("RayTracerPicture", GetType(RayTracerPicture(Of TLight)), "A picture produced by a ray tracer.")
     Private ReadOnly _RayTracerVideoType As New NamedType("RayTracerVideo", GetType(RayTracerVideo(Of TLight)), "A video produced by a ray tracer.")
-    Private ReadOnly _MaterialType As New NamedType("Material", GetType(TMaterial), "A material of a 2D surface.")
+    Private ReadOnly _MaterialType As New NamedType("Material", GetType(Material2D(Of TLight)), "A material of a 2D surface.")
     Private ReadOnly _SpaceTimeEventType As New NamedType("SpaceTimeEvent", GetType(SpaceTimeEvent), "An physical event, consisting of a point of time and a location.")
-    
+
     Private ReadOnly _SpectralRadianceFunctionType As New NamedType("RadianceSpectrum", New FunctionType(NamedType.Real, Parameters:={New NamedParameter("wavelength", NamedType.Real)}), "A light spectrum as wavelength spectrum of spectral radiance.")
     Private ReadOnly _PictureFunctionType As New NamedType("PictureFunction", New FunctionType(_RayTracerPictureType, Parameters:={New NamedParameter("time", NamedType.Real)}), "A function that returns a picture for each point of time.")
     Private ReadOnly _MaterialFunctionType As New NamedType("MaterialFunction", New FunctionType(_MaterialType, Parameters:={New NamedParameter("spaceTimeEvent", _SpaceTimeEventType)}), "A function that returns a material for each 3D-location and time.")
@@ -18,7 +18,7 @@
             New NamedType("PointSet", GetType(IPointSet3D), "Represents a point set in 3D space."),
             New NamedType("Box", GetType(Box), "Represents a cuboid surface, which faces a parallel to x-, y- or z-axis."),
             New NamedType("Remission", GetType(IRemission(Of TLight)), "Represents a behaviour how (incoming) light with a specific radiance spectrum gets changed. (For example which wavelengths get absorbed.)"),
-            New NamedType("MaterialSurface", GetType(ISurface(Of TMaterial)), "Represents a surface with a specified surface material for each surface point."),
+            New NamedType("MaterialSurface", GetType(ISurface(Of TLight)), "Represents a surface with a specified surface material for each surface point."),
             New NamedType("Surface", GetType(ISurface), "Represents a 2D surface in 3D space."),
             New NamedType("PictureSize", GetType(System.Drawing.Size), "Represents a size of a picture."),
             New NamedType("View", GetType(View3D), "Represents a camera view into a 3D space."),
@@ -104,7 +104,7 @@
                                  "A video with specified duration and frame count per second. The specified time step and start time define the points of time where the pictures are chosen from the picture function."),
                              FunctionInstance.FromLambdaExpression(
                                  "SingleMaterialSurface",
-                                 Function(surface As ISurface, material As TMaterial) DirectCast(New MaterialSurface(Of TMaterial)(surface:=surface, material:=material), ISurface(Of TMaterial)), _TypeDictionary,
+                                 Function(surface As ISurface, material As Material2D(Of TLight)) DirectCast(New MaterialSurface(Of TLight)(surface:=surface, material:=material), ISurface(Of TLight)), _TypeDictionary,
                                  "A material surface that has the same specified material at all points of the specified surface."),
                              FunctionInstance.FromLambdaExpression(
                                  "BlackbodyRadianceSpectrum",
@@ -114,29 +114,29 @@
                                  "MaterialBox",
                                  Function(
                                                                       box As Box,
-                                                                      lowerXMaterial As TMaterial,
-                                                                      upperXMaterial As TMaterial,
-                                                                      lowerYMaterial As TMaterial,
-                                                                      upperYMaterial As TMaterial,
-                                                                      lowerZMaterial As TMaterial,
-                                                                      upperZMaterial As TMaterial) DirectCast(New MaterialBox(Of TMaterial)(box:=box, lowerXMaterial:=lowerXMaterial, upperXMaterial:=upperXMaterial, lowerYMaterial:=lowerYMaterial, upperYMaterial:=upperYMaterial, lowerZMaterial:=lowerZMaterial, upperZMaterial:=upperZMaterial), ISurface(Of TMaterial)), _TypeDictionary,
+                                                                      lowerXMaterial As Material2D(Of TLight),
+                                                                      upperXMaterial As Material2D(Of TLight),
+                                                                      lowerYMaterial As Material2D(Of TLight),
+                                                                      upperYMaterial As Material2D(Of TLight),
+                                                                      lowerZMaterial As Material2D(Of TLight),
+                                                                      upperZMaterial As Material2D(Of TLight)) DirectCast(New MaterialBox(Of TLight)(box:=box, lowerXMaterial:=lowerXMaterial, upperXMaterial:=upperXMaterial, lowerYMaterial:=lowerYMaterial, upperYMaterial:=upperYMaterial, lowerZMaterial:=lowerZMaterial, upperZMaterial:=upperZMaterial), ISurface(Of TLight)), _TypeDictionary,
                                  "A material box with specified materials for each face of the box."),
                              FunctionInstance.FromLambdaExpression(
                                  "MaterialSurface",
                                  Function(surface As ISurface,
-                                          materialFunction As Func(Of SpaceTimeEvent, TMaterial)) DirectCast(New MaterialSurface(Of TMaterial)(surface:=surface, materialFunction:=materialFunction), ISurface(Of TMaterial)), _TypeDictionary,
+                                          materialFunction As Func(Of SpaceTimeEvent, Material2D(Of TLight))) DirectCast(New MaterialSurface(Of TLight)(surface:=surface, materialFunction:=materialFunction), ISurface(Of TLight)), _TypeDictionary,
                                  "A material surface that has a material specified by the material function depending on the location of the point of the specified surface."),
                              FunctionInstance.FromLambdaExpression(
                                  "Checkerboard",
                                  Function(
                                                                       xVector As Vector3D,
                                                                       yVector As Vector3D,
-                                                                      material1 As TMaterial,
-                                                                      material2 As TMaterial) MaterialFunctions(Of TMaterial).Checkerboard(xVector:=xVector, yVector:=yVector, material1:=material1, material2:=material2), _TypeDictionary,
+                                                                      material1 As Material2D(Of TLight),
+                                                                      material2 As Material2D(Of TLight)) MaterialFunctions(Of TLight).Checkerboard(xVector:=xVector, yVector:=yVector, material1:=material1, material2:=material2), _TypeDictionary,
                                  "A material function that looks like the checkerboard pattern for planes that are parallel to xVector and yvector. The length of xVector and yVector are the edge lengths of the resulting checkerboard fields."),
                              FunctionInstance.FromLambdaExpression(
                                  "Grid3D",
-                                 Function(xVector As Vector3D, yVector As Vector3D, zVector As Vector3D, backgroundMaterial As TMaterial, gridMaterial As TMaterial, gridLineWidth As Double) MaterialFunctions(Of TMaterial).Grid3D(xVector:=xVector, yVector:=yVector, zVector:=zVector, backgroundMaterial:=backgroundMaterial, gridMaterial:=gridMaterial, gridLineWidth:=gridLineWidth), _TypeDictionary,
+                                 Function(xVector As Vector3D, yVector As Vector3D, zVector As Vector3D, backgroundMaterial As Material2D(Of TLight), gridMaterial As Material2D(Of TLight), gridLineWidth As Double) MaterialFunctions(Of TLight).Grid3D(xVector:=xVector, yVector:=yVector, zVector:=zVector, backgroundMaterial:=backgroundMaterial, gridMaterial:=gridMaterial, gridLineWidth:=gridLineWidth), _TypeDictionary,
                                  "A material function that looks like a 3D grid with the specified x-,y- and z-axis. The length of xVector, yVector and zVector are the grid lengths of the resulting grid."),
                              FunctionInstance.FromLambdaExpression(
                                  "Surfaces",
@@ -144,7 +144,7 @@
                                  "A surface that consists of the given set of surfaces."),
                              FunctionInstance.FromLambdaExpression(
                                  "MaterialSurfaces",
-                                 Function(materialSurfaces As IEnumerable(Of ISurface(Of TMaterial))) DirectCast(New Surfaces(Of TMaterial)(materialSurfaces), ISurface(Of TMaterial)), _TypeDictionary,
+                                 Function(materialSurfaces As IEnumerable(Of ISurface(Of Material2D(Of TLight)))) DirectCast(New Surfaces(Of Material2D(Of TLight))(materialSurfaces), ISurface(Of Material2D(Of TLight))), _TypeDictionary,
                                  "A material surface that consists of the given set of material surfaces."),
                              FunctionInstance.FromLambdaExpression(
                                  "LightSources",
@@ -189,13 +189,13 @@
 End Class
 
 Public Class RelativisticRayTracerTermContextBuilder
-    Inherits RelativisticRayTracerTermContextBuilder(Of RadianceSpectrum, Material2D(Of RadianceSpectrum))
+    Inherits RelativisticRayTracerTermContextBuilder(Of RadianceSpectrum)
 
     Private ReadOnly _ExtraFunctions As IEnumerable(Of FunctionInstance) =
                          {
                              FunctionInstance.FromLambdaExpression("RecursiveRayTracer",
                                                                    Function(
-                                                                      surface As ISurface(Of Material2D(Of RadianceSpectrum)),
+                                                                      surface As ISurface(Of RadianceSpectrum),
                                                                       unshadedLightSource As ILightSource(Of RadianceSpectrum),
                                                                       shadedPointLightSources As IEnumerable(Of IPointLightSource(Of RadianceSpectrum)),
                                                                       maxIntersectionCount As Double) New RecursiveRayTracer(Of RadianceSpectrum)(surface:=surface, unshadedLightSource:=unshadedLightSource, shadedPointLightSources:=shadedPointLightSources, maxIntersectionCount:=CInt(maxIntersectionCount)),
@@ -203,7 +203,7 @@ Public Class RelativisticRayTracerTermContextBuilder
                                                                    "A ray tracer that supports only direct illumiation (and shadows). The scene consists of a specified material surface and unshaded and shaded light sources. The sight ray tracing stops if the sight ray is reflected or refracted more than a specified maximum intersection count."),
                              FunctionInstance.FromLambdaExpression("ScatteringRayTracer",
                                                                    Function(
-                                                                      surface As ISurface(Of Material2D(Of RadianceSpectrum)),
+                                                                      surface As ISurface(Of RadianceSpectrum),
                                                                       rayCountPerPixel As Double,
                                                                       maxIntersectionCount As Double) DirectCast(New ScatteringRayTracer(Of RadianceSpectrum)(surface:=surface, rayCountPerPixel:=CInt(rayCountPerPixel), maxIntersectionCount:=CInt(maxIntersectionCount)), IRayTracer(Of RadianceSpectrum)),
                                                                    _TypeDictionary,

@@ -1,8 +1,8 @@
 ﻿Public Class RayChanger(Of TLight)
     Private ReadOnly _SourceRay As SightRay
-    Private ReadOnly _Intersection As SurfacePoint(Of Material2D(Of TLight))
+    Private ReadOnly _Intersection As SurfacePoint(Of TLight)
 
-    Public Sub New(sourceRay As SightRay, intersection As SurfacePoint(Of Material2D(Of TLight)))
+    Public Sub New(sourceRay As SightRay, intersection As SurfacePoint(Of TLight))
         _SourceRay = sourceRay
         _Intersection = intersection
     End Sub

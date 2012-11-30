@@ -1,7 +1,7 @@
 Public NotInheritable Class RecursiveRayTracer(Of TLight As {ILight(Of TLight), New})
     Implements IRayTracer(Of TLight)
 
-    Public Sub New(surface As ISurface(Of Material2D(Of TLight)),
+    Public Sub New(surface As ISurface(Of TLight),
                    unshadedLightSource As ILightSource(Of TLight),
                    shadedPointLightSources As IEnumerable(Of IPointLightSource(Of TLight)),
                    Optional maxIntersectionCount As Integer = 10)
@@ -11,8 +11,8 @@ Public NotInheritable Class RecursiveRayTracer(Of TLight As {ILight(Of TLight), 
         _MaxIntersectionCount = maxIntersectionCount
     End Sub
 
-    Private ReadOnly _Surface As ISurface(Of Material2D(Of TLight))
-    Public ReadOnly Property Surface As ISurface(Of Material2D(Of TLight))
+    Private ReadOnly _Surface As ISurface(Of TLight)
+    Public ReadOnly Property Surface As ISurface(Of TLight)
         Get
             Return _Surface
         End Get

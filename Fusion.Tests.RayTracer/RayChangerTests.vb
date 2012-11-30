@@ -1,6 +1,6 @@
 ﻿Public Class RayChangerTests
     Private ReadOnly _SourceRay As New SightRay(New Ray(origin:=New Vector3D(1, 1, 0), direction:=New Vector3D(-1, -1, 0)))
-    Private ReadOnly _SurfacePoint As New SurfacePoint(Of Material2D(Of RadianceSpectrum))(
+    Private ReadOnly _SurfacePoint As New SurfacePoint(Of RadianceSpectrum)(
             surfacePoint:=New SurfacePoint(location:=Vector3D.Zero, normal:=New Vector3D(0, 1, 0)),
             material:=_DummyMaterial, time:=0)
 
@@ -32,7 +32,7 @@
     Public Sub PassedRay_Should_Not_Intersect_IntersectionPlane()
         Dim sourceRay = New SightRay(New Ray(origin:=New Vector3D(5, 6, 1), direction:=New Vector3D(5, 7, -1)))
 
-        Dim plane = New MaterialSurface(Of Material2D(Of RadianceSpectrum))(New Plane(location:=Vector3D.Zero, normal:=New Vector3D(0, 0, 1)), _DummyMaterial)
+        Dim plane = New MaterialSurface(Of RadianceSpectrum)(New Plane(location:=Vector3D.Zero, normal:=New Vector3D(0, 0, 1)), _DummyMaterial)
 
         Dim intersection = plane.FirstMaterialIntersection(sourceRay)
         Dim passedRay = New RayChanger(Of RadianceSpectrum)(sourceRay, intersection).PassedRay()
@@ -45,7 +45,7 @@
     Public Sub PassedRay_Should_Not_Intersect_IntersectionSphere()
         Dim sourceRay = New SightRay(New Ray(origin:=New Vector3D(2, 0, 0), direction:=New Vector3D(-1, 0, 0)))
 
-        Dim sphere = New MaterialSurface(Of Material2D(Of RadianceSpectrum))(New Sphere(center:=Vector3D.Zero, radius:=1), _DummyMaterial)
+        Dim sphere = New MaterialSurface(Of RadianceSpectrum)(New Sphere(center:=Vector3D.Zero, radius:=1), _DummyMaterial)
 
         Dim intersection = sphere.FirstMaterialIntersection(sourceRay)
         Dim passedRay = New RayChanger(Of RadianceSpectrum)(sourceRay, intersection).PassedRay()
@@ -57,7 +57,7 @@
     <Test()>
     Public Sub RefractedRay_Should_Not_Intersect_IntersectionPlane()
         Dim sourceRay = New SightRay(New Ray(origin:=New Vector3D(5, 6, 1), direction:=New Vector3D(5, 7, -1)))
-        Dim plane = New MaterialSurface(Of Material2D(Of RgbLight))(New Plane(location:=Vector3D.Zero, normal:=New Vector3D(0, 0, 1)), material:=RgbLightMaterials2D.Black)
+        Dim plane = New MaterialSurface(Of RgbLight)(New Plane(location:=Vector3D.Zero, normal:=New Vector3D(0, 0, 1)), material:=RgbLightMaterials2D.Black)
 
         Dim intersection = plane.MaterialIntersections(sourceRay).First
         Dim refractedRay = New RayChanger(Of RgbLight)(sourceRay, intersection).RefractedRay()

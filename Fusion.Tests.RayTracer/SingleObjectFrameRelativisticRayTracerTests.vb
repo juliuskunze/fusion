@@ -18,7 +18,7 @@
     End Sub
 
     Private Function GetTestScene(spectrum As SpectralRadianceFunction) As SingleObjectFrameRelativisticRayTracer
-        Dim whitePlane = New MaterialSurface(Of Material2D(Of RadianceSpectrum))(New Plane(New Vector3D(1, 0, 0), New Vector3D(-1, 0, 0)),
+        Dim whitePlane = New MaterialSurface(Of RadianceSpectrum)(New Plane(New Vector3D(1, 0, 0), New Vector3D(-1, 0, 0)),
                                                                                        Materials2D(Of RadianceSpectrum).LightSource(New RadianceSpectrum(spectrum)))
         Return New SingleObjectFrameRelativisticRayTracer(New RecursiveRayTracer(Of RadianceSpectrum)(whitePlane, New LightSources(Of RadianceSpectrum)({}), {}),
                                                            observerVelocity:=New Vector3D(Constants.SpeedOfLight / 2, 0, 0),

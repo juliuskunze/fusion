@@ -1,5 +1,5 @@
 ﻿Public Class ColorfulSphere
-    Inherits MaterialSurface(Of Material2D(Of RgbLight))
+    Inherits MaterialSurface(Of RgbLight)
 
     Public Sub New(sphere As Sphere, material As Material2D(Of RgbLight))
         Me.New(Center:=sphere.Center, Radius:=sphere.Radius, material:=material)

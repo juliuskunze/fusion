@@ -1,13 +1,13 @@
 Public Class ScatteringRayTracer(Of TLight As {ILight(Of TLight), New})
     Implements IRayTracer(Of TLight)
 
-    Public Sub New(surface As ISurface(Of Material2D(Of TLight)), Optional rayCountPerPixel As Integer = 1, Optional maxIntersectionCount As Integer = 10)
+    Public Sub New(surface As ISurface(Of TLight), Optional rayCountPerPixel As Integer = 1, Optional maxIntersectionCount As Integer = 10)
         _Surface = surface
         _RayCount = rayCountPerPixel
         _MaxIntersectionCount = maxIntersectionCount
     End Sub
 
-    Private ReadOnly _Surface As ISurface(Of Material2D(Of TLight))
+    Private ReadOnly _Surface As ISurface(Of TLight)
 
     Private Function TraceColor(sightRay As SightRay, intersectionCount As Integer) As TLight
         Dim firstIntersection = _Surface.FirstMaterialIntersection(sightRay)
