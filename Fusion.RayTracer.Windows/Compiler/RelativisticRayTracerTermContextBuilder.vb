@@ -169,7 +169,11 @@
                              FunctionInstance.FromLambdaExpression(
                                  "Time",
                                  Function(spaceTimeEvent As SpaceTimeEvent) spaceTimeEvent.Time, _TypeDictionary,
-                                 "The point of time of the spaceTimeEvent.")}
+                                 "The point of time of the spaceTimeEvent."),
+                             FunctionInstance.FromLambdaExpression(
+                                 "Blinking",
+                                 Function(base As Func(Of SpaceTimeEvent, Material2D(Of TLight)), periodTimeSpan As Double) MaterialFunctions(Of TLight).Blinking(base, periodTimeSpan), _TypeDictionary,
+                                 "A material function that returns the base material function result, but the emission is alternating between the original value and black periodically in time.")}
 
     Private ReadOnly _TermContext As TermContext
 

@@ -18,7 +18,7 @@
                             saturation:=1,
                             brightness:=
                                 1 - _PillowStrength +
-                                _PillowStrength / 2 * PositiveNormalizedMod(Log(complex.Length, _ArgumentParts), 1) +
-                                _PillowStrength / 2 * PositiveNormalizedMod(complex.Argument, 2 * PI / _LengthPartFactor)).ToRgbColor
+                                _PillowStrength / 2 * NonnegativeNormalizedMod(Log(complex.Length, _ArgumentParts), 1) +
+                                _PillowStrength / 2 * NonnegativeNormalizedMod(complex.Argument, 2 * PI / _LengthPartFactor)).ToRgbColor
     End Function
 End Class

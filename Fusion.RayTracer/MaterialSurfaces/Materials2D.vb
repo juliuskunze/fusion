@@ -1,7 +1,7 @@
 ﻿Public Class Materials2D(Of TLight As {ILight(Of TLight), New})
 
     Public Shared Function Black() As Material2D(Of TLight)
-        Return Materials2D(Of TLight).LightSource(sourceLight:=New TLight)
+        Return LightSource(sourceLight:=New TLight)
     End Function
 
     Public Shared Function LightSource(sourceLight As TLight) As Material2D(Of TLight)

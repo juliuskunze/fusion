@@ -146,13 +146,13 @@
                End Function
     End Function
 
-    Public Function PositiveMod(number As Double, modulo As Double) As Double
+    Public Function NonnegativeMod(number As Double, modulo As Double) As Double
         Dim m = number Mod modulo
         Return If(m < 0, m + modulo, m)
     End Function
 
-    Public Function PositiveNormalizedMod(number As Double, modulo As Double) As Double
-        Return PositiveMod(number, modulo) / modulo
+    Public Function NonnegativeNormalizedMod(number As Double, modulo As Double) As Double
+        Return NonnegativeMod(number, modulo) / modulo
     End Function
 
 End Module

@@ -13,7 +13,7 @@
 
     Public Function GetColor(complex As Complex) As Color Implements IComplexToColor.GetColor
         Return New HsbColor(hue:=complex.Argument Mod 2 * PI,
-                            saturation:=1 - _PillowStrength + _PillowStrength * PositiveNormalizedMod(Log(complex.Length, _LengthPartFactor), 1),
-                            brightness:=1 - _PillowStrength + _PillowStrength * PositiveNormalizedMod(Log(complex.Length, _LengthPartFactor), 1)).ToRgbColor()
+                            saturation:=1 - _PillowStrength + _PillowStrength * NonnegativeNormalizedMod(Log(complex.Length, _LengthPartFactor), 1),
+                            brightness:=1 - _PillowStrength + _PillowStrength * NonnegativeNormalizedMod(Log(complex.Length, _LengthPartFactor), 1)).ToRgbColor()
     End Function
 End Class

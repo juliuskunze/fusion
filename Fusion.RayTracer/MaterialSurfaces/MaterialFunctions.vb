@@ -1,5 +1,4 @@
-﻿Public Class MaterialFunctions(Of TLight)
-
+﻿Public Class MaterialFunctions(Of TLight As {ILight(Of TLight), New})
     Public Shared Function Checkerboard(xVector As Vector3D, yVector As Vector3D, material1 As Material2D(Of TLight), material2 As Material2D(Of TLight)) As Func(Of SpaceTimeEvent, Material2D(Of TLight))
         Return Function(spaceTimeEvent)
                    Dim location = spaceTimeEvent.Location
@@ -67,9 +66,27 @@
     End Function
 
     Private Shared Function IsInGrid(value As Double, rowWidth As Double, gridLineWidth As Double) As Boolean
-        Dim m = PositiveMod(value, rowWidth)
+        Dim m = NonnegativeMod(value, rowWidth)
         Dim halfGridLineWidth = gridLineWidth / 2
 
         Return m < halfGridLineWidth OrElse m > rowWidth - halfGridLineWidth
+    End Function
+
+    Public Shared Function Blinking(base As Func(Of SpaceTimeEvent, Material2D(Of TLight)), periodTimeSpan As Double) As Func(Of SpaceTimeEvent, Material2D(Of TLight))
+        If periodTimeSpan <= 0 Then Throw New ArgumentException("periodTimeSpan must be positive.")
+
+        Return Function(spaceTimeEvent)
+                   Dim baseMaterial = base(spaceTimeEvent)
+
+                   If NonnegativeNormalizedMod(spaceTimeEvent.Time, periodTimeSpan) < 1 / 2 Then
+                       Return baseMaterial
+                   Else
+                       Return New Material2D(Of TLight)(sourceLight:=New TLight,
+                                                        scatteringRemission:=baseMaterial.ScatteringRemission,
+                                                        reflectionRemission:=baseMaterial.ReflectionRemission,
+                                                        transparencyRemission:=baseMaterial.TransparencyRemission,
+                                                        refractionIndexQuotient:=baseMaterial.RefractionIndexQuotient)
+                   End If
+               End Function
     End Function
 End Class

@@ -22,7 +22,7 @@
     End Property
 
     Public Sub New(hue As Double, saturation As Double, brightness As Double)
-        _Hue = PositiveMod(hue, 2 * PI)
+        _Hue = NonnegativeMod(hue, 2 * PI)
 
         If Not (0 <= Me.Saturation AndAlso Me.Saturation <= 1) Then Throw New ArgumentOutOfRangeException("saturation", "Saturation has to be in [0; 1].")
         _Saturation = saturation
