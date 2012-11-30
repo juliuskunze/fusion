@@ -32,11 +32,11 @@
         Get
             If _GroupedFunctions Is Nothing Then
                 Dim parameterFunctions =
-                        From x In Me.Parameters
+                        From x In Parameters
                         Where x.Signature.Type.IsFunctionType
                         Select x.ToFunctionInstance
                 Dim constantFunctions =
-                        From x In Me.Constants
+                        From x In Constants
                         Where x.Signature.Type.IsFunctionType
                         Select x.ToFunctionInstance
 
@@ -106,35 +106,35 @@
     End Function
 
     Public Function ParseSingleFunctionWithName(name As LocatedString) As FunctionInstance
-        Dim matchingGroup = Me.GetMatchingFunctionGroup(name)
+        Dim matchingGroup = GetMatchingFunctions(name)
         If matchingGroup.Count > 1 Then Throw New LocatedCompilerException(name, String.Format("There are multiple definitions for function with name '{0}'.", name))
 
         Return matchingGroup.Single
     End Function
 
     Public Function ParseFunction(functionCall As FunctionCall) As FunctionInstance
-        Dim matchingFunctionGroup = Me.GetMatchingFunctionGroup(functionCall.FunctionName)
+        Dim matchingFunctionGroup = GetMatchingFunctions(functionCall.FunctionName)
         Dim matchingFunctions = matchingFunctionGroup.Where(Function(instance) instance.Signature.FunctionType.Parameters.Count = functionCall.Arguments.Count)
         If Not matchingFunctions.Any Then Throw New LocatedCompilerException(functionCall.LocatedString, String.Format("Function '{0}' with parameter count {1} not defined in this context.", functionCall.FunctionName, functionCall.Arguments.Count))
         If matchingFunctions.Count > 1 Then Throw New LocatedCompilerException(functionCall.LocatedString, String.Format("Function '{0}' with parameter count {1} not defined twice in this context.", functionCall.FunctionName, functionCall.Arguments.Count))
         Return matchingFunctions.Single
     End Function
 
-    Private Function GetMatchingFunctionGroup(functionName As LocatedString) As IGrouping(Of String, FunctionInstance)
-        Dim matchingFunctionGroups = Me.GroupedFunctionsAndFunctionParameters.Where(Function(group) CompilerTools.IdentifierEquals(group.Key, functionName.ToString))
+    Private Function GetMatchingFunctions(functionName As LocatedString) As IEnumerable(Of FunctionInstance)
+        Dim matchingFunctionGroups = GroupedFunctionsAndFunctionParameters.Where(Function(group) CompilerTools.IdentifierEquals(group.Key, functionName.ToString))
         If Not matchingFunctionGroups.Any Then Throw New LocatedCompilerException(functionName, String.Format("Function '{0}' not defined in this context.", functionName))
         Return matchingFunctionGroups.Single
     End Function
 
     Public Function TryParseConstant(name As String) As ConstantInstance
-        Dim matchingConstants = From constant In Me.Constants Where CompilerTools.IdentifierEquals(name, constant.Signature.Name)
+        Dim matchingConstants = From constant In Constants Where CompilerTools.IdentifierEquals(name, constant.Signature.Name)
         If Not matchingConstants.Any Then Return Nothing
 
         Return matchingConstants.Single
     End Function
 
     Public Function TryParseParameter(name As String) As NamedParameter
-        Dim matchingParameters = From parameter In Me.Parameters Where CompilerTools.IdentifierEquals(name, parameter.Signature.Name)
+        Dim matchingParameters = From parameter In Parameters Where CompilerTools.IdentifierEquals(name, parameter.Signature.Name)
         If Not matchingParameters.Any Then Return Nothing
 
         Return matchingParameters.Single

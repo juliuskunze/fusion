@@ -33,11 +33,11 @@ Public Class RayTracerPicture(Of TLight As {ILight(Of TLight), New})
     End Sub
 
     Public Function GetPicture() As Bitmap
-        Dim bitmap = New Bitmap(Me.PictureSize.Width, Me.PictureSize.Height)
+        Dim bitmap = New Bitmap(PictureSize.Width, PictureSize.Height)
 
-        For bitmapX = 0 To Me.PictureSize.Width - 1
-            For bitmapY = 0 To Me.PictureSize.Height - 1
-                Me.SetPixelColor(bitmap, bitmapX, bitmapY)
+        For bitmapX = 0 To PictureSize.Width - 1
+            For bitmapY = 0 To PictureSize.Height - 1
+                SetPixelColor(bitmap, bitmapX, bitmapY)
             Next
         Next
 
@@ -45,13 +45,13 @@ Public Class RayTracerPicture(Of TLight As {ILight(Of TLight), New})
     End Function
 
     Public Sub SetPixelColor(targetBitmap As Bitmap, bitmapX As Integer, bitmapY As Integer)
-        targetBitmap.SetPixel(x:=bitmapX, y:=bitmapY, color:=Me.GetPixelColor(bitmapX, bitmapY))
+        targetBitmap.SetPixel(x:=bitmapX, y:=bitmapY, color:=GetPixelColor(bitmapX, bitmapY))
     End Sub
 
     Public Function GetPixelColor(bitmapX As Integer, bitmapY As Integer) As Color
         Dim projectedLocation = _CoordinateSystem.VirtualLocation(pixelLocation:=New Vector2D(bitmapX, bitmapY))
-        Dim sightRay = Me.View.SightRay(viewPlaneLocation:=projectedLocation)
+        Dim sightRay = View.SightRay(viewPlaneLocation:=projectedLocation)
 
-        Return _LightToRgbColorConverter.Run(Me.RayTracer.GetLight(sightRay:=sightRay))
+        Return _LightToRgbColorConverter.Run(RayTracer.GetLight(sightRay:=sightRay))
     End Function
 End Class

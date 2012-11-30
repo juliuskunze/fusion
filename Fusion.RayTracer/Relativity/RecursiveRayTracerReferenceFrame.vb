@@ -1,19 +1,19 @@
 ﻿Public Class RecursiveRayTracerReferenceFrame
     Private ReadOnly _RecursiveRayTracer As RecursiveRayTracer(Of RadianceSpectrum)
-    Private ReadOnly _ObserverToObject As LorentzTransformation
+    Private ReadOnly _BaseToObject As LorentzTransformation
 
-    Public Sub New(recursiveRayTracer As RecursiveRayTracer(Of RadianceSpectrum), observerToObject As LorentzTransformation)
+    Public Sub New(recursiveRayTracer As RecursiveRayTracer(Of RadianceSpectrum), baseToObject As LorentzTransformation)
         _RecursiveRayTracer = recursiveRayTracer
-        _ObserverToObject = observerToObject
+        _BaseToObject = baseToObject
     End Sub
 
-    Public Sub New(recursiveRayTracer As RecursiveRayTracer(Of RadianceSpectrum), objectVelocityRelativeToObserver As Vector3D)
-        Me.New(recursiveRayTracer, New LorentzTransformation(objectVelocityRelativeToObserver))
+    Public Sub New(recursiveRayTracer As RecursiveRayTracer(Of RadianceSpectrum), objectFrameVelocityInBaseFrame As Vector3D)
+        Me.New(recursiveRayTracer, baseToObject:=New LorentzTransformation(objectFrameVelocityInBaseFrame))
     End Sub
 
-    Public ReadOnly Property ObserverToObject As LorentzTransformation
+    Public ReadOnly Property BaseToObject As LorentzTransformation
         Get
-            Return _ObserverToObject
+            Return _BaseToObject
         End Get
     End Property
 
