@@ -3,5 +3,8 @@
 
     ReadOnly Property Location As Vector3D
 
-    Overloads Function GetLight(point As Point) As TLight
+    ''' <summary>
+    ''' The light in direction of the point light source at the specified event.
+    ''' </summary>
+    Function GetMaximumLight(spaceTimeEvent As SpaceTimeEvent) As TLight
 End Interface

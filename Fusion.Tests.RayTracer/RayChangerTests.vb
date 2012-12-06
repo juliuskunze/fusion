@@ -5,7 +5,7 @@
             material:=_DummyMaterial, time:=0)
 
     Private ReadOnly _RayChanger As New RayChanger(Of RadianceSpectrum)(_SourceRay, _SurfacePoint)
-    Private Shared _DummyMaterial As Material2D(Of RadianceSpectrum) = Materials2D(Of RadianceSpectrum).Black
+    Private Shared ReadOnly _DummyMaterial As Material2D(Of RadianceSpectrum) = Materials2D(Of RadianceSpectrum).Black
 
     <Test()>
     Public Sub ReflectedRay()
@@ -17,7 +17,14 @@
         Dim sinus1 = 1 / Sqrt(2)
         Dim sinus2 = sinus1 / 2
 
-        Assert.AreEqual(New Vector3D(-sinus2, -Sqrt(1 - sinus2 ^ 2), 0).Normalized, _RayChanger.RefractedRay.NormalizedDirection)
+        Dim material = New Material2D(Of RadianceSpectrum)(sourceLight:=New RadianceSpectrum, scatteringRemission:=Nothing, reflectionRemission:=Nothing, transparencyRemission:=Nothing, refractionIndexQuotient:=1 / 2)
+        Dim surfacePoint = New SurfacePoint(Of RadianceSpectrum)(
+            surfacePoint:=New SurfacePoint(location:=Vector3D.Zero, normal:=New Vector3D(0, 1, 0)),
+            material:=material, time:=0)
+
+        Dim rayChanger = New RayChanger(Of RadianceSpectrum)(_SourceRay, surfacePoint)
+
+        Assert.AreEqual(New Vector3D(-sinus2, -Sqrt(1 - sinus2 ^ 2), 0).Normalized, rayChanger.RefractedRay.NormalizedDirection)
     End Sub
 
     <Test()>

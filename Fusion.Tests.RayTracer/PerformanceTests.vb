@@ -82,7 +82,7 @@ Public Class PerformanceTests
         Dim backWallPlane = New Fusion.Math.Rectangle(backRightDown, backLeftDown, backLeftUp)
         Dim backWall = New MaterialSurface(Of RgbLight)(backWallPlane, whiteMaterial)
 
-        Dim pointLightSource = New LinearPointLightSource(Of RgbLight)(Location:=New Vector3D(6, 9.5, 10), baseLight:=RgbLight.White * 5)
+        Dim pointLightSource = New LinearPointLightSource(Of RgbLight)(Location:=New Vector3D(6, 9.5, 10), baseLightByTime:=Function() RgbLight.White * 5)
         Dim shadedLightSources = New List(Of IPointLightSource(Of RgbLight)) From {pointLightSource}
 
         Dim ceilingPlane = New Fusion.Math.Rectangle(backLeftUp, originUp, frontRightUp)

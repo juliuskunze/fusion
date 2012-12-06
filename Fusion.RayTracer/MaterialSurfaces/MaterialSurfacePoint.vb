@@ -28,4 +28,10 @@
             Return _SpaceTimeEvent
         End Get
     End Property
+
+    Public ReadOnly Property Time As Double
+        Get
+            Return _SpaceTimeEvent.Time
+        End Get
+    End Property
 End Class

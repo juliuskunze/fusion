@@ -62,7 +62,7 @@
                             Where shadowIntersection IsNot Nothing
                             Where Not _LocationComparer.Equals(shadowIntersection.Location, hit.objectSurfacePoint.Location)).
                             Any()
-                    Let light = lightSource.GetLight(lightHitEvent.Location)
+                    Let light = lightSource.GetMaximumLight(lightHitEvent)
                     Let lightToSurface = baseToLight.Inverse.Before(baseToHitObject)
                     Let lightToSurfaceAtLightSightRay = lightToSurface.AtSightRay(lightSightRay).Partly(_Options)
                     Let surfaceLightWithoutGeometry = lightToSurfaceAtLightSightRay.TransformRadianceSpectrum(light)

@@ -1,5 +1,5 @@
 Public Class PointLightSourceTests
-    Private ReadOnly _LightSource As New PointLightSource(Of RgbLight)(location:=Vector3D.Zero, baseLight:=New RgbLight(Color.FromArgb(16, 32, 16)))
+    Private ReadOnly _LightSource As New RealisticPointLightSource(Of RgbLight)(location:=Vector3D.Zero, baseLightByTime:=Function() New RgbLight(Color.FromArgb(16, 32, 16)))
 
     <Test()>
     Public Sub LightColor_Orthogonal()

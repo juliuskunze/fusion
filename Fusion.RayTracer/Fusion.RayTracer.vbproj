@@ -78,6 +78,7 @@
     <Compile Include="Examples\RayTracingExamples.vb" />
     <Compile Include="Light\RadianceSpectrum\Remission.vb" />
     <Compile Include="Light\Source\ConstantPointLightSource.vb" />
+    <Compile Include="Light\Source\RealisticPointLightSource.vb" />
     <Compile Include="MaterialSurfaces\MaterialFunctions.vb" />
     <Compile Include="MaterialSurfaces\MaterialSurface.vb" />
     <Compile Include="ClassicRayTracers\IRayTracer.vb" />

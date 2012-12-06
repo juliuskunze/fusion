@@ -13,7 +13,7 @@ Public Class RayTracingExamples
                               lookAt:=New Vector3D(5, 5, 0),
                               upDirection:=New Vector3D(0, 1, 0),
                               horizontalViewAngle:=PI / 3)
-        Dim lamp = New LinearPointLightSource(Of RgbLight)(Location:=New Vector3D(5, 9.9, 8), baseLight:=RgbLight.White * 5)
+        Dim lamp = New LinearPointLightSource(Of RgbLight)(Location:=New Vector3D(5, 9.9, 8), baseLightByTime:=Function() RgbLight.White * 5)
 
         Dim grayMaterial = RgbLightMaterials2D.Scattering(New RgbLight(Color.Gray))
 
@@ -127,10 +127,10 @@ Public Class RayTracingExamples
         Dim undirectionalLightSource = New UndirectionalLightSource(Of RgbLight)(New RgbLight(Color.DarkGray))
         Dim directionalLightSoure = New DirectionalLightSource(Of RgbLight)(direction:=New Vector3D(1, 1, 1),
                                                                     light:=New RgbLight(Color.DarkGray))
-        Dim pointLightSource1 = New PointLightSource(Of RgbLight)(Location:=1.5 * New Vector3D(1, 1, 1),
-                                                     baseLight:=New RgbLight(Color.Orange))
-        Dim pointLightSource2 = New PointLightSource(Of RgbLight)(Location:=New Vector3D(2, 0, -1),
-                                                     baseLight:=New RgbLight(Color.White))
+        Dim pointLightSource1 = New RealisticPointLightSource(Of RgbLight)(Location:=1.5 * New Vector3D(1, 1, 1),
+                                                     baseLightByTime:=Function() New RgbLight(Color.Orange))
+        Dim pointLightSource2 = New RealisticPointLightSource(Of RgbLight)(Location:=New Vector3D(2, 0, -1),
+                                                     baseLightByTime:=Function() New RgbLight(Color.White))
         Dim lightSources = New LightSources(Of RgbLight) 'From {directionalLightSoure}
         Dim shadedLightSources = New List(Of IPointLightSource(Of RgbLight)) From {pointLightSource1, pointLightSource2}
 
@@ -234,7 +234,7 @@ Public Class RayTracingExamples
         Dim backWallPlane = New Fusion.Math.Rectangle(backRightDown, backLeftDown, backLeftUp)
         Dim backWall = New MaterialSurface(Of RgbLight)(backWallPlane, whiteMaterial)
 
-        Dim pointLightSource = New LinearPointLightSource(Of RgbLight)(location:=New Vector3D(6, 9.5, 10), baseLight:=RgbLight.White * 5)
+        Dim pointLightSource = New LinearPointLightSource(Of RgbLight)(location:=New Vector3D(6, 9.5, 10), baseLightByTime:=Function() RgbLight.White * 5)
         Dim shadedLightSources = New List(Of IPointLightSource(Of RgbLight)) From {pointLightSource}
 
         Dim ceilingPlane = New Fusion.Math.Rectangle(backLeftUp, originUp, frontRightUp)
@@ -328,7 +328,7 @@ Public Class RayTracingExamples
 
         Dim undirectionalLight = New UndirectionalLightSource(Of RgbLight)(New RgbLight(Color.White))
 
-        Dim lamp = New LinearPointLightSource(Of RgbLight)(Location:=New Vector3D(5, 9.9, 8), baseLight:=RgbLight.White * 4.5)
+        Dim lamp = New LinearPointLightSource(Of RgbLight)(Location:=New Vector3D(5, 9.9, 8), baseLightByTime:=Function() RgbLight.White * 4.5)
 
         Dim darkerGrayMaterial = RgbLightMaterials2D.Scattering(0.1)
         Dim darkGrayMaterial = RgbLightMaterials2D.Scattering(0.3)
