@@ -74,7 +74,6 @@
         Dim timeOriginEvent = New SpaceTimeEvent(New Vector3D(x, 0, 0), 0)
 
         Assert.AreEqual(_Transformation.TransformEvent(timeOriginEvent), New SpaceTimeEvent(New Vector3D(gamma * x, 0, 0), -gamma * v * x / c ^ 2))
-
     End Sub
 
     <Test()>
@@ -86,6 +85,21 @@
         Assert.That(softVectorComparer.Equals(_Transformation.Inverse.TransformVelocity(_Transformation.TransformVelocity(randomVelocityInS)), randomVelocityInS))
         Assert.AreEqual(_Transformation.Inverse.Before(_Transformation).TransformVelocity(randomVelocityInS), randomVelocityInS)
         Assert.AreEqual(_Transformation.Before(_Transformation.Inverse).TransformVelocity(randomVelocityInS), randomVelocityInS)
+    End Sub
+
+    <Test()>
+    Public Sub Test_inverse_translated()
+        Dim startEvent = New SpaceTimeEvent(New Vector3D(2, 3, 4), 10)
+        Dim t = New LorentzTransformation(New Vector3D(1, 0, 0), startEvent:=startEvent)
+
+        Dim inverse = t.Inverse
+        
+        Dim inverseStartEvent = inverse.StartEvent
+        t.Inverse.Inverse.StartEvent.Should.Be.EqualTo(t.StartEvent)
+        inverse.TransformEvent(inverseStartEvent).Should.Be.EqualTo(New SpaceTimeEvent)
+        
+        inverseStartEvent.Time.Should.Be.EqualTo(-10)
+        inverseStartEvent.Location.Should.Be.EqualTo(New Vector3D(-2, -3, -4) + New Vector3D(10, 0, 0))
     End Sub
 
     <Test()>
@@ -115,5 +129,39 @@
         Dim orthogonalLightVelocity = New Vector3D(0, c, 0)
 
         Assert.AreEqual(_Transformation.TransformVelocity(orthogonalLightVelocity).Length, c)
+    End Sub
+
+    <Test>
+    Public Sub Translation()
+        Dim t = New LorentzTransformation(relativeVelocity:=New Vector3D, startEvent:=New SpaceTimeEvent(New Vector3D(4, 5, 6), 7))
+
+        Dim transformed = t.TransformEvent(New SpaceTimeEvent(New Vector3D(1, 1, 1), 1))
+
+        Assert.AreEqual(1 - 7, transformed.Time)
+        Assert.AreEqual(New Vector3D(1, 1, 1) - New Vector3D(4, 5, 6), transformed.Location)
+    End Sub
+
+    <Test>
+    Public Sub Before_with_translation()
+        Dim t1 = New LorentzTransformation(relativeVelocity:=New Vector3D, startEvent:=New SpaceTimeEvent(New Vector3D, 7))
+        Dim t2 = New LorentzTransformation(relativeVelocity:=New Vector3D(1, 0, 0), startEvent:=New SpaceTimeEvent)
+        Dim t = t1.Before(t2)
+
+        Dim someEvent = New SpaceTimeEvent(New Vector3D(1, 1, 1), 1)
+
+        Dim transformed = t.TransformEvent(someEvent)
+        transformed.Time.Should.Be.EqualTo(-6)
+        transformed.Location.Should.Be.EqualTo(New Vector3D(7, 1, 1))
+    End Sub
+
+    <Test>
+    Public Sub Before_with_translation_complicated()
+        Dim t1 = New LorentzTransformation(relativeVelocity:=New Vector3D, startEvent:=New SpaceTimeEvent(New Vector3D, 7))
+        Dim t2 = New LorentzTransformation(relativeVelocity:=New Vector3D(1, 0, 0), startEvent:=New SpaceTimeEvent(New Vector3D(4, 0, 0), 7))
+        Dim t = t1.Before(t2)
+
+        Dim someEvent = New SpaceTimeEvent(New Vector3D(23, 64, 73), -4)
+
+        Assert.AreEqual(t.TransformEvent(someEvent), t2.TransformEvent(t1.TransformEvent(someEvent)))
     End Sub
 End Class

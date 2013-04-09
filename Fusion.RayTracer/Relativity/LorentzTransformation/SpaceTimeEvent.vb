@@ -2,7 +2,7 @@
     Private ReadOnly _Time As Double
     Private ReadOnly _Location As Vector3D
 
-    Public Sub New(Optional location As Vector3D = Nothing, Optional time As Double = Nothing)
+    Public Sub New(Optional location As Vector3D = Nothing, Optional time As Double = 0)
         _Time = time
         _Location = location
     End Sub
@@ -41,5 +41,12 @@
         Return Not e1 = e2
     End Operator
 
+    Public Shared Operator +(e1 As SpaceTimeEvent, e2 As SpaceTimeEvent) As SpaceTimeEvent
+        Return New SpaceTimeEvent(e1.Location + e2.Location, e1.Time + e2.Time)
+    End Operator
+
+    Public Shared Operator -(e1 As SpaceTimeEvent, e2 As SpaceTimeEvent) As SpaceTimeEvent
+        Return New SpaceTimeEvent(e1.Location - e2.Location, e1.Time - e2.Time)
+    End Operator
 End Class
 

@@ -22,7 +22,9 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>Fusion.RayTracer.xml</DocumentationFile>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <NoWarn>
+    </NoWarn>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42105,42106,42107,42353,42354,42355</WarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,7 +33,9 @@
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DocumentationFile>Fusion.RayTracer.xml</DocumentationFile>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <NoWarn>
+    </NoWarn>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42105,42106,42107,42353,42354,42355</WarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -126,6 +130,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="RayChanger.vb" />
+    <Compile Include="Relativity\LorentzTransformation\ConstantAccelerationLorentzTransformation.vb" />
     <Compile Include="Relativity\RecursiveRelativisticRayTracer.vb" />
     <Compile Include="Relativity\RecursiveRayTracerReferenceFrame.vb" />
     <Compile Include="ClassicRayTracers\RayTracerPicture.vb" />
@@ -140,7 +145,7 @@
     <Compile Include="Relativity\LorentzTransformation\LorentzTransformation.vb" />
     <Compile Include="Relativity\SingleObjectFrameRelativisticRayTracer.vb" />
     <Compile Include="ClassicRayTracers\ScatteringRayTracer.vb" />
-    <Compile Include="Relativity\LorentzTransformation\PartlyLorentzTransformationAtSightRay.vb" />
+    <Compile Include="Relativity\LorentzTransformation\PartialLorentzTransformationAtSightRay.vb" />
     <Compile Include="Video\IRayTraceVideo.vb" />
     <Compile Include="Video\IViewCourse.vb" />
     <Compile Include="Video\LinearViewCourse.vb" />

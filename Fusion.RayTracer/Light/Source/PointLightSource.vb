@@ -27,7 +27,7 @@ Public Class PointLightSource(Of TLight As {ILight(Of TLight), New})
 
     Public Overloads Function GetMaximumLight(spaceTimeEvent As SpaceTimeEvent) As TLight Implements IPointLightSource(Of TLight).GetMaximumLight
         Dim distance = (spaceTimeEvent.Location - Location).Length
-        Dim elapsedTimeSpan = distance * SpeedOfLight
+        Dim elapsedTimeSpan = distance / SpeedOfLight
         Dim brightnessFactorByDistance = _BrightnessFactorByDistance(distance)
         Dim baseLight = _BaseLightByTime(spaceTimeEvent.Time - elapsedTimeSpan)
 

@@ -33,7 +33,7 @@
     End Sub
 
     Public Shared Function FromLambdaExpression(Of TDelegate)(name As String,
-                                                              lambdaExpression As Expressions.Expression(Of TDelegate),
+                                                              lambdaExpression As Expression(Of TDelegate),
                                                               typeDictionary As TypeDictionary,
                                                               Optional description As String = Nothing) As FunctionInstance
         Return New FunctionInstance(Of TDelegate)(name,

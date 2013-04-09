@@ -41,7 +41,7 @@
         Dim hit = possibleHits.MaxItem(Function(possibleHit) possibleHit.baseEvent.Time)
         Dim hitMaterial = hit.objectSurfacePoint.Material
         Dim baseToHitObject = hit.frame.BaseToObject
-        Dim hitObjectToBaseAtSightRay = baseToHitObject.Inverse.AtSightRay(hit.objectSightRay).Partly(_Options)
+        Dim hitObjectToBaseAtSightRay = baseToHitObject.Inverse.AtSightRay(hit.objectSightRay).[Partial](_Options)
         Dim baseLight = hitObjectToBaseAtSightRay.TransformRadianceSpectrum(hitMaterial.SourceLight)
 
         If hitMaterial.Scatters Then
@@ -64,7 +64,7 @@
                             Any()
                     Let light = lightSource.GetMaximumLight(lightHitEvent)
                     Let lightToSurface = baseToLight.Inverse.Before(baseToHitObject)
-                    Let lightToSurfaceAtLightSightRay = lightToSurface.AtSightRay(lightSightRay).Partly(_Options)
+                    Let lightToSurfaceAtLightSightRay = lightToSurface.AtSightRay(lightSightRay).[Partial](_Options)
                     Let surfaceLightWithoutGeometry = lightToSurfaceAtLightSightRay.TransformRadianceSpectrum(light)
                     Let brightnessFactorByNormalUncut = hit.objectSurfacePoint.NormalizedNormal.DotProduct(lightToSurfaceAtLightSightRay.TransformSightRay.Ray.NormalizedDirection)
                     Let brightnessFactorByNormal = If(brightnessFactorByNormalUncut > 0, brightnessFactorByNormalUncut, 0)

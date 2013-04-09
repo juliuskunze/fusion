@@ -6,7 +6,7 @@
 
     Const _Beta = 0.5
     Private ReadOnly _SightRay As New Ray(New Vector3D, New Vector3D(0, 1, 0))
-    Private ReadOnly _T As New PartlyLorentzTransformationAtSightRay(relativeVelocity:=New Vector3D(c * _Beta, 0, 0), SightRay:=New SightRay(_SightRay),
+    Private ReadOnly _T As New PartialLorentzTransformationAtSightRay(relativeVelocity:=New Vector3D(c * _Beta, 0, 0), SightRay:=New SightRay(_SightRay),
                                                                      options:=New LorentzTransformationAtSightRayOptions(ignoreGeometryEffect:=True))
 
     Private ReadOnly _Inverse As LorentzTransformationAtSightRay = _T.InverseAtSightRay
@@ -27,7 +27,7 @@
         Assert.That(New DoubleRoughComparer(10 ^ -10).Equals(_T.GammaTheta, 1 / _Inverse.GammaTheta))
     End Sub
 
-    Private ReadOnly _Parallel As New PartlyLorentzTransformationAtSightRay(relativeVelocity:=New Vector3D(c / 2, 0, 0), SightRay:=New SightRay(New Ray(New Vector3D, New Vector3D(1, 0, 0))), options:=New LorentzTransformationAtSightRayOptions(ignoreGeometryEffect:=True))
+    Private ReadOnly _Parallel As New PartialLorentzTransformationAtSightRay(relativeVelocity:=New Vector3D(c / 2, 0, 0), SightRay:=New SightRay(New Ray(New Vector3D, New Vector3D(1, 0, 0))), options:=New LorentzTransformationAtSightRayOptions(ignoreGeometryEffect:=True))
 
     <Test()>
     Public Sub Parallel()

@@ -8,6 +8,7 @@
     Private ReadOnly _PictureFunctionType As New NamedType("PictureFunction", New FunctionType(_RayTracerPictureType, Parameters:={New NamedParameter("time", NamedType.Real)}), "A function that returns a picture for each point of time.")
     Private ReadOnly _MaterialFunctionType As New NamedType("MaterialFunction", New FunctionType(_MaterialType, Parameters:={New NamedParameter("spaceTimeEvent", _SpaceTimeEventType)}), "A function that returns a material for each 3D-location and time.")
     Private ReadOnly _PointSelectorType As New NamedType("PointSelector", New FunctionType(NamedType.Boolean, Parameters:={New NamedParameter("point", NamedType.Vector3D)}), "A function that returns whether a point is in a point set or not.")
+    Private ReadOnly _RadianceSpectrumByTimeType As New NamedType("RadianceSpectrumByTime", New FunctionType(_SpectralRadianceFunctionType, Parameters:={New NamedParameter("time", NamedType.Real)}), "A function that returns a radiance spectrum for each point of time.")
 
 
     Private ReadOnly _NamedTypes As New NamedTypes(
@@ -35,7 +36,8 @@
             _SpectralRadianceFunctionType,
             _PictureFunctionType,
             _MaterialFunctionType,
-            _PointSelectorType
+            _PointSelectorType,
+            _RadianceSpectrumByTimeType
         }
     )
 
@@ -262,6 +264,10 @@ Public Class RelativisticRayTracerTermContextBuilder
                                                                    "A ray tracer that supports effects of special relatity at a specified observer velocity based on a specified classic ray tracer. It is possible to ignore the geometry, Doppler or searchlight effect."),
                              FunctionInstance.FromLambdaExpression("PointLightSource", Function(location As Vector3D, baseLight As Func(Of Double, Double)) DirectCast(New RealisticPointLightSource(Of RadianceSpectrum)(location:=location, baseLightByTime:=Function() New RadianceSpectrum(Function(wavelength) baseLight(wavelength))), IPointLightSource(Of RadianceSpectrum)), _TypeDictionary,
                                                                    "A point light source that has a specified location and a specified base light (radiance spectrum at the distance of 1m)."),
+                             FunctionInstance.FromLambdaExpression("TimedPointLightSource", Function(location As Vector3D, baseLightByTime As Func(Of Double, Func(Of Double, Double))) DirectCast(New RealisticPointLightSource(Of RadianceSpectrum)(location:=location, baseLightByTime:=Function(time) New RadianceSpectrum(Function(wavelength) baseLightByTime(time)(wavelength))), IPointLightSource(Of RadianceSpectrum)), _TypeDictionary,
+                                                                   "A point light source that has a specified location and a specified base light by time function (radiance spectrum at the distance of 1m)."),
+                             FunctionInstance.FromLambdaExpression("TimedConstantPointLightSource", Function(location As Vector3D, baseLightByTime As Func(Of Double, Func(Of Double, Double))) DirectCast(New ConstantPointLightSource(Of RadianceSpectrum)(location:=location, baseLightByTime:=Function(time) New RadianceSpectrum(Function(wavelength) baseLightByTime(time)(wavelength))), IPointLightSource(Of RadianceSpectrum)), _TypeDictionary,
+                                                                   "A point light source that has a specified location and a specified light not depending on the distance."),
                              FunctionInstance.FromLambdaExpression("ConstantPointLightSource", Function(location As Vector3D, light As Func(Of Double, Double)) DirectCast(New ConstantPointLightSource(Of RadianceSpectrum)(location:=location, baseLightByTime:=Function() New RadianceSpectrum(Function(wavelength) light(wavelength))), IPointLightSource(Of RadianceSpectrum)), _TypeDictionary,
                                                                    "A point light source that has a specified location and a specified light not depending on the distance."),
                              FunctionInstance.FromLambdaExpression("DirectionalLightSource", Function(direction As Vector3D, light As Func(Of Double, Double)) DirectCast(New DirectionalLightSource(Of RadianceSpectrum)(direction:=direction, light:=New RadianceSpectrum(Function(wavelength) light(wavelength))), ILightSource(Of RadianceSpectrum)), _TypeDictionary,

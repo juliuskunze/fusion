@@ -1,4 +1,4 @@
-﻿Public Class PartlyLorentzTransformationAtSightRay
+﻿Public Class PartialLorentzTransformationAtSightRay
     Inherits LorentzTransformationAtSightRay
 
     Private ReadOnly _Options As LorentzTransformationAtSightRayOptions
@@ -12,12 +12,6 @@
         MyBase.New(relativeVelocity, sightRay)
         _Options = options
     End Sub
-
-    Public ReadOnly Property Options As LorentzTransformationAtSightRayOptions
-        Get
-            Return _Options
-        End Get
-    End Property
 
     Protected Overrides Function InverseTransformWavelength(wavelength As Double) As Double
         Return If(_Options.IgnoreDopplerEffect, wavelength, MyBase.InverseTransformWavelength(wavelength))
@@ -35,11 +29,11 @@
         Return If(_Options.IgnoreGeometryEffect, SightRay, MyBase.TransformSightRay)
     End Function
 
-    Public Function InversePartly() As PartlyLorentzTransformationAtSightRay
-        Return InverseAtSightRay.Partly(_Options)
+    Public Function PartialInverse() As PartialLorentzTransformationAtSightRay
+        Return InverseAtSightRay.[Partial](_Options)
     End Function
 
     Public Overrides Function Inverse() As LorentzTransformation
-        Return InversePartly()
+        Return PartialInverse()
     End Function
 End Class

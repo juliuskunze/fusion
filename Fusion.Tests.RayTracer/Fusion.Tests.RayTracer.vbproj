@@ -53,6 +53,9 @@
     <Reference Include="nunit.framework">
       <HintPath>C:\Program Files\NUnit\NUnit-2.5.5.10112\bin\net-2.0\framework\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="SharpTestsEx.NUnit">
+      <HintPath>..\foreign sources\SharpTestsEx.NUnit.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
@@ -65,6 +68,7 @@
     <Import Include="Fusion.RayTracer" />
     <Import Include="Fusion.Visualization" />
     <Import Include="NUnit.Framework" />
+    <Import Include="SharpTestsEx" />
     <Import Include="System" />
     <Import Include="System.Collections" />
     <Import Include="System.Collections.Generic" />
@@ -76,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlackBodyRadianceSpectrumTests.vb" />
+    <Compile Include="ConstantAcceleratedTransformationTests.vb" />
     <Compile Include="PartlyLorentzTransformationAtSightRayTests.vb" />
     <Compile Include="SingleObjectFrameRelativisticRayTracerTests.vb" />
     <Compile Include="DirectionalLightSourceTests.vb" />
