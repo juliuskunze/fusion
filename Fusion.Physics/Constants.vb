@@ -15,4 +15,8 @@
     Public Const MetersPerInch = 0.0254
 
     Public Const AstronomicalUnit = 149597870691.0
+
+    Public Const Year = 60 * 60 * 24 * 365.25
+
+    Public Const LightYear = Year * SpeedOfLight
 End Class
