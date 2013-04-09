@@ -5,7 +5,7 @@
     Private ReadOnly _Options As LorentzTransformationAtSightRayOptions
     Private ReadOnly _ObserverToBase As LorentzTransformation
 
-    Private Shared ReadOnly _LocationComparer As New Vector3DRoughComparer(maxDeviation:=3.2 * 10 ^ -9)
+    Private Shared ReadOnly _LocationComparer As New RoughVector3DComparer(maxDeviation:=3.2 * 10 ^ -9)
 
     Public Sub New(referenceFrames As IEnumerable(Of RecursiveRayTracerReferenceFrame), options As LorentzTransformationAtSightRayOptions)
         Me.New(referenceFrames, options, observerToBase:=New LorentzTransformation(New Vector3D))

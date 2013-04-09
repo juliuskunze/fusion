@@ -23,13 +23,13 @@
 
     <Test()>
     Public Sub GammaTheta()
-        Assert.That(New DoubleRoughComparer(10 ^ -10).Equals(_T.GammaTheta, 1 / _Inverse.GammaTheta))
+        Assert.That(New RoughDoubleComparer(10 ^ -10).Equals(_T.GammaTheta, 1 / _Inverse.GammaTheta))
     End Sub
 
     Private ReadOnly _Parallel As New LorentzTransformationAtSightRay(relativeVelocity:=New Vector3D(c / 2, 0, 0), SightRay:=New SightRay(New Ray(New Vector3D, New Vector3D(1, 0, 0))))
 
     <Test()>
     Public Sub Parallel()
-        Assert.That(New DoubleRoughComparer(10 ^ -12).Equals(Sqrt((1 - _Beta) / (1 + _Beta)) * _RandomWavelength, _Parallel.TransformWavelength(_RandomWavelength)))
+        Assert.That(New RoughDoubleComparer(10 ^ -12).Equals(Sqrt((1 - _Beta) / (1 + _Beta)) * _RandomWavelength, _Parallel.TransformWavelength(_RandomWavelength)))
     End Sub
 End Class

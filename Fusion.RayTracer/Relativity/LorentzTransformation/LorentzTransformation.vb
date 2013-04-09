@@ -2,7 +2,7 @@
 ''' Transforms events, velocities and view rays of a (stationary) reference frame S into a reference frame T which relativly moves with a constant velocity.
 ''' </summary>
 Public Class LorentzTransformation
-    Private ReadOnly _StartEvent As SpaceTimeEvent
+    Private ReadOnly _OriginOfTransformed As SpaceTimeEvent
     Private ReadOnly _RelativeVelocity As Vector3D
     Private ReadOnly _NormalizedRelativeVelocity As Vector3D
     Private ReadOnly _Beta As Double
@@ -10,13 +10,13 @@ Public Class LorentzTransformation
 
     ''' <param name="relativeVelocity">The relative velocity of T (transformed) in S (original).</param>
     Public Sub New(relativeVelocity As Vector3D)
-        Me.New(relativeVelocity:=relativeVelocity, startEvent:=New SpaceTimeEvent)
+        Me.New(relativeVelocity:=relativeVelocity, originOfTransformed:=New SpaceTimeEvent)
     End Sub
 
     ''' <param name="relativeVelocity">The relative velocity of T (transformed) in S (original).</param>
-    ''' <param name="startEvent">The event in S (original) where the origin event of T (transformed) is located.</param>
-    Public Sub New(relativeVelocity As Vector3D, startEvent As SpaceTimeEvent)
-        _StartEvent = startEvent
+    ''' <param name="originOfTransformed">The event in S (original) where the origin event of T (transformed) is located.</param>
+    Public Sub New(relativeVelocity As Vector3D, originOfTransformed As SpaceTimeEvent)
+        _OriginOfTransformed = originOfTransformed
         If relativeVelocity.Length >= SpeedOfLight Then Throw New ArgumentException("A velocity of a reference frame must be smaller than light velocity.")
 
         _RelativeVelocity = relativeVelocity
@@ -25,6 +25,10 @@ Public Class LorentzTransformation
         _Gamma = 1 / Sqrt(1 - _Beta ^ 2)
         _RelativeVelocityIsNull = (_RelativeVelocity.LengthSquared = 0)
     End Sub
+
+    Public Shared Function FromLinkEvent(relativeVelocity As Vector3D, linkEvent As SpaceTimeEvent, transformedLinkEvent As SpaceTimeEvent) As LorentzTransformation
+        Return New LorentzTransformation(relativeVelocity, originOfTransformed:=linkEvent).Before(New LorentzTransformation(New Vector3D, originOfTransformed:=-transformedLinkEvent))
+    End Function
 
     Public ReadOnly Property RelativeVelocity As Vector3D
         Get
@@ -58,26 +62,26 @@ Public Class LorentzTransformation
         End Get
     End Property
 
-    Public ReadOnly Property StartEvent() As SpaceTimeEvent
+    Public ReadOnly Property OriginOfTransformed() As SpaceTimeEvent
         Get
-            Return _StartEvent
+            Return _OriginOfTransformed
         End Get
     End Property
 
     ''' <param name="event">An event in S.</param>
     ''' <returns>The corresponding event in T.</returns>
     Public Function TransformEvent([event] As SpaceTimeEvent) As SpaceTimeEvent
-        Dim translated = [event] - _StartEvent
+        Dim translated = [event] - _OriginOfTransformed
 
         If _RelativeVelocityIsNull Then Return translated
-        
+
         Dim d = _NormalizedRelativeVelocity * translated.Location
         Return New SpaceTimeEvent(location:=translated.Location + (_Gamma - 1) * d * _NormalizedRelativeVelocity - _Gamma * translated.Time * _RelativeVelocity,
                                   time:=_Gamma * (translated.Time - (_RelativeVelocity.Length * d) / SpeedOfLight ^ 2))
     End Function
 
     Public Overridable Function Inverse() As LorentzTransformation
-        Static lazy As New Lazy(Of LorentzTransformation)(Function() New LorentzTransformation(-_RelativeVelocity, startEvent:=TransformEvent(New SpaceTimeEvent)))
+        Static lazy As New Lazy(Of LorentzTransformation)(Function() New LorentzTransformation(-_RelativeVelocity, originOfTransformed:=TransformEvent(New SpaceTimeEvent)))
         Return lazy.Value
     End Function
 
@@ -99,7 +103,7 @@ Public Class LorentzTransformation
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Function Before(second As LorentzTransformation) As LorentzTransformation
-        Return New LorentzTransformation(RelativeVelocity:=Inverse.TransformVelocity(second.RelativeVelocity), startEvent:=Inverse.TransformEvent(second.StartEvent))
+        Return New LorentzTransformation(RelativeVelocity:=Inverse.TransformVelocity(second.RelativeVelocity), originOfTransformed:=Inverse.TransformEvent(second.OriginOfTransformed))
     End Function
 
     Public Function TransformSightRay(sightRay As SightRay) As SightRay

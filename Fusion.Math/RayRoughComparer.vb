@@ -1,10 +1,10 @@
 ﻿Public Class RayRoughComparer
     Implements IEqualityComparer(Of Ray)
 
-    Private ReadOnly _VectorComparer As Vector3DRoughComparer
+    Private ReadOnly _VectorComparer As RoughVector3DComparer
 
     Public Sub New(maxDeviation As Double)
-        _VectorComparer = New Vector3DRoughComparer(maxDeviation)
+        _VectorComparer = New RoughVector3DComparer(maxDeviation)
     End Sub
 
     Public Shadows Function Equals(x As Ray, y As Ray) As Boolean Implements IEqualityComparer(Of Ray).Equals

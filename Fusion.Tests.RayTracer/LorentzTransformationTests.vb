@@ -34,7 +34,7 @@
     Private Const v = beta * c
     Private _RelativeVelocity As New Vector3D(v, 0, 0)
     Private ReadOnly _Transformation As New LorentzTransformation(relativeVelocity:=_RelativeVelocity)
-    Private ReadOnly _VectorComparer As New Vector3DRoughComparer(10 ^ -15)
+    Private ReadOnly _VectorComparer As New RoughVector3DComparer(10 ^ -15)
 
     <Test()>
     Public Sub PositiveVelocity()
@@ -76,13 +76,15 @@
         Assert.AreEqual(_Transformation.TransformEvent(timeOriginEvent), New SpaceTimeEvent(New Vector3D(gamma * x, 0, 0), -gamma * v * x / c ^ 2))
     End Sub
 
+    Private Shared ReadOnly _RoughVectorComparer As New RoughVector3DComparer(10 ^ -6)
+    Private Shared ReadOnly _RoughDoubleComparer As New RoughDoubleComparer(10 ^ -6)
+    
     <Test()>
     Public Sub TestInverse()
-        Dim softVectorComparer As New Vector3DRoughComparer(10 ^ -8)
 
         Dim randomVelocityInS = New Vector3D(0, -3, 0)
 
-        Assert.That(softVectorComparer.Equals(_Transformation.Inverse.TransformVelocity(_Transformation.TransformVelocity(randomVelocityInS)), randomVelocityInS))
+        Assert.That(_RoughVectorComparer.Equals(_Transformation.Inverse.TransformVelocity(_Transformation.TransformVelocity(randomVelocityInS)), randomVelocityInS))
         Assert.AreEqual(_Transformation.Inverse.Before(_Transformation).TransformVelocity(randomVelocityInS), randomVelocityInS)
         Assert.AreEqual(_Transformation.Before(_Transformation.Inverse).TransformVelocity(randomVelocityInS), randomVelocityInS)
     End Sub
@@ -90,14 +92,14 @@
     <Test()>
     Public Sub Test_inverse_translated()
         Dim startEvent = New SpaceTimeEvent(New Vector3D(2, 3, 4), 10)
-        Dim t = New LorentzTransformation(New Vector3D(1, 0, 0), startEvent:=startEvent)
+        Dim t = New LorentzTransformation(New Vector3D(1, 0, 0), originOfTransformed:=startEvent)
 
         Dim inverse = t.Inverse
-        
-        Dim inverseStartEvent = inverse.StartEvent
-        t.Inverse.Inverse.StartEvent.Should.Be.EqualTo(t.StartEvent)
+
+        Dim inverseStartEvent = inverse.OriginOfTransformed
+        t.Inverse.Inverse.OriginOfTransformed.Should.Be.EqualTo(t.OriginOfTransformed)
         inverse.TransformEvent(inverseStartEvent).Should.Be.EqualTo(New SpaceTimeEvent)
-        
+
         inverseStartEvent.Time.Should.Be.EqualTo(-10)
         inverseStartEvent.Location.Should.Be.EqualTo(New Vector3D(-2, -3, -4) + New Vector3D(10, 0, 0))
     End Sub
@@ -133,7 +135,7 @@
 
     <Test>
     Public Sub Translation()
-        Dim t = New LorentzTransformation(relativeVelocity:=New Vector3D, startEvent:=New SpaceTimeEvent(New Vector3D(4, 5, 6), 7))
+        Dim t = New LorentzTransformation(relativeVelocity:=New Vector3D, originOfTransformed:=New SpaceTimeEvent(New Vector3D(4, 5, 6), 7))
 
         Dim transformed = t.TransformEvent(New SpaceTimeEvent(New Vector3D(1, 1, 1), 1))
 
@@ -143,8 +145,8 @@
 
     <Test>
     Public Sub Before_with_translation()
-        Dim t1 = New LorentzTransformation(relativeVelocity:=New Vector3D, startEvent:=New SpaceTimeEvent(New Vector3D, 7))
-        Dim t2 = New LorentzTransformation(relativeVelocity:=New Vector3D(1, 0, 0), startEvent:=New SpaceTimeEvent)
+        Dim t1 = New LorentzTransformation(relativeVelocity:=New Vector3D, originOfTransformed:=New SpaceTimeEvent(New Vector3D, 7))
+        Dim t2 = New LorentzTransformation(relativeVelocity:=New Vector3D(1, 0, 0), originOfTransformed:=New SpaceTimeEvent)
         Dim t = t1.Before(t2)
 
         Dim someEvent = New SpaceTimeEvent(New Vector3D(1, 1, 1), 1)
@@ -156,12 +158,27 @@
 
     <Test>
     Public Sub Before_with_translation_complicated()
-        Dim t1 = New LorentzTransformation(relativeVelocity:=New Vector3D, startEvent:=New SpaceTimeEvent(New Vector3D, 7))
-        Dim t2 = New LorentzTransformation(relativeVelocity:=New Vector3D(1, 0, 0), startEvent:=New SpaceTimeEvent(New Vector3D(4, 0, 0), 7))
+        Dim t1 = New LorentzTransformation(relativeVelocity:=New Vector3D, originOfTransformed:=New SpaceTimeEvent(New Vector3D, 7))
+        Dim t2 = New LorentzTransformation(relativeVelocity:=New Vector3D(1, 0, 0), originOfTransformed:=New SpaceTimeEvent(New Vector3D(4, 0, 0), 7))
         Dim t = t1.Before(t2)
 
         Dim someEvent = New SpaceTimeEvent(New Vector3D(23, 64, 73), -4)
 
         Assert.AreEqual(t.TransformEvent(someEvent), t2.TransformEvent(t1.TransformEvent(someEvent)))
+    End Sub
+
+    <Test>
+    Public Sub FromLinkEvent()
+        Dim linkEvent = New SpaceTimeEvent(New Vector3D(74, -83, 1220), 10)
+        Dim transformedLinkEvent = New SpaceTimeEvent(New Vector3D(1452376, -123424, 34223333), -3)
+        Dim relativeVelocity = New Vector3D(Constants.SpeedOfLight / 2, -12000000, 10000000)
+
+        Dim t = LorentzTransformation.FromLinkEvent(relativeVelocity:=relativeVelocity, linkEvent:=linkEvent, transformedLinkEvent:=transformedLinkEvent)
+
+        t.RelativeVelocity.Should.Be.EqualTo(relativeVelocity)
+
+        Dim transformed = t.TransformEvent(linkEvent)
+        _RoughVectorComparer.Equals(transformed.Location, transformedLinkEvent.Location).Should.Be.True()
+        _RoughDoubleComparer.Equals(transformed.Time, transformedLinkEvent.Time).Should.Be.True()
     End Sub
 End Class

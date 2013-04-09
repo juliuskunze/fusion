@@ -1,4 +1,4 @@
-﻿Public Class Vector3DRoughComparer
+﻿Public Class RoughVector3DComparer
     Implements IEqualityComparer(Of Vector3D)
 
     Private ReadOnly _SquaredMaxDeviation As Double

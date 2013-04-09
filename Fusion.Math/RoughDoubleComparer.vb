@@ -1,4 +1,4 @@
-﻿Public Class DoubleRoughComparer
+﻿Public Class RoughDoubleComparer
     Implements IEqualityComparer(Of Double)
 
     Private ReadOnly _MaxDeviation As Double

@@ -91,7 +91,7 @@
   <ItemGroup>
     <Compile Include="AffineMap.vb" />
     <Compile Include="Complex.vb" />
-    <Compile Include="DoubleRoughComparer.vb" />
+    <Compile Include="RoughDoubleComparer.vb" />
     <Compile Include="RayRoughComparer.vb" />
     <Compile Include="Surfaces\AntiCylinder.vb" />
     <Compile Include="Surfaces\AntiSphere.vb" />
@@ -113,7 +113,6 @@
     <Compile Include="Surfaces\Triangle.vb" />
     <Compile Include="Surfaces\TruncatedSurface.vb" />
     <Compile Include="Surfaces\UnitedSurfacedPointSet3D.vb" />
-    <Compile Include="Vector3DRoughComparer.vb" />
     <Compile Include="EndNodes.vb" />
     <Compile Include="Functions.vb" />
     <Compile Include="Geometry.vb" />
@@ -157,7 +156,7 @@
     <Compile Include="QaudraticEquationSolver.vb" />
     <Compile Include="SquareMatrix.vb" />
     <Compile Include="Vector2D.vb" />
-    <Compile Include="Vector2DRoughComparer.vb" />
+    <Compile Include="RoughVector3DComparer.vb" />
     <Compile Include="Vector3D.vb" />
   </ItemGroup>
   <ItemGroup>

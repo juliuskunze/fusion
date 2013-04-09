@@ -10,7 +10,7 @@ Public Class ShadedLightSources(Of TLight As {ILight(Of TLight), New})
         End Get
     End Property
 
-    Private Shared ReadOnly _LocationComparer As New Vector3DRoughComparer(maxDeviation:=3.2 * 10 ^ -10)
+    Private Shared ReadOnly _LocationComparer As New RoughVector3DComparer(maxDeviation:=3.2 * 10 ^ -10)
 
     Public Sub New(shadowingSurface As ISurface)
         _ShadowingSurface = shadowingSurface

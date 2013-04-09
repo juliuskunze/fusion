@@ -48,5 +48,9 @@
     Public Shared Operator -(e1 As SpaceTimeEvent, e2 As SpaceTimeEvent) As SpaceTimeEvent
         Return New SpaceTimeEvent(e1.Location - e2.Location, e1.Time - e2.Time)
     End Operator
+
+    Public Shared Operator -(e As SpaceTimeEvent) As SpaceTimeEvent
+        Return New SpaceTimeEvent(-e.Location, -e.Time)
+    End Operator
 End Class
 
