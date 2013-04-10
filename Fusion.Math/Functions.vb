@@ -56,11 +56,9 @@
         Return result
     End Function
 
-    Public Function Primes(upperBound As Integer, Optional lowerBound As Integer = 2) As List(Of Integer)
+    Public Function Primes(upperBound As Integer, Optional lowerBound As Integer = 2) As IEnumerable(Of Integer)
         If lowerBound < 0 Then lowerBound = 0
         If upperBound < 0 Then upperBound = 0
-
-        Primes = New List(Of Integer)
 
         Dim isPrime(upperBound + 1) As Boolean
 
@@ -76,11 +74,13 @@
             End If
         Next
 
+        Dim p = New List(Of Integer)
+        
         For i = lowerBound To upperBound
-            If isPrime(i) Then Primes.Add(i)
+            If isPrime(i) Then p.Add(i)
         Next
 
-        Return Primes
+        Return p
     End Function
 
     Public Function Factorial(n As Double) As Double

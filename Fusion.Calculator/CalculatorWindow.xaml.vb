@@ -3,15 +3,15 @@ Imports Fusion.Math
 
 Class CalculatorWindow
     Private Sub RespectOrderCheckBox_Click(sender As System.Object, e As RoutedEventArgs) Handles _RespectOrderCheckBox.Click
-        Me.SetCalculationFormulaLabelText()
+        SetCalculationFormulaLabelText()
     End Sub
 
-    Private Sub RespectDuplicationCheckBox_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles _RespectDuplicationCheckBox.Click
-        Me.SetCalculationFormulaLabelText()
+    Private Sub RespectDuplicationCheckBox_Click(sender As System.Object, e As RoutedEventArgs) Handles _RespectDuplicationCheckBox.Click
+        SetCalculationFormulaLabelText()
     End Sub
 
     Private Sub SetCalculationFormulaLabelText()
-        _CalculationFormulaLabel.Content = Me.GetCalculationFormulaLabelText()
+        _CalculationFormulaLabel.Content = GetCalculationFormulaLabelText()
     End Sub
 
     Private Function GetCalculationFormulaLabelText() As String
@@ -30,7 +30,7 @@ Class CalculatorWindow
         End If
     End Function
 
-    Private Sub CalculatePossibilityCountButton_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles _CalculatePossibilityCountButton.Click
+    Private Sub CalculatePossibilityCountButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _CalculatePossibilityCountButton.Click
         Try
             Dim result = ChoosingPossibilityCount(total:=CLng(_TotalCountTextBox.Text),
                                           chosen:=CLng(_ChosenCountTextBox.Text),
@@ -45,26 +45,22 @@ Class CalculatorWindow
         End Try
     End Sub
 
-    Private Sub Window_Loaded(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles MyBase.Loaded
+    Private Sub Window_Loaded(sender As System.Object, e As RoutedEventArgs) Handles MyBase.Loaded
         Me.SetCalculationFormulaLabelText()
     End Sub
 
-    Private Sub CalculatePrimesButton_Click(sender As System.Object, e As System.Windows.RoutedEventArgs) Handles _CalculatePrimesButton.Click
+    Private Sub CalculatePrimesButton_Click(sender As System.Object, e As RoutedEventArgs) Handles _CalculatePrimesButton.Click
         _PrimesResultTextBox.Clear()
         _PrimesCountLabel.Content = "Anzahl"
         Try
-            Dim primes = Fusion.Math.Primes(upperBound:=CInt(_UpperBoundTextBox.Text),
-                                            lowerBound:=CInt(_LowerBoundTextBox.Text))
+            Dim primes = Math.Primes(upperBound:=CInt(_UpperBoundTextBox.Text), lowerBound:=CInt(_LowerBoundTextBox.Text))
 
-            Dim primesStringBuilder = New System.Text.StringBuilder
+            Dim primesStringBuilder = New Text.StringBuilder
             For Each prime In primes
                 primesStringBuilder.Append(CStr(prime) & ", ")
             Next
 
-            Dim charsToTrim(1) As Char
-            charsToTrim(0) = CChar(" ")
-            charsToTrim(1) = CChar(",")
-            _PrimesResultTextBox.Text = primesStringBuilder.ToString.TrimEnd(charsToTrim)
+            _PrimesResultTextBox.Text = primesStringBuilder.ToString.TrimEnd({" "c, ","c})
 
             _PrimesCountLabel.Content = primes.Count
         Catch ex As InvalidCastException
