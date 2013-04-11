@@ -131,6 +131,7 @@
     </Compile>
     <Compile Include="RayChanger.vb" />
     <Compile Include="Relativity\LorentzTransformation\ConstantAccelerationLorentzTransformation.vb" />
+    <Compile Include="Relativity\LorentzTransformation\ConstantRotationLorentzTransformation.vb" />
     <Compile Include="Relativity\RecursiveRelativisticRayTracer.vb" />
     <Compile Include="Relativity\RecursiveRayTracerReferenceFrame.vb" />
     <Compile Include="ClassicRayTracers\RayTracerPicture.vb" />

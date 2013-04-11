@@ -1,3 +1,5 @@
+Imports System.Diagnostics.Contracts
+
 Public Structure Vector3D
 
     Private ReadOnly _X As Double
@@ -220,4 +222,21 @@ Public Structure Vector3D
         Return (v1 - v2).Length / (0.5 * (v1.Length + v2.Length)) < maxRelativeError
     End Function
 
+    Public Function RotateAroundAxis(axisOrigin As Vector3D, axisDirection As Vector3D, angle As Double) As Vector3D
+        Dim a = axisOrigin.X
+        Dim b = axisOrigin.Y
+        Dim c = axisOrigin.Z
+        Dim u = axisDirection.X
+        Dim v = axisDirection.Y
+        Dim w = axisDirection.Z
+        Dim cosT = Cos(angle)
+        Dim sinT = Sin(angle)
+        Dim oneMinusCosT = (1 - cosT)
+
+        Dim d = u * X + v * Y + w * Z
+
+        Return New Vector3D((a * (v ^ 2 + w ^ 2) - u * (b * v + c * w - d)) * oneMinusCosT + X * cosT + (-c * v + b * w - w * Y + v * Z) * sinT,
+                            (b * (u ^ 2 + w ^ 2) - v * (a * u + c * w - d)) * oneMinusCosT + Y * cosT + (c * u - a * w + w * X - u * Z) * sinT,
+                            (c * (u ^ 2 + v ^ 2) - w * (a * u + b * v - d)) * oneMinusCosT + Z * cosT + (-b * u + a * v - v * X + u * Y) * sinT)
+    End Function
 End Structure

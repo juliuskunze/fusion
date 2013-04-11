@@ -21,13 +21,21 @@ Public Class LorentzTransformation
 
         _RelativeVelocity = relativeVelocity
         _NormalizedRelativeVelocity = _RelativeVelocity.Normalized
-        _Beta = _RelativeVelocity.Length / SpeedOfLight
+        _Beta = GetBeta(velocity:=_RelativeVelocity.Length)
         _Gamma = 1 / Sqrt(1 - _Beta ^ 2)
         _RelativeVelocityIsNull = (_RelativeVelocity.LengthSquared = 0)
     End Sub
 
     Public Shared Function FromLinkEvent(relativeVelocity As Vector3D, linkEvent As SpaceTimeEvent, transformedLinkEvent As SpaceTimeEvent) As LorentzTransformation
         Return New LorentzTransformation(relativeVelocity, originOfTransformed:=linkEvent).Before(New LorentzTransformation(New Vector3D, originOfTransformed:=-transformedLinkEvent))
+    End Function
+
+    Private Shared Function GetBeta(velocity As Double) As Double
+        Return velocity / SpeedOfLight
+    End Function
+
+    Public Shared Function GetGamma(velocity As Double) As Double
+        Return 1 / Sqrt(1 - GetBeta(velocity) ^ 2)
     End Function
 
     Public ReadOnly Property RelativeVelocity As Vector3D

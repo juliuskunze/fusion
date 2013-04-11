@@ -146,6 +146,9 @@
                End Function
     End Function
 
+    ''' <summary>
+    ''' The modulo result is greater than or equal to 0 and smaller than modulo.
+    ''' </summary>
     Public Function NonnegativeMod(number As Double, modulo As Double) As Double
         Dim m = number Mod modulo
         Return If(m < 0, m + modulo, m)
