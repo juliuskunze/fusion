@@ -25,6 +25,13 @@ Public Class ConstantInstance
     Public Function ToFunctionInstance() As FunctionInstance
         Return New FunctionInstance(Signature:=_Signature.ToFunctionSignature, invokableExpression:=_Expression)
     End Function
+
+    Public Shared Function Create(Of T)(name As String,
+                   value As T,
+                   typeDictionary As TypeDictionary,
+                   Optional description As String = Nothing) As ConstantInstance
+        Return New ConstantInstance(Of T)(name, value, typeDictionary, description)
+    End Function
 End Class
 
 Public Class ConstantInstance(Of T)

@@ -19,7 +19,7 @@
                                                           velocity:=v)
 
 
-        Dim lt = t.GetConstantVelocityTransformationAtTime(restTime:=restTime)
+        Dim lt = t.GetTransformationAtTime(restTime:=restTime)
 
         _RoughtVelocityComparer.Equals(lt.RelativeVelocity, New Vector3D(0, 0, v)).Should.Be.True()
         Dim transformed = lt.TransformEvent(New SpaceTimeEvent(startEvent.Location, restTime))

@@ -82,7 +82,7 @@
         End If
 
         Dim baseToObserver = _ObserverToBase.Inverse
-        Dim baseToObserverAtSightRay = baseToObserver.AtSightRay(baseSightRay)
+        Dim baseToObserverAtSightRay = baseToObserver.AtSightRay(baseSightRay).Partial(_Options)
         Dim observerLight = baseToObserverAtSightRay.TransformRadianceSpectrum(baseLight)
 
         Return observerLight

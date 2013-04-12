@@ -57,10 +57,11 @@
         _Types = If(types Is Nothing, NamedTypes.Empty, types)
     End Sub
 
-    Private Shared ReadOnly _Default As New TermContext(Constants:={New ConstantInstance(Of Boolean)("true", True, TypeDictionary.Default, "A Boolean value that passes a conditional test."),
-                                                                    New ConstantInstance(Of Boolean)("false", False, TypeDictionary.Default, "A Boolean value that fails a conditional test."),
-                                                                    New ConstantInstance(Of Double)("pi", System.Math.PI, TypeDictionary.Default, "= 3.14159..."),
-                                                                    New ConstantInstance(Of Double)("e", System.Math.E, TypeDictionary.Default, "= 2.71828...")
+    Private Shared ReadOnly _Default As New TermContext(Constants:={ConstantInstance.Create("true", True, TypeDictionary.Default, "A Boolean value that passes a conditional test."),
+                                                                    ConstantInstance.Create("false", False, TypeDictionary.Default, "A Boolean value that fails a conditional test."),
+                                                                    ConstantInstance.Create("pi", System.Math.PI, TypeDictionary.Default, "= 3.14159..."),
+                                                                    ConstantInstance.Create("e", System.Math.E, TypeDictionary.Default, "= 2.71828..."),
+                                                                    ConstantInstance.Create("Vector", New Vector3D, TypeDictionary.Default, "The 3D zero vector [0,0,0].")
                                                                    },
                                                         Functions:={New FunctionInstance(Of Func(Of Double, Double))("Sqrt", Function(x As Double) System.Math.Sqrt(x), TypeDictionary.Default, "The square root of a real number."),
                                                                     New FunctionInstance(Of Func(Of Double, Double))("Exp", Function(x) System.Math.Exp(x), TypeDictionary.Default, "E raised to the specified power."),

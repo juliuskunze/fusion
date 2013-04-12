@@ -1,4 +1,6 @@
 ﻿Public Class ConstantAccelerationLorentzTransformation
+    Implements IAcceleratedLorentzTransformation
+
     Private ReadOnly _Acceleration As Vector3D
     Private ReadOnly a As Double
     Private ReadOnly _NormalizedAcceleration As Vector3D
@@ -13,7 +15,7 @@
     ''' <summary>
     ''' The transformation from the inertial system into the accelerating system.
     ''' </summary>
-    Public Function GetConstantVelocityTransformationAtTime(acceleratedFrameTime As Double) As LorentzTransformation
+    Public Function GetTransformationAtTime(acceleratedFrameTime As Double) As LorentzTransformation Implements IAcceleratedLorentzTransformation.GetTransformationAtTime
         Dim T = acceleratedFrameTime
 
         ' see http://math.ucr.edu/home/baez/physics/Relativity/SR/rocket.html

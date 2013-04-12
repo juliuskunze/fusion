@@ -1,4 +1,6 @@
 ﻿Public Class ConstantRotationLorentzTransformation
+    Implements IAcceleratedLorentzTransformation
+
     Private ReadOnly _Center As Vector3D
     Private ReadOnly _StartEvent As SpaceTimeEvent
     Private ReadOnly _NormalizedAxisDirection As Vector3D
@@ -25,8 +27,8 @@
     ''' The transformation from the inertial system into the accelerating system.
     '''  </summary>
     ''' <param name="restTime">The point of time at the rest frame.</param>
-    Public Function GetConstantVelocityTransformationAtTime(restTime As Double) As LorentzTransformation
-        Dim elapsedRestTime  = restTime - _StartEvent.Time
+    Public Function GetTransformationAtTime(restTime As Double) As LorentzTransformation Implements IAcceleratedLorentzTransformation.GetTransformationAtTime
+        Dim elapsedRestTime = restTime - _StartEvent.Time
         Dim movedDistance = elapsedRestTime * _Velocity
         Dim angle = NonnegativeNormalizedMod(movedDistance, modulo:=2 * PI * _Radius) * 2 * PI
 
