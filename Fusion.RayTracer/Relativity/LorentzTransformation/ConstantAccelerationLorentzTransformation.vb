@@ -15,7 +15,7 @@
     ''' <summary>
     ''' The transformation from the inertial system into the accelerating system.
     ''' </summary>
-    Public Function GetTransformationAtTime(acceleratedFrameTime As Double) As LorentzTransformation Implements IAcceleratedLorentzTransformation.GetTransformationAtTime
+    Public Function InertialToAcceleratedInertial(acceleratedFrameTime As Double) As LorentzTransformation Implements IAcceleratedLorentzTransformation.InertialToAcceleratedInertial
         Dim T = acceleratedFrameTime
 
         ' see http://math.ucr.edu/home/baez/physics/Relativity/SR/rocket.html

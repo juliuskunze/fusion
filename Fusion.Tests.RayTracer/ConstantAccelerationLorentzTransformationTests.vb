@@ -9,7 +9,7 @@
 
         Dim accelerationTransformation = New ConstantAccelerationLorentzTransformation(acceleration:=acceleration)
 
-        Dim transformation = accelerationTransformation.GetTransformationAtTime(acceleratedFrameTime:=rocketTime)
+        Dim transformation = accelerationTransformation.InertialToAcceleratedInertial(acceleratedFrameTime:=rocketTime)
 
         Dim rocketEvent = transformation.Inverse.TransformEvent(New SpaceTimeEvent(time:=rocketTime))
         Assert.AreEqual(rocketEvent.Time / Year, earthTime / Year, delta:=50)

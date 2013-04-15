@@ -47,11 +47,28 @@
         _TimeStep = timeStep
     End Sub
 
+    Public Shared Function FromStartAndEndTime(
+            pictureFunction As Func(Of Double, RayTracerPicture(Of TLight)),
+            framesPerSecond As Double,
+            duration As Double,
+            startTime As Double,
+            endTime As Double) As RayTracerVideo(Of TLight)
+        Return New RayTracerVideo(Of TLight)(pictureFunction:=pictureFunction,
+                                             framesPerSecond:=framesPerSecond,
+                                             duration:=duration,
+                                             startTime:=startTime,
+                                             timeStep:=(startTime - endTime) / GetFrameCount(duration:=duration, framesPerSecond:=framesPerSecond))
+    End Function
+
     Public ReadOnly Property FrameCount As Integer
         Get
-            Return CInt(Floor(_Duration * _FramesPerSecond + 1))
+            Return GetFrameCount(duration:=_Duration, framesPerSecond:=_FramesPerSecond)
         End Get
     End Property
+
+    Private Shared Function GetFrameCount(duration As Double, framesPerSecond As Double) As Integer
+        Return CInt(Floor(duration * framesPerSecond + 1))
+    End Function
 
     Public Function GetFrame(index As Integer) As RayTracerPicture(Of TLight)
         If index < 0 OrElse index >= FrameCount Then Throw New ArgumentOutOfRangeException("index")

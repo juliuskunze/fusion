@@ -226,9 +226,10 @@ Public Structure Vector3D
         Dim a = axisOrigin.X
         Dim b = axisOrigin.Y
         Dim c = axisOrigin.Z
-        Dim u = axisDirection.X
-        Dim v = axisDirection.Y
-        Dim w = axisDirection.Z
+        Dim normalizedAxisDirection = axisDirection.Normalized
+        Dim u = normalizedAxisDirection.X
+        Dim v = normalizedAxisDirection.Y
+        Dim w = normalizedAxisDirection.Z
         Dim cosT = Cos(angle)
         Dim sinT = Sin(angle)
         Dim oneMinusCosT = (1 - cosT)

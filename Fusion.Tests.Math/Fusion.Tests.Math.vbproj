@@ -118,7 +118,7 @@
     <Compile Include="MatrixTests.vb" />
     <Compile Include="SquareMatrixTests.vb" />
     <Compile Include="Vector2DTests.vb" />
-    <Compile Include="Vector3DTermTests.vb" />
+    <Compile Include="Vector3DTests.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

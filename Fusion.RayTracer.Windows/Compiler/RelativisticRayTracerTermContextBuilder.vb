@@ -107,6 +107,10 @@
                                  Function(pictureFunction As Func(Of Double, RayTracerPicture(Of TLight)), framesPerSecond As Double, duration As Double, startTime As Double, timeStep As Double) New RayTracerVideo(Of TLight)(pictureFunction:=pictureFunction, framesPerSecond:=framesPerSecond, duration:=duration, startTime:=startTime, timeStep:=timeStep), _TypeDictionary,
                                  "A video with specified duration and frame count per second. The specified time step and start time define the points of time where the pictures are chosen from the picture function."),
                              FunctionInstance.FromLambdaExpression(
+                                 "RayTracerVideoFromStartAndEndTime",
+                                 Function(pictureFunction As Func(Of Double, RayTracerPicture(Of TLight)), framesPerSecond As Double, duration As Double, startTime As Double, endTime As Double) RayTracerVideo(Of TLight).FromStartAndEndTime(pictureFunction:=pictureFunction, framesPerSecond:=framesPerSecond, duration:=duration, startTime:=startTime, endTime:=endTime), _TypeDictionary,
+                                 "A video with specified duration and frame count per second. The specified start and end time define the points of time where the pictures are chosen from the picture function."),
+                             FunctionInstance.FromLambdaExpression(
                                  "SingleMaterialSurface",
                                  Function(surface As ISurface, material As Material2D(Of TLight)) DirectCast(New MaterialSurface(Of TLight)(surface:=surface, material:=material), ISurface(Of TLight)), _TypeDictionary,
                                  "A material surface that has the same specified material at all points of the specified surface."),
@@ -298,7 +302,7 @@ Public Class RelativisticRayTracerTermContextBuilder
                                                                    "A ray tracer that can have multiple object reference frames that have a constant velocity relative to the base reference frame. The base reference frame has the specified transformation to the oberserver."),
                              FunctionInstance.FromLambdaExpression("AcceleratedToRestTransformationAtTime",
                                                                    Function(acceleratedTransformation As IAcceleratedLorentzTransformation,
-                                                                            acceleratedFrameTime As Double) acceleratedTransformation.GetTransformationAtTime(acceleratedFrameTime:=acceleratedFrameTime).Inverse,
+                                                                            acceleratedFrameTime As Double) acceleratedTransformation.InertialToAcceleratedInertial(acceleratedFrameTime:=acceleratedFrameTime).Inverse,
                                                                         _TypeDictionary, description:="The transformation from the inertial system into the accelerating system."),
                              FunctionInstance.FromLambdaExpression("ConstantRotationLorentzTransformation",
                                                                    Function(center As Vector3D,

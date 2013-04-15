@@ -1,6 +1,6 @@
 ﻿Public Interface IAcceleratedLorentzTransformation
     ''' <summary>
-    ''' The transformation from the inertial system into the accelerating system.
+    ''' The transformation from the inertial system the inertial system of the accelerating system at the specified point of time.
     ''' </summary>
-    Function GetTransformationAtTime(acceleratedFrameTime As Double) As LorentzTransformation
+    Function InertialToAcceleratedInertial(acceleratedFrameTime As Double) As LorentzTransformation
 End Interface
