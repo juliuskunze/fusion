@@ -1,7 +1,6 @@
 ﻿Imports System.ComponentModel
 
 Public MustInherit Class Renderer(Of TResult)
-
     Private ReadOnly _Stopwatch As Stopwatch = Stopwatch.StartNew
     Protected WithEvents _BackgroundWorker As New BackgroundWorker With {.WorkerReportsProgress = True, .WorkerSupportsCancellation = True}
 

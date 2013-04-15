@@ -5,6 +5,20 @@
     Private ReadOnly _OutputFile As FileInfo
     Private ReadOnly _PictureOutputDirectory As DirectoryInfo
 
+    Private _DonePictureCount As Integer
+    Private Sub IncreaseProgressBy1FrameAndReport()
+        Dim count As Integer
+
+        SyncLock Me
+            _DonePictureCount += 1
+
+            count = _DonePictureCount
+        End SyncLock
+
+
+        ReportProgress(relativeProgress:=count / _Video.FrameCount)
+    End Sub
+
     Public ReadOnly Property PictureOutputDirectory() As DirectoryInfo
         Get
             Return _PictureOutputDirectory
@@ -23,6 +37,8 @@
     End Sub
 
     Private Sub BackgroundWorker_DoWork(sender As Object, e As ComponentModel.DoWorkEventArgs) Handles _BackgroundWorker.DoWork
+        _DonePictureCount = 0
+
         Enumerable.Range(0, _Video.FrameCount).AsParallel.ForAll(
             Sub(index)
                 RenderFrame(index:=index, e:=e)
@@ -52,7 +68,7 @@
         Dim frameRenderer = New FrameRenderer(frame:=frame, outputFile:=GetFrameFile(index:=index))
         frameRenderer.Run()
 
-        ReportProgress(relativeProgress:=(index + 1) / _Video.FrameCount)
+        IncreaseProgressBy1FrameAndReport()
     End Sub
 
     Private ReadOnly _FrameFiles As IEnumerable(Of FileInfo)

@@ -29,7 +29,6 @@
         Return RayWithNewDirectionAndSafetyDistance(newDirection:=_SourceRay.NormalizedDirection)
     End Function
 
-    Private Shared ReadOnly _Random As New Random
     Public Function ScatteredRay() As SightRay
         Dim scatteredRayDirection = NormalizedRandomDirection()
         If scatteredRayDirection * _Intersection.NormalizedNormal < 0 Then
@@ -41,17 +40,6 @@
 
     Private Function RayWithNewDirectionAndSafetyDistance(newDirection As Vector3D) As SightRay
         Return WithSafetyDistance(New SightRay(originEvent:=_Intersection.SpaceTimeEvent, direction:=newDirection))
-    End Function
-
-    Private Shared Function NormalizedRandomDirection() As Vector3D
-        ' The z coordinate of random sphere surface points is uniform distributed in [-1; 1].
-        Dim z = _Random.NextDouble * 2 - 1
-        Dim phi = _Random.NextDouble * 2 * PI
-        Dim rho = Sqrt(1 - z ^ 2)
-        Dim y = rho * Sin(phi)
-        Dim x = rho * Cos(phi)
-
-        Return New Vector3D(z, y, x)
     End Function
 
     ''' <summary>

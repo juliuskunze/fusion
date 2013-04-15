@@ -89,4 +89,12 @@
                    End If
                End Function
     End Function
+
+    Public Shared Function StarrySky(antiSphere As AntiSphere, startCount As Integer, starRadiusAngle As Double, material As Material2D(Of TLight)) As Func(Of SpaceTimeEvent, Material2D(Of TLight))
+        Dim random = New Random
+
+        Dim stars = (From x In Enumerable.Range(0, startCount) Select New Sphere(center:=NormalizedRandomDirection() * antiSphere.Radius, radius:=starRadiusAngle * antiSphere.Radius)).ToArray
+
+        Return Function([event]) If(stars.Any(Function(x) x.Contains([event].Location)), material, Materials2D(Of TLight).Black)
+    End Function
 End Class

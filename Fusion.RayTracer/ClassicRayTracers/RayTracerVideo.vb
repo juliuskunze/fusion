@@ -57,7 +57,7 @@
                                              framesPerSecond:=framesPerSecond,
                                              duration:=duration,
                                              startTime:=startTime,
-                                             timeStep:=(startTime - endTime) / GetFrameCount(duration:=duration, framesPerSecond:=framesPerSecond))
+                                             timeStep:=(endTime - startTime) / GetFrameCount(duration:=duration, framesPerSecond:=framesPerSecond))
     End Function
 
     Public ReadOnly Property FrameCount As Integer
