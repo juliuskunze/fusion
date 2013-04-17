@@ -70,7 +70,7 @@ Public Class MainWindow
             _PictureRenderer = New PictureRenderer(_Picture)
             _PictureRenderer.RunAsync()
         Else
-            _VideoRenderer = New VideoRenderer(_Video, outputFile:=VideoOutputFile)
+            _VideoRenderer = New VideoRenderer(_Video, outputFile:=VideoOutputFile, definitionText:=Description)
             _VideoRenderer.RunAsync()
         End If
     End Sub
@@ -448,7 +448,7 @@ Public Class MainWindow
         If Not e.WasSuccessful Then Return
 
         Dim firstPictureSize = _Video.GetFrame(0).PictureSize
-
+        
         ShowAverageElapsedTimePerPixel(e.ElapsedTime.Divide(_Video.FrameCount * firstPictureSize.Width * firstPictureSize.Height))
         _VideoRenderedLabel.Visibility = Visibility.Visible
     End Sub

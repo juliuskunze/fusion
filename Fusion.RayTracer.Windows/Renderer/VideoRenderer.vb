@@ -3,6 +3,7 @@
 
     Private ReadOnly _Video As RayTracerVideo(Of RadianceSpectrum)
     Private ReadOnly _OutputFile As FileInfo
+    Private ReadOnly _DefinitionText As String
     Private ReadOnly _PictureOutputDirectory As DirectoryInfo
 
     Private _DonePictureCount As Integer
@@ -27,9 +28,10 @@
 
     Private ReadOnly _OutputFileNameWithoutExtension As String
 
-    Public Sub New(video As RayTracerVideo(Of RadianceSpectrum), outputFile As FileInfo)
+    Public Sub New(video As RayTracerVideo(Of RadianceSpectrum), outputFile As FileInfo, definitionText As String)
         _Video = video
         _OutputFile = outputFile
+        _DefinitionText = definitionText
 
         _OutputFileNameWithoutExtension = _OutputFile.Name.Substring(startIndex:=0, length:=_OutputFile.Name.Length - _OutputFile.Extension.Length)
         _PictureOutputDirectory = Directory.CreateDirectory(_OutputFile.DirectoryName & "\" & _OutputFileNameWithoutExtension)
@@ -39,10 +41,12 @@
     Private Sub BackgroundWorker_DoWork(sender As Object, e As ComponentModel.DoWorkEventArgs) Handles _BackgroundWorker.DoWork
         _DonePictureCount = 0
 
+        File.WriteAllText(IO.Path.Combine(PictureOutputDirectory.FullName, "definition.vid"), _DefinitionText)
+        
         Enumerable.Range(0, _Video.FrameCount).AsParallel.ForAll(
             Sub(index)
-                RenderFrame(index:=index, e:=e)
-            End Sub)
+                    RenderFrame(index:=index, e:=e)
+                End Sub)
 
         If _BackgroundWorker.CancellationPending Then
             e.Cancel = True

@@ -19,12 +19,7 @@
     End Function
 
     Private Shared Function IsInEvenRow(value As Double, rowWidth As Double) As Boolean
-        Dim rest = value Mod (2 * rowWidth)
-        If rest < 0 Then
-            rest += 2
-        End If
-
-        Return rest < 1
+        Return NonnegativeNormalizedMod(value, 2 * rowWidth) < 0.5
     End Function
 
     Public Shared Function Grid2D(xVector As Vector3D, yVector As Vector3D, backgroundMaterial As Material2D(Of TLight), gridMaterial As Material2D(Of TLight), gridLineWidth As Double) As Func(Of SpaceTimeEvent, Material2D(Of TLight))
@@ -90,11 +85,9 @@
                End Function
     End Function
 
-    Public Shared Function StarrySky(antiSphere As AntiSphere, startCount As Integer, starRadiusAngle As Double, material As Material2D(Of TLight)) As Func(Of SpaceTimeEvent, Material2D(Of TLight))
-        Dim random = New Random
+    Public Shared Function StarrySky(antiSphere As AntiSphere, starCount As Integer, starRadiusAngle As Double, starMaterial As Material2D(Of TLight), backgroundMaterial As Material2D(Of TLight)) As Func(Of SpaceTimeEvent, Material2D(Of TLight))
+        Dim stars = (From x In Enumerable.Range(0, starCount) Select New Sphere(center:=NormalizedRandomDirection() * antiSphere.Radius, radius:=starRadiusAngle * antiSphere.Radius)).ToArray
 
-        Dim stars = (From x In Enumerable.Range(0, startCount) Select New Sphere(center:=NormalizedRandomDirection() * antiSphere.Radius, radius:=starRadiusAngle * antiSphere.Radius)).ToArray
-
-        Return Function([event]) If(stars.Any(Function(x) x.Contains([event].Location)), material, Materials2D(Of TLight).Black)
+        Return Function([event]) If(stars.Any(Function(x) x.Contains([event].Location)), starMaterial, backgroundMaterial)
     End Function
 End Class

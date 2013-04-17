@@ -23,7 +23,7 @@
         Dim observerSightRay = sightRay
         Dim baseSightRay = _ObserverToBase.TransformSightRay(observerSightRay)
 
-        Dim possibleHits =
+        Dim intersectionsOnRay =
             From frame In _ReferenceFrames
             Let objectSurface = frame.RecursiveRayTracer.Surface
             Let baseToObject = frame.BaseToObject
@@ -35,10 +35,10 @@
             Let objectToBase = baseToObject.Inverse
             Let baseEvent = objectToBase.TransformEvent(objectEvent)
             Select frame, objectSurfacePoint, objectSightRay, baseEvent
+        
+        If Not intersectionsOnRay.Any Then Return New RadianceSpectrum
 
-        If Not possibleHits.Any Then Return New RadianceSpectrum
-
-        Dim hit = possibleHits.MaxItem(Function(possibleHit) possibleHit.baseEvent.Time)
+        Dim hit = intersectionsOnRay.MaxItem(Function(possibleHit) possibleHit.baseEvent.Time)
         Dim hitMaterial = hit.objectSurfacePoint.Material
         Dim baseToHitObject = hit.frame.BaseToObject
         Dim hitObjectToBaseAtSightRay = baseToHitObject.Inverse.AtSightRay(hit.objectSightRay).[Partial](_Options)

@@ -177,7 +177,11 @@
                              FunctionInstance.FromLambdaExpression(
                                  "Blinking",
                                  Function(base As Func(Of SpaceTimeEvent, Material2D(Of TLight)), periodTimeSpan As Double) MaterialFunctions(Of TLight).Blinking(base, periodTimeSpan), _TypeDictionary,
-                                 "A material function that returns the base material function result, but the emission is alternating between the original value and black periodically in time.")}
+                                 "A material function that returns the base material function result, but the emission is alternating between the original value and black periodically in time."),
+                             FunctionInstance.FromLambdaExpression(
+                                 "StarrySky",
+                                 Function(antiSphere As AntiSphere, starCount As Double, starRadiusAngle As Double, starMaterial As Material2D(Of TLight), backgroundMaterial As Material2D(Of TLight)) MaterialFunctions(Of TLight).StarrySky(antiSphere, CInt(starCount), starRadiusAngle, starMaterial, backgroundMaterial), _TypeDictionary,
+                                 "A material function of starry sky modelled as a very big anti sphere with the specified start count, radius and material.")}
 
     Private ReadOnly _TermContext As TermContext
 
