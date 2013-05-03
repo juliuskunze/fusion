@@ -158,9 +158,7 @@
         Return NonnegativeMod(number, modulo) / modulo
     End Function
 
-    Public Function NormalizedRandomDirection() As Vector3D
-        Static random As New Random
-
+    Public Function NormalizedRandomDirection(random As Random) As Vector3D
         ' The z coordinate of random sphere surface points is uniform distributed in [-1; 1].
         Dim z = random.NextDouble * 2 - 1
         Dim phi = random.NextDouble * 2 * PI

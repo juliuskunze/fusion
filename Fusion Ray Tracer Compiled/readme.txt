@@ -1,1 +1,0 @@
-To run this program Windows Vista (or later version) and .NET Framework 4.0 (or later version) is required.

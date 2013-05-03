@@ -29,8 +29,10 @@
         Return RayWithNewDirectionAndSafetyDistance(newDirection:=_SourceRay.NormalizedDirection)
     End Function
 
+    Private Shared ReadOnly _Random As New Random
+
     Public Function ScatteredRay() As SightRay
-        Dim scatteredRayDirection = NormalizedRandomDirection()
+        Dim scatteredRayDirection = NormalizedRandomDirection(_Random)
         If scatteredRayDirection * _Intersection.NormalizedNormal < 0 Then
             scatteredRayDirection *= -1
         End If

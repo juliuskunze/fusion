@@ -1,31 +1,0 @@
-Real beta = 0.3;
-Real gamma = 1 / Sqrt(1-beta^2);
-Vector cubeMidpoint = [0,1,2];
-Real t0 = -5e-8;
-Real t1 = 10e-8;
-Real pictures = 240;
-Real fps = 24;
-
-Vector observerLocation = [2,3,0];
-
-View view(Real t) = View(observerLocation : observerLocation, lookAt : gamma  * (cubeMidpoint -[0, 0, beta * c * t]) + [0,0,0.9] ,upDirection : [0,1,0], horizontalViewAngle : pi/2);
-RadianceSpectrum sodiumVaporSpectrum = Peak(589e-9, 1e13, 20e-9);
-Real pointLight(Real wavelength) = sodiumVaporSpectrum(wavelength) * 15;
-Real flair(Real wavelength) = 0.1e13;
-
-Material grayMaterial(Real albedo) = IntransparentMaterial(Black, ScaledRemission(albedo), BlackRemission);
-
-MaterialSurface ground = MaterialSurface(Plane([0,0,0], [0,1,0]), Checkerboard([1,0,0], [0,0,1],  grayMaterial(1), grayMaterial(0.01)));
-
-MaterialSurface box = MaterialBox(Box(cubeMidpoint + [1,1,1], cubeMidpoint + [-1,-1,-1]), grayMaterial(1), grayMaterial(1), grayMaterial(1), grayMaterial(1), grayMaterial(1), grayMaterial(1));
-
-PointLightSource p = ConstantPointLightSource(cubeMidpoint  + [0,3,0], pointLight); 
-LightSource lightSource(RadianceSpectrum f) = LightSources({UndirectionalLightSource(f)});
-
-RecursiveRayTracerReferenceFrame groundFrame = RecursiveRayTracerReferenceFrame(RecursiveRayTracer(surface : MaterialSurfaces({ground}), lightSource(flair), shadedPointLightSources : {}, 10), objectVelocityRelativeToObserver : [0,0,0]);
-RecursiveRayTracerReferenceFrame boxFrame = RecursiveRayTracerReferenceFrame(RecursiveRayTracer(surface : MaterialSurfaces({box}), LightSources({DirectionalLightSource([-1,-2,-3], flair),lightSource(flair)}), shadedPointLightSources : {p}, 10), objectVelocityRelativeToObserver : [0,0, -beta*c]);
-
-RayTracer relativisticRayTracer(Real t) = RecursiveRelativisticRayTracer(observerTime : t, referenceFrames : {groundFrame, boxFrame}, ignoreDopplerEffect : false, ignoreSearchlightEffect: false);
-RayTracerPicture picture(Real t) = RayTracerPicture(relativisticRayTracer(t), PictureSize(4000,4000), view(t), RadianceSpectrumToRgbColorConverter(spectralRadiancePerWhite : 1e14, testedWavelengthsCount : 2000));
-
-return picture(0)
