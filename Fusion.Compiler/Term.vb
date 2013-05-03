@@ -14,7 +14,7 @@
     Public Sub New(term As String, typeInformation As TypeInformation, context As TermContext)
         CheckPrimitveTypesAreDefined(context)
 
-        _LocatedString = New AnalizedString(term, AllowedBracketTypes:=CompilerTools.AllowedBracketTypes).ToLocated.Trim
+        _LocatedString = New AnalyzedString(term, AllowedBracketTypes:=CompilerTools.AllowedBracketTypes).ToLocated.Trim
         _Context = context
         _TypeInformation = typeInformation
     End Sub
@@ -33,7 +33,7 @@
         _TypeInformation = typeInformation
     End Sub
 
-    Private Shared Sub CheckPrimitveTypesAreDefined(ByVal context As TermContext)
+    Private Shared Sub CheckPrimitveTypesAreDefined(context As TermContext)
         If Not context.Types.Contains(NamedType.Real) Then Throw New CompilerException("Type Real must be defined in this context.")
         If Not context.Types.Contains(NamedType.Vector3D) Then Throw New CompilerException("Type Vector3D must be defined in this context.")
         If Not context.Types.Contains(NamedType.Set) Then Throw New CompilerException("Type Set must be defined in this context.")

@@ -10,6 +10,6 @@
                 }),
             DefaultExtension:=".png",
             initialDirectory:=initalDirectory,
-            initalFileName:="Ray tracer picture")
+            initialFileName:="Ray tracer picture")
     End Sub
 End Class

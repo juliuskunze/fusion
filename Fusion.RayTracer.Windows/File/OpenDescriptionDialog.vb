@@ -14,14 +14,6 @@
         Return DescriptionOpener.Check
     End Function
 
-    Public Function OpenDescription() As String
-        Return DescriptionOpener.OpenDescription
-    End Function
-
-    Public Function Mode() As CompileMode
-        Return DescriptionOpener.Mode
-    End Function
-
     Private ReadOnly Property DescriptionOpener As DescriptionOpener
         Get
             Return New DescriptionOpener(File)

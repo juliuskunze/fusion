@@ -12,7 +12,7 @@
     End Sub
 
     Public Sub New(referenceFrames As IEnumerable(Of RecursiveRayTracerReferenceFrame), options As LorentzTransformationAtSightRayOptions, observerToBase As LorentzTransformation)
-        If options.IgnoreGeometryEffect Then Throw New ArgumentOutOfRangeException("options", "Geometry effect cannot be ignored in a recursive relativistic raytracer.")
+        If options.IgnoreAberrationEffect Then Throw New ArgumentOutOfRangeException("options", "Geometry effect cannot be ignored in a recursive relativistic raytracer.")
 
         _ReferenceFrames = referenceFrames
         _Options = options

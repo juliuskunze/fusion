@@ -73,7 +73,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnalizedString.vb" />
+    <Compile Include="AnalyzedString.vb" />
     <Compile Include="CompileHelp\TextToolTip.vb" />
     <Compile Include="CompilerExceptionWithHelp.vb" />
     <Compile Include="CompilerResult.vb" />

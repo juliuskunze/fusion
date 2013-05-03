@@ -1,12 +1,12 @@
 ﻿Public Class LorentzTransformationAtSightRayOptions
-    Private ReadOnly _IgnoreGeometryEffect As Boolean
+    Private ReadOnly _IgnoreAberrationEffect As Boolean
     Private ReadOnly _IgnoreDopplerEffect As Boolean
     Private ReadOnly _IgnoreSearchlightEffect As Boolean
 
-    Public Sub New(Optional ignoreGeometryEffect As Boolean = False,
+    Public Sub New(Optional ignoreAberrationEffect As Boolean = False,
                    Optional ignoreDopplerEffect As Boolean = False,
                    Optional ignoreSearchlightEffect As Boolean = False)
-        _IgnoreGeometryEffect = ignoreGeometryEffect
+        _IgnoreAberrationEffect = ignoreAberrationEffect
         _IgnoreDopplerEffect = ignoreDopplerEffect
         _IgnoreSearchlightEffect = ignoreSearchlightEffect
     End Sub
@@ -23,9 +23,9 @@
         End Get
     End Property
 
-    Public ReadOnly Property IgnoreGeometryEffect As Boolean
+    Public ReadOnly Property IgnoreAberrationEffect As Boolean
         Get
-            Return _IgnoreGeometryEffect
+            Return _IgnoreAberrationEffect
         End Get
     End Property
 End Class

@@ -210,8 +210,8 @@ Public Module CompilerToolsExtensions
     End Function
 
     <Extension()>
-    Public Function ToAnalized(s As String) As AnalizedString
-        Return New AnalizedString(s)
+    Public Function ToAnalized(s As String) As AnalyzedString
+        Return New AnalyzedString(s)
     End Function
 
     <Extension()>

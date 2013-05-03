@@ -1,4 +1,4 @@
-﻿Public Class AnalizedString
+﻿Public Class AnalyzedString
     Private ReadOnly _Text As String
     Public ReadOnly Property Text As String
         Get

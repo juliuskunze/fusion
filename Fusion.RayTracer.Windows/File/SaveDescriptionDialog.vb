@@ -9,7 +9,7 @@
         MyBase.New(owner:=owner,
                    initialDirectory:=initialDirectory,
                    DefaultExtension:=".pic",
-                   initalFileName:="Ray tracer picture scene description")
+                   initialFileName:="Ray tracer picture scene description")
     End Sub
 
     Private ReadOnly Property SelectedFilterIndex As Integer

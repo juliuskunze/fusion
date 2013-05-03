@@ -118,9 +118,8 @@
     <Compile Include="VideoSplicerWindow.xaml.vb">
       <DependentUpon>VideoSplicerWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VideoSplicer\VideoSplicerBase.vb" />
     <Compile Include="RenderTimeEstimation\VideoRenderTimeEstimator.vb" />
-    <Compile Include="VideoSplicer\VideoSplicer.vb" />
+    <Compile Include="VideoSplicer.vb" />
     <Compile Include="WindowExtensions.vb" />
     <Page Include="HelpWindow.xaml">
       <SubType>Designer</SubType>

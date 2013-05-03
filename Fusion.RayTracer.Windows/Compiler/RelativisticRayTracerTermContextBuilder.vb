@@ -266,9 +266,9 @@ Public Class RelativisticRayTracerTermContextBuilder
                                                                    Function(
                                                                       classicRayTracer As IRayTracer(Of RadianceSpectrum),
                                                                       observerVelocity As Vector3D,
-                                                                      ignoreGeometryEffect As Boolean,
+                                                                      ignoreAberrationEffect As Boolean,
                                                                       ignoreDopplerEffect As Boolean,
-                                                                      ignoreSearchlightEffect As Boolean) DirectCast(New SingleObjectFrameRelativisticRayTracer(classicRayTracer:=classicRayTracer, observerVelocity:=observerVelocity, options:=New LorentzTransformationAtSightRayOptions(ignoreGeometryEffect:=ignoreGeometryEffect, ignoreDopplerEffect:=ignoreDopplerEffect, ignoreSearchlightEffect:=ignoreSearchlightEffect)), IRayTracer(Of RadianceSpectrum)),
+                                                                      ignoreSearchlightEffect As Boolean) DirectCast(New SingleObjectFrameRelativisticRayTracer(classicRayTracer:=classicRayTracer, observerVelocity:=observerVelocity, options:=New LorentzTransformationAtSightRayOptions(ignoreAberrationEffect:=ignoreAberrationEffect, ignoreDopplerEffect:=ignoreDopplerEffect, ignoreSearchlightEffect:=ignoreSearchlightEffect)), IRayTracer(Of RadianceSpectrum)),
                                                                    _TypeDictionary,
                                                                    "A ray tracer that supports effects of special relatity at a specified observer velocity based on a specified classic ray tracer. It is possible to ignore the geometry, Doppler or searchlight effect."),
                              FunctionInstance.FromLambdaExpression("PointLightSource", Function(location As Vector3D, baseLight As Func(Of Double, Double)) DirectCast(New RealisticPointLightSource(Of RadianceSpectrum)(location:=location, baseLightByTime:=Function() New RadianceSpectrum(Function(wavelength) baseLight(wavelength))), IPointLightSource(Of RadianceSpectrum)), _TypeDictionary,

@@ -53,8 +53,8 @@
             Return
         End If
 
-        Dim videoSplicer = New VideoSplicer(pictureInputFileNames:=_FrameFiles.Select(Function(file) file.FullName),
-                                            videoOutputFileName:=_OutputFile.FullName,
+        Dim videoSplicer = New VideoSplicer(pictureInputFiles:=_FrameFiles,
+                                            videoOutputFile:=_OutputFile,
                                             framesPerSecond:=_Video.FramesPerSecond)
         videoSplicer.Run()
 

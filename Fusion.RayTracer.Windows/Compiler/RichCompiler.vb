@@ -227,7 +227,7 @@ Public Class RichCompiler(Of TResult)
         _OpenedFunctionToolTip.HorizontalOffset = functionStartCharRect.Left
     End Sub
 
-    Private Sub TryShowHelpList(ByVal compilerHelp As CompilerHelp)
+    Private Sub TryShowHelpList(compilerHelp As CompilerHelp)
         Dim helpItems = compilerHelp.GetItems
         If Not helpItems.Any Then
             CloseHelpList()
@@ -267,7 +267,7 @@ Public Class RichCompiler(Of TResult)
     Private Sub UnderlineError(locatedString As LocatedString, textOnlyDocument As TextOnlyDocument)
         _ApplyingTextDecorations = True
 
-        Dim length = If(locatedString.Length > 0, locatedString.Length, If(locatedString.ContainingAnalizedString.ToLocated.Location.ContainsCharIndex(locatedString.Location.EndIndex + 1), 1, 0))
+        Dim length = If(locatedString.Length > 0, locatedString.Length, If(locatedString.ContainingAnalyzedString.ToLocated.Location.ContainsCharIndex(locatedString.Location.EndIndex + 1), 1, 0))
 
         Dim errorLocation = textOnlyDocument.GetTextRange(startIndex:=locatedString.Location.StartIndex, length:=length)
         Dim startTextPointer = _RichTextBox.Document.ContentStart

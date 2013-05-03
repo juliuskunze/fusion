@@ -420,7 +420,7 @@ Public Class MainWindow
         OnPictureRendered(e)
     End Sub
 
-    Private Sub OnPictureRendered(ByVal e As RenderResultEventArgs(Of Bitmap))
+    Private Sub OnPictureRendered(e As RenderResultEventArgs(Of Bitmap))
         OnRendered(e)
 
         If Not e.WasSuccessful Then Return

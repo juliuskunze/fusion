@@ -2,7 +2,7 @@
     Private ReadOnly _ExpressionBuilder As Func(Of IEnumerable(Of Expression), Expression)
 
     Public Sub New(invokableExpression As Expression)
-        _ExpressionBuilder = Function(arguments) Expressions.Expression.Invoke(expression:=invokableExpression, arguments:=arguments)
+        _ExpressionBuilder = Function(arguments) Expression.Invoke(expression:=invokableExpression, arguments:=arguments)
     End Sub
 
     Public Function Run(arguments As IEnumerable(Of Expression)) As Expression

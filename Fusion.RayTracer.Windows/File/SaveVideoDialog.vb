@@ -6,6 +6,6 @@
                    initialDirectory:=initialDirectory,
                    DefaultExtension:=".avi",
                    FileFilters:=DescriptionFileHelper.SaveVideoFilters,
-                   initalFileName:="Ray tracer video")
+                   initialFileName:="Ray tracer video")
     End Sub
 End Class

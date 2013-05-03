@@ -22,11 +22,11 @@
     End Function
 
     Public Overrides Function TransformSightRayDirection() As Vector3D
-        Return If(_Options.IgnoreGeometryEffect, SightRay.Ray.NormalizedDirection, MyBase.TransformSightRayDirection)
+        Return If(_Options.IgnoreAberrationEffect, SightRay.Ray.NormalizedDirection, MyBase.TransformSightRayDirection)
     End Function
 
     Public Overrides Function TransformSightRay() As SightRay
-        Return If(_Options.IgnoreGeometryEffect, SightRay, MyBase.TransformSightRay)
+        Return If(_Options.IgnoreAberrationEffect, SightRay, MyBase.TransformSightRay)
     End Function
 
     Public Function PartialInverse() As PartialLorentzTransformationAtSightRay

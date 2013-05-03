@@ -1,7 +1,7 @@
 ﻿Class Application
     Private WithEvents _MainWindow As MainWindow
 
-    Private ReadOnly _InitialDirectory As New DirectoryInfo(My.Computer.FileSystem.SpecialDirectories.Desktop)
+    Private ReadOnly _InitialDirectory As New DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop))
 
     Private Sub Application_Startup(sender As Object, e As StartupEventArgs) Handles Me.Startup
         System.Threading.Thread.CurrentThread.CurrentCulture = New Globalization.CultureInfo("en-US")

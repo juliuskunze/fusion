@@ -1,10 +1,10 @@
 ﻿Public Class LocatedString
     Private Shared ReadOnly _WhiteSpaceTrimCondition As Func(Of Char, Boolean) = Function(c) Char.IsWhiteSpace(c)
 
-    Private ReadOnly _ContainingAnalizedString As AnalizedString
-    Public ReadOnly Property ContainingAnalizedString As AnalizedString
+    Private ReadOnly _ContainingAnalyzedString As AnalyzedString
+    Public ReadOnly Property ContainingAnalyzedString As AnalyzedString
         Get
-            Return _ContainingAnalizedString
+            Return _ContainingAnalyzedString
         End Get
     End Property
 
@@ -17,9 +17,9 @@
         End Get
     End Property
 
-    Public Sub New(containingAnalizedString As AnalizedString, location As TextLocation)
-        _String = containingAnalizedString.Text.Substring(location.StartIndex, location.Length)
-        _ContainingAnalizedString = containingAnalizedString
+    Public Sub New(containingAnalyzedString As AnalyzedString, location As TextLocation)
+        _String = containingAnalyzedString.Text.Substring(location.StartIndex, location.Length)
+        _ContainingAnalyzedString = containingAnalyzedString
         _Location = location
     End Sub
 
@@ -77,7 +77,7 @@
         Get
             If index < 0 OrElse index >= Me.Length Then Throw New ArgumentOutOfRangeException("index")
 
-            Return _ContainingAnalizedString.Text(_Location.StartIndex + index)
+            Return _ContainingAnalyzedString.Text(_Location.StartIndex + index)
         End Get
     End Property
 
@@ -94,7 +94,7 @@
     End Function
 
     Private Function Substring(location As TextLocation) As LocatedString
-        Return New LocatedString(_ContainingAnalizedString, location)
+        Return New LocatedString(_ContainingAnalyzedString, location)
     End Function
 
     Public Function Split(separatorChars As IEnumerable(Of Char)) As IEnumerable(Of LocatedString)

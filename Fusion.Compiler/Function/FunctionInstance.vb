@@ -13,12 +13,6 @@
         End Get
     End Property
 
-    Public ReadOnly Property CallExpression(arguments As IEnumerable(Of Expression)) As Expression
-        Get
-            Return _CallExpressionBuilder.Run(arguments)
-        End Get
-    End Property
-
     Private ReadOnly _InvokableExpression As Expression
     Public ReadOnly Property InvokableExpression As Expression
         Get
@@ -47,20 +41,18 @@ Public Class FunctionInstance(Of TDelegate)
     Inherits FunctionInstance
 
     Public Sub New(name As String,
-                   lambdaExpression As Expressions.Expression(Of TDelegate),
+                   lambdaExpression As Expression(Of TDelegate),
                    typeDictionary As TypeDictionary,
                    Optional description As String = Nothing)
         Me.New(Signature:=New FunctionSignature(name:=name, FunctionType:=GetFunctionType(lambdaExpression, typeDictionary), description:=description), lambdaExpression:=lambdaExpression)
     End Sub
 
     Public Sub New(signature As FunctionSignature,
-                   lambdaExpression As Expressions.Expression(Of TDelegate))
+                   lambdaExpression As Expression(Of TDelegate))
         MyBase.New(signature:=signature, InvokableExpression:=lambdaExpression)
     End Sub
 
-    Private Shared Function GetFunctionType(lambdaExpression As Expression(Of TDelegate),
-                                            typeDictionary As TypeDictionary,
-                                            Optional description As String = Nothing) As FunctionType
+    Private Shared Function GetFunctionType(lambdaExpression As Expression(Of TDelegate), typeDictionary As TypeDictionary) As FunctionType
         Dim namedResultType = typeDictionary.GetNamedType(lambdaExpression.ReturnType)
 
         Dim namedParameters = lambdaExpression.Parameters.Select(Function(parameterExpression)

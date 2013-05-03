@@ -25,7 +25,7 @@
 
     <Test()>
     Public Sub TestWhiteSpace()
-        Dim container = New AnalizedString("  AB ", {}).ToLocated
+        Dim container = New AnalyzedString("  AB ", {}).ToLocated
         Assert.AreEqual(container.Location.StartIndex, 0)
         Assert.AreEqual(container.ToString, "  AB ")
 
