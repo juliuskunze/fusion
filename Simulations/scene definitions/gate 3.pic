@@ -1,0 +1,35 @@
+Vector observerLocation = [0,2, -9.50001];
+
+View view = View(observerLocation : observerLocation, lookAt : observerLocation + [0,0,1],upDirection : [0,1,0], horizontalViewAngle : pi/2);
+RadianceSpectrum spectrum = BlackbodyRadianceSpectrum(temperature : 3000);  
+Real spectrum3(Real wavelength) = spectrum(wavelength) / 100;
+Real black(Real wavelength) = 0;
+
+Material m = IntransparentMaterial(black, FullRemission, BlackRemission);
+Material scaledM(Real albedo) = IntransparentMaterial(black, ScaledRemission(albedo), BlackRemission);
+
+MaterialSurface ground = MaterialSurface(TruncatedSurface(baseSurface : Plane([0,0,0], [0,1,0]), truncatingPointSet : InversePointSet(Box([-10,-10,-10], [10,10,10]))), Checkerboard([1,0,0], [0,0,1], m, blackMaterial));
+
+Real gateDepth = 2;
+Real sideBoxWidth = 2;
+Real upperBoxHeight = 2;
+Real gateHeight = 6;
+Real gateWidth = 10;
+Real totalGateWidth = 2*sideBoxWidth + gateWidth;
+Real totalGateHeight = upperBoxHeight + gateHeight;
+MaterialSurface sideBox1 = MaterialBox(Box([-gateWidth/2, 0, 0], [-totalGateWidth/2, gateHeight+0.1, gateDepth]), m, m, blackMaterial, blackMaterial, m, m);
+MaterialSurface sideBox2 = MaterialBox(Box([gateWidth/2, 0, 0], [totalGateWidth/2, gateHeight+0.1, gateDepth]), scaledM(0.85), m, blackMaterial, blackMaterial, m, m);
+MaterialSurface upperBox = MaterialBox(Box([-totalGateWidth/2, gateHeight, 0], [totalGateWidth/2, totalGateHeight, gateDepth]), m, m, scaledM(0.9), blackMaterial, m, m);
+
+MaterialSurface sphere1 = SingleMaterialSurface(Sphere([3,1,3], 1), m);
+MaterialSurface sphere2 = SingleMaterialSurface(Sphere([-3,1,-3], 1), m);
+ 
+MaterialSurface gate = MaterialSurfaces({sideBox1, sideBox2, upperBox});
+
+Boolean ignoreSearchlight = false;
+
+RayTracer classicRayTracer = RecursiveRayTracer(surface : MaterialSurfaces({ground, gate, sphere1, sphere2}), LightSources({UndirectionalLightSource(spectrum3), DirectionalLightSource([-3,-2,1], spectrum3)}), shadedPointLightSources : {}, 10);
+RayTracer relativisticRayTracer = RelativisticRayTracer(classicRayTracer, [0, 0, 0.8*c], ignoreGeometryEffect : false, ignoreDopplerEffect : false, ignoreSearchlightEffect:ignoreSearchlight);
+Real spectralRadiancePerWhiteForIgnoreSearchlight = 3e10;
+Real spectralRadiancePerWhiteForSearchlight = 2e12;
+Return RayTracerPicture(relativisticRayTracer, PictureSize(4000,4000), view, RadianceSpectrumToRgbColorConverter(spectralRadiancePerWhite : Cases(ignoreSearchLight : spectralRadiancePerWhiteForIgnoreSearchlight, else : spectralRadiancePerWhiteForSearchlight), testedWavelengthsCount : 200))

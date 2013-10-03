@@ -1,0 +1,34 @@
+Real beta = 0.7;
+Real gamma = 1 / Sqrt(1-beta^2);
+
+Real velocity = c*beta;
+Real rotationDuration = 2*pi*3/velocity*gamma;
+
+AcceleratedLorentzTransformation rotation = ConstantRotationLorentzTransformation(center : [-3,1.5,0], axisDirection : [0,1,0], startEvent : Event([-6, 1.5, 0], 0), velocity : velocity); 
+
+View view(Real t) = View(
+    observerEvent : Event([0, 0, 0], t),     lookAt : [1,0,0],    upDirection : [0,1,0],     horizontalViewAngle : pi/2);
+RadianceSpectrum blinkingRedSpectrum(Real time) = Cases(NormalizedMod(time, 3e-9)<0.5 : Peak(620e-9, 700e13, 20e-9), else: Black);
+RadianceSpectrum blinkingBlueSpectrum(Real time) = Cases(NormalizedMod(time, 3e-9)<0.5 : Peak(470e-9, 700e13, 20e-9), else: Black);
+Real flair(Real wavelength) = 0.2e13;
+
+Material grayMaterial(Real albedo) = IntransparentMaterial(Black, ScaledRemission(albedo), BlackRemission);
+
+MaterialSurface ground = MaterialSurface(Plane([0,0,0], [0,1,0]), Checkerboard([1,0,0], [0,0,1],  grayMaterial(1), grayMaterial(0.4)));
+
+MaterialSurface cube(Vector center) = MaterialBox(Box(center + [1,1,1], center + [-1,-1,-1]), grayMaterial(1), grayMaterial(1), grayMaterial(1), grayMaterial(1), grayMaterial(1), grayMaterial(1));
+
+PointLightSource p1 = TimedPointLightSource([3,3,0], baseLightByTime : blinkingRedSpectrum); 
+PointLightSource p2 = TimedPointLightSource([-3,3,0], baseLightByTime : blinkingBlueSpectrum); 
+
+RecursiveRayTracerReferenceFrame groundFrame = RecursiveRayTracerReferenceFrame(RecursiveRayTracer(surface : MaterialSurfaces({ground, cube([3,1,0]), cube([-3,1,0])}), LightSources({UndirectionalLightSource(flair), 
+DirectionalLightSource([-1,-2,-3], flair)}), shadedPointLightSources : {p1, p2}, 10), baseToObject : LorentzTransformation([0,0,0]));
+
+RayTracer relativisticRayTracer(Real t) = RecursiveRelativisticRayTracer(referenceFrames : {groundFrame}, ignoreDopplerEffect : true, ignoreSearchlightEffect: true, observerToBase : AcceleratedToRestTransformationAtTime(rotation, t));
+RayTracerPicture picture(Real t) = RayTracerPicture(relativisticRayTracer(t), PictureSize(1000,1000), view(t), GammaCorrectedRadianceSpectrumToRgbColorConverter(spectralRadiancePerWhite : 1e14, gamma : 2.2));
+
+return RayTracerVideoFromStartAndEndTime(picture, 
+framesPerSecond : 24, 
+duration : 10, 
+startTime : 0, 
+endTime : rotationDuration)

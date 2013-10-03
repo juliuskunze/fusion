@@ -1,0 +1,35 @@
+Real sunTemperature = 5778;
+Real sunRadius = 6.955e8;
+RadianceSpectrum sunSpectrum = BlackbodyRadianceSpectrum(sunTemperature);
+Material sunMaterial = EmissionMaterial(sunSpectrum);
+
+Real gridLength = sunRadius/2.3;
+Real gridWidth = gridLength / 15;
+
+MaterialFunction sunGridMaterial = Grid3D([1,0,0] * gridLength, [0,1,0] * gridLength, [0,0,1] * gridLength, sunMaterial, BlackMaterial, gridWidth);
+
+MaterialSurface sun = MaterialSurface(Sphere([0,0,0], sunRadius), sunGridMaterial);
+
+Real framesPerSecond = 24;
+Real duration = 10;
+Real pictureCount = duration * framesPerSecond;
+Real traversedDistance = 10*sunRadius;
+Real timeStep = 1;
+Real totalTime = pictureCount * timeStep;
+Real velocity = traversedDistance / totalTime; 
+
+Vector observerLocation(Real t) = [4*sunRadius, 0,-traversedDistance/2 +velocity*t];
+
+View view(Real t) = View(
+observerLocation(t),
+[0,0,0],
+[0,1,0],
+pi/2);
+
+RayTracer classic = RecursiveRayTracer(sun, LightSources({}), {}, 1);
+RayTracer relativistic = RelativisticRayTracer(classic, observerVelocity : [0,0,0.5*c], ignoreGeometryEffect : true, ignoreDopplerEffect : true, ignoreSearchlightEffect : true);
+
+Real spectralRadiancePerWhiteForIgnoreSearchlight = 2.6e13;
+Real spectralRadiancePerWhiteForSearchlight = 7e13;
+RayTracerPicture picture(Real t) = RayTracerPicture(relativistic, PictureSize(1000,1000), view(t), RadianceSpectrumToRgbColorConverter(spectralRadiancePerWhite : spectralRadiancePerWhiteForIgnoreSearchlight ));
+return RayTracerVideo(picture, framesPerSecond, duration,  0, timeStep);

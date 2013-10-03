@@ -1,0 +1,30 @@
+Real beta = 0.9;
+Real gamma = 1 / Sqrt(1-beta^2);
+Real t0 = -5e-8;
+Real t1 = 10e-8;
+Real pictures = 240;
+Real fps = 24;
+
+View view(Real t) = View(observerEvent: Event([12, 8, 0],t), 
+lookAt : [5,0,-3],
+upDirection : [0,1,0], 
+horizontalViewAngle : pi/2);
+
+RadianceSpectrum sodiumVaporSpectrum = Peak(589e-9, 32e13, 20e-9);
+Real flair(Real wavelength) = 0.2e13;
+
+Material grayMaterial(Real albedo) = IntransparentMaterial(Black, ScaledRemission(albedo), BlackRemission);
+
+MaterialSurface ground = MaterialSurface(Plane([0,0,0], [0,1,0]), Checkerboard([1,0,0], [0,0,1],  grayMaterial(1), grayMaterial(0.02)));
+
+MaterialSurface cube(Vector center) = MaterialBox(Box(center+ [1,1,1], center+ [-1,-1,-1]), grayMaterial(1), grayMaterial(1), grayMaterial(1), grayMaterial(1), grayMaterial(1), grayMaterial(1));
+
+PointLightSource p = ConstantPointLightSource([0,3,0], sodiumVaporSpectrum); 
+
+RecursiveRayTracerReferenceFrame groundFrame = RecursiveRayTracerReferenceFrame(RecursiveRayTracer(surface : MaterialSurfaces({ground, cube([3,1,0]), cube([-3,1,0])}), LightSources({UndirectionalLightSource(flair), DirectionalLightSource([-1,-2,-3], flair)}), shadedPointLightSources : {}, 10), baseToObject: LorentzTransformation([0,0,0]));
+RecursiveRayTracerReferenceFrame lightFrame = RecursiveRayTracerReferenceFrame(RecursiveRayTracer(surface : MaterialSurfaces({}), LightSources({}), shadedPointLightSources : {p}, 10), baseToObject : LorentzTransformation([0,0, -beta*c]));
+
+RayTracer relativisticRayTracer = RecursiveRelativisticRayTracer(referenceFrames : {groundFrame, lightFrame}, ignoreDopplerEffect : true, ignoreSearchlightEffect: true);
+RayTracerPicture picture(Real t) = RayTracerPicture(relativisticRayTracer, PictureSize(4000,4000), view(t), RadianceSpectrumToRgbColorConverter(spectralRadiancePerWhite : 1e14, testedWavelengthsCount : 2000));
+
+return picture(5.5e-8)

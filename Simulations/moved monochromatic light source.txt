@@ -1,0 +1,1 @@
+The video shows a cube and a monochromatic yellow light source above a plane with 0.3c. The light source is fixed in a constant distance above the center of the cube. All surfaces are ideally diffuse and white. Searchlight effect is neglected for clarity. The observer is at rest relative to the plane.

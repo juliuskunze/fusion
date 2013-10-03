@@ -1,0 +1,1 @@
+The four pictures show the flight through a simple geometric environment at 0.8c. The first picture was simulated neglecting all relativistic effects. Aberration effect (picture 2), Doppler effect (picture 3) and searchlight effect (picture 4) are taken into account one by one.

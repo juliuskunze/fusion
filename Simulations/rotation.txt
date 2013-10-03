@@ -1,0 +1,5 @@
+The video shows the view of an observer that rotates around one of two cubes at 0.7c.
+
+Two blinking point light sources above the cubes emit monochromatic light (red and blue).
+
+Doppler effect and searchlight effect are neglected for clarity.

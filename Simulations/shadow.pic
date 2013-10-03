@@ -1,0 +1,31 @@
+Real beta = 0.5;
+Real gamma = 1 / Sqrt(1-beta^2);
+Vector cubeMidpoint = [0,1,2];
+
+
+Vector observerLocation = [2,3,0];
+
+View view = View(observerLocation : observerLocation, lookAt : cubeMidpoint * gamma + [0,0,1.1] ,upDirection : [0,1,0], horizontalViewAngle : pi/2);
+RadianceSpectrum groundSpectrum = BlackbodyRadianceSpectrum(temperature : 4000);  
+Real flair(Real wavelength) = groundSpectrum(wavelength) / 2;
+Real pointLight(Real wavelength) = flair(wavelength) * 1000000;
+
+RadianceSpectrum boxSpectrum = BlackbodyRadianceSpectrum(temperature : 5000);  
+
+Material groundMaterial = IntransparentMaterial(Black, FullRemission, BlackRemission);
+Material boxMaterial(Real albedo) = IntransparentMaterial(Black, ScaledRemission(albedo*(6e-4)), BlackRemission);
+
+MaterialSurface ground = MaterialSurface(Plane([0,0,0], [0,1,0]), Checkerboard([1,0,0], [0,0,1], groundMaterial, BlackMaterial));
+
+MaterialSurface box = MaterialBox(Box(cubeMidpoint + [1,1,1], cubeMidpoint + [-1,-1,-1]), boxMaterial(1), boxMaterial(1), boxMaterial(0.8), boxMaterial(0.8), boxMaterial(0.75), boxMaterial(0.75));
+
+PointLightSource p = PointLightSource([5, 3, 0], pointLight); 
+LightSource lightSource(RadianceSpectrum flair) = LightSources({});
+
+RecursiveRayTracerReferenceFrame groundFrame = RecursiveRayTracerReferenceFrame(RecursiveRayTracer(surface : MaterialSurfaces({ground}), lightSource(groundSpectrum), shadedPointLightSources : {p}, 10), objectVelocityRelativeToObserver : [0,0,0]);
+RecursiveRayTracerReferenceFrame boxFrame = RecursiveRayTracerReferenceFrame(RecursiveRayTracer(surface : MaterialSurfaces({box}), lightSource(boxSpectrum), shadedPointLightSources : {}, 10), objectVelocityRelativeToObserver : [0,0, -beta*c]);
+
+RayTracer relativisticRayTracer = RecursiveRelativisticRayTracer(observerTime : 0, referenceFrames : {groundFrame, boxFrame}, ignoreDopplerEffect : false, ignoreSearchlightEffect: false);
+Real spectralRadiancePerWhiteForIgnoreSearchlight = 3e12;
+Real spectralRadiancePerWhiteForSearchlight = 3e14;
+Return RayTracerPicture(relativisticRayTracer, PictureSize(100,100), view, RadianceSpectrumToRgbColorConverter(spectralRadiancePerWhite : spectralRadiancePerWhiteForSearchlight, testedWavelengthsCount : 200))

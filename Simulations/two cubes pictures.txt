@@ -1,0 +1,5 @@
+The pictures show the same scene at the same time from two diffent perspectives: Two cubes on a ckeckerboard that are at rest relative to the observer while a point light source is running symmetrically throught the cubes with a speed of 0.9c. Doppler and searchlight effect were neglected to simplify the scene.
+
+The shadows of the cubes appears curved and asymmetrical due to the light travel time effect and the shape of the shadows depends on the perspective.
+
+Visible effects: Light travel time effect, analogue of the Doppler effect in geometry.

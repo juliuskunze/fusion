@@ -1,0 +1,30 @@
+Real beta = 0.9;
+Real gamma = 1 / Sqrt(1-beta^2);
+Real t0 = -0.5e-8;
+Real t1 = 12e-8;
+Real pictures = 240;
+Real fps = 24;
+
+View view(Real t) = View(observerEvent : Event([5,5,5], t), 
+lookAt : [2,1,0],
+upDirection : [0,1,0], 
+horizontalViewAngle : pi/2);
+
+RadianceSpectrum blinkingSodiumVaporSpectrum(Real time) = Cases(NormalizedMod(time, 2/c)<0.5 : Peak(589e-9, 5.5e14, 20e-9), else: Black);
+Real flair(Real wavelength) = 0.2e13;
+
+Material grayMaterial(Real albedo) = IntransparentMaterial(Black, ScaledRemission(albedo), BlackRemission);
+
+MaterialSurface ground = MaterialSurface(Plane([0,0,0], [0,1,0]), Checkerboard([1,0,0], [0,0,1],  grayMaterial(1), grayMaterial(0.02)));
+
+MaterialSurface cube(Vector center) = MaterialBox(Box(center + [1,1,1], center + [-1,-1,-1]), grayMaterial(1), grayMaterial(1), grayMaterial(1), grayMaterial(1), grayMaterial(1), grayMaterial(1));
+
+PointLightSource p = TimedConstantPointLightSource([0,3,0], baseLightByTime : blinkingSodiumVaporSpectrum); 
+
+RecursiveRayTracerReferenceFrame groundFrame = RecursiveRayTracerReferenceFrame(RecursiveRayTracer(surface : MaterialSurfaces({ground, cube([3,1,0]), cube([-3,1,0])}), LightSources({UndirectionalLightSource(flair), DirectionalLightSource([-1,-2,-3], flair)}), shadedPointLightSources : {}, 10), baseToObject: LorentzTransformation([0,0,0]));
+RecursiveRayTracerReferenceFrame lightFrame = RecursiveRayTracerReferenceFrame(RecursiveRayTracer(surface : MaterialSurfaces({}), LightSources({}), shadedPointLightSources : {p}, 10), baseToObject: LorentzTransformation([0,0, -beta*c]));
+
+RayTracer relativisticRayTracer(Real t) = RecursiveRelativisticRayTracer(referenceFrames : {groundFrame, lightFrame}, ignoreDopplerEffect : true, ignoreSearchlightEffect: true);
+RayTracerPicture picture(Real t) = RayTracerPicture(relativisticRayTracer(t), PictureSize(1000,1000), view(t), RadianceSpectrumToRgbColorConverter(spectralRadiancePerWhite : 1e14, testedWavelengthsCount : 2000));
+
+return RayTracerVideo(picture, fps, pictures / fps, t0, (t1-t0)/pictures);

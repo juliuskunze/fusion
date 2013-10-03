@@ -1,0 +1,2 @@
+The four videos simulates a flight passing the sun (modeled as black body with an effective temperature of 5778K) at 0.5c. The video is in time lapse. The grid on the sun is for better orientation only. The observer's view is fixed on the center of the sun.
+The first video was simulated neglecting all relativistic effects. Aberration effect (video 2), Doppler effect (video 3) and searchlight effect (video 4) are taken into account one by one.

@@ -1,0 +1,1 @@
+The video shows a cube flying above a plane with 0.3c. All surfaces are ideally diffuse and white. Searchlight effect is neglected for clarity. The observer is at rest relative to the plane. At his position, a point light source emits black body radiation with an effective temperature of 5000K.

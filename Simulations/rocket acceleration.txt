@@ -1,0 +1,3 @@
+The video shows the view of an acclerated observer in space. The obsrever would measure an acceleration of 0.1c/s. 1000 randomly placed stars (with equal radius) are modeled with an infinite distance to the observer (very far away). A panel below the observer is for orientation only.
+
+All relativistic effects are taken into account.

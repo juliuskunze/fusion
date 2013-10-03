@@ -1,0 +1,24 @@
+AcceleratedLorentzTransformation acceleration = ConstantAccelerationLorentzTransformation(acceleration : [0,0,c/10]);
+
+View view(Real t) = View(
+    observerEvent : Event([0, 0, 0], t),     lookAt : [1,0,1.2],    upDirection : [0,1,0],     horizontalViewAngle : pi/2);
+Real darkGray(Real wavelength) = 0.005e14;
+Real lightGray(Real wavelength) = 0.009e14;
+
+Material darkGrayMaterial = EmissionMaterial(darkGray);
+Material lightGrayMaterial = EmissionMaterial(lightGray);
+
+Real groundWidth = c;
+Real groundDistance = groundWidth/2*10/11;
+
+AntiSphere skySurface = AntiSphere([0,0,0], 10^16);
+ 
+MaterialSurface ground = MaterialSurface(TruncatedSurface(TruncatedSurface(Plane([0,-groundDistance,0], [0,1,0]), Plane([0,0,0], [1,0,0])), Plane([groundWidth,0,0], [-1,0,0])), Checkerboard([groundWidth/2,0,0], [0,0,groundWidth/2], lightGrayMaterial,darkGrayMaterial));
+MaterialSurface sky = MaterialSurface(skySurface, StarrySky(skySurface, starCount : 1000, starRadiusAngle : pi/300, starMaterial : EmissionMaterial(BlackbodyRadianceSpectrum(5800)), backgroundMaterial : EmissionMaterial(BlackbodyRadianceSpectrum(2.725))));
+
+RecursiveRayTracerReferenceFrame starFrame = RecursiveRayTracerReferenceFrame(RecursiveRayTracer(surface : MaterialSurfaces({ground, sky}), LightSources({}), shadedPointLightSources : {}, 10), baseToObject : LorentzTransformation([0,0,0]));
+
+RayTracer relativisticRayTracer(Real t) = RecursiveRelativisticRayTracer(referenceFrames : {starFrame}, ignoreDopplerEffect : false, ignoreSearchlightEffect: false, observerToBase : AcceleratedToRestTransformationAtTime(acceleration, t));
+RayTracerPicture picture(Real t) = RayTracerPicture(relativisticRayTracer(t), PictureSize(4000,4000), view(t), RadianceSpectrumToRgbColorConverter(spectralRadiancePerWhite : 5e13, testedWavelengthsCount : 2000));
+
+return picture(0);
